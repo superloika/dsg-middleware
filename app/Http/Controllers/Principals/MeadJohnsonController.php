@@ -206,10 +206,6 @@ class MeadJohnsonController extends Controller
         set_time_limit(0);
 
         try {
-            // $fileName = $request->file->getClientOriginalName()
-            //     . '-' . time() . '.' . $request->file->getClientOriginalExtension();
-            // $request->file->storeAs('public/test_files', $fileName);
-
             $delimiter = ',';
             $fileName = time() . '.' . $request->file->getClientOriginalName();
             $fileStoragePath = "public/principals/" . $this::$principalCode . "/customers";
@@ -231,7 +227,6 @@ class MeadJohnsonController extends Controller
                 foreach ($fileContentLines as $fileContentLine) {
                     // Begin at the second line (exclude the header)
                     if ($lineCount > 1) {
-                        // $arrFileContentLine = explode($delimiter, $fileContentLine);
                         $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                         if (count($arrFileContentLine) > 1) {
@@ -380,7 +375,6 @@ class MeadJohnsonController extends Controller
                                     ->where('principal_code', $this::$principalCode)
                                     ->where('doc_type', $doc_type)
                                     ->where('doc_no', $doc_no)
-                                    // ->where('customer_code', str_replace('NotFound|', '', $customer_code))
                                     ->where('customer_code', $customer_code)
                                     ->where('posting_date', $posting_date)
                                     ->where('item_code', $item_code)
@@ -407,7 +401,6 @@ class MeadJohnsonController extends Controller
                                         'upload_date' => $dateToday->format('Y-m-d'),
                                         'doc_type' => $doc_type,
                                         'doc_no' => $doc_no,
-                                        // 'customer_code' => str_replace('NotFound|', '', $customer_code),
                                         'customer_code' => $customer_code,
                                         'posting_date' => $posting_date,
                                         'item_code' => $item_code,
