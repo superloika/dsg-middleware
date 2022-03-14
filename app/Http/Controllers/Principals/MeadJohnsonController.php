@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
@@ -48,13 +49,14 @@ class MeadJohnsonController extends Controller
                     `quantity` int(11) NOT NULL,
                     PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+            $createIndexStr = "CREATE INDEX generated_at ON ". self::$tblGenerated . " (generated_at)";
 
             DB::statement($createTableStr);
+            DB::statement($createIndexStr);
         }
     }
 
     public function getSettings() {
-
         $settings = DB::table(self::$tblSettings)
             ->where('principal_code', self::$principalCode)
             ->get();
@@ -77,8 +79,10 @@ class MeadJohnsonController extends Controller
      */
     function products()
     {
-        set_time_limit(0);
+        // password reset (test)
+        // dd(Hash::make('nenemiro'));
 
+        set_time_limit(0);
         $cols = [
             'id',
             'principal_code',
@@ -308,10 +312,12 @@ class MeadJohnsonController extends Controller
             $settings = $this->getSettings();
             $latest_order_no = DB::table($this::$tblGenerated)
                 ->latest('id')->first()->order_no ?? $settings['custom_order_no'];
-            $line_limit = intval($settings['line_limit']);
+            $chunk_line_count = intval($settings['chunk_line_count']);
 
             $unuploadedLineCount = 0;
             $breakFilesIteration = false;
+            $pageLineCount = 1;
+            $pageNum = 1;
 
             // Loop through each uploaded file
             foreach ($request->file('files') as $file) {
@@ -389,12 +395,12 @@ class MeadJohnsonController extends Controller
 
                                 // if invoices are not yet saved/uploaded
                                 if ($isInvoiceUploaded == false) {
-                                    if($line_limit > 0) {
-                                        if($unuploadedLineCount >= $line_limit) {
-                                            $breakFilesIteration = true;
-                                            break;
-                                        }
-                                    }
+                                    // if($line_limit > 0) {
+                                    //     if($unuploadedLineCount >= $line_limit) {
+                                    //         $breakFilesIteration = true;
+                                    //         break;
+                                    //     }
+                                    // }
 
                                     $invoice_line = [
                                         'principal_code' => $this::$principalCode,
@@ -430,14 +436,23 @@ class MeadJohnsonController extends Controller
                                         'invoice_uploaded' => $invoice_uploaded,
                                         'invoice_no' => $doc_no,
                                     ];
-                                    if($line_limit > 0) {
-
+                                    if($chunk_line_count > 0) {
+                                        if (!isset($res['output_template'][$pageNum])) {
+                                            $res['output_template'][$pageNum] = [];
+                                        }
+                                        array_push($res['output_template'][$pageNum], $arrGenerated);
+                                        $pageLineCount+=1;
+                                        if($pageLineCount > $chunk_line_count) {
+                                            $pageNum+=1;
+                                            $pageLineCount = 1;
+                                        }
+                                    } else {
+                                        // group output_template by order_date
+                                        if (!isset($res['output_template'][$order_date])) {
+                                            $res['output_template'][$order_date] = [];
+                                        }
+                                        array_push($res['output_template'][$order_date], $arrGenerated);
                                     }
-                                    // group output_template by order_date (default)
-                                    if (!isset($res['output_template'][$order_date])) {
-                                        $res['output_template'][$order_date] = [];
-                                    }
-                                    array_push($res['output_template'][$order_date], $arrGenerated);
 
                                     // increment line count of unuploaded invoices
                                     $unuploadedLineCount++;
@@ -461,7 +476,7 @@ class MeadJohnsonController extends Controller
                     // }
                 }
 
-                if($breakFilesIteration) break;
+                // if($breakFilesIteration) break;
 
             } // /Loop through each uploaded file
 
