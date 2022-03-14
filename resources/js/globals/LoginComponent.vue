@@ -2,7 +2,7 @@
     <v-card max-width="300" min-width="300" elevation="1" tile>
         <v-card-title>
             <v-icon class="mr-2">mdi-login</v-icon>
-            Login
+            <span class="text-subtitle-1">DSG - MIDDLEWARE (DEV)</span>
         </v-card-title>
         <v-card-text>
             <v-alert dense type="error" dismissible transition="scale-transition"
