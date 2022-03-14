@@ -90,10 +90,6 @@
 
 <script>
 export default {
-    data: () => ({
-
-    }),
-
     mounted() {
         console.log('NavSide mounted');
     }

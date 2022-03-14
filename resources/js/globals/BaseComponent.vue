@@ -32,10 +32,10 @@
             ></v-progress-linear>
         </v-system-bar>
 
-        <v-app-bar v-if="AppStore.state.errorBar.show"
+        <!-- <v-system-bar v-if="AppStore.state.errorBar.show"
             height="20" color="red darken-4" app dark elevation="1">
             {{ AppStore.state.errorBar.msg }}
-        </v-app-bar>
+        </v-system-bar> -->
 
         <!-- SIDE NAV -->
         <v-navigation-drawer v-model="navDrawerState" app>

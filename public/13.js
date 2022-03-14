@@ -115,6 +115,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     // ProductsUpload: () => import('./ProductsUpload.vue'),
@@ -346,13 +348,29 @@ var render = function() {
               }
             },
             [
-              _c("v-tab", { staticClass: "px-2" }, [
-                _vm._v("\n                Transactions\n            ")
-              ]),
+              _c(
+                "v-tab",
+                { staticClass: "px-2" },
+                [
+                  _c("v-icon", { staticClass: "mr-1" }, [
+                    _vm._v("mdi-file-check")
+                  ]),
+                  _vm._v("\n                Transactions\n            ")
+                ],
+                1
+              ),
               _vm._v(" "),
-              _c("v-tab", { staticClass: "px-2" }, [
-                _vm._v("\n                Uploaded Invoices\n            ")
-              ])
+              _c(
+                "v-tab",
+                { staticClass: "px-2" },
+                [
+                  _c("v-icon", { staticClass: "mr-1" }, [
+                    _vm._v("mdi-file-check")
+                  ]),
+                  _vm._v("\n                Uploaded Invoices\n            ")
+                ],
+                1
+              )
             ],
             1
           ),

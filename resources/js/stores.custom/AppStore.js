@@ -23,7 +23,7 @@ const state = Vue.observable({
         msg: '',
     },
     errorBar: {
-        show: false,
+        show: true,
         msg: "Error"
     },
     userTypes: ["super_admin", "user"],

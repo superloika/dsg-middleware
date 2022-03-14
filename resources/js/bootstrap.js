@@ -65,7 +65,10 @@ window.axios.interceptors.response.use(
         ) {
             console.log('INTERCEPTOR (401):', error);
             // window.location.href = `/flush-session`;
-            window.location.href = `/logout`;
+            // window.location.href = `/logout`;
+            // alert(error);
+            // this.AppStore.state.errorBar.show = true;
+            // window.location.reload();
         }
 
         console.log('INTERCEPTOR - AUTH USER:', window.AuthUser);

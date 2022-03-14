@@ -69,6 +69,7 @@ const state = Vue.observable({
         // {text: 'Customer Code', value: 'customer_code'},
         // {text: 'Product Code', value: 'product_code'},
     ],
+
 });
 
 

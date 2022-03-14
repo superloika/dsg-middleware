@@ -5,7 +5,11 @@
             <v-icon>mdi-store</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-            <v-list-item-title>Principals</v-list-item-title>
+            <v-list-item-title>Principals
+                <v-chip x-small color="accent">
+                    {{ principalsCount }}
+                </v-chip>
+            </v-list-item-title>
         </v-list-item-content>
     </template>
     <v-sheet>
@@ -74,7 +78,11 @@ export default {
                         this.AppStore.isInUserPrincipalIDs(principal.id)
                 );
             }
-        }
+        },
+
+        principalsCount() {
+            return this.AppStore.state.principals.length;
+        },
     },
 
     created() {

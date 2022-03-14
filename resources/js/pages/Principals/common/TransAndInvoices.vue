@@ -72,9 +72,11 @@
                 class="rounded-lg rounded-b-0"
             >
                 <v-tab class="px-2">
+                    <v-icon class="mr-1">mdi-file-check</v-icon>
                     Transactions
                 </v-tab>
                 <v-tab class="px-2">
+                    <v-icon class="mr-1">mdi-file-check</v-icon>
                     Uploaded Invoices
                 </v-tab>
             </v-tabs>

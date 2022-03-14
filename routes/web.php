@@ -107,22 +107,24 @@ Route::group(['prefix' => 'principals'], function(){
             Route::post("/customers/upload", $ctrl. "uploadMasterCustomers");
 
             // Invoices
-            Route::get("/invoices", $ctrl. "invoices");
             Route::post("/invoices/import", $ctrl. "importInvoices");
             Route::post("/invoices/save", $ctrl. "saveInvoices");
-            Route::get("/invoices/grandtotal", $ctrl. "invoicesGrandTotal");
-
-            // Generated Data
-            Route::get("/generated", $ctrl. "getGeneratedData");
-
-            // Settings
-            Route::get("/settings", $ctrl. "settings");
-            Route::post("/settings", $ctrl. "saveSettings");
 
             // Transaction Report
             Route::get("/transactions", $ctrl. "transactions");
         });
     }
+
+    // Settings
+    Route::get("/settings", "Principals\PrincipalsUtil@settings");
+    Route::post("/settings", "Principals\PrincipalsUtil@saveSettings");
+
+    // Invoices
+    Route::get("/invoices", "Principals\PrincipalsUtil@invoices");
+    Route::get("/invoices/grandtotal", "Principals\PrincipalsUtil@invoicesGrandTotal");
+
+    // Generated Data
+    Route::get("/generated", "Principals\PrincipalsUtil@getGeneratedData");
 });
 
 

@@ -149,10 +149,9 @@ export default {
         async generate(date, dataProp='') {
             date.sort();
             const url =
-                this.AppStore.state.siteUrl +
-                "principals/" +
-                this.PrincipalsStore.state.selectedPrincipalCode +
-                `/generated?date=${date}`;
+                this.AppStore.state.siteUrl + "principals/"
+                 + `generated?date=${date}&table_generated=`
+                 + `generated_${this.PrincipalsStore.state.selectedPrincipalCode}`;
             try {
                 this.AppStore.state.showTopLoading = true;
                 this.isGenerating = true;

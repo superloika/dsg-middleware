@@ -2416,9 +2416,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {};
-  },
   mounted: function mounted() {
     console.log('NavSide mounted');
   }
@@ -2435,6 +2432,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -2507,6 +2508,9 @@ __webpack_require__.r(__webpack_exports__);
           return (searchRegex.test(principal.name) || !_this.principalsSearchKey) && _this.AppStore.isInUserPrincipalIDs(principal.id);
         });
       }
+    },
+    principalsCount: function principalsCount() {
+      return this.AppStore.state.principals.length;
     }
   },
   created: function created() {
@@ -6116,28 +6120,6 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.AppStore.state.errorBar.show
-        ? _c(
-            "v-app-bar",
-            {
-              attrs: {
-                height: "20",
-                color: "red darken-4",
-                app: "",
-                dark: "",
-                elevation: "1"
-              }
-            },
-            [
-              _vm._v(
-                "\n        " +
-                  _vm._s(_vm.AppStore.state.errorBar.msg) +
-                  "\n    "
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
       _c(
         "v-navigation-drawer",
         {
@@ -6763,7 +6745,26 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-list-item-content",
-                [_c("v-list-item-title", [_vm._v("Principals")])],
+                [
+                  _c(
+                    "v-list-item-title",
+                    [
+                      _vm._v("Principals\n                "),
+                      _c(
+                        "v-chip",
+                        { attrs: { "x-small": "", color: "accent" } },
+                        [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(_vm.principalsCount) +
+                              "\n                "
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ],
                 1
               )
             ]
@@ -69469,8 +69470,10 @@ window.axios.interceptors.response.use(function (response) {
   // || error.response.status === 440
   ) {
     console.log('INTERCEPTOR (401):', error); // window.location.href = `/flush-session`;
-
-    window.location.href = "/logout";
+    // window.location.href = `/logout`;
+    // alert(error);
+    // this.AppStore.state.errorBar.show = true;
+    // window.location.reload();
   }
 
   console.log('INTERCEPTOR - AUTH USER:', window.AuthUser);
@@ -71172,7 +71175,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
     msg: ''
   },
   errorBar: {
-    show: false,
+    show: true,
     msg: "Error"
   },
   userTypes: ["super_admin", "user"],
@@ -72507,7 +72510,7 @@ var actions = {
             case 0:
               date.sort();
               _context3.prev = 1;
-              url = encodeURI(AppStore.state.siteUrl + 'principals/' + principal_code + '/invoices?date=' + date);
+              url = encodeURI(AppStore.state.siteUrl + 'principals/invoices?date=' + date + '&principal_code=' + principal_code);
               AppStore.state.showTopLoading = true;
               _context3.next = 6;
               return axios.get(url);
@@ -72794,7 +72797,7 @@ var actions = {
           switch (_context7.prev = _context7.next) {
             case 0:
               _context7.prev = 0;
-              url = encodeURI(AppStore.state.siteUrl + 'principals/' + state.selectedPrincipalCode + '/invoices/grandtotal');
+              url = encodeURI(AppStore.state.siteUrl + 'principals/invoices/grandtotal?principal_code=' + state.selectedPrincipalCode);
               _context7.next = 4;
               return axios.get(url);
 
@@ -72829,7 +72832,7 @@ var actions = {
           switch (_context8.prev = _context8.next) {
             case 0:
               _context8.prev = 0;
-              url = encodeURI(AppStore.state.siteUrl + 'principals/' + state.selectedPrincipalCode + '/settings');
+              url = encodeURI(AppStore.state.siteUrl + 'principals/settings?principal_code=' + state.selectedPrincipalCode);
               _context8.next = 4;
               return axios.get(url);
 
@@ -72867,41 +72870,45 @@ var actions = {
    */
   saveSettings: function saveSettings() {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
-      var url, result;
+      var url, payload, result;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
         while (1) {
           switch (_context9.prev = _context9.next) {
             case 0:
               _context9.prev = 0;
               AppStore.state.showTopLoading = true;
-              url = encodeURI(AppStore.state.siteUrl + 'principals/' + state.selectedPrincipalCode + '/settings');
-              _context9.next = 5;
-              return axios.post(url, state.settings);
+              url = encodeURI(AppStore.state.siteUrl + 'principals/settings');
+              payload = {
+                principal_code: state.selectedPrincipalCode,
+                settings: state.settings
+              };
+              _context9.next = 6;
+              return axios.post(url, payload);
 
-            case 5:
+            case 6:
               result = _context9.sent;
 
               if (result.data.success == true) {
                 AppStore.toast(result.data.message);
               }
 
-              _context9.next = 12;
+              _context9.next = 13;
               break;
 
-            case 9:
-              _context9.prev = 9;
+            case 10:
+              _context9.prev = 10;
               _context9.t0 = _context9["catch"](0);
               console.log('saveSettings():', _context9.t0);
 
-            case 12:
+            case 13:
               AppStore.state.showTopLoading = false;
 
-            case 13:
+            case 14:
             case "end":
               return _context9.stop();
           }
         }
-      }, _callee9, null, [[0, 9]]);
+      }, _callee9, null, [[0, 10]]);
     }))();
   },
 

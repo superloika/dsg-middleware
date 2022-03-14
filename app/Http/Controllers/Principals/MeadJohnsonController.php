@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
@@ -55,18 +54,6 @@ class MeadJohnsonController extends Controller
             DB::statement($createIndexStr);
         }
     }
-
-    public function getSettings() {
-        $settings = DB::table(self::$tblSettings)
-            ->where('principal_code', self::$principalCode)
-            ->get();
-        $temp = [];
-        foreach($settings as $setting) {
-            $temp[$setting->name] = $setting->value;
-        }
-        return $temp;
-    }
-
 
     // =====================================================================
     // =====================================================================
@@ -309,7 +296,7 @@ class MeadJohnsonController extends Controller
             $filesTotalLineCount = 0;
             $dateToday = Carbon::now();
             $fileCount = 0;
-            $settings = $this->getSettings();
+            $settings = PrincipalsUtil::getSettings($this::$principalCode);
             $latest_order_no = DB::table($this::$tblGenerated)
                 ->latest('id')->first()->order_no ?? $settings['custom_order_no'];
             $chunk_line_count = intval($settings['chunk_line_count']);
@@ -377,24 +364,24 @@ class MeadJohnsonController extends Controller
                                 $product_code = $product->mj_code ?? $item_code;
 
                                 // Check if the invoice is already uploaded
-                                $isInvoiceUploaded = DB::table($this::$tblInvoices)
-                                    ->where('principal_code', $this::$principalCode)
-                                    ->where('doc_type', $doc_type)
-                                    ->where('doc_no', $doc_no)
-                                    ->where('customer_code', $customer_code)
-                                    ->where('posting_date', $posting_date)
-                                    ->where('item_code', $item_code)
-                                    ->where('quantity', $quantity)
-                                    ->where('u1', $u1)
-                                    ->where('u2', $u2)
-                                    ->where('u3', $u3) // total amount
-                                    ->where('u4', $u4)
-                                    // ->where('u5',$u5)
-                                    ->where('uom', $uom)
-                                    ->exists();
-
                                 // if invoices are not yet saved/uploaded
-                                if ($isInvoiceUploaded == false) {
+                                if (
+                                    DB::table($this::$tblInvoices)
+                                        ->where('principal_code', $this::$principalCode)
+                                        ->where('doc_type', $doc_type)
+                                        ->where('doc_no', $doc_no)
+                                        ->where('customer_code', $customer_code)
+                                        ->where('posting_date', $posting_date)
+                                        ->where('item_code', $item_code)
+                                        ->where('quantity', $quantity)
+                                        ->where('u1', $u1)
+                                        ->where('u2', $u2)
+                                        ->where('u3', $u3) // total amount
+                                        ->where('u4', $u4)
+                                        // ->where('u5',$u5)
+                                        ->where('uom', $uom)
+                                        ->exists() == false
+                                ) {
                                     // if($line_limit > 0) {
                                     //     if($unuploadedLineCount >= $line_limit) {
                                     //         $breakFilesIteration = true;
@@ -561,142 +548,6 @@ class MeadJohnsonController extends Controller
         }
 
         return response()->json($response);
-    }
-
-    /**
-     * Get the uploaded/saved invoices
-     */
-    public function invoices(Request $request) {
-        set_time_limit(0);
-
-        try {
-            $dates = explode(',', $request->input('date'));
-            // sort($dates);
-            $dateFrom = '';
-            $dateTo = '';
-            if(count($dates) > 1) {
-                $dateFrom = $dates[0];
-                $dateTo = $dates[1];
-            } else if(count($dates) == 1) {
-                $dateFrom = $dates[0];
-                $dateTo = $dates[0];
-            }
-
-            $res = DB::table($this::$tblInvoices)
-                ->where('principal_code', $this::$principalCode)
-                ->whereDate('upload_date','>=', $dateFrom)
-                ->whereDate('upload_date','<=', $dateTo)
-                ->latest('id')->get();
-
-            return response()->json($res);
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-            return response()->json($res);
-        }
-    }
-
-    /**
-     * Get the overall total amount of the uploaded invoices
-     */
-    public function invoicesGrandTotal() {
-        try {
-            $res = DB::table($this::$tblInvoices)
-                ->where('principal_code', $this::$principalCode)
-                ->sum('u3');
-
-            return response()->json($res);
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-            return response()->json($res);
-        }
-    }
-
-
-    // =====================================================================
-    // =====================================================================
-    // ============  GENERATED DATA ========================================
-    // =====================================================================
-    // =====================================================================
-
-    /**
-     * Get generated data list
-     */
-    public function getGeneratedData(Request $request) {
-        set_time_limit(0);
-
-        $res = [
-            'success' => true,
-            'message' => 'Successful',
-        ];
-
-        try {
-            $dates = explode(',', $request->input('date'));
-            // sort($dates);
-            $dateFrom = '';
-            $dateTo = '';
-            if(count($dates) > 1) {
-                $dateFrom = $dates[0];
-                $dateTo = $dates[1];
-            } else if(count($dates) == 1) {
-                $dateFrom = $dates[0];
-                $dateTo = $dates[0];
-            }
-
-            $gendata = DB::table($this::$tblGenerated)
-                ->whereDate('generated_at','>=',$dateFrom)
-                ->whereDate('generated_at','<=',$dateTo)
-                ->get();
-
-            $res['generated_data'] = $gendata;
-
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-        }
-
-        return response()->json($res);
-    }
-
-
-    // =====================================================================
-    // =====================================================================
-    // ============  SETTINGS ==============================================
-    // =====================================================================
-    // =====================================================================
-
-    public function settings() {
-        try {
-            $res = DB::table($this::$tblSettings)
-                ->where('principal_code', $this::$principalCode)
-                ->get();
-            return response()->json($res);
-        } catch (\Throwable $th) {
-            $res['error'] = $th;
-            return response()->json($res, 500);
-        }
-    }
-
-    public function saveSettings(Request $request) {
-        try {
-            $payload = json_decode($request->getContent());
-            foreach($payload as $setting) {
-                // dd($setting->value);
-                DB::table($this::$tblSettings)
-                    ->where('principal_code', $this::$principalCode)
-                    ->where('id', $setting->id)
-                    ->update(['value' => $setting->value]);
-            }
-            $response['success'] = true;
-            $response['message'] = 'Settings updated';
-            return response()->json($response);
-        } catch (\Throwable $th) {
-            //throw $th;
-            $response['success'] = false;
-            $response['message'] = $th->getMessage();
-            return response()->json($response);
-        }
     }
 
 

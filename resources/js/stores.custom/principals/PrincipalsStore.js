@@ -122,8 +122,8 @@ const actions = {
         date.sort();
         try {
             const url = encodeURI(
-                AppStore.state.siteUrl + 'principals/' +
-                principal_code + '/invoices?date=' + date
+                AppStore.state.siteUrl + 'principals/invoices?date=' + date
+                + '&principal_code=' + principal_code
             );
             AppStore.state.showTopLoading = true;
             let result = await axios.get(url);
@@ -300,9 +300,8 @@ const actions = {
         try {
             const url = encodeURI(
                 AppStore.state.siteUrl +
-                'principals/' +
-                state.selectedPrincipalCode +
-                '/invoices/grandtotal'
+                'principals/invoices/grandtotal?principal_code='
+                + state.selectedPrincipalCode
             );
             let result = await axios.get(url);
             state.invoicesGrandTotal = !isNaN(result.data) ? result.data : 0;
@@ -318,9 +317,8 @@ const actions = {
         try {
             const url = encodeURI(
                 AppStore.state.siteUrl +
-                'principals/' +
-                state.selectedPrincipalCode +
-                '/settings'
+                'principals/settings?principal_code=' +
+                state.selectedPrincipalCode
             );
 
             let result = await axios.get(url);
@@ -346,11 +344,13 @@ const actions = {
             AppStore.state.showTopLoading = true;
             const url = encodeURI(
                 AppStore.state.siteUrl +
-                'principals/' +
-                state.selectedPrincipalCode +
-                '/settings'
+                'principals/settings'
             );
-            let result = await axios.post(url, state.settings);
+            const payload = {
+                principal_code: state.selectedPrincipalCode,
+                settings: state.settings
+            }
+            let result = await axios.post(url, payload);
             if(result.data.success == true) {
                 AppStore.toast(result.data.message);
             }
