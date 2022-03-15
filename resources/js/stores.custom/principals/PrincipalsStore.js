@@ -281,9 +281,21 @@ const actions = {
      */
     generatedDataSubset(generatedData=[], subsetKeys=[],) {
         return generatedData.map(element => {
-            const uploadable = element[1].filter(line => {
-                return line.product_notfound==0 && line.customer_notfound==0;
-            });
+            let uploadable = [];
+
+            /**
+             * If customer_notfound & product_notfound properties
+             * are defined, filter out only those with both 0 values (the uploadable ones)
+             */
+            if(element[1][0].customer_notfound == undefined
+                && element[1][0].product_notfound == undefined
+            ) {
+                uploadable = element[1];
+            } else {
+                uploadable = element[1].filter(line => {
+                    return line.product_notfound==0 && line.customer_notfound==0;
+                });
+            }
             return [
                 element[0],
                 uploadable.map(line => {

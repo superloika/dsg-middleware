@@ -72774,9 +72774,20 @@ var actions = {
     var generatedData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var subsetKeys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
     return generatedData.map(function (element) {
-      var uploadable = element[1].filter(function (line) {
-        return line.product_notfound == 0 && line.customer_notfound == 0;
-      });
+      var uploadable = [];
+      /**
+       * If customer_notfound & product_notfound properties
+       * are defined, filter out only those with both 0 values (the uploadable ones)
+       */
+
+      if (element[1][0].customer_notfound == undefined && element[1][0].product_notfound == undefined) {
+        uploadable = element[1];
+      } else {
+        uploadable = element[1].filter(function (line) {
+          return line.product_notfound == 0 && line.customer_notfound == 0;
+        });
+      }
+
       return [element[0], uploadable.map(function (line) {
         return subsetKeys.reduce(function (r, item) {
           r[item] = line[item];
