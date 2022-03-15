@@ -142,8 +142,9 @@
                     depressed
                     color="success"
                     @click.stop="confirmExportDialogOpen=true"
-                    :disabled="lineCount < 1 || customersNotFoundCount > 0 ||
-                        productsNotFoundCount > 0 || searchKeyLength > 0"
+                    :disabled="lineCount < 1
+                        || searchKeyLength > 0
+                        || (productsNotFoundCount+customersNotFoundCount)>=lineCount"
                 >
                     <v-icon>mdi-content-save-all</v-icon>
                     <!-- &nbsp;

@@ -117,9 +117,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    // ProductsUpload: () => import('./ProductsUpload.vue'),
     UploadedInvoices: function UploadedInvoices() {
       return __webpack_require__.e(/*! import() */ 16).then(__webpack_require__.bind(null, /*! ./UploadedInvoices.vue */ "./resources/js/pages/Principals/common/UploadedInvoices.vue"));
     },
@@ -150,9 +152,7 @@ __webpack_require__.r(__webpack_exports__);
       this.PrincipalsStore.initInvoices(this.selectedPrincipalCode, this.date);
       this.PrincipalsStore.initInvoicesGrandTotal();
     }
-  },
-  created: function created() {},
-  mounted: function mounted() {}
+  }
 });
 
 /***/ }),

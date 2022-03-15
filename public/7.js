@@ -239,6 +239,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 // import InvoicesImport from './InvoicesImport.vue';
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -706,9 +707,10 @@ var render = function() {
                         color: "success",
                         disabled:
                           _vm.lineCount < 1 ||
-                          _vm.customersNotFoundCount > 0 ||
-                          _vm.productsNotFoundCount > 0 ||
-                          _vm.searchKeyLength > 0
+                          _vm.searchKeyLength > 0 ||
+                          _vm.productsNotFoundCount +
+                            _vm.customersNotFoundCount >=
+                            _vm.lineCount
                       },
                       on: {
                         click: function($event) {

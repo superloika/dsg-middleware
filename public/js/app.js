@@ -3176,7 +3176,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsAdd: function AccountsAdd() {
@@ -6403,9 +6402,7 @@ var render = function() {
         [
           _c("v-icon", { staticClass: "mr-2" }, [_vm._v("mdi-login")]),
           _vm._v(" "),
-          _c("span", { staticClass: "text-subtitle-1" }, [
-            _vm._v("DSG - MIDDLEWARE (DEV)")
-          ])
+          _c("span", { staticClass: "text-subtitle-1" }, [_vm._v("Login")])
         ],
         1
       ),
@@ -7724,8 +7721,8 @@ var render = function() {
                 _c("v-spacer"),
                 _vm._v(" "),
                 _c("v-text-field", {
-                  staticClass: "mr-3 search-field",
-                  staticStyle: { "max-width": "230px" },
+                  staticClass: "mr-3",
+                  staticStyle: { "max-width": "200px" },
                   attrs: {
                     label: "Search",
                     clearable: "",
@@ -7733,8 +7730,7 @@ var render = function() {
                     dense: "",
                     flat: "",
                     rounded: "",
-                    solo: "",
-                    "background-color": "grey lighten-5"
+                    "solo-inverted": ""
                   },
                   model: {
                     value: _vm.ManageAccounts.state.searchKey,
@@ -69473,10 +69469,8 @@ window.axios.interceptors.response.use(function (response) {
   // || error.response.status === 440
   ) {
     console.log('INTERCEPTOR (401):', error); // window.location.href = `/flush-session`;
-    // window.location.href = `/logout`;
-    // alert(error);
-    // this.AppStore.state.errorBar.show = true;
-    // window.location.reload();
+
+    window.location.href = "/login"; // window.location.reload();
   }
 
   console.log('INTERCEPTOR - AUTH USER:', window.AuthUser);
@@ -71167,6 +71161,7 @@ var host = "http://".concat(window.location.host, "/"); // const localStorage = 
 
 var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
   AppName: 'DSG - MIDDLEWARE (DEV)',
+  // AppName: 'DSG - MIDDLEWARE',
   siteUrl: host,
   snackBar: {
     show: false,
@@ -72779,7 +72774,10 @@ var actions = {
     var generatedData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var subsetKeys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
     return generatedData.map(function (element) {
-      return [element[0], element[1].map(function (line) {
+      var uploadable = element[1].filter(function (line) {
+        return line.product_notfound == 0 && line.customer_notfound == 0;
+      });
+      return [element[0], uploadable.map(function (line) {
         return subsetKeys.reduce(function (r, item) {
           r[item] = line[item];
           return r;

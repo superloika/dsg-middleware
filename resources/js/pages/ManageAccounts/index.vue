@@ -14,12 +14,11 @@
                 clearable
                 hide-details
                 dense
-                class="mr-3 search-field"
-                style="max-width:230px;"
+                class="mr-3"
+                style="max-width:200px;"
                 flat
                 rounded
-                solo
-                background-color="grey lighten-5"
+                solo-inverted
                 v-model="ManageAccounts.state.searchKey"
             ></v-text-field>
 

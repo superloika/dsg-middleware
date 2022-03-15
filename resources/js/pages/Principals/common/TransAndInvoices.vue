@@ -67,7 +67,10 @@
         </v-card-title>
 
         <v-card-text class="mx-0 pa-0">
-            <v-tabs heightx="40" v-model="tab" grow
+            <v-tabs
+                heightx="40"
+                v-model="tab"
+                grow
                 background-color="grey lighten-5"
                 class="rounded-lg rounded-b-0"
             >
@@ -110,7 +113,6 @@
 export default {
 
     components: {
-        // ProductsUpload: () => import('./ProductsUpload.vue'),
         UploadedInvoices: () => import('./UploadedInvoices.vue'),
         Transactions: () => import('./Transactions.vue'),
     },
@@ -141,13 +143,6 @@ export default {
             this.PrincipalsStore.initInvoicesGrandTotal();
         },
     },
-
-    created() {
-    },
-
-    mounted() {
-    },
-
 
 }
 </script>

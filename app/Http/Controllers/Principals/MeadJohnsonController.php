@@ -392,6 +392,8 @@ class MeadJohnsonController extends Controller
                                     $invoice_line = [
                                         'principal_code' => $this::$principalCode,
                                         'upload_date' => $dateToday->format('Y-m-d'),
+                                        'product_notfound' => $product_notfound,
+                                        'customer_notfound' => $customer_notfound,
                                         'doc_type' => $doc_type,
                                         'doc_no' => $doc_no,
                                         'customer_code' => $customer_code,
@@ -504,42 +506,46 @@ class MeadJohnsonController extends Controller
         try {
             // invoices
             foreach ($request->raw_invoices as $line) {
-                DB::table($this::$tblInvoices)->insert([
-                    'principal_code' => $this::$principalCode,
-                    'upload_date' => $dateToday->format('Y-m-d H:i:s'),
-                    'doc_type' => $line['doc_type'],
-                    'doc_no' => $line['doc_no'],
-                    'customer_code' => $line['customer_code'],
-                    'posting_date' => $line['posting_date'],
-                    'item_code' => $line['item_code'],
-                    'quantity' => $line['quantity'],
-                    'u1' => $line['u1'], // GOOD
-                    'u2' => $line['u2'], // 186.6964
-                    'u3' => $line['u3'], // 186.6964
-                    'u4' => $line['u4'], // Yes
-                    'u5' => $line['u5'], // DSG55
-                    'uom' => $line['uom'],
-                    'uploaded_by' => auth()->user()->id
-                ]);
+                if($line['customer_notfound']==0 && $line['product_notfound']==0){
+                    DB::table($this::$tblInvoices)->insert([
+                        'principal_code' => $this::$principalCode,
+                        'upload_date' => $dateToday->format('Y-m-d H:i:s'),
+                        'doc_type' => $line['doc_type'],
+                        'doc_no' => $line['doc_no'],
+                        'customer_code' => $line['customer_code'],
+                        'posting_date' => $line['posting_date'],
+                        'item_code' => $line['item_code'],
+                        'quantity' => $line['quantity'],
+                        'u1' => $line['u1'], // GOOD
+                        'u2' => $line['u2'], // 186.6964
+                        'u3' => $line['u3'], // 186.6964
+                        'u4' => $line['u4'], // Yes
+                        'u5' => $line['u5'], // DSG55
+                        'uom' => $line['uom'],
+                        'uploaded_by' => auth()->user()->id
+                    ]);
+                }
             }
 
             // generated data
             foreach ($request->generated_data as $gendata) {
                 foreach ($gendata[1] as $line) {
-                    DB::table($this::$tblGenerated)->insert([
-                        'invoice_no' => $line['invoice_no'],
-                        'order_date' => $line['order_date'],
-                        'customer_code' => $line['customer_code'],
-                        'route_code' => $line['route_code'],
-                        'product_category_code' => $line['product_category_code'],
-                        'ship_to' => $line['ship_to'],
-                        'order_no' => $line['order_no'],
-                        'remarks' => $line['remarks'],
-                        'product_code' => $line['product_code'],
-                        'quantity' => $line['quantity'],
-                        'generated_at' => $dateToday->format('Y-m-d H:i:s'),
-                        'uploaded_by' => auth()->user()->id
-                    ]);
+                    if($line['customer_notfound']==0 && $line['product_notfound']==0){
+                        DB::table($this::$tblGenerated)->insert([
+                            'invoice_no' => $line['invoice_no'],
+                            'order_date' => $line['order_date'],
+                            'customer_code' => $line['customer_code'],
+                            'route_code' => $line['route_code'],
+                            'product_category_code' => $line['product_category_code'],
+                            'ship_to' => $line['ship_to'],
+                            'order_no' => $line['order_no'],
+                            'remarks' => $line['remarks'],
+                            'product_code' => $line['product_code'],
+                            'quantity' => $line['quantity'],
+                            'generated_at' => $dateToday->format('Y-m-d H:i:s'),
+                            'uploaded_by' => auth()->user()->id
+                        ]);
+                    }
                 }
             }
         } catch (\Throwable $th) {

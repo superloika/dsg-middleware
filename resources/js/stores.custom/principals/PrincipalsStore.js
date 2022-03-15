@@ -246,6 +246,7 @@ const actions = {
             for(let i=0; i<jsonData.length; i++) {
                 const sheetName = jsonData[i][0].replace(/\//ig,'-');
                 const lines = jsonData[i][1];
+
                 let wSheet = XLSX.utils.json_to_sheet(lines, { origin: 'A2', skipHeader: true });
 
                 if(includeTotals != null && includeTotals.length > 0) {
@@ -280,9 +281,12 @@ const actions = {
      */
     generatedDataSubset(generatedData=[], subsetKeys=[],) {
         return generatedData.map(element => {
+            const uploadable = element[1].filter(line => {
+                return line.product_notfound==0 && line.customer_notfound==0;
+            });
             return [
                 element[0],
-                element[1].map(line => {
+                uploadable.map(line => {
                     return subsetKeys.reduce((r, item)=> {
                         r[item] = line[item];
                         return r;

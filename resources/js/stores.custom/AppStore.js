@@ -12,6 +12,7 @@ const host = `http://${window.location.host}/`;
 
 const state = Vue.observable({
     AppName: 'DSG - MIDDLEWARE (DEV)',
+    // AppName: 'DSG - MIDDLEWARE',
     siteUrl: host,
     snackBar: {
         show: false,
