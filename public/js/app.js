@@ -6746,24 +6746,9 @@ var render = function() {
               _c(
                 "v-list-item-content",
                 [
-                  _c(
-                    "v-list-item-title",
-                    [
-                      _vm._v("Principals\n                "),
-                      _c(
-                        "v-chip",
-                        { attrs: { "x-small": "", color: "accent" } },
-                        [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(_vm.principalsCount) +
-                              "\n                "
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
+                  _c("v-list-item-title", [
+                    _vm._v("Principals\n                ")
+                  ])
                 ],
                 1
               )
@@ -71259,8 +71244,6 @@ var actions = {
     var srcType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text';
 
     try {
-      var _navigator$clipboard;
-
       var str = '';
 
       if (srcType == 'text') {
@@ -71276,9 +71259,10 @@ var actions = {
       // document.addEventListener("copy", listener);
       // document.execCommand("copy");
       // document.removeEventListener("copy", listener);
+      // navigator.clipboard?.writeText &&
 
 
-      ((_navigator$clipboard = navigator.clipboard) === null || _navigator$clipboard === void 0 ? void 0 : _navigator$clipboard.writeText) && navigator.clipboard.writeText(str);
+      navigator.clipboard.writeText(str);
       this.toast('Copied to clipboard', 500);
     } catch (error) {
       console.log('copyToClip():', error); // document.getElementById('asd').value

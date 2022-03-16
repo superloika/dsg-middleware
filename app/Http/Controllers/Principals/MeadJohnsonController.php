@@ -475,7 +475,7 @@ class MeadJohnsonController extends Controller
             if($rawInvoicesCount == 0 && $filesTotalLineCount > 0) {
                 $res['message'] = 'File contents already uploaded';
             } else if($rawInvoicesCount != $filesTotalLineCount) {
-                $res['message'] = 'NOTE: Some of the file contents are already uploaded';
+                // $res['message'] = 'Only the unuploaded file contents are shown';
             } else if($filesTotalLineCount == 0) {
                 $res['message'] = 'Unable to read the data';
             }

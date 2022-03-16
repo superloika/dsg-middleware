@@ -6,9 +6,9 @@
         </v-list-item-icon>
         <v-list-item-content>
             <v-list-item-title>Principals
-                <v-chip x-small color="accent">
+                <!-- <v-chip x-small color="accent">
                     {{ principalsCount }}
-                </v-chip>
+                </v-chip> -->
             </v-list-item-title>
         </v-list-item-content>
     </template>
