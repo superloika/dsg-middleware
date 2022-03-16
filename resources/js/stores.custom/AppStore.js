@@ -114,8 +114,8 @@ const actions = {
             // document.execCommand("copy");
             // document.removeEventListener("copy", listener);
 
-            // navigator.clipboard?.writeText &&
-            navigator.clipboard.writeText(str);
+            navigator.clipboard?.writeText && navigator.clipboard.writeText(str);
+            // alert(typeof(navigator.clipboard.writeText));
 
             this.toast('Copied to clipboard', 500);
         } catch (error) {

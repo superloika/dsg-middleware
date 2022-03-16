@@ -49,6 +49,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'InvoicesImport',
   // props: ['master_type','principal_code'],
@@ -186,14 +187,15 @@ var render = function() {
                       _c("v-file-input", {
                         attrs: {
                           "small-chips": "",
-                          "show-size": "",
+                          "show-sizex": "",
                           rounded: "",
                           outlined: "",
                           dense: "",
                           required: "",
-                          label: "Select file/s to import",
+                          placeholder: "Select file/s to import",
                           accept: ".txt",
-                          multiple: ""
+                          multiple: "",
+                          color: "primary"
                         },
                         model: {
                           value: _vm.file,

@@ -71244,6 +71244,8 @@ var actions = {
     var srcType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text';
 
     try {
+      var _navigator$clipboard;
+
       var str = '';
 
       if (srcType == 'text') {
@@ -71259,10 +71261,10 @@ var actions = {
       // document.addEventListener("copy", listener);
       // document.execCommand("copy");
       // document.removeEventListener("copy", listener);
-      // navigator.clipboard?.writeText &&
 
 
-      navigator.clipboard.writeText(str);
+      ((_navigator$clipboard = navigator.clipboard) === null || _navigator$clipboard === void 0 ? void 0 : _navigator$clipboard.writeText) && navigator.clipboard.writeText(str); // alert(typeof(navigator.clipboard.writeText));
+
       this.toast('Copied to clipboard', 500);
     } catch (error) {
       console.log('copyToClip():', error); // document.getElementById('asd').value

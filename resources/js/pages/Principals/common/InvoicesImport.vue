@@ -6,15 +6,16 @@
                 <v-form ref="frm_upload">
                     <v-file-input
                         small-chips
-                        show-size
+                        show-sizex
                         rounded
                         outlined
                         dense
                         required
-                        label="Select file/s to import"
+                        placeholder="Select file/s to import"
                         v-model="file"
                         accept=".txt"
                         multiple
+                        color="primary"
                     ></v-file-input>
                 </v-form>
             </v-col>
