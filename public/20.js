@@ -327,6 +327,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
+    { attrs: { outlined: "" } },
     [
       _c(
         "v-card-title",

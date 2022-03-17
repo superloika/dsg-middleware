@@ -151,7 +151,7 @@ var render = function() {
         [
           _c(
             "v-app-bar",
-            { attrs: { elevation: "0", color: "white" } },
+            { attrs: { elevation: "0", colorx: "white" } },
             [
               _c("v-toolbar-title", [
                 _vm._v(

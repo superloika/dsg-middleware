@@ -20,7 +20,7 @@
                             type="text"
                             :value="old_username"
                             requiredx
-                            dense
+                            densex
                         ></v-text-field>
 
                         <v-text-field
@@ -28,7 +28,7 @@
                             outlined
                             name="password"
                             requiredx
-                            dense
+                            densex
                             :type="showPassword ? 'text' : 'password'"
                             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                             @click:append="showPassword = !showPassword"

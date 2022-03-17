@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card outlined>
         <!-- <v-card-title class="grey lighten-5"> -->
         <v-card-title>
             <span>Edit Account: {{ ManageAccounts.state.toEdit.name }} ({{

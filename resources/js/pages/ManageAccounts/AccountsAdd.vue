@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card outlined>
         <v-card-title>
             <v-icon>mdi-account-plus</v-icon>
             <span class="ml-2">Add Account</span>

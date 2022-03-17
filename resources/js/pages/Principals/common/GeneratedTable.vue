@@ -63,3 +63,10 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+/* .v-data-table__wrapper */
+    table tbody tr:hover{
+        background-color: green;
+    }
+</style>

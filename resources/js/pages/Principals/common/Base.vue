@@ -1,6 +1,6 @@
 <template>
 <v-sheet>
-    <v-app-bar elevation="0" app color="white" dense>
+    <v-app-bar elevation="0" app color="secondary darken-1" dense>
         <v-toolbar-title class="primary--text">
             <!-- <v-icon>mdi-store</v-icon> -->
             {{ principalName }}
@@ -16,6 +16,7 @@
                 show-arrows
                 grow
                 center-active
+                background-color="secondary darken-1"
             >
                 <v-tab
                     v-for="(t, index) in tabs"

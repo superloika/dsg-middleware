@@ -20,16 +20,16 @@
                 </v-form>
             </v-col>
             <v-col class="pb-0" cols lg="3" md="5" sm="4">
-                    <v-btn
-                        dense color="primary"
-                        @click="formSubmit()"
-                        block
-                        rounded
-                        depressed
-                        :loading="PrincipalsStore.state.isGeneratingData"
-                    >
-                        Generate
-                    </v-btn>
+                <v-btn
+                    dense color="primary"
+                    @click="formSubmit()"
+                    block
+                    rounded
+                    depressed
+                    :loading="PrincipalsStore.state.isGeneratingData"
+                >
+                    Generate
+                </v-btn>
                 <!-- :disabled="file==null || file.length < 1" -->
             </v-col>
 
@@ -62,7 +62,8 @@ export default {
             let vm = this;
 
             if(!this.$refs.frm_upload.validate()) {
-                alert('An unexpected error occured');
+                // alert('An unexpected error occured');
+                console.log('formSubmit()', 'An unexpected error occured');
                 return;
             }
             if(this.file===null || this.file.length===0 || this.file===undefined) {

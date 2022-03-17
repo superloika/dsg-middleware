@@ -246,7 +246,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { staticClass: "elevation-0 pt-2", attrs: { outlinedx: "" } },
+    { staticClass: "elevation-0 pt-0", attrs: { outlinedx: "" } },
     [
       _c(
         "v-card-title",
@@ -254,7 +254,7 @@ var render = function() {
         [
           _c(
             "v-app-bar",
-            { attrs: { elevation: "0", color: "white" } },
+            { attrs: { elevation: "0", colorx: "white" } },
             [
               _c("v-toolbar-title", [
                 _vm._v(
@@ -269,7 +269,7 @@ var render = function() {
                           {
                             attrs: {
                               "x-small": "",
-                              outlined: "",
+                              outlinedx: "",
                               label: "",
                               color: "primary"
                             }
@@ -448,14 +448,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-card-text",
-        { staticClass: "pa-0" },
+        { staticClass: "pa-0 pb-4" },
         [
           _vm.generatedData.length < 1
             ? _c(
                 "div",
                 { staticClass: "d-flex justify-center mt-5" },
                 [
-                  _c("v-chip", { attrs: { color: "accent", small: "" } }, [
+                  _c("v-chip", { attrs: { color: "secondary", small: "" } }, [
                     _vm._v(
                       "\n                No available data to display\n            "
                     )

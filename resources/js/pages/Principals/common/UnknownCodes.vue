@@ -1,5 +1,5 @@
 <template>
-<v-card>
+<v-card outlined>
     <v-card-title class="text-subtitle-1">
         {{ title }}&nbsp;
         <v-chip :color="variantColor" small style="color:#fff;">

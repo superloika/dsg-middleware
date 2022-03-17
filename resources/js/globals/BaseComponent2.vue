@@ -66,10 +66,6 @@ export default {
 </script>
 
 <style>
-    .v-toolbar__content {
-        border-bottom: 1px solid #eeeeee;
-    }
-
     .search-field{
         border: 1px solid #f1f1f1;
     }

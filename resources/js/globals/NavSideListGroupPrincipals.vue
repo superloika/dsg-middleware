@@ -12,7 +12,7 @@
             </v-list-item-title>
         </v-list-item-content>
     </template>
-    <v-sheet>
+    <v-sheet class="pr-2">
         <v-sheet color="" class="pt-2">
             <v-text-field
                 v-if="filteredPrincipals.length > 5 || principalsSearchKey !== ''"
@@ -29,7 +29,7 @@
             >
             </v-text-field>
         </v-sheet>
-        <v-sheet color="">
+        <v-sheet color="" class="pb-6">
             <v-list-item
                 v-for="(principal, i) in filteredPrincipals"
                 :key="i"

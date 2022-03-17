@@ -5,8 +5,7 @@
         slider-color = "primary"
         heightx="40"
         grow
-        background-color="grey lighten-5"
-        class="rounded-lg rounded-b-0"
+        background-colorx="grey lighten-5"
     >
         <v-tab exact>
             <v-icon class="mr-1">mdi-account-multiple</v-icon> Customers&nbsp;

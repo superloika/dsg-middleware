@@ -2143,6 +2143,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4036,7 +4038,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.v-toolbar__content {\n    border-bottom: 1px solid #eeeeee;\n}\n.search-field{\n    /* border: 1px solid #f1f1f1; */\n    border: 1px solid #f1f1f1;\n}\n.v-data-table__wrapper table tr td{\n    color: #5e5e5e;\n}\ndiv.v-tab {\n    padding: 0px 5px;\n}\n", ""]);
+exports.push([module.i, "\n.v-toolbar__content {\n    border-bottom: 1px solid #000000;\n}\n.search-field{\n    /* border: 1px solid #f1f1f1; */\n    border: 1px solid #f1f1f1;\n}\n.v-data-table__wrapper table tr td{\n    color: #a8a8a8;\n}\ndiv.v-tab {\n    padding: 0px 5px;\n}\n", ""]);
 
 // exports
 
@@ -4055,7 +4057,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.v-toolbar__content {\n    border-bottom: 1px solid #eeeeee;\n}\n.search-field{\n    border: 1px solid #f1f1f1;\n}\n", ""]);
+exports.push([module.i, "\n.search-field{\n    border: 1px solid #f1f1f1;\n}\n", ""]);
 
 // exports
 
@@ -6069,7 +6071,14 @@ var render = function() {
     [
       _c(
         "v-system-bar",
-        { attrs: { app: "", height: "40", color: "grey lighten-5" } },
+        {
+          attrs: {
+            app: "",
+            height: "40",
+            color: "secondary darken-5",
+            dark: ""
+          }
+        },
         [
           _c(
             "v-btn",
@@ -6179,7 +6188,8 @@ var render = function() {
           attrs: {
             timeout: _vm.AppStore.state.snackBar.timeout,
             bottom: "",
-            left: ""
+            left: "",
+            color: "primary"
           },
           model: {
             value: _vm.AppStore.state.snackBar.show,
@@ -6454,7 +6464,7 @@ var render = function() {
                           type: "text",
                           value: _vm.old_username,
                           requiredx: "",
-                          dense: ""
+                          densex: ""
                         }
                       }),
                       _vm._v(" "),
@@ -6464,7 +6474,7 @@ var render = function() {
                           outlined: "",
                           name: "password",
                           requiredx: "",
-                          dense: "",
+                          densex: "",
                           type: _vm.showPassword ? "text" : "password",
                           "append-icon": _vm.showPassword
                             ? "mdi-eye"
@@ -6762,6 +6772,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-sheet",
+        { staticClass: "pr-2" },
         [
           _c(
             "v-sheet",
@@ -6796,7 +6807,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-sheet",
-            { attrs: { color: "" } },
+            { staticClass: "pb-6", attrs: { color: "" } },
             _vm._l(_vm.filteredPrincipals, function(principal, i) {
               return _c(
                 "v-list-item",
@@ -7699,7 +7710,7 @@ var render = function() {
           [
             _c(
               "v-app-bar",
-              { attrs: { elevation: "0", app: "", color: "white" } },
+              { attrs: { elevation: "0", app: "", colorx: "white" } },
               [
                 _c("v-toolbar-title", [_vm._v("Manage Accounts")]),
                 _vm._v(" "),
@@ -7983,7 +7994,7 @@ var render = function() {
     [
       _c(
         "v-app-bar",
-        { attrs: { elevation: "0", densex: "", app: "", color: "white" } },
+        { attrs: { elevation: "0", densex: "", app: "", colorx: "white" } },
         [
           _c("v-toolbar-title", [_vm._v(_vm._s(_vm.$route.meta.name))]),
           _vm._v(" "),
@@ -70945,7 +70956,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuetify__WEBPACK_IMPORTED_MODULE_1___default.a);
-var opts = {// theme: {dark:true}
+var opts = {
+  theme: {
+    dark: true
+  }
 };
 /* harmony default export */ __webpack_exports__["default"] = (new vuetify__WEBPACK_IMPORTED_MODULE_1___default.a(opts));
 

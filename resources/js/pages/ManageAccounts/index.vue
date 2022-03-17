@@ -4,7 +4,7 @@
         {{ AppStore.state.guardMsgs.accessDenied }}
     </div>
     <div v-else>
-        <v-app-bar elevation="0" app color="white">
+        <v-app-bar elevation="0" app colorx="white">
             <v-toolbar-title>Manage Accounts</v-toolbar-title>
 
             <v-spacer></v-spacer>

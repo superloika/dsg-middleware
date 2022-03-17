@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-app-bar elevation="0" densex app color="white">
+    <v-app-bar elevation="0" densex app colorx="white">
         <v-toolbar-title>{{ $route.meta.name }}</v-toolbar-title>
 
         <v-spacer></v-spacer>

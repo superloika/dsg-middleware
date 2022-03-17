@@ -15,7 +15,7 @@
                 :id="data[0]"
             >
                 <v-alert
-                    color="grey lighten-5"
+                    color="secondary darken-1"
                     class="ma-0 pa-2"
                     tile
                 >

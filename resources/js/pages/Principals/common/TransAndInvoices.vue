@@ -1,10 +1,10 @@
 <template>
     <v-card
         outlinedx
-        class="elevation-0 pt-2"
+        class="elevation-0 pt-0"
     >
         <v-card-title class="pa-0">
-            <v-app-bar elevation="0" color="white">
+            <v-app-bar elevation="0" colorx="white">
                 <v-toolbar-title
                     title="Transactions &amp; Uploaded Invoices"
                 >
@@ -71,8 +71,7 @@
                 heightx="40"
                 v-model="tab"
                 grow
-                background-color="grey lighten-5"
-                class="rounded-lg rounded-b-0"
+                background-colorx="grey lighten-5"
             >
                 <v-tab class="px-2">
                     <v-icon class="mr-1">mdi-file-check</v-icon>

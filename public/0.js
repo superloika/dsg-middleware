@@ -195,7 +195,7 @@ var render = function() {
                       "v-alert",
                       {
                         staticClass: "ma-0 pa-2",
-                        attrs: { color: "grey lighten-5", tile: "" }
+                        attrs: { color: "secondary darken-1", tile: "" }
                       },
                       [
                         _c(

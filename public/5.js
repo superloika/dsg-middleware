@@ -54,6 +54,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['tabs'],
   data: function data() {
@@ -97,7 +98,14 @@ var render = function() {
     [
       _c(
         "v-app-bar",
-        { attrs: { elevation: "0", app: "", color: "white", dense: "" } },
+        {
+          attrs: {
+            elevation: "0",
+            app: "",
+            color: "secondary darken-1",
+            dense: ""
+          }
+        },
         [
           _c("v-toolbar-title", { staticClass: "primary--text" }, [
             _vm._v("\n            " + _vm._s(_vm.principalName) + "\n        ")
@@ -116,7 +124,8 @@ var render = function() {
                     height: "44",
                     "show-arrows": "",
                     grow: "",
-                    "center-active": ""
+                    "center-active": "",
+                    "background-color": "secondary darken-1"
                   },
                   model: {
                     value: _vm.tab,

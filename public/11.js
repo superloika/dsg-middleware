@@ -42,7 +42,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Products: function Products() {
@@ -85,12 +84,11 @@ var render = function() {
       _c(
         "v-tabs",
         {
-          staticClass: "rounded-lg rounded-b-0",
           attrs: {
             "slider-color": "primary",
             heightx: "40",
             grow: "",
-            "background-color": "grey lighten-5"
+            "background-colorx": "grey lighten-5"
           },
           model: {
             value: _vm.masterfiles_tab,

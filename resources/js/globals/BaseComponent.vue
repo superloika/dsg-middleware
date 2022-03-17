@@ -2,7 +2,8 @@
     <v-app>
         <v-system-bar app
             height="40"
-            color="grey lighten-5"
+            color="secondary darken-5"
+            dark
         >
             <v-btn
                 @click="toggleDrawerState()"
@@ -83,6 +84,7 @@
             v-model="AppStore.state.snackBar.show"
             :timeout="AppStore.state.snackBar.timeout"
             bottom left
+            color="primary"
         >
             {{ AppStore.state.snackBar.text }}
         </v-snackbar>
@@ -134,7 +136,7 @@ export default {
 
 <style>
     .v-toolbar__content {
-        border-bottom: 1px solid #eeeeee;
+        border-bottom: 1px solid #000000;
     }
 
     .search-field{
@@ -143,7 +145,7 @@ export default {
     }
 
     .v-data-table__wrapper table tr td{
-        color: #5e5e5e;
+        color: #a8a8a8;
     }
 
     div.v-tab {

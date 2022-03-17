@@ -14,9 +14,8 @@ class MeadJohnsonController extends Controller
     private static $principalCode = 'mead_johnson';
     private static $tblCustomers = 'customers';
     private static $tblProducts = 'products';
-    private static $tblGenerated = 'generated_mead_johnson';
+    private static $tblGenerated = 'generated_data';
     private static $tblInvoices = 'uploaded_invoices';
-    private static $tblSettings = 'settings';
 
     /**
      * Create a new controller instance.
@@ -30,29 +29,31 @@ class MeadJohnsonController extends Controller
         /**
          * Create tblGenerated if it doesn't exist in the database
          */
-        if(!Schema::hasTable(self::$tblGenerated)) {
-            $createTableStr =
-                "CREATE TABLE IF NOT EXISTS `". self::$tblGenerated. "` (
-                    `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                    `generated_at` datetime NOT NULL,
-                    `uploaded_by` bigint(20) NOT NULL,
-                    `invoice_no` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-                    `order_date` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-                    `customer_code` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-                    `route_code` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-                    `product_category_code` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-                    `ship_to` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-                    `order_no` bigint(20) NOT NULL,
-                    `remarks` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                    `product_code` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-                    `quantity` int(11) NOT NULL,
-                    PRIMARY KEY (`id`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
-            $createIndexStr = "CREATE INDEX generated_at ON ". self::$tblGenerated . " (generated_at)";
-
-            DB::statement($createTableStr);
-            DB::statement($createIndexStr);
-        }
+        // if(!Schema::hasTable(self::$tblGenerated)) {
+        //     DB::statement(
+        //         "CREATE TABLE `generated_mead_johnson` (
+        //             `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+        //             `generated_at` DATETIME NOT NULL,
+        //             `uploaded_by` BIGINT(20) NOT NULL,
+        //             `invoice_no` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+        //             `order_date` VARCHAR(10) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+        //             `customer_code` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+        //             `route_code` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+        //             `product_category_code` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+        //             `ship_to` VARCHAR(10) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+        //             `order_no` BIGINT(20) NOT NULL,
+        //             `remarks` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_ci',
+        //             `product_code` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+        //             `quantity` INT(11) NOT NULL,
+        //             PRIMARY KEY (`id`) USING BTREE,
+        //             INDEX `generated_at` (`generated_at`) USING BTREE
+        //         )
+        //         COLLATE='utf8mb4_unicode_ci'
+        //         ENGINE=InnoDB
+        //         AUTO_INCREMENT=1;
+        //         "
+        //     );
+        // }
     }
 
     // =====================================================================
@@ -166,22 +167,31 @@ class MeadJohnsonController extends Controller
     {
         set_time_limit(0);
 
+        // $cols = [
+        //     'id',
+        //     'principal_code',
+        //     'upload_date',
+        //     'distributor_code',
+        //     'customer_code',
+        //     'customer_name',
+        //     'outlet_type',
+        //     'salesman_name',
+        //     'route_code',
+        //     'operation_type',
+        //     'status',
+        //     'address_1',
+        //     'address_4',
+        //     'address_5',
+        //     'postal_code',
+        // ];
         $cols = [
             'id',
             'principal_code',
             'upload_date',
-            'distributor_code',
             'customer_code',
             'customer_name',
-            'outlet_type',
             'salesman_name',
             'route_code',
-            'operation_type',
-            'status',
-            'address_1',
-            'address_4',
-            'address_5',
-            'postal_code',
         ];
         $result = DB::table($this::$tblCustomers)
             ->where('principal_code', $this::$principalCode)
@@ -221,34 +231,48 @@ class MeadJohnsonController extends Controller
                         $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                         if (count($arrFileContentLine) > 1) {
-                            $distributor_code = $arrFileContentLine[0];
-                            $customer_code = $arrFileContentLine[1];
-                            $customer_name = str_replace('"', '', $arrFileContentLine[2]);
-                            $outlet_type = $arrFileContentLine[3];
-                            $salesman_name = str_replace('"', '', $arrFileContentLine[4]);
-                            $route_code = $arrFileContentLine[5];
-                            $operation_type = $arrFileContentLine[6];
-                            $status = $arrFileContentLine[7];
-                            $address_1 = str_replace('"', '', $arrFileContentLine[8]);
-                            $address_4 = str_replace('"', '', $arrFileContentLine[9]);
-                            $address_5 = str_replace('"', '', $arrFileContentLine[10]);
-                            $postal_code = str_replace('"', '', $arrFileContentLine[11]);
+                            // $distributor_code = $arrFileContentLine[0];
+                            // $customer_code = $arrFileContentLine[1];
+                            // $customer_name = str_replace('"', '', $arrFileContentLine[2]);
+                            // $outlet_type = $arrFileContentLine[3];
+                            // $salesman_name = str_replace('"', '', $arrFileContentLine[4]);
+                            // $route_code = $arrFileContentLine[5];
+                            // $operation_type = $arrFileContentLine[6];
+                            // $status = $arrFileContentLine[7];
+                            // $address_1 = str_replace('"', '', $arrFileContentLine[8]);
+                            // $address_4 = str_replace('"', '', $arrFileContentLine[9]);
+                            // $address_5 = str_replace('"', '', $arrFileContentLine[10]);
+                            // $postal_code = str_replace('"', '', $arrFileContentLine[11]);
+
+                            $customer_code = $arrFileContentLine[0];
+                            $customer_name = str_replace('"', '', $arrFileContentLine[1]);
+                            $salesman_name = str_replace('"', '', $arrFileContentLine[2]);
+                            $route_code = $arrFileContentLine[3];
 
                             // ===============================================================================
+                            // DB::table($this::$tblCustomers)->insert([
+                            //     'principal_code' => $this::$principalCode,
+                            //     'distributor_code' => $distributor_code,
+                            //     'customer_code' => $customer_code,
+                            //     'customer_name' => $customer_name,
+                            //     'outlet_type' => $outlet_type,
+                            //     'salesman_name' => $salesman_name,
+                            //     'route_code' => $route_code,
+                            //     'operation_type' => $operation_type,
+                            //     'status' => $status,
+                            //     'address_1' => $address_1,
+                            //     'address_4' => $address_4,
+                            //     'address_5' => $address_5,
+                            //     'postal_code' => $postal_code,
+                            //     'uploaded_by' => auth()->user()->id
+                            // ]);
+
                             DB::table($this::$tblCustomers)->insert([
                                 'principal_code' => $this::$principalCode,
-                                'distributor_code' => $distributor_code,
                                 'customer_code' => $customer_code,
                                 'customer_name' => $customer_name,
-                                'outlet_type' => $outlet_type,
                                 'salesman_name' => $salesman_name,
                                 'route_code' => $route_code,
-                                'operation_type' => $operation_type,
-                                'status' => $status,
-                                'address_1' => $address_1,
-                                'address_4' => $address_4,
-                                'address_5' => $address_5,
-                                'postal_code' => $postal_code,
                                 'uploaded_by' => auth()->user()->id
                             ]);
                             // ===============================================================================
@@ -423,7 +447,7 @@ class MeadJohnsonController extends Controller
                                         'product_notfound' => $product_notfound,
                                         'customer_notfound' => $customer_notfound,
                                         'invoice_uploaded' => $invoice_uploaded,
-                                        'invoice_no' => $doc_no,
+                                        'doc_no' => $doc_no,
                                     ];
                                     if($chunk_line_count > 0) {
                                         if (!isset($res['output_template'][$pageNum])) {
@@ -532,7 +556,7 @@ class MeadJohnsonController extends Controller
                 foreach ($gendata[1] as $line) {
                     if($line['customer_notfound']==0 && $line['product_notfound']==0){
                         DB::table($this::$tblGenerated)->insert([
-                            'invoice_no' => $line['invoice_no'],
+                            'doc_no' => $line['doc_no'],
                             'order_date' => $line['order_date'],
                             'customer_code' => $line['customer_code'],
                             'route_code' => $line['route_code'],

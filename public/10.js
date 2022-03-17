@@ -72,7 +72,8 @@ __webpack_require__.r(__webpack_exports__);
       var vm = this;
 
       if (!this.$refs.frm_upload.validate()) {
-        alert('An unexpected error occured');
+        // alert('An unexpected error occured');
+        console.log('formSubmit()', 'An unexpected error occured');
         return;
       }
 
@@ -236,11 +237,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n                        Generate\n                    "
-                      )
-                    ]
+                    [_vm._v("\n                    Generate\n                ")]
                   )
                 ],
                 1

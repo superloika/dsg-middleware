@@ -240,6 +240,19 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import InvoicesImport from './InvoicesImport.vue';
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -485,7 +498,7 @@ var render = function() {
             [
               _c(
                 "v-app-bar",
-                { attrs: { elevation: "0", color: "white" } },
+                { attrs: { elevation: "0", colorx: "white" } },
                 [
                   _c("v-toolbar-title", [
                     _vm._v(
@@ -500,7 +513,7 @@ var render = function() {
                               {
                                 attrs: {
                                   "x-small": "",
-                                  outlined: "",
+                                  outlinedx: "",
                                   label: "",
                                   color: "primary"
                                 }
@@ -520,7 +533,7 @@ var render = function() {
                                   {
                                     attrs: {
                                       "x-small": "",
-                                      outlined: "",
+                                      outlinedx: "",
                                       label: "",
                                       color: "warning"
                                     }
@@ -541,7 +554,7 @@ var render = function() {
                                   {
                                     attrs: {
                                       "x-small": "",
-                                      outlined: "",
+                                      outlinedx: "",
                                       label: "",
                                       color: "error"
                                     }
@@ -726,7 +739,7 @@ var render = function() {
                   _c(
                     "v-dialog",
                     {
-                      attrs: { persistent: "", "max-width": "320" },
+                      attrs: { persistent: "", "max-width": "500" },
                       model: {
                         value: _vm.confirmExportDialogOpen,
                         callback: function($$v) {
@@ -745,8 +758,57 @@ var render = function() {
                             "v-card-text",
                             { staticClass: "text-subtitle-1" },
                             [
-                              _vm._v(
-                                "\n                            Save generated data to the database and export to Excel?\n                        "
+                              _c("div", [
+                                _vm._v(
+                                  "\n                                Save generated data to the database and export to Excel?\n                            "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                { staticClass: "text-caption mt-2" },
+                                [
+                                  _vm._v(
+                                    "\n                                NOTE: Lines with\n                                "
+                                  ),
+                                  _c(
+                                    "v-chip",
+                                    {
+                                      attrs: {
+                                        color: "warning",
+                                        "x-small": "",
+                                        outlined: ""
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    warning\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(
+                                    "\n                                 or\n                                 "
+                                  ),
+                                  _c(
+                                    "v-chip",
+                                    {
+                                      attrs: {
+                                        color: "error",
+                                        "x-small": "",
+                                        outlined: ""
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    error\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(
+                                    "\n                                will be skipped\n                            "
+                                  )
+                                ],
+                                1
                               )
                             ]
                           ),
@@ -824,7 +886,7 @@ var render = function() {
                       [
                         _c(
                           "v-chip",
-                          { attrs: { color: "accent", small: "" } },
+                          { attrs: { color: "secondary", small: "" } },
                           [
                             _vm._v(
                               "\n                        No available data to display\n                    "

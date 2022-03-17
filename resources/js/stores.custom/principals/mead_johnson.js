@@ -5,19 +5,25 @@ import PrincipalsStore from "./PrincipalsStore";
 const state = Vue.observable({
     title: "MEAD JOHNSON",
 
+    // customersTableHeader: [
+    //     { text: "Distributor Code", value: "distributor_code" },
+    //     { text: "Customer Code", value: "customer_code" },
+    //     { text: "Customer Name", value: "customer_name" },
+    //     { text: "Outlet Type", value: "outlet_type" },
+    //     { text: "Salesman Name", value: "salesman_name" },
+    //     { text: "Route Code", value: "route_code" },
+    //     { text: "Operation Type", value: "operation_type" },
+    //     { text: "Status", value: "status" },
+    //     { text: "Address_1", value: "address_1" },
+    //     { text: "Address_4", value: "address_4" },
+    //     { text: "Address_5", value: "address_5" },
+    //     { text: "postal_code", value: "postal_code" },
+    // ],
     customersTableHeader: [
-        { text: "Distributor Code", value: "distributor_code" },
         { text: "Customer Code", value: "customer_code" },
         { text: "Customer Name", value: "customer_name" },
-        { text: "Outlet Type", value: "outlet_type" },
         { text: "Salesman Name", value: "salesman_name" },
         { text: "Route Code", value: "route_code" },
-        { text: "Operation Type", value: "operation_type" },
-        { text: "Status", value: "status" },
-        { text: "Address_1", value: "address_1" },
-        { text: "Address_4", value: "address_4" },
-        { text: "Address_5", value: "address_5" },
-        { text: "postal_code", value: "postal_code" },
     ],
     productsTableHeader: [
         {text:"Item Code", value:"item_code"},

@@ -5,16 +5,16 @@
     </v-sheet>
     <v-card class="elevation-0" color="">
         <v-card-title class="pa-0">
-            <v-app-bar elevation="0" color="white">
+            <v-app-bar elevation="0" colorx="white">
                 <v-toolbar-title>
                     Generated Data
                     <div v-if="lineCount > 0">
-                        <v-chip x-small outlined label color="primary">
+                        <v-chip x-small outlinedx label color="primary">
                             {{ lineCount }} total line/s
                         </v-chip>
                         <v-chip
                             x-small
-                            outlined
+                            outlinedx
                             label
                             color="warning"
                             v-if="customersNotFoundCount > 0"
@@ -23,7 +23,7 @@
                         </v-chip>
                         <v-chip
                             x-small
-                            outlined
+                            outlinedx
                             label
                             color="error"
                             v-if="productsNotFoundCount > 0"
@@ -151,11 +151,24 @@
                     Save and Export -->
                 </v-btn>
                 <!-- confirm export dialog -->
-                <v-dialog persistent v-model="confirmExportDialogOpen" max-width="320">
+                <v-dialog persistent v-model="confirmExportDialogOpen" max-width="500">
                     <v-card>
                         <v-card-title>Save and Export</v-card-title>
                         <v-card-text class="text-subtitle-1">
-                            Save generated data to the database and export to Excel?
+                            <div>
+                                Save generated data to the database and export to Excel?
+                            </div>
+                            <span class="text-caption mt-2">
+                                NOTE: Lines with
+                                <v-chip color="warning" x-small outlined>
+                                    warning
+                                </v-chip>
+                                 or
+                                 <v-chip color="error" x-small outlined>
+                                    error
+                                </v-chip>
+                                will be skipped
+                            </span>
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
@@ -182,7 +195,7 @@
                     v-if="generatedData.length < 1"
                     class="d-flex justify-center mt-3"
                 >
-                    <v-chip color="accent" small>
+                    <v-chip color="secondary" small>
                         No available data to display
                     </v-chip>
                 </div>

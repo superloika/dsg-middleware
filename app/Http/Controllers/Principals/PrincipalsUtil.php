@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 class PrincipalsUtil extends Controller
 {
     private $tblInvoices = 'uploaded_invoices';
+    private $tblGenerated = 'generated_data';
     private static $tblSettings = 'settings';
 
     /**
@@ -139,6 +140,24 @@ class PrincipalsUtil extends Controller
             'message' => 'Successful',
         ];
 
+        $cols = [
+            // common
+            'id',
+            'generated_at',
+            'uploaded_by',
+            'doc_no',
+            // principal template
+            'order_date',
+            'customer_code',
+            'route_code',
+            'product_category_code',
+            'ship_to',
+            'order_no',
+            'remarks',
+            'product_code',
+            'quantity'
+        ];
+
         try {
             $dates = explode(',', request()->date);
             // sort($dates);
@@ -152,10 +171,11 @@ class PrincipalsUtil extends Controller
                 $dateTo = $dates[0];
             }
 
-            $gendata = DB::table(request()->table_generated)
+            // $gendata = DB::table(request()->table_generated)
+            $gendata = DB::table($this->tblGenerated)
                 ->whereDate('generated_at','>=',$dateFrom)
                 ->whereDate('generated_at','<=',$dateTo)
-                ->get();
+                ->get($cols);
 
             $res['generated_data'] = $gendata;
 

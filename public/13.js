@@ -119,7 +119,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     UploadedInvoices: function UploadedInvoices() {
@@ -174,7 +173,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { staticClass: "elevation-0 pt-2", attrs: { outlinedx: "" } },
+    { staticClass: "elevation-0 pt-0", attrs: { outlinedx: "" } },
     [
       _c(
         "v-card-title",
@@ -182,7 +181,7 @@ var render = function() {
         [
           _c(
             "v-app-bar",
-            { attrs: { elevation: "0", color: "white" } },
+            { attrs: { elevation: "0", colorx: "white" } },
             [
               _c(
                 "v-toolbar-title",
@@ -333,11 +332,10 @@ var render = function() {
           _c(
             "v-tabs",
             {
-              staticClass: "rounded-lg rounded-b-0",
               attrs: {
                 heightx: "40",
                 grow: "",
-                "background-color": "grey lighten-5"
+                "background-colorx": "grey lighten-5"
               },
               model: {
                 value: _vm.tab,

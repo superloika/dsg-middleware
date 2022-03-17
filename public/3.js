@@ -84,7 +84,7 @@ var render = function() {
         [
           _c(
             "v-toolbar",
-            { staticClass: "elevation-0", attrs: { color: "white" } },
+            { staticClass: "elevation-0", attrs: { colorx: "white" } },
             [
               _c("v-toolbar-title", [_vm._v("Settings")]),
               _vm._v(" "),

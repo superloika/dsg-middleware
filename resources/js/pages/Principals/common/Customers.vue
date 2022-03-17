@@ -4,7 +4,7 @@
         class="elevation-0"
     >
         <v-card-title class="pa-0 mb-2">
-            <v-app-bar elevation="0" color="white">
+            <v-app-bar elevation="0" colorx="white">
                 <v-toolbar-title>
                     Customers Masterfile
                     <em class="text-caption accent--text">

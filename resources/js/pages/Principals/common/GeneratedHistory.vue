@@ -1,11 +1,11 @@
 <template>
-    <v-card outlinedx class="elevation-0 pt-2">
+    <v-card outlinedx class="elevation-0 pt-0">
         <v-card-title class="pa-0">
-            <v-app-bar elevation="0" color="white">
+            <v-app-bar elevation="0" colorx="white">
                 <v-toolbar-title>
                     Generated Data History
                     <div v-if="lineCount > 0">
-                        <v-chip x-small outlined label color="primary">
+                        <v-chip x-small outlinedx label color="primary">
                             {{ lineCount }} total line/s
                         </v-chip>
                     </div>
@@ -84,12 +84,12 @@
                 </v-btn>
             </v-app-bar>
         </v-card-title>
-        <v-card-text class="pa-0">
+        <v-card-text class="pa-0 pb-4">
             <div
                 v-if="generatedData.length < 1"
                 class="d-flex justify-center mt-5"
             >
-                <v-chip color="accent" small>
+                <v-chip color="secondary" small>
                     No available data to display
                 </v-chip>
             </div>
