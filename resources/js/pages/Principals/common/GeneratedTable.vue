@@ -13,7 +13,7 @@
             link
             outlined
             title="Unknown Customer Code"
-            @click="AppStore.copyToClip(item.customer_code)"
+            @click="AppStore.copyToClipboard(item.customer_code)"
         >
             <div :id="item.customer_code">
                 {{ item.customer_code }}
@@ -30,7 +30,7 @@
             link
             outlined
             title="Unknown Product Code"
-            @click="AppStore.copyToClip(item.product_code)"
+            @click="AppStore.copyToClipboard(item.product_code)"
         >
             <div :id="item.product_code">
                 {{ item.product_code }}
@@ -64,9 +64,3 @@ export default {
 };
 </script>
 
-<style scoped>
-/* .v-data-table__wrapper */
-    table tbody tr:hover{
-        background-color: green;
-    }
-</style>

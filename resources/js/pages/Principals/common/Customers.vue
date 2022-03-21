@@ -7,7 +7,7 @@
             <v-app-bar elevation="0" colorx="white">
                 <v-toolbar-title>
                     Customers Masterfile
-                    <em class="text-caption accent--text">
+                    <em class="text-caption primary--text">
                         Updated at {{ updatedAt }}
                     </em>
                 </v-toolbar-title>

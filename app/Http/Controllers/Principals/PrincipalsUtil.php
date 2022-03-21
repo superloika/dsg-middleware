@@ -173,6 +173,7 @@ class PrincipalsUtil extends Controller
 
             // $gendata = DB::table(request()->table_generated)
             $gendata = DB::table($this->tblGenerated)
+                ->where('principal_code', request()->principal_code)
                 ->whereDate('generated_at','>=',$dateFrom)
                 ->whereDate('generated_at','<=',$dateTo)
                 ->get($cols);

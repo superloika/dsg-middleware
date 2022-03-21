@@ -127,6 +127,10 @@ Route::group(['prefix' => 'principals'], function(){
     Route::get("/generated", "Principals\PrincipalsUtil@getGeneratedData");
 });
 
+Route::prefix('misc-utils')->group(function () {
+    // Route::post('/export-to-txt', "MiscUtils@exportToTxt");
+});
+
 
 // PRINCIPALS
 // Route::group(['prefix' => 'principals'], function(){

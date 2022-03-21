@@ -9,13 +9,13 @@
     >
         <v-tab exact>
             <v-icon class="mr-1">mdi-account-multiple</v-icon> Customers&nbsp;
-            <v-chip color="accent" x-small>
+            <v-chip color="primary" x-small>
                 {{ PrincipalsStore.state.customers.length }}
             </v-chip>
         </v-tab>
         <v-tab exact>
             <v-icon class="mr-1">mdi-cube</v-icon> Products&nbsp;
-            <v-chip color="accent" x-small>
+            <v-chip color="primary" x-small>
                 {{ PrincipalsStore.state.products.length }}
             </v-chip>
         </v-tab>

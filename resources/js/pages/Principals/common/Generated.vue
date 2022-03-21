@@ -1,6 +1,6 @@
 <template>
-<div class="pt-4">
-    <v-sheet class="px-3">
+<div class="pt-4 secondary darken-1">
+    <v-sheet class="px-3 secondary darken-1">
         <InvoicesImport></InvoicesImport>
     </v-sheet>
     <v-card class="elevation-0" color="">

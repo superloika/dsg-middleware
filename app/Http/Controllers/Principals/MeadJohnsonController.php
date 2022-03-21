@@ -556,6 +556,7 @@ class MeadJohnsonController extends Controller
                 foreach ($gendata[1] as $line) {
                     if($line['customer_notfound']==0 && $line['product_notfound']==0){
                         DB::table($this::$tblGenerated)->insert([
+                            'principal_code' => $this::$principalCode,
                             'doc_no' => $line['doc_no'],
                             'order_date' => $line['order_date'],
                             'customer_code' => $line['customer_code'],

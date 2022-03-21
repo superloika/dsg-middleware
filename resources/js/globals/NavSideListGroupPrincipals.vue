@@ -12,8 +12,8 @@
             </v-list-item-title>
         </v-list-item-content>
     </template>
-    <v-sheet class="pr-2">
-        <v-sheet color="" class="pt-2">
+    <div class="pr-3">
+        <div class="pt-2">
             <v-text-field
                 v-if="filteredPrincipals.length > 5 || principalsSearchKey !== ''"
                 class="ml-5"
@@ -28,8 +28,8 @@
                 style="margin-bottom: -16px;"
             >
             </v-text-field>
-        </v-sheet>
-        <v-sheet color="" class="pb-6">
+        </div>
+        <div class="pb-6">
             <v-list-item
                 v-for="(principal, i) in filteredPrincipals"
                 :key="i"
@@ -47,8 +47,8 @@
                     }}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-        </v-sheet>
-    </v-sheet>
+        </div>
+    </div>
 </v-list-group>
 </template>
 

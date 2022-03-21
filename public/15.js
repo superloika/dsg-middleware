@@ -40,6 +40,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['unknownCodes', 'type', 'temptxt_id', 'title'],
   data: function data() {
@@ -92,7 +97,7 @@ var render = function() {
     [
       _c(
         "v-card-title",
-        { staticClass: "text-subtitle-1" },
+        { staticClass: "text-h6" },
         [
           _vm._v("\n        " + _vm._s(_vm.title) + " \n        "),
           _c(
@@ -118,11 +123,28 @@ var render = function() {
               attrs: { icon: "", title: "Copy All" },
               on: {
                 click: function($event) {
-                  return _vm.AppStore.copyToClip(_vm.temptxt_id, "value")
+                  return _vm.AppStore.copyToClipboard(_vm.codesNA)
                 }
               }
             },
             [_c("v-icon", [_vm._v("mdi-content-copy")])],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { icon: "", title: "Export to Textfile" },
+              on: {
+                click: function($event) {
+                  return _vm.AppStore.exportToTxt(
+                    _vm.title + ".txt",
+                    _vm.codesNA
+                  )
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-export")])],
             1
           )
         ],
@@ -132,42 +154,18 @@ var render = function() {
       _c(
         "v-card-text",
         { staticClass: "pa-1" },
-        [
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.codesNA,
-                expression: "codesNA"
-              }
-            ],
-            staticStyle: { display: "none" },
-            attrs: { id: _vm.temptxt_id, cols: "30", rows: "10" },
-            domProps: { value: _vm.codesNA },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.codesNA = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _vm._l(_vm.unknownCodes, function(pcode) {
-            return _c(
-              "v-chip",
-              {
-                key: pcode,
-                staticClass: "ma-1",
-                attrs: { color: _vm.variantColor, small: "", outlined: "" }
-              },
-              [_vm._v("\n            " + _vm._s(pcode) + "\n        ")]
-            )
-          })
-        ],
-        2
+        _vm._l(_vm.unknownCodes, function(pcode) {
+          return _c(
+            "v-chip",
+            {
+              key: pcode,
+              staticClass: "ma-1",
+              attrs: { color: _vm.variantColor, small: "", outlined: "" }
+            },
+            [_vm._v("\n            " + _vm._s(pcode) + "\n        ")]
+          )
+        }),
+        1
       )
     ],
     1

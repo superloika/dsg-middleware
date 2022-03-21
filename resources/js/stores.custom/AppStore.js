@@ -4,6 +4,7 @@
  * whenever I need warmth and comfort.
  */
 
+import axios from "axios";
 import Vue from "vue";
 
 const host = `http://${window.location.host}/`;
@@ -106,15 +107,15 @@ const actions = {
 
             }
 
-            // function listener(e) {
-            //     e.clipboardData.setData("text/plain;charset=UTF-8", str);
-            //     e.preventDefault();
-            // }
-            // document.addEventListener("copy", listener);
-            // document.execCommand("copy");
-            // document.removeEventListener("copy", listener);
+            function listener(e) {
+                e.clipboardData.setData("text/plain;charset=UTF-8", str);
+                e.preventDefault();
+            }
+            document.addEventListener("copy", listener);
+            document.execCommand("copy");
+            document.removeEventListener("copy", listener);
 
-            navigator.clipboard?.writeText && navigator.clipboard.writeText(str);
+            // navigator.clipboard?.writeText && navigator.clipboard.writeText(str);
             // alert(typeof(navigator.clipboard.writeText));
 
             this.toast('Copied to clipboard', 500);
@@ -123,6 +124,26 @@ const actions = {
             // document.getElementById('asd').value
         }
     },
+
+    copyToClipboard(text) {
+        try {
+            window.navigator.clipboard.writeText(text);
+            this.toast('Copied to clipboard', 500);
+        } catch (error) {
+            this.toast(error, 500);
+        }
+    },
+
+    async exportToTxt(filename, data) {
+        const url = window.URL.createObjectURL(new Blob([data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    },
+
 
 };
 

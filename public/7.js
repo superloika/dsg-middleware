@@ -484,9 +484,14 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "pt-4" },
+    { staticClass: "pt-4 secondary darken-1" },
     [
-      _c("v-sheet", { staticClass: "px-3" }, [_c("InvoicesImport")], 1),
+      _c(
+        "v-sheet",
+        { staticClass: "px-3 secondary darken-1" },
+        [_c("InvoicesImport")],
+        1
+      ),
       _vm._v(" "),
       _c(
         "v-card",

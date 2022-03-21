@@ -22,7 +22,7 @@
 window.axios = require("axios");
 
 // console.log('Authorization:',window.CsrfToken);
-// window.axios.defaults.headers.common["Authorization"] = `${window.CsrfToken}`;
+window.axios.defaults.headers.common["Authorization"] = `${window.CsrfToken}`;
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
@@ -65,8 +65,8 @@ window.axios.interceptors.response.use(
         ) {
             console.log('INTERCEPTOR (401):', error);
             // window.location.href = `/flush-session`;
-            window.location.href = `/login`;
-            // window.location.reload();
+            // window.location.href = `/login`;
+            window.location.reload();
         }
 
         console.log('INTERCEPTOR - AUTH USER:', window.AuthUser);

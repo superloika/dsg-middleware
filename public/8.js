@@ -171,8 +171,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 dataProp = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : '';
-                date.sort();
-                url = _this.AppStore.state.siteUrl + "principals/" + "generated?date=".concat(date, "&table_generated=") + "generated_".concat(_this.PrincipalsStore.state.selectedPrincipalCode);
+                date.sort(); // const url =
+                //     this.AppStore.state.siteUrl + "principals/"
+                //      + `generated?date=${date}&table_generated=`
+                //      + `generated_${this.PrincipalsStore.state.selectedPrincipalCode}`;
+
+                url = _this.AppStore.state.siteUrl + "principals" + "/generated" + "?date=".concat(date) + "&principal_code=".concat(_this.PrincipalsStore.state.selectedPrincipalCode);
                 _context.prev = 3;
                 _this.AppStore.state.showTopLoading = true;
                 _this.isGenerating = true;

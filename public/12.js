@@ -157,7 +157,7 @@ var render = function() {
                 _vm._v(
                   "\n                Products Masterfile\n                "
                 ),
-                _c("em", { staticClass: "text-caption accent--text" }, [
+                _c("em", { staticClass: "text-caption primary--text" }, [
                   _vm._v(
                     "\n                    Updated at " +
                       _vm._s(_vm.updatedAt) +

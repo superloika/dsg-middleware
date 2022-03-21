@@ -107,7 +107,7 @@ var render = function() {
                 _vm._v("mdi-account-multiple")
               ]),
               _vm._v(" Customers \n            "),
-              _c("v-chip", { attrs: { color: "accent", "x-small": "" } }, [
+              _c("v-chip", { attrs: { color: "primary", "x-small": "" } }, [
                 _vm._v(
                   "\n                " +
                     _vm._s(_vm.PrincipalsStore.state.customers.length) +
@@ -124,7 +124,7 @@ var render = function() {
             [
               _c("v-icon", { staticClass: "mr-1" }, [_vm._v("mdi-cube")]),
               _vm._v(" Products \n            "),
-              _c("v-chip", { attrs: { color: "accent", "x-small": "" } }, [
+              _c("v-chip", { attrs: { color: "primary", "x-small": "" } }, [
                 _vm._v(
                   "\n                " +
                     _vm._s(_vm.PrincipalsStore.state.products.length) +

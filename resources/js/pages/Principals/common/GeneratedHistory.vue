@@ -148,10 +148,15 @@ export default {
          */
         async generate(date, dataProp='') {
             date.sort();
+            // const url =
+            //     this.AppStore.state.siteUrl + "principals/"
+            //      + `generated?date=${date}&table_generated=`
+            //      + `generated_${this.PrincipalsStore.state.selectedPrincipalCode}`;
             const url =
-                this.AppStore.state.siteUrl + "principals/"
-                 + `generated?date=${date}&table_generated=`
-                 + `generated_${this.PrincipalsStore.state.selectedPrincipalCode}`;
+                this.AppStore.state.siteUrl + "principals"
+                 + `/generated`
+                 + `?date=${date}`
+                 + `&principal_code=${this.PrincipalsStore.state.selectedPrincipalCode}`;
             try {
                 this.AppStore.state.showTopLoading = true;
                 this.isGenerating = true;

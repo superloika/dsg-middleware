@@ -14,9 +14,10 @@
                 hide-slider
                 height="44"
                 show-arrows
-                grow
                 center-active
+                dark
                 background-color="secondary darken-1"
+                active-class="primary--text xxxrounded-t-xl"
             >
                 <v-tab
                     v-for="(t, index) in tabs"

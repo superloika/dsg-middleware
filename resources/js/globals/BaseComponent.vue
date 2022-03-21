@@ -136,7 +136,7 @@ export default {
 
 <style>
     .v-toolbar__content {
-        border-bottom: 1px solid #000000;
+        border-bottom: 1px solid #222222;
     }
 
     .search-field{
@@ -144,11 +144,21 @@ export default {
         border: 1px solid #f1f1f1;
     }
 
-    .v-data-table__wrapper table tr td{
+    .v-data-table__wrapper table tbody tr{
         color: #a8a8a8;
+    }
+
+    .theme--dark.v-data-table
+    > .v-data-table__wrapper
+    > table
+    > tbody
+    > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
+        /* background-color: #0084db; */
+        background-color: #000000;
     }
 
     div.v-tab {
         padding: 0px 5px;
     }
+
 </style>

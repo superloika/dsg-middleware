@@ -55,6 +55,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['tabs'],
   data: function data() {
@@ -123,9 +124,10 @@ var render = function() {
                     "hide-slider": "",
                     height: "44",
                     "show-arrows": "",
-                    grow: "",
                     "center-active": "",
-                    "background-color": "secondary darken-1"
+                    dark: "",
+                    "background-color": "secondary darken-1",
+                    "active-class": "primary--text xxxrounded-t-xl"
                   },
                   model: {
                     value: _vm.tab,
