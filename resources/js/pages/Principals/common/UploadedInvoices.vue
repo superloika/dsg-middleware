@@ -23,6 +23,18 @@
             :search="searchKey"
             class="elevation-1"
         >
+            <template v-slot:[`item.status`]="{item}">
+                <span class="primary--text"
+                    v-if="item.status=='completed'"
+                >
+                    {{ item.status }}
+                </span>
+                <span class="warning--text"
+                    v-if="item.status=='pending'"
+                >
+                    {{ item.status }}
+                </span>
+            </template>
             <template v-slot:[`item.upload_date`]="{item}">
                 <span>{{ item.upload_date.substr(0,10) }}</span>
             </template>

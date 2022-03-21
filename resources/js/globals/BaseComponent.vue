@@ -140,7 +140,6 @@ export default {
     }
 
     .search-field{
-        /* border: 1px solid #f1f1f1; */
         border: 1px solid #f1f1f1;
     }
 
@@ -153,7 +152,6 @@ export default {
     > table
     > tbody
     > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
-        /* background-color: #0084db; */
         background-color: #000000;
     }
 

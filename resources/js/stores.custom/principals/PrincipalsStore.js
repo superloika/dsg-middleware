@@ -143,8 +143,11 @@ const actions = {
         date.sort();
         try {
             const url = encodeURI(
-                AppStore.state.siteUrl + 'principals/' +
-                principal_code + '/transactions?date=' + date
+                AppStore.state.siteUrl
+                + 'principals'
+                + '/transactions'
+                + '?date=' + date
+                + '&principal_code=' + principal_code
             );
             AppStore.state.showTopLoading = true;
             let result = await axios.get(url);
@@ -296,6 +299,7 @@ const actions = {
                     return line.product_notfound==0 && line.customer_notfound==0;
                 });
             }
+
             return [
                 element[0],
                 uploadable.map(line => {

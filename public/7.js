@@ -417,7 +417,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               case 0:
                 _context.prev = 0;
                 _this2.isExporting = true;
-                url = _this2.AppStore.state.siteUrl + 'principals/' + _this2.selectedPrincipalCode + '/invoices/save';
+                url = _this2.AppStore.state.siteUrl + 'principals' + "/".concat(_this2.selectedPrincipalCode, "/invoices/save");
                 payload = {
                   raw_invoices: _this2.PrincipalsStore.state.currentRawInvoices,
                   generated_data: _this2.generatedData

@@ -43,6 +43,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['date', 'searchKey'],
   data: function data() {
@@ -115,6 +127,33 @@ var render = function() {
             },
             scopedSlots: _vm._u(
               [
+                {
+                  key: "item.status",
+                  fn: function(ref) {
+                    var item = ref.item
+                    return [
+                      item.status == "completed"
+                        ? _c("span", { staticClass: "primary--text" }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.status) +
+                                "\n                "
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      item.status == "pending"
+                        ? _c("span", { staticClass: "warning--text" }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.status) +
+                                "\n                "
+                            )
+                          ])
+                        : _vm._e()
+                    ]
+                  }
+                },
                 {
                   key: "item.upload_date",
                   fn: function(ref) {

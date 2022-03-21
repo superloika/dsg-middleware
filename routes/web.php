@@ -93,7 +93,6 @@ Route::group(['prefix' => 'principals'], function(){
         ['MeadJohnsonController', 'mead_johnson'],
         ['CenturyController', 'century'],
     ];
-
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';
 
@@ -109,12 +108,13 @@ Route::group(['prefix' => 'principals'], function(){
             // Invoices
             Route::post("/invoices/import", $ctrl. "importInvoices");
             Route::post("/invoices/save", $ctrl. "saveInvoices");
-
-            // Transaction Report
-            Route::get("/transactions", $ctrl. "transactions");
         });
     }
 
+
+    // ================================================================================
+    // ================= PrincipalsUtil ===============================================
+    // ================================================================================
     // Settings
     Route::get("/settings", "Principals\PrincipalsUtil@settings");
     Route::post("/settings", "Principals\PrincipalsUtil@saveSettings");
@@ -125,8 +125,15 @@ Route::group(['prefix' => 'principals'], function(){
 
     // Generated Data
     Route::get("/generated", "Principals\PrincipalsUtil@getGeneratedData");
+
+    // Transaction Report
+    Route::get("/transactions", "Principals\PrincipalsUtil@transactions");
 });
 
+
+// ====================================================================================
+// ================= MiscUtils ========================================================
+// ====================================================================================
 Route::prefix('misc-utils')->group(function () {
     // Route::post('/export-to-txt', "MiscUtils@exportToTxt");
 });

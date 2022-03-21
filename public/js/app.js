@@ -4317,7 +4317,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.v-toolbar__content {\n    border-bottom: 1px solid #222222;\n}\n.search-field{\n    /* border: 1px solid #f1f1f1; */\n    border: 1px solid #f1f1f1;\n}\n.v-data-table__wrapper table tbody tr{\n    color: #a8a8a8;\n}\n.theme--dark.v-data-table\n> .v-data-table__wrapper\n> table\n> tbody\n> tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {\n    /* background-color: #0084db; */\n    background-color: #000000;\n}\ndiv.v-tab {\n    padding: 0px 5px;\n}\n\n", ""]);
+exports.push([module.i, "\n.v-toolbar__content {\n    border-bottom: 1px solid #222222;\n}\n.search-field{\n    border: 1px solid #f1f1f1;\n}\n.v-data-table__wrapper table tbody tr{\n    color: #a8a8a8;\n}\n.theme--dark.v-data-table\n> .v-data-table__wrapper\n> table\n> tbody\n> tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {\n    background-color: #000000;\n}\ndiv.v-tab {\n    padding: 0px 5px;\n}\n\n", ""]);
 
 // exports
 
@@ -73586,7 +73586,7 @@ var actions = {
             case 0:
               date.sort();
               _context4.prev = 1;
-              url = encodeURI(AppStore.state.siteUrl + 'principals/' + principal_code + '/transactions?date=' + date);
+              url = encodeURI(AppStore.state.siteUrl + 'principals' + '/transactions' + '?date=' + date + '&principal_code=' + principal_code);
               AppStore.state.showTopLoading = true;
               _context4.next = 6;
               return axios.get(url);

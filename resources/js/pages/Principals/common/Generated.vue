@@ -386,8 +386,9 @@ export default {
         async saveInvoices() {
             try {
                 this.isExporting = true;
-                const url = this.AppStore.state.siteUrl + 'principals/' +
-                    this.selectedPrincipalCode + '/invoices/save';
+                const url = this.AppStore.state.siteUrl
+                    + 'principals'
+                    + `/${this.selectedPrincipalCode}/invoices/save`;
 
                 const payload = {
                     raw_invoices: this.PrincipalsStore.state.currentRawInvoices,

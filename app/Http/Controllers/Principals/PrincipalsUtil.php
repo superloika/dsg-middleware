@@ -12,6 +12,14 @@ class PrincipalsUtil extends Controller
     private $tblGenerated = 'generated_data';
     private static $tblSettings = 'settings';
 
+    public static $STATUS_COMPLETED = 'completed';
+    public static $STATUS_PENDING = 'pending';
+
+    public static $TBL_CUSTOMERS = 'customers';
+    public static $TBL_PRODUCTS = 'products';
+    public static $TBL_GENERATED = 'generated_data';
+    public static $TBL_INVOICES = 'uploaded_invoices';
+
     /**
      * Create a new controller instance.
      *
@@ -174,6 +182,7 @@ class PrincipalsUtil extends Controller
             // $gendata = DB::table(request()->table_generated)
             $gendata = DB::table($this->tblGenerated)
                 ->where('principal_code', request()->principal_code)
+                ->where('status', $this::$STATUS_COMPLETED)
                 ->whereDate('generated_at','>=',$dateFrom)
                 ->whereDate('generated_at','<=',$dateTo)
                 ->get($cols);
@@ -187,4 +196,74 @@ class PrincipalsUtil extends Controller
 
         return response()->json($res);
     }
+
+    // =====================================================================
+    // =====================================================================
+    // ============  TRANSACTION REPORTS ===================================
+    // =====================================================================
+    // =====================================================================
+
+    /**
+     * Retrieve the list of transactions
+     */
+    public function transactions(Request $request) {
+        set_time_limit(0);
+
+        try {
+            $dates = explode(',', $request->input('date'));
+            // sort($dates);
+            $dateFrom = '';
+            $dateTo = '';
+            if(count($dates) > 1) {
+                $dateFrom = $dates[0];
+                $dateTo = $dates[1];
+            } else if(count($dates) == 1) {
+                $dateFrom = $dates[0];
+                $dateTo = $dates[0];
+            }
+
+            $result = DB::table($this::$TBL_INVOICES)
+                ->leftJoin(
+                    $this::$TBL_CUSTOMERS, $this::$TBL_INVOICES. '.customer_code',
+                    '=',
+                    $this::$TBL_CUSTOMERS. '.customer_code'
+                )
+                ->leftJoin(
+                    $this::$TBL_PRODUCTS, $this::$TBL_INVOICES. '.item_code',
+                    '=',
+                    $this::$TBL_PRODUCTS. '.item_code'
+                )
+                ->select(
+                    $this::$TBL_INVOICES. '.*',
+                    $this::$TBL_CUSTOMERS. '.principal_code',
+                    $this::$TBL_CUSTOMERS. '.customer_code',
+                    $this::$TBL_CUSTOMERS. '.customer_name',
+                    $this::$TBL_PRODUCTS. '.principal_code',
+                    $this::$TBL_PRODUCTS. '.item_code',
+                    $this::$TBL_PRODUCTS. '.description'
+                )
+                ->where($this::$TBL_INVOICES. '.principal_code', request()->principal_code)
+                ->where($this::$TBL_CUSTOMERS. '.principal_code', request()->principal_code)
+                ->where($this::$TBL_PRODUCTS. '.principal_code', request()->principal_code)
+                ->whereDate($this::$TBL_INVOICES. '.upload_date','>=', $dateFrom)
+                ->whereDate($this::$TBL_INVOICES. '.upload_date','<=', $dateTo)
+                ->orderBy($this::$TBL_INVOICES. '.upload_date', 'DESC')
+                ->orderBy($this::$TBL_INVOICES. '.customer_code', 'ASC')
+                ->orderBy($this::$TBL_INVOICES. '.doc_no', 'ASC')
+                ->get();
+
+            $res['success'] = true;
+            $res['nessage'] = 'Success';
+            $res['data'] = $result;
+
+            return response()->json($res);
+        } catch (\Throwable $th) {
+            $res['success'] = false;
+            $res['nessage'] = $th->getMessage();
+            $res['data'] = [];
+            return response()->json($res);
+        }
+    }
+
+
 }
