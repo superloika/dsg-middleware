@@ -18,13 +18,14 @@
     </v-card-title>
     <v-card-text>
         <v-row v-if="PrincipalsStore.state.settings.length > 0">
-            <v-col cols="12" lg="3" md="4" sm="6"
+            <!-- <v-col cols="12" lg="3" md="4" sm="6" -->
+            <v-col cols="12"
                 v-for="(setting, index) in PrincipalsStore.state.settings"
                 :key="index"
             >
                 <v-text-field
                     v-model="setting.value"
-                    :label="setting.description" outlined dense
+                    :label="setting.description" outlined
                     :hint="setting.hint"
                 >
                 </v-text-field>

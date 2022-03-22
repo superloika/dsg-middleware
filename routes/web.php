@@ -123,11 +123,14 @@ Route::group(['prefix' => 'principals'], function(){
     Route::get("/invoices", "Principals\PrincipalsUtil@invoices");
     Route::get("/invoices/grandtotal", "Principals\PrincipalsUtil@invoicesGrandTotal");
 
-    // Generated Data
-    Route::get("/generated", "Principals\PrincipalsUtil@getGeneratedData");
+    // Generated Data (should be a POST method... gotta change later)
+    Route::post("/generated", "Principals\PrincipalsUtil@getGeneratedData");
 
     // Transaction Report
     Route::get("/transactions", "Principals\PrincipalsUtil@transactions");
+
+    // Pendings
+    Route::post("/pendings", "Principals\PrincipalsUtil@getPendingGendataAndInvoices");
 });
 
 

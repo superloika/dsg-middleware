@@ -48,7 +48,7 @@ __webpack_require__.r(__webpack_exports__);
       return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! ./Products.vue */ "./resources/js/pages/Principals/common/Products.vue"));
     },
     Customers: function Customers() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./Customers.vue */ "./resources/js/pages/Principals/common/Customers.vue"));
+      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./Customers.vue */ "./resources/js/pages/Principals/common/Customers.vue"));
     }
   },
   data: function data() {

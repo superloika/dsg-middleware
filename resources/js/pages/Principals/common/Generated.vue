@@ -9,24 +9,28 @@
                 <v-toolbar-title>
                     Generated Data
                     <div v-if="lineCount > 0">
-                        <v-chip x-small outlinedx label color="primary">
+                        <v-chip small outlinedx label color="transparent"
+                            class="px-1 primary--text"
+                        >
                             {{ lineCount }} total line/s
                         </v-chip>
                         <v-chip
-                            x-small
+                            small
                             outlinedx
                             label
-                            color="warning"
+                            color="transparent"
                             v-if="customersNotFoundCount > 0"
+                            class="px-1 warning--text"
                         >
                             {{ customersNotFoundCount }} warning/s
                         </v-chip>
                         <v-chip
-                            x-small
+                            small
                             outlinedx
                             label
-                            color="error"
+                            color="transparent"
                             v-if="productsNotFoundCount > 0"
+                            class="px-1 error--text"
                         >
                             {{ productsNotFoundCount }} error/s
                         </v-chip>
@@ -87,7 +91,7 @@
                         <!-- </v-badge> -->
                     </v-btn>
                 <v-dialog v-model="dlgDistinctCustomerCodesNA"
-                    persistentx max-width="520" scrollable
+                    persistentx max-width="900" scrollable
                 >
                     <UnknownCodes
                         title="Unknown Customer Codes"
@@ -121,7 +125,7 @@
                     <!-- </v-badge> -->
                 </v-btn>
                 <v-dialog v-model="dlgDistinctProductCodesNA"
-                    persistentx max-width="500"
+                    persistentx max-width="900"
                     scrollable
                 >
                     <UnknownCodes
@@ -158,7 +162,7 @@
                             <div>
                                 Save generated data to the database and export to Excel?
                             </div>
-                            <span class="text-caption mt-2">
+                            <!-- <span class="text-caption mt-2">
                                 NOTE: Lines with
                                 <v-chip color="warning" x-small outlined>
                                     warning
@@ -168,7 +172,7 @@
                                     error
                                 </v-chip>
                                 will be skipped
-                            </span>
+                            </span> -->
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
@@ -431,11 +435,15 @@ export default {
     },
 
     created() {
+        // get pendings
+        // this.PrincipalsStore.initPendings(
+        //     this[this.selectedPrincipalCode].state.generatedDataDBTableColumns
+        // );
     },
 
     mounted() {
         console.log("Generated component mounted");
-
+        console.log('LOOOOOOOOOK:', this.PrincipalsStore.state.currentGeneratedData);
     }
 };
 </script>

@@ -148,27 +148,29 @@ class PrincipalsUtil extends Controller
             'message' => 'Successful',
         ];
 
-        $cols = [
-            // common
-            'id',
-            'generated_at',
-            'uploaded_by',
-            'doc_no',
-            // principal template
-            'order_date',
-            'customer_code',
-            'route_code',
-            'product_category_code',
-            'ship_to',
-            'order_no',
-            'remarks',
-            'product_code',
-            'quantity'
-        ];
+        // $cols = [
+        //     // common
+        //     'id',
+        //     'generated_at',
+        //     'uploaded_by',
+        //     'doc_no',
+        //     // principal template
+        //     'order_date',
+        //     'customer_code',
+        //     'route_code',
+        //     'product_category_code',
+        //     'ship_to',
+        //     'order_no',
+        //     'remarks',
+        //     'product_code',
+        //     'quantity'
+        // ];
+        $cols = request()->cols;
 
         try {
-            $dates = explode(',', request()->date);
-            // sort($dates);
+            // $dates = explode(',', request()->date);
+            $dates = request()->date;
+            sort($dates);
             $dateFrom = '';
             $dateTo = '';
             if(count($dates) > 1) {
@@ -196,6 +198,8 @@ class PrincipalsUtil extends Controller
 
         return response()->json($res);
     }
+
+
 
     // =====================================================================
     // =====================================================================
@@ -263,6 +267,32 @@ class PrincipalsUtil extends Controller
             $res['data'] = [];
             return response()->json($res);
         }
+    }
+
+
+    /**
+     * Get pending generated data
+     */
+    public function getPendingGendataAndInvoices() {
+        $response['success'] = true;
+        $response['message'] = 'Success';
+        $cols = request()->cols;
+        $res = DB::table($this::$TBL_GENERATED)
+            ->where('principal_code', request()->principal_code)
+            ->where('status', $this::$STATUS_PENDING)
+            ->get($cols);
+        $response['pending_gendata'][] = [
+            'PENDING',
+            $res
+        ];
+
+        $res = DB::table($this::$TBL_INVOICES)
+            ->where('principal_code', request()->principal_code)
+            ->where('status', $this::$STATUS_PENDING)
+            ->get();
+        $response['pending_rawinvoices'] = $res;
+
+        return response()->json($response);
     }
 
 

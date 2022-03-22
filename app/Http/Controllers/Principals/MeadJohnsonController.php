@@ -323,6 +323,7 @@ class MeadJohnsonController extends Controller
             $fileCount = 0;
             $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
             $latest_order_no = DB::table(PrincipalsUtil::$TBL_GENERATED)
+                ->where('principal_code', $this->PRINCIPAL_CODE)
                 ->latest('id')->first()->order_no ?? $settings['custom_order_no'];
             $chunk_line_count = intval($settings['chunk_line_count']);
 
@@ -331,175 +332,289 @@ class MeadJohnsonController extends Controller
             $pageLineCount = 1;
             $pageNum = 1;
 
-            // $request->file('files')
+            // ================ PENDING INVOICEEEEEEES =================================
+            if(1==2) {
+                $pendings = DB::table(PrincipalsUtil::$TBL_INVOICES)
+                    ->where('principal_code', $this->PRINCIPAL_CODE)
+                    ->where('status', PrincipalsUtil::$STATUS_PENDING)
+                    ->get();
+                $lineCount = 0;
+                foreach ($pendings as $pending) {
+                    // ======================= INIT ===========================
+                    $doc_type = $pending->doc_type;
+                    $doc_no = $pending->doc_no;
+                    $customer_code = $pending->customer_code;
+                    $posting_date = $pending->posting_date;
+                    $item_code = $pending->item_code;
+                    $quantity = $pending->quantity;
+                    $u1 = $pending->u1;
+                    $u2 = $pending->u2;
+                    $u3 = $pending->u3;
+                    $u4 = $pending->u4;
+                    $u5 = $pending->u5;
+                    $uom = $pending->uom;
 
-            // Loop through each uploaded file
-            foreach ($request->file('files') as $file) {
-                $fileName = time() . '.' . $file->getClientOriginalName();
-                $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE .
-                    "\/invoices\/" . $dateToday->format('Y-m-d');
-                Storage::putFileAs($fileStoragePath, $file, $fileName);
+                    $customer = DB::table(PrincipalsUtil::$TBL_CUSTOMERS)
+                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                        ->where('customer_code', $customer_code)
+                        ->first();
+                    $product = DB::table(PrincipalsUtil::$TBL_PRODUCTS)
+                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                        ->where('item_code', $item_code)
+                        ->first();
 
-                if (Storage::exists("$fileStoragePath/$fileName")) {
-                    $fileContent = Storage::get("$fileStoragePath/$fileName");
+                    $invoice_uploaded = 0;
+                    $product_notfound = 0;
+                    $customer_notfound = 0;
 
-                    $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
+                    if ($product == null) $product_notfound = 1;
+                    if ($customer == null) $customer_notfound = 1;
 
-                    $lineCount = 0;
+                    $order_date = $dateToday->format('Y/m/d');
+                    if($product_notfound == 1 || $customer_notfound == 1) {
+                        $order_date = 'TBD';
+                    }
 
-                    // Loop through each line of the file content
-                    foreach ($fileContentLines as $fileContentLine) {
-                        if ($lineCount >= 0) {
-                            $arrFileContentLine = explode($delimiter, $fileContentLine);
+                    $route_code = $customer->route_code ?? 'Customer_NA';
+                    $product_category_code = $settings['product_category_code'];
+                    $ship_to = $settings['ship_to'];
+                    $order_no = $latest_order_no += 1;
+                    $remarks = '';
+                    $product_code = $product->item_code_supplier ?? $item_code;
+                    // ======================= /INIT ===========================
+                    // =========== SETTING UP ======================================
+                    $invoice_line = [
+                        'principal_code' => $this->PRINCIPAL_CODE,
+                        'upload_date' => $dateToday->format('Y-m-d'),
+                        'product_notfound' => $product_notfound,
+                        'customer_notfound' => $customer_notfound,
+                        // ===
+                        'doc_type' => $doc_type,
+                        'doc_no' => $doc_no,
+                        'customer_code' => $customer_code,
+                        'posting_date' => $posting_date,
+                        'item_code' => $item_code,
+                        'quantity' => $quantity,
+                        'u1' => $u1,
+                        'u2' => $u2,
+                        'u3' => $u3, // total amount
+                        'u4' => $u4,
+                        'u5' => $u5,
+                        'uom' => $uom,
+                    ];
+                    array_push($res['raw_invoices'], $invoice_line);
 
-                            if (count($arrFileContentLine) == 12) {
-                                $doc_type = trim($arrFileContentLine[0]);
-                                $doc_no = trim($arrFileContentLine[1]);
-                                $customer_code = trim($arrFileContentLine[2]);
-                                $posting_date = trim($arrFileContentLine[3]);
-                                $item_code = trim($arrFileContentLine[4]);
-                                $quantity = trim($arrFileContentLine[5]);
-                                $u1 = trim($arrFileContentLine[6]);
-                                $u2 = trim($arrFileContentLine[7]);
-                                $u3 = trim($arrFileContentLine[8]);
-                                $u4 = trim($arrFileContentLine[9]);
-                                $u5 = trim($arrFileContentLine[10]);
-                                $uom = trim($arrFileContentLine[11]);
+                    $arrGenerated = [
+                        'order_date' => $order_date,
+                        'customer_code' => $customer_code,
+                        'route_code' => $route_code,
+                        'product_category_code' => $product_category_code,
+                        'ship_to' => $ship_to,
+                        'order_no' => $order_no,
+                        'remarks' => $remarks,
+                        // 'product_code' => intval($product_code),
+                        'product_code' => $product_code,
+                        'quantity' => intval($quantity),
+                        'product_notfound' => $product_notfound,
+                        'customer_notfound' => $customer_notfound,
+                        'invoice_uploaded' => $invoice_uploaded,
+                        'doc_no' => $doc_no,
+                    ];
 
-                                $customer = DB::table(PrincipalsUtil::$TBL_CUSTOMERS)
-                                    ->where('principal_code', $this->PRINCIPAL_CODE)
-                                    ->where('customer_code', $customer_code)
-                                    ->first();
-                                $product = DB::table(PrincipalsUtil::$TBL_PRODUCTS)
-                                    ->where('principal_code', $this->PRINCIPAL_CODE)
-                                    ->where('item_code', $item_code)
-                                    ->first();
+                    // group output_template by order_date
+                    if (!isset($res['output_template']['PREVIOUS PENDING'])) {
+                        $res['output_template']['PREVIOUS PENDING'] = [];
+                    }
+                    array_push($res['output_template']['PREVIOUS PENDING'], $arrGenerated);
+                    // =========== /SETTING UP ======================================
+                    $filesTotalLineCount += $lineCount;
+                }
+            }
+            // ================ /PENDING INVOICEEEEEEES =================================
 
-                                $invoice_uploaded = 0;
-                                $product_notfound = 0;
-                                $customer_notfound = 0;
+            if($request->file('files') != null) {
+                // Loop through each uploaded file
+                foreach ($request->file('files') as $file) {
+                    $fileNameOrig = $file->getClientOriginalName();
+                    $fileNameNoExt = str_replace('.txt','',$file->getClientOriginalName());
 
-                                if ($product == null) $product_notfound = 1;
-                                if ($customer == null) $customer_notfound = 1;
+                    $fileName = time() . '.' . $file->getClientOriginalName();
+                    $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE .
+                        "\/invoices\/" . $dateToday->format('Y-m-d');
+                    Storage::putFileAs($fileStoragePath, $file, $fileName);
 
-                                $order_date = $dateToday->format('Y/m/d');
-                                if($product_notfound == 1 || $customer_notfound == 1) {
-                                    $order_date = 'TBD';
-                                }
+                    if (Storage::exists("$fileStoragePath/$fileName")) {
+                        $fileContent = Storage::get("$fileStoragePath/$fileName");
 
-                                $route_code = $customer->route_code ?? 'Customer_NA';
-                                $product_category_code = $settings['product_category_code'];
-                                $ship_to = $settings['ship_to'];
-                                $order_no = $latest_order_no += 1;
-                                $remarks = '';
-                                $product_code = $product->mj_code ?? $item_code;
+                        $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
 
-                                // Check if the invoice is already uploaded
-                                // if invoices are not yet saved/uploaded
-                                if (
-                                    DB::table(PrincipalsUtil::$TBL_INVOICES)
+                        $lineCount = 0;
+
+                        // Loop through each line of the file content
+                        foreach ($fileContentLines as $fileContentLine) {
+                            if ($lineCount >= 0) {
+                                $arrFileContentLine = explode($delimiter, $fileContentLine);
+
+                                if (count($arrFileContentLine) == 12) {
+                                    // ======================= INIT ===========================
+                                    $doc_type = trim($arrFileContentLine[0]);
+                                    $doc_no = trim($arrFileContentLine[1]);
+                                    $customer_code = trim($arrFileContentLine[2]);
+                                    $posting_date = trim($arrFileContentLine[3]);
+                                    $item_code = trim($arrFileContentLine[4]);
+                                    $quantity = trim($arrFileContentLine[5]);
+                                    $u1 = trim($arrFileContentLine[6]);
+                                    $u2 = trim($arrFileContentLine[7]);
+                                    $u3 = trim($arrFileContentLine[8]);
+                                    $u4 = trim($arrFileContentLine[9]);
+                                    $u5 = trim($arrFileContentLine[10]);
+                                    $uom = trim($arrFileContentLine[11]);
+
+                                    $customer = DB::table(PrincipalsUtil::$TBL_CUSTOMERS)
                                         ->where('principal_code', $this->PRINCIPAL_CODE)
-                                        // ->where('doc_type', $doc_type)
-                                        ->where('doc_no', $doc_no)
-                                        // ->where('customer_code', $customer_code)
-                                        // ->where('posting_date', $posting_date)
+                                        ->where('customer_code', $customer_code)
+                                        ->first();
+                                    $product = DB::table(PrincipalsUtil::$TBL_PRODUCTS)
+                                        ->where('principal_code', $this->PRINCIPAL_CODE)
                                         ->where('item_code', $item_code)
-                                        ->where('quantity', $quantity)
-                                        // ->where('u1', $u1)
-                                        // ->where('u2', $u2)
-                                        // ->where('u3', $u3) // total amount
-                                        // ->where('u4', $u4)
-                                        // ->where('u5',$u5)
-                                        ->where('uom', $uom)
-                                        ->exists() == false
-                                ) {
-                                    // if($line_limit > 0) {
-                                    //     if($unuploadedLineCount >= $line_limit) {
-                                    //         $breakFilesIteration = true;
-                                    //         break;
-                                    //     }
-                                    // }
+                                        ->first();
 
-                                    $invoice_line = [
-                                        'principal_code' => $this->PRINCIPAL_CODE,
-                                        'upload_date' => $dateToday->format('Y-m-d'),
-                                        'product_notfound' => $product_notfound,
-                                        'customer_notfound' => $customer_notfound,
-                                        // ===
-                                        'doc_type' => $doc_type,
-                                        'doc_no' => $doc_no,
-                                        'customer_code' => $customer_code,
-                                        'posting_date' => $posting_date,
-                                        'item_code' => $item_code,
-                                        'quantity' => $quantity,
-                                        'u1' => $u1,
-                                        'u2' => $u2,
-                                        'u3' => $u3, // total amount
-                                        'u4' => $u4,
-                                        'u5' => $u5,
-                                        'uom' => $uom,
-                                    ];
-                                    array_push($res['raw_invoices'], $invoice_line);
+                                    $invoice_uploaded = 0;
+                                    $product_notfound = 0;
+                                    $customer_notfound = 0;
 
-                                    $arrGenerated = [
-                                        'order_date' => $order_date,
-                                        'customer_code' => $customer_code,
-                                        'route_code' => $route_code,
-                                        'product_category_code' => $product_category_code,
-                                        'ship_to' => $ship_to,
-                                        'order_no' => $order_no,
-                                        'remarks' => $remarks,
-                                        // 'product_code' => intval($product_code),
-                                        'product_code' => $product_code,
-                                        'quantity' => intval($quantity),
-                                        'product_notfound' => $product_notfound,
-                                        'customer_notfound' => $customer_notfound,
-                                        'invoice_uploaded' => $invoice_uploaded,
-                                        'doc_no' => $doc_no,
-                                    ];
-                                    if($chunk_line_count > 0) {
-                                        if (!isset($res['output_template'][$pageNum])) {
-                                            $res['output_template'][$pageNum] = [];
-                                        }
-                                        array_push($res['output_template'][$pageNum], $arrGenerated);
-                                        $pageLineCount+=1;
-                                        if($pageLineCount > $chunk_line_count) {
-                                            $pageNum+=1;
-                                            $pageLineCount = 1;
-                                        }
-                                    } else {
-                                        // group output_template by order_date
-                                        if (!isset($res['output_template'][$order_date])) {
-                                            $res['output_template'][$order_date] = [];
-                                        }
-                                        array_push($res['output_template'][$order_date], $arrGenerated);
+                                    if ($product == null) $product_notfound = 1;
+                                    if ($customer == null) $customer_notfound = 1;
+
+                                    $order_date = $dateToday->format('Y/m/d');
+                                    if($product_notfound == 1 || $customer_notfound == 1) {
+                                        $order_date = 'TBD';
                                     }
 
-                                    // increment line count of unuploaded invoices
-                                    $unuploadedLineCount++;
-                                } else {
-                                    // Do something here if the invoice is already uploaded
+                                    $route_code = $customer->route_code ?? 'Customer_NA';
+                                    $product_category_code = $settings['product_category_code'];
+                                    $ship_to = $settings['ship_to'];
+                                    $order_no = $latest_order_no += 1;
+                                    $remarks = '';
+                                    $product_code = $product->item_code_supplier ?? $item_code;
+                                    // ======================= /INIT ===========================
 
-                                } // /if invoices are not yet saved/uploaded
+                                    // Check if the invoice is already uploaded
+                                    // if invoices are not yet saved/uploaded
+                                    if (
+                                        DB::table(PrincipalsUtil::$TBL_INVOICES)
+                                            ->where('principal_code', $this->PRINCIPAL_CODE)
+                                            // ->where('doc_type', $doc_type)
+                                            ->where('doc_no', $doc_no)
+                                            // ->where('customer_code', $customer_code)
+                                            // ->where('posting_date', $posting_date)
+                                            ->where('item_code', $item_code)
+                                            ->where('quantity', $quantity)
+                                            // ->where('u1', $u1)
+                                            // ->where('u2', $u2)
+                                            // ->where('u3', $u3) // total amount
+                                            // ->where('u4', $u4)
+                                            // ->where('u5',$u5)
+                                            ->where('uom', $uom)
+                                            ->exists() == false
+                                    ) {
+                                        // if($line_limit > 0) {
+                                        //     if($unuploadedLineCount >= $line_limit) {
+                                        //         $breakFilesIteration = true;
+                                        //         break;
+                                        //     }
+                                        // }
 
-                                // increment file line count
-                                $lineCount++;
+                                        // =========== SETTING UP ======================================
+                                        $invoice_line = [
+                                            'principal_code' => $this->PRINCIPAL_CODE,
+                                            'upload_date' => $dateToday->format('Y-m-d'),
+                                            'product_notfound' => $product_notfound,
+                                            'customer_notfound' => $customer_notfound,
+                                            'filename' => $fileNameNoExt,
+                                            // ===
+                                            'doc_type' => $doc_type,
+                                            'doc_no' => $doc_no,
+                                            'customer_code' => $customer_code,
+                                            'posting_date' => $posting_date,
+                                            'item_code' => $item_code,
+                                            'quantity' => $quantity,
+                                            'u1' => $u1,
+                                            'u2' => $u2,
+                                            'u3' => $u3, // total amount
+                                            'u4' => $u4,
+                                            'u5' => $u5,
+                                            'uom' => $uom,
+                                        ];
+                                        array_push($res['raw_invoices'], $invoice_line);
+
+                                        $arrGenerated = [
+                                            'order_date' => $order_date,
+                                            'customer_code' => $customer_code,
+                                            'route_code' => $route_code,
+                                            'product_category_code' => $product_category_code,
+                                            'ship_to' => $ship_to,
+                                            'order_no' => $order_no,
+                                            'remarks' => $remarks,
+                                            // 'product_code' => intval($product_code),
+                                            'product_code' => $product_code,
+                                            'quantity' => intval($quantity),
+                                            'product_notfound' => $product_notfound,
+                                            'customer_notfound' => $customer_notfound,
+                                            'invoice_uploaded' => $invoice_uploaded,
+                                            'doc_no' => $doc_no,
+                                        ];
+                                        if($chunk_line_count > 0) {
+                                            if (!isset($res['output_template'][$pageNum])) {
+                                                $res['output_template'][$pageNum] = [];
+                                            }
+                                            array_push($res['output_template'][$pageNum], $arrGenerated);
+                                            $pageLineCount+=1;
+                                            if($pageLineCount > $chunk_line_count) {
+                                                $pageNum+=1;
+                                                $pageLineCount = 1;
+                                            }
+                                        } else {
+                                            // group output_template by order_date
+                                            // if (!isset($res['output_template'][$order_date])) {
+                                            //     $res['output_template'][$order_date] = [];
+                                            // }
+                                            // array_push($res['output_template'][$order_date], $arrGenerated);
+
+                                            // group output_template by filename
+                                            if (!isset($res['output_template'][$fileNameNoExt])) {
+                                                $res['output_template'][$fileNameNoExt] = [];
+                                            }
+                                            array_push($res['output_template'][$fileNameNoExt], $arrGenerated);
+                                        }
+                                        // =========== /SETTING UP ======================================
+
+                                        // increment line count of unuploaded invoices
+                                        $unuploadedLineCount++;
+                                    } else {
+                                        // Do something here if the invoice is already uploaded
+
+                                    } // /if invoices are not yet saved/uploaded
+
+                                    // increment file line count
+                                    $lineCount++;
+                                }
                             }
                         }
+                        $fileCount++;
+                        $filesTotalLineCount += $lineCount;
+
+                        // if(count($res['raw_invoices']) == 0 && $lineCount > 0) {
+                        //     Storage::delete("$fileStoragePath/$fileName");
+                        // } else if($lineCount == 0) {
+                        //     Storage::delete("$fileStoragePath/$fileName");
+                        // }
                     }
-                    $fileCount++;
-                    $filesTotalLineCount += $lineCount;
 
-                    // if(count($res['raw_invoices']) == 0 && $lineCount > 0) {
-                    //     Storage::delete("$fileStoragePath/$fileName");
-                    // } else if($lineCount == 0) {
-                    //     Storage::delete("$fileStoragePath/$fileName");
-                    // }
-                }
+                    // if($breakFilesIteration) break;
 
-                // if($breakFilesIteration) break;
-
-            } // /Loop through each uploaded file
+                } // /Loop through each uploaded file
+            }
 
             $res['line_count'] = $filesTotalLineCount;
 
@@ -520,6 +635,7 @@ class MeadJohnsonController extends Controller
         }
     }
 
+
     /**
      * Save invoices together with the generated data
      * NOTE: This happens when the user exports the generated data
@@ -538,59 +654,106 @@ class MeadJohnsonController extends Controller
         try {
             // invoices
             foreach ($request->raw_invoices as $line) {
-                $status = '';
+                // ===========================================================================
+                // $status = '';
+                // if($line['customer_notfound']==0 && $line['product_notfound']==0){
+                //     $status = PrincipalsUtil::$STATUS_COMPLETED;
+                // } else {
+                //     $status = PrincipalsUtil::$STATUS_PENDING;
+                // }
+                // DB::table(PrincipalsUtil::$TBL_INVOICES)->insert([
+                //     'principal_code' => $this->PRINCIPAL_CODE,
+                //     'status' => $status,
+                //     'upload_date' => $dateToday->format('Y-m-d H:i:s'),
+                //     'uploaded_by' => auth()->user()->id,
+                //     // ====
+                //     'doc_type' => $line['doc_type'],
+                //     'doc_no' => $line['doc_no'],
+                //     'customer_code' => $line['customer_code'],
+                //     'posting_date' => $line['posting_date'],
+                //     'item_code' => $line['item_code'],
+                //     'quantity' => $line['quantity'],
+                //     'u1' => $line['u1'], // GOOD
+                //     'u2' => $line['u2'], // 186.6964
+                //     'u3' => $line['u3'], // 186.6964
+                //     'u4' => $line['u4'], // Yes
+                //     'u5' => $line['u5'], // DSG55
+                //     'uom' => $line['uom']
+                // ]);
+                // ===========================================================================
                 if($line['customer_notfound']==0 && $line['product_notfound']==0){
                     $status = PrincipalsUtil::$STATUS_COMPLETED;
-                } else {
-                    $status = PrincipalsUtil::$STATUS_PENDING;
+                    DB::table(PrincipalsUtil::$TBL_INVOICES)->insert([
+                        'principal_code' => $this->PRINCIPAL_CODE,
+                        'status' => $status,
+                        'upload_date' => $dateToday->format('Y-m-d H:i:s'),
+                        'uploaded_by' => auth()->user()->id,
+                        'filename' => $line['filename'],
+                        // ====
+                        'doc_type' => $line['doc_type'],
+                        'doc_no' => $line['doc_no'],
+                        'customer_code' => $line['customer_code'],
+                        'posting_date' => $line['posting_date'],
+                        'item_code' => $line['item_code'],
+                        'quantity' => $line['quantity'],
+                        'u1' => $line['u1'], // GOOD
+                        'u2' => $line['u2'], // 186.6964
+                        'u3' => $line['u3'], // 186.6964
+                        'u4' => $line['u4'], // Yes
+                        'u5' => $line['u5'], // DSG55
+                        'uom' => $line['uom']
+                    ]);
                 }
-                DB::table(PrincipalsUtil::$TBL_INVOICES)->insert([
-                    'principal_code' => $this->PRINCIPAL_CODE,
-                    'status' => $status,
-                    'upload_date' => $dateToday->format('Y-m-d H:i:s'),
-                    'uploaded_by' => auth()->user()->id,
-                    // ====
-                    'doc_type' => $line['doc_type'],
-                    'doc_no' => $line['doc_no'],
-                    'customer_code' => $line['customer_code'],
-                    'posting_date' => $line['posting_date'],
-                    'item_code' => $line['item_code'],
-                    'quantity' => $line['quantity'],
-                    'u1' => $line['u1'], // GOOD
-                    'u2' => $line['u2'], // 186.6964
-                    'u3' => $line['u3'], // 186.6964
-                    'u4' => $line['u4'], // Yes
-                    'u5' => $line['u5'], // DSG55
-                    'uom' => $line['uom']
-                ]);
             }
 
             // generated data
             foreach ($request->generated_data as $gendata) {
                 foreach ($gendata[1] as $line) {
-                    $status = '';
+                    // ======================================================================
+                    // $status = '';
+                    // if($line['customer_notfound']==0 && $line['product_notfound']==0){
+                    //     $status = PrincipalsUtil::$STATUS_COMPLETED;
+                    // } else {
+                    //     $status = PrincipalsUtil::$STATUS_PENDING;
+                    // }
+                    // DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
+                    //     'principal_code' => $this->PRINCIPAL_CODE,
+                    //     'status' => $status,
+                    //     'uploaded_by' => auth()->user()->id,
+                    //     'doc_no' => $line['doc_no'],
+                    //     // ====
+                    //     'order_date' => $line['order_date'],
+                    //     'customer_code' => $line['customer_code'],
+                    //     'route_code' => $line['route_code'],
+                    //     'product_category_code' => $line['product_category_code'],
+                    //     'ship_to' => $line['ship_to'],
+                    //     'order_no' => $line['order_no'],
+                    //     'remarks' => $line['remarks'],
+                    //     'product_code' => $line['product_code'],
+                    //     'quantity' => $line['quantity'],
+                    //     'generated_at' => $dateToday->format('Y-m-d H:i:s'),
+                    // ]);
+                    // ======================================================================
                     if($line['customer_notfound']==0 && $line['product_notfound']==0){
                         $status = PrincipalsUtil::$STATUS_COMPLETED;
-                    } else {
-                        $status = PrincipalsUtil::$STATUS_PENDING;
+                        DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
+                            'principal_code' => $this->PRINCIPAL_CODE,
+                            'status' => $status,
+                            'uploaded_by' => auth()->user()->id,
+                            'doc_no' => $line['doc_no'],
+                            // ====
+                            'order_date' => $line['order_date'],
+                            'customer_code' => $line['customer_code'],
+                            'route_code' => $line['route_code'],
+                            'product_category_code' => $line['product_category_code'],
+                            'ship_to' => $line['ship_to'],
+                            'order_no' => $line['order_no'],
+                            'remarks' => $line['remarks'],
+                            'product_code' => $line['product_code'],
+                            'quantity' => $line['quantity'],
+                            'generated_at' => $dateToday->format('Y-m-d H:i:s'),
+                        ]);
                     }
-                    DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
-                        'principal_code' => $this->PRINCIPAL_CODE,
-                        'status' => $status,
-                        'uploaded_by' => auth()->user()->id,
-                        'doc_no' => $line['doc_no'],
-                        // ====
-                        'order_date' => $line['order_date'],
-                        'customer_code' => $line['customer_code'],
-                        'route_code' => $line['route_code'],
-                        'product_category_code' => $line['product_category_code'],
-                        'ship_to' => $line['ship_to'],
-                        'order_no' => $line['order_no'],
-                        'remarks' => $line['remarks'],
-                        'product_code' => $line['product_code'],
-                        'quantity' => $line['quantity'],
-                        'generated_at' => $dateToday->format('Y-m-d H:i:s'),
-                    ]);
                 }
             }
         } catch (\Throwable $th) {

@@ -69,18 +69,15 @@ __webpack_require__.r(__webpack_exports__);
     formSubmit: function formSubmit() {
       var _this = this;
 
-      var vm = this;
-
-      if (!this.$refs.frm_upload.validate()) {
-        // alert('An unexpected error occured');
-        console.log('formSubmit()', 'An unexpected error occured');
-        return;
-      }
-
-      if (this.file === null || this.file.length === 0 || this.file === undefined) {
-        this.AppStore.toast('Please select file/s to import', 1000);
-        return;
-      }
+      var vm = this; // if(!this.$refs.frm_upload.validate()) {
+      //     // alert('An unexpected error occured');
+      //     console.log('formSubmit()', 'An unexpected error occured');
+      //     return;
+      // }
+      // if(this.file===null || this.file.length===0 || this.file===undefined) {
+      //     this.AppStore.toast('Please select file/s to import', 1000);
+      //     return;
+      // }
 
       this.AppStore.overlay(true);
       this.PrincipalsStore.state.isGeneratingData = true;
@@ -130,6 +127,8 @@ __webpack_require__.r(__webpack_exports__);
         _this.PrincipalsStore.state.currentRawInvoices = raw_invoices; // this.PrincipalsStore.state.textfileLineCount = line_count;
 
         _this.PrincipalsStore.state.sheetImport = false;
+        console.log('currentGeneratedData:', _this.PrincipalsStore.state.currentGeneratedData);
+        console.log('currentRawInvoices:', _this.PrincipalsStore.state.currentRawInvoices);
       })["catch"](function (error) {
         _this.AppStore.overlay(false);
 
@@ -138,7 +137,40 @@ __webpack_require__.r(__webpack_exports__);
         _this.PrincipalsStore.state.isGeneratingData = false;
         console.log('ImportResponse:', error);
       });
+    },
+    getPending: function getPending() {
+      var _this2 = this;
+
+      var url = this.AppStore.state.siteUrl + 'principals/' + this.PrincipalsStore.state.selectedPrincipalCode + '/invoices/import';
+      axios.post(url, {
+        files: null
+      }).then(function (response) {
+        var success = response.data.success;
+
+        if (success) {
+          var output_template = response.data.output_template;
+          var raw_invoices = response.data.raw_invoices;
+
+          _this2.AppStore.overlay(false);
+
+          _this2.PrincipalsStore.state.isGeneratingData = false;
+          _this2.AppStore.state.showTopLoading = false;
+          _this2.PrincipalsStore.state.currentGeneratedData = Object.entries(output_template);
+          _this2.PrincipalsStore.state.currentRawInvoices = raw_invoices;
+          console.log('currentGeneratedData:', _this2.PrincipalsStore.state.currentGeneratedData);
+          console.log('currentRawInvoices:', _this2.PrincipalsStore.state.currentRawInvoices);
+        }
+      })["catch"](function (error) {
+        _this2.AppStore.overlay(false);
+
+        _this2.AppStore.toast(error);
+
+        _this2.PrincipalsStore.state.isGeneratingData = false;
+        console.log('getPending():', error);
+      });
     }
+  },
+  created: function created() {// this.getPending();
   },
   mounted: function mounted() {
     console.log('InvoicesImport mounted.'); // this.file = null;

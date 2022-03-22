@@ -72,10 +72,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['generatedData'],
+  props: ["generatedData"],
   data: function data() {
-    return {};
+    return {
+      tab: null
+    };
   },
   computed: {
     GeneratedTable: function GeneratedTable() {
@@ -83,7 +100,7 @@ __webpack_require__.r(__webpack_exports__);
       //     import(`../${vm.PrincipalsStore.state.selectedPrincipalCode}/GeneratedTable.vue`);
 
       return function () {
-        return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./GeneratedTable.vue */ "./resources/js/pages/Principals/common/GeneratedTable.vue"));
+        return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./GeneratedTable.vue */ "./resources/js/pages/Principals/common/GeneratedTable.vue"));
       };
     }
   },
@@ -178,133 +195,102 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    {},
-    _vm._l(_vm.generatedData, function(data, index) {
-      return _c("div", { key: index, staticClass: "elevation-0" }, [
-        data[1].length > 0
-          ? _c(
-              "div",
-              { staticClass: "mb-2 pa-0 overflow-auto" },
-              [
-                _c(
+    "v-sheet",
+    [
+      _c(
+        "v-tabs",
+        {
+          attrs: {
+            height: "35",
+            "show-arrow": "",
+            "background-color": "grey darken-4"
+          },
+          model: {
+            value: _vm.tab,
+            callback: function($$v) {
+              _vm.tab = $$v
+            },
+            expression: "tab"
+          }
+        },
+        _vm._l(_vm.generatedData, function(data, index) {
+          return _c(
+            "v-tab",
+            { key: index, staticClass: "px-3 text-caption" },
+            [
+              _vm._v("\n            " + _vm._s(data[0]) + "\n            "),
+              _vm.groupCustomersNotFoundLineCount(data[1]) > 0
+                ? _c(
+                    "v-chip",
+                    {
+                      staticClass: "ml-1 text-captionx px-1",
+                      attrs: { color: "warning", "x-small": "" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(_vm.groupCustomersNotFoundLineCount(data[1])) +
+                          "\n            "
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.groupProductsNotFoundLineCount(data[1]) > 0
+                ? _c(
+                    "v-chip",
+                    {
+                      staticClass: "ml-1 text-captionx px-1",
+                      attrs: { color: "error", "x-small": "" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(_vm.groupProductsNotFoundLineCount(data[1])) +
+                          "\n            "
+                      )
+                    ]
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        }),
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-tabs-items",
+        {
+          model: {
+            value: _vm.tab,
+            callback: function($$v) {
+              _vm.tab = $$v
+            },
+            expression: "tab"
+          }
+        },
+        _vm._l(_vm.generatedData, function(data, index) {
+          return _c("v-tab-item", { key: index }, [
+            data[1].length > 0
+              ? _c(
                   "div",
-                  { staticClass: "pa-0", attrs: { id: data[0] } },
+                  { staticClass: "mb-2 pa-0 overflow-auto" },
                   [
-                    _c(
-                      "v-alert",
-                      {
-                        staticClass: "ma-0 pa-2",
-                        attrs: { color: "secondary darken-1", tile: "" }
-                      },
-                      [
-                        _c(
-                          "v-chip",
-                          {
-                            attrs: {
-                              small: "",
-                              label: "",
-                              outlinedx: "",
-                              color: "secondary"
-                            }
-                          },
-                          [
-                            _c("span", { staticClass: "font-weight-bold" }, [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(data[0]) +
-                                  "\n                        "
-                              )
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-chip",
-                          {
-                            attrs: {
-                              small: "",
-                              label: "",
-                              outlinedx: "",
-                              color: "primary"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(data[1].length) +
-                                " line/s\n                    "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _vm.groupProductsNotFoundLineCount(data[1]) > 0
-                          ? _c(
-                              "v-chip",
-                              {
-                                attrs: {
-                                  small: "",
-                                  label: "",
-                                  outlinedx: "",
-                                  color: "error"
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                        " +
-                                    _vm._s(
-                                      _vm.groupProductsNotFoundLineCount(
-                                        data[1]
-                                      )
-                                    ) +
-                                    "\n                        error/s\n                    "
-                                )
-                              ]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.groupCustomersNotFoundLineCount(data[1]) > 0
-                          ? _c(
-                              "v-chip",
-                              {
-                                attrs: {
-                                  small: "",
-                                  label: "",
-                                  outlinedx: "",
-                                  color: "warning"
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                        " +
-                                    _vm._s(
-                                      _vm.groupCustomersNotFoundLineCount(
-                                        data[1]
-                                      )
-                                    ) +
-                                    "\n                        warning/s\n                    "
-                                )
-                              ]
-                            )
-                          : _vm._e()
-                      ],
-                      1
-                    )
+                    _c(_vm.GeneratedTable, {
+                      tag: "component",
+                      attrs: { items: data[1] }
+                    })
                   ],
                   1
-                ),
-                _vm._v(" "),
-                _c(_vm.GeneratedTable, {
-                  tag: "component",
-                  attrs: { items: data[1] }
-                })
-              ],
-              1
-            )
-          : _vm._e()
-      ])
-    }),
-    0
+                )
+              : _vm._e()
+          ])
+        }),
+        1
+      )
+    ],
+    1
   )
 }
 var staticRenderFns = []

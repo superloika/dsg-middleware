@@ -16,6 +16,11 @@
             @click="AppStore.exportToTxt(title+'.txt', codesNA)">
             <v-icon>mdi-export</v-icon>
         </v-btn>
+        <v-btn icon
+            title="Download Pendings"
+            @click="downloadPendings()">
+            <v-icon>mdi-file-download</v-icon>
+        </v-btn>
     </v-card-title>
     <!-- <v-divider></v-divider> -->
     <v-card-text class="pa-1">
@@ -30,6 +35,36 @@
         >
             {{ pcode }}
         </v-chip>
+        <v-divider></v-divider>
+        <v-expansion-panels>
+            <v-expansion-panel v-for="(pending, i) in pendings" :key="i" focusable>
+                <v-expansion-panel-header>
+                    {{ pending[0] }}
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <v-list-item v-for="(line, j) in pending[1]" :key="j"
+                        link dense
+                    >
+                        <v-list-item-content>
+                            <v-list-item-subtitle>
+                                {{ line.doc_type }}
+                                | {{ line.doc_no }}
+                                | {{ line.customer_code }}
+                                | {{ line.posting_date }}
+                                | {{ line.item_code }}
+                                | {{ line.quantity }}
+                                | {{ line.u1 }}
+                                | {{ line.u2 }}
+                                | {{ line.u3 }}
+                                | {{ line.u4 }}
+                                | {{ line.u5 }}
+                                | {{ line.uom }}
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-expansion-panels>
     </v-card-text>
 </v-card>
 </template>
@@ -61,6 +96,31 @@ export default {
             return this.type=='warning' ? 'warning' :
                 this.type=='error' ? 'error' :
                 '';
+        },
+
+        pendings() {
+            const rawInvoices = this.PrincipalsStore.state.currentRawInvoices;
+            let tempPending = {};
+            rawInvoices.forEach(element => {
+                if(element.customer_notfound==1 || element.product_notfound==1) {
+                    if(tempPending[element.filename] == undefined) {
+                        tempPending[element.filename] = [];
+                    }
+                    tempPending[element.filename].push(element);
+                }
+            });
+            return Object.entries(tempPending);
+        },
+
+    },
+
+    methods: {
+        downloadPendings() {
+            let filename = '';
+            this.pendings.forEach(e => {
+                filename = `PENDING ${this.AppStore.state.strDateToday} - ${e[0]}.txt`;
+                this.AppStore.exportToTxt(filename, e[1][0].doc_no);
+            });
         },
     },
 

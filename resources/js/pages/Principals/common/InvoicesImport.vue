@@ -61,15 +61,15 @@ export default {
         formSubmit() {
             let vm = this;
 
-            if(!this.$refs.frm_upload.validate()) {
-                // alert('An unexpected error occured');
-                console.log('formSubmit()', 'An unexpected error occured');
-                return;
-            }
-            if(this.file===null || this.file.length===0 || this.file===undefined) {
-                this.AppStore.toast('Please select file/s to import', 1000);
-                return;
-            }
+            // if(!this.$refs.frm_upload.validate()) {
+            //     // alert('An unexpected error occured');
+            //     console.log('formSubmit()', 'An unexpected error occured');
+            //     return;
+            // }
+            // if(this.file===null || this.file.length===0 || this.file===undefined) {
+            //     this.AppStore.toast('Please select file/s to import', 1000);
+            //     return;
+            // }
 
             this.AppStore.overlay(true);
             this.PrincipalsStore.state.isGeneratingData = true;
@@ -121,6 +121,9 @@ export default {
 
                     // this.PrincipalsStore.state.textfileLineCount = line_count;
                     this.PrincipalsStore.state.sheetImport = false;
+
+                    console.log('currentGeneratedData:', this.PrincipalsStore.state.currentGeneratedData);
+                    console.log('currentRawInvoices:', this.PrincipalsStore.state.currentRawInvoices);
                 })
                 .catch(error => {
                     this.AppStore.overlay(false);
@@ -129,6 +132,42 @@ export default {
                     console.log('ImportResponse:', error);
                 });
         },
+
+        getPending() {
+            let url = this.AppStore.state.siteUrl + 'principals/' +
+                this.PrincipalsStore.state.selectedPrincipalCode + '/invoices/import';
+
+            axios.post(url, {files: null})
+                .then(response => {
+                    const success = response.data.success;
+                    if(success) {
+                        const output_template = response.data.output_template;
+                        const raw_invoices = response.data.raw_invoices;
+
+                        this.AppStore.overlay(false);
+                        this.PrincipalsStore.state.isGeneratingData = false;
+                        this.AppStore.state.showTopLoading = false;
+
+                        this.PrincipalsStore.state.currentGeneratedData =
+                            Object.entries(output_template);
+
+                        this.PrincipalsStore.state.currentRawInvoices = raw_invoices;
+
+                        console.log('currentGeneratedData:', this.PrincipalsStore.state.currentGeneratedData);
+                        console.log('currentRawInvoices:', this.PrincipalsStore.state.currentRawInvoices);
+                    }
+                })
+                .catch(error => {
+                    this.AppStore.overlay(false);
+                    this.AppStore.toast(error);
+                    this.PrincipalsStore.state.isGeneratingData = false;
+                    console.log('getPending():', error);
+                });
+        }
+    },
+
+    created() {
+        // this.getPending();
     },
 
     mounted() {

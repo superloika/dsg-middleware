@@ -20,7 +20,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Base: function Base() {
-      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ../common/Base.vue */ "./resources/js/pages/Principals/common/Base.vue"));
+      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ../common/Base.vue */ "./resources/js/pages/Principals/common/Base.vue"));
     }
   },
   data: function data() {
@@ -32,13 +32,13 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Import and Generate',
         icon: 'mdi-file-upload',
         component: function component() {
-          return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ../common/Generated.vue */ "./resources/js/pages/Principals/common/Generated.vue"));
+          return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../common/Generated.vue */ "./resources/js/pages/Principals/common/Generated.vue"));
         }
       }, {
         title: 'Generated Data History',
         icon: 'mdi-timetable',
         component: function component() {
-          return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../common/GeneratedHistory.vue */ "./resources/js/pages/Principals/common/GeneratedHistory.vue"));
+          return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ../common/GeneratedHistory.vue */ "./resources/js/pages/Principals/common/GeneratedHistory.vue"));
         }
       }, {
         title: 'Transactions and Uploaded Invoices',
@@ -56,7 +56,7 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Settings',
         icon: 'mdi-tune',
         component: function component() {
-          return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../common/Settings.vue */ "./resources/js/pages/Principals/common/Settings.vue"));
+          return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ../common/Settings.vue */ "./resources/js/pages/Principals/common/Settings.vue"));
         }
       }];
     },
@@ -69,8 +69,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.PrincipalsStore.initialize();
-
+    // this.PrincipalsStore.initialize();
     if (this[this.selectedPrincipalCode] == null || this[this.selectedPrincipalCode] == undefined) {
       Vue.prototype[this.selectedPrincipalCode] = __webpack_require__("./resources/js/stores.custom/principals sync recursive ^\\.\\/.*$")("./".concat(this.selectedPrincipalCode))["default"];
     }
@@ -385,9 +384,13 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Route Code',
     value: 'route_code'
-  } // {text: 'Customer Code', value: 'customer_code'},
+  } // {text: 'File Name', value: 'filename'},
+  // {text: 'Customer Code', value: 'customer_code'},
   // {text: 'Product Code', value: 'product_code'},
-  ]
+  ],
+  generatedDataDBTableColumns: [// common
+  'id', 'generated_at', 'uploaded_by', 'doc_no', // principal template
+  'order_date', 'customer_code', 'route_code', 'product_category_code', 'ship_to', 'order_no', 'remarks', 'product_code', 'quantity']
 });
 var actions = {// generatedDataHeader() {
   //     return state.generatedDataTableHeader.map(e=>{

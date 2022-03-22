@@ -45,6 +45,7 @@ const actions = {
         );
         this.initInvoicesGrandTotal();
         this.initSettings();
+
     },
 
     cleanup() {
@@ -164,65 +165,99 @@ const actions = {
         }
     },
 
-    async exportTableToExcel(wrapperID) {
-        console.log("Exporting from PrincipalsStore....");
-
-        const tempDate = new Date();
-        // const dateToday = tempDate.getFullYear() +
-        //     '-' + tempDate.getMonth() + '-' +
-        //     tempDate.getDay();
-        const fileName = `${state.selectedPrincipalCode} - ${AppStore.state.strDateToday}.xlsx`;
-
-        AppStore.state.showTopLoading = true;
-        AppStore.overlay(true);
-        const tblWrapper = document.querySelector(`#${wrapperID}`)
-            .children;
-        // const tblWrapper = wrapper.children;
-
-        // let ws = XLSX.utils.json_to_sheet(this.sampleData);
-        const wBook = XLSX.utils.book_new();
-
-        for (let i = 0; i <= tblWrapper.length - 1; i++) {
-            const sheetName = `Sheet ${i+1}`;
-            const tbl = tblWrapper[i].querySelector(
-                ".table-generated-data"
+    /**
+     * Get pendings
+     */
+    async initPendings(cols=[]) {
+        try {
+            const url = encodeURI(
+                AppStore.state.siteUrl
+                + 'principals'
+                + '/pendings'
             );
-            const wsFromTbl = XLSX.utils.table_to_sheet(tbl, { raw: true });
-            const tempJData = XLSX.utils.sheet_to_json(wsFromTbl);
+            const payload = {
+                cols: cols,
+                principal_code: state.selectedPrincipalCode
+            };
 
-            let wsFromJData = XLSX.utils.json_to_sheet(tempJData);
+            AppStore.state.showTopLoading = true;
+            let result = await axios.post(url, payload);
 
-            const objKeys = Object.keys(wsFromJData);
-            for(let i=1; i<objKeys.length;i++) {
-                if(objKeys[i] == '!ref') continue;
-
-                let obj = wsFromJData[objKeys[i]];
-                if(obj.v.localeCompare(parseInt(obj.v.toString())) == 0) {
-                    obj.t = 'n';
-                } else {
-                    obj.t = 's';
-                }
+            if(result.data.success==true) {
+                state.currentGeneratedData = result.data.pending_gendata;
+                state.currentRawInvoices = result.data.pending_rawinvoices;
+            } else {
+                console.log('initPendings()', result.data.message);
             }
-
-            console.log(sheetName, wsFromJData);
-            // return;
-            XLSX.utils.book_append_sheet(wBook, wsFromJData, sheetName);
+            AppStore.state.showTopLoading = false;
+        } catch (error) {
+            console.log('PrincipalsStore.initPendings() - ERROR:', error);
         }
-
-        XLSX.writeFile(wBook, fileName, { flag: "w+" });
-
-        // this.PrincipalsStore.state.currentGeneratedData = tempData;
-
-        AppStore.state.showTopLoading = false;
-        AppStore.overlay(false);
-        // this.PrincipalsStore.state.currentGeneratedData = [];
     },
 
 
     /**
-     * ============================================= exportToExcel() =============================================
+     *
+     */
+    // async exportTableToExcel(wrapperID) {
+    //     console.log("Exporting from PrincipalsStore....");
+
+    //     const tempDate = new Date();
+    //     // const dateToday = tempDate.getFullYear() +
+    //     //     '-' + tempDate.getMonth() + '-' +
+    //     //     tempDate.getDay();
+    //     const fileName = `${state.selectedPrincipalCode} - ${AppStore.state.strDateToday}.xlsx`;
+
+    //     AppStore.state.showTopLoading = true;
+    //     AppStore.overlay(true);
+    //     const tblWrapper = document.querySelector(`#${wrapperID}`)
+    //         .children;
+    //     // const tblWrapper = wrapper.children;
+
+    //     // let ws = XLSX.utils.json_to_sheet(this.sampleData);
+    //     const wBook = XLSX.utils.book_new();
+
+    //     for (let i = 0; i <= tblWrapper.length - 1; i++) {
+    //         const sheetName = `Sheet ${i+1}`;
+    //         const tbl = tblWrapper[i].querySelector(
+    //             ".table-generated-data"
+    //         );
+    //         const wsFromTbl = XLSX.utils.table_to_sheet(tbl, { raw: true });
+    //         const tempJData = XLSX.utils.sheet_to_json(wsFromTbl);
+
+    //         let wsFromJData = XLSX.utils.json_to_sheet(tempJData);
+
+    //         const objKeys = Object.keys(wsFromJData);
+    //         for(let i=1; i<objKeys.length;i++) {
+    //             if(objKeys[i] == '!ref') continue;
+
+    //             let obj = wsFromJData[objKeys[i]];
+    //             if(obj.v.localeCompare(parseInt(obj.v.toString())) == 0) {
+    //                 obj.t = 'n';
+    //             } else {
+    //                 obj.t = 's';
+    //             }
+    //         }
+
+    //         console.log(sheetName, wsFromJData);
+    //         // return;
+    //         XLSX.utils.book_append_sheet(wBook, wsFromJData, sheetName);
+    //     }
+
+    //     XLSX.writeFile(wBook, fileName, { flag: "w+" });
+
+    //     // this.PrincipalsStore.state.currentGeneratedData = tempData;
+
+    //     AppStore.state.showTopLoading = false;
+    //     AppStore.overlay(false);
+    //     // this.PrincipalsStore.state.currentGeneratedData = [];
+    // },
+
+
+    /**
+     * ============================================= exportToExcel() =================================
      * Exports a json array of data to Excel
-     * ===========================================================================================================
+     * ===============================================================================================
      * jsonData Structure (Array of arrays):
      * [
      *   0: [
@@ -248,27 +283,27 @@ const actions = {
 
             for(let i=0; i<jsonData.length; i++) {
                 const sheetName = jsonData[i][0].replace(/\//ig,'-');
-                const lines = jsonData[i][1];
+                console.log('SHEEEEEEEEEEEET NAME:', sheetName);
+                if(sheetName != 'TBD') {
+                    const lines = jsonData[i][1];
+                    let wSheet = XLSX.utils.json_to_sheet(lines, { origin: 'A2', skipHeader: true });
+                    if(includeTotals != null && includeTotals.length > 0) {
+                        const LEN_TOTAL = lines.length + 3;
+                        const LASTCOL = alphabet[Object.keys(lines[0]).length-1];
+                        wSheet['!ref'] = `A1:${LASTCOL}${LEN_TOTAL}`;
+                        wSheet[`A${LEN_TOTAL}`] = {t:'s',v:'TOTAL'};
 
-                let wSheet = XLSX.utils.json_to_sheet(lines, { origin: 'A2', skipHeader: true });
+                        includeTotals.forEach(e => {
+                            const COL = alphabet[e];
+                            wSheet[`${COL}${LEN_TOTAL}`]
+                                = {t:'n',f:`=SUM(${COL}2:${COL}${LEN_TOTAL-2})`};
+                        });
+                    }
 
-                if(includeTotals != null && includeTotals.length > 0) {
-                    const LEN_TOTAL = lines.length + 3;
-                    const LASTCOL = alphabet[Object.keys(lines[0]).length-1];
-                    wSheet['!ref'] = `A1:${LASTCOL}${LEN_TOTAL}`;
-                    wSheet[`A${LEN_TOTAL}`] = {t:'s',v:'TOTAL'};
-
-                    includeTotals.forEach(e => {
-                        const COL = alphabet[e];
-                        wSheet[`${COL}${LEN_TOTAL}`]
-                            = {t:'n',f:`=SUM(${COL}2:${COL}${LEN_TOTAL-2})`};
-                    });
+                    XLSX.utils.sheet_add_aoa(wSheet, [headers]);
+                    XLSX.utils.book_append_sheet(wBook, wSheet, sheetName);
                 }
-
-                XLSX.utils.sheet_add_aoa(wSheet, [headers]);
-                XLSX.utils.book_append_sheet(wBook, wSheet, sheetName);
             }
-
             XLSX.writeFile(wBook, fileName, { flag: "w+" });
         } catch (error) {
             console.log('exportToExcel()', error);

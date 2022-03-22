@@ -152,16 +152,25 @@ export default {
             //     this.AppStore.state.siteUrl + "principals/"
             //      + `generated?date=${date}&table_generated=`
             //      + `generated_${this.PrincipalsStore.state.selectedPrincipalCode}`;
-            const url =
-                this.AppStore.state.siteUrl + "principals"
-                 + `/generated`
-                 + `?date=${date}`
-                 + `&principal_code=${this.PrincipalsStore.state.selectedPrincipalCode}`;
+            // const url =
+            //     this.AppStore.state.siteUrl + "principals"
+            //      + `/generated`
+            //      + `?date=${date}`
+            //      + `&principal_code=${this.PrincipalsStore.state.selectedPrincipalCode}`;
+            const url = this.AppStore.state.siteUrl
+                + "principals"
+                + `/generated`;
+            const payload = {
+                date: date,
+                principal_code: this.PrincipalsStore.state.selectedPrincipalCode,
+                cols: this.myStore.state.generatedDataDBTableColumns
+            };
+
             try {
                 this.AppStore.state.showTopLoading = true;
                 this.isGenerating = true;
                 this.generatedData = [];
-                let res = await axios.get(url);
+                let res = await axios.post(url, payload);
 
                 const grouped = res.data.generated_data.reduce(function(r, a) {
                     r[a[dataProp]] = r[a[dataProp]] || [];

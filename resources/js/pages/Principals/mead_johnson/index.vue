@@ -59,7 +59,7 @@ export default {
     },
 
     created() {
-        this.PrincipalsStore.initialize();
+        // this.PrincipalsStore.initialize();
         if(
             this[this.selectedPrincipalCode] == null ||
             this[this.selectedPrincipalCode] == undefined

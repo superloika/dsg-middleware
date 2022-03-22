@@ -31,7 +31,6 @@ const state = Vue.observable({
         {text:"MJ Code", value:"item_code_supplier"},
         {text:"MJ Description", value:"description_supplier"},
     ],
-
     generatedDataTableHeader: [
         {text:"Order Date (Date) (YYYY/MM/DD)", value: "order_date"},
         {text:"Customer Code (nv20)", value: "customer_code"},
@@ -73,10 +72,27 @@ const state = Vue.observable({
     generatedDataHistoryFilters: [
         {text: 'Order Date', value: 'order_date'},
         {text: 'Route Code', value: 'route_code'},
+        // {text: 'File Name', value: 'filename'},
         // {text: 'Customer Code', value: 'customer_code'},
         // {text: 'Product Code', value: 'product_code'},
     ],
-
+    generatedDataDBTableColumns: [
+        // common
+        'id',
+        'generated_at',
+        'uploaded_by',
+        'doc_no',
+        // principal template
+        'order_date',
+        'customer_code',
+        'route_code',
+        'product_category_code',
+        'ship_to',
+        'order_no',
+        'remarks',
+        'product_code',
+        'quantity'
+    ]
 });
 
 

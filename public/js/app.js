@@ -3018,7 +3018,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsEdit: function AccountsEdit() {
-      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ../ManageAccounts/AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
+      return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! ../ManageAccounts/AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
     }
   },
   computed: {
@@ -3193,10 +3193,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     'ExpendituresAdd': function ExpendituresAdd() {
-      return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! ./ExpendituresAdd.vue */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue"));
+      return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ./ExpendituresAdd.vue */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue"));
     },
     'TagsComponent': function TagsComponent() {
-      return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ./TagsComponent.vue */ "./resources/js/pages/ExpendituresPage/TagsComponent.vue"));
+      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./TagsComponent.vue */ "./resources/js/pages/ExpendituresPage/TagsComponent.vue"));
     }
   },
   data: function data() {
@@ -3460,10 +3460,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsAdd: function AccountsAdd() {
-      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./AccountsAdd.vue */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue"));
+      return __webpack_require__.e(/*! import() */ 21).then(__webpack_require__.bind(null, /*! ./AccountsAdd.vue */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue"));
     },
     AccountsEdit: function AccountsEdit() {
-      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ./AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
+      return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! ./AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
     }
   },
   data: function data() {
@@ -3603,7 +3603,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
@@ -3743,7 +3743,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
@@ -3890,7 +3890,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
@@ -4141,7 +4141,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     'TestUpload': function TestUpload() {
-      return __webpack_require__.e(/*! import() */ 24).then(__webpack_require__.bind(null, /*! ./TestUpload.vue */ "./resources/js/pages/TestPage/TestUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 25).then(__webpack_require__.bind(null, /*! ./TestUpload.vue */ "./resources/js/pages/TestPage/TestUpload.vue"));
     }
   },
   data: function data() {
@@ -71623,47 +71623,55 @@ var map = {
 	],
 	"./common/Base": [
 		"./resources/js/pages/Principals/common/Base.vue",
-		5
+		6
 	],
 	"./common/Base.vue": [
 		"./resources/js/pages/Principals/common/Base.vue",
-		5
+		6
 	],
 	"./common/Customers": [
 		"./resources/js/pages/Principals/common/Customers.vue",
-		6
+		7
 	],
 	"./common/Customers.vue": [
 		"./resources/js/pages/Principals/common/Customers.vue",
-		6
+		7
 	],
 	"./common/Generated": [
 		"./resources/js/pages/Principals/common/Generated.vue",
-		7
+		8
 	],
 	"./common/Generated.vue": [
 		"./resources/js/pages/Principals/common/Generated.vue",
-		7
+		8
 	],
 	"./common/GeneratedHistory": [
 		"./resources/js/pages/Principals/common/GeneratedHistory.vue",
-		8
+		9
 	],
 	"./common/GeneratedHistory.vue": [
 		"./resources/js/pages/Principals/common/GeneratedHistory.vue",
-		8
+		9
 	],
 	"./common/GeneratedTable": [
 		"./resources/js/pages/Principals/common/GeneratedTable.vue",
-		9
+		2
 	],
 	"./common/GeneratedTable.vue": [
 		"./resources/js/pages/Principals/common/GeneratedTable.vue",
-		9
+		2
 	],
 	"./common/GeneratedTableWrapper": [
 		"./resources/js/pages/Principals/common/GeneratedTableWrapper.vue",
 		0
+	],
+	"./common/GeneratedTableWrapper copy": [
+		"./resources/js/pages/Principals/common/GeneratedTableWrapper copy.vue",
+		17
+	],
+	"./common/GeneratedTableWrapper copy.vue": [
+		"./resources/js/pages/Principals/common/GeneratedTableWrapper copy.vue",
+		17
 	],
 	"./common/GeneratedTableWrapper.vue": [
 		"./resources/js/pages/Principals/common/GeneratedTableWrapper.vue",
@@ -71687,11 +71695,11 @@ var map = {
 	],
 	"./common/MasterfileUpload": [
 		"./resources/js/pages/Principals/common/MasterfileUpload.vue",
-		2
+		3
 	],
 	"./common/MasterfileUpload.vue": [
 		"./resources/js/pages/Principals/common/MasterfileUpload.vue",
-		2
+		3
 	],
 	"./common/Products": [
 		"./resources/js/pages/Principals/common/Products.vue",
@@ -71703,11 +71711,11 @@ var map = {
 	],
 	"./common/Settings": [
 		"./resources/js/pages/Principals/common/Settings.vue",
-		3
+		4
 	],
 	"./common/Settings.vue": [
 		"./resources/js/pages/Principals/common/Settings.vue",
-		3
+		4
 	],
 	"./common/TransAndInvoices": [
 		"./resources/js/pages/Principals/common/TransAndInvoices.vue",
@@ -73618,102 +73626,107 @@ var actions = {
       }, _callee4, null, [[1, 11]]);
     }))();
   },
-  exportTableToExcel: function exportTableToExcel(wrapperID) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-      var tempDate, fileName, tblWrapper, wBook, i, sheetName, tbl, wsFromTbl, tempJData, wsFromJData, objKeys, _i, obj;
 
+  /**
+   * Get pendings
+   */
+  initPendings: function initPendings() {
+    var _arguments = arguments;
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      var cols, url, payload, result;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              console.log("Exporting from PrincipalsStore....");
-              tempDate = new Date(); // const dateToday = tempDate.getFullYear() +
-              //     '-' + tempDate.getMonth() + '-' +
-              //     tempDate.getDay();
-
-              fileName = "".concat(state.selectedPrincipalCode, " - ").concat(AppStore.state.strDateToday, ".xlsx");
+              cols = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : [];
+              _context5.prev = 1;
+              url = encodeURI(AppStore.state.siteUrl + 'principals' + '/pendings');
+              payload = {
+                cols: cols,
+                principal_code: state.selectedPrincipalCode
+              };
               AppStore.state.showTopLoading = true;
-              AppStore.overlay(true);
-              tblWrapper = document.querySelector("#".concat(wrapperID)).children; // const tblWrapper = wrapper.children;
-              // let ws = XLSX.utils.json_to_sheet(this.sampleData);
+              _context5.next = 7;
+              return axios.post(url, payload);
 
-              wBook = XLSX.utils.book_new();
-              i = 0;
+            case 7:
+              result = _context5.sent;
 
-            case 8:
-              if (!(i <= tblWrapper.length - 1)) {
-                _context5.next = 29;
-                break;
-              }
-
-              sheetName = "Sheet ".concat(i + 1);
-              tbl = tblWrapper[i].querySelector(".table-generated-data");
-              wsFromTbl = XLSX.utils.table_to_sheet(tbl, {
-                raw: true
-              });
-              tempJData = XLSX.utils.sheet_to_json(wsFromTbl);
-              wsFromJData = XLSX.utils.json_to_sheet(tempJData);
-              objKeys = Object.keys(wsFromJData);
-              _i = 1;
-
-            case 16:
-              if (!(_i < objKeys.length)) {
-                _context5.next = 24;
-                break;
-              }
-
-              if (!(objKeys[_i] == '!ref')) {
-                _context5.next = 19;
-                break;
-              }
-
-              return _context5.abrupt("continue", 21);
-
-            case 19:
-              obj = wsFromJData[objKeys[_i]];
-
-              if (obj.v.localeCompare(parseInt(obj.v.toString())) == 0) {
-                obj.t = 'n';
+              if (result.data.success == true) {
+                state.currentGeneratedData = result.data.pending_gendata;
+                state.currentRawInvoices = result.data.pending_rawinvoices;
               } else {
-                obj.t = 's';
+                console.log('initPendings()', result.data.message);
               }
-
-            case 21:
-              _i++;
-              _context5.next = 16;
-              break;
-
-            case 24:
-              console.log(sheetName, wsFromJData); // return;
-
-              XLSX.utils.book_append_sheet(wBook, wsFromJData, sheetName);
-
-            case 26:
-              i++;
-              _context5.next = 8;
-              break;
-
-            case 29:
-              XLSX.writeFile(wBook, fileName, {
-                flag: "w+"
-              }); // this.PrincipalsStore.state.currentGeneratedData = tempData;
 
               AppStore.state.showTopLoading = false;
-              AppStore.overlay(false); // this.PrincipalsStore.state.currentGeneratedData = [];
+              _context5.next = 15;
+              break;
 
-            case 32:
+            case 12:
+              _context5.prev = 12;
+              _context5.t0 = _context5["catch"](1);
+              console.log('PrincipalsStore.initPendings() - ERROR:', _context5.t0);
+
+            case 15:
             case "end":
               return _context5.stop();
           }
         }
-      }, _callee5);
+      }, _callee5, null, [[1, 12]]);
     }))();
   },
 
   /**
-   * ============================================= exportToExcel() =============================================
+   *
+   */
+  // async exportTableToExcel(wrapperID) {
+  //     console.log("Exporting from PrincipalsStore....");
+  //     const tempDate = new Date();
+  //     // const dateToday = tempDate.getFullYear() +
+  //     //     '-' + tempDate.getMonth() + '-' +
+  //     //     tempDate.getDay();
+  //     const fileName = `${state.selectedPrincipalCode} - ${AppStore.state.strDateToday}.xlsx`;
+  //     AppStore.state.showTopLoading = true;
+  //     AppStore.overlay(true);
+  //     const tblWrapper = document.querySelector(`#${wrapperID}`)
+  //         .children;
+  //     // const tblWrapper = wrapper.children;
+  //     // let ws = XLSX.utils.json_to_sheet(this.sampleData);
+  //     const wBook = XLSX.utils.book_new();
+  //     for (let i = 0; i <= tblWrapper.length - 1; i++) {
+  //         const sheetName = `Sheet ${i+1}`;
+  //         const tbl = tblWrapper[i].querySelector(
+  //             ".table-generated-data"
+  //         );
+  //         const wsFromTbl = XLSX.utils.table_to_sheet(tbl, { raw: true });
+  //         const tempJData = XLSX.utils.sheet_to_json(wsFromTbl);
+  //         let wsFromJData = XLSX.utils.json_to_sheet(tempJData);
+  //         const objKeys = Object.keys(wsFromJData);
+  //         for(let i=1; i<objKeys.length;i++) {
+  //             if(objKeys[i] == '!ref') continue;
+  //             let obj = wsFromJData[objKeys[i]];
+  //             if(obj.v.localeCompare(parseInt(obj.v.toString())) == 0) {
+  //                 obj.t = 'n';
+  //             } else {
+  //                 obj.t = 's';
+  //             }
+  //         }
+  //         console.log(sheetName, wsFromJData);
+  //         // return;
+  //         XLSX.utils.book_append_sheet(wBook, wsFromJData, sheetName);
+  //     }
+  //     XLSX.writeFile(wBook, fileName, { flag: "w+" });
+  //     // this.PrincipalsStore.state.currentGeneratedData = tempData;
+  //     AppStore.state.showTopLoading = false;
+  //     AppStore.overlay(false);
+  //     // this.PrincipalsStore.state.currentGeneratedData = [];
+  // },
+
+  /**
+   * ============================================= exportToExcel() =================================
    * Exports a json array of data to Excel
-   * ===========================================================================================================
+   * ===============================================================================================
    * jsonData Structure (Array of arrays):
    * [
    *   0: [
@@ -73724,18 +73737,17 @@ var actions = {
    *
    */
   exportToExcel: function exportToExcel() {
-    var _arguments = arguments;
+    var _arguments2 = arguments;
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-      var headers, jsonData, includeTotals, fileName, alpha, alphabet, wBook, _loop, i;
-
+      var headers, jsonData, includeTotals, fileName, alpha, alphabet, wBook, i, sheetName;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
-              headers = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : [];
-              jsonData = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : [];
-              includeTotals = _arguments.length > 2 && _arguments[2] !== undefined ? _arguments[2] : [];
-              fileName = _arguments.length > 3 && _arguments[3] !== undefined ? _arguments[3] : '';
+              headers = _arguments2.length > 0 && _arguments2[0] !== undefined ? _arguments2[0] : [];
+              jsonData = _arguments2.length > 1 && _arguments2[1] !== undefined ? _arguments2[1] : [];
+              includeTotals = _arguments2.length > 2 && _arguments2[2] !== undefined ? _arguments2[2] : [];
+              fileName = _arguments2.length > 3 && _arguments2[3] !== undefined ? _arguments2[3] : '';
               AppStore.overlay(true, 'Exporting...');
               console.log("Exporting from PrincipalsStore....");
               console.log("headers:", headers);
@@ -73752,37 +73764,39 @@ var actions = {
                 AppStore.state.showTopLoading = true;
                 wBook = XLSX.utils.book_new();
 
-                _loop = function _loop(i) {
-                  var sheetName = jsonData[i][0].replace(/\//ig, '-');
-                  var lines = jsonData[i][1];
-                  var wSheet = XLSX.utils.json_to_sheet(lines, {
-                    origin: 'A2',
-                    skipHeader: true
-                  });
-
-                  if (includeTotals != null && includeTotals.length > 0) {
-                    var LEN_TOTAL = lines.length + 3;
-                    var LASTCOL = alphabet[Object.keys(lines[0]).length - 1];
-                    wSheet['!ref'] = "A1:".concat(LASTCOL).concat(LEN_TOTAL);
-                    wSheet["A".concat(LEN_TOTAL)] = {
-                      t: 's',
-                      v: 'TOTAL'
-                    };
-                    includeTotals.forEach(function (e) {
-                      var COL = alphabet[e];
-                      wSheet["".concat(COL).concat(LEN_TOTAL)] = {
-                        t: 'n',
-                        f: "=SUM(".concat(COL, "2:").concat(COL).concat(LEN_TOTAL - 2, ")")
-                      };
-                    });
-                  }
-
-                  XLSX.utils.sheet_add_aoa(wSheet, [headers]);
-                  XLSX.utils.book_append_sheet(wBook, wSheet, sheetName);
-                };
-
                 for (i = 0; i < jsonData.length; i++) {
-                  _loop(i);
+                  sheetName = jsonData[i][0].replace(/\//ig, '-');
+                  console.log('SHEEEEEEEEEEEET NAME:', sheetName);
+
+                  if (sheetName != 'TBD') {
+                    (function () {
+                      var lines = jsonData[i][1];
+                      var wSheet = XLSX.utils.json_to_sheet(lines, {
+                        origin: 'A2',
+                        skipHeader: true
+                      });
+
+                      if (includeTotals != null && includeTotals.length > 0) {
+                        var LEN_TOTAL = lines.length + 3;
+                        var LASTCOL = alphabet[Object.keys(lines[0]).length - 1];
+                        wSheet['!ref'] = "A1:".concat(LASTCOL).concat(LEN_TOTAL);
+                        wSheet["A".concat(LEN_TOTAL)] = {
+                          t: 's',
+                          v: 'TOTAL'
+                        };
+                        includeTotals.forEach(function (e) {
+                          var COL = alphabet[e];
+                          wSheet["".concat(COL).concat(LEN_TOTAL)] = {
+                            t: 'n',
+                            f: "=SUM(".concat(COL, "2:").concat(COL).concat(LEN_TOTAL - 2, ")")
+                          };
+                        });
+                      }
+
+                      XLSX.utils.sheet_add_aoa(wSheet, [headers]);
+                      XLSX.utils.book_append_sheet(wBook, wSheet, sheetName);
+                    })();
+                  }
                 }
 
                 XLSX.writeFile(wBook, fileName, {

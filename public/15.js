@@ -45,6 +45,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['unknownCodes', 'type', 'temptxt_id', 'title'],
   data: function data() {
@@ -67,6 +102,32 @@ __webpack_require__.r(__webpack_exports__);
     },
     variantColor: function variantColor() {
       return this.type == 'warning' ? 'warning' : this.type == 'error' ? 'error' : '';
+    },
+    pendings: function pendings() {
+      var rawInvoices = this.PrincipalsStore.state.currentRawInvoices;
+      var tempPending = {};
+      rawInvoices.forEach(function (element) {
+        if (element.customer_notfound == 1 || element.product_notfound == 1) {
+          if (tempPending[element.filename] == undefined) {
+            tempPending[element.filename] = [];
+          }
+
+          tempPending[element.filename].push(element);
+        }
+      });
+      return Object.entries(tempPending);
+    }
+  },
+  methods: {
+    downloadPendings: function downloadPendings() {
+      var _this = this;
+
+      var filename = '';
+      this.pendings.forEach(function (e) {
+        filename = "PENDING ".concat(_this.AppStore.state.strDateToday, " - ").concat(e[0], ".txt");
+
+        _this.AppStore.exportToTxt(filename, e[1][0].doc_no);
+      });
     }
   },
   mounted: function mounted() {
@@ -146,6 +207,20 @@ var render = function() {
             },
             [_c("v-icon", [_vm._v("mdi-export")])],
             1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { icon: "", title: "Download Pendings" },
+              on: {
+                click: function($event) {
+                  return _vm.downloadPendings()
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-file-download")])],
+            1
           )
         ],
         1
@@ -154,18 +229,92 @@ var render = function() {
       _c(
         "v-card-text",
         { staticClass: "pa-1" },
-        _vm._l(_vm.unknownCodes, function(pcode) {
-          return _c(
-            "v-chip",
-            {
-              key: pcode,
-              staticClass: "ma-1",
-              attrs: { color: _vm.variantColor, small: "", outlined: "" }
-            },
-            [_vm._v("\n            " + _vm._s(pcode) + "\n        ")]
+        [
+          _vm._l(_vm.unknownCodes, function(pcode) {
+            return _c(
+              "v-chip",
+              {
+                key: pcode,
+                staticClass: "ma-1",
+                attrs: { color: _vm.variantColor, small: "", outlined: "" }
+              },
+              [_vm._v("\n            " + _vm._s(pcode) + "\n        ")]
+            )
+          }),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
+          _c(
+            "v-expansion-panels",
+            _vm._l(_vm.pendings, function(pending, i) {
+              return _c(
+                "v-expansion-panel",
+                { key: i, attrs: { focusable: "" } },
+                [
+                  _c("v-expansion-panel-header", [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(pending[0]) +
+                        "\n                "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-expansion-panel-content",
+                    _vm._l(pending[1], function(line, j) {
+                      return _c(
+                        "v-list-item",
+                        { key: j, attrs: { link: "", dense: "" } },
+                        [
+                          _c(
+                            "v-list-item-content",
+                            [
+                              _c("v-list-item-subtitle", [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(line.doc_type) +
+                                    "\n                                | " +
+                                    _vm._s(line.doc_no) +
+                                    "\n                                | " +
+                                    _vm._s(line.customer_code) +
+                                    "\n                                | " +
+                                    _vm._s(line.posting_date) +
+                                    "\n                                | " +
+                                    _vm._s(line.item_code) +
+                                    "\n                                | " +
+                                    _vm._s(line.quantity) +
+                                    "\n                                | " +
+                                    _vm._s(line.u1) +
+                                    "\n                                | " +
+                                    _vm._s(line.u2) +
+                                    "\n                                | " +
+                                    _vm._s(line.u3) +
+                                    "\n                                | " +
+                                    _vm._s(line.u4) +
+                                    "\n                                | " +
+                                    _vm._s(line.u5) +
+                                    "\n                                | " +
+                                    _vm._s(line.uom) +
+                                    "\n                            "
+                                )
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    }),
+                    1
+                  )
+                ],
+                1
+              )
+            }),
+            1
           )
-        }),
-        1
+        ],
+        2
       )
     ],
     1
