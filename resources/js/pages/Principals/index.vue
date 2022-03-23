@@ -66,30 +66,30 @@ export default {
 </script>
 
 <style>
-    .table-generated-data {
+    .tbl-custom {
         border-collapse: collapse;
         font-size: 0.9em;
         font-family: sans-serif;
         min-width: 400px;
         width: 100%;
-        border: thin solid #dddddd;
+        border: thin solid #313131;
     }
 
-    .table-generated-data thead tr {
+    .tbl-custom thead tr {
         background-color: #f3f3f3;
         text-align: left;
     }
 
-    .table-generated-data th,
-    .table-generated-data td {
+    .tbl-custom th,
+    .tbl-custom td {
         padding: 5px 12px;
     }
 
-    .table-generated-data tbody tr {
-        border-bottom: thin solid #dddddd;
+    .tbl-custom tbody tr {
+        border-bottom: thin solid #000000;
     }
 
-    .table-generated-data tbody tr:nth-of-type(even) {
-        background-color: #f7f7f7;
+    .tbl-custom tbody tr:nth-of-type(even) {
+        background-color: #242424;
     }
 </style>

@@ -1,8 +1,6 @@
 <template>
 <v-sheet>
-    <v-tabs v-model="tab" height="35" show-arrow
-        background-color="grey darken-4"
-    >
+    <v-tabs v-model="tab" height="35" show-arrow background-color="grey darken-4">
         <v-tab v-for="(data, index) in generatedData" :key="index"
             class="px-3 text-caption"
         >

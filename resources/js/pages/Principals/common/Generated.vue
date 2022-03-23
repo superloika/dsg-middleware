@@ -1,60 +1,67 @@
 <template>
-<div class="pt-4 secondary darken-1">
-    <v-sheet class="px-3 secondary darken-1">
-        <InvoicesImport></InvoicesImport>
-    </v-sheet>
-    <v-card class="elevation-0" color="">
-        <v-card-title class="pa-0">
-            <v-app-bar elevation="0" colorx="white">
-                <v-toolbar-title>
-                    Generated Data
-                    <div v-if="lineCount > 0">
-                        <v-chip small outlinedx label color="transparent"
-                            class="px-1 primary--text"
-                        >
-                            {{ lineCount }} total line/s
-                        </v-chip>
-                        <v-chip
-                            small
-                            outlinedx
-                            label
-                            color="transparent"
-                            v-if="customersNotFoundCount > 0"
-                            class="px-1 warning--text"
-                        >
-                            {{ customersNotFoundCount }} warning/s
-                        </v-chip>
-                        <v-chip
-                            small
-                            outlinedx
-                            label
-                            color="transparent"
-                            v-if="productsNotFoundCount > 0"
-                            class="px-1 error--text"
-                        >
-                            {{ productsNotFoundCount }} error/s
-                        </v-chip>
-                    </div>
-                </v-toolbar-title>
+    <div class="pt-4 secondary darken-1">
+        <v-sheet class="px-3 secondary darken-1">
+            <InvoicesImport></InvoicesImport>
+        </v-sheet>
+        <v-card class="elevation-0" color="">
+            <v-card-title class="pa-0">
+                <v-app-bar elevation="0" colorx="white">
+                    <v-toolbar-title>
+                        Generated Data
+                        <div v-if="lineCount > 0">
+                            <v-chip
+                                small
+                                outlinedx
+                                label
+                                color="transparent"
+                                class="px-1 primary--text"
+                            >
+                                {{ lineCount }} total line/s
+                            </v-chip>
+                            <v-chip
+                                small
+                                outlinedx
+                                label
+                                color="transparent"
+                                v-if="customersNotFoundCount > 0"
+                                class="px-1 warning--text"
+                            >
+                                {{ customersNotFoundCount }} warning/s
+                            </v-chip>
+                            <v-chip
+                                small
+                                outlinedx
+                                label
+                                color="transparent"
+                                v-if="productsNotFoundCount > 0"
+                                class="px-1 error--text"
+                            >
+                                {{ productsNotFoundCount }} error/s
+                            </v-chip>
+                        </div>
+                    </v-toolbar-title>
 
-                <v-spacer></v-spacer>
+                    <v-spacer></v-spacer>
 
-                <v-text-field
-                    v-model="searchKey"
-                    label="Search"
-                    title="Search"
-                    hide-details
-                    dense
-                    class="mr-3"
-                    style="max-width: 200px"
-                    flat
-                    rounded
-                    clearable
-                    solo-inverted
-                    :disabled="PrincipalsStore.state.currentGeneratedData.length < 1"
-                ></v-text-field>
+                    <v-text-field
+                        v-model="searchKey"
+                        label="Search"
+                        title="Search"
+                        hide-details
+                        dense
+                        class="mr-3"
+                        style="max-width: 200px"
+                        flat
+                        rounded
+                        clearable
+                        solo-inverted
+                        :disabled="
+                            PrincipalsStore.state.currentGeneratedData.length <
+                                1
+                        "
+                    ></v-text-field>
 
-                <!-- <v-btn
+                    <!-- <v-btn
                     title="Import and Generate"
                     icon
                     dense
@@ -68,18 +75,37 @@
                     <v-icon>mdi-file-upload</v-icon>
                 </v-btn> -->
 
-                <!-- UNKNOWN CUSTOMER CODES -->
+                    <!-- =====================  PENDINGS ====================== -->
+                    <v-btn
+                        title="Pending Lines"
+                        icon dense rounded depressed
+                        color="yellow"
+                        @click.stop="dlgPendings = true"
+                        :disabled="distinctCustomerCodesNA.length < 1"
+                    >
+                        <v-icon>mdi-file-document</v-icon>
+                    </v-btn>
+                    <v-dialog
+                        v-model="dlgPendings"
+                        max-width="1200"
+                        style="height:600px;"
+                        scrollable
+                        scrollable-x
+                    >
+                        <Pendings></Pendings>
+                    </v-dialog>
+                    <!-- =====================  /PENDINGS ====================== -->
 
+                    <!-- UNKNOWN CUSTOMER CODES -->
                     <v-btn
                         title="Unknown Customer Codes"
                         icon
                         dense
                         rounded
-                        outlinedx
                         depressed
                         color="warning"
-                        @click.stop="dlgDistinctCustomerCodesNA=true"
-                        :disabled="distinctCustomerCodesNA.length < 1"
+                        @click.stop="dlgDistinctCustomerCodesNA = true"
+                        :disabled="distinctCustomerCodesNA.length < 1 && distinctProductCodesNA.length < 1"
                     >
                         <!-- <v-badge
                             :content="distinctCustomerCodesNA.length"
@@ -87,82 +113,95 @@
                             bordered
                             color="orange"
                         > -->
-                            <v-icon>mdi-account-multiple</v-icon>
+                        <v-icon>mdi-account-multiple</v-icon>
                         <!-- </v-badge> -->
                     </v-btn>
-                <v-dialog v-model="dlgDistinctCustomerCodesNA"
-                    persistentx max-width="900" scrollable
-                >
-                    <UnknownCodes
-                        title="Unknown Customer Codes"
-                        :unknownCodes="distinctCustomerCodesNA"
-                        type="warning"
-                        temptxt_id="temptxt_customers"
-                    ></UnknownCodes>
-                </v-dialog>
-                <!-- /UNKNOWN CUSTOMER CODES -->
+                    <v-dialog
+                        v-model="dlgDistinctCustomerCodesNA"
+                        persistentx
+                        max-width="600"
+                        scrollable
+                    >
+                        <UnknownCodes
+                            title="Unknown Customer Codes"
+                            :unknownCodes="distinctCustomerCodesNA"
+                            type="warning"
+                            temptxt_id="temptxt_customers"
+                        ></UnknownCodes>
+                    </v-dialog>
+                    <!-- /UNKNOWN CUSTOMER CODES -->
 
-                <!-- UNKNOWN PRODUCT CODES -->
-
-                <v-btn
-                    title="Unknown Product Codes"
-                    icon
-                    dense
-                    rounded
-                    outlinedx
-                    depressed
-                    color="error"
-                    @click.stop="dlgDistinctProductCodesNA=true"
-                    :disabled="distinctProductCodesNA.length < 1"
-                >
-                    <!-- <v-badge
+                    <!-- UNKNOWN PRODUCT CODES -->
+                    <v-btn
+                        title="Unknown Product Codes"
+                        icon
+                        dense
+                        rounded
+                        outlinedx
+                        depressed
+                        color="error"
+                        @click.stop="dlgDistinctProductCodesNA = true"
+                        :disabled="distinctProductCodesNA.length < 1"
+                    >
+                        <!-- <v-badge
                         :content="distinctProductCodesNA.length"
                         overlapx
                         bordered
                         color="red"
                     > -->
                         <v-icon>mdi-cube</v-icon>
-                    <!-- </v-badge> -->
-                </v-btn>
-                <v-dialog v-model="dlgDistinctProductCodesNA"
-                    persistentx max-width="900"
-                    scrollable
-                >
-                    <UnknownCodes
-                        title="Unknown Product Codes"
-                        :unknownCodes="distinctProductCodesNA"
-                        type="error"
-                        temptxt_id="temptxt_products"
-                    ></UnknownCodes>
-                </v-dialog>
-                <!-- /UNKNOWN PRODUCT CODES -->
+                        <!-- </v-badge> -->
+                    </v-btn>
+                    <v-dialog
+                        v-model="dlgDistinctProductCodesNA"
+                        persistentx
+                        max-width="600"
+                        scrollable
+                    >
+                        <UnknownCodes
+                            title="Unknown Product Codes"
+                            :unknownCodes="distinctProductCodesNA"
+                            type="error"
+                            temptxt_id="temptxt_products"
+                        ></UnknownCodes>
+                    </v-dialog>
+                    <!-- /UNKNOWN PRODUCT CODES -->
 
-                <v-btn
-                    title="Save Data and Export to Excel"
-                    icon
-                    dense
-                    rounded
-                    outlinedx
-                    depressed
-                    color="success"
-                    @click.stop="confirmExportDialogOpen=true"
-                    :disabled="lineCount < 1
-                        || searchKeyLength > 0
-                        || (productsNotFoundCount+customersNotFoundCount)>=lineCount"
-                >
-                    <v-icon>mdi-content-save-all</v-icon>
-                    <!-- &nbsp;
+                    <v-btn
+                        title="Save Data and Export to Excel"
+                        icon
+                        dense
+                        rounded
+                        outlinedx
+                        depressed
+                        color="success"
+                        @click.stop="confirmExportDialogOpen = true"
+                        :disabled="
+                            lineCount < 1 ||
+                                searchKeyLength > 0 ||
+                                productsNotFoundCount +
+                                    customersNotFoundCount >=
+                                    lineCount
+                        "
+                    >
+                        <v-icon>mdi-content-save</v-icon>
+                        <!-- &nbsp;
                     Save and Export -->
-                </v-btn>
-                <!-- confirm export dialog -->
-                <v-dialog persistent v-model="confirmExportDialogOpen" max-width="500">
-                    <v-card>
-                        <v-card-title>Save and Export</v-card-title>
-                        <v-card-text class="text-subtitle-1">
-                            <div>
-                                Save generated data to the database and export to Excel?
-                            </div>
-                            <!-- <span class="text-caption mt-2">
+                    </v-btn>
+                    <!-- confirm export dialog -->
+                    <v-dialog
+                        persistent
+                        v-model="confirmExportDialogOpen"
+                        max-width="500"
+                    >
+                        <v-card>
+                            <v-card-title>Save and Export</v-card-title>
+                            <v-card-text class="text-subtitle-1">
+                                <div>
+                                    Save generated data to the database and
+                                    export to Excel?
+                                </div>
+                                <!-- <span class="text-caption mt-2">
                                 NOTE: Lines with
                                 <v-chip color="warning" x-small outlined>
                                     warning
@@ -173,46 +212,50 @@
                                 </v-chip>
                                 will be skipped
                             </span> -->
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn
-                                @click="saveInvoices()"
-                                color="primary"
-                                :loading="isExporting" text
-                            >
-                                Proceed
-                            </v-btn>
-                            <v-btn @click="confirmExportDialogOpen = false"
-                                :disabled="isExporting" text>
-                                Cancel
-                            </v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
-            </v-app-bar>
-        </v-card-title>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                    @click="saveInvoices()"
+                                    color="primary"
+                                    :loading="isExporting"
+                                    text
+                                >
+                                    Proceed
+                                </v-btn>
+                                <v-btn
+                                    @click="confirmExportDialogOpen = false"
+                                    :disabled="isExporting"
+                                    text
+                                >
+                                    Cancel
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                </v-app-bar>
+            </v-card-title>
 
-        <v-card-text class="mx-0 px-0">
-            <div class="">
-                <div
-                    v-if="generatedData.length < 1"
-                    class="d-flex justify-center mt-3"
-                >
-                    <v-chip color="secondary" small>
-                        No available data to display
-                    </v-chip>
+            <v-card-text class="mx-0 px-0">
+                <div class="">
+                    <div
+                        v-if="generatedData.length < 1"
+                        class="d-flex justify-center mt-3"
+                    >
+                        <v-chip color="secondary" small>
+                            No available data to display
+                        </v-chip>
+                    </div>
+                    <GeneratedTableWrapper
+                        v-else
+                        :id="wrapperID"
+                        :generatedData="generatedData"
+                    >
+                    </GeneratedTableWrapper>
                 </div>
-                <GeneratedTableWrapper
-                    v-else
-                    :id="wrapperID"
-                    :generatedData="generatedData"
-                >
-                </GeneratedTableWrapper>
-            </div>
-        </v-card-text>
+            </v-card-text>
 
-        <!-- <v-bottom-sheet v-model="PrincipalsStore.state.sheetImport">
+            <!-- <v-bottom-sheet v-model="PrincipalsStore.state.sheetImport">
             <v-sheet class="px-12 pt-6 pb-16">
                 <div class="text-h5 mb-4 primary--text">
                     Import and Generate
@@ -222,8 +265,8 @@
                 ></InvoicesImport>
             </v-sheet>
         </v-bottom-sheet> -->
-    </v-card>
-</div>
+        </v-card>
+    </div>
 </template>
 
 <script>
@@ -236,15 +279,17 @@ export default {
         // InvoicesImport,
         UnknownCodes: () => import("./UnknownCodes.vue"),
         Settings: () => import("./Settings.vue"),
+        Pendings: () => import("./Pendings.vue"),
     },
 
     data: () => ({
         searchKey: "",
         confirmExportDialogOpen: false,
         isExporting: false,
-        wrapperID: 'gendata_wrapper',
+        wrapperID: "gendata_wrapper",
         dlgDistinctCustomerCodesNA: null,
         dlgDistinctProductCodesNA: null,
+        dlgPendings: null,
     }),
 
     computed: {
@@ -263,7 +308,6 @@ export default {
                             searchRegex.test(line.order_no) ||
                             searchRegex.test(line.product_code)
                         );
-
                     })
                 ];
             });
@@ -330,18 +374,18 @@ export default {
                 this.PrincipalsStore.state.currentGeneratedData.forEach(e => {
                     let tempArray = [];
                     e[1].forEach(line => {
-                        if(line.customer_notfound==1) {
+                        if (line.customer_notfound == 1) {
                             tempArray.push(line.customer_code);
                         }
                     });
-                    if(tempArray.length > 0) {
+                    if (tempArray.length > 0) {
                         distinctCCodes.push(...tempArray);
                     }
                 });
                 distinctCCodes = [...new Set(distinctCCodes)];
                 return distinctCCodes;
             } catch (error) {
-                console.log('distinctCustomerCodesNA() - ERR:', error);
+                console.log("distinctCustomerCodesNA() - ERR:", error);
                 return [];
             }
         },
@@ -352,18 +396,18 @@ export default {
                 this.PrincipalsStore.state.currentGeneratedData.forEach(e => {
                     let tempArray = [];
                     e[1].forEach(line => {
-                        if(line.product_notfound==1) {
+                        if (line.product_notfound == 1) {
                             tempArray.push(line.product_code);
                         }
                     });
-                    if(tempArray.length > 0) {
+                    if (tempArray.length > 0) {
                         distinctPCodes.push(...tempArray);
                     }
                 });
                 distinctPCodes = [...new Set(distinctPCodes)];
                 return distinctPCodes;
             } catch (error) {
-                console.log('initDistinctProductCodesNA() - ERR:', error);
+                console.log("initDistinctProductCodesNA() - ERR:", error);
                 return [];
             }
         },
@@ -390,24 +434,26 @@ export default {
         async saveInvoices() {
             try {
                 this.isExporting = true;
-                const url = this.AppStore.state.siteUrl
-                    + 'principals'
-                    + `/${this.selectedPrincipalCode}/invoices/save`;
+                const url =
+                    this.AppStore.state.siteUrl +
+                    "principals" +
+                    `/${this.selectedPrincipalCode}/invoices/save`;
 
                 const payload = {
                     raw_invoices: this.PrincipalsStore.state.currentRawInvoices,
-                    generated_data: this.generatedData,
-                }
+                    generated_data: this.generatedData
+                };
 
                 let response = await axios.post(url, payload);
 
-                const config = this.PrincipalsStore
-                    .getHeaderAndFormat('generatedDataTableHeader');
+                const config = this.PrincipalsStore.getHeaderAndFormat(
+                    "generatedDataTableHeader"
+                );
 
                 this.PrincipalsStore.exportToExcel(
                     config.header,
                     this.PrincipalsStore.generatedDataSubset(
-                        this.generatedData,
+                        this.AppStore.flattenGendata(this.generatedData),
                         config.format
                     ),
                     null,
@@ -427,11 +473,9 @@ export default {
                     this.AppStore.state.strDateToday
                 );
             } catch (error) {
-                console.log('saveInvoices():', error);
+                console.log("saveInvoices():", error);
             }
-
-        },
-
+        }
     },
 
     created() {
@@ -443,7 +487,10 @@ export default {
 
     mounted() {
         console.log("Generated component mounted");
-        console.log('LOOOOOOOOOK:', this.PrincipalsStore.state.currentGeneratedData);
+        console.log(
+            "LOOOOOOOOOK:",
+            this.PrincipalsStore.state.currentGeneratedData
+        );
     }
 };
 </script>

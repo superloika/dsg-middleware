@@ -257,6 +257,49 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import InvoicesImport from './InvoicesImport.vue';
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -272,6 +315,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     },
     Settings: function Settings() {
       return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./Settings.vue */ "./resources/js/pages/Principals/common/Settings.vue"));
+    },
+    Pendings: function Pendings() {
+      return __webpack_require__.e(/*! import() */ 26).then(__webpack_require__.bind(null, /*! ./Pendings.vue */ "./resources/js/pages/Principals/common/Pendings.vue"));
     }
   },
   data: function data() {
@@ -279,9 +325,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       searchKey: "",
       confirmExportDialogOpen: false,
       isExporting: false,
-      wrapperID: 'gendata_wrapper',
+      wrapperID: "gendata_wrapper",
       dlgDistinctCustomerCodesNA: null,
-      dlgDistinctProductCodesNA: null
+      dlgDistinctProductCodesNA: null,
+      dlgPendings: null
     };
   },
   computed: {
@@ -366,7 +413,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         distinctCCodes = _toConsumableArray(new Set(distinctCCodes));
         return distinctCCodes;
       } catch (error) {
-        console.log('distinctCustomerCodesNA() - ERR:', error);
+        console.log("distinctCustomerCodesNA() - ERR:", error);
         return [];
       }
     },
@@ -390,7 +437,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         distinctPCodes = _toConsumableArray(new Set(distinctPCodes));
         return distinctPCodes;
       } catch (error) {
-        console.log('initDistinctProductCodesNA() - ERR:', error);
+        console.log("initDistinctProductCodesNA() - ERR:", error);
         return [];
       }
     },
@@ -421,7 +468,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               case 0:
                 _context.prev = 0;
                 _this2.isExporting = true;
-                url = _this2.AppStore.state.siteUrl + 'principals' + "/".concat(_this2.selectedPrincipalCode, "/invoices/save");
+                url = _this2.AppStore.state.siteUrl + "principals" + "/".concat(_this2.selectedPrincipalCode, "/invoices/save");
                 payload = {
                   raw_invoices: _this2.PrincipalsStore.state.currentRawInvoices,
                   generated_data: _this2.generatedData
@@ -431,9 +478,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
               case 6:
                 response = _context.sent;
-                config = _this2.PrincipalsStore.getHeaderAndFormat('generatedDataTableHeader');
+                config = _this2.PrincipalsStore.getHeaderAndFormat("generatedDataTableHeader");
 
-                _this2.PrincipalsStore.exportToExcel(config.header, _this2.PrincipalsStore.generatedDataSubset(_this2.generatedData, config.format), null, _this2.PrincipalsStore.state.selectedPrincipalCode);
+                _this2.PrincipalsStore.exportToExcel(config.header, _this2.PrincipalsStore.generatedDataSubset(_this2.AppStore.flattenGendata(_this2.generatedData), config.format), null, _this2.PrincipalsStore.state.selectedPrincipalCode);
 
                 _this2.isExporting = false;
                 _this2.confirmExportDialogOpen = false;
@@ -452,7 +499,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               case 19:
                 _context.prev = 19;
                 _context.t0 = _context["catch"](0);
-                console.log('saveInvoices():', _context.t0);
+                console.log("saveInvoices():", _context.t0);
 
               case 22:
               case "end":
@@ -470,7 +517,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   mounted: function mounted() {
     console.log("Generated component mounted");
-    console.log('LOOOOOOOOOK:', this.PrincipalsStore.state.currentGeneratedData);
+    console.log("LOOOOOOOOOK:", this.PrincipalsStore.state.currentGeneratedData);
   }
 });
 
@@ -622,14 +669,59 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: {
+                        title: "Pending Lines",
+                        icon: "",
+                        dense: "",
+                        rounded: "",
+                        depressed: "",
+                        color: "yellow",
+                        disabled: _vm.distinctCustomerCodesNA.length < 1
+                      },
+                      on: {
+                        click: function($event) {
+                          $event.stopPropagation()
+                          _vm.dlgPendings = true
+                        }
+                      }
+                    },
+                    [_c("v-icon", [_vm._v("mdi-file-document")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-dialog",
+                    {
+                      staticStyle: { height: "600px" },
+                      attrs: {
+                        "max-width": "1200",
+                        scrollable: "",
+                        "scrollable-x": ""
+                      },
+                      model: {
+                        value: _vm.dlgPendings,
+                        callback: function($$v) {
+                          _vm.dlgPendings = $$v
+                        },
+                        expression: "dlgPendings"
+                      }
+                    },
+                    [_c("Pendings")],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
                         title: "Unknown Customer Codes",
                         icon: "",
                         dense: "",
                         rounded: "",
-                        outlinedx: "",
                         depressed: "",
                         color: "warning",
-                        disabled: _vm.distinctCustomerCodesNA.length < 1
+                        disabled:
+                          _vm.distinctCustomerCodesNA.length < 1 &&
+                          _vm.distinctProductCodesNA.length < 1
                       },
                       on: {
                         click: function($event) {
@@ -647,7 +739,7 @@ var render = function() {
                     {
                       attrs: {
                         persistentx: "",
-                        "max-width": "900",
+                        "max-width": "600",
                         scrollable: ""
                       },
                       model: {
@@ -700,7 +792,7 @@ var render = function() {
                     {
                       attrs: {
                         persistentx: "",
-                        "max-width": "900",
+                        "max-width": "600",
                         scrollable: ""
                       },
                       model: {
@@ -749,7 +841,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_c("v-icon", [_vm._v("mdi-content-save-all")])],
+                    [_c("v-icon", [_vm._v("mdi-content-save")])],
                     1
                   ),
                   _vm._v(" "),
@@ -777,7 +869,7 @@ var render = function() {
                             [
                               _c("div", [
                                 _vm._v(
-                                  "\n                                Save generated data to the database and export to Excel?\n                            "
+                                  "\n                                Save generated data to the database and\n                                export to Excel?\n                            "
                                 )
                               ])
                             ]

@@ -144,6 +144,19 @@ const actions = {
         document.body.removeChild(link);
     },
 
+    flattenGendata(generatedData, headName=state.strDateToday[0]) {
+        let temp =[];
+        generatedData.forEach(e => {
+            temp.push(...e[1]);
+        });
+        return [
+            [
+                headName,
+                temp
+            ]
+        ];
+    }
+
 
 };
 

@@ -4374,7 +4374,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.table-generated-data {\n    border-collapse: collapse;\n    font-size: 0.9em;\n    font-family: sans-serif;\n    min-width: 400px;\n    width: 100%;\n    border: thin solid #dddddd;\n}\n.table-generated-data thead tr {\n    background-color: #f3f3f3;\n    text-align: left;\n}\n.table-generated-data th,\n.table-generated-data td {\n    padding: 5px 12px;\n}\n.table-generated-data tbody tr {\n    border-bottom: thin solid #dddddd;\n}\n.table-generated-data tbody tr:nth-of-type(even) {\n    background-color: #f7f7f7;\n}\n", ""]);
+exports.push([module.i, "\n.tbl-custom {\n    border-collapse: collapse;\n    font-size: 0.9em;\n    font-family: sans-serif;\n    min-width: 400px;\n    width: 100%;\n    border: thin solid #313131;\n}\n.tbl-custom thead tr {\n    background-color: #f3f3f3;\n    text-align: left;\n}\n.tbl-custom th,\n.tbl-custom td {\n    padding: 5px 12px;\n}\n.tbl-custom tbody tr {\n    border-bottom: thin solid #000000;\n}\n.tbl-custom tbody tr:nth-of-type(even) {\n    background-color: #242424;\n}\n", ""]);
 
 // exports
 
@@ -71701,6 +71701,22 @@ var map = {
 		"./resources/js/pages/Principals/common/MasterfileUpload.vue",
 		3
 	],
+	"./common/Pendings": [
+		"./resources/js/pages/Principals/common/Pendings.vue",
+		26
+	],
+	"./common/Pendings.vue": [
+		"./resources/js/pages/Principals/common/Pendings.vue",
+		26
+	],
+	"./common/PendingsDataTable": [
+		"./resources/js/pages/Principals/common/PendingsDataTable.vue",
+		27
+	],
+	"./common/PendingsDataTable.vue": [
+		"./resources/js/pages/Principals/common/PendingsDataTable.vue",
+		27
+	],
 	"./common/Products": [
 		"./resources/js/pages/Principals/common/Products.vue",
 		12
@@ -72160,6 +72176,18 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -72330,6 +72358,14 @@ var actions = {
         }
       }, _callee2);
     }))();
+  },
+  flattenGendata: function flattenGendata(generatedData) {
+    var headName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : state.strDateToday[0];
+    var temp = [];
+    generatedData.forEach(function (e) {
+      temp.push.apply(temp, _toConsumableArray(e[1]));
+    });
+    return [[headName, temp]];
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (_objectSpread({

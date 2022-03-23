@@ -487,14 +487,17 @@ class MeadJohnsonController extends Controller
                                     if ($customer == null) $customer_notfound = 1;
 
                                     $order_date = $dateToday->format('Y/m/d');
+                                    $order_no = 'TBD';
                                     if($product_notfound == 1 || $customer_notfound == 1) {
                                         $order_date = 'TBD';
+                                    } else if($product_notfound == 0 || $customer_notfound == 0) {
+                                        $order_no = $latest_order_no += 1;
                                     }
 
                                     $route_code = $customer->route_code ?? 'Customer_NA';
                                     $product_category_code = $settings['product_category_code'];
                                     $ship_to = $settings['ship_to'];
-                                    $order_no = $latest_order_no += 1;
+
                                     $remarks = '';
                                     $product_code = $product->item_code_supplier ?? $item_code;
                                     // ======================= /INIT ===========================
