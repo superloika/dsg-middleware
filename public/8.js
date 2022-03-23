@@ -311,13 +311,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     },
     // InvoicesImport,
     UnknownCodes: function UnknownCodes() {
-      return __webpack_require__.e(/*! import() */ 15).then(__webpack_require__.bind(null, /*! ./UnknownCodes.vue */ "./resources/js/pages/Principals/common/UnknownCodes.vue"));
+      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ./UnknownCodes.vue */ "./resources/js/pages/Principals/common/UnknownCodes.vue"));
     },
     Settings: function Settings() {
       return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./Settings.vue */ "./resources/js/pages/Principals/common/Settings.vue"));
     },
     Pendings: function Pendings() {
-      return __webpack_require__.e(/*! import() */ 26).then(__webpack_require__.bind(null, /*! ./Pendings.vue */ "./resources/js/pages/Principals/common/Pendings.vue"));
+      return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! ./Pendings.vue */ "./resources/js/pages/Principals/common/Pendings.vue"));
     }
   },
   data: function data() {
@@ -333,15 +333,24 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   computed: {
     generatedData: function generatedData() {
-      var _this = this;
+      var data = this.PrincipalsStore.state.currentGeneratedData; // const searchRegex = new RegExp(this.searchKey, "i");
+      // return data.map(e => {
+      //     return [
+      //         e[0],
+      //         e[1].filter(line => {
+      //             return (
+      //                 this.searchKey == "" ||
+      //                 this.searchKey == null ||
+      //                 searchRegex.test(line.customer_code) ||
+      //                 searchRegex.test(line.route_code) ||
+      //                 searchRegex.test(line.order_no) ||
+      //                 searchRegex.test(line.product_code)
+      //             );
+      //         })
+      //     ];
+      // });
 
-      var data = this.PrincipalsStore.state.currentGeneratedData;
-      var searchRegex = new RegExp(this.searchKey, "i");
-      return data.map(function (e) {
-        return [e[0], e[1].filter(function (line) {
-          return _this.searchKey == "" || _this.searchKey == null || searchRegex.test(line.customer_code) || searchRegex.test(line.route_code) || searchRegex.test(line.order_no) || searchRegex.test(line.product_code);
-        })];
-      });
+      return data;
     },
     // overall
     lineCount: function lineCount() {
@@ -377,22 +386,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     selectedPrincipalCode: function selectedPrincipalCode() {
       return this.PrincipalsStore.state.selectedPrincipalCode;
     },
-    // distinctCustomerCodesNA_old() {
-    //     try {
-    //         let distinctCCodes = [];
-    //         this.generatedData.forEach(e => {
-    //             if(e[0] == 'Customer_NA') {
-    //                 let tempArray = e[1].map(line => line.customer_code);
-    //                 distinctCCodes = [...new Set(tempArray)];
-    //                 return;
-    //             }
-    //         });
-    //         return distinctCCodes;
-    //     } catch (error) {
-    //         console.log('initDistinctProductCodesNA() - ERR:', error);
-    //         return [];
-    //     }
-    // },
     distinctCustomerCodesNA: function distinctCustomerCodesNA() {
       try {
         var distinctCCodes = [];
@@ -448,17 +441,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         return 0;
       }
     },
-    // sus for removal
-    // settingNames() {
-    //     return Object.keys(this.myStore.state.settings);
-    // },
     myStore: function myStore() {
       return this[this.selectedPrincipalCode];
     }
   },
   methods: {
     saveInvoices: function saveInvoices() {
-      var _this2 = this;
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var url, payload, response, config;
@@ -467,57 +456,49 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                _this2.isExporting = true;
-                url = _this2.AppStore.state.siteUrl + "principals" + "/".concat(_this2.selectedPrincipalCode, "/invoices/save");
+                _this.isExporting = true;
+                url = _this.AppStore.state.siteUrl + "principals" + "/".concat(_this.selectedPrincipalCode, "/invoices/save");
                 payload = {
-                  raw_invoices: _this2.PrincipalsStore.state.currentRawInvoices,
-                  generated_data: _this2.generatedData
+                  raw_invoices: _this.PrincipalsStore.state.currentRawInvoices,
+                  generated_data: _this.generatedData
                 };
                 _context.next = 6;
                 return axios.post(url, payload);
 
               case 6:
                 response = _context.sent;
-                config = _this2.PrincipalsStore.getHeaderAndFormat("generatedDataTableHeader");
+                config = _this.PrincipalsStore.getHeaderAndFormat("generatedDataTableHeader");
 
-                _this2.PrincipalsStore.exportToExcel(config.header, _this2.PrincipalsStore.generatedDataSubset(_this2.AppStore.flattenGendata(_this2.generatedData), config.format), null, _this2.PrincipalsStore.state.selectedPrincipalCode);
+                _this.PrincipalsStore.exportToExcel(config.header, _this.PrincipalsStore.generatedDataSubset(_this.AppStore.flattenGendata(_this.generatedData), config.format), null, _this.PrincipalsStore.state.selectedPrincipalCode);
 
-                _this2.isExporting = false;
-                _this2.confirmExportDialogOpen = false;
-                _this2.PrincipalsStore.state.currentGeneratedData = [];
-                _this2.PrincipalsStore.state.currentRawInvoices = [];
-                _this2.myStore.state.currentGeneratedData = [];
-                _this2.myStore.state.currentRawInvoices = [];
+                _this.isExporting = false;
+                _this.confirmExportDialogOpen = false;
+                _this.PrincipalsStore.state.currentGeneratedData = [];
+                _this.PrincipalsStore.state.currentRawInvoices = [];
 
-                _this2.PrincipalsStore.initInvoicesGrandTotal();
+                _this.PrincipalsStore.initInvoicesGrandTotal();
 
-                _this2.PrincipalsStore.initInvoices(_this2.selectedPrincipalCode, _this2.AppStore.state.strDateToday);
+                _this.PrincipalsStore.initInvoices(_this.selectedPrincipalCode, _this.AppStore.state.strDateToday);
 
-                _context.next = 22;
+                _context.next = 20;
                 break;
 
-              case 19:
-                _context.prev = 19;
+              case 17:
+                _context.prev = 17;
                 _context.t0 = _context["catch"](0);
                 console.log("saveInvoices():", _context.t0);
 
-              case 22:
+              case 20:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 19]]);
+        }, _callee, null, [[0, 17]]);
       }))();
     }
   },
-  created: function created() {// get pendings
-    // this.PrincipalsStore.initPendings(
-    //     this[this.selectedPrincipalCode].state.generatedDataDBTableColumns
-    // );
-  },
   mounted: function mounted() {
     console.log("Generated component mounted");
-    console.log("LOOOOOOOOOK:", this.PrincipalsStore.state.currentGeneratedData);
   }
 });
 

@@ -20,29 +20,7 @@
         <v-tabs-items v-model="tab">
             <v-tab-item v-for="(pending, j) in pendings" :key="j">
                 <PendingsDataTable :items="pending[1]"></PendingsDataTable>
-                <!-- <table class="tbl-custom">
-                    <tbody>
-                        <tr v-for="(line, k) in pending[1]" :key="k">
-                            <td>{{ line.doc_type }}</td>
-                            <td>{{ line.doc_no }}</td>
-                            <td :class="(line.customer_notfound==1) ? 'warning--text' : ''">
-                                {{ line.customer_code }}
-                            </td>
-                            <td>{{ line.posting_date }}</td>
-                            <td :class="(line.product_notfound==1) ? 'error--text' : ''">
-                                {{ line.item_code }}
-                            </td>
-                            <td>{{ line.quantity }}</td>
-                            <td>{{ line.u1 }}</td>
-                            <td>{{ line.u2 }}</td>
-                            <td>{{ line.u3 }}</td>
-                            <td>{{ line.u4 }}</td>
-                            <td>{{ line.u5 }}</td>
-                            <td>{{ line.uom }}</td>
-                        </tr>
-                    </tbody>
-                </table> -->
-            </v-tab-item>
+                </v-tab-item>
         </v-tabs-items>
     </v-card-text>
 </v-card>
@@ -59,12 +37,6 @@ export default {
     }),
 
     computed: {
-        // variantColor() {
-        //     return this.type=='warning' ? 'warning' :
-        //         this.type=='error' ? 'error' :
-        //         '';
-        // },
-
         pendings() {
             const rawInvoices = this.PrincipalsStore.state.currentRawInvoices;
             let tempPending = {};

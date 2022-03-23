@@ -45,7 +45,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Products: function Products() {
-      return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! ./Products.vue */ "./resources/js/pages/Principals/common/Products.vue"));
+      return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! ./Products.vue */ "./resources/js/pages/Principals/common/Products.vue"));
     },
     Customers: function Customers() {
       return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./Customers.vue */ "./resources/js/pages/Principals/common/Customers.vue"));
@@ -106,12 +106,12 @@ var render = function() {
               _c("v-icon", { staticClass: "mr-1" }, [
                 _vm._v("mdi-account-multiple")
               ]),
-              _vm._v(" Customers \n            "),
+              _vm._v(" Customers \r\n            "),
               _c("v-chip", { attrs: { color: "primary", "x-small": "" } }, [
                 _vm._v(
-                  "\n                " +
+                  "\r\n                " +
                     _vm._s(_vm.PrincipalsStore.state.customers.length) +
-                    "\n            "
+                    "\r\n            "
                 )
               ])
             ],
@@ -123,12 +123,12 @@ var render = function() {
             { attrs: { exact: "" } },
             [
               _c("v-icon", { staticClass: "mr-1" }, [_vm._v("mdi-cube")]),
-              _vm._v(" Products \n            "),
+              _vm._v(" Products \r\n            "),
               _c("v-chip", { attrs: { color: "primary", "x-small": "" } }, [
                 _vm._v(
-                  "\n                " +
+                  "\r\n                " +
                     _vm._s(_vm.PrincipalsStore.state.products.length) +
-                    "\n            "
+                    "\r\n            "
                 )
               ])
             ],

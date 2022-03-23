@@ -295,22 +295,24 @@ export default {
     computed: {
         generatedData() {
             const data = this.PrincipalsStore.state.currentGeneratedData;
-            const searchRegex = new RegExp(this.searchKey, "i");
-            return data.map(e => {
-                return [
-                    e[0],
-                    e[1].filter(line => {
-                        return (
-                            this.searchKey == "" ||
-                            this.searchKey == null ||
-                            searchRegex.test(line.customer_code) ||
-                            searchRegex.test(line.route_code) ||
-                            searchRegex.test(line.order_no) ||
-                            searchRegex.test(line.product_code)
-                        );
-                    })
-                ];
-            });
+            // const searchRegex = new RegExp(this.searchKey, "i");
+            // return data.map(e => {
+            //     return [
+            //         e[0],
+            //         e[1].filter(line => {
+            //             return (
+            //                 this.searchKey == "" ||
+            //                 this.searchKey == null ||
+            //                 searchRegex.test(line.customer_code) ||
+            //                 searchRegex.test(line.route_code) ||
+            //                 searchRegex.test(line.order_no) ||
+            //                 searchRegex.test(line.product_code)
+            //             );
+            //         })
+            //     ];
+            // });
+
+            return data;
         },
 
         // overall
@@ -350,23 +352,6 @@ export default {
         selectedPrincipalCode() {
             return this.PrincipalsStore.state.selectedPrincipalCode;
         },
-
-        // distinctCustomerCodesNA_old() {
-        //     try {
-        //         let distinctCCodes = [];
-        //         this.generatedData.forEach(e => {
-        //             if(e[0] == 'Customer_NA') {
-        //                 let tempArray = e[1].map(line => line.customer_code);
-        //                 distinctCCodes = [...new Set(tempArray)];
-        //                 return;
-        //             }
-        //         });
-        //         return distinctCCodes;
-        //     } catch (error) {
-        //         console.log('initDistinctProductCodesNA() - ERR:', error);
-        //         return [];
-        //     }
-        // },
 
         distinctCustomerCodesNA() {
             try {
@@ -420,11 +405,6 @@ export default {
             }
         },
 
-        // sus for removal
-        // settingNames() {
-        //     return Object.keys(this.myStore.state.settings);
-        // },
-
         myStore() {
             return this[this.selectedPrincipalCode];
         }
@@ -464,8 +444,6 @@ export default {
                 this.confirmExportDialogOpen = false;
                 this.PrincipalsStore.state.currentGeneratedData = [];
                 this.PrincipalsStore.state.currentRawInvoices = [];
-                this.myStore.state.currentGeneratedData = [];
-                this.myStore.state.currentRawInvoices = [];
 
                 this.PrincipalsStore.initInvoicesGrandTotal();
                 this.PrincipalsStore.initInvoices(
@@ -478,19 +456,8 @@ export default {
         }
     },
 
-    created() {
-        // get pendings
-        // this.PrincipalsStore.initPendings(
-        //     this[this.selectedPrincipalCode].state.generatedDataDBTableColumns
-        // );
-    },
-
     mounted() {
         console.log("Generated component mounted");
-        console.log(
-            "LOOOOOOOOOK:",
-            this.PrincipalsStore.state.currentGeneratedData
-        );
     }
 };
 </script>

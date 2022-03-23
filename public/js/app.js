@@ -3018,7 +3018,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsEdit: function AccountsEdit() {
-      return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! ../ManageAccounts/AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
+      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ../ManageAccounts/AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
     }
   },
   computed: {
@@ -3193,10 +3193,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     'ExpendituresAdd': function ExpendituresAdd() {
-      return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ./ExpendituresAdd.vue */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue"));
+      return __webpack_require__.e(/*! import() */ 21).then(__webpack_require__.bind(null, /*! ./ExpendituresAdd.vue */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue"));
     },
     'TagsComponent': function TagsComponent() {
-      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./TagsComponent.vue */ "./resources/js/pages/ExpendituresPage/TagsComponent.vue"));
+      return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! ./TagsComponent.vue */ "./resources/js/pages/ExpendituresPage/TagsComponent.vue"));
     }
   },
   data: function data() {
@@ -3460,10 +3460,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsAdd: function AccountsAdd() {
-      return __webpack_require__.e(/*! import() */ 21).then(__webpack_require__.bind(null, /*! ./AccountsAdd.vue */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue"));
+      return __webpack_require__.e(/*! import() */ 23).then(__webpack_require__.bind(null, /*! ./AccountsAdd.vue */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue"));
     },
     AccountsEdit: function AccountsEdit() {
-      return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! ./AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
+      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
     }
   },
   data: function data() {
@@ -4141,7 +4141,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     'TestUpload': function TestUpload() {
-      return __webpack_require__.e(/*! import() */ 25).then(__webpack_require__.bind(null, /*! ./TestUpload.vue */ "./resources/js/pages/TestPage/TestUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 27).then(__webpack_require__.bind(null, /*! ./TestUpload.vue */ "./resources/js/pages/TestPage/TestUpload.vue"));
     }
   },
   data: function data() {
@@ -7036,7 +7036,7 @@ var render = function() {
                 "v-list-item-content",
                 [
                   _c("v-list-item-title", [
-                    _vm._v("Principals\n                ")
+                    _vm._v("Principals\r\n                ")
                   ])
                 ],
                 1
@@ -7972,9 +7972,9 @@ var render = function() {
     this.AuthUser.user_type !== "super_admin"
       ? _c("div", [
           _vm._v(
-            "\n        " +
+            "\r\n        " +
               _vm._s(_vm.AppStore.state.guardMsgs.accessDenied) +
-              "\n    "
+              "\r\n    "
           )
         ])
       : _c(
@@ -71667,11 +71667,11 @@ var map = {
 	],
 	"./common/GeneratedTableWrapper copy": [
 		"./resources/js/pages/Principals/common/GeneratedTableWrapper copy.vue",
-		17
+		19
 	],
 	"./common/GeneratedTableWrapper copy.vue": [
 		"./resources/js/pages/Principals/common/GeneratedTableWrapper copy.vue",
-		17
+		19
 	],
 	"./common/GeneratedTableWrapper.vue": [
 		"./resources/js/pages/Principals/common/GeneratedTableWrapper.vue",
@@ -71703,27 +71703,27 @@ var map = {
 	],
 	"./common/Pendings": [
 		"./resources/js/pages/Principals/common/Pendings.vue",
-		26
+		12
 	],
 	"./common/Pendings.vue": [
 		"./resources/js/pages/Principals/common/Pendings.vue",
-		26
+		12
 	],
 	"./common/PendingsDataTable": [
 		"./resources/js/pages/Principals/common/PendingsDataTable.vue",
-		27
+		13
 	],
 	"./common/PendingsDataTable.vue": [
 		"./resources/js/pages/Principals/common/PendingsDataTable.vue",
-		27
+		13
 	],
 	"./common/Products": [
 		"./resources/js/pages/Principals/common/Products.vue",
-		12
+		14
 	],
 	"./common/Products.vue": [
 		"./resources/js/pages/Principals/common/Products.vue",
-		12
+		14
 	],
 	"./common/Settings": [
 		"./resources/js/pages/Principals/common/Settings.vue",
@@ -71735,35 +71735,35 @@ var map = {
 	],
 	"./common/TransAndInvoices": [
 		"./resources/js/pages/Principals/common/TransAndInvoices.vue",
-		13
+		15
 	],
 	"./common/TransAndInvoices.vue": [
 		"./resources/js/pages/Principals/common/TransAndInvoices.vue",
-		13
+		15
 	],
 	"./common/Transactions": [
 		"./resources/js/pages/Principals/common/Transactions.vue",
-		14
+		16
 	],
 	"./common/Transactions.vue": [
 		"./resources/js/pages/Principals/common/Transactions.vue",
-		14
+		16
 	],
 	"./common/UnknownCodes": [
 		"./resources/js/pages/Principals/common/UnknownCodes.vue",
-		15
+		17
 	],
 	"./common/UnknownCodes.vue": [
 		"./resources/js/pages/Principals/common/UnknownCodes.vue",
-		15
+		17
 	],
 	"./common/UploadedInvoices": [
 		"./resources/js/pages/Principals/common/UploadedInvoices.vue",
-		16
+		18
 	],
 	"./common/UploadedInvoices.vue": [
 		"./resources/js/pages/Principals/common/UploadedInvoices.vue",
-		16
+		18
 	],
 	"./index": [
 		"./resources/js/pages/Principals/index.vue"

@@ -109,7 +109,9 @@ var render = function() {
         },
         [
           _c("v-toolbar-title", { staticClass: "primary--text" }, [
-            _vm._v("\n            " + _vm._s(_vm.principalName) + "\n        ")
+            _vm._v(
+              "\r\n            " + _vm._s(_vm.principalName) + "\r\n        "
+            )
           ]),
           _vm._v(" "),
           _c("v-spacer"),

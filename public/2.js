@@ -121,9 +121,9 @@ var render = function() {
                     [
                       _c("div", { attrs: { id: item.customer_code } }, [
                         _vm._v(
-                          "\n                " +
+                          "\r\n                " +
                             _vm._s(item.customer_code) +
-                            "\n            "
+                            "\r\n            "
                         )
                       ])
                     ]
@@ -157,9 +157,9 @@ var render = function() {
                     [
                       _c("div", { attrs: { id: item.product_code } }, [
                         _vm._v(
-                          "\n                " +
+                          "\r\n                " +
                             _vm._s(item.product_code) +
-                            "\n            "
+                            "\r\n            "
                         )
                       ])
                     ]

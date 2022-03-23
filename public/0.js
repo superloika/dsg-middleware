@@ -199,7 +199,7 @@ var render = function() {
         "v-tabs",
         {
           attrs: {
-            height: "35",
+            heightx: "35",
             "show-arrow": "",
             "background-color": "grey darken-4"
           },

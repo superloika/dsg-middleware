@@ -44,7 +44,7 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Transactions and Uploaded Invoices',
         icon: 'mdi-file-check',
         component: function component() {
-          return __webpack_require__.e(/*! import() */ 13).then(__webpack_require__.bind(null, /*! ../common/TransAndInvoices.vue */ "./resources/js/pages/Principals/common/TransAndInvoices.vue"));
+          return __webpack_require__.e(/*! import() */ 15).then(__webpack_require__.bind(null, /*! ../common/TransAndInvoices.vue */ "./resources/js/pages/Principals/common/TransAndInvoices.vue"));
         }
       }, {
         title: 'Masterfiles',
