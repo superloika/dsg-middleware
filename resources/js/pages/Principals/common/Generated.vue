@@ -201,17 +201,17 @@
                                     Save generated data to the database and
                                     export to Excel?
                                 </div>
-                                <!-- <span class="text-caption mt-2">
-                                NOTE: Lines with
-                                <v-chip color="warning" x-small outlined>
-                                    warning
-                                </v-chip>
-                                 or
-                                 <v-chip color="error" x-small outlined>
-                                    error
-                                </v-chip>
-                                will be skipped
-                            </span> -->
+                                <span class="text-caption mt-2">
+                                    NOTE: Lines with
+                                    <v-chip color="warning" x-small outlined>
+                                        warning
+                                    </v-chip>
+                                    or
+                                    <v-chip color="error" x-small outlined>
+                                        error
+                                    </v-chip>
+                                    will be skipped
+                                </span>
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer></v-spacer>

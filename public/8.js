@@ -852,7 +852,54 @@ var render = function() {
                                 _vm._v(
                                   "\n                                Save generated data to the database and\n                                export to Excel?\n                            "
                                 )
-                              ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                { staticClass: "text-caption mt-2" },
+                                [
+                                  _vm._v(
+                                    "\n                                NOTE: Lines with\n                                "
+                                  ),
+                                  _c(
+                                    "v-chip",
+                                    {
+                                      attrs: {
+                                        color: "warning",
+                                        "x-small": "",
+                                        outlined: ""
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    warning\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(
+                                    "\n                                or\n                                "
+                                  ),
+                                  _c(
+                                    "v-chip",
+                                    {
+                                      attrs: {
+                                        color: "error",
+                                        "x-small": "",
+                                        outlined: ""
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    error\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(
+                                    "\n                                will be skipped\n                            "
+                                  )
+                                ],
+                                1
+                              )
                             ]
                           ),
                           _vm._v(" "),

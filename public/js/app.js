@@ -72204,8 +72204,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var host = "http://".concat(window.location.host, "/"); // const localStorage = window.localStorage;
 
 var state = vue__WEBPACK_IMPORTED_MODULE_2___default.a.observable({
-  AppName: 'DSG - MIDDLEWARE (DEV)',
-  // AppName: 'DSG - MIDDLEWARE',
+  // AppName: 'DSG - MIDDLEWARE (DEV)',
+  AppName: 'DSG - MIDDLEWARE',
   siteUrl: host,
   snackBar: {
     show: false,

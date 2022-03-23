@@ -40,16 +40,6 @@ Route::prefix('test')->group(function () {
 
     Route::post('testFileUpload','TestController@testFileUpload');
 });
-
-// expenditures
-Route::prefix('api_expenses')->group(function () {
-    Route::get('index','ExpendituresController@index')->name('expenses_index');
-    Route::post('store','ExpendituresController@store')->name('expenses_store');
-    Route::post('delete/{expense_id}','ExpendituresController@delete')->name('expenses_delete');
-    Route::get('particulars','ExpendituresController@particulars')->name('expenses_particulars');
-    Route::get('firstdate','ExpendituresController@firstEntryDate')->name('expenses_firstdate');
-    Route::get('tags','ExpendituresController@expensesTags')->name('expenses_tags');
-});
 // ================= /WA NI LABOT ====================================================================
 
 
@@ -86,9 +76,13 @@ Route::prefix('master')->group(function(){
     });
 });
 
-
-// PRINCIPALS - dynamic routes (test)
-Route::group(['prefix' => 'principals'], function(){
+/**
+ * ================================================================================================================
+ * PRINCIPALS' ROUTES
+ * ================================================================================================================
+ */
+// Route::group(['prefix' => 'principals'], function(){
+Route::prefix('principals')->group(function(){
     $principalCtrls = [
         ['MeadJohnsonController', 'mead_johnson'],
         ['CenturyController', 'century'],
@@ -96,7 +90,7 @@ Route::group(['prefix' => 'principals'], function(){
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';
 
-        Route::group(['prefix' => $principalCtrl[1]], function() use ($ctrl){
+        Route::prefix($principalCtrl[1])->group(function() use ($ctrl){
             // Products
             Route::get("/products", $ctrl. "products");
             Route::post("/products/upload", $ctrl. "uploadMasterProducts");
@@ -105,7 +99,7 @@ Route::group(['prefix' => 'principals'], function(){
             Route::get("/customers", $ctrl. "customers");
             Route::post("/customers/upload", $ctrl. "uploadMasterCustomers");
 
-            // Invoices
+            // Invoices (import & save)
             Route::post("/invoices/import", $ctrl. "importInvoices");
             Route::post("/invoices/save", $ctrl. "saveInvoices");
         });

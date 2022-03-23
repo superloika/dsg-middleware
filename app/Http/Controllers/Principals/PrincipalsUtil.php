@@ -148,23 +148,6 @@ class PrincipalsUtil extends Controller
             'message' => 'Successful',
         ];
 
-        // $cols = [
-        //     // common
-        //     'id',
-        //     'generated_at',
-        //     'uploaded_by',
-        //     'doc_no',
-        //     // principal template
-        //     'order_date',
-        //     'customer_code',
-        //     'route_code',
-        //     'product_category_code',
-        //     'ship_to',
-        //     'order_no',
-        //     'remarks',
-        //     'product_code',
-        //     'quantity'
-        // ];
         $cols = request()->cols;
 
         try {
