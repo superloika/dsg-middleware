@@ -24,11 +24,21 @@
                 :key="index"
             >
                 <v-text-field
+                    v-if="setting.type=='text'"
                     v-model="setting.value"
                     :label="setting.description" outlined
                     :hint="setting.hint"
                 >
                 </v-text-field>
+                <v-switch
+                    v-if="setting.type=='toggle'"
+                    inset
+                    :label="setting.description"
+                    :hint="setting.hint"
+                    v-model="PrincipalsStore.state.settings.find(e => e.name==setting.name).value"
+                >
+
+                </v-switch>
             </v-col>
         </v-row>
     </v-card-text>
@@ -46,6 +56,9 @@ export default {
 
     mounted() {
         console.log('Settings component mounted');
+        // console.log(
+        //     this.PrincipalsStore.state.settings.find(e => e.name=='strict_export').value
+        // );
     },
 };
 </script>

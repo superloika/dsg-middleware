@@ -141,10 +141,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.MasterProducts.initProducts();
 
-        _this.MasterCommon.state.isImportDialogOpen = false; // if(this.id=='products') {
-        // } else if(this.id=='customers') {
-        // } else if(this.id=='principals') {
-        // }
+        _this.AppStore.state.dlgImportMaster = false;
       })["catch"](function (error) {
         vm.uploadResponse.success = false;
         vm.uploadResponse.message = error;
@@ -197,7 +194,7 @@ var render = function() {
               attrs: { icon: "", title: "Close" },
               on: {
                 click: function($event) {
-                  _vm.MasterCommon.state.isImportDialogOpen = false
+                  _vm.AppStore.state.dlgImportMaster = false
                 }
               }
             },
@@ -216,7 +213,7 @@ var render = function() {
             [
               _c(
                 "v-col",
-                { attrs: { cols: "", lg: "8", md: "7", sm: "12" } },
+                { attrs: { cols: "", lg: "9", md: "8", sm: "12" } },
                 [
                   _c(
                     "v-form",
@@ -227,7 +224,7 @@ var render = function() {
                           "small-chips": "",
                           counter: "",
                           "show-size": "",
-                          "truncate-length": "50",
+                          "truncate-length": "30",
                           rounded: "",
                           outlined: "",
                           dense: "",
@@ -253,7 +250,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                { attrs: { cols: "", lg: "4", md: "5", sm: "12" } },
+                { attrs: { cols: "", lg: "3", md: "4", sm: "12" } },
                 [
                   _c(
                     "v-btn",

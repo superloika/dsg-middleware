@@ -1,0 +1,22 @@
+{
+    "product_category_code": "IFCN",
+    "ship_to": "00",
+    "route_code_mapping": [
+        {
+            "salesman_name": "Donabella P Coritico",
+            "route_code": "LDIB01"
+        },
+        {
+            "salesman_name": "Edgar Cabahug",
+            "route_code": "LDIB02"
+        },
+        {
+            "salesman_name": "Agustin Soria",
+            "route_code": "LDIV02"
+        },
+        {
+            "salesman_name": "Albert Adora",
+            "route_code": "LDIV01"
+        }
+    ]
+}

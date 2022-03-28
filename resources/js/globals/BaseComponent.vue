@@ -94,7 +94,9 @@
             z-index="999999"
             opacity="0.2"
         >
-            <v-chip>
+            <v-chip
+
+            >
                 <v-progress-circular
                     :value="64"
                     indeterminate

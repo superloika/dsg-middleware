@@ -59,7 +59,6 @@ export default {
     },
 
     created() {
-        // this.PrincipalsStore.initialize();
         if(
             this[this.selectedPrincipalCode] == null ||
             this[this.selectedPrincipalCode] == undefined
@@ -68,6 +67,9 @@ export default {
                 require(`../../../stores.custom/principals/${this.selectedPrincipalCode}`)
                 .default;
         }
+
+        // Initialize settings
+        this.PrincipalsStore.initSettings();
     },
 
     mounted() {

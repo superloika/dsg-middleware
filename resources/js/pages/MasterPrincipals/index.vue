@@ -21,7 +21,7 @@
         <v-btn
             icon
             title="Import"
-            @click.stop="MasterCommon.state.isImportDialogOpen=true"
+            @click.stop="AppStore.state.dlgImportMaster=true"
             :disabled="!AppStore.isSuperAdmin()"
         >
             <v-icon>mdi-file-upload</v-icon>
@@ -45,8 +45,8 @@
     ></v-data-table>
 
     <v-dialog
-        v-model="MasterCommon.state.isImportDialogOpen"
-        max-width="600"
+        v-model="AppStore.state.dlgImportMaster"
+        max-width="720"
         persistent
     >
         <MasterUpload id="principals"></MasterUpload>
@@ -129,6 +129,7 @@ export default {
 
     mounted() {
         console.log('MasterPrincipals page mounted.')
-    }
+    },
+
 }
 </script>

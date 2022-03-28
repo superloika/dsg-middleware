@@ -85,6 +85,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["generatedData"],
   data: function data() {
@@ -217,7 +225,8 @@ var render = function() {
             { key: index, staticClass: "px-3 text-caption" },
             [
               _vm._v("\n            " + _vm._s(data[0]) + "\n            "),
-              _vm.groupCustomersNotFoundLineCount(data[1]) > 0
+              _vm.groupCustomersNotFoundLineCount(data[1]) > 0 ||
+              _vm.groupProductsNotFoundLineCount(data[1]) > 0
                 ? _c(
                     "v-chip",
                     {
@@ -227,24 +236,12 @@ var render = function() {
                     [
                       _vm._v(
                         "\n                " +
-                          _vm._s(_vm.groupCustomersNotFoundLineCount(data[1])) +
-                          "\n            "
-                      )
-                    ]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.groupProductsNotFoundLineCount(data[1]) > 0
-                ? _c(
-                    "v-chip",
-                    {
-                      staticClass: "ml-1 text-captionx px-1",
-                      attrs: { color: "error", "x-small": "" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                " +
-                          _vm._s(_vm.groupProductsNotFoundLineCount(data[1])) +
+                          _vm._s(
+                            _vm.groupCustomersNotFoundLineCount(data[1]) >
+                              _vm.groupProductsNotFoundLineCount(data[1])
+                              ? _vm.groupCustomersNotFoundLineCount(data[1])
+                              : _vm.groupProductsNotFoundLineCount(data[1])
+                          ) +
                           "\n            "
                       )
                     ]

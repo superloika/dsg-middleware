@@ -24,9 +24,7 @@
             <!-- <v-divider class="mt-2 mb-2"></v-divider> -->
 
             <!-- masterfiles -->
-            <v-list-group no-action color="primary"
-                v-if="AppStore.isSuperAdmin()"
-            >
+            <v-list-group no-action color="primary">
                 <template v-slot:activator>
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-folder-multiple</v-icon>
@@ -36,7 +34,7 @@
                     </v-list-item-content>
                 </template>
 
-                <v-list-item link to="/master/customers" disabled>
+                <v-list-item link to="/master/customers">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-account-multiple</v-icon>
                     </v-list-item-icon>

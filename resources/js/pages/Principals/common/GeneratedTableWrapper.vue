@@ -7,6 +7,14 @@
             {{ data[0] }}
             <v-chip color="warning" x-small
                 class="ml-1 text-captionx px-1"
+                v-if="groupCustomersNotFoundLineCount(data[1]) > 0
+                    || groupProductsNotFoundLineCount(data[1]) > 0"
+            >
+                {{ groupCustomersNotFoundLineCount(data[1]) > groupProductsNotFoundLineCount(data[1]) ?
+                    groupCustomersNotFoundLineCount(data[1]) : groupProductsNotFoundLineCount(data[1]) }}
+            </v-chip>
+            <!-- <v-chip color="warning" x-small
+                class="ml-1 text-captionx px-1"
                 v-if="groupCustomersNotFoundLineCount(data[1]) > 0"
             >
                 {{ groupCustomersNotFoundLineCount(data[1]) }}
@@ -16,7 +24,7 @@
                 v-if="groupProductsNotFoundLineCount(data[1]) > 0"
             >
                 {{ groupProductsNotFoundLineCount(data[1]) }}
-            </v-chip>
+            </v-chip> -->
         </v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab">

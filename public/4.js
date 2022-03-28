@@ -46,6 +46,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -54,7 +64,9 @@ __webpack_require__.r(__webpack_exports__);
     this.PrincipalsStore.initSettings();
   },
   mounted: function mounted() {
-    console.log('Settings component mounted');
+    console.log('Settings component mounted'); // console.log(
+    //     this.PrincipalsStore.state.settings.find(e => e.name=='strict_export').value
+    // );
   }
 });
 
@@ -131,20 +143,52 @@ var render = function() {
                     "v-col",
                     { key: index, attrs: { cols: "12" } },
                     [
-                      _c("v-text-field", {
-                        attrs: {
-                          label: setting.description,
-                          outlined: "",
-                          hint: setting.hint
-                        },
-                        model: {
-                          value: setting.value,
-                          callback: function($$v) {
-                            _vm.$set(setting, "value", $$v)
-                          },
-                          expression: "setting.value"
-                        }
-                      })
+                      setting.type == "text"
+                        ? _c("v-text-field", {
+                            attrs: {
+                              label: setting.description,
+                              outlined: "",
+                              hint: setting.hint
+                            },
+                            model: {
+                              value: setting.value,
+                              callback: function($$v) {
+                                _vm.$set(setting, "value", $$v)
+                              },
+                              expression: "setting.value"
+                            }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      setting.type == "toggle"
+                        ? _c("v-switch", {
+                            attrs: {
+                              inset: "",
+                              label: setting.description,
+                              hint: setting.hint
+                            },
+                            model: {
+                              value: _vm.PrincipalsStore.state.settings.find(
+                                function(e) {
+                                  return e.name == setting.name
+                                }
+                              ).value,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.PrincipalsStore.state.settings.find(
+                                    function(e) {
+                                      return e.name == setting.name
+                                    }
+                                  ),
+                                  "value",
+                                  $$v
+                                )
+                              },
+                              expression:
+                                "PrincipalsStore.state.settings.find(e => e.name==setting.name).value"
+                            }
+                          })
+                        : _vm._e()
                     ],
                     1
                   )

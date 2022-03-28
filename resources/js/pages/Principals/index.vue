@@ -51,7 +51,7 @@ export default {
     },
 
     mounted() {
-        console.log(this.selectedPrincipalCode + ' component mounted');
+
     },
 
     beforeDestroy() {

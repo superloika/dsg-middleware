@@ -12,7 +12,7 @@
             small
             link
             outlined
-            title="Unknown Customer Code"
+            title="Missing in principal's masterfile"
             @click="AppStore.copyToClipboard(item.customer_code)"
         >
             <div :id="item.customer_code">
@@ -25,11 +25,11 @@
     <template v-slot:[`item.product_code`]="{ item }">
         <v-chip
             v-if="item.product_notfound==1"
-            color="error"
+            color="warning"
             small
             link
             outlined
-            title="Unknown Product Code"
+            title="Missing in principal's masterfile"
             @click="AppStore.copyToClipboard(item.product_code)"
         >
             <div :id="item.product_code">

@@ -108,7 +108,7 @@ var render = function() {
                         small: "",
                         link: "",
                         outlined: "",
-                        title: "Unknown Customer Code"
+                        title: "Missing in principal's masterfile"
                       },
                       on: {
                         click: function($event) {
@@ -121,9 +121,9 @@ var render = function() {
                     [
                       _c("div", { attrs: { id: item.customer_code } }, [
                         _vm._v(
-                          "\r\n                " +
+                          "\n                " +
                             _vm._s(item.customer_code) +
-                            "\r\n            "
+                            "\n            "
                         )
                       ])
                     ]
@@ -142,11 +142,11 @@ var render = function() {
                     "v-chip",
                     {
                       attrs: {
-                        color: "error",
+                        color: "warning",
                         small: "",
                         link: "",
                         outlined: "",
-                        title: "Unknown Product Code"
+                        title: "Missing in principal's masterfile"
                       },
                       on: {
                         click: function($event) {
@@ -157,9 +157,9 @@ var render = function() {
                     [
                       _c("div", { attrs: { id: item.product_code } }, [
                         _vm._v(
-                          "\r\n                " +
+                          "\n                " +
                             _vm._s(item.product_code) +
-                            "\r\n            "
+                            "\n            "
                         )
                       ])
                     ]

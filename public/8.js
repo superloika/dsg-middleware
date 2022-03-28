@@ -300,6 +300,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import InvoicesImport from './InvoicesImport.vue';
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -310,8 +324,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ./InvoicesImport.vue */ "./resources/js/pages/Principals/common/InvoicesImport.vue"));
     },
     // InvoicesImport,
-    UnknownCodes: function UnknownCodes() {
-      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ./UnknownCodes.vue */ "./resources/js/pages/Principals/common/UnknownCodes.vue"));
+    MissingCodes: function MissingCodes() {
+      return __webpack_require__.e(/*! import() */ 28).then(__webpack_require__.bind(null, /*! ./MissingCodes.vue */ "./resources/js/pages/Principals/common/MissingCodes.vue"));
     },
     Settings: function Settings() {
       return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./Settings.vue */ "./resources/js/pages/Principals/common/Settings.vue"));
@@ -443,7 +457,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     },
     myStore: function myStore() {
       return this[this.selectedPrincipalCode];
-    }
+    } // strictExport() {
+    //     const strict_export =
+    //         this.PrincipalsStore.state.settings
+    //             .find(e=>e.name=='strict_export').value;
+    //     return strict_export=='1' ? true : false;
+    // }
+
   },
   methods: {
     saveInvoices: function saveInvoices() {
@@ -498,7 +518,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }
   },
   mounted: function mounted() {
-    console.log("Generated component mounted");
+    console.log("Generated component mounted"); // console.log(this.strictExport);
   }
 });
 
@@ -570,7 +590,8 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            _vm.customersNotFoundCount > 0
+                            _vm.customersNotFoundCount > 0 ||
+                            _vm.productsNotFoundCount > 0
                               ? _c(
                                   "v-chip",
                                   {
@@ -585,30 +606,13 @@ var render = function() {
                                   [
                                     _vm._v(
                                       "\n                            " +
-                                        _vm._s(_vm.customersNotFoundCount) +
-                                        " warning/s\n                        "
-                                    )
-                                  ]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.productsNotFoundCount > 0
-                              ? _c(
-                                  "v-chip",
-                                  {
-                                    staticClass: "px-1 error--text",
-                                    attrs: {
-                                      small: "",
-                                      outlinedx: "",
-                                      label: "",
-                                      color: "transparent"
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                            " +
-                                        _vm._s(_vm.productsNotFoundCount) +
-                                        " error/s\n                        "
+                                        _vm._s(
+                                          _vm.customersNotFoundCount >
+                                            _vm.productsNotFoundCount
+                                            ? _vm.customersNotFoundCount
+                                            : _vm.productsNotFoundCount
+                                        ) +
+                                        " total warning/s\n                        "
                                     )
                                   ]
                                 )
@@ -656,7 +660,7 @@ var render = function() {
                         rounded: "",
                         depressed: "",
                         color: "yellow",
-                        disabled: _vm.distinctCustomerCodesNA.length < 1
+                        disabled: ""
                       },
                       on: {
                         click: function($event) {
@@ -694,15 +698,13 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: {
-                        title: "Unknown Customer Codes",
+                        title: "Missing Customer/s in Principal's Masterfile",
                         icon: "",
                         dense: "",
                         rounded: "",
                         depressed: "",
                         color: "warning",
-                        disabled:
-                          _vm.distinctCustomerCodesNA.length < 1 &&
-                          _vm.distinctProductCodesNA.length < 1
+                        disabled: _vm.distinctCustomerCodesNA.length < 1
                       },
                       on: {
                         click: function($event) {
@@ -732,10 +734,10 @@ var render = function() {
                       }
                     },
                     [
-                      _c("UnknownCodes", {
+                      _c("MissingCodes", {
                         attrs: {
-                          title: "Unknown Customer Codes",
-                          unknownCodes: _vm.distinctCustomerCodesNA,
+                          title: "Missing Customer/s in Principal's Masterfile",
+                          MissingCodes: _vm.distinctCustomerCodesNA,
                           type: "warning",
                           temptxt_id: "temptxt_customers"
                         }
@@ -748,13 +750,13 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: {
-                        title: "Unknown Product Codes",
+                        title: "Missing Product/s in Principal's Masterfile",
                         icon: "",
                         dense: "",
                         rounded: "",
                         outlinedx: "",
                         depressed: "",
-                        color: "error",
+                        color: "warning",
                         disabled: _vm.distinctProductCodesNA.length < 1
                       },
                       on: {
@@ -785,11 +787,11 @@ var render = function() {
                       }
                     },
                     [
-                      _c("UnknownCodes", {
+                      _c("MissingCodes", {
                         attrs: {
-                          title: "Unknown Product Codes",
-                          unknownCodes: _vm.distinctProductCodesNA,
-                          type: "error",
+                          title: "Missing Product/s in Principal's Masterfile",
+                          MissingCodes: _vm.distinctProductCodesNA,
+                          type: "warning",
                           temptxt_id: "temptxt_products"
                         }
                       })
@@ -811,9 +813,8 @@ var render = function() {
                         disabled:
                           _vm.lineCount < 1 ||
                           _vm.searchKeyLength > 0 ||
-                          _vm.productsNotFoundCount +
-                            _vm.customersNotFoundCount >=
-                            _vm.lineCount
+                          _vm.productsNotFoundCount > 0 ||
+                          _vm.customersNotFoundCount > 0
                       },
                       on: {
                         click: function($event) {
@@ -852,54 +853,7 @@ var render = function() {
                                 _vm._v(
                                   "\n                                Save generated data to the database and\n                                export to Excel?\n                            "
                                 )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "text-caption mt-2" },
-                                [
-                                  _vm._v(
-                                    "\n                                NOTE: Lines with\n                                "
-                                  ),
-                                  _c(
-                                    "v-chip",
-                                    {
-                                      attrs: {
-                                        color: "warning",
-                                        "x-small": "",
-                                        outlined: ""
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                    warning\n                                "
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(
-                                    "\n                                or\n                                "
-                                  ),
-                                  _c(
-                                    "v-chip",
-                                    {
-                                      attrs: {
-                                        color: "error",
-                                        "x-small": "",
-                                        outlined: ""
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                    error\n                                "
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(
-                                    "\n                                will be skipped\n                            "
-                                  )
-                                ],
-                                1
-                              )
+                              ])
                             ]
                           ),
                           _vm._v(" "),

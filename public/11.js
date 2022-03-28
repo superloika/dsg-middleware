@@ -56,6 +56,9 @@ __webpack_require__.r(__webpack_exports__);
       masterfiles_tab: null
     };
   },
+  created: function created() {// this.PrincipalsStore.initProducts(this.PrincipalsStore.state.selectedPrincipalCode);
+    // this.PrincipalsStore.initCustomers(this.PrincipalsStore.state.selectedPrincipalCode);
+  },
   mounted: function mounted() {
     console.log('MasterFiles component mounted');
   }
@@ -106,14 +109,7 @@ var render = function() {
               _c("v-icon", { staticClass: "mr-1" }, [
                 _vm._v("mdi-account-multiple")
               ]),
-              _vm._v(" Customers \r\n            "),
-              _c("v-chip", { attrs: { color: "primary", "x-small": "" } }, [
-                _vm._v(
-                  "\r\n                " +
-                    _vm._s(_vm.PrincipalsStore.state.customers.length) +
-                    "\r\n            "
-                )
-              ])
+              _vm._v(" Customers \n            ")
             ],
             1
           ),
@@ -123,14 +119,7 @@ var render = function() {
             { attrs: { exact: "" } },
             [
               _c("v-icon", { staticClass: "mr-1" }, [_vm._v("mdi-cube")]),
-              _vm._v(" Products \r\n            "),
-              _c("v-chip", { attrs: { color: "primary", "x-small": "" } }, [
-                _vm._v(
-                  "\r\n                " +
-                    _vm._s(_vm.PrincipalsStore.state.products.length) +
-                    "\r\n            "
-                )
-              ])
+              _vm._v(" Products \n            ")
             ],
             1
           )

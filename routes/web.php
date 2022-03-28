@@ -112,6 +112,7 @@ Route::prefix('principals')->group(function(){
     // Settings
     Route::get("/settings", "Principals\PrincipalsUtil@settings");
     Route::post("/settings", "Principals\PrincipalsUtil@saveSettings");
+    Route::get("/settings_principal", "Principals\PrincipalsUtil@principalSettings");
 
     // Invoices
     Route::get("/invoices", "Principals\PrincipalsUtil@invoices");

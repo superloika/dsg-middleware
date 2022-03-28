@@ -69,10 +69,12 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    // this.PrincipalsStore.initialize();
     if (this[this.selectedPrincipalCode] == null || this[this.selectedPrincipalCode] == undefined) {
       Vue.prototype[this.selectedPrincipalCode] = __webpack_require__("./resources/js/stores.custom/principals sync recursive ^\\.\\/.*$")("./".concat(this.selectedPrincipalCode))["default"];
-    }
+    } // Initialize settings
+
+
+    this.PrincipalsStore.initSettings();
   },
   mounted: function mounted() {
     console.log(this.selectedPrincipalCode + ' component mounted');
@@ -257,15 +259,13 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Code",
     value: "customer_code"
   }, {
-    text: "Customer Name",
+    text: "Name",
     value: "customer_name"
   }, {
     text: "Salesman Name",
     value: "salesman_name"
-  }, {
-    text: "Route Code",
-    value: "route_code"
-  }],
+  } // { text: "Route Code", value: "route_code" },
+  ],
   productsTableHeader: [{
     text: "Item Code",
     value: "item_code"

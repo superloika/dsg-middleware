@@ -2,61 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class MasterCustomersController extends Controller
 {
-    function index() {
-        $result = DB::table('master_customers')->get();
+    private $TBL_MASTER_CUSTOMERS = 'master_customers';
 
+    function index() {
+        $row_count = request()->row_count ?? 10;
+        $search_key = request()->search_key ?? '';
+
+        $result = DB::table($this->TBL_MASTER_CUSTOMERS)
+            ->where('customer_code','like','%'. $search_key. '%')
+            ->orWhere('name','like','%'. $search_key. '%')
+            ->orWhere('address','like','%'. $search_key. '%')
+            ->orWhere('address_2','like','%'. $search_key. '%')
+            ->orWhere('city','like','%'. $search_key. '%')
+            ->orWhere('contact','like','%'. $search_key. '%')
+            ->orWhere('phone_no','like','%'. $search_key. '%')
+            ->paginate($row_count);
         return response()->json($result);
     }
 
 
     public function upload(Request $request) {
+        set_time_limit(0);
+        // DB::disableQueryLog();
+
         try {
-            // $fileName = $request->file->getClientOriginalName()
-            //     . '-' . time() . '.' . $request->file->getClientOriginalExtension();
-            // $request->file->storeAs('public/test_files', $fileName);
-
-            // dd($request->file('files'));
-
-            $tableName = 'master_customers';
+            $this->TBL_MASTER_CUSTOMERS = 'master_customers';
             $delimiter = ',';
 
             foreach($request->file('files') as $masterfile) {
-                // dd($masterfile);
-
-                // $fileName = 'customers-'. time(). '.'.
-                //     $masterfile->getClientOriginalExtension();
                 $fileName = 'customers-'. time(). '-'. $masterfile->getClientOriginalName();
 
-                $testFilesPath = "public/masterfiles";
-                Storage::putFileAs($testFilesPath, $masterfile, $fileName);
+                $filePath = "public/masterfiles";
+                Storage::putFileAs($filePath, $masterfile, $fileName);
 
-                if (Storage::exists("$testFilesPath/$fileName")) {
-                    $fileContent = Storage::get("$testFilesPath/$fileName");
-
-                    // $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "auto"));
+                if (Storage::exists("$filePath/$fileName")) {
+                    $fileContent = Storage::get("$filePath/$fileName");
                     $fileContentLines = explode(PHP_EOL, utf8_encode($fileContent));
-                    // dd($fileContentLines);
-
-                    // =====================
-                    /**
-                     * If the file content contains more than one line,
-                     * explode the second line and store it in $pcode.
-                     * Get the 1st array element in $pcode assuming that it is the principal code
-                     */
-                    if(count($fileContentLines) > 1) {
-                        $pcode = explode(',',$fileContentLines[1])[0];
-                        DB::table($tableName)->where('principal_code',$pcode)->delete();
-                    }
-                    // =====================
 
                     $loopCounter = 1;
-                    // DB::table($tableName)->truncate();
+                    // DB::table($this->TBL_MASTER_CUSTOMERS)->truncate();
+                    $arrLines = [];
+                    $dateToday = Carbon::now()->toDateTimeString();
+
+                    DB::table($this->TBL_MASTER_CUSTOMERS)->delete();
+
                     foreach ($fileContentLines as $fileContentLine) {
                         if($loopCounter > 1) {
                             // $arrFileContentLine = explode($delimiter, $fileContentLine);
@@ -65,85 +61,53 @@ class MasterCustomersController extends Controller
 
                             // dd($arrFileContentLine);
 
-                            if (count($arrFileContentLine) > 1) {
+                            if (count($arrFileContentLine) > 1 && substr($arrFileContentLine[0], 0, 1) != '#') {
+                                $customer_code = $arrFileContentLine[0];
+                                $name = str_replace('"','',$arrFileContentLine[1]);
+                                $address = str_replace('"','',$arrFileContentLine[2]);
+                                $address_2 = str_replace('"','',$arrFileContentLine[3]);
+                                $city = str_replace('"','',$arrFileContentLine[4]);
+                                $contact = str_replace('"','',$arrFileContentLine[5]);
+                                $phone_no = str_replace('"','',$arrFileContentLine[6]);
 
-                                // $item_code = $arrFileContentLine[0] == null ? '' : $arrFileContentLine[0];
-                                // $description = $arrFileContentLine[1] == null ? '' : $arrFileContentLine[1];
-                                // $item_code_supplier = $arrFileContentLine[2] == null ? '' : $arrFileContentLine[2];
-                                // $description_supplier = $arrFileContentLine[3] == null ? '' : $arrFileContentLine[3];
-                                // $uom = $arrFileContentLine[4] == null ? '' : $arrFileContentLine[4];
-                                // $per_uom = floatval($arrFileContentLine[5]) == null ? '' : $arrFileContentLine[5];
-                                // $principal_code = $arrFileContentLine[6] == null ? '' : $arrFileContentLine[6];
-
-                                $principal_code = $arrFileContentLine[0];
-
-                                $distributor_code = $arrFileContentLine[1];
-                                $customer_code = $arrFileContentLine[2];
-                                $customer_name = str_replace('"','',$arrFileContentLine[3]);
-                                $outlet_type = $arrFileContentLine[4];
-                                $salesman_name = $arrFileContentLine[5];
-                                $operation_type = $arrFileContentLine[6];
-                                $status = $arrFileContentLine[7];
-                                $address_1 = str_replace('"','',$arrFileContentLine[8]);
-
-
-                                // ===============================================================================
-                                DB::table($tableName)->insert([
-                                    'principal_code'=>$principal_code,
-                                    'distributor_code'=>$distributor_code,
-                                    'customer_code'=>$customer_code,
-                                    'customer_name'=>$customer_name,
-                                    'outlet_type'=>$outlet_type,
-                                    'salesman_name'=>$salesman_name,
-                                    'operation_type'=>$operation_type,
-                                    'status'=>$status,
-                                    'address_1'=>$address_1,
-                                ]);
-                                // ===============================================================================
-
-
-                                // ===============================================================================
-                                // $recordExists = DB::table($tableName)
-                                //     ->where('principal_code', $principal_code)
-                                //     ->where('item_code', $item_code)
-                                //     ->where('description', $description)
-                                //     ->where('item_code_supplier', $item_code_supplier)
-                                //     ->where('description_supplier', $description_supplier)
-                                //     ->where('uom', $uom)
-                                //     ->where('per_uom', $per_uom)
-                                //     ->exists();
-
-                                // if($recordExists) {
-
-                                // } else {
-                                //     DB::table($tableName)->insert([
-                                //         'item_code'=>$item_code,
-                                //         'description'=>$description,
-                                //         'item_code_supplier'=>$item_code_supplier,
-                                //         'description_supplier'=>$description_supplier,
-                                //         'uom'=>$uom,
-                                //         'per_uom'=>$per_uom,
-                                //         'principal_code'=>$principal_code,
-                                //     ]);
-                                // }
-                                // ===============================================================================
-
+                                $isExisting = array_search(
+                                    $customer_code, array_column($arrLines, 'customer_code')
+                                );
+                                // $isExisting = false;
+                                if($isExisting==false) {
+                                    $arrLines[] = [
+                                        'updated_at'=>$dateToday,
+                                        'customer_code'=>$customer_code,
+                                        'name'=>$name,
+                                        'address'=>$address,
+                                        'address_2'=>$address_2,
+                                        'city'=>$city,
+                                        'contact'=>$contact,
+                                        'phone_no'=>$phone_no,
+                                    ];
+                                }
                             }
                         }
-
                         $loopCounter++;
                     }
+
+                    $chunks = array_chunk($arrLines, 1000);
+                    foreach($chunks as $chunk) {
+                        DB::table($this->TBL_MASTER_CUSTOMERS)
+                            ->insert($chunk);
+                    }
+
                 }
             }
 
             $res['success'] = true;
-            $res['message'] = 'File uploaded successfully';
+            $res['message'] = 'Success';
 
             return response()->json($res);
 
         } catch (\Throwable $th) {
             $res['success'] = false;
-            $res['message'] = $th->getMessage();
+            $res['message'] = $th;
             return response()->json($res);
         }
     }

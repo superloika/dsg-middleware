@@ -7,7 +7,7 @@
 
         <v-spacer></v-spacer>
         <v-btn icon
-            @click="MasterCommon.state.isImportDialogOpen = false"
+            @click="AppStore.state.dlgImportMaster = false"
             title="Close"
         >
             <v-icon>mdi-close-box-outline</v-icon>
@@ -15,13 +15,13 @@
     </v-card-title>
     <v-card-text>
         <v-row>
-            <v-col cols lg="8" md="7" sm="12">
+            <v-col cols lg="9" md="8" sm="12">
                 <v-form ref="frm_upload">
                     <v-file-input
                         small-chips
                         counter
                         show-size
-                        truncate-length="50"
+                        truncate-length="30"
                         rounded
                         outlined
                         dense
@@ -33,7 +33,7 @@
                     ></v-file-input>
                 </v-form>
             </v-col>
-            <v-col cols lg="4" md="5" sm="12">
+            <v-col cols lg="3" md="4" sm="12">
                 <v-btn
                     dense color="primary"
                     @click="formSubmit()"
@@ -129,13 +129,7 @@ export default {
                     this.MasterPrincipals.initPrincipals();
                     this.MasterCustomers.initCustomers();
                     this.MasterProducts.initProducts();
-                    this.MasterCommon.state.isImportDialogOpen = false;
-
-                    // if(this.id=='products') {
-                    // } else if(this.id=='customers') {
-                    // } else if(this.id=='principals') {
-                    // }
-
+                    this.AppStore.state.dlgImportMaster = false;
                 })
                 .catch(error => {
                     vm.uploadResponse.success = false;

@@ -38,6 +38,7 @@ const state = Vue.observable({
         .toISOString()
         .substr(0, 10)],
     // navDrawerState: localStorage.getItem('navDrawerState'),
+    dlgImportMaster: false,
 });
 
 

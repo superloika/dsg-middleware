@@ -45,7 +45,6 @@ const actions = {
         );
         this.initInvoicesGrandTotal();
         this.initSettings();
-
     },
 
     cleanup() {
@@ -383,7 +382,18 @@ const actions = {
             if(result.data.error == undefined) {
                 state.settings = [];
                 state.settings = result.data;
-                console.log('SETTINGS:', state.settings);
+                // state.settings = result.data.map(e=>{
+                //     if(e.type=='toggle') {
+                //         e.value = parseInt(e.value);
+                //     }
+                //     return e;
+                // });
+
+                // console.log('SETTINGS:', state.settings);
+                // console.log(
+                //     'route_code_mapping',
+                //     eval(state.settings.find(e => e.name=='route_code_mapping').value)
+                // );
             }
         } catch (error) {
             console.log('initSettings():', error);

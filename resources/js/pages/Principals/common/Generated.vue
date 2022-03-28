@@ -23,10 +23,21 @@
                                 outlinedx
                                 label
                                 color="transparent"
+                                v-if="customersNotFoundCount > 0 || productsNotFoundCount > 0"
+                                class="px-1 warning--text"
+                            >
+                                {{ customersNotFoundCount > productsNotFoundCount ?
+                                    customersNotFoundCount : productsNotFoundCount }} total warning/s
+                            </v-chip>
+                            <!-- <v-chip
+                                small
+                                outlinedx
+                                label
+                                color="transparent"
                                 v-if="customersNotFoundCount > 0"
                                 class="px-1 warning--text"
                             >
-                                {{ customersNotFoundCount }} warning/s
+                                {{ customersNotFoundCount }} lines with unmappable customer code
                             </v-chip>
                             <v-chip
                                 small
@@ -34,10 +45,10 @@
                                 label
                                 color="transparent"
                                 v-if="productsNotFoundCount > 0"
-                                class="px-1 error--text"
+                                class="px-1 warning--text"
                             >
-                                {{ productsNotFoundCount }} error/s
-                            </v-chip>
+                                {{ productsNotFoundCount }} lines with unmappable product code
+                            </v-chip> -->
                         </div>
                     </v-toolbar-title>
 
@@ -55,10 +66,7 @@
                         rounded
                         clearable
                         solo-inverted
-                        :disabled="
-                            PrincipalsStore.state.currentGeneratedData.length <
-                                1
-                        "
+                        :disabled="PrincipalsStore.state.currentGeneratedData.length<1"
                     ></v-text-field>
 
                     <!-- <v-btn
@@ -81,8 +89,9 @@
                         icon dense rounded depressed
                         color="yellow"
                         @click.stop="dlgPendings = true"
-                        :disabled="distinctCustomerCodesNA.length < 1"
+                        disabled
                     >
+                        <!-- :disabled="distinctCustomerCodesNA.length < 1" -->
                         <v-icon>mdi-file-document</v-icon>
                     </v-btn>
                     <v-dialog
@@ -96,16 +105,16 @@
                     </v-dialog>
                     <!-- =====================  /PENDINGS ====================== -->
 
-                    <!-- UNKNOWN CUSTOMER CODES -->
+                    <!-- MISSING CUSTOMER CODES -->
                     <v-btn
-                        title="Unknown Customer Codes"
+                        title="Missing Customer/s in Principal's Masterfile"
                         icon
                         dense
                         rounded
                         depressed
                         color="warning"
                         @click.stop="dlgDistinctCustomerCodesNA = true"
-                        :disabled="distinctCustomerCodesNA.length < 1 && distinctProductCodesNA.length < 1"
+                        :disabled="distinctCustomerCodesNA.length < 1"
                     >
                         <!-- <v-badge
                             :content="distinctCustomerCodesNA.length"
@@ -122,24 +131,24 @@
                         max-width="600"
                         scrollable
                     >
-                        <UnknownCodes
-                            title="Unknown Customer Codes"
-                            :unknownCodes="distinctCustomerCodesNA"
+                        <MissingCodes
+                            title="Missing Customer/s in Principal's Masterfile"
+                            :MissingCodes="distinctCustomerCodesNA"
                             type="warning"
                             temptxt_id="temptxt_customers"
-                        ></UnknownCodes>
+                        ></MissingCodes>
                     </v-dialog>
-                    <!-- /UNKNOWN CUSTOMER CODES -->
+                    <!-- /MISSING CUSTOMER CODES -->
 
-                    <!-- UNKNOWN PRODUCT CODES -->
+                    <!-- MISSING PRODUCT CODES -->
                     <v-btn
-                        title="Unknown Product Codes"
+                        title="Missing Product/s in Principal's Masterfile"
                         icon
                         dense
                         rounded
                         outlinedx
                         depressed
-                        color="error"
+                        color="warning"
                         @click.stop="dlgDistinctProductCodesNA = true"
                         :disabled="distinctProductCodesNA.length < 1"
                     >
@@ -158,14 +167,14 @@
                         max-width="600"
                         scrollable
                     >
-                        <UnknownCodes
-                            title="Unknown Product Codes"
-                            :unknownCodes="distinctProductCodesNA"
-                            type="error"
+                        <MissingCodes
+                            title="Missing Product/s in Principal's Masterfile"
+                            :MissingCodes="distinctProductCodesNA"
+                            type="warning"
                             temptxt_id="temptxt_products"
-                        ></UnknownCodes>
+                        ></MissingCodes>
                     </v-dialog>
-                    <!-- /UNKNOWN PRODUCT CODES -->
+                    <!-- /MISSING PRODUCT CODES -->
 
                     <v-btn
                         title="Save Data and Export to Excel"
@@ -178,12 +187,17 @@
                         @click.stop="confirmExportDialogOpen = true"
                         :disabled="
                             lineCount < 1 ||
-                                searchKeyLength > 0 ||
-                                productsNotFoundCount +
-                                    customersNotFoundCount >=
-                                    lineCount
+                            searchKeyLength > 0 ||
+                            productsNotFoundCount > 0 ||
+                            customersNotFoundCount > 0
                         "
                     >
+                    <!-- :disabled="
+                        lineCount < 1 ||
+                        searchKeyLength > 0 ||
+                        (productsNotFoundCount + customersNotFoundCount) >= lineCount
+                    " -->
+
                         <v-icon>mdi-content-save</v-icon>
                         <!-- &nbsp;
                     Save and Export -->
@@ -201,7 +215,7 @@
                                     Save generated data to the database and
                                     export to Excel?
                                 </div>
-                                <span class="text-caption mt-2">
+                                <!-- <span class="text-caption mt-2">
                                     NOTE: Lines with
                                     <v-chip color="warning" x-small outlined>
                                         warning
@@ -211,7 +225,7 @@
                                         error
                                     </v-chip>
                                     will be skipped
-                                </span>
+                                </span> -->
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
@@ -277,7 +291,7 @@ export default {
         GeneratedTableWrapper: () => import("./GeneratedTableWrapper.vue"),
         InvoicesImport: () => import("./InvoicesImport.vue"),
         // InvoicesImport,
-        UnknownCodes: () => import("./UnknownCodes.vue"),
+        MissingCodes: () => import("./MissingCodes.vue"),
         Settings: () => import("./Settings.vue"),
         Pendings: () => import("./Pendings.vue"),
     },
@@ -407,7 +421,14 @@ export default {
 
         myStore() {
             return this[this.selectedPrincipalCode];
-        }
+        },
+
+        // strictExport() {
+        //     const strict_export =
+        //         this.PrincipalsStore.state.settings
+        //             .find(e=>e.name=='strict_export').value;
+        //     return strict_export=='1' ? true : false;
+        // }
     },
 
     methods: {
@@ -458,6 +479,7 @@ export default {
 
     mounted() {
         console.log("Generated component mounted");
+        // console.log(this.strictExport);
     }
 };
 </script>

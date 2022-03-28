@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Principals;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
@@ -168,35 +169,26 @@ class MeadJohnsonController extends Controller
     {
         set_time_limit(0);
 
-        // $cols = [
-        //     'id',
-        //     'principal_code',
-        //     'upload_date',
-        //     'distributor_code',
-        //     'customer_code',
-        //     'customer_name',
-        //     'outlet_type',
-        //     'salesman_name',
-        //     'route_code',
-        //     'operation_type',
-        //     'status',
-        //     'address_1',
-        //     'address_4',
-        //     'address_5',
-        //     'postal_code',
-        // ];
-        $cols = [
-            'id',
-            'principal_code',
-            'upload_date',
-            'customer_code',
-            'customer_name',
-            'salesman_name',
-            'route_code',
-        ];
         $result = DB::table(PrincipalsUtil::$TBL_CUSTOMERS)
-            ->where('principal_code', $this->PRINCIPAL_CODE)
-            ->get($cols);
+            ->leftJoin(
+                'master_customers',
+                PrincipalsUtil::$TBL_CUSTOMERS. '.customer_code',
+                '=',
+                'master_customers.customer_code'
+            )
+            ->select(PrincipalsUtil::$TBL_CUSTOMERS.'.*',
+                'master_customers.name AS customer_name',
+                'master_customers.address',
+                'master_customers.address_2',
+                'master_customers.city',
+            )
+            ->where(PrincipalsUtil::$TBL_CUSTOMERS. '.principal_code', $this->PRINCIPAL_CODE)
+            ->get();
+
+        // $result = DB::table(PrincipalsUtil::$TBL_CUSTOMERS)
+        //     ->where('principal_code', $this->PRINCIPAL_CODE)
+        //     ->get();
+
         return response()->json($result);
     }
 
@@ -206,7 +198,6 @@ class MeadJohnsonController extends Controller
     public function uploadMasterCustomers(Request $request)
     {
         set_time_limit(0);
-
         try {
             $delimiter = ',';
             $fileName = time() . '.' . $request->file->getClientOriginalName();
@@ -226,6 +217,8 @@ class MeadJohnsonController extends Controller
                     ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
                 $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
+                $arrLines = [];
+
                 foreach ($fileContentLines as $fileContentLine) {
                     // Begin at the second line (exclude the header)
                     if ($lineCount > 1) {
@@ -245,12 +238,16 @@ class MeadJohnsonController extends Controller
                             // $address_5 = str_replace('"', '', $arrFileContentLine[10]);
                             // $postal_code = str_replace('"', '', $arrFileContentLine[11]);
 
-                            $customer_code = $arrFileContentLine[0];
-                            $customer_name = str_replace('"', '', $arrFileContentLine[1]);
-                            $salesman_name = str_replace('"', '', $arrFileContentLine[2]);
-                            $route_code = $arrFileContentLine[3];
+                            // $customer_code = trim($arrFileContentLine[0]);
+                            // $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
+                            // $customer_name = trim(str_replace('"', '', $arrFileContentLine[2]));
+                            // $salesman_name = trim(str_replace('"', '', $arrFileContentLine[3]));
+                            // $route_code = trim($arrFileContentLine[4]);
 
-                            // ===============================================================================
+                            $customer_code = trim($arrFileContentLine[0]);
+                            $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
+                            $salesman_name = trim(str_replace('"', '', $arrFileContentLine[2]));
+                            // =========================================================================
                             // DB::table(PrincipalsUtil::$TBL_CUSTOMERS)->insert([
                             //     'principal_code' => $this->PRINCIPAL_CODE,
                             //     'distributor_code' => $distributor_code,
@@ -267,20 +264,30 @@ class MeadJohnsonController extends Controller
                             //     'postal_code' => $postal_code,
                             //     'uploaded_by' => auth()->user()->id
                             // ]);
-
-                            DB::table(PrincipalsUtil::$TBL_CUSTOMERS)->insert([
-                                'principal_code' => $this->PRINCIPAL_CODE,
-                                'customer_code' => $customer_code,
-                                'customer_name' => $customer_name,
-                                'salesman_name' => $salesman_name,
-                                'route_code' => $route_code,
-                                'uploaded_by' => auth()->user()->id
-                            ]);
-                            // ===============================================================================
+                            // =========================================================================
+                            $isExisting = array_search(
+                                $customer_code, array_column($arrLines, 'customer_code')
+                            );
+                            // $isExisting = false;
+                            if($isExisting==false) {
+                                $arrLines[] = [
+                                    'principal_code' => $this->PRINCIPAL_CODE,
+                                    'customer_code' => $customer_code,
+                                    'customer_code_supplier' => $customer_code_supplier,
+                                    // 'customer_name' => $customer_name,
+                                    'salesman_name' => $salesman_name,
+                                    // 'route_code' => $route_code,
+                                    'uploaded_by' => auth()->user()->id
+                                ];
+                            }
                         }
                     }
-
                     $lineCount++;
+                }
+
+                $chunks = array_chunk($arrLines, 500);
+                foreach ($chunks as $chunk) {
+                    DB::table(PrincipalsUtil::$TBL_CUSTOMERS)->insert($chunk);
                 }
             }
 
@@ -308,6 +315,7 @@ class MeadJohnsonController extends Controller
     public function importInvoices(Request $request)
     {
         set_time_limit(0);
+        // dd(PrincipalsUtil::getPrincipalSettings('mead_johnson')->route_code_mapping[1]->salesman_name);
 
         try {
             $delimiter = '|';
@@ -331,6 +339,16 @@ class MeadJohnsonController extends Controller
             $breakFilesIteration = false;
             $pageLineCount = 1;
             $pageNum = 1;
+
+            // Get principal settings (test)
+            $principal_settings = PrincipalsUtil::getPrincipalSettings($this->PRINCIPAL_CODE);
+
+            $route_codes = [];
+            foreach($principal_settings->route_code_mapping as $rcm) {
+                $route_codes[$rcm->salesman_name] = $rcm->route_code;
+            }
+
+            // dd($route_codes);
 
             // ================ PENDING INVOICEEEEEEES =================================
             if(1==2) {
@@ -482,19 +500,31 @@ class MeadJohnsonController extends Controller
                                     $invoice_uploaded = 0;
                                     $product_notfound = 0;
                                     $customer_notfound = 0;
+                                    $salesman_name = '';
 
                                     if ($product == null) $product_notfound = 1;
-                                    if ($customer == null) $customer_notfound = 1;
+                                    if ($customer == null) {
+                                        $customer_notfound = 1;
+                                    } else {
+                                        $salesman_name = $customer->salesman_name;
+                                    }
 
                                     $order_date = $dateToday->format('Y/m/d');
                                     $order_no = 'TBD';
                                     if($product_notfound == 1 || $customer_notfound == 1) {
-                                        $order_date = 'TBD';
+                                        // $order_date = 'TBD';
                                     } else if($product_notfound == 0 || $customer_notfound == 0) {
                                         $order_no = $latest_order_no += 1;
                                     }
 
-                                    $route_code = $customer->route_code ?? 'Customer_NA';
+                                    // $route_code = $customer->route_code ?? 'Customer_NA';
+                                    // $route_code = Arr::first($principal_settings->route_code_mapping,
+                                    //     function($value, $key) use (&$salesman_name){
+                                    //         return $value->salesman_name==$salesman_name;
+                                    //     }
+                                    // )->route_code ?? 'Customer_NA';
+                                    $route_code = $route_codes[$salesman_name] ?? 'Customer_NA';
+
                                     $product_category_code = $settings['product_category_code'];
                                     $ship_to = $settings['ship_to'];
 

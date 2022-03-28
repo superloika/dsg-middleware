@@ -95,7 +95,7 @@ var render = function() {
         "v-card-title",
         { staticClass: "text-h6" },
         [
-          _vm._v("\r\n        " + _vm._s(_vm.title) + " \r\n        "),
+          _vm._v("\n        " + _vm._s(_vm.title) + " \n        "),
           _c(
             "v-chip",
             {
@@ -104,9 +104,9 @@ var render = function() {
             },
             [
               _vm._v(
-                "\r\n            " +
+                "\n            " +
                   _vm._s(_vm.unknownCodes.length) +
-                  "\r\n        "
+                  "\n        "
               )
             ]
           ),
@@ -116,21 +116,7 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { icon: "", title: "Copy All" },
-              on: {
-                click: function($event) {
-                  return _vm.AppStore.copyToClipboard(_vm.codesNA)
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-content-copy")])],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: { icon: "", title: "Export to Textfile" },
+              attrs: { icon: "", title: "Download" },
               on: {
                 click: function($event) {
                   return _vm.AppStore.exportToTxt(
@@ -140,7 +126,7 @@ var render = function() {
                 }
               }
             },
-            [_c("v-icon", [_vm._v("mdi-export")])],
+            [_c("v-icon", [_vm._v("mdi-file-download")])],
             1
           )
         ],
@@ -158,7 +144,7 @@ var render = function() {
               staticClass: "ma-1",
               attrs: { color: _vm.variantColor, small: "", outlined: "" }
             },
-            [_vm._v("\r\n            " + _vm._s(pcode) + "\r\n        ")]
+            [_vm._v("\n            " + _vm._s(pcode) + "\n        ")]
           )
         }),
         1

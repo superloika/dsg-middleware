@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-app-bar elevation="0" dense app color="white">
+    <v-app-bar elevation="0" app>
         <v-toolbar-title>{{ $route.meta.name }}</v-toolbar-title>
 
         <v-spacer></v-spacer>
@@ -14,14 +14,14 @@
             class="mr-3"
             flat
             rounded
-            solo
-            background-color="grey lighten-5"
+            solo-inverted
+            style="max-width: 200px;"
         ></v-text-field>
 
         <v-btn
             icon
             title="Import Products"
-            @click.stop="MasterCommon.state.isImportDialogOpen=true"
+            @click.stop="AppStore.state.dlgImportMaster=true"
         >
             <v-icon>mdi-import</v-icon>
         </v-btn>
@@ -44,8 +44,8 @@
     ></v-data-table>
 
     <v-dialog
-        v-model="MasterCommon.state.isImportDialogOpen"
-        max-width="600"
+        v-model="AppStore.state.dlgImportMaster"
+        max-width="720"
         persistent
     >
         <MasterUpload id="products"></MasterUpload>
@@ -115,6 +115,10 @@ export default {
 
     mounted() {
         console.log('MasterProducts page mounted.')
-    }
+    },
+
+    beforeDestroy() {
+        this.MasterCustomers.state.products = [];
+    },
 }
 </script>
