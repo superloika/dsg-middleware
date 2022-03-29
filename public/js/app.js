@@ -3193,10 +3193,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     'ExpendituresAdd': function ExpendituresAdd() {
-      return __webpack_require__.e(/*! import() */ 21).then(__webpack_require__.bind(null, /*! ./ExpendituresAdd.vue */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue"));
+      return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! ./ExpendituresAdd.vue */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue"));
     },
     'TagsComponent': function TagsComponent() {
-      return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! ./TagsComponent.vue */ "./resources/js/pages/ExpendituresPage/TagsComponent.vue"));
+      return __webpack_require__.e(/*! import() */ 23).then(__webpack_require__.bind(null, /*! ./TagsComponent.vue */ "./resources/js/pages/ExpendituresPage/TagsComponent.vue"));
     }
   },
   data: function data() {
@@ -3460,7 +3460,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsAdd: function AccountsAdd() {
-      return __webpack_require__.e(/*! import() */ 23).then(__webpack_require__.bind(null, /*! ./AccountsAdd.vue */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue"));
+      return __webpack_require__.e(/*! import() */ 24).then(__webpack_require__.bind(null, /*! ./AccountsAdd.vue */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue"));
     },
     AccountsEdit: function AccountsEdit() {
       return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
@@ -3581,7 +3581,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
@@ -3746,7 +3746,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
@@ -3835,6 +3835,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -3890,17 +3892,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
     return {
-      percentCompleted: '',
-      currPage: 1,
-      perPage: 10,
       searchKey: ''
     };
   },
@@ -3915,6 +3929,9 @@ __webpack_require__.r(__webpack_exports__);
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
       XLSX.writeFile(wb, 'tbl.csv');
       this.isLoading = false;
+    },
+    onPageChange: function onPageChange() {
+      this.MasterProducts.initProducts(this.searchKey);
     }
   },
   computed: {
@@ -3923,23 +3940,8 @@ __webpack_require__.r(__webpack_exports__);
         text: "Item Code",
         value: "item_code"
       }, {
-        text: "Description",
+        text: "Item Description",
         value: "description"
-      }, {
-        text: "Item Code",
-        value: "item_code_supplier"
-      }, {
-        text: "Description (Supplier)",
-        value: "description_supplier"
-      }, {
-        text: "UOM",
-        value: "uom"
-      }, {
-        text: "Per UOM",
-        value: "per_uom"
-      }, {
-        text: "Principal Code",
-        value: "principal_code"
       }]; // let header = [];
       // if (this.sampleData.length) {
       //     let objKeys = Object.keys(this.sampleData[0]);
@@ -3955,6 +3957,15 @@ __webpack_require__.r(__webpack_exports__);
       return header;
     }
   },
+  watch: {
+    searchKey: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["debounce"])(function () {
+      if (this.MasterProducts.state.products.current_page != undefined) {
+        this.MasterProducts.state.products.current_page = 1;
+      }
+
+      this.MasterProducts.initProducts(this.searchKey);
+    }, 500)
+  },
   created: function created() {
     this.MasterProducts.initProducts();
   },
@@ -3962,7 +3973,8 @@ __webpack_require__.r(__webpack_exports__);
     console.log('MasterProducts page mounted.');
   },
   beforeDestroy: function beforeDestroy() {
-    this.MasterCustomers.state.products = [];
+    this.MasterCustomers.state.customers = {};
+    this.MasterProducts.state.products = {};
   }
 });
 
@@ -4145,7 +4157,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     'TestUpload': function TestUpload() {
-      return __webpack_require__.e(/*! import() */ 27).then(__webpack_require__.bind(null, /*! ./TestUpload.vue */ "./resources/js/pages/TestPage/TestUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 28).then(__webpack_require__.bind(null, /*! ./TestUpload.vue */ "./resources/js/pages/TestPage/TestUpload.vue"));
     }
   },
   data: function data() {
@@ -24111,7 +24123,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-list-item",
-                { attrs: { link: "", to: "/master/products", disabled: "" } },
+                { attrs: { link: "", to: "/master/products" } },
                 [
                   _c(
                     "v-list-item-icon",
@@ -25428,7 +25440,7 @@ var render = function() {
           _c(
             "v-dialog",
             {
-              attrs: { "max-width": "720", persistent: "" },
+              attrs: { "max-width": "800", persistent: "" },
               model: {
                 value: _vm.AppStore.state.dlgImportMaster,
                 callback: function($$v) {
@@ -25470,7 +25482,7 @@ var render = function() {
                 attrs: {
                   items: _vm.MasterCustomers.state.customers.data,
                   headers: _vm.tblHeader,
-                  dense: "",
+                  densex: "",
                   "hide-default-footer": "",
                   "disable-pagination": ""
                 }
@@ -25620,9 +25632,45 @@ var render = function() {
         "v-app-bar",
         { attrs: { elevation: "0", app: "" } },
         [
-          _c("v-toolbar-title", [_vm._v(_vm._s(_vm.$route.meta.name))]),
+          _c(
+            "v-toolbar-title",
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.$route.meta.name) +
+                  "\n            "
+              ),
+              _c("v-chip", { attrs: { color: "primary", small: "" } }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.MasterProducts.state.products.total) +
+                    "\n            "
+                )
+              ])
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("v-spacer"),
+          _vm._v(" "),
+          _c("v-pagination", {
+            attrs: {
+              length: _vm.MasterProducts.state.products.last_page,
+              "total-visible": "3"
+            },
+            on: {
+              input: function($event) {
+                return _vm.onPageChange()
+              }
+            },
+            model: {
+              value: _vm.MasterProducts.state.products.current_page,
+              callback: function($$v) {
+                _vm.$set(_vm.MasterProducts.state.products, "current_page", $$v)
+              },
+              expression: "MasterProducts.state.products.current_page"
+            }
+          }),
           _vm._v(" "),
           _c("v-text-field", {
             staticClass: "mr-3",
@@ -25656,7 +25704,7 @@ var render = function() {
                 }
               }
             },
-            [_c("v-icon", [_vm._v("mdi-import")])],
+            [_c("v-icon", [_vm._v("mdi-file-upload")])],
             1
           )
         ],
@@ -25666,18 +25714,20 @@ var render = function() {
       _c("v-data-table", {
         staticClass: "tbl-items elevation-1x",
         attrs: {
-          items: _vm.MasterProducts.state.products,
+          items: _vm.MasterProducts.state.products.data,
           headers: _vm.tblHeader,
           loading: _vm.MasterProducts.state.isLoadingProducts,
           search: _vm.searchKey,
-          dense: ""
+          densex: "",
+          "hide-default-footer": "",
+          "disable-pagination": ""
         }
       }),
       _vm._v(" "),
       _c(
         "v-dialog",
         {
-          attrs: { "max-width": "720", persistent: "" },
+          attrs: { "max-width": "800", persistent: "" },
           model: {
             value: _vm.AppStore.state.dlgImportMaster,
             callback: function($$v) {
@@ -88902,43 +88952,51 @@ var map = {
 	],
 	"./common/Base": [
 		"./resources/js/pages/Principals/common/Base.vue",
-		6
+		9
 	],
 	"./common/Base.vue": [
 		"./resources/js/pages/Principals/common/Base.vue",
-		6
+		9
 	],
 	"./common/Customers": [
 		"./resources/js/pages/Principals/common/Customers.vue",
-		7
+		10
 	],
 	"./common/Customers.vue": [
 		"./resources/js/pages/Principals/common/Customers.vue",
-		7
+		10
 	],
 	"./common/Generated": [
 		"./resources/js/pages/Principals/common/Generated.vue",
-		8
+		11
+	],
+	"./common/Generated copy": [
+		"./resources/js/pages/Principals/common/Generated copy.vue",
+		21
+	],
+	"./common/Generated copy.vue": [
+		"./resources/js/pages/Principals/common/Generated copy.vue",
+		21
 	],
 	"./common/Generated.vue": [
 		"./resources/js/pages/Principals/common/Generated.vue",
-		8
+		11
 	],
 	"./common/GeneratedHistory": [
 		"./resources/js/pages/Principals/common/GeneratedHistory.vue",
-		9
+		12
 	],
 	"./common/GeneratedHistory.vue": [
 		"./resources/js/pages/Principals/common/GeneratedHistory.vue",
-		9
+		12
 	],
 	"./common/GeneratedTable": [
 		"./resources/js/pages/Principals/common/GeneratedTable.vue",
-		2
+		3
 	],
 	"./common/GeneratedTable.vue": [
 		"./resources/js/pages/Principals/common/GeneratedTable.vue",
-		2
+		3
 	],
 	"./common/GeneratedTableWrapper": [
 		"./resources/js/pages/Principals/common/GeneratedTableWrapper.vue",
@@ -88958,83 +89016,83 @@ var map = {
 	],
 	"./common/InvoicesImport": [
 		"./resources/js/pages/Principals/common/InvoicesImport.vue",
-		10
+		4
 	],
 	"./common/InvoicesImport.vue": [
 		"./resources/js/pages/Principals/common/InvoicesImport.vue",
-		10
+		4
 	],
 	"./common/MasterFiles": [
 		"./resources/js/pages/Principals/common/MasterFiles.vue",
-		11
+		13
 	],
 	"./common/MasterFiles.vue": [
 		"./resources/js/pages/Principals/common/MasterFiles.vue",
-		11
+		13
 	],
 	"./common/MasterfileUpload": [
 		"./resources/js/pages/Principals/common/MasterfileUpload.vue",
-		3
+		5
 	],
 	"./common/MasterfileUpload.vue": [
 		"./resources/js/pages/Principals/common/MasterfileUpload.vue",
-		3
+		5
 	],
-	"./common/MissingCodes": [
-		"./resources/js/pages/Principals/common/MissingCodes.vue",
-		28
+	"./common/MissingInMaster": [
+		"./resources/js/pages/Principals/common/MissingInMaster.vue",
+		6
 	],
-	"./common/MissingCodes.vue": [
-		"./resources/js/pages/Principals/common/MissingCodes.vue",
-		28
+	"./common/MissingInMaster.vue": [
+		"./resources/js/pages/Principals/common/MissingInMaster.vue",
+		6
 	],
 	"./common/Pendings": [
 		"./resources/js/pages/Principals/common/Pendings.vue",
-		12
+		7
 	],
 	"./common/Pendings.vue": [
 		"./resources/js/pages/Principals/common/Pendings.vue",
-		12
+		7
 	],
 	"./common/PendingsDataTable": [
 		"./resources/js/pages/Principals/common/PendingsDataTable.vue",
-		13
+		14
 	],
 	"./common/PendingsDataTable.vue": [
 		"./resources/js/pages/Principals/common/PendingsDataTable.vue",
-		13
+		14
 	],
 	"./common/Products": [
 		"./resources/js/pages/Principals/common/Products.vue",
-		14
+		15
 	],
 	"./common/Products.vue": [
 		"./resources/js/pages/Principals/common/Products.vue",
-		14
+		15
 	],
 	"./common/Settings": [
 		"./resources/js/pages/Principals/common/Settings.vue",
-		4
+		1
 	],
 	"./common/Settings.vue": [
 		"./resources/js/pages/Principals/common/Settings.vue",
-		4
+		1
 	],
 	"./common/TransAndInvoices": [
 		"./resources/js/pages/Principals/common/TransAndInvoices.vue",
-		15
+		16
 	],
 	"./common/TransAndInvoices.vue": [
 		"./resources/js/pages/Principals/common/TransAndInvoices.vue",
-		15
+		16
 	],
 	"./common/Transactions": [
 		"./resources/js/pages/Principals/common/Transactions.vue",
-		16
+		17
 	],
 	"./common/Transactions.vue": [
 		"./resources/js/pages/Principals/common/Transactions.vue",
-		16
+		17
 	],
 	"./common/UploadedInvoices": [
 		"./resources/js/pages/Principals/common/UploadedInvoices.vue",
@@ -89052,19 +89110,19 @@ var map = {
 	],
 	"./mead_johnson": [
 		"./resources/js/pages/Principals/mead_johnson/index.vue",
-		1
+		2
 	],
 	"./mead_johnson/": [
 		"./resources/js/pages/Principals/mead_johnson/index.vue",
-		1
+		2
 	],
 	"./mead_johnson/index": [
 		"./resources/js/pages/Principals/mead_johnson/index.vue",
-		1
+		2
 	],
 	"./mead_johnson/index.vue": [
 		"./resources/js/pages/Principals/mead_johnson/index.vue",
-		1
+		2
 	]
 };
 function webpackAsyncContext(req) {
@@ -90112,43 +90170,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
-  products: [],
-  isLoadingProducts: false,
-  isImportDialogOpen: false
+  products: {}
 });
 var actions = {
   initProducts: function initProducts() {
+    var _arguments = arguments;
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var url, response;
+      var searchKey, row_count, _state$products$curre, url, response;
+
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.prev = 0;
-              state.isLoadingProducts = true;
-              url = "".concat(_AppStore__WEBPACK_IMPORTED_MODULE_2__["default"].state.siteUrl, "master/products/all");
-              _context.next = 5;
+              searchKey = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : '';
+              row_count = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : 10;
+              _context.prev = 2;
+              _AppStore__WEBPACK_IMPORTED_MODULE_2__["default"].state.showTopLoading = true;
+              if (searchKey == null) searchKey = '';
+              url = "".concat(_AppStore__WEBPACK_IMPORTED_MODULE_2__["default"].state.siteUrl, "master/products/all") + "?row_count=".concat(row_count) + "&search_key=".concat(searchKey) + "&page=".concat((_state$products$curre = state.products.current_page) !== null && _state$products$curre !== void 0 ? _state$products$curre : 1);
+              _context.next = 8;
               return axios.get(url);
 
-            case 5:
+            case 8:
               response = _context.sent;
-              state.products = [];
+              state.products = {};
               state.products = response.data;
-              state.isLoadingProducts = false;
-              _context.next = 14;
+              _AppStore__WEBPACK_IMPORTED_MODULE_2__["default"].state.showTopLoading = false;
+              _context.next = 17;
               break;
 
-            case 11:
-              _context.prev = 11;
-              _context.t0 = _context["catch"](0);
-              console.log('MasterProducts_initProducts() - ERROR:', _context.t0);
-
             case 14:
+              _context.prev = 14;
+              _context.t0 = _context["catch"](2);
+              console.log('initProducts() - ERROR:', _context.t0);
+
+            case 17:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[0, 11]]);
+      }, _callee, null, [[2, 14]]);
     }))();
   }
 };
@@ -90721,6 +90782,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
   currentRawInvoices: [],
   textfileLineCount: 0,
   isGeneratingData: false,
+  currentGeneratedDataSearchKey: '',
   // invoice import
   isImportInvoicesVisible: true,
   invoicesGrandTotal: 0.00,
@@ -90757,6 +90819,7 @@ var actions = {
     state.invoicesGrandTotal = 0.00;
     state.settings = [];
     state.sheetImport = false;
+    state.currentGeneratedDataSearchKey = '';
   },
 
   /**

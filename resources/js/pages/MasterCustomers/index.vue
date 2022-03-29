@@ -32,7 +32,7 @@
 
         <v-dialog
             v-model="AppStore.state.dlgImportMaster"
-            max-width="720"
+            max-width="800"
             persistent
         >
             <MasterUpload id="customers"></MasterUpload>
@@ -53,7 +53,7 @@
                 :items="MasterCustomers.state.customers.data"
                 :headers="tblHeader"
                 class="tbl-items"
-                dense
+                densex
                 hide-default-footer
                 disable-pagination
             ></v-data-table>
@@ -69,6 +69,7 @@ export default {
     components: {
         MasterUpload: () => import('../../page_common/master/MasterUpload.vue')
     },
+
     data() {
         return {
             searchKey: '',

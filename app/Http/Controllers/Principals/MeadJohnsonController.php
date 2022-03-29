@@ -27,35 +27,6 @@ class MeadJohnsonController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        /**
-         * Create tblGenerated if it doesn't exist in the database
-         */
-        // if(!Schema::hasTable(self::$tblGenerated)) {
-        //     DB::statement(
-        //         "CREATE TABLE `generated_mead_johnson` (
-        //             `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
-        //             `generated_at` DATETIME NOT NULL,
-        //             `uploaded_by` BIGINT(20) NOT NULL,
-        //             `invoice_no` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_unicode_ci',
-        //             `order_date` VARCHAR(10) NOT NULL COLLATE 'utf8mb4_unicode_ci',
-        //             `customer_code` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_unicode_ci',
-        //             `route_code` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_unicode_ci',
-        //             `product_category_code` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_unicode_ci',
-        //             `ship_to` VARCHAR(10) NOT NULL COLLATE 'utf8mb4_unicode_ci',
-        //             `order_no` BIGINT(20) NOT NULL,
-        //             `remarks` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_ci',
-        //             `product_code` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_unicode_ci',
-        //             `quantity` INT(11) NOT NULL,
-        //             PRIMARY KEY (`id`) USING BTREE,
-        //             INDEX `generated_at` (`generated_at`) USING BTREE
-        //         )
-        //         COLLATE='utf8mb4_unicode_ci'
-        //         ENGINE=InnoDB
-        //         AUTO_INCREMENT=1;
-        //         "
-        //     );
-        // }
     }
 
     // =====================================================================
@@ -118,6 +89,8 @@ class MeadJohnsonController extends Controller
                 DB::table(PrincipalsUtil::$TBL_PRODUCTS)
                     ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
+                $arrLines = [];
+
                 $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
                 foreach ($fileContentLines as $fileContentLine) {
                     // Begin on the second line to skip the headers
@@ -127,23 +100,27 @@ class MeadJohnsonController extends Controller
                         $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                         if (count($arrFileContentLine) > 1) {
-                            $item_code = $arrFileContentLine[0];
-                            $description = str_replace('"', '', $arrFileContentLine[1]);
-                            $item_code_supplier = $arrFileContentLine[2];
-                            $description_supplier = str_replace('"', '', $arrFileContentLine[3]);
+                            $item_code = trim(str_replace('"','',$arrFileContentLine[0]));
+                            $description = trim(str_replace('"', '', $arrFileContentLine[1]));
+                            $item_code_supplier = trim(str_replace('"','',$arrFileContentLine[2]));
+                            $description_supplier = trim(str_replace('"', '', $arrFileContentLine[3]));
 
-                            DB::table(PrincipalsUtil::$TBL_PRODUCTS)->insert([
+                            $arrLines[] = [
                                 'principal_code' => $this->PRINCIPAL_CODE,
                                 'item_code' => $item_code,
                                 'description' => $description,
                                 'item_code_supplier' => $item_code_supplier,
                                 'description_supplier' => $description_supplier,
                                 'uploaded_by' => auth()->user()->id
-                            ]);
+                            ];
                         }
                     }
-
                     $lineCount++;
+                }
+
+                $chunks = array_chunk($arrLines, 500);
+                foreach ($chunks as $chunk) {
+                    DB::table(PrincipalsUtil::$TBL_PRODUCTS)->insert($chunk);
                 }
             }
 
@@ -350,106 +327,6 @@ class MeadJohnsonController extends Controller
 
             // dd($route_codes);
 
-            // ================ PENDING INVOICEEEEEEES =================================
-            if(1==2) {
-                $pendings = DB::table(PrincipalsUtil::$TBL_INVOICES)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)
-                    ->where('status', PrincipalsUtil::$STATUS_PENDING)
-                    ->get();
-                $lineCount = 0;
-                foreach ($pendings as $pending) {
-                    // ======================= INIT ===========================
-                    $doc_type = $pending->doc_type;
-                    $doc_no = $pending->doc_no;
-                    $customer_code = $pending->customer_code;
-                    $posting_date = $pending->posting_date;
-                    $item_code = $pending->item_code;
-                    $quantity = $pending->quantity;
-                    $u1 = $pending->u1;
-                    $u2 = $pending->u2;
-                    $u3 = $pending->u3;
-                    $u4 = $pending->u4;
-                    $u5 = $pending->u5;
-                    $uom = $pending->uom;
-
-                    $customer = DB::table(PrincipalsUtil::$TBL_CUSTOMERS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
-                        ->where('customer_code', $customer_code)
-                        ->first();
-                    $product = DB::table(PrincipalsUtil::$TBL_PRODUCTS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
-                        ->where('item_code', $item_code)
-                        ->first();
-
-                    $invoice_uploaded = 0;
-                    $product_notfound = 0;
-                    $customer_notfound = 0;
-
-                    if ($product == null) $product_notfound = 1;
-                    if ($customer == null) $customer_notfound = 1;
-
-                    $order_date = $dateToday->format('Y/m/d');
-                    if($product_notfound == 1 || $customer_notfound == 1) {
-                        $order_date = 'TBD';
-                    }
-
-                    $route_code = $customer->route_code ?? 'Customer_NA';
-                    $product_category_code = $settings['product_category_code'];
-                    $ship_to = $settings['ship_to'];
-                    $order_no = $latest_order_no += 1;
-                    $remarks = '';
-                    $product_code = $product->item_code_supplier ?? $item_code;
-                    // ======================= /INIT ===========================
-                    // =========== SETTING UP ======================================
-                    $invoice_line = [
-                        'principal_code' => $this->PRINCIPAL_CODE,
-                        'upload_date' => $dateToday->format('Y-m-d'),
-                        'product_notfound' => $product_notfound,
-                        'customer_notfound' => $customer_notfound,
-                        // ===
-                        'doc_type' => $doc_type,
-                        'doc_no' => $doc_no,
-                        'customer_code' => $customer_code,
-                        'posting_date' => $posting_date,
-                        'item_code' => $item_code,
-                        'quantity' => $quantity,
-                        'u1' => $u1,
-                        'u2' => $u2,
-                        'u3' => $u3, // total amount
-                        'u4' => $u4,
-                        'u5' => $u5,
-                        'uom' => $uom,
-                    ];
-                    array_push($res['raw_invoices'], $invoice_line);
-
-                    $arrGenerated = [
-                        'order_date' => $order_date,
-                        'customer_code' => $customer_code,
-                        'route_code' => $route_code,
-                        'product_category_code' => $product_category_code,
-                        'ship_to' => $ship_to,
-                        'order_no' => $order_no,
-                        'remarks' => $remarks,
-                        // 'product_code' => intval($product_code),
-                        'product_code' => $product_code,
-                        'quantity' => intval($quantity),
-                        'product_notfound' => $product_notfound,
-                        'customer_notfound' => $customer_notfound,
-                        'invoice_uploaded' => $invoice_uploaded,
-                        'doc_no' => $doc_no,
-                    ];
-
-                    // group output_template by order_date
-                    if (!isset($res['output_template']['PREVIOUS PENDING'])) {
-                        $res['output_template']['PREVIOUS PENDING'] = [];
-                    }
-                    array_push($res['output_template']['PREVIOUS PENDING'], $arrGenerated);
-                    // =========== /SETTING UP ======================================
-                    $filesTotalLineCount += $lineCount;
-                }
-            }
-            // ================ /PENDING INVOICEEEEEEES =================================
-
             if($request->file('files') != null) {
                 // Loop through each uploaded file
                 foreach ($request->file('files') as $file) {
@@ -501,16 +378,31 @@ class MeadJohnsonController extends Controller
                                     $product_notfound = 0;
                                     $customer_notfound = 0;
                                     $salesman_name = '';
+                                    // name of customer who's missing in principal's masterfile
+                                    $missing_customer_name = '';
+                                    $missing_product_name = '';
 
-                                    if ($product == null) $product_notfound = 1;
+                                    // last resort
+                                    if ($product == null) {
+                                        $product_notfound = 1;
+                                        $missing_product_name = DB::table('master_products')
+                                            ->where('item_code', $item_code)
+                                            ->first()->description ?? '[ Not Found ]';
+                                    } else {
+
+                                    }
+
                                     if ($customer == null) {
                                         $customer_notfound = 1;
+                                        $missing_customer_name = DB::table('master_customers')
+                                            ->where('customer_code', $customer_code)
+                                            ->first()->name ?? '[ Not Found ]';
                                     } else {
                                         $salesman_name = $customer->salesman_name;
                                     }
 
                                     $order_date = $dateToday->format('Y/m/d');
-                                    $order_no = 'TBD';
+                                    $order_no = 'N/A';
                                     if($product_notfound == 1 || $customer_notfound == 1) {
                                         // $order_date = 'TBD';
                                     } else if($product_notfound == 0 || $customer_notfound == 0) {
@@ -523,7 +415,7 @@ class MeadJohnsonController extends Controller
                                     //         return $value->salesman_name==$salesman_name;
                                     //     }
                                     // )->route_code ?? 'Customer_NA';
-                                    $route_code = $route_codes[$salesman_name] ?? 'Customer_NA';
+                                    $route_code = $route_codes[$salesman_name] ?? 'N/A';
 
                                     $product_category_code = $settings['product_category_code'];
                                     $ship_to = $settings['ship_to'];
@@ -581,6 +473,7 @@ class MeadJohnsonController extends Controller
                                         ];
                                         array_push($res['raw_invoices'], $invoice_line);
 
+                                        // Generated data line structure
                                         $arrGenerated = [
                                             'order_date' => $order_date,
                                             'customer_code' => $customer_code,
@@ -596,12 +489,15 @@ class MeadJohnsonController extends Controller
                                             'customer_notfound' => $customer_notfound,
                                             'invoice_uploaded' => $invoice_uploaded,
                                             'doc_no' => $doc_no,
+                                            'missing_customer_name' => $missing_customer_name,
+                                            'missing_product_name' => $missing_product_name,
                                         ];
+
                                         if($chunk_line_count > 0) {
-                                            if (!isset($res['output_template'][$pageNum])) {
-                                                $res['output_template'][$pageNum] = [];
+                                            if (!isset($res['output_template']["Page ". $pageNum])) {
+                                                $res['output_template']["Page ". $pageNum] = [];
                                             }
-                                            array_push($res['output_template'][$pageNum], $arrGenerated);
+                                            array_push($res['output_template']["Page ". $pageNum], $arrGenerated);
                                             $pageLineCount+=1;
                                             if($pageLineCount > $chunk_line_count) {
                                                 $pageNum+=1;
@@ -657,10 +553,11 @@ class MeadJohnsonController extends Controller
             } else if($rawInvoicesCount != $filesTotalLineCount) {
                 // $res['message'] = 'Only the unuploaded file contents are shown';
             } else if($filesTotalLineCount == 0) {
-                $res['message'] = 'Unable to read the data';
+                $res['message'] = 'Data unreadable';
             }
 
             return response()->json($res);
+
         } catch (\Throwable $th) {
             $res['success'] = false;
             $res['message'] = $th->getMessage();

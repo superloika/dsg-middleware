@@ -18,6 +18,7 @@ let state = Vue.observable({
     currentRawInvoices: [],
     textfileLineCount: 0,
     isGeneratingData: false,
+    currentGeneratedDataSearchKey: '',
 
     // invoice import
     isImportInvoicesVisible: true,
@@ -26,6 +27,7 @@ let state = Vue.observable({
 
     settings: [],
     sheetImport: false,
+
 });
 
 
@@ -73,6 +75,7 @@ const actions = {
 
         state.settings = [];
         state.sheetImport = false;
+        state.currentGeneratedDataSearchKey = '';
     },
 
     /**

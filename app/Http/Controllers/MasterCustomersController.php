@@ -62,7 +62,7 @@ class MasterCustomersController extends Controller
                             // dd($arrFileContentLine);
 
                             if (count($arrFileContentLine) > 1 && substr($arrFileContentLine[0], 0, 1) != '#') {
-                                $customer_code = $arrFileContentLine[0];
+                                $customer_code = trim($arrFileContentLine[0]);
                                 $name = str_replace('"','',$arrFileContentLine[1]);
                                 $address = str_replace('"','',$arrFileContentLine[2]);
                                 $address_2 = str_replace('"','',$arrFileContentLine[3]);
@@ -91,7 +91,7 @@ class MasterCustomersController extends Controller
                         $loopCounter++;
                     }
 
-                    $chunks = array_chunk($arrLines, 1000);
+                    $chunks = array_chunk($arrLines, 500);
                     foreach($chunks as $chunk) {
                         DB::table($this->TBL_MASTER_CUSTOMERS)
                             ->insert($chunk);

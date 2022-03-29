@@ -42,7 +42,7 @@
                         <v-list-item-title>Customers</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item link to="/master/products" disabled>
+                <v-list-item link to="/master/products">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-cube</v-icon>
                     </v-list-item-icon>

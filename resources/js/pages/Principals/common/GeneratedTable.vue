@@ -4,17 +4,18 @@
     :items="items"
     :headers="tableHeader"
     :items-per-page="10"
+    :search="PrincipalsStore.state.currentGeneratedDataSearchKey"
 >
     <template v-slot:[`item.customer_code`]="{ item }">
         <v-chip
             v-if="item.customer_notfound==1"
             color="warning"
             small
-            link
+            linkx
             outlined
             title="Missing in principal's masterfile"
-            @click="AppStore.copyToClipboard(item.customer_code)"
         >
+            <!-- @click="AppStore.copyToClipboard(item.customer_code)" -->
             <div :id="item.customer_code">
                 {{ item.customer_code }}
             </div>
@@ -27,11 +28,11 @@
             v-if="item.product_notfound==1"
             color="warning"
             small
-            link
+            linkx
             outlined
             title="Missing in principal's masterfile"
-            @click="AppStore.copyToClipboard(item.product_code)"
         >
+            <!-- @click="AppStore.copyToClipboard(item.product_code)" -->
             <div :id="item.product_code">
                 {{ item.product_code }}
             </div>

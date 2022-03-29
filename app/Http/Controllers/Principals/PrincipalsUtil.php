@@ -20,6 +20,9 @@ class PrincipalsUtil extends Controller
     public static $TBL_GENERATED = 'generated_data';
     public static $TBL_INVOICES = 'uploaded_invoices';
 
+    public static $TBL_MASTER_PRODUCTS = 'master_products';
+    public static $TBL_MASTER_CUSTOMERS = 'master_customers';
+
     /**
      * Create a new controller instance.
      *
@@ -234,20 +237,29 @@ class PrincipalsUtil extends Controller
 
             $result = DB::table($this::$TBL_INVOICES)
                 ->leftJoin(
-                    $this::$TBL_CUSTOMERS, $this::$TBL_INVOICES. '.customer_code',
+                    $this::$TBL_CUSTOMERS,
+                    $this::$TBL_INVOICES. '.customer_code',
                     '=',
                     $this::$TBL_CUSTOMERS. '.customer_code'
                 )
                 ->leftJoin(
-                    $this::$TBL_PRODUCTS, $this::$TBL_INVOICES. '.item_code',
+                    $this::$TBL_PRODUCTS,
+                    $this::$TBL_INVOICES. '.item_code',
                     '=',
                     $this::$TBL_PRODUCTS. '.item_code'
+                )
+                ->leftJoin(
+                    $this::$TBL_MASTER_CUSTOMERS,
+                    $this::$TBL_INVOICES. '.customer_code',
+                    '=',
+                    $this::$TBL_MASTER_CUSTOMERS. '.customer_code'
                 )
                 ->select(
                     $this::$TBL_INVOICES. '.*',
                     $this::$TBL_CUSTOMERS. '.principal_code',
                     $this::$TBL_CUSTOMERS. '.customer_code',
-                    $this::$TBL_CUSTOMERS. '.customer_name',
+                    // $this::$TBL_CUSTOMERS. '.customer_name',
+                    $this::$TBL_MASTER_CUSTOMERS. '.name as customer_name',
                     $this::$TBL_PRODUCTS. '.principal_code',
                     $this::$TBL_PRODUCTS. '.item_code',
                     $this::$TBL_PRODUCTS. '.description'

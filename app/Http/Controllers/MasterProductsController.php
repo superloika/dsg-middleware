@@ -8,14 +8,23 @@ use Illuminate\Support\Facades\Storage;
 
 class MasterProductsController extends Controller
 {
+    private $TBL_MASTER_PRODUCTS = 'master_products';
+
     function index() {
-        $result = DB::table('master_products')->get();
+        $row_count = request()->row_count ?? 10;
+        $search_key = request()->search_key ?? '';
+
+        $result = DB::table('master_products')
+            ->where('item_code','like', '%'.$search_key. '%')
+            ->paginate($row_count);
 
         return response()->json($result);
     }
 
 
     public function upload(Request $request) {
+        set_time_limit(0);
+
         try {
             // $fileName = $request->file->getClientOriginalName()
             //     . '-' . time() . '.' . $request->file->getClientOriginalExtension();
@@ -23,7 +32,6 @@ class MasterProductsController extends Controller
 
             // dd($request->file('files'));
 
-            $tableName = 'master_products';
             $delimiter = ',';
 
             foreach($request->file('files') as $masterfile) {
@@ -49,14 +57,15 @@ class MasterProductsController extends Controller
                      * explode the second line and store it in $pcode.
                      * Get the 1st array element in $pcode assuming that it is the principal code
                      */
-                    if(count($fileContentLines) > 1) {
-                        $pcode = explode(',',$fileContentLines[1])[0];
-                        DB::table($tableName)->where('principal_code',$pcode)->delete();
-                    }
+                    // if(count($fileContentLines) > 1) {
+                    //     $pcode = explode(',',$fileContentLines[1])[0];
+                    //     DB::table($tableName)->where('principal_code',$pcode)->delete();
+                    // }
                     // =====================
 
                     $loopCounter = 1;
-                    // DB::table($tableName)->truncate();
+                    DB::table($this->TBL_MASTER_PRODUCTS)->delete();
+                    $arrLines = [];
                     foreach ($fileContentLines as $fileContentLine) {
                         if($loopCounter > 1) {
                             // $arrFileContentLine = explode($delimiter, $fileContentLine);
@@ -75,29 +84,14 @@ class MasterProductsController extends Controller
                                 // $per_uom = floatval($arrFileContentLine[5]) == null ? '' : $arrFileContentLine[5];
                                 // $principal_code = $arrFileContentLine[6] == null ? '' : $arrFileContentLine[6];
 
-                                $principal_code = $arrFileContentLine[0];
-
-                                $item_code = $arrFileContentLine[1];
-                                $description = str_replace('"','',$arrFileContentLine[2]);
-                                $item_code_supplier = $arrFileContentLine[3];
-                                $description_supplier = str_replace('"','',$arrFileContentLine[4]);
-                                $uom = $arrFileContentLine[5];
-
-                                // $per_uom = floatval($arrFileContentLine[5]);
-                                $per_uom = floatval($arrFileContentLine[6]);
-                                $per_uom = $per_uom < 1 ? null : $per_uom;
-
+                                $item_code = trim($arrFileContentLine[0]);
+                                $description = str_replace('"','',$arrFileContentLine[1]);
 
                                 // ===============================================================================
-                                DB::table($tableName)->insert([
+                                $arrLines[] = [
                                     'item_code'=>$item_code,
                                     'description'=>$description,
-                                    'item_code_supplier'=>$item_code_supplier,
-                                    'description_supplier'=>$description_supplier,
-                                    'uom'=>$uom,
-                                    'per_uom'=>$per_uom,
-                                    'principal_code'=>$principal_code,
-                                ]);
+                                ];
                                 // ===============================================================================
 
 
@@ -131,6 +125,11 @@ class MasterProductsController extends Controller
                         }
 
                         $loopCounter++;
+                    }
+                    $chunks = array_chunk($arrLines, 500);
+                    foreach($chunks as $chunk) {
+                        DB::table($this->TBL_MASTER_PRODUCTS)
+                            ->insert($chunk);
                     }
                 }
             }

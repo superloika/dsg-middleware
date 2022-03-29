@@ -55,7 +55,7 @@
                     <v-spacer></v-spacer>
 
                     <v-text-field
-                        v-model="searchKey"
+                        v-model="PrincipalsStore.state.currentGeneratedDataSearchKey"
                         label="Search"
                         title="Search"
                         hide-details
@@ -69,29 +69,14 @@
                         :disabled="PrincipalsStore.state.currentGeneratedData.length<1"
                     ></v-text-field>
 
-                    <!-- <v-btn
-                    title="Import and Generate"
-                    icon
-                    dense
-                    rounded
-                    outlinedx
-                    depressed
-                    color="default"
-                    @click.stop="PrincipalsStore.state.sheetImport =
-                        !PrincipalsStore.state.sheetImport"
-                >
-                    <v-icon>mdi-file-upload</v-icon>
-                </v-btn> -->
-
                     <!-- =====================  PENDINGS ====================== -->
-                    <v-btn
+                    <!-- <v-btn
                         title="Pending Lines"
                         icon dense rounded depressed
                         color="yellow"
                         @click.stop="dlgPendings = true"
                         disabled
                     >
-                        <!-- :disabled="distinctCustomerCodesNA.length < 1" -->
                         <v-icon>mdi-file-document</v-icon>
                     </v-btn>
                     <v-dialog
@@ -102,7 +87,7 @@
                         scrollable-x
                     >
                         <Pendings></Pendings>
-                    </v-dialog>
+                    </v-dialog> -->
                     <!-- =====================  /PENDINGS ====================== -->
 
                     <!-- MISSING CUSTOMER CODES -->
@@ -113,30 +98,22 @@
                         rounded
                         depressed
                         color="warning"
-                        @click.stop="dlgDistinctCustomerCodesNA = true"
-                        :disabled="distinctCustomerCodesNA.length < 1"
+                        @click.stop="dlgMissingCustomers = true"
+                        :disabled="missingInMaster('customer').length < 1"
                     >
-                        <!-- <v-badge
-                            :content="distinctCustomerCodesNA.length"
-                            overlapx
-                            bordered
-                            color="orange"
-                        > -->
                         <v-icon>mdi-account-multiple</v-icon>
-                        <!-- </v-badge> -->
                     </v-btn>
                     <v-dialog
-                        v-model="dlgDistinctCustomerCodesNA"
-                        persistentx
-                        max-width="600"
+                        v-model="dlgMissingCustomers"
+                        max-width="900"
                         scrollable
                     >
-                        <MissingCodes
+                        <MissingInMaster
+                            id='customer'
+                            type='customer'
                             title="Missing Customer/s in Principal's Masterfile"
-                            :MissingCodes="distinctCustomerCodesNA"
-                            type="warning"
-                            temptxt_id="temptxt_customers"
-                        ></MissingCodes>
+                            :missingInMaster="missingInMaster('customer')"
+                        ></MissingInMaster>
                     </v-dialog>
                     <!-- /MISSING CUSTOMER CODES -->
 
@@ -146,11 +123,10 @@
                         icon
                         dense
                         rounded
-                        outlinedx
                         depressed
                         color="warning"
-                        @click.stop="dlgDistinctProductCodesNA = true"
-                        :disabled="distinctProductCodesNA.length < 1"
+                        @click.stop="dlgMissingProducts = true"
+                        :disabled="missingInMaster('product').length < 1"
                     >
                         <!-- <v-badge
                         :content="distinctProductCodesNA.length"
@@ -162,17 +138,17 @@
                         <!-- </v-badge> -->
                     </v-btn>
                     <v-dialog
-                        v-model="dlgDistinctProductCodesNA"
+                        v-model="dlgMissingProducts"
                         persistentx
-                        max-width="600"
+                        max-width="900"
                         scrollable
                     >
-                        <MissingCodes
+                        <MissingInMaster
+                            id='product'
+                            type='product'
                             title="Missing Product/s in Principal's Masterfile"
-                            :MissingCodes="distinctProductCodesNA"
-                            type="warning"
-                            temptxt_id="temptxt_products"
-                        ></MissingCodes>
+                            :missingInMaster="missingInMaster('product')"
+                        ></MissingInMaster>
                     </v-dialog>
                     <!-- /MISSING PRODUCT CODES -->
 
@@ -262,7 +238,6 @@
                     </div>
                     <GeneratedTableWrapper
                         v-else
-                        :id="wrapperID"
                         :generatedData="generatedData"
                     >
                     </GeneratedTableWrapper>
@@ -291,7 +266,7 @@ export default {
         GeneratedTableWrapper: () => import("./GeneratedTableWrapper.vue"),
         InvoicesImport: () => import("./InvoicesImport.vue"),
         // InvoicesImport,
-        MissingCodes: () => import("./MissingCodes.vue"),
+        MissingInMaster: () => import("./MissingInMaster.vue"),
         Settings: () => import("./Settings.vue"),
         Pendings: () => import("./Pendings.vue"),
     },
@@ -300,9 +275,9 @@ export default {
         searchKey: "",
         confirmExportDialogOpen: false,
         isExporting: false,
-        wrapperID: "gendata_wrapper",
-        dlgDistinctCustomerCodesNA: null,
-        dlgDistinctProductCodesNA: null,
+        // wrapperID: "gendata_wrapper",
+        dlgMissingCustomers: null,
+        dlgMissingProducts: null,
         dlgPendings: null,
     }),
 
@@ -367,24 +342,36 @@ export default {
             return this.PrincipalsStore.state.selectedPrincipalCode;
         },
 
-        distinctCustomerCodesNA() {
+        missingCustomers() {
             try {
-                let distinctCCodes = [];
+                let result = [];
                 this.PrincipalsStore.state.currentGeneratedData.forEach(e => {
                     let tempArray = [];
                     e[1].forEach(line => {
                         if (line.customer_notfound == 1) {
-                            tempArray.push(line.customer_code);
+                            tempArray.push({
+                                customer_code: line.customer_code,
+                                missing_customer_name: line.missing_customer_name
+                            });
                         }
                     });
                     if (tempArray.length > 0) {
-                        distinctCCodes.push(...tempArray);
+                        result.push(...tempArray);
                     }
                 });
-                distinctCCodes = [...new Set(distinctCCodes)];
-                return distinctCCodes;
+
+                let unique = [];
+                let distinct = [];
+                for( let i = 0; i < result.length; i++ ){
+                    if( !unique[result[i].customer_code]){
+                        distinct.push(result[i]);
+                        unique[result[i].customer_code] = 1;
+                    }
+                }
+                return distinct;
+
             } catch (error) {
-                console.log("distinctCustomerCodesNA() - ERR:", error);
+                console.log("missingCustomers() - ERR:", error);
                 return [];
             }
         },
@@ -474,12 +461,55 @@ export default {
             } catch (error) {
                 console.log("saveInvoices():", error);
             }
-        }
+        },
+
+        missingInMaster(type) {
+            try {
+                let result = [];
+                this.PrincipalsStore.state.currentGeneratedData.forEach(e => {
+                    let tempArray = [];
+                    e[1].forEach(line => {
+                        if (line.customer_notfound == 1) {
+                            if(type=='customer') {
+                                tempArray.push({
+                                    customer_code: line.customer_code,
+                                    missing_customer_name: line.missing_customer_name
+                                });
+                            }
+                        } else if (line.product_notfound == 1) {
+                            if (type=='product') {
+                                tempArray.push({
+                                    product_code: line.product_code,
+                                    missing_product_name: line.missing_product_name
+                                });
+                            }
+                        }
+                    });
+                    if (tempArray.length > 0) {
+                        result.push(...tempArray);
+                    }
+                });
+
+                let unique = [];
+                let distinct = [];
+                for( let i = 0; i < result.length; i++ ){
+                    if( !unique[result[i][type + '_code']]){
+                        distinct.push(result[i]);
+                        unique[result[i][type + '_code']] = 1;
+                    }
+                }
+                return distinct;
+
+            } catch (error) {
+                console.log("missingInMaster() - ERR:", error);
+                return [];
+            }
+        },
     },
 
     mounted() {
         console.log("Generated component mounted");
-        // console.log(this.strictExport);
+        console.log(this.missingCustomers);
     }
 };
 </script>

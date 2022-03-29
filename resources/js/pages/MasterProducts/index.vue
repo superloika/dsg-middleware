@@ -1,9 +1,21 @@
 <template>
 <div>
     <v-app-bar elevation="0" app>
-        <v-toolbar-title>{{ $route.meta.name }}</v-toolbar-title>
+        <v-toolbar-title>
+            {{ $route.meta.name }}
+            <v-chip color="primary" small>
+                {{ MasterProducts.state.products.total }}
+            </v-chip>
+        </v-toolbar-title>
 
         <v-spacer></v-spacer>
+        <v-pagination
+            v-model="MasterProducts.state.products.current_page"
+            :length="MasterProducts.state.products.last_page"
+            @input="onPageChange()"
+            total-visible="3"
+        >
+        </v-pagination>
 
         <v-text-field
             v-model="searchKey"
@@ -23,7 +35,7 @@
             title="Import Products"
             @click.stop="AppStore.state.dlgImportMaster=true"
         >
-            <v-icon>mdi-import</v-icon>
+            <v-icon>mdi-file-upload</v-icon>
         </v-btn>
 
         <!-- <v-btn
@@ -35,17 +47,19 @@
     </v-app-bar>
 
     <v-data-table
-        :items="MasterProducts.state.products"
+        :items="MasterProducts.state.products.data"
         :headers="tblHeader"
         :loading="MasterProducts.state.isLoadingProducts"
         class="tbl-items elevation-1x"
         :search="searchKey"
-        dense
+        densex
+        hide-default-footer
+        disable-pagination
     ></v-data-table>
 
     <v-dialog
         v-model="AppStore.state.dlgImportMaster"
-        max-width="720"
+        max-width="800"
         persistent
     >
         <MasterUpload id="products"></MasterUpload>
@@ -54,15 +68,14 @@
 </template>
 
 <script>
+import {debounce} from 'lodash';
+
 export default {
     components: {
         MasterUpload: () => import('../../page_common/master/MasterUpload.vue')
     },
     data() {
         return {
-            percentCompleted: '',
-            currPage: 1,
-            perPage: 10,
             searchKey: '',
         }
     },
@@ -79,18 +92,16 @@ export default {
             XLSX.writeFile(wb,'tbl.csv');
             this.isLoading = false;
         },
+        onPageChange() {
+            this.MasterProducts.initProducts(this.searchKey);
+        },
     },
 
     computed: {
         tblHeader() {
             let header = [
                 { text: "Item Code", value: "item_code" },
-                { text: "Description", value: "description" },
-                { text: "Item Code", value: "item_code_supplier" },
-                { text: "Description (Supplier)", value: "description_supplier" },
-                { text: "UOM", value: "uom" },
-                { text: "Per UOM", value: "per_uom"},
-                { text: "Principal Code", value: "principal_code"},
+                { text: "Item Description", value: "description" },
             ];
 
             // let header = [];
@@ -109,6 +120,15 @@ export default {
         }
     },
 
+    watch: {
+        searchKey: debounce(function() {
+            if(this.MasterProducts.state.products.current_page != undefined) {
+                this.MasterProducts.state.products.current_page = 1;
+            }
+            this.MasterProducts.initProducts(this.searchKey);
+        }, 500),
+    },
+
     created() {
         this.MasterProducts.initProducts();
     },
@@ -118,7 +138,8 @@ export default {
     },
 
     beforeDestroy() {
-        this.MasterCustomers.state.products = [];
+        this.MasterCustomers.state.customers = {};
+        this.MasterProducts.state.products = {};
     },
 }
 </script>

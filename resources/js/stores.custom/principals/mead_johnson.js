@@ -43,7 +43,7 @@ const state = Vue.observable({
         {text:"Quantity (numeric 25,4)", value: "quantity"},
     ],
     uploadedInvoicesTableHeader: [
-        {text:"Status", value:"status"},
+        // {text:"Status", value:"status"},
         {text:"Upload Date", value:"upload_date"},
         {text:"Document Type", value:"doc_type"},
         {text:"Document #", value:"doc_no"},
