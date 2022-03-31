@@ -237,6 +237,18 @@ class PrincipalsUtil extends Controller
 
             $result = DB::table($this::$TBL_INVOICES)
                 ->leftJoin(
+                    $this::$TBL_MASTER_CUSTOMERS,
+                    $this::$TBL_INVOICES. '.customer_code',
+                    '=',
+                    $this::$TBL_MASTER_CUSTOMERS. '.customer_code'
+                )
+                ->leftJoin(
+                    $this::$TBL_MASTER_PRODUCTS,
+                    $this::$TBL_INVOICES. '.item_code',
+                    '=',
+                    $this::$TBL_MASTER_PRODUCTS. '.item_code'
+                )
+                ->leftJoin(
                     $this::$TBL_CUSTOMERS,
                     $this::$TBL_INVOICES. '.customer_code',
                     '=',
@@ -248,21 +260,18 @@ class PrincipalsUtil extends Controller
                     '=',
                     $this::$TBL_PRODUCTS. '.item_code'
                 )
-                ->leftJoin(
-                    $this::$TBL_MASTER_CUSTOMERS,
-                    $this::$TBL_INVOICES. '.customer_code',
-                    '=',
-                    $this::$TBL_MASTER_CUSTOMERS. '.customer_code'
-                )
                 ->select(
                     $this::$TBL_INVOICES. '.*',
                     $this::$TBL_CUSTOMERS. '.principal_code',
-                    $this::$TBL_CUSTOMERS. '.customer_code',
+                    // $this::$TBL_CUSTOMERS. '.customer_code',
                     // $this::$TBL_CUSTOMERS. '.customer_name',
                     $this::$TBL_MASTER_CUSTOMERS. '.name as customer_name',
+                    $this::$TBL_MASTER_CUSTOMERS. '.customer_code',
                     $this::$TBL_PRODUCTS. '.principal_code',
-                    $this::$TBL_PRODUCTS. '.item_code',
-                    $this::$TBL_PRODUCTS. '.description'
+                    // $this::$TBL_PRODUCTS. '.item_code',
+                    // $this::$TBL_PRODUCTS. '.description'
+                    $this::$TBL_MASTER_PRODUCTS. '.description',
+                    $this::$TBL_MASTER_PRODUCTS. '.item_code',
                 )
                 ->where($this::$TBL_INVOICES. '.principal_code', request()->principal_code)
                 ->where($this::$TBL_CUSTOMERS. '.principal_code', request()->principal_code)
@@ -275,7 +284,7 @@ class PrincipalsUtil extends Controller
                 ->get();
 
             $res['success'] = true;
-            $res['nessage'] = 'Success';
+            $res['message'] = 'Success';
             $res['data'] = $result;
 
             return response()->json($res);

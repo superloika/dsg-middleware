@@ -90787,7 +90787,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
   isImportInvoicesVisible: true,
   invoicesGrandTotal: 0.00,
   settings: [],
-  sheetImport: false
+  sheetImport: false,
+  // Transactions table loading state
+  isInitTransactions: false
 });
 var actions = {
   initialize: function initialize() {
@@ -90820,6 +90822,7 @@ var actions = {
     state.settings = [];
     state.sheetImport = false;
     state.currentGeneratedDataSearchKey = '';
+    state.isInitTransactions = false;
   },
 
   /**
@@ -90949,8 +90952,9 @@ var actions = {
             case 0:
               date.sort();
               _context4.prev = 1;
-              url = encodeURI(AppStore.state.siteUrl + 'principals' + '/transactions' + '?date=' + date + '&principal_code=' + principal_code);
-              AppStore.state.showTopLoading = true;
+              url = encodeURI(AppStore.state.siteUrl + 'principals' + '/transactions' + '?date=' + date + '&principal_code=' + principal_code); // AppStore.state.showTopLoading = true;
+
+              state.isInitTransactions = true;
               _context4.next = 6;
               return axios.get(url);
 
@@ -90959,26 +90963,27 @@ var actions = {
 
               if (result.data.success == true) {
                 state.transactions = [];
-                state.transactions = result.data.data;
+                state.transactions = result.data.data; // AppStore.state.showTopLoading = false;
+
+                state.isInitTransactions = false;
               } else {
                 console.log('initTransactions()', result.data.message);
               }
 
-              AppStore.state.showTopLoading = false;
-              _context4.next = 14;
+              _context4.next = 13;
               break;
 
-            case 11:
-              _context4.prev = 11;
+            case 10:
+              _context4.prev = 10;
               _context4.t0 = _context4["catch"](1);
               console.log('PrincipalsStore.initTransactions() - ERROR:', _context4.t0);
 
-            case 14:
+            case 13:
             case "end":
               return _context4.stop();
           }
         }
-      }, _callee4, null, [[1, 11]]);
+      }, _callee4, null, [[1, 10]]);
     }))();
   },
 

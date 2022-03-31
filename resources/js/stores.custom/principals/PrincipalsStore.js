@@ -28,6 +28,8 @@ let state = Vue.observable({
     settings: [],
     sheetImport: false,
 
+    // Transactions table loading state
+    isInitTransactions: false,
 });
 
 
@@ -76,6 +78,7 @@ const actions = {
         state.settings = [];
         state.sheetImport = false;
         state.currentGeneratedDataSearchKey = '';
+        state.isInitTransactions = false;
     },
 
     /**
@@ -152,16 +155,18 @@ const actions = {
                 + '?date=' + date
                 + '&principal_code=' + principal_code
             );
-            AppStore.state.showTopLoading = true;
+            // AppStore.state.showTopLoading = true;
+            state.isInitTransactions = true;
             let result = await axios.get(url);
 
             if(result.data.success==true) {
                 state.transactions = [];
                 state.transactions = result.data.data;
+                // AppStore.state.showTopLoading = false;
+                state.isInitTransactions = false;
             } else {
                 console.log('initTransactions()', result.data.message);
             }
-            AppStore.state.showTopLoading = false;
         } catch (error) {
             console.log('PrincipalsStore.initTransactions() - ERROR:', error);
         }

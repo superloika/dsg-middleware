@@ -69,6 +69,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['date', 'searchKey'],
   data: function data() {
@@ -216,7 +217,8 @@ var render = function() {
               headers: _vm.tblHeader,
               dense: "",
               search: _vm.searchKey,
-              id: "transactions"
+              id: "transactions",
+              loading: _vm.PrincipalsStore.state.isInitTransactions
             },
             scopedSlots: _vm._u(
               [

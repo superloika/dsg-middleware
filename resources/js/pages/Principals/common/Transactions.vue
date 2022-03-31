@@ -31,6 +31,7 @@
             :search="searchKey"
             class="elevation-1"
             id="transactions"
+            :loading="PrincipalsStore.state.isInitTransactions"
         >
             <template v-slot:[`item.upload_date`] = "{ item }">
                 <span>
