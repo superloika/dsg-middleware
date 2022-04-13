@@ -2,8 +2,7 @@
     <v-app>
         <v-system-bar app
             height="40"
-            color="secondary darken-5"
-            dark
+            color="grey lighten-3"
         >
             <v-btn
                 @click="toggleDrawerState()"
@@ -33,6 +32,7 @@
             ></v-progress-linear>
         </v-system-bar>
 
+        <!-- top error bar (supposed to be) -->
         <!-- <v-system-bar v-if="AppStore.state.errorBar.show"
             height="20" color="red darken-4" app dark elevation="1">
             {{ AppStore.state.errorBar.msg }}
@@ -56,6 +56,7 @@
             <!-- Side Navigation (Main Nav) -->
             <NavSide></NavSide>
 
+            <!-- Side Nav Footer -->
             <template v-slot:append>
                 <v-footer>
                     <v-col class="text-center pa-0">
@@ -84,7 +85,7 @@
             v-model="AppStore.state.snackBar.show"
             :timeout="AppStore.state.snackBar.timeout"
             bottom left
-            color="primary"
+            color="secondary"
         >
             {{ AppStore.state.snackBar.text }}
         </v-snackbar>
@@ -114,7 +115,6 @@
 
 export default {
     data: () => ({
-        // navDrawerState: window.localStorage.getItem('navDrawerState'),
         navDrawerState: null,
     }),
 
@@ -125,8 +125,6 @@ export default {
     methods: {
         toggleDrawerState() {
             this.navDrawerState = !this.navDrawerState;
-            // window.localStorage.setItem('navDrawerState', !this.navDrawerState);
-            // console.log('navDrawerState:', window.localStorage.getItem('navDrawerState'));
         },
     },
 
@@ -138,7 +136,8 @@ export default {
 
 <style>
     .v-toolbar__content {
-        border-bottom: 1px solid #222222;
+        /* border-bottom: 1px solid #222222; */
+        border-bottom: 1px solid #e9e9e9;
     }
 
     .search-field{
@@ -146,7 +145,8 @@ export default {
     }
 
     .v-data-table__wrapper table tbody tr{
-        color: #a8a8a8;
+        /* color: #a8a8a8; */
+        color: #6e6e6e;
     }
 
     .theme--dark.v-data-table

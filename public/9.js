@@ -99,19 +99,10 @@ var render = function() {
     [
       _c(
         "v-app-bar",
-        {
-          attrs: {
-            elevation: "0",
-            app: "",
-            color: "secondary darken-1",
-            dense: ""
-          }
-        },
+        { attrs: { elevation: "0", app: "", dense: "" } },
         [
           _c("v-toolbar-title", { staticClass: "primary--text" }, [
-            _vm._v(
-              "\r\n            " + _vm._s(_vm.principalName) + "\r\n        "
-            )
+            _vm._v("\n            " + _vm._s(_vm.principalName) + "\n        ")
           ]),
           _vm._v(" "),
           _c("v-spacer"),
@@ -127,9 +118,8 @@ var render = function() {
                     height: "44",
                     "show-arrows": "",
                     "center-active": "",
-                    dark: "",
-                    "background-color": "secondary darken-1",
-                    "active-class": "primary--text xxxrounded-t-xl"
+                    "background-color": "grey lighten-4",
+                    "active-class": "primary--text"
                   },
                   model: {
                     value: _vm.tab,
@@ -172,7 +162,12 @@ var render = function() {
           return _c(
             "v-tab-item",
             { key: index, staticClass: "pa-0" },
-            [_c(t.component, { tag: "component" })],
+            [
+              _c(t.component, {
+                tag: "component",
+                attrs: { id: _vm.principalName + index }
+              })
+            ],
             1
           )
         }),

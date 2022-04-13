@@ -10,14 +10,14 @@
                 </v-list-item-content>
             </v-list-item> -->
 
-            <!-- <v-list-item link to="/expenditures">
+            <v-list-item link to="/invoices">
                 <v-list-item-icon class="mr-2">
-                    <v-icon>mdi-view-dashboard</v-icon>
+                    <v-icon>mdi-file-outline</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                    <v-list-item-title>Exp Test</v-list-item-title>
+                    <v-list-item-title>Invoices</v-list-item-title>
                 </v-list-item-content>
-            </v-list-item> -->
+            </v-list-item>
 
             <NavSideListGroupPrincipals></NavSideListGroupPrincipals>
 
@@ -42,12 +42,22 @@
                         <v-list-item-title>Customers</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item link to="/master/products">
+
+                <!-- <v-list-item link to="/master/products">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-cube</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
                         <v-list-item-title>Products</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item> -->
+
+                <v-list-item link to="/master/items">
+                    <v-list-item-icon class="mr-2">
+                        <v-icon>mdi-cube</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>Items</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
 

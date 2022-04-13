@@ -89,7 +89,7 @@
                 v-if="generatedData.length < 1"
                 class="d-flex justify-center mt-5"
             >
-                <v-chip color="secondary" small>
+                <v-chip color="accent" small>
                     No available data to display
                 </v-chip>
             </div>

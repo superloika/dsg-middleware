@@ -63,6 +63,12 @@ Route::prefix('master')->group(function(){
         Route::post('/upload', 'MasterProductsController@upload');
     });
 
+    // Items
+    Route::prefix('items')->group(function(){
+        Route::get('/all', 'MasterItemsController@index');
+        Route::post('/upload', 'MasterItemsController@upload');
+    });
+
     // Customers
     Route::prefix('customers')->group(function(){
         Route::get('/all', 'MasterCustomersController@index');
@@ -76,6 +82,13 @@ Route::prefix('master')->group(function(){
     });
 });
 
+
+// INVOICES
+Route::prefix('invoices')->group(function(){
+    Route::get('/all', 'InvoicesController@index');
+    Route::post('/upload', 'InvoicesController@upload');
+});
+
 /**
  * ================================================================================================================
  * PRINCIPALS' ROUTES
@@ -85,7 +98,7 @@ Route::prefix('master')->group(function(){
 Route::prefix('principals')->group(function(){
     $principalCtrls = [
         ['MeadJohnsonController', 'mead_johnson'],
-        ['CenturyController', 'century'],
+        ['MegaFishingController', 'megafishing'],
     ];
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';
@@ -100,8 +113,10 @@ Route::prefix('principals')->group(function(){
             Route::post("/customers/upload", $ctrl. "uploadMasterCustomers");
 
             // Invoices (import & save)
-            Route::post("/invoices/import", $ctrl. "importInvoices");
-            Route::post("/invoices/save", $ctrl. "saveInvoices");
+            Route::get("/invoices/generate-templated-data", $ctrl. "generateTemplatedData");
+            Route::post("/invoices/save", $ctrl. "saveGeneratedData");
+            // Route::post("/invoices/import", $ctrl. "importInvoices");
+            // Route::post("/invoices/save", $ctrl. "saveInvoices");
         });
     }
 

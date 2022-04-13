@@ -5,7 +5,12 @@ import AppStore from './AppStore';
 const state = Vue.observable({
     principals: [],
     isLoadingPrincipals: false,
-    isImportDialogOpen: false,
+    // isImportDialogOpen: false,
+    tableHeader: [
+        { text: "Principal Name", value: "name" },
+        { text: "Vendor Code", value: "vendor_code" },
+        { text: "Middleware Code", value: "code" },
+    ],
 })
 
 const actions = {
@@ -16,9 +21,10 @@ const actions = {
             const response = await axios.get(url);
             state.principals = [];
             state.principals = response.data;
-            state.isLoadingPrincipals = false;
         } catch (error) {
             console.log('MasterPrincipals_initPrincipals() - ERROR:', error);
+        } finally {
+            state.isLoadingPrincipals = false;
         }
     }
 }

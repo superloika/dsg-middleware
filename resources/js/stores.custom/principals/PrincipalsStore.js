@@ -49,6 +49,7 @@ const actions = {
         );
         this.initInvoicesGrandTotal();
         this.initSettings();
+        this.initCurrentGeneratedData(state.selectedPrincipalCode,);
     },
 
     cleanup() {
@@ -139,6 +140,26 @@ const actions = {
             AppStore.state.showTopLoading = false;
         } catch (error) {
             console.log('PrincipalsStore.initInvoices() - ERROR:', error);
+        }
+    },
+
+    /**
+     * Generate templated data based on pending invoices
+     */
+    async initCurrentGeneratedData(principal_code) {
+        // alert(principal_code);
+
+        try {
+            const url = encodeURI(
+                AppStore.state.siteUrl + 'principals/'
+                + principal_code + '/invoices/generate-templated-data'
+            );
+            let result = await axios.get(url);
+
+            state.currentGeneratedData = [];
+            state.currentGeneratedData = Object.entries(result.data.output_template);
+        } catch (error) {
+            console.log('PrincipalsStore.initCurrentGeneratedData() - ERROR:', error);
         }
     },
 

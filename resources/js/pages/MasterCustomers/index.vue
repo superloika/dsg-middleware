@@ -2,6 +2,7 @@
 <v-sheet>
     <v-app-bar elevation="0" app>
         <v-toolbar-title>
+            <v-icon>mdi-account-multiple</v-icon>
             {{ $route.meta.name }}
             <v-chip color="primary" small>
                 {{ MasterCustomers.state.customers.total }}

@@ -26,7 +26,7 @@
                         outlined
                         dense
                         required
-                        accept="text/csv"
+                        accept=".csv, .txt"
                         multiple
                         v-model="file"
                         label="Select a file to upload"
@@ -129,6 +129,7 @@ export default {
                     this.MasterPrincipals.initPrincipals();
                     this.MasterCustomers.initCustomers();
                     this.MasterProducts.initProducts();
+                    this.MasterItems.initItems();
                     this.AppStore.state.dlgImportMaster = false;
                 })
                 .catch(error => {

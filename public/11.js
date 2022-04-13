@@ -289,6 +289,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
 // import InvoicesImport from './InvoicesImport.vue';
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -296,17 +298,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./GeneratedTableWrapper.vue */ "./resources/js/pages/Principals/common/GeneratedTableWrapper.vue"));
     },
     InvoicesImport: function InvoicesImport() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./InvoicesImport.vue */ "./resources/js/pages/Principals/common/InvoicesImport.vue"));
+      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./InvoicesImport.vue */ "./resources/js/pages/Principals/common/InvoicesImport.vue"));
     },
     // InvoicesImport,
     MissingInMaster: function MissingInMaster() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./MissingInMaster.vue */ "./resources/js/pages/Principals/common/MissingInMaster.vue"));
+      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./MissingInMaster.vue */ "./resources/js/pages/Principals/common/MissingInMaster.vue"));
     },
     Settings: function Settings() {
       return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./Settings.vue */ "./resources/js/pages/Principals/common/Settings.vue"));
     },
     Pendings: function Pendings() {
-      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./Pendings.vue */ "./resources/js/pages/Principals/common/Pendings.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./Pendings.vue */ "./resources/js/pages/Principals/common/Pendings.vue"));
     }
   },
   data: function data() {
@@ -451,7 +453,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
   },
   methods: {
-    saveInvoices: function saveInvoices() {
+    saveGeneratedData: function saveGeneratedData() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -464,7 +466,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                 _this.isExporting = true;
                 url = _this.AppStore.state.siteUrl + "principals" + "/".concat(_this.selectedPrincipalCode, "/invoices/save");
                 payload = {
-                  raw_invoices: _this.PrincipalsStore.state.currentRawInvoices,
+                  // raw_invoices: this.PrincipalsStore.state.currentRawInvoices,
                   generated_data: _this.generatedData
                 };
                 _context.next = 6;
@@ -477,28 +479,29 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                 _this.PrincipalsStore.exportToExcel(config.header, _this.PrincipalsStore.generatedDataSubset(_this.AppStore.flattenGendata(_this.generatedData), config.format), null, _this.PrincipalsStore.state.selectedPrincipalCode);
 
                 _this.isExporting = false;
-                _this.confirmExportDialogOpen = false;
-                _this.PrincipalsStore.state.currentGeneratedData = [];
-                _this.PrincipalsStore.state.currentRawInvoices = [];
+                _this.confirmExportDialogOpen = false; // this.PrincipalsStore.state.currentGeneratedData = [];
+                // this.PrincipalsStore.state.currentRawInvoices = [];
 
                 _this.PrincipalsStore.initInvoicesGrandTotal();
 
                 _this.PrincipalsStore.initInvoices(_this.selectedPrincipalCode, _this.AppStore.state.strDateToday);
 
-                _context.next = 20;
+                _this.PrincipalsStore.initCurrentGeneratedData(_this.selectedPrincipalCode);
+
+                _context.next = 19;
                 break;
 
-              case 17:
-                _context.prev = 17;
+              case 16:
+                _context.prev = 16;
                 _context.t0 = _context["catch"](0);
-                console.log("saveInvoices():", _context.t0);
+                console.log("saveGeneratedData():", _context.t0);
 
-              case 20:
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 17]]);
+        }, _callee, null, [[0, 16]]);
       }))();
     },
     missingInMaster: function missingInMaster(type) {
@@ -545,9 +548,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
     }
   },
+  created: function created() {
+    this.PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
+  },
   mounted: function mounted() {
     console.log("Generated component mounted");
     console.log(this.missingCustomers);
+    console.log(this.PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode));
   }
 });
 
@@ -570,15 +577,8 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "pt-4 secondary darken-1" },
+    {},
     [
-      _c(
-        "v-sheet",
-        { staticClass: "px-3 secondary darken-1" },
-        [_c("InvoicesImport")],
-        1
-      ),
-      _vm._v(" "),
       _c(
         "v-card",
         { staticClass: "elevation-0", attrs: { color: "" } },
@@ -593,7 +593,7 @@ var render = function() {
                 [
                   _c("v-toolbar-title", [
                     _vm._v(
-                      "\n                    Generated Data\n                    "
+                      "\n                    Templated Data\n                    "
                     ),
                     _vm.lineCount > 0
                       ? _c(
@@ -858,7 +858,7 @@ var render = function() {
                                   },
                                   on: {
                                     click: function($event) {
-                                      return _vm.saveInvoices()
+                                      return _vm.saveGeneratedData()
                                     }
                                   }
                                 },
@@ -916,7 +916,7 @@ var render = function() {
                       [
                         _c(
                           "v-chip",
-                          { attrs: { color: "secondary", small: "" } },
+                          { attrs: { color: "accent", small: "" } },
                           [
                             _vm._v(
                               "\n                        No available data to display\n                    "

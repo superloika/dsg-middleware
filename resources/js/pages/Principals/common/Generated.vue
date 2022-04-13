@@ -1,13 +1,15 @@
 <template>
-    <div class="pt-4 secondary darken-1">
-        <v-sheet class="px-3 secondary darken-1">
+    <!-- <div class="pt-4 secondary darken-1"> -->
+    <div class="">
+        <!-- <v-sheet class="px-3 secondary darken-1"> -->
+        <!-- <v-sheet class="px-3">
             <InvoicesImport></InvoicesImport>
-        </v-sheet>
+        </v-sheet> -->
         <v-card class="elevation-0" color="">
             <v-card-title class="pa-0">
                 <v-app-bar elevation="0" colorx="white">
                     <v-toolbar-title>
-                        Generated Data
+                        Templated Data
                         <div v-if="lineCount > 0">
                             <v-chip
                                 small
@@ -206,7 +208,7 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn
-                                    @click="saveInvoices()"
+                                    @click="saveGeneratedData()"
                                     color="primary"
                                     :loading="isExporting"
                                     text
@@ -232,7 +234,7 @@
                         v-if="generatedData.length < 1"
                         class="d-flex justify-center mt-3"
                     >
-                        <v-chip color="secondary" small>
+                        <v-chip color="accent" small>
                             No available data to display
                         </v-chip>
                     </div>
@@ -419,7 +421,23 @@ export default {
     },
 
     methods: {
-        async saveInvoices() {
+        async saveGeneratedData() {
+            // // test
+            // const config = this.PrincipalsStore.getHeaderAndFormat(
+            //     "generatedDataTableHeader"
+            // );
+            // this.PrincipalsStore.exportToExcel(
+            //     config.header,
+            //     this.PrincipalsStore.generatedDataSubset(
+            //         this.AppStore.flattenGendata(this.generatedData),
+            //         config.format
+            //     ),
+            //     null,
+            //     this.PrincipalsStore.state.selectedPrincipalCode
+            // );
+            // this.confirmExportDialogOpen = false;
+            // // /test
+
             try {
                 this.isExporting = true;
                 const url =
@@ -428,7 +446,7 @@ export default {
                     `/${this.selectedPrincipalCode}/invoices/save`;
 
                 const payload = {
-                    raw_invoices: this.PrincipalsStore.state.currentRawInvoices,
+                    // raw_invoices: this.PrincipalsStore.state.currentRawInvoices,
                     generated_data: this.generatedData
                 };
 
@@ -437,7 +455,6 @@ export default {
                 const config = this.PrincipalsStore.getHeaderAndFormat(
                     "generatedDataTableHeader"
                 );
-
                 this.PrincipalsStore.exportToExcel(
                     config.header,
                     this.PrincipalsStore.generatedDataSubset(
@@ -450,16 +467,17 @@ export default {
 
                 this.isExporting = false;
                 this.confirmExportDialogOpen = false;
-                this.PrincipalsStore.state.currentGeneratedData = [];
-                this.PrincipalsStore.state.currentRawInvoices = [];
+                // this.PrincipalsStore.state.currentGeneratedData = [];
+                // this.PrincipalsStore.state.currentRawInvoices = [];
 
                 this.PrincipalsStore.initInvoicesGrandTotal();
                 this.PrincipalsStore.initInvoices(
                     this.selectedPrincipalCode,
                     this.AppStore.state.strDateToday
                 );
+                this.PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
             } catch (error) {
-                console.log("saveInvoices():", error);
+                console.log("saveGeneratedData():", error);
             }
         },
 
@@ -507,9 +525,14 @@ export default {
         },
     },
 
+    created() {
+        this.PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
+    },
+
     mounted() {
         console.log("Generated component mounted");
         console.log(this.missingCustomers);
+        console.log(this.PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode));
     }
 };
 </script>

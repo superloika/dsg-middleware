@@ -1,7 +1,7 @@
 <template>
 <div>
     <!-- <v-app-bar elevation="0" dense app color="grey lighten-5"> -->
-    <v-app-bar elevation="0" app color="white">
+    <v-app-bar elevation="0" app>
         <v-toolbar-title>{{ $route.meta.name }}</v-toolbar-title>
 
         <v-spacer></v-spacer>

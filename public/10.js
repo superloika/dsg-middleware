@@ -87,7 +87,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     // ProductsUpload: () => import('./ProductsUpload.vue'),
     MasterfileUpload: function MasterfileUpload() {
-      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./MasterfileUpload.vue */ "./resources/js/pages/Principals/common/MasterfileUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./MasterfileUpload.vue */ "./resources/js/pages/Principals/common/MasterfileUpload.vue"));
     }
   },
   data: function data() {

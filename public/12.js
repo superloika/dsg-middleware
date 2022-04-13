@@ -469,7 +469,7 @@ var render = function() {
                 "div",
                 { staticClass: "d-flex justify-center mt-5" },
                 [
-                  _c("v-chip", { attrs: { color: "secondary", small: "" } }, [
+                  _c("v-chip", { attrs: { color: "accent", small: "" } }, [
                     _vm._v(
                       "\n                No available data to display\n            "
                     )

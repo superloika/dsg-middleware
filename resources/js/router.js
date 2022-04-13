@@ -11,9 +11,13 @@ import TestPage from "./pages/TestPage";
 // PRINCIPAL
 import Principals from "./pages/Principals";
 
+// INVOICES
+import Invoices from "./pages/Invoices";
+
 // MASTERFILES
 import MasterCustomers from "./pages/MasterCustomers";
 import MasterProducts from "./pages/MasterProducts";
+import MasterItems from "./pages/MasterItems";
 import MasterPrincipals from "./pages/MasterPrincipals";
 
 // ACCOUNT
@@ -60,6 +64,13 @@ const router = new VueRouter({
             },
         },
         {
+            path: "/invoices",
+            component: Invoices,
+            meta: {
+                name: "Invoices"
+            },
+        },
+        {
             path: "/test",
             component: TestPage,
             meta: {
@@ -81,6 +92,13 @@ const router = new VueRouter({
             component: MasterProducts,
             meta: {
                 name: "Products Masterfile"
+            }
+        },
+        {
+            path: "/master/items",
+            component: MasterItems,
+            meta: {
+                name: "Items Masterfile"
             }
         },
         {

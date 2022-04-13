@@ -2,7 +2,9 @@ var map = {
 	"./PrincipalsStore": "./resources/js/stores.custom/principals/PrincipalsStore.js",
 	"./PrincipalsStore.js": "./resources/js/stores.custom/principals/PrincipalsStore.js",
 	"./mead_johnson": "./resources/js/stores.custom/principals/mead_johnson.js",
-	"./mead_johnson.js": "./resources/js/stores.custom/principals/mead_johnson.js"
+	"./mead_johnson.js": "./resources/js/stores.custom/principals/mead_johnson.js",
+	"./megafishing": "./resources/js/stores.custom/principals/megafishing.js",
+	"./megafishing.js": "./resources/js/stores.custom/principals/megafishing.js"
 };
 
 

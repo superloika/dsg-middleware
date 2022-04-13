@@ -39,6 +39,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["generatedData"],
   data: function data() {
@@ -52,7 +53,7 @@ __webpack_require__.r(__webpack_exports__);
       //     import(`../${vm.PrincipalsStore.state.selectedPrincipalCode}/GeneratedTable.vue`);
 
       return function () {
-        return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./GeneratedTable.vue */ "./resources/js/pages/Principals/common/GeneratedTable.vue"));
+        return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./GeneratedTable.vue */ "./resources/js/pages/Principals/common/GeneratedTable.vue"));
       };
     }
   },
@@ -152,11 +153,7 @@ var render = function() {
       _c(
         "v-tabs",
         {
-          attrs: {
-            heightx: "35",
-            "show-arrow": "",
-            "background-color": "grey darken-4"
-          },
+          attrs: { heightx: "35", "show-arrow": "" },
           model: {
             value: _vm.tab,
             callback: function($$v) {

@@ -137,12 +137,12 @@ class MasterProductsController extends Controller
             $res['success'] = true;
             $res['message'] = 'File uploaded successfully';
 
-            return response()->json($res);
+            return response()->json($res, 200);
 
         } catch (\Throwable $th) {
             $res['success'] = false;
             $res['message'] = $th->getMessage();
-            return response()->json($res);
+            return response()->json($res, 500);
         }
     }
 }

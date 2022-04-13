@@ -320,17 +320,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./GeneratedTableWrapper.vue */ "./resources/js/pages/Principals/common/GeneratedTableWrapper.vue"));
     },
     InvoicesImport: function InvoicesImport() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./InvoicesImport.vue */ "./resources/js/pages/Principals/common/InvoicesImport.vue"));
+      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./InvoicesImport.vue */ "./resources/js/pages/Principals/common/InvoicesImport.vue"));
     },
     // InvoicesImport,
     MissingInMaster: function MissingInMaster() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./MissingInMaster.vue */ "./resources/js/pages/Principals/common/MissingInMaster.vue"));
+      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./MissingInMaster.vue */ "./resources/js/pages/Principals/common/MissingInMaster.vue"));
     },
     Settings: function Settings() {
       return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./Settings.vue */ "./resources/js/pages/Principals/common/Settings.vue"));
     },
     Pendings: function Pendings() {
-      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./Pendings.vue */ "./resources/js/pages/Principals/common/Pendings.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./Pendings.vue */ "./resources/js/pages/Principals/common/Pendings.vue"));
     }
   },
   data: function data() {

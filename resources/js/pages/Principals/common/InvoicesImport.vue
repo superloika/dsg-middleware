@@ -1,5 +1,5 @@
 <template>
-<v-card outlinedx class="elevation-0 transparent pa-0">
+<v-card outlinedx class="elevation-0 pa-0">
     <v-card-text class="pa-0">
         <v-row class="">
             <v-col class="pb-0" cols lg="9" md="7" sm="8">

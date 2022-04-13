@@ -1,7 +1,7 @@
 <template>
 <v-card class="pa-0">
     <v-card-title class="pa-0 mb-6">
-        <v-toolbar class="elevation-0" colorx="white">
+        <v-toolbar class="elevation-0">
             <v-toolbar-title>Settings</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn

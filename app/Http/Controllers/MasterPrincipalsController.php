@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class MasterPrincipalsController extends Controller
 {
 
-    protected static $tableName = 'principals';
-
+    public static $TBL_PRINCIPALS = 'principals';
 
     public function index()
     {
@@ -23,54 +22,33 @@ class MasterPrincipalsController extends Controller
     public function upload(Request $request)
     {
         try {
-
-            $delimiter = ',';
-
             foreach ($request->file('files') as $masterfile) {
-
                 $fileName = 'principals-' . time() . '-' . $masterfile->getClientOriginalName();
-
                 $testFilesPath = "public/masterfiles";
                 Storage::putFileAs($testFilesPath, $masterfile, $fileName);
 
                 if (Storage::exists("$testFilesPath/$fileName")) {
-                    $fileContent = Storage::get("$testFilesPath/$fileName");
-
-                    $fileContentLines = explode(PHP_EOL, utf8_encode($fileContent));
-
-                    // =====================
-                    /**
-                     * If the file content contains more than one line,
-                     * explode the second line and store it in $pcode.
-                     * Get the 1st array element in $pcode assuming that it is the principal code
-                     */
-                    // if (count($fileContentLines) > 1) {
-                    //     $pcode = explode(',', $fileContentLines[1])[0];
-                    //     DB::table($this::$tableName)->where('principal_code', $pcode)->delete();
-                    // }
-                    // =====================
+                    $content = Storage::get("$testFilesPath/$fileName");
+                    $rows = explode(PHP_EOL, utf8_encode($content));
 
                     $loopCounter = 1;
-                    DB::table($this::$tableName)->truncate();
+                    DB::table($this::$TBL_PRINCIPALS)->truncate();
 
-                    foreach ($fileContentLines as $fileContentLine) {
+                    foreach ($rows as $row) {
                         if ($loopCounter > 1) {
-                            // $arrFileContentLine = explode($delimiter, $fileContentLine);
-                            $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+                            // $cols = explode($delimiter, $row);
+                            $cols = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $row);
 
-                            if (count($arrFileContentLine) > 1) {
+                            if (count($cols) > 1) {
+                                $name = $cols[0];
+                                $vendor_code = $cols[1];
+                                $principal_code = $cols[2];
 
-                                $name = $arrFileContentLine[0];
-                                $code = $arrFileContentLine[1];
-
-                                // ===============================================================================
-                                DB::table($this::$tableName)->insert([
-                                    'code' => $code,
+                                DB::table($this::$TBL_PRINCIPALS)->insert([
                                     'name' => $name,
-
+                                    'vendor_code' => $vendor_code,
+                                    'code' => $principal_code,
                                 ]);
-                                // ===============================================================================
-
                             }
                         }
 
@@ -80,13 +58,13 @@ class MasterPrincipalsController extends Controller
             }
 
             $res['success'] = true;
-            $res['message'] = 'File uploaded successfully';
+            $res['message'] = 'Successful';
 
-            return response()->json($res);
+            return response()->json($res, 200);
         } catch (\Throwable $th) {
             $res['success'] = false;
             $res['message'] = $th->getMessage();
-            return response()->json($res);
+            return response()->json($res, 500);
         }
     }
 }
