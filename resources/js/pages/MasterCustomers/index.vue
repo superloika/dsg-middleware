@@ -142,7 +142,7 @@ export default {
 
     beforeDestroy() {
         this.MasterCustomers.state.customers = {};
-        this.MasterProducts.state.products = {};
+        this.MasterItems.state.items = {};
     },
 }
 </script>

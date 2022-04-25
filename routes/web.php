@@ -58,10 +58,10 @@ Route::group(['prefix' => 'accounts'], function() {
 // MASTERFILES (Pending)
 Route::prefix('master')->group(function(){
     // Products
-    Route::prefix('products')->group(function(){
-        Route::get('/all', 'MasterProductsController@index');
-        Route::post('/upload', 'MasterProductsController@upload');
-    });
+    // Route::prefix('products')->group(function(){
+    //     Route::get('/all', 'MasterProductsController@index');
+    //     Route::post('/upload', 'MasterProductsController@upload');
+    // });
 
     // Items
     Route::prefix('items')->group(function(){
@@ -98,15 +98,17 @@ Route::prefix('invoices')->group(function(){
 Route::prefix('principals')->group(function(){
     $principalCtrls = [
         ['MeadJohnsonController', 'mead_johnson'],
-        ['MegaFishingController', 'megafishing'],
+        ['WyethController', 'wyeth'],
+        ['GsmiController', 'gsmi'],
+        ['JsuController', 'jsu'],
     ];
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';
 
         Route::prefix($principalCtrl[1])->group(function() use ($ctrl){
-            // Products
-            Route::get("/products", $ctrl. "products");
-            Route::post("/products/upload", $ctrl. "uploadMasterProducts");
+            // Items
+            Route::get("/items", $ctrl. "items");
+            Route::post("/items/upload", $ctrl. "uploadMasterItems");
 
             // Customers
             Route::get("/customers", $ctrl. "customers");
@@ -114,7 +116,7 @@ Route::prefix('principals')->group(function(){
 
             // Invoices (import & save)
             Route::get("/invoices/generate-templated-data", $ctrl. "generateTemplatedData");
-            Route::post("/invoices/save", $ctrl. "saveGeneratedData");
+            Route::post("/invoices/set-invoices-complete", $ctrl. "setInvoicesComplete");
             // Route::post("/invoices/import", $ctrl. "importInvoices");
             // Route::post("/invoices/save", $ctrl. "saveInvoices");
         });

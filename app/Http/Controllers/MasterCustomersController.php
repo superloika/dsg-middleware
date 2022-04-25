@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Principals\PrincipalsUtil;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -9,13 +10,11 @@ use Illuminate\Support\Facades\Storage;
 
 class MasterCustomersController extends Controller
 {
-    private $TBL_MASTER_CUSTOMERS = 'master_customers';
-
     function index() {
         $row_count = request()->row_count ?? 10;
         $search_key = request()->search_key ?? '';
 
-        $result = DB::table($this->TBL_MASTER_CUSTOMERS)
+        $result = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
             ->where('customer_code','like','%'. $search_key. '%')
             ->orWhere('name','like','%'. $search_key. '%')
             ->orWhere('address','like','%'. $search_key. '%')
@@ -33,7 +32,6 @@ class MasterCustomersController extends Controller
         // DB::disableQueryLog();
 
         try {
-            $this->TBL_MASTER_CUSTOMERS = 'master_customers';
             $delimiter = ',';
 
             foreach($request->file('files') as $masterfile) {
@@ -47,11 +45,11 @@ class MasterCustomersController extends Controller
                     $fileContentLines = explode(PHP_EOL, utf8_encode($fileContent));
 
                     $loopCounter = 1;
-                    // DB::table($this->TBL_MASTER_CUSTOMERS)->truncate();
+                    // DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)->truncate();
                     $arrLines = [];
                     $dateToday = Carbon::now()->toDateTimeString();
 
-                    DB::table($this->TBL_MASTER_CUSTOMERS)->delete();
+                    DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)->truncate();
 
                     foreach ($fileContentLines as $fileContentLine) {
                         if($loopCounter > 1) {
@@ -93,7 +91,7 @@ class MasterCustomersController extends Controller
 
                     $chunks = array_chunk($arrLines, 500);
                     foreach($chunks as $chunk) {
-                        DB::table($this->TBL_MASTER_CUSTOMERS)
+                        DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
                             ->insert($chunk);
                     }
 

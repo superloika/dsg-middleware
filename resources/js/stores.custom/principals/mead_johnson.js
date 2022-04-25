@@ -3,8 +3,7 @@ import Vue from "vue";
 
 
 const state = Vue.observable({
-    title: "MEAD JOHNSON",
-
+    title: '',
     // customersTableHeader: [
     //     { text: "Distributor Code", value: "distributor_code" },
     //     { text: "Customer Code", value: "customer_code" },
@@ -22,24 +21,26 @@ const state = Vue.observable({
     customersTableHeader: [
         { text: "Customer Code", value: "customer_code" },
         { text: "Name", value: "customer_name" },
+        { text: "Outlet Type", value: "outlet_type" },
         { text: "Salesman Name", value: "salesman_name" },
+        { text: "Operation Type", value: "operation_type" },
         // { text: "Route Code", value: "route_code" },
     ],
-    productsTableHeader: [
+    itemsTableHeader: [
         {text:"Item Code", value:"item_code"},
         {text:"Description", value:"description"},
-        {text:"MJ Code", value:"item_code_supplier"},
-        {text:"MJ Description", value:"description_supplier"},
+        {text:"Supplier Item Code", value:"item_code_supplier"},
+        {text:"Supplier Item Description", value:"description_supplier"},
     ],
     generatedDataTableHeader: [
         {text:"Order Date (Date) (YYYY/MM/DD)", value: "order_date"},
         {text:"Customer Code (nv20)", value: "customer_code"},
         {text:"Route Code (nv20)", value: "route_code"},
-        {text:"Product Category Code (nv20)", value: "product_category_code"},
+        {text:"Product Category Code (nv20)", value: "item_category_code"},
         {text:"Ship To (nv40)", value: "ship_to"},
         {text:"Order Number (nv20)", value: "order_no"},
         {text:"Remarks (nv50)", value: "remarks"},
-        {text:"Product Code (nv20)", value: "product_code"},
+        {text:"Product Code (nv20)", value: "item_code"},
         {text:"Quantity (numeric 25,4)", value: "quantity"},
     ],
     uploadedInvoicesTableHeader: [
@@ -72,9 +73,6 @@ const state = Vue.observable({
     generatedDataHistoryFilters: [
         {text: 'Order Date', value: 'order_date'},
         {text: 'Route Code', value: 'route_code'},
-        // {text: 'File Name', value: 'filename'},
-        // {text: 'Customer Code', value: 'customer_code'},
-        // {text: 'Product Code', value: 'product_code'},
     ],
     generatedDataDBTableColumns: [
         // common
@@ -90,7 +88,7 @@ const state = Vue.observable({
         'ship_to',
         'order_no',
         'remarks',
-        'product_code',
+        'item_code',
         'quantity'
     ]
 });

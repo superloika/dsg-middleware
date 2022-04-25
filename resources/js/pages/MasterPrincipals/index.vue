@@ -49,7 +49,7 @@
 
     <v-dialog
         v-model="AppStore.state.dlgImportMaster"
-        max-width="720"
+        max-width="800"
         persistent
     >
         <MasterUpload id="principals"></MasterUpload>

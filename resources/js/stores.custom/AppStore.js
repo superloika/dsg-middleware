@@ -19,6 +19,7 @@ const state = Vue.observable({
         show: false,
         text: "",
         timeout: -1,
+        color: 'secondary'
     },
     overlay: {
         show: false,
@@ -43,10 +44,11 @@ const state = Vue.observable({
 
 
 const actions = {
-    toast(text, timeout) {
+    toast(text, timeout, color='secondary') {
         state.snackBar.show = true;
         state.snackBar.text = text;
         state.snackBar.timeout = timeout == null ? 3000 : timeout;
+        state.snackBar.color = color;
     },
 
     overlay(show = true, text = "Loading...") {
@@ -60,6 +62,7 @@ const actions = {
         try {
             let result = await axios.get(url);
             state.principals = result.data;
+            console.log('LIST OF PRINCIPALS:', state.principals);
         } catch (error) {
             console.log("AppStore_initPrincipals() - ERROR: ", error);
         }
@@ -93,7 +96,7 @@ const actions = {
             //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
         });
 
-        return formatter.format(number);
+        return formatter.format(number).replace('php','').replace('₱','');
     },
 
     copyToClip(container_id, srcType = 'text') {

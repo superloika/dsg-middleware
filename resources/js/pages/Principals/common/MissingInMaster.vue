@@ -39,7 +39,7 @@
             <br>
         </v-chip>
     </v-card-text>
-    <v-card-text class="pa-1" v-else-if="type=='product'">
+    <v-card-text class="pa-1" v-else-if="type=='item'">
         <v-chip v-for="(missing, id) in missingInMaster"
             :key="id" color="warning" small class="ma-1"
             outlined
@@ -66,9 +66,11 @@
 export default {
     props: ['missingInMaster', 'type', 'temptxt_id', 'title'],
 
-    data: () => ({
-        searchKey: '',
-    }),
+    data() {
+        return {
+            searchKey: '',
+        }
+    },
 
     computed: {
         codesNA() {
@@ -96,10 +98,10 @@ export default {
                     {text:'Customer Code', value:'customer_code'},
                     {text:'Customer Name', value:'missing_customer_name'},
                 ];
-            } else if(this.type='product') {
+            } else if(this.type='item') {
                 return [
-                    {text:'Product Code', value:'product_code'},
-                    {text:'Product Name', value:'missing_product_name'},
+                    {text:'Item Code', value:'item_code'},
+                    {text:'Item Name', value:'missing_item_name'},
                 ];
             }
         },

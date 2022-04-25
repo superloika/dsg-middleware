@@ -20,8 +20,8 @@ export default {
         tabs() {
             return [
                 {
-                    title: 'Import and Generate',
-                    icon: 'mdi-file-upload',
+                    title: 'Templated Data',
+                    icon: 'mdi-table',
                     component: () => import("../common/Generated.vue"),
                 },
                 {
@@ -30,7 +30,7 @@ export default {
                     component: () => import("../common/GeneratedHistory.vue"),
                 },
                 {
-                    title: 'Transactions and Uploaded Invoices',
+                    title: 'Transactions',
                     icon: 'mdi-file-check',
                     component: () => import("../common/TransAndInvoices.vue"),
                 },

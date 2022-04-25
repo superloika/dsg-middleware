@@ -109,14 +109,6 @@ export default {
             const url = this.AppStore.state.siteUrl +
                 'master/' + this.id + '/upload';
 
-            // if(this.id=='products') {
-            //     url = `/master/products/upload`;
-            // } else if(this.id=='customers') {
-            //     url = `/master/customers/upload`;
-            // } else if(this.id=='principals') {
-            //     url = `/master/principals/upload`;
-            // }
-
             axios.post(url, formData, config)
                 .then(response => {
                     vm.uploadResponse.success = response.data.success;
@@ -128,7 +120,6 @@ export default {
 
                     this.MasterPrincipals.initPrincipals();
                     this.MasterCustomers.initCustomers();
-                    this.MasterProducts.initProducts();
                     this.MasterItems.initItems();
                     this.AppStore.state.dlgImportMaster = false;
                 })

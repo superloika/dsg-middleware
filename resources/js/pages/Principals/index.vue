@@ -37,17 +37,17 @@ export default {
     },
 
     created() {
-        if(
-            this.PrincipalsStore == null
-            || this.PrincipalsStore == undefined
-        ) {
-            /**
-             * PS = PrincipalsStore
-             */
-            Vue.prototype.PrincipalsStore =
-                require(`../../stores.custom/principals/PrincipalsStore`)
-                .default;
-        }
+        // if(
+        //     this.PrincipalsStore == null
+        //     || this.PrincipalsStore == undefined
+        // ) {
+        //     /**
+        //      * PS = PrincipalsStore
+        //      */
+        //     Vue.prototype.PrincipalsStore =
+        //         require(`../../stores.custom/principals/PrincipalsStore`)
+        //         .default;
+        // }
     },
 
     mounted() {
@@ -58,8 +58,8 @@ export default {
         if(this.PrincipalsStore != null) {
             this.PrincipalsStore.cleanup();
         }
-        this.PrincipalsStore = null;
-        Vue.prototype.PrincipalsStore = null;
+        // this.PrincipalsStore = null;
+        // Vue.prototype.PrincipalsStore = null;
     },
 
 };

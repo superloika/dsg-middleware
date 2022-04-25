@@ -15,13 +15,17 @@ class PrincipalsUtil extends Controller
     public static $STATUS_COMPLETED = 'completed';
     public static $STATUS_PENDING = 'pending';
 
-    public static $TBL_CUSTOMERS = 'customers';
-    public static $TBL_PRODUCTS = 'products';
     public static $TBL_GENERATED = 'generated_data';
-    public static $TBL_INVOICES = 'uploaded_invoices';
+    // public static $TBL_INVOICES = 'uploaded_invoices';
 
-    public static $TBL_MASTER_PRODUCTS = 'master_products';
-    public static $TBL_MASTER_CUSTOMERS = 'master_customers';
+    public static $TBL_INVOICES = 'invoices';
+
+    public static $TBL_PRINCIPALS_CUSTOMERS = 'principals_customers';
+    public static $TBL_PRINCIPALS_ITEMS = 'principals_items';
+    public static $TBL_GENERAL_ITEMS = 'general_items';
+    public static $TBL_GENERAL_CUSTOMERS = 'general_customers';
+
+    public static $TBL_PRINCIPALS = 'principals';
 
     /**
      * Create a new controller instance.
@@ -51,7 +55,7 @@ class PrincipalsUtil extends Controller
         $res = DB::table('settings_principal')
                 ->where('principal_code', $principalCode)
                 ->first();
-        return json_decode($res->config);
+        return json_decode($res->config ?? '[]');
     }
     /**
      * ====================================== /STATICS ======================================
@@ -106,7 +110,7 @@ class PrincipalsUtil extends Controller
             //throw $th;
             $response['success'] = false;
             $response['message'] = $th->getMessage();
-            return response()->json($response);
+            return response()->json($response, 500);
         }
     }
 
@@ -141,7 +145,7 @@ class PrincipalsUtil extends Controller
         } catch (\Throwable $th) {
             $res['success'] = false;
             $res['message'] = $th->getMessage();
-            return response()->json($res);
+            return response()->json($res, 500);
         }
     }
 
@@ -158,7 +162,7 @@ class PrincipalsUtil extends Controller
         } catch (\Throwable $th) {
             $res['success'] = false;
             $res['message'] = $th->getMessage();
-            return response()->json($res);
+            return response()->json($res, 500);
         }
     }
 
@@ -200,12 +204,13 @@ class PrincipalsUtil extends Controller
 
             $res['generated_data'] = $gendata;
 
+            return response()->json($res);
         } catch (\Throwable $th) {
             $res['success'] = false;
             $res['message'] = $th->getMessage();
+            return response()->json($res, 500);
         }
 
-        return response()->json($res);
     }
 
 
@@ -237,45 +242,45 @@ class PrincipalsUtil extends Controller
 
             $result = DB::table($this::$TBL_INVOICES)
                 ->leftJoin(
-                    $this::$TBL_MASTER_CUSTOMERS,
+                    $this::$TBL_GENERAL_CUSTOMERS,
                     $this::$TBL_INVOICES. '.customer_code',
                     '=',
-                    $this::$TBL_MASTER_CUSTOMERS. '.customer_code'
+                    $this::$TBL_GENERAL_CUSTOMERS. '.customer_code'
                 )
                 ->leftJoin(
-                    $this::$TBL_MASTER_PRODUCTS,
+                    $this::$TBL_GENERAL_ITEMS,
                     $this::$TBL_INVOICES. '.item_code',
                     '=',
-                    $this::$TBL_MASTER_PRODUCTS. '.item_code'
+                    $this::$TBL_GENERAL_ITEMS. '.item_code'
                 )
                 ->leftJoin(
-                    $this::$TBL_CUSTOMERS,
+                    $this::$TBL_PRINCIPALS_CUSTOMERS,
                     $this::$TBL_INVOICES. '.customer_code',
                     '=',
-                    $this::$TBL_CUSTOMERS. '.customer_code'
+                    $this::$TBL_PRINCIPALS_CUSTOMERS. '.customer_code'
                 )
                 ->leftJoin(
-                    $this::$TBL_PRODUCTS,
+                    $this::$TBL_PRINCIPALS_ITEMS,
                     $this::$TBL_INVOICES. '.item_code',
                     '=',
-                    $this::$TBL_PRODUCTS. '.item_code'
+                    $this::$TBL_PRINCIPALS_ITEMS. '.item_code'
                 )
                 ->select(
                     $this::$TBL_INVOICES. '.*',
-                    $this::$TBL_CUSTOMERS. '.principal_code',
-                    // $this::$TBL_CUSTOMERS. '.customer_code',
-                    // $this::$TBL_CUSTOMERS. '.customer_name',
-                    $this::$TBL_MASTER_CUSTOMERS. '.name as customer_name',
-                    $this::$TBL_MASTER_CUSTOMERS. '.customer_code',
-                    $this::$TBL_PRODUCTS. '.principal_code',
-                    // $this::$TBL_PRODUCTS. '.item_code',
-                    // $this::$TBL_PRODUCTS. '.description'
-                    $this::$TBL_MASTER_PRODUCTS. '.description',
-                    $this::$TBL_MASTER_PRODUCTS. '.item_code',
+                    $this::$TBL_PRINCIPALS_CUSTOMERS. '.principal_code',
+                    // $this::$TBL_PRINCIPALS_CUSTOMERS. '.customer_code',
+                    // $this::$TBL_PRINCIPALS_CUSTOMERS. '.customer_name',
+                    $this::$TBL_GENERAL_CUSTOMERS. '.name as customer_name',
+                    $this::$TBL_GENERAL_CUSTOMERS. '.customer_code',
+                    $this::$TBL_PRINCIPALS_ITEMS. '.principal_code',
+                    // $this::$TBL_PRINCIPALS_ITEMS. '.item_code',
+                    // $this::$TBL_PRINCIPALS_ITEMS. '.description'
+                    $this::$TBL_GENERAL_ITEMS. '.description',
+                    $this::$TBL_GENERAL_ITEMS. '.item_code',
                 )
                 ->where($this::$TBL_INVOICES. '.principal_code', request()->principal_code)
-                ->where($this::$TBL_CUSTOMERS. '.principal_code', request()->principal_code)
-                ->where($this::$TBL_PRODUCTS. '.principal_code', request()->principal_code)
+                ->where($this::$TBL_PRINCIPALS_CUSTOMERS. '.principal_code', request()->principal_code)
+                ->where($this::$TBL_PRINCIPALS_ITEMS. '.principal_code', request()->principal_code)
                 ->whereDate($this::$TBL_INVOICES. '.upload_date','>=', $dateFrom)
                 ->whereDate($this::$TBL_INVOICES. '.upload_date','<=', $dateTo)
                 ->orderBy($this::$TBL_INVOICES. '.upload_date', 'DESC')
@@ -292,7 +297,7 @@ class PrincipalsUtil extends Controller
             $res['success'] = false;
             $res['nessage'] = $th->getMessage();
             $res['data'] = [];
-            return response()->json($res);
+            return response()->json($res, 500);
         }
     }
 

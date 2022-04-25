@@ -70,17 +70,15 @@
             <v-tabs
                 heightx="40"
                 v-model="tab"
-                grow
-                background-colorx="grey lighten-5"
             >
                 <v-tab class="px-2">
                     <v-icon class="mr-1">mdi-file-check</v-icon>
                     Transactions
                 </v-tab>
-                <v-tab class="px-2">
+                <!-- <v-tab class="px-2">
                     <v-icon class="mr-1">mdi-file-check</v-icon>
                     Uploaded Invoices
-                </v-tab>
+                </v-tab> -->
             </v-tabs>
             <v-tabs-items v-model="tab">
                 <v-tab-item>
@@ -92,7 +90,7 @@
                         </Transactions>
                     </v-sheet>
                 </v-tab-item>
-                <v-tab-item>
+                <!-- <v-tab-item>
                     <v-sheet class="">
                         <UploadedInvoices
                             :searchKey="searchKey"
@@ -100,7 +98,7 @@
                         >
                         </UploadedInvoices>
                     </v-sheet>
-                </v-tab-item>
+                </v-tab-item> -->
             </v-tabs-items>
 
         </v-card-text>
@@ -112,7 +110,7 @@
 export default {
 
     components: {
-        UploadedInvoices: () => import('./UploadedInvoices.vue'),
+        // UploadedInvoices: () => import('./UploadedInvoices.vue'),
         Transactions: () => import('./Transactions.vue'),
     },
 
@@ -138,7 +136,7 @@ export default {
     methods: {
         loadInvoicesOrTransactions() {
             this.PrincipalsStore.initTransactions(this.selectedPrincipalCode, this.date);
-            this.PrincipalsStore.initInvoices(this.selectedPrincipalCode, this.date);
+            // this.PrincipalsStore.initInvoices(this.selectedPrincipalCode, this.date);
             this.PrincipalsStore.initInvoicesGrandTotal();
         },
     },

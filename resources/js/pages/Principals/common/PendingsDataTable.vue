@@ -11,7 +11,7 @@
             </span>
         </template>
         <template v-slot:[`item.item_code`] = "{ item }">
-            <span :class="item.product_notfound==1 ? 'error--text' : ''">
+            <span :class="item.item_notfound==1 ? 'error--text' : ''">
                 {{ item.item_code }}
             </span>
         </template>

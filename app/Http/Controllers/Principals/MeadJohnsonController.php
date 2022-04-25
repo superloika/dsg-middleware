@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Storage;
 class MeadJohnsonController extends Controller
 {
     private $PRINCIPAL_CODE = 'mead_johnson';
-    // private static $tblCustomers = 'customers';
-    // private static $tblProducts = 'products';
-    // private static $tblGenerated = 'generated_data';
-    // private static $tblInvoices = 'uploaded_invoices';
-
 
     /**
      * Create a new controller instance.
@@ -31,14 +26,14 @@ class MeadJohnsonController extends Controller
 
     // =====================================================================
     // =====================================================================
-    // PRODUCTS =============================================================
+    // ITEMS =============================================================
     // =====================================================================
     // =====================================================================
 
     /**
-     * Gets products list
+     * Gets items list
      */
-    function products()
+    function items()
     {
         // password reset (test)
         // dd(Hash::make('nenemiro'));
@@ -53,7 +48,7 @@ class MeadJohnsonController extends Controller
             'item_code_supplier',
             'description_supplier'
         ];
-        $result = DB::table(PrincipalsUtil::$TBL_PRODUCTS)
+        $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
             ->where('principal_code', $this->PRINCIPAL_CODE)
             ->get($cols);
 
@@ -61,9 +56,9 @@ class MeadJohnsonController extends Controller
     }
 
     /**
-     * Import products masterfile (.csv)
+     * Import items masterfile (.csv)
      */
-    public function uploadMasterProducts(Request $request)
+    public function uploadMasterItems(Request $request)
     {
         set_time_limit(0);
 
@@ -74,7 +69,7 @@ class MeadJohnsonController extends Controller
 
             $delimiter = ',';
             $fileName = time() . '.' . $request->file->getClientOriginalName();
-            $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/products";
+            $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/items";
             Storage::putFileAs($fileStoragePath, $request->file, $fileName);
 
             $res['success'] = true;
@@ -86,7 +81,7 @@ class MeadJohnsonController extends Controller
                 // init lineCount to 1 for the header
                 $lineCount = 1;
 
-                DB::table(PrincipalsUtil::$TBL_PRODUCTS)
+                DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                     ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
@@ -120,7 +115,7 @@ class MeadJohnsonController extends Controller
 
                 $chunks = array_chunk($arrLines, 500);
                 foreach ($chunks as $chunk) {
-                    DB::table(PrincipalsUtil::$TBL_PRODUCTS)->insert($chunk);
+                    DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)->insert($chunk);
                 }
             }
 
@@ -146,26 +141,29 @@ class MeadJohnsonController extends Controller
     {
         set_time_limit(0);
 
-        $result = DB::table(PrincipalsUtil::$TBL_CUSTOMERS)
-            ->leftJoin(
-                'master_customers',
-                PrincipalsUtil::$TBL_CUSTOMERS . '.customer_code',
-                '=',
-                'master_customers.customer_code'
-            )
-            ->select(
-                PrincipalsUtil::$TBL_CUSTOMERS . '.*',
-                'master_customers.name AS customer_name',
-                'master_customers.address',
-                'master_customers.address_2',
-                'master_customers.city',
-            )
-            ->where(PrincipalsUtil::$TBL_CUSTOMERS . '.principal_code', $this->PRINCIPAL_CODE)
-            ->get();
-
-        // $result = DB::table(PrincipalsUtil::$TBL_CUSTOMERS)
-        //     ->where('principal_code', $this->PRINCIPAL_CODE)
+        // $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+        //     ->leftJoin(
+        //         PrincipalsUtil::$TBL_GENERAL_CUSTOMERS,
+        //         PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.customer_code',
+        //         '=',
+        //         PrincipalsUtil::$TBL_GENERAL_CUSTOMERS.'.customer_code'
+        //     )
+        //     ->select(
+        //         PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.*',
+        //         PrincipalsUtil::$TBL_GENERAL_CUSTOMERS.'.name AS customer_name',
+        //         PrincipalsUtil::$TBL_GENERAL_CUSTOMERS.'.address',
+        //         PrincipalsUtil::$TBL_GENERAL_CUSTOMERS.'.address_2',
+        //         PrincipalsUtil::$TBL_GENERAL_CUSTOMERS.'.city',
+        //     )
+        //     ->where(
+        //         PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.principal_code',
+        //         $this->PRINCIPAL_CODE
+        //     )
         //     ->get();
+
+        $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->get();
 
         return response()->json($result);
     }
@@ -191,7 +189,7 @@ class MeadJohnsonController extends Controller
                 // init lineCount to 1 for the header
                 $lineCount = 1;
 
-                DB::table(PrincipalsUtil::$TBL_CUSTOMERS)
+                DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
                     ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
                 $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
@@ -203,59 +201,39 @@ class MeadJohnsonController extends Controller
                         $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                         if (count($arrFileContentLine) > 1) {
-                            // $distributor_code = $arrFileContentLine[0];
-                            // $customer_code = $arrFileContentLine[1];
-                            // $customer_name = str_replace('"', '', $arrFileContentLine[2]);
-                            // $outlet_type = $arrFileContentLine[3];
-                            // $salesman_name = str_replace('"', '', $arrFileContentLine[4]);
-                            // $route_code = $arrFileContentLine[5];
-                            // $operation_type = $arrFileContentLine[6];
-                            // $status = $arrFileContentLine[7];
-                            // $address_1 = str_replace('"', '', $arrFileContentLine[8]);
-                            // $address_4 = str_replace('"', '', $arrFileContentLine[9]);
-                            // $address_5 = str_replace('"', '', $arrFileContentLine[10]);
-                            // $postal_code = str_replace('"', '', $arrFileContentLine[11]);
-
-                            // $customer_code = trim($arrFileContentLine[0]);
-                            // $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
-                            // $customer_name = trim(str_replace('"', '', $arrFileContentLine[2]));
-                            // $salesman_name = trim(str_replace('"', '', $arrFileContentLine[3]));
-                            // $route_code = trim($arrFileContentLine[4]);
-
-                            $customer_code = trim($arrFileContentLine[0]);
-                            $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
-                            $salesman_name = trim(str_replace('"', '', $arrFileContentLine[2]));
+                            // // ==========================================================================
+                            // $distributor_code = trim(str_replace('"', '', $arrFileContentLine[0]));
+                            // $customer_code = trim(str_replace('"', '', $arrFileContentLine[1]));
+                            // $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[2]));
+                            // $customer_name = trim(str_replace('"', '', $arrFileContentLine[3]));
+                            // $outlet_type = trim(str_replace('"', '', $arrFileContentLine[4]));
+                            // $salesman_name = trim(str_replace('"', '', $arrFileContentLine[5]));
+                            // $operation_type = trim(str_replace('"', '', $arrFileContentLine[6]));
+                            // // =========================================================================
+                            // ==========================================================================
+                            $distributor_code = trim(str_replace('"', '', $arrFileContentLine[0]));
+                            $customer_code = trim(str_replace('"', '', $arrFileContentLine[1]));
+                            $customer_name = trim(str_replace('"', '', $arrFileContentLine[2]));
+                            $outlet_type = trim(str_replace('"', '', $arrFileContentLine[3]));
+                            $salesman_name = trim(str_replace('"', '', $arrFileContentLine[4]));
+                            $operation_type = trim(str_replace('"', '', $arrFileContentLine[5]));
                             // =========================================================================
-                            // DB::table(PrincipalsUtil::$TBL_CUSTOMERS)->insert([
-                            //     'principal_code' => $this->PRINCIPAL_CODE,
-                            //     'distributor_code' => $distributor_code,
-                            //     'customer_code' => $customer_code,
-                            //     'customer_name' => $customer_name,
-                            //     'outlet_type' => $outlet_type,
-                            //     'salesman_name' => $salesman_name,
-                            //     'route_code' => $route_code,
-                            //     'operation_type' => $operation_type,
-                            //     'status' => $status,
-                            //     'address_1' => $address_1,
-                            //     'address_4' => $address_4,
-                            //     'address_5' => $address_5,
-                            //     'postal_code' => $postal_code,
-                            //     'uploaded_by' => auth()->user()->id
-                            // ]);
-                            // =========================================================================
-                            $isExisting = array_search(
-                                $customer_code,
-                                array_column($arrLines, 'customer_code')
-                            );
-                            // $isExisting = false;
+
+                            // $isExisting = array_search(
+                            //     $customer_code,
+                            //     array_column($arrLines, 'customer_code')
+                            // );
+                            $isExisting = false;
                             if ($isExisting == false) {
                                 $arrLines[] = [
                                     'principal_code' => $this->PRINCIPAL_CODE,
+                                    'distributor_code' => $distributor_code,
                                     'customer_code' => $customer_code,
-                                    'customer_code_supplier' => $customer_code_supplier,
-                                    // 'customer_name' => $customer_name,
+                                    // 'customer_code_supplier' => $customer_code_supplier,
+                                    'customer_name' => $customer_name,
+                                    'outlet_type' => $outlet_type,
                                     'salesman_name' => $salesman_name,
-                                    // 'route_code' => $route_code,
+                                    'operation_type' => $operation_type,
                                     'uploaded_by' => auth()->user()->id
                                 ];
                             }
@@ -266,7 +244,7 @@ class MeadJohnsonController extends Controller
 
                 $chunks = array_chunk($arrLines, 500);
                 foreach ($chunks as $chunk) {
-                    DB::table(PrincipalsUtil::$TBL_CUSTOMERS)->insert($chunk);
+                    DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)->insert($chunk);
                 }
             }
 
@@ -286,10 +264,7 @@ class MeadJohnsonController extends Controller
     // =====================================================================
 
     /**
-     * Import invoices(textfile/s) and generate templated data
-     * NOTE:
-     * - The generated data is NOT YET SAVED unless the user exports it
-     * - The saved generated data can be viewed on the Generated Data History
+     * Generate templated data based on invoices with 'pending' status
      */
     public function generateTemplatedData(Request $request)
     {
@@ -326,16 +301,26 @@ class MeadJohnsonController extends Controller
 
             // dd($route_codes);
             //TODO: get pending invoices
-            $pendingInvoices = DB::table('invoices')
-                ->leftJoin('items', 'items.item_code', 'invoices.item_code')
+            $pendingInvoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
+                ->leftJoin(
+                    PrincipalsUtil::$TBL_GENERAL_ITEMS,
+                    PrincipalsUtil::$TBL_GENERAL_ITEMS.'.item_code',
+                    PrincipalsUtil::$TBL_INVOICES.'.item_code'
+                )
                 ->select(
-                    'invoices.*',
-                    'items.description',
-                    'items.vendor_code',
+                    PrincipalsUtil::$TBL_INVOICES.'.*',
+                    PrincipalsUtil::$TBL_GENERAL_ITEMS.'.description',
+                    PrincipalsUtil::$TBL_GENERAL_ITEMS.'.vendor_code',
                 )
                 // ->where('invoices.')
-                ->where('items.vendor_code', 'S0671')
-                ->where('invoices.status', 'pending')
+                ->where(
+                    PrincipalsUtil::$TBL_GENERAL_ITEMS.'.vendor_code',
+                    DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+                        ->where('code', $this->PRINCIPAL_CODE)
+                        ->select('vendor_code')
+                        ->first()->vendor_code ?? 'NA'
+                )
+                ->where(PrincipalsUtil::$TBL_INVOICES.'.status', 'pending')
                 ->get();
 
             // dd($pendingInvoices);
@@ -356,38 +341,36 @@ class MeadJohnsonController extends Controller
                 $u5 = trim($pendingInvoice->u5);
                 $uom = trim($pendingInvoice->uom);
 
-                // $customer = DB::table(PrincipalsUtil::$TBL_CUSTOMERS)
-                //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                //     ->where('customer_code', $customer_code)
-                //     ->first();
-                $customer = DB::table('master_customers')
+                $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                    ->where('principal_code', $this->PRINCIPAL_CODE)
                     ->where('customer_code', $customer_code)
                     ->first();
-                $product = DB::table(PrincipalsUtil::$TBL_PRODUCTS)
+                $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                     ->where('principal_code', $this->PRINCIPAL_CODE)
                     ->where('item_code', $item_code)
                     ->first();
 
                 $invoice_uploaded = 0;
-                $product_notfound = 0;
+                $item_notfound = 0;
                 $customer_notfound = 0;
                 $salesman_name = '';
                 // name of customer who's missing in principal's masterfile
                 $missing_customer_name = '';
-                $missing_product_name = '';
+                $missing_item_name = '';
 
                 // last resort
-                if ($product == null) {
-                    $product_notfound = 1;
-                    $missing_product_name = DB::table('master_products')
+                if ($item == null) {
+                    $item_notfound = 1;
+                    $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
                         ->where('item_code', $item_code)
                         ->first()->description ?? '[ Not Found ]';
                 } else {
+
                 }
 
                 if ($customer == null) {
                     $customer_notfound = 1;
-                    $missing_customer_name = DB::table('master_customers')
+                    $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
                         ->where('customer_code', $customer_code)
                         ->first()->name ?? '[ Not Found ]';
                 } else {
@@ -396,9 +379,9 @@ class MeadJohnsonController extends Controller
 
                 $order_date = $dateToday->format('Y/m/d');
                 $order_no = 'N/A';
-                if ($product_notfound == 1 || $customer_notfound == 1) {
+                if ($item_notfound == 1 || $customer_notfound == 1) {
                     // $order_date = 'TBD';
-                } else if ($product_notfound == 0 || $customer_notfound == 0) {
+                } else if ($item_notfound == 0 || $customer_notfound == 0) {
                     $order_no = $latest_order_no += 1;
                 }
 
@@ -410,11 +393,11 @@ class MeadJohnsonController extends Controller
                 // )->route_code ?? 'Customer_NA';
                 $route_code = $route_codes[$salesman_name] ?? 'N/A';
 
-                $product_category_code = $settings['product_category_code'];
+                $item_category_code = $settings['item_category_code'];
                 $ship_to = $settings['ship_to'];
 
                 $remarks = '';
-                $product_code = $product->item_code_supplier ?? $item_code;
+                $item_code_supplier = $item->item_code_supplier ?? $item_code;
                 // ======================= /INIT ===========================
 
                 // Check if the invoice is already uploaded
@@ -427,26 +410,25 @@ class MeadJohnsonController extends Controller
                 // }
 
                 // =========== SETTING UP ======================================
-
                 // Generated data line structure
                 $arrGenerated = [
                     'order_date' => $order_date,
                     'customer_code' => $customer_code,
                     'route_code' => $route_code,
-                    'product_category_code' => $product_category_code,
+                    'item_category_code' => $item_category_code,
                     'ship_to' => $ship_to,
                     'order_no' => $order_no,
                     'remarks' => $remarks,
-                    // 'product_code' => intval($product_code),
-                    'product_code' => $product_code,
+                    // 'item_code' => intval($item_code),
+                    'item_code' => $item_code_supplier,
                     'alturas_item_code' => $item_code,
                     'quantity' => intval($quantity),
-                    'product_notfound' => $product_notfound,
+                    'item_notfound' => $item_notfound,
                     'customer_notfound' => $customer_notfound,
                     'invoice_uploaded' => $invoice_uploaded,
                     'doc_no' => $doc_no,
                     'missing_customer_name' => $missing_customer_name,
-                    'missing_product_name' => $missing_product_name,
+                    'missing_item_name' => $missing_item_name,
                 ];
 
                 if ($chunk_line_count > 0) {
@@ -460,7 +442,7 @@ class MeadJohnsonController extends Controller
                         $pageLineCount = 1;
                     }
                 } else {
-                    // group output_template by order_date
+                    // group output_template
                     if (!isset($res['output_template'][$route_code])) {
                         $res['output_template'][$route_code] = [];
                     }
@@ -506,16 +488,16 @@ class MeadJohnsonController extends Controller
         } catch (\Throwable $th) {
             $res['success'] = false;
             $res['message'] = $th->getMessage();
-            return response()->json($res);
+            return response()->json($res, 500);
         }
     }
 
 
     /**
-     * Save the generated templated data
+     * Change invoice's status to 'complete'
      * NOTE: This happens when the user exports the generated templated data
      */
-    public function saveGeneratedData(Request $request)
+    public function setInvoicesComplete(Request $request)
     {
         set_time_limit(0);
 
@@ -530,15 +512,17 @@ class MeadJohnsonController extends Controller
             // generated data
             foreach ($request->generated_data as $gendata) {
                 foreach ($gendata[1] as $line) {
-
-                    DB::table('invoices')->where('doc_no', $line['doc_no'])
-                        ->where('item_code', $line['alturas_item_code'])
-                        ->where('status', 'pending')
-                        ->update([
-                            'status' => 'completed',
-                            'updated_at' => $dateToday
-                        ]);
-                    // if ($line['customer_notfound'] == 0 && $line['product_notfound'] == 0) {
+                    if($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
+                        DB::table(PrincipalsUtil::$TBL_INVOICES)
+                            ->where('doc_no', $line['doc_no'])
+                            ->where('item_code', $line['alturas_item_code'])
+                            ->where('status', 'pending')
+                            ->update([
+                                'status' => 'completed',
+                                'updated_at' => $dateToday
+                            ]);
+                    }
+                    // if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
                     //     $status = PrincipalsUtil::$STATUS_COMPLETED;
                     //     DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
                     //         'principal_code' => $this->PRINCIPAL_CODE,
@@ -549,23 +533,24 @@ class MeadJohnsonController extends Controller
                     //         'order_date' => $line['order_date'],
                     //         'customer_code' => $line['customer_code'],
                     //         'route_code' => $line['route_code'],
-                    //         'product_category_code' => $line['product_category_code'],
+                    //         'item_category_code' => $line['item_category_code'],
                     //         'ship_to' => $line['ship_to'],
                     //         'order_no' => $line['order_no'],
                     //         'remarks' => $line['remarks'],
-                    //         'product_code' => $line['product_code'],
+                    //         'item_code' => $line['item_code'],
                     //         'quantity' => $line['quantity'],
                     //         'generated_at' => $dateToday->format('Y-m-d H:i:s'),
                     //     ]);
                     // }
                 }
             }
+            return response()->json($response);
         } catch (\Throwable $th) {
             $response['success'] = false;
             $response['message'] = $th->getMessage();
+            return response()->json($response, 500);
         }
 
-        return response()->json($response);
     }
     /**
      * Save invoices together with the generated data
@@ -587,7 +572,7 @@ class MeadJohnsonController extends Controller
             foreach ($request->raw_invoices as $line) {
                 // ===========================================================================
                 // $status = '';
-                // if($line['customer_notfound']==0 && $line['product_notfound']==0){
+                // if($line['customer_notfound']==0 && $line['item_notfound']==0){
                 //     $status = PrincipalsUtil::$STATUS_COMPLETED;
                 // } else {
                 //     $status = PrincipalsUtil::$STATUS_PENDING;
@@ -612,7 +597,7 @@ class MeadJohnsonController extends Controller
                 //     'uom' => $line['uom']
                 // ]);
                 // ===========================================================================
-                if ($line['customer_notfound'] == 0 && $line['product_notfound'] == 0) {
+                if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
                     $status = PrincipalsUtil::$STATUS_COMPLETED;
                     DB::table(PrincipalsUtil::$TBL_INVOICES)->insert([
                         'principal_code' => $this->PRINCIPAL_CODE,
@@ -642,7 +627,7 @@ class MeadJohnsonController extends Controller
                 foreach ($gendata[1] as $line) {
                     // ======================================================================
                     // $status = '';
-                    // if($line['customer_notfound']==0 && $line['product_notfound']==0){
+                    // if($line['customer_notfound']==0 && $line['item_notfound']==0){
                     //     $status = PrincipalsUtil::$STATUS_COMPLETED;
                     // } else {
                     //     $status = PrincipalsUtil::$STATUS_PENDING;
@@ -656,16 +641,16 @@ class MeadJohnsonController extends Controller
                     //     'order_date' => $line['order_date'],
                     //     'customer_code' => $line['customer_code'],
                     //     'route_code' => $line['route_code'],
-                    //     'product_category_code' => $line['product_category_code'],
+                    //     'item_category_code' => $line['item_category_code'],
                     //     'ship_to' => $line['ship_to'],
                     //     'order_no' => $line['order_no'],
                     //     'remarks' => $line['remarks'],
-                    //     'product_code' => $line['product_code'],
+                    //     'item_code' => $line['item_code'],
                     //     'quantity' => $line['quantity'],
                     //     'generated_at' => $dateToday->format('Y-m-d H:i:s'),
                     // ]);
                     // ======================================================================
-                    if ($line['customer_notfound'] == 0 && $line['product_notfound'] == 0) {
+                    if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
                         $status = PrincipalsUtil::$STATUS_COMPLETED;
                         DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
                             'principal_code' => $this->PRINCIPAL_CODE,
@@ -676,11 +661,11 @@ class MeadJohnsonController extends Controller
                             'order_date' => $line['order_date'],
                             'customer_code' => $line['customer_code'],
                             'route_code' => $line['route_code'],
-                            'product_category_code' => $line['product_category_code'],
+                            'item_category_code' => $line['item_category_code'],
                             'ship_to' => $line['ship_to'],
                             'order_no' => $line['order_no'],
                             'remarks' => $line['remarks'],
-                            'product_code' => $line['product_code'],
+                            'item_code' => $line['item_code'],
                             'quantity' => $line['quantity'],
                             'generated_at' => $dateToday->format('Y-m-d H:i:s'),
                         ]);

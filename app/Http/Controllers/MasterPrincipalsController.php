@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Principals\PrincipalsUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class MasterPrincipalsController extends Controller
 {
-
-    public static $TBL_PRINCIPALS = 'principals';
 
     public function index()
     {
@@ -32,7 +31,7 @@ class MasterPrincipalsController extends Controller
                     $rows = explode(PHP_EOL, utf8_encode($content));
 
                     $loopCounter = 1;
-                    DB::table($this::$TBL_PRINCIPALS)->truncate();
+                    DB::table(PrincipalsUtil::$TBL_PRINCIPALS)->truncate();
 
                     foreach ($rows as $row) {
                         if ($loopCounter > 1) {
@@ -44,7 +43,7 @@ class MasterPrincipalsController extends Controller
                                 $vendor_code = $cols[1];
                                 $principal_code = $cols[2];
 
-                                DB::table($this::$TBL_PRINCIPALS)->insert([
+                                DB::table(PrincipalsUtil::$TBL_PRINCIPALS)->insert([
                                     'name' => $name,
                                     'vendor_code' => $vendor_code,
                                     'code' => $principal_code,

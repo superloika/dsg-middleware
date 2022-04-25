@@ -85,7 +85,7 @@
             v-model="AppStore.state.snackBar.show"
             :timeout="AppStore.state.snackBar.timeout"
             bottom left
-            color="secondary"
+            :color="AppStore.state.snackBar.color"
         >
             {{ AppStore.state.snackBar.text }}
         </v-snackbar>

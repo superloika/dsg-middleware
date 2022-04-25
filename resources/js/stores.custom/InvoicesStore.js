@@ -7,6 +7,7 @@ const state = Vue.observable({
     isLoadingInvoices: false,
     tableHeader: [
         { text: "Status", value: "status" },
+        { text: "Principal", value: "principals_name" },
         { text: "Uploaded", value: "created_at" },
         { text: "Type", value: "doc_type" },
         { text: "Document #", value: "doc_no" },
@@ -18,20 +19,21 @@ const state = Vue.observable({
         { text: "u2", value: "u2" },
         { text: "u3", value: "u3" },
         { text: "u4", value: "u4" },
-        { text: "u5", value: "u5" },
+        { text: "Salesman Code", value: "u5" },
         { text: "UOM", value: "uom" },
         { text: "Uploaded By", value: "username" },
     ],
 })
 
 const actions = {
-    async initInvoices(searchKey='', row_count=10) {
+    async initInvoices(searchKey='', principalCodeFilter='', row_count=10) {
         try {
             state.isLoadingInvoices = true;
             if(searchKey==null) searchKey = '';
             const url = `${AppStore.state.siteUrl}invoices/all`
                 + `?row_count=${row_count}`
                 + `&search_key=${searchKey}`
+                + `&principal_code=${principalCodeFilter}`
                 + `&page=${state.invoices.current_page ?? 1}`;
             const response = await axios.get(url);
             state.invoices = {};

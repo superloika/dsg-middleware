@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Principals\PrincipalsUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -9,8 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class InvoicesController extends Controller
 {
-    public static $TBL_INVOICES = 'invoices';
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -19,19 +18,52 @@ class InvoicesController extends Controller
     function index() {
         $row_count = request()->row_count ?? 10;
         $search_key = request()->search_key ?? '';
+        $principal_code = request()->principal_code ?? '';
 
-        $result = DB::table($this::$TBL_INVOICES)
-            ->where('doc_no','like', '%'.$search_key. '%')
-            ->orWhere('doc_type','like', '%'.$search_key. '%')
-            ->orWhere('customer_code','like', '%'.$search_key. '%')
-            ->orWhere('posting_date','like', '%'.$search_key. '%')
-            ->orWhere('item_code','like', '%'.$search_key. '%')
-            ->leftJoin('users', 'users.id',$this::$TBL_INVOICES. '.uploaded_by')
+        // dd($principal_code);
+
+        $result = DB::table(PrincipalsUtil::$TBL_INVOICES)
+            ->where(function($query) use ($search_key){
+                $query->where('doc_no','like', '%'.$search_key. '%')
+                    ->orWhere('doc_type','like', '%'.$search_key. '%')
+                    ->orWhere('customer_code','like', '%'.$search_key. '%')
+                    ->orWhere('posting_date','like', '%'.$search_key. '%')
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES.'.item_code', 'like', '%'.$search_key. '%'
+                    );
+            })
+            ->where(function($query) use ($principal_code) {
+                if($principal_code != '') {
+                    if($principal_code=='unidentified') {
+                        $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code', null);
+                    } else {
+                        $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.code', $principal_code);
+                    }
+                }
+            })
+
+            ->leftJoin('users', 'users.id', PrincipalsUtil::$TBL_INVOICES. '.uploaded_by')
+            ->leftJoin(
+                PrincipalsUtil::$TBL_GENERAL_ITEMS,
+                PrincipalsUtil::$TBL_GENERAL_ITEMS.'.item_code',
+                PrincipalsUtil::$TBL_INVOICES. '.item_code'
+            )
+            ->leftJoin(
+                PrincipalsUtil::$TBL_PRINCIPALS,
+                PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
+                PrincipalsUtil::$TBL_GENERAL_ITEMS.'.vendor_code'
+            )
+
             ->select(
-                $this::$TBL_INVOICES. '.*',
+                PrincipalsUtil::$TBL_INVOICES. '.*',
                 'users.name AS userFullname',
                 'users.username',
+                PrincipalsUtil::$TBL_GENERAL_ITEMS.'.item_code AS items_item_code',
+                PrincipalsUtil::$TBL_PRINCIPALS.'.name AS principals_name',
+                PrincipalsUtil::$TBL_PRINCIPALS.'.code',
+                PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
             )
+
             ->orderBy('id','DESC')
             ->paginate($row_count);
 
@@ -64,7 +96,11 @@ class InvoicesController extends Controller
                             // $cols = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $row);
                             $cols = explode('|', $row);
 
-                            if (count($cols) == 12 && $cols[0][0] != '#') {
+                            if (
+                                count($cols) == 12
+                                && $cols[0][0] != '#'
+                                && trim(str_replace('"','',$cols[0])) != 'Credit Memo'
+                            ) {
                                 $doc_type = trim(str_replace('"','',$cols[0]));
                                 $doc_no = trim(str_replace('"','',$cols[1]));
                                 $customer_code = trim(str_replace('"','',$cols[2]));
@@ -79,7 +115,7 @@ class InvoicesController extends Controller
                                 $uom = trim(str_replace('"','',$cols[11]));
 
                                 if(
-                                    DB::table($this::$TBL_INVOICES)
+                                    DB::table(PrincipalsUtil::$TBL_INVOICES)
                                         ->where('doc_type',$doc_type)
                                         ->where('doc_no',$doc_no)
                                         ->where('customer_code',$customer_code)
@@ -116,11 +152,11 @@ class InvoicesController extends Controller
                         }
                         $chunks = array_chunk($invoices, 500);
                         foreach($chunks as $chunk) {
-                            DB::table($this::$TBL_INVOICES)
+                            DB::table(PrincipalsUtil::$TBL_INVOICES)
                                 ->insert($chunk);
                         }
 
-                        // DB::table($this::$TBL_INVOICES)
+                        // DB::table(PrincipalsUtil::$TBL_INVOICES)
                         //     ->where('created_at','<>',$dateTimeToday)->delete();
                     }
                 }

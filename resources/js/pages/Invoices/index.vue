@@ -18,6 +18,43 @@
         >
         </v-pagination>
 
+        <v-select
+            :items="AppStore.state.principals"
+            v-model="principalCodeFilter"
+            label="Principal"
+            item-text="name"
+            item-value="code"
+            class="mr-3"
+            style="max-width:215px;"
+            outlined
+            rounded
+            hide-details
+            dense
+        >
+            <template v-slot:prepend-item>
+                <v-list-item
+                    link
+                    @click="principalCodeFilter=''"
+                >
+                    <v-list-item-content>
+                        <v-list-item-title link>
+                                All Principals
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                    link
+                    @click="principalCodeFilter='unidentified'"
+                >
+                    <v-list-item-content>
+                        <v-list-item-title link>
+                                Unidentified
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </template>
+        </v-select>
+
         <v-text-field
             v-model="searchKey"
             label="Search"
@@ -39,7 +76,9 @@
         </v-btn> -->
     </v-app-bar>
 
-    <InvoicesUpload></InvoicesUpload>
+    <InvoicesUpload
+        :searchKey="searchKey" :principalCodeFilter="principalCodeFilter"
+    ></InvoicesUpload>
 
     <v-data-table
         :items="InvoicesStore.state.invoices.data"
@@ -77,6 +116,7 @@ export default {
     data() {
         return {
             searchKey: '',
+            principalCodeFilter: '',
         }
     },
 
@@ -94,7 +134,7 @@ export default {
         },
 
         onPageChange() {
-            this.InvoicesStore.initInvoices(this.searchKey);
+            this.InvoicesStore.initInvoices(this.searchKey, this.principalCodeFilter);
         },
     },
 
@@ -107,7 +147,13 @@ export default {
             if(this.InvoicesStore.state.invoices.current_page != undefined) {
                 this.InvoicesStore.state.invoices.current_page = 1;
             }
-            this.InvoicesStore.initInvoices(this.searchKey);
+            this.InvoicesStore.initInvoices(this.searchKey, this.principalCodeFilter);
+        }, 500),
+        principalCodeFilter: debounce(function() {
+            if(this.InvoicesStore.state.invoices.current_page != undefined) {
+                this.InvoicesStore.state.invoices.current_page = 1;
+            }
+            this.InvoicesStore.initInvoices(this.searchKey, this.principalCodeFilter);
         }, 500),
     },
 

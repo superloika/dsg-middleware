@@ -14,10 +14,7 @@
             </v-chip> -->
         </v-tab>
         <v-tab exact>
-            <v-icon class="mr-1">mdi-cube</v-icon> Products&nbsp;
-            <!-- <v-chip color="primary" x-small>
-                {{ PrincipalsStore.state.products.length }}
-            </v-chip> -->
+            <v-icon class="mr-1">mdi-cube</v-icon> Items&nbsp;
         </v-tab>
     </v-tabs>
     <v-tabs-items v-model="masterfiles_tab">
@@ -25,7 +22,7 @@
             <Customers></Customers>
         </v-tab-item>
         <v-tab-item>
-            <Products></Products>
+            <Items></Items>
         </v-tab-item>
     </v-tabs-items>
 </v-sheet>
@@ -34,7 +31,7 @@
 <script>
 export default {
     components: {
-        Products: () => import("./Products.vue"),
+        Items: () => import("./Items.vue"),
         Customers: () => import("./Customers.vue"),
     },
 
@@ -43,7 +40,6 @@ export default {
     }),
 
     created() {
-        // this.PrincipalsStore.initProducts(this.PrincipalsStore.state.selectedPrincipalCode);
         // this.PrincipalsStore.initCustomers(this.PrincipalsStore.state.selectedPrincipalCode);
     },
 

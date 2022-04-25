@@ -9,10 +9,10 @@
             <v-chip color="warning" x-small
                 class="ml-1 text-captionx px-1"
                 v-if="groupCustomersNotFoundLineCount(data[1]) > 0
-                    || groupProductsNotFoundLineCount(data[1]) > 0"
+                    || groupItemsNotFoundLineCount(data[1]) > 0"
             >
-                {{ groupCustomersNotFoundLineCount(data[1]) > groupProductsNotFoundLineCount(data[1]) ?
-                    groupCustomersNotFoundLineCount(data[1]) : groupProductsNotFoundLineCount(data[1]) }}
+                {{ groupCustomersNotFoundLineCount(data[1]) > groupItemsNotFoundLineCount(data[1]) ?
+                    groupCustomersNotFoundLineCount(data[1]) : groupItemsNotFoundLineCount(data[1]) }}
             </v-chip>
         </v-tab>
     </v-tabs>
@@ -33,9 +33,11 @@
 export default {
     props: ["generatedData"],
 
-    data: () => ({
-        tab: null
-    }),
+    data() {
+        return {
+            tab: null
+        }
+    },
 
     computed: {
         GeneratedTable() {
@@ -47,10 +49,10 @@ export default {
     },
 
     methods: {
-        // get product_notfound line count per group
-        groupProductsNotFoundLineCount(lines = []) {
+        // get item_notfound line count per group
+        groupItemsNotFoundLineCount(lines = []) {
             const test = lines.filter(e => {
-                return e.product_notfound == 1;
+                return e.item_notfound == 1;
             });
             return test.length;
         },

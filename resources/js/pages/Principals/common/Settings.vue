@@ -47,8 +47,9 @@
 
 <script>
 export default {
-    data: () => ({
-    }),
+    data() {
+        return {}
+    },
 
     created() {
         this.PrincipalsStore.initSettings();

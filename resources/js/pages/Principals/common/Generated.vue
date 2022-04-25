@@ -25,32 +25,12 @@
                                 outlinedx
                                 label
                                 color="transparent"
-                                v-if="customersNotFoundCount > 0 || productsNotFoundCount > 0"
+                                v-if="customersNotFoundCount > 0 || itemsNotFoundCount > 0"
                                 class="px-1 warning--text"
                             >
-                                {{ customersNotFoundCount > productsNotFoundCount ?
-                                    customersNotFoundCount : productsNotFoundCount }} total warning/s
+                                {{ customersNotFoundCount > itemsNotFoundCount ?
+                                    customersNotFoundCount : itemsNotFoundCount }} total warning/s
                             </v-chip>
-                            <!-- <v-chip
-                                small
-                                outlinedx
-                                label
-                                color="transparent"
-                                v-if="customersNotFoundCount > 0"
-                                class="px-1 warning--text"
-                            >
-                                {{ customersNotFoundCount }} lines with unmappable customer code
-                            </v-chip>
-                            <v-chip
-                                small
-                                outlinedx
-                                label
-                                color="transparent"
-                                v-if="productsNotFoundCount > 0"
-                                class="px-1 warning--text"
-                            >
-                                {{ productsNotFoundCount }} lines with unmappable product code
-                            </v-chip> -->
                         </div>
                     </v-toolbar-title>
 
@@ -119,40 +99,33 @@
                     </v-dialog>
                     <!-- /MISSING CUSTOMER CODES -->
 
-                    <!-- MISSING PRODUCT CODES -->
+                    <!-- MISSING ITEM CODES -->
                     <v-btn
-                        title="Missing Product/s in Principal's Masterfile"
+                        title="Missing Item/s in Principal's Masterfile"
                         icon
                         dense
                         rounded
                         depressed
                         color="warning"
-                        @click.stop="dlgMissingProducts = true"
-                        :disabled="missingInMaster('product').length < 1"
+                        @click.stop="dlgMissingItems = true"
+                        :disabled="missingInMaster('item').length < 1"
                     >
-                        <!-- <v-badge
-                        :content="distinctProductCodesNA.length"
-                        overlapx
-                        bordered
-                        color="red"
-                    > -->
                         <v-icon>mdi-cube</v-icon>
-                        <!-- </v-badge> -->
                     </v-btn>
                     <v-dialog
-                        v-model="dlgMissingProducts"
+                        v-model="dlgMissingItems"
                         persistentx
                         max-width="900"
                         scrollable
                     >
                         <MissingInMaster
-                            id='product'
-                            type='product'
-                            title="Missing Product/s in Principal's Masterfile"
-                            :missingInMaster="missingInMaster('product')"
+                            id='item'
+                            type='item'
+                            title="Missing Item/s in Principal's Masterfile"
+                            :missingInMaster="missingInMaster('item')"
                         ></MissingInMaster>
                     </v-dialog>
-                    <!-- /MISSING PRODUCT CODES -->
+                    <!-- /MISSING ITEM CODES -->
 
                     <v-btn
                         title="Save Data and Export to Excel"
@@ -162,68 +135,39 @@
                         outlinedx
                         depressed
                         color="success"
-                        @click.stop="confirmExportDialogOpen = true"
+                        @click.stop="PrincipalsStore.state.confirmExportDialogOpen = true"
                         :disabled="
                             lineCount < 1 ||
                             searchKeyLength > 0 ||
-                            productsNotFoundCount > 0 ||
-                            customersNotFoundCount > 0
+                            (itemsNotFoundCount + customersNotFoundCount) >= lineCount
                         "
                     >
+                    <!-- kaloy 2022-04-18 -->
+                    <!-- :disabled="
+                            lineCount < 1 ||
+                            searchKeyLength > 0 ||
+                            itemsNotFoundCount > 0 ||
+                            customersNotFoundCount > 0
+                        " -->
+
                     <!-- :disabled="
                         lineCount < 1 ||
                         searchKeyLength > 0 ||
-                        (productsNotFoundCount + customersNotFoundCount) >= lineCount
+                        (itemsNotFoundCount + customersNotFoundCount) >= lineCount
                     " -->
 
                         <v-icon>mdi-content-save</v-icon>
-                        <!-- &nbsp;
-                    Save and Export -->
                     </v-btn>
                     <!-- confirm export dialog -->
                     <v-dialog
                         persistent
-                        v-model="confirmExportDialogOpen"
+                        v-model="PrincipalsStore.state.confirmExportDialogOpen"
                         max-width="500"
                     >
-                        <v-card>
-                            <v-card-title>Save and Export</v-card-title>
-                            <v-card-text class="text-subtitle-1">
-                                <div>
-                                    Save generated data to the database and
-                                    export to Excel?
-                                </div>
-                                <!-- <span class="text-caption mt-2">
-                                    NOTE: Lines with
-                                    <v-chip color="warning" x-small outlined>
-                                        warning
-                                    </v-chip>
-                                    or
-                                    <v-chip color="error" x-small outlined>
-                                        error
-                                    </v-chip>
-                                    will be skipped
-                                </span> -->
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn
-                                    @click="saveGeneratedData()"
-                                    color="primary"
-                                    :loading="isExporting"
-                                    text
-                                >
-                                    Proceed
-                                </v-btn>
-                                <v-btn
-                                    @click="confirmExportDialogOpen = false"
-                                    :disabled="isExporting"
-                                    text
-                                >
-                                    Cancel
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
+                        <ConfirmExport
+                            :id="'confirm_export_' + PrincipalsStore.state.selectedPrincipalCode"
+                        >
+                        </ConfirmExport>
                     </v-dialog>
                 </v-app-bar>
             </v-card-title>
@@ -234,7 +178,15 @@
                         v-if="generatedData.length < 1"
                         class="d-flex justify-center mt-3"
                     >
-                        <v-chip color="accent" small>
+                        <v-sheet v-if="PrincipalsStore.state.isGeneratingData">
+                            <v-progress-circular
+                                :size="70"
+                                :width="7"
+                                color="accent"
+                                indeterminate
+                            ></v-progress-circular>
+                        </v-sheet>
+                        <v-chip v-else color="accent" small>
                             No available data to display
                         </v-chip>
                     </div>
@@ -245,17 +197,6 @@
                     </GeneratedTableWrapper>
                 </div>
             </v-card-text>
-
-            <!-- <v-bottom-sheet v-model="PrincipalsStore.state.sheetImport">
-            <v-sheet class="px-12 pt-6 pb-16">
-                <div class="text-h5 mb-4 primary--text">
-                    Import and Generate
-                </div>
-                <InvoicesImport
-                    v-if="PrincipalsStore.state.isImportInvoicesVisible"
-                ></InvoicesImport>
-            </v-sheet>
-        </v-bottom-sheet> -->
         </v-card>
     </div>
 </template>
@@ -267,43 +208,25 @@ export default {
     components: {
         GeneratedTableWrapper: () => import("./GeneratedTableWrapper.vue"),
         InvoicesImport: () => import("./InvoicesImport.vue"),
-        // InvoicesImport,
         MissingInMaster: () => import("./MissingInMaster.vue"),
         Settings: () => import("./Settings.vue"),
         Pendings: () => import("./Pendings.vue"),
+        ConfirmExport: () => import("./ConfirmExport.vue"),
     },
 
-    data: () => ({
-        searchKey: "",
-        confirmExportDialogOpen: false,
-        isExporting: false,
-        // wrapperID: "gendata_wrapper",
-        dlgMissingCustomers: null,
-        dlgMissingProducts: null,
-        dlgPendings: null,
-    }),
+    data() {
+        return {
+            searchKey: "",
+            dlgMissingCustomers: null,
+            dlgMissingItems: null,
+            dlgPendings: null,
+        }
+    },
+
 
     computed: {
         generatedData() {
-            const data = this.PrincipalsStore.state.currentGeneratedData;
-            // const searchRegex = new RegExp(this.searchKey, "i");
-            // return data.map(e => {
-            //     return [
-            //         e[0],
-            //         e[1].filter(line => {
-            //             return (
-            //                 this.searchKey == "" ||
-            //                 this.searchKey == null ||
-            //                 searchRegex.test(line.customer_code) ||
-            //                 searchRegex.test(line.route_code) ||
-            //                 searchRegex.test(line.order_no) ||
-            //                 searchRegex.test(line.product_code)
-            //             );
-            //         })
-            //     ];
-            // });
-
-            return data;
+            return this.PrincipalsStore.state.currentGeneratedData;
         },
 
         // overall
@@ -316,12 +239,12 @@ export default {
         },
 
         // overall
-        productsNotFoundCount() {
+        itemsNotFoundCount() {
             // return 1;
             let count = 0;
             this.generatedData.forEach(e => {
                 const nf = e[1].filter(line => {
-                    return line.product_notfound == 1;
+                    return line.item_notfound == 1;
                 });
                 count += nf.length;
             });
@@ -378,14 +301,14 @@ export default {
             }
         },
 
-        distinctProductCodesNA() {
+        distinctItemCodesNA() {
             try {
                 let distinctPCodes = [];
                 this.PrincipalsStore.state.currentGeneratedData.forEach(e => {
                     let tempArray = [];
                     e[1].forEach(line => {
-                        if (line.product_notfound == 1) {
-                            tempArray.push(line.product_code);
+                        if (line.item_notfound == 1) {
+                            tempArray.push(line.item_code);
                         }
                     });
                     if (tempArray.length > 0) {
@@ -395,7 +318,7 @@ export default {
                 distinctPCodes = [...new Set(distinctPCodes)];
                 return distinctPCodes;
             } catch (error) {
-                console.log("initDistinctProductCodesNA() - ERR:", error);
+                console.log("initDistinctItemCodesNA() - ERR:", error);
                 return [];
             }
         },
@@ -421,84 +344,24 @@ export default {
     },
 
     methods: {
-        async saveGeneratedData() {
-            // // test
-            // const config = this.PrincipalsStore.getHeaderAndFormat(
-            //     "generatedDataTableHeader"
-            // );
-            // this.PrincipalsStore.exportToExcel(
-            //     config.header,
-            //     this.PrincipalsStore.generatedDataSubset(
-            //         this.AppStore.flattenGendata(this.generatedData),
-            //         config.format
-            //     ),
-            //     null,
-            //     this.PrincipalsStore.state.selectedPrincipalCode
-            // );
-            // this.confirmExportDialogOpen = false;
-            // // /test
-
-            try {
-                this.isExporting = true;
-                const url =
-                    this.AppStore.state.siteUrl +
-                    "principals" +
-                    `/${this.selectedPrincipalCode}/invoices/save`;
-
-                const payload = {
-                    // raw_invoices: this.PrincipalsStore.state.currentRawInvoices,
-                    generated_data: this.generatedData
-                };
-
-                let response = await axios.post(url, payload);
-
-                const config = this.PrincipalsStore.getHeaderAndFormat(
-                    "generatedDataTableHeader"
-                );
-                this.PrincipalsStore.exportToExcel(
-                    config.header,
-                    this.PrincipalsStore.generatedDataSubset(
-                        this.AppStore.flattenGendata(this.generatedData),
-                        config.format
-                    ),
-                    null,
-                    this.PrincipalsStore.state.selectedPrincipalCode
-                );
-
-                this.isExporting = false;
-                this.confirmExportDialogOpen = false;
-                // this.PrincipalsStore.state.currentGeneratedData = [];
-                // this.PrincipalsStore.state.currentRawInvoices = [];
-
-                this.PrincipalsStore.initInvoicesGrandTotal();
-                this.PrincipalsStore.initInvoices(
-                    this.selectedPrincipalCode,
-                    this.AppStore.state.strDateToday
-                );
-                this.PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
-            } catch (error) {
-                console.log("saveGeneratedData():", error);
-            }
-        },
-
         missingInMaster(type) {
             try {
                 let result = [];
                 this.PrincipalsStore.state.currentGeneratedData.forEach(e => {
                     let tempArray = [];
                     e[1].forEach(line => {
-                        if (line.customer_notfound == 1) {
-                            if(type=='customer') {
+                        if(type=='customer') {
+                            if(line.customer_notfound == 1) {
                                 tempArray.push({
                                     customer_code: line.customer_code,
                                     missing_customer_name: line.missing_customer_name
                                 });
                             }
-                        } else if (line.product_notfound == 1) {
-                            if (type=='product') {
+                        } else if (type=='item') {
+                            if(line.item_notfound == 1) {
                                 tempArray.push({
-                                    product_code: line.product_code,
-                                    missing_product_name: line.missing_product_name
+                                    item_code: line.item_code,
+                                    missing_item_name: line.missing_item_name
                                 });
                             }
                         }
@@ -531,8 +394,6 @@ export default {
 
     mounted() {
         console.log("Generated component mounted");
-        console.log(this.missingCustomers);
-        console.log(this.PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode));
     }
 };
 </script>

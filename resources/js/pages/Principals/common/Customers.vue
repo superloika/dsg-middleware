@@ -59,10 +59,9 @@
 
         <v-dialog
             v-model="PrincipalsStore.state.isUploadMasterCustomersOpen"
-            max-width="600"
+            max-width="800"
             persistent
         >
-            <!-- <ProductsUpload :principal_code="principal_code"></ProductsUpload> -->
             <MasterfileUpload
                 id="customers"
             >
@@ -75,7 +74,6 @@
 <script>
 export default {
     components: {
-        // ProductsUpload: () => import('./ProductsUpload.vue'),
         MasterfileUpload: () => import('./MasterfileUpload.vue'),
     },
 

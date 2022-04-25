@@ -10,7 +10,7 @@
         <v-spacer></v-spacer>
         <v-btn icon
             @click="PrincipalsStore.state.isUploadMasterCustomersOpen = false;
-                PrincipalsStore.state.isUploadMasterProductsOpen = false;"
+                PrincipalsStore.state.isUploadMasterItemsOpen = false;"
             title="Close"
         >
             <v-icon>mdi-close-box-outline</v-icon>
@@ -117,14 +117,14 @@ export default {
                     this.AppStore.toast(vm.uploadResponse.message);
                     this.file = null;
 
-                    if(this.id == 'products') {
-                        this.PrincipalsStore.initProducts();
+                    if(this.id == 'items') {
+                        this.PrincipalsStore.initItems();
                     } else if(this.id == 'customers') {
                         this.PrincipalsStore.initCustomers();
                     }
 
                     this.PrincipalsStore.state.isUploadMasterCustomersOpen = false;
-                    this.PrincipalsStore.state.isUploadMasterProductsOpen = false;
+                    this.PrincipalsStore.state.isUploadMasterItemsOpen = false;
                 })
                 .catch(error => {
                     vm.uploadResponse.success = false;

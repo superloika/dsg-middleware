@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Principals\PrincipalsUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -9,8 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class MasterItemsController extends Controller
 {
-    public static $TBL_ITEMS = 'items';
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -20,22 +19,26 @@ class MasterItemsController extends Controller
         $row_count = request()->row_count ?? 10;
         $search_key = request()->search_key ?? '';
 
-        // $result = DB::table($this::$TBL_ITEMS)
+        // $result = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
         //     ->where('item_code','like', '%'.$search_key. '%')
         //     ->orWhere('description','like', '%'.$search_key. '%')
         //     ->orWhere('vendor_code','like', '%'.$search_key. '%')
         //     ->paginate($row_count);
 
-        $result = DB::table($this::$TBL_ITEMS)
-            ->leftJoin('principals', 'principals.vendor_code', $this::$TBL_ITEMS.'.vendor_code')
-            ->select(
-                $this::$TBL_ITEMS.'.*',
-                'principals.name as principal_name'
-            )
+        $result = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
             ->where('item_code','like', '%'.$search_key. '%')
             ->orWhere('description','like', '%'.$search_key. '%')
-            ->orWhere($this::$TBL_ITEMS.'.vendor_code','like', '%'.$search_key. '%')
-            ->orWhere('principals.name','like', '%'.$search_key. '%')
+            ->orWhere(PrincipalsUtil::$TBL_GENERAL_ITEMS.'.vendor_code','like', '%'.$search_key. '%')
+            ->orWhere(PrincipalsUtil::$TBL_PRINCIPALS.'.name','like', '%'.$search_key. '%')
+            ->leftJoin(
+                PrincipalsUtil::$TBL_PRINCIPALS,
+                PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
+                PrincipalsUtil::$TBL_GENERAL_ITEMS.'.vendor_code'
+            )
+            ->select(
+                PrincipalsUtil::$TBL_GENERAL_ITEMS.'.*',
+                PrincipalsUtil::$TBL_PRINCIPALS.'.name as principal_name'
+            )
             ->paginate($row_count);
 
         return response()->json($result);
@@ -64,7 +67,7 @@ class MasterItemsController extends Controller
                         //set memory limit to unli for heavy stuff processing
                         ini_set('memory_limit', -1);
 
-                        DB::table($this::$TBL_ITEMS)->truncate();
+                        DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)->truncate();
 
                         foreach ($rows as $row) {
                             // $cols = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $row);
@@ -93,11 +96,11 @@ class MasterItemsController extends Controller
                         }
                         $chunks = array_chunk($items, 500);
                         foreach($chunks as $chunk) {
-                            DB::table($this::$TBL_ITEMS)
+                            DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
                                 ->insert($chunk);
                         }
 
-                        // DB::table($this::$TBL_ITEMS)
+                        // DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
                         //     ->where('created_at','<>',$dateTimeToday)->delete();
                     }
                 }

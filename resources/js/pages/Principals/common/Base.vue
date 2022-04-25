@@ -37,7 +37,8 @@
             :key="index"
             class="pa-0"
         >
-            <component :is="t.component" :id="principalName + index"></component>
+            <!-- <component :is="t.component" :id="principalName + index"></component> -->
+            <component :is="t.component"></component>
         </v-tab-item>
     </v-tabs-items>
     <!-- </v-container> -->

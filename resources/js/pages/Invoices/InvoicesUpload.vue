@@ -44,6 +44,7 @@
 
 export default {
     name: 'InvoicesUpload',
+    props: ['searchKey', 'principalCodeFilter'],
     data() {
         return {
             file: null,
@@ -87,7 +88,7 @@ export default {
                     this.AppStore.overlay(false);
                     this.AppStore.toast(message);
                     this.file = null;
-                    this.InvoicesStore.initInvoices();
+                    this.InvoicesStore.initInvoices(this.searchKey, this.principalCodeFilter);
                 })
                 .catch(error => {
                     this.AppStore.overlay(false);

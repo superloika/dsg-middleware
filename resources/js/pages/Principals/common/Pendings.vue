@@ -32,16 +32,18 @@ export default {
         PendingsDataTable: () => import('./PendingsDataTable.vue'),
     },
 
-    data: () => ({
-        tab: null,
-    }),
+    data() {
+        return {
+            tab: null,
+        }
+    },
 
     computed: {
         pendings() {
             const rawInvoices = this.PrincipalsStore.state.currentRawInvoices;
             let tempPending = {};
             rawInvoices.forEach(element => {
-                if(element.customer_notfound==1 || element.product_notfound==1) {
+                if(element.customer_notfound==1 || element.item_notfound==1) {
                     if(tempPending[element.filename] == undefined) {
                         tempPending[element.filename] = [];
                     }

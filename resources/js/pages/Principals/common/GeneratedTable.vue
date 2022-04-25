@@ -23,21 +23,21 @@
         <span v-else>{{ item.customer_code }}</span>
     </template>
 
-    <template v-slot:[`item.product_code`]="{ item }">
+    <template v-slot:[`item.item_code`]="{ item }">
         <v-chip
-            v-if="item.product_notfound==1"
+            v-if="item.item_notfound==1"
             color="warning"
             small
             linkx
             outlined
             title="Missing in principal's masterfile"
         >
-            <!-- @click="AppStore.copyToClipboard(item.product_code)" -->
-            <div :id="item.product_code">
-                {{ item.product_code }}
+            <!-- @click="AppStore.copyToClipboard(item.item_code)" -->
+            <div :id="item.item_code">
+                {{ item.item_code }}
             </div>
         </v-chip>
-        <span v-else>{{ item.product_code }}</span>
+        <span v-else>{{ item.item_code }}</span>
     </template>
 </v-data-table>
 </template>

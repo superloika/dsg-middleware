@@ -2951,7 +2951,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsEdit: function AccountsEdit() {
-      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ../ManageAccounts/AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
+      return __webpack_require__.e(/*! import() */ 23).then(__webpack_require__.bind(null, /*! ../ManageAccounts/AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
     }
   },
   computed: {
@@ -3126,10 +3126,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     'ExpendituresAdd': function ExpendituresAdd() {
-      return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! ./ExpendituresAdd.vue */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue"));
+      return __webpack_require__.e(/*! import() */ 25).then(__webpack_require__.bind(null, /*! ./ExpendituresAdd.vue */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue"));
     },
     'TagsComponent': function TagsComponent() {
-      return __webpack_require__.e(/*! import() */ 23).then(__webpack_require__.bind(null, /*! ./TagsComponent.vue */ "./resources/js/pages/ExpendituresPage/TagsComponent.vue"));
+      return __webpack_require__.e(/*! import() */ 26).then(__webpack_require__.bind(null, /*! ./TagsComponent.vue */ "./resources/js/pages/ExpendituresPage/TagsComponent.vue"));
     }
   },
   data: function data() {
@@ -3374,16 +3374,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     InvoicesUpload: function InvoicesUpload() {
-      return __webpack_require__.e(/*! import() */ 24).then(__webpack_require__.bind(null, /*! ./InvoicesUpload.vue */ "./resources/js/pages/Invoices/InvoicesUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 27).then(__webpack_require__.bind(null, /*! ./InvoicesUpload.vue */ "./resources/js/pages/Invoices/InvoicesUpload.vue"));
     }
   },
   data: function data() {
     return {
-      searchKey: ''
+      searchKey: '',
+      principalCodeFilter: ''
     };
   },
   methods: {
@@ -3399,7 +3439,7 @@ __webpack_require__.r(__webpack_exports__);
       this.isLoading = false;
     },
     onPageChange: function onPageChange() {
-      this.InvoicesStore.initInvoices(this.searchKey);
+      this.InvoicesStore.initInvoices(this.searchKey, this.principalCodeFilter);
     }
   },
   computed: {},
@@ -3409,7 +3449,14 @@ __webpack_require__.r(__webpack_exports__);
         this.InvoicesStore.state.invoices.current_page = 1;
       }
 
-      this.InvoicesStore.initInvoices(this.searchKey);
+      this.InvoicesStore.initInvoices(this.searchKey, this.principalCodeFilter);
+    }, 500),
+    principalCodeFilter: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["debounce"])(function () {
+      if (this.InvoicesStore.state.invoices.current_page != undefined) {
+        this.InvoicesStore.state.invoices.current_page = 1;
+      }
+
+      this.InvoicesStore.initInvoices(this.searchKey, this.principalCodeFilter);
     }, 500)
   },
   created: function created() {
@@ -3522,10 +3569,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsAdd: function AccountsAdd() {
-      return __webpack_require__.e(/*! import() */ 25).then(__webpack_require__.bind(null, /*! ./AccountsAdd.vue */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue"));
+      return __webpack_require__.e(/*! import() */ 28).then(__webpack_require__.bind(null, /*! ./AccountsAdd.vue */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue"));
     },
     AccountsEdit: function AccountsEdit() {
-      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
+      return __webpack_require__.e(/*! import() */ 23).then(__webpack_require__.bind(null, /*! ./AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
     }
   },
   data: function data() {
@@ -3644,7 +3691,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
@@ -3723,7 +3770,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   beforeDestroy: function beforeDestroy() {
     this.MasterCustomers.state.customers = {};
-    this.MasterProducts.state.products = {};
+    this.MasterItems.state.items = {};
   }
 });
 
@@ -3811,7 +3858,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
@@ -3930,7 +3977,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
@@ -4065,7 +4112,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
@@ -4180,22 +4227,25 @@ __webpack_require__.r(__webpack_exports__);
       return this.PrincipalsStore.state.selectedPrincipalCode;
     }
   },
-  created: function created() {
-    if (this.PrincipalsStore == null || this.PrincipalsStore == undefined) {
-      /**
-       * PS = PrincipalsStore
-       */
-      Vue.prototype.PrincipalsStore = __webpack_require__(/*! ../../stores.custom/principals/PrincipalsStore */ "./resources/js/stores.custom/principals/PrincipalsStore.js")["default"];
-    }
+  created: function created() {// if(
+    //     this.PrincipalsStore == null
+    //     || this.PrincipalsStore == undefined
+    // ) {
+    //     /**
+    //      * PS = PrincipalsStore
+    //      */
+    //     Vue.prototype.PrincipalsStore =
+    //         require(`../../stores.custom/principals/PrincipalsStore`)
+    //         .default;
+    // }
   },
   mounted: function mounted() {},
   beforeDestroy: function beforeDestroy() {
     if (this.PrincipalsStore != null) {
       this.PrincipalsStore.cleanup();
-    }
+    } // this.PrincipalsStore = null;
+    // Vue.prototype.PrincipalsStore = null;
 
-    this.PrincipalsStore = null;
-    Vue.prototype.PrincipalsStore = null;
   }
 });
 
@@ -4312,7 +4362,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     'TestUpload': function TestUpload() {
-      return __webpack_require__.e(/*! import() */ 29).then(__webpack_require__.bind(null, /*! ./TestUpload.vue */ "./resources/js/pages/TestPage/TestUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 32).then(__webpack_require__.bind(null, /*! ./TestUpload.vue */ "./resources/js/pages/TestPage/TestUpload.vue"));
     }
   },
   data: function data() {
@@ -23796,7 +23846,7 @@ var render = function() {
             timeout: _vm.AppStore.state.snackBar.timeout,
             bottom: "",
             left: "",
-            color: "secondary"
+            color: _vm.AppStore.state.snackBar.color
           },
           model: {
             value: _vm.AppStore.state.snackBar.show,
@@ -25217,6 +25267,89 @@ var render = function() {
             }
           }),
           _vm._v(" "),
+          _c("v-select", {
+            staticClass: "mr-3",
+            staticStyle: { "max-width": "215px" },
+            attrs: {
+              items: _vm.AppStore.state.principals,
+              label: "Principal",
+              "item-text": "name",
+              "item-value": "code",
+              outlined: "",
+              rounded: "",
+              "hide-details": "",
+              dense: ""
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "prepend-item",
+                fn: function() {
+                  return [
+                    _c(
+                      "v-list-item",
+                      {
+                        attrs: { link: "" },
+                        on: {
+                          click: function($event) {
+                            _vm.principalCodeFilter = ""
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", { attrs: { link: "" } }, [
+                              _vm._v(
+                                "\n                                All Principals\n                        "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item",
+                      {
+                        attrs: { link: "" },
+                        on: {
+                          click: function($event) {
+                            _vm.principalCodeFilter = "unidentified"
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", { attrs: { link: "" } }, [
+                              _vm._v(
+                                "\n                                Unidentified\n                        "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                },
+                proxy: true
+              }
+            ]),
+            model: {
+              value: _vm.principalCodeFilter,
+              callback: function($$v) {
+                _vm.principalCodeFilter = $$v
+              },
+              expression: "principalCodeFilter"
+            }
+          }),
+          _vm._v(" "),
           _c("v-text-field", {
             staticClass: "mr-3",
             staticStyle: { "max-width": "200px" },
@@ -25241,7 +25374,12 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("InvoicesUpload"),
+      _c("InvoicesUpload", {
+        attrs: {
+          searchKey: _vm.searchKey,
+          principalCodeFilter: _vm.principalCodeFilter
+        }
+      }),
       _vm._v(" "),
       _c("v-data-table", {
         attrs: {
@@ -25885,7 +26023,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { "max-width": "720", persistent: "" },
+          attrs: { "max-width": "800", persistent: "" },
           model: {
             value: _vm.AppStore.state.dlgImportMaster,
             callback: function($$v) {
@@ -89299,123 +89437,115 @@ var map = {
 	],
 	"./common/Base": [
 		"./resources/js/pages/Principals/common/Base.vue",
-		9
+		2
 	],
 	"./common/Base.vue": [
 		"./resources/js/pages/Principals/common/Base.vue",
-		9
+		2
+	],
+	"./common/ConfirmExport": [
+		"./resources/js/pages/Principals/common/ConfirmExport.vue",
+		14
+	],
+	"./common/ConfirmExport.vue": [
+		"./resources/js/pages/Principals/common/ConfirmExport.vue",
+		14
 	],
 	"./common/Customers": [
 		"./resources/js/pages/Principals/common/Customers.vue",
-		10
+		15
 	],
 	"./common/Customers.vue": [
 		"./resources/js/pages/Principals/common/Customers.vue",
-		10
+		15
 	],
 	"./common/Generated": [
 		"./resources/js/pages/Principals/common/Generated.vue",
-		11
-	],
-	"./common/Generated copy": [
-		"./resources/js/pages/Principals/common/Generated copy.vue",
-		21
-	],
-	"./common/Generated copy.vue": [
-		"./resources/js/pages/Principals/common/Generated copy.vue",
-		21
+		3
 	],
 	"./common/Generated.vue": [
 		"./resources/js/pages/Principals/common/Generated.vue",
-		11
+		3
 	],
 	"./common/GeneratedHistory": [
 		"./resources/js/pages/Principals/common/GeneratedHistory.vue",
-		12
+		4
 	],
 	"./common/GeneratedHistory.vue": [
 		"./resources/js/pages/Principals/common/GeneratedHistory.vue",
-		12
+		4
 	],
 	"./common/GeneratedTable": [
 		"./resources/js/pages/Principals/common/GeneratedTable.vue",
-		4
+		16
 	],
 	"./common/GeneratedTable.vue": [
 		"./resources/js/pages/Principals/common/GeneratedTable.vue",
-		4
+		16
 	],
 	"./common/GeneratedTableWrapper": [
 		"./resources/js/pages/Principals/common/GeneratedTableWrapper.vue",
-		0
-	],
-	"./common/GeneratedTableWrapper copy": [
-		"./resources/js/pages/Principals/common/GeneratedTableWrapper copy.vue",
-		19
-	],
-	"./common/GeneratedTableWrapper copy.vue": [
-		"./resources/js/pages/Principals/common/GeneratedTableWrapper copy.vue",
-		19
+		7
 	],
 	"./common/GeneratedTableWrapper.vue": [
 		"./resources/js/pages/Principals/common/GeneratedTableWrapper.vue",
-		0
+		7
 	],
 	"./common/InvoicesImport": [
 		"./resources/js/pages/Principals/common/InvoicesImport.vue",
-		5
+		17
 	],
 	"./common/InvoicesImport.vue": [
 		"./resources/js/pages/Principals/common/InvoicesImport.vue",
-		5
+		17
+	],
+	"./common/Items": [
+		"./resources/js/pages/Principals/common/Items.vue",
+		18
+	],
+	"./common/Items.vue": [
+		"./resources/js/pages/Principals/common/Items.vue",
+		18
 	],
 	"./common/MasterFiles": [
 		"./resources/js/pages/Principals/common/MasterFiles.vue",
-		13
+		5
 	],
 	"./common/MasterFiles.vue": [
 		"./resources/js/pages/Principals/common/MasterFiles.vue",
-		13
+		5
 	],
 	"./common/MasterfileUpload": [
 		"./resources/js/pages/Principals/common/MasterfileUpload.vue",
-		6
+		9
 	],
 	"./common/MasterfileUpload.vue": [
 		"./resources/js/pages/Principals/common/MasterfileUpload.vue",
-		6
+		9
 	],
 	"./common/MissingInMaster": [
 		"./resources/js/pages/Principals/common/MissingInMaster.vue",
-		7
+		19
 	],
 	"./common/MissingInMaster.vue": [
 		"./resources/js/pages/Principals/common/MissingInMaster.vue",
-		7
+		19
 	],
 	"./common/Pendings": [
 		"./resources/js/pages/Principals/common/Pendings.vue",
-		8
+		20
 	],
 	"./common/Pendings.vue": [
 		"./resources/js/pages/Principals/common/Pendings.vue",
-		8
+		20
 	],
 	"./common/PendingsDataTable": [
 		"./resources/js/pages/Principals/common/PendingsDataTable.vue",
-		14
+		21
 	],
 	"./common/PendingsDataTable.vue": [
 		"./resources/js/pages/Principals/common/PendingsDataTable.vue",
-		14
-	],
-	"./common/Products": [
-		"./resources/js/pages/Principals/common/Products.vue",
-		15
-	],
-	"./common/Products.vue": [
-		"./resources/js/pages/Principals/common/Products.vue",
-		15
+		21
 	],
 	"./common/Settings": [
 		"./resources/js/pages/Principals/common/Settings.vue",
@@ -89427,27 +89557,47 @@ var map = {
 	],
 	"./common/TransAndInvoices": [
 		"./resources/js/pages/Principals/common/TransAndInvoices.vue",
-		16
+		6
 	],
 	"./common/TransAndInvoices.vue": [
 		"./resources/js/pages/Principals/common/TransAndInvoices.vue",
-		16
+		6
 	],
 	"./common/Transactions": [
 		"./resources/js/pages/Principals/common/Transactions.vue",
-		17
+		22
 	],
 	"./common/Transactions.vue": [
 		"./resources/js/pages/Principals/common/Transactions.vue",
-		17
+		22
 	],
 	"./common/UploadedInvoices": [
 		"./resources/js/pages/Principals/common/UploadedInvoices.vue",
-		18
+		24
 	],
 	"./common/UploadedInvoices.vue": [
 		"./resources/js/pages/Principals/common/UploadedInvoices.vue",
-		18
+		24
+	],
+	"./gsmi": [
+		"./resources/js/pages/Principals/gsmi/index.vue",
+		0,
+		10
+	],
+	"./gsmi/": [
+		"./resources/js/pages/Principals/gsmi/index.vue",
+		0,
+		10
+	],
+	"./gsmi/index": [
+		"./resources/js/pages/Principals/gsmi/index.vue",
+		0,
+		10
+	],
+	"./gsmi/index.vue": [
+		"./resources/js/pages/Principals/gsmi/index.vue",
+		0,
+		10
 	],
 	"./index": [
 		"./resources/js/pages/Principals/index.vue"
@@ -89455,45 +89605,65 @@ var map = {
 	"./index.vue": [
 		"./resources/js/pages/Principals/index.vue"
 	],
+	"./jsu": [
+		"./resources/js/pages/Principals/jsu/index.vue",
+		0,
+		11
+	],
+	"./jsu/": [
+		"./resources/js/pages/Principals/jsu/index.vue",
+		0,
+		11
+	],
+	"./jsu/index": [
+		"./resources/js/pages/Principals/jsu/index.vue",
+		0,
+		11
+	],
+	"./jsu/index.vue": [
+		"./resources/js/pages/Principals/jsu/index.vue",
+		0,
+		11
+	],
 	"./mead_johnson": [
 		"./resources/js/pages/Principals/mead_johnson/index.vue",
-		2,
-		31
+		0,
+		12
 	],
 	"./mead_johnson/": [
 		"./resources/js/pages/Principals/mead_johnson/index.vue",
-		2,
-		31
+		0,
+		12
 	],
 	"./mead_johnson/index": [
 		"./resources/js/pages/Principals/mead_johnson/index.vue",
-		2,
-		31
+		0,
+		12
 	],
 	"./mead_johnson/index.vue": [
 		"./resources/js/pages/Principals/mead_johnson/index.vue",
-		2,
-		31
+		0,
+		12
 	],
-	"./megafishing": [
-		"./resources/js/pages/Principals/megafishing/index.vue",
-		2,
-		32
+	"./wyeth": [
+		"./resources/js/pages/Principals/wyeth/index.vue",
+		0,
+		13
 	],
-	"./megafishing/": [
-		"./resources/js/pages/Principals/megafishing/index.vue",
-		2,
-		32
+	"./wyeth/": [
+		"./resources/js/pages/Principals/wyeth/index.vue",
+		0,
+		13
 	],
-	"./megafishing/index": [
-		"./resources/js/pages/Principals/megafishing/index.vue",
-		2,
-		32
+	"./wyeth/index": [
+		"./resources/js/pages/Principals/wyeth/index.vue",
+		0,
+		13
 	],
-	"./megafishing/index.vue": [
-		"./resources/js/pages/Principals/megafishing/index.vue",
-		2,
-		32
+	"./wyeth/index.vue": [
+		"./resources/js/pages/Principals/wyeth/index.vue",
+		0,
+		13
 	]
 };
 function webpackAsyncContext(req) {
@@ -89855,7 +90025,7 @@ var map = {
 	"./MasterCustomers.js": "./resources/js/stores.custom/MasterCustomers.js",
 	"./MasterItems.js": "./resources/js/stores.custom/MasterItems.js",
 	"./MasterPrincipals.js": "./resources/js/stores.custom/MasterPrincipals.js",
-	"./MasterProducts.js": "./resources/js/stores.custom/MasterProducts.js",
+	"./PrincipalsStore.js": "./resources/js/stores.custom/PrincipalsStore.js",
 	"./PrincipalsStore1.js": "./resources/js/stores.custom/PrincipalsStore1.js"
 };
 
@@ -89936,7 +90106,8 @@ var state = vue__WEBPACK_IMPORTED_MODULE_2___default.a.observable({
   snackBar: {
     show: false,
     text: "",
-    timeout: -1
+    timeout: -1,
+    color: 'secondary'
   },
   overlay: {
     show: false,
@@ -89958,9 +90129,11 @@ var state = vue__WEBPACK_IMPORTED_MODULE_2___default.a.observable({
 });
 var actions = {
   toast: function toast(text, timeout) {
+    var color = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'secondary';
     state.snackBar.show = true;
     state.snackBar.text = text;
     state.snackBar.timeout = timeout == null ? 3000 : timeout;
+    state.snackBar.color = color;
   },
   overlay: function overlay() {
     var show = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
@@ -89984,20 +90157,21 @@ var actions = {
             case 5:
               result = _context.sent;
               state.principals = result.data;
-              _context.next = 12;
+              console.log('LIST OF PRINCIPALS:', state.principals);
+              _context.next = 13;
               break;
 
-            case 9:
-              _context.prev = 9;
+            case 10:
+              _context.prev = 10;
               _context.t0 = _context["catch"](2);
               console.log("AppStore_initPrincipals() - ERROR: ", _context.t0);
 
-            case 12:
+            case 13:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[2, 9]]);
+      }, _callee, null, [[2, 10]]);
     }))();
   },
   isInUserPrincipalIDs: function isInUserPrincipalIDs(principal_id) {
@@ -90024,7 +90198,7 @@ var actions = {
       //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
 
     });
-    return formatter.format(number);
+    return formatter.format(number).replace('php', '').replace('₱', '');
   },
   copyToClip: function copyToClip(container_id) {
     var srcType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text';
@@ -90255,6 +90429,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
     text: "Status",
     value: "status"
   }, {
+    text: "Principal",
+    value: "principals_name"
+  }, {
     text: "Uploaded",
     value: "created_at"
   }, {
@@ -90288,7 +90465,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
     text: "u4",
     value: "u4"
   }, {
-    text: "u5",
+    text: "Salesman Code",
     value: "u5"
   }, {
     text: "UOM",
@@ -90302,44 +90479,45 @@ var actions = {
   initInvoices: function initInvoices() {
     var _arguments = arguments;
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var searchKey, row_count, _state$invoices$curre, url, response;
+      var searchKey, principalCodeFilter, row_count, _state$invoices$curre, url, response;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               searchKey = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : '';
-              row_count = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : 10;
-              _context.prev = 2;
+              principalCodeFilter = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : '';
+              row_count = _arguments.length > 2 && _arguments[2] !== undefined ? _arguments[2] : 10;
+              _context.prev = 3;
               state.isLoadingInvoices = true;
               if (searchKey == null) searchKey = '';
-              url = "".concat(_AppStore__WEBPACK_IMPORTED_MODULE_2__["default"].state.siteUrl, "invoices/all") + "?row_count=".concat(row_count) + "&search_key=".concat(searchKey) + "&page=".concat((_state$invoices$curre = state.invoices.current_page) !== null && _state$invoices$curre !== void 0 ? _state$invoices$curre : 1);
-              _context.next = 8;
+              url = "".concat(_AppStore__WEBPACK_IMPORTED_MODULE_2__["default"].state.siteUrl, "invoices/all") + "?row_count=".concat(row_count) + "&search_key=".concat(searchKey) + "&principal_code=".concat(principalCodeFilter) + "&page=".concat((_state$invoices$curre = state.invoices.current_page) !== null && _state$invoices$curre !== void 0 ? _state$invoices$curre : 1);
+              _context.next = 9;
               return axios.get(url);
 
-            case 8:
+            case 9:
               response = _context.sent;
               state.invoices = {};
               state.invoices = response.data;
-              _context.next = 16;
+              _context.next = 17;
               break;
 
-            case 13:
-              _context.prev = 13;
-              _context.t0 = _context["catch"](2);
+            case 14:
+              _context.prev = 14;
+              _context.t0 = _context["catch"](3);
               console.log('initInvoices() - ERROR:', _context.t0);
 
-            case 16:
-              _context.prev = 16;
+            case 17:
+              _context.prev = 17;
               state.isLoadingInvoices = false;
-              return _context.finish(16);
+              return _context.finish(17);
 
-            case 19:
+            case 20:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[2, 13, 16, 19]]);
+      }, _callee, null, [[3, 14, 17, 20]]);
     }))();
   }
 };
@@ -90770,10 +90948,10 @@ var actions = {
 
 /***/ }),
 
-/***/ "./resources/js/stores.custom/MasterProducts.js":
-/*!******************************************************!*\
-  !*** ./resources/js/stores.custom/MasterProducts.js ***!
-  \******************************************************/
+/***/ "./resources/js/stores.custom/PrincipalsStore.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/stores.custom/PrincipalsStore.js ***!
+  \*******************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -90783,7 +90961,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _AppStore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AppStore */ "./resources/js/stores.custom/AppStore.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -90796,50 +90975,717 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+ // import AppStore from '../AppStore';
 
+var AppStore = vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype.AppStore;
 
 var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
-  products: {}
+  selectedPrincipalCode: '',
+  // masterfiles
+  isUploadMasterCustomersOpen: false,
+  isUploadMasterItemsOpen: false,
+  items: [],
+  customers: [],
+  invoices: [],
+  transactions: [],
+  // generated data
+  currentGeneratedData: [],
+  currentRawInvoices: [],
+  textfileLineCount: 0,
+  isGeneratingData: false,
+  currentGeneratedDataSearchKey: '',
+  // invoice import
+  isImportInvoicesVisible: true,
+  invoicesGrandTotal: 0.00,
+  settings: [],
+  sheetImport: false,
+  // Transactions table loading state
+  isInitTransactions: false,
+  confirmExportDialogOpen: false,
+  isExportingTemplatedData: false
 });
 var actions = {
-  initProducts: function initProducts() {
-    var _arguments = arguments;
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var searchKey, row_count, _state$products$curre, url, response;
+  initialize: function initialize() {
+    console.log("%cInitializing PrincipalsStore...", 'background:#222; color:#bada55; font-size:16px;');
+    this.initItems();
+    this.initCustomers();
+    this.initInvoices(state.selectedPrincipalCode, AppStore.state.strDateToday);
+    this.initTransactions(state.selectedPrincipalCode, AppStore.state.strDateToday);
+    this.initInvoicesGrandTotal();
+    this.initSettings();
+    this.initCurrentGeneratedData(state.selectedPrincipalCode);
+  },
+  cleanup: function cleanup() {
+    console.log("%cCleaning up PrincipalsStore a little bit...", 'background:#222; color:#bada55; font-size:16px;'); // state.selectedPrincipalCode = '';
+    // masterfiles
 
+    state.isUploadMasterCustomersOpen = false;
+    state.isUploadMasterItemsOpen = false;
+    state.items = [];
+    state.customers = [];
+    state.invoices = [];
+    state.transactions = []; // generated data
+
+    state.currentGeneratedData = [];
+    state.currentRawInvoices = [];
+    state.textfileLineCount = 0;
+    state.isGeneratingData = false; // invoice import
+
+    state.isImportInvoicesVisible = true;
+    state.invoicesGrandTotal = 0.00;
+    state.settings = [];
+    state.sheetImport = false;
+    state.currentGeneratedDataSearchKey = '';
+    state.isInitTransactions = false;
+    state.confirmExportDialogOpen = false;
+    state.isExportingTemplatedData = false;
+  },
+
+  /**
+   * Initialize the current selected principal's items list
+   */
+  initItems: function initItems() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var url, result;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              searchKey = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : '';
-              row_count = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : 10;
-              _context.prev = 2;
-              _AppStore__WEBPACK_IMPORTED_MODULE_2__["default"].state.showTopLoading = true;
-              if (searchKey == null) searchKey = '';
-              url = "".concat(_AppStore__WEBPACK_IMPORTED_MODULE_2__["default"].state.siteUrl, "master/products/all") + "?row_count=".concat(row_count) + "&search_key=".concat(searchKey) + "&page=".concat((_state$products$curre = state.products.current_page) !== null && _state$products$curre !== void 0 ? _state$products$curre : 1);
-              _context.next = 8;
-              return axios.get(url);
+              _context.prev = 0;
+              url = encodeURI(AppStore.state.siteUrl + 'principals/' + state.selectedPrincipalCode + '/items');
+              AppStore.state.showTopLoading = true;
+              _context.next = 5;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(url);
 
-            case 8:
-              response = _context.sent;
-              state.products = {};
-              state.products = response.data;
-              _AppStore__WEBPACK_IMPORTED_MODULE_2__["default"].state.showTopLoading = false;
-              _context.next = 17;
+            case 5:
+              result = _context.sent;
+              state.items = [];
+              state.items = result.data;
+              AppStore.state.showTopLoading = false;
+              _context.next = 14;
               break;
 
-            case 14:
-              _context.prev = 14;
-              _context.t0 = _context["catch"](2);
-              console.log('initProducts() - ERROR:', _context.t0);
+            case 11:
+              _context.prev = 11;
+              _context.t0 = _context["catch"](0);
+              console.log('PrincipalsStore.initItems() - ERROR:', _context.t0);
 
-            case 17:
+            case 14:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[2, 14]]);
+      }, _callee, null, [[0, 11]]);
     }))();
+  },
+
+  /**
+   * Initialize the current selected principal's customer list
+   */
+  initCustomers: function initCustomers() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var url, result;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.prev = 0;
+              url = encodeURI(AppStore.state.siteUrl + 'principals/' + state.selectedPrincipalCode + '/customers');
+              AppStore.state.showTopLoading = true;
+              _context2.next = 5;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(url);
+
+            case 5:
+              result = _context2.sent;
+              state.customers = [];
+              state.customers = result.data;
+              AppStore.state.showTopLoading = false;
+              _context2.next = 14;
+              break;
+
+            case 11:
+              _context2.prev = 11;
+              _context2.t0 = _context2["catch"](0);
+              console.log('PrincipalsStore.initCustomers() - ERROR:', _context2.t0);
+
+            case 14:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, null, [[0, 11]]);
+    }))();
+  },
+
+  /**
+   * Initialize the current selected principal's uploaded/saved invoices
+   */
+  initInvoices: function initInvoices(principal_code, date) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var url, result;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              date.sort();
+              _context3.prev = 1;
+              url = encodeURI(AppStore.state.siteUrl + 'principals/invoices?date=' + date + '&principal_code=' + principal_code);
+              AppStore.state.showTopLoading = true;
+              _context3.next = 6;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(url);
+
+            case 6:
+              result = _context3.sent;
+              state.invoices = [];
+              state.invoices = result.data;
+              AppStore.state.showTopLoading = false;
+              _context3.next = 15;
+              break;
+
+            case 12:
+              _context3.prev = 12;
+              _context3.t0 = _context3["catch"](1);
+              console.log('PrincipalsStore.initInvoices() - ERROR:', _context3.t0);
+
+            case 15:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3, null, [[1, 12]]);
+    }))();
+  },
+
+  /**
+   * Generate templated data based on pending invoices
+   */
+  initCurrentGeneratedData: function initCurrentGeneratedData(principal_code) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      var url, result;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.prev = 0;
+              state.isGeneratingData = true;
+              url = encodeURI(AppStore.state.siteUrl + 'principals/' + principal_code + '/invoices/generate-templated-data' + '?group_by=route_code');
+              _context4.next = 5;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(url);
+
+            case 5:
+              result = _context4.sent;
+              state.isGeneratingData = false;
+              state.currentGeneratedData = [];
+              state.currentGeneratedData = Object.entries(result.data.output_template);
+              console.log('TEMPLATED DATA:', state.currentGeneratedData);
+              _context4.next = 16;
+              break;
+
+            case 12:
+              _context4.prev = 12;
+              _context4.t0 = _context4["catch"](0);
+              console.log('PrincipalsStore.initCurrentGeneratedData() - ERROR:', _context4.t0);
+              AppStore.toast(_context4.t0, 3000, 'error');
+
+            case 16:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4, null, [[0, 12]]);
+    }))();
+  },
+
+  /**
+   * Export templated data to Excel and set invoices' status to 'complete'
+   */
+  setInvoicesComplete: function setInvoicesComplete() {
+    var _this = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      var url, payload, response, config;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.prev = 0;
+              state.isExportingTemplatedData = true;
+              url = AppStore.state.siteUrl + "principals" + "/".concat(state.selectedPrincipalCode, "/invoices/set-invoices-complete");
+              payload = {
+                // raw_invoices: this.PrincipalsStore.state.currentRawInvoices,
+                // generated_data: this.generatedData
+                generated_data: state.currentGeneratedData
+              };
+              _context5.next = 6;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(url, payload);
+
+            case 6:
+              response = _context5.sent;
+              config = _this.getHeaderAndFormat("generatedDataTableHeader"); // export templated data to Excel
+
+              _this.exportToExcel(config.header, _this.generatedDataSubset( // this.AppStore.flattenGendata(this.generatedData),
+              state.currentGeneratedData, config.format), null, state.selectedPrincipalCode);
+
+              state.isExportingTemplatedData = false;
+              state.confirmExportDialogOpen = false; // this.PrincipalsStore.state.currentGeneratedData = [];
+              // this.PrincipalsStore.state.currentRawInvoices = [];
+
+              _this.initInvoicesGrandTotal();
+
+              _this.initInvoices(_this.selectedPrincipalCode, AppStore.state.strDateToday);
+
+              _this.initCurrentGeneratedData(state.selectedPrincipalCode);
+
+              _context5.next = 19;
+              break;
+
+            case 16:
+              _context5.prev = 16;
+              _context5.t0 = _context5["catch"](0);
+              console.log("setInvoicesComplete():", _context5.t0);
+
+            case 19:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5, null, [[0, 16]]);
+    }))();
+  },
+
+  /**
+   * Initialize the current selected principal's transactions
+   */
+  initTransactions: function initTransactions(principal_code, date) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+      var url, result;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              date.sort();
+              _context6.prev = 1;
+              url = encodeURI(AppStore.state.siteUrl + 'principals' + '/transactions' + '?date=' + date + '&principal_code=' + principal_code); // AppStore.state.showTopLoading = true;
+
+              state.isInitTransactions = true;
+              _context6.next = 6;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(url);
+
+            case 6:
+              result = _context6.sent;
+
+              if (result.data.success == true) {
+                state.transactions = [];
+                state.transactions = result.data.data; // AppStore.state.showTopLoading = false;
+
+                state.isInitTransactions = false;
+              } else {
+                console.log('initTransactions()', result.data.message);
+              }
+
+              _context6.next = 13;
+              break;
+
+            case 10:
+              _context6.prev = 10;
+              _context6.t0 = _context6["catch"](1);
+              console.log('PrincipalsStore.initTransactions() - ERROR:', _context6.t0);
+
+            case 13:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6, null, [[1, 10]]);
+    }))();
+  },
+
+  /**
+   * Get pendings
+   */
+  initPendings: function initPendings() {
+    var _arguments = arguments;
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+      var cols, url, payload, result;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              cols = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : [];
+              _context7.prev = 1;
+              url = encodeURI(AppStore.state.siteUrl + 'principals' + '/pendings');
+              payload = {
+                cols: cols,
+                principal_code: state.selectedPrincipalCode
+              };
+              AppStore.state.showTopLoading = true;
+              _context7.next = 7;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(url, payload);
+
+            case 7:
+              result = _context7.sent;
+
+              if (result.data.success == true) {
+                state.currentGeneratedData = result.data.pending_gendata;
+                state.currentRawInvoices = result.data.pending_rawinvoices;
+              } else {
+                console.log('initPendings()', result.data.message);
+              }
+
+              AppStore.state.showTopLoading = false;
+              _context7.next = 15;
+              break;
+
+            case 12:
+              _context7.prev = 12;
+              _context7.t0 = _context7["catch"](1);
+              console.log('PrincipalsStore.initPendings() - ERROR:', _context7.t0);
+
+            case 15:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7, null, [[1, 12]]);
+    }))();
+  },
+
+  /**
+   *
+   */
+  // async exportTableToExcel(wrapperID) {
+  //     console.log("Exporting from PrincipalsStore....");
+  //     const tempDate = new Date();
+  //     // const dateToday = tempDate.getFullYear() +
+  //     //     '-' + tempDate.getMonth() + '-' +
+  //     //     tempDate.getDay();
+  //     const fileName = `${state.selectedPrincipalCode} - ${AppStore.state.strDateToday}.xlsx`;
+  //     AppStore.state.showTopLoading = true;
+  //     AppStore.overlay(true);
+  //     const tblWrapper = document.querySelector(`#${wrapperID}`)
+  //         .children;
+  //     // const tblWrapper = wrapper.children;
+  //     // let ws = XLSX.utils.json_to_sheet(this.sampleData);
+  //     const wBook = XLSX.utils.book_new();
+  //     for (let i = 0; i <= tblWrapper.length - 1; i++) {
+  //         const sheetName = `Sheet ${i+1}`;
+  //         const tbl = tblWrapper[i].querySelector(
+  //             ".table-generated-data"
+  //         );
+  //         const wsFromTbl = XLSX.utils.table_to_sheet(tbl, { raw: true });
+  //         const tempJData = XLSX.utils.sheet_to_json(wsFromTbl);
+  //         let wsFromJData = XLSX.utils.json_to_sheet(tempJData);
+  //         const objKeys = Object.keys(wsFromJData);
+  //         for(let i=1; i<objKeys.length;i++) {
+  //             if(objKeys[i] == '!ref') continue;
+  //             let obj = wsFromJData[objKeys[i]];
+  //             if(obj.v.localeCompare(parseInt(obj.v.toString())) == 0) {
+  //                 obj.t = 'n';
+  //             } else {
+  //                 obj.t = 's';
+  //             }
+  //         }
+  //         console.log(sheetName, wsFromJData);
+  //         // return;
+  //         XLSX.utils.book_append_sheet(wBook, wsFromJData, sheetName);
+  //     }
+  //     XLSX.writeFile(wBook, fileName, { flag: "w+" });
+  //     // this.PrincipalsStore.state.currentGeneratedData = tempData;
+  //     AppStore.state.showTopLoading = false;
+  //     AppStore.overlay(false);
+  //     // this.PrincipalsStore.state.currentGeneratedData = [];
+  // },
+
+  /**
+   * ============================================= exportToExcel() =================================
+   * Exports a json array of data to Excel
+   * ===============================================================================================
+   * jsonData Structure (Array of arrays):
+   * [
+   *   0: [
+   *        0: "Group text"
+   *        1: [Array of data lines]
+   *   ]
+   * ]
+   *
+   */
+  exportToExcel: function exportToExcel() {
+    var _arguments2 = arguments;
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+      var headers, jsonData, includeTotals, fileName, alpha, alphabet, wBook, i, sheetName, lines;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              headers = _arguments2.length > 0 && _arguments2[0] !== undefined ? _arguments2[0] : [];
+              jsonData = _arguments2.length > 1 && _arguments2[1] !== undefined ? _arguments2[1] : [];
+              includeTotals = _arguments2.length > 2 && _arguments2[2] !== undefined ? _arguments2[2] : [];
+              fileName = _arguments2.length > 3 && _arguments2[3] !== undefined ? _arguments2[3] : '';
+              AppStore.overlay(true, 'Exporting...');
+              console.log("Exporting from PrincipalsStore....");
+              console.log("headers:", headers);
+              console.log("jsonData:", jsonData);
+              alpha = Array.from(Array(26)).map(function (e, i) {
+                return i + 65;
+              });
+              alphabet = alpha.map(function (x) {
+                return String.fromCharCode(x);
+              });
+
+              try {
+                fileName = "".concat(fileName, "_").concat(AppStore.state.strDateToday, ".xlsx"); // AppStore.state.showTopLoading = true;
+
+                wBook = XLSX.utils.book_new();
+
+                for (i = 0; i < jsonData.length; i++) {
+                  sheetName = jsonData[i][0].replace(/\//ig, '-');
+                  console.log('SHEEEEEEEEEEEET NAME:', sheetName);
+                  lines = jsonData[i][1]; // if(sheetName != 'TBD') {
+
+                  if (lines.length > 0) {
+                    (function () {
+                      var wSheet = XLSX.utils.json_to_sheet(lines, {
+                        origin: 'A2',
+                        skipHeader: true
+                      }); // if row for total is to be included
+
+                      if (includeTotals != null && includeTotals.length > 0) {
+                        var LEN_TOTAL = lines.length + 3;
+                        var LASTCOL = alphabet[Object.keys(lines[0]).length - 1];
+                        wSheet['!ref'] = "A1:".concat(LASTCOL).concat(LEN_TOTAL);
+                        wSheet["A".concat(LEN_TOTAL)] = {
+                          t: 's',
+                          v: 'TOTAL'
+                        };
+                        includeTotals.forEach(function (e) {
+                          var COL = alphabet[e];
+                          wSheet["".concat(COL).concat(LEN_TOTAL)] = {
+                            t: 'n',
+                            f: "=SUM(".concat(COL, "2:").concat(COL).concat(LEN_TOTAL - 2, ")")
+                          };
+                        });
+                      }
+
+                      XLSX.utils.sheet_add_aoa(wSheet, [headers]);
+                      XLSX.utils.book_append_sheet(wBook, wSheet, sheetName);
+                    })();
+                  }
+                }
+
+                XLSX.writeFile(wBook, fileName, {
+                  flag: "w+"
+                });
+              } catch (error) {
+                console.log('exportToExcel()', error);
+                AppStore.toast(error);
+              } // AppStore.state.showTopLoading = false;
+
+
+              AppStore.overlay(false);
+
+            case 12:
+            case "end":
+              return _context8.stop();
+          }
+        }
+      }, _callee8);
+    }))();
+  },
+
+  /**
+   * Returns exactly the same structure as generatedData
+   * but picks only the matching properties specified in subsetKeys.
+   */
+  generatedDataSubset: function generatedDataSubset() {
+    var generatedData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var subsetKeys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+    return generatedData.map(function (element) {
+      var uploadable = [];
+      /**
+       * If customer_notfound & item_notfound properties
+       * are defined, filter out only those with both 0 values (the uploadable ones)
+       */
+
+      if (element[1][0].customer_notfound == undefined && element[1][0].item_notfound == undefined) {
+        uploadable = element[1];
+      } else {
+        uploadable = element[1].filter(function (line) {
+          return line.item_notfound == 0 && line.customer_notfound == 0;
+        });
+      }
+
+      return [element[0], uploadable.map(function (line) {
+        return subsetKeys.reduce(function (r, item) {
+          r[item] = line[item];
+          return r;
+        }, {});
+      })];
+    });
+  },
+
+  /**
+   * Initialize the current selected principal's grand total amount
+   * of uploaded/saved invoices
+   */
+  initInvoicesGrandTotal: function initInvoicesGrandTotal() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+      var url, result;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+        while (1) {
+          switch (_context9.prev = _context9.next) {
+            case 0:
+              _context9.prev = 0;
+              url = encodeURI(AppStore.state.siteUrl + 'principals/invoices/grandtotal?principal_code=' + state.selectedPrincipalCode);
+              _context9.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(url);
+
+            case 4:
+              result = _context9.sent;
+              state.invoicesGrandTotal = !isNaN(result.data) ? result.data : 0;
+              _context9.next = 11;
+              break;
+
+            case 8:
+              _context9.prev = 8;
+              _context9.t0 = _context9["catch"](0);
+              console.log('initInvoicesGrandTotal() - ERROR:', _context9.t0);
+
+            case 11:
+            case "end":
+              return _context9.stop();
+          }
+        }
+      }, _callee9, null, [[0, 8]]);
+    }))();
+  },
+
+  /**
+   * Initialize the current selected principal's settings
+   */
+  initSettings: function initSettings() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
+      var url, result;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+        while (1) {
+          switch (_context10.prev = _context10.next) {
+            case 0:
+              _context10.prev = 0;
+              url = encodeURI(AppStore.state.siteUrl + 'principals/settings?principal_code=' + state.selectedPrincipalCode);
+              _context10.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(url);
+
+            case 4:
+              result = _context10.sent;
+
+              // result.data.forEach(setting => {
+              //     state.settings
+              // });
+              if (result.data.error == undefined) {
+                state.settings = [];
+                state.settings = result.data; // state.settings = result.data.map(e=>{
+                //     if(e.type=='toggle') {
+                //         e.value = parseInt(e.value);
+                //     }
+                //     return e;
+                // });
+                // console.log('SETTINGS:', state.settings);
+                // console.log(
+                //     'route_code_mapping',
+                //     eval(state.settings.find(e => e.name=='route_code_mapping').value)
+                // );
+              }
+
+              _context10.next = 11;
+              break;
+
+            case 8:
+              _context10.prev = 8;
+              _context10.t0 = _context10["catch"](0);
+              console.log('initSettings():', _context10.t0);
+
+            case 11:
+            case "end":
+              return _context10.stop();
+          }
+        }
+      }, _callee10, null, [[0, 8]]);
+    }))();
+  },
+
+  /**
+   * Update the current selected principal's settings
+   */
+  saveSettings: function saveSettings() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
+      var url, payload, result;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
+        while (1) {
+          switch (_context11.prev = _context11.next) {
+            case 0:
+              _context11.prev = 0;
+              AppStore.state.showTopLoading = true;
+              url = encodeURI(AppStore.state.siteUrl + 'principals/settings');
+              payload = {
+                principal_code: state.selectedPrincipalCode,
+                settings: state.settings
+              };
+              _context11.next = 6;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(url, payload);
+
+            case 6:
+              result = _context11.sent;
+
+              if (result.data.success == true) {
+                AppStore.toast(result.data.message);
+              }
+
+              _context11.next = 13;
+              break;
+
+            case 10:
+              _context11.prev = 10;
+              _context11.t0 = _context11["catch"](0);
+              console.log('saveSettings():', _context11.t0);
+
+            case 13:
+              AppStore.state.showTopLoading = false;
+
+            case 14:
+            case "end":
+              return _context11.stop();
+          }
+        }
+      }, _callee11, null, [[0, 10]]);
+    }))();
+  },
+
+  /**
+   * Get setting value
+   */
+  getSetting: function getSetting(settingName) {
+    var value = null;
+    state.settings.forEach(function (e) {
+      if (e.name == settingName) {
+        value = e;
+        return;
+      }
+    });
+    return value;
+  },
+
+  /**
+   * Returns an object containing the arrays of headers
+   * and its content column format/sequence
+   */
+  getHeaderAndFormat: function getHeaderAndFormat(property) {
+    return {
+      header: vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype[state.selectedPrincipalCode].state[property].map(function (e) {
+        return e.text;
+      }),
+      format: vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype[state.selectedPrincipalCode].state[property].map(function (e) {
+        return e.value;
+      })
+    };
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
@@ -91361,684 +92207,6 @@ var actions = {
         }
       }, _callee9, null, [[0, 9]]);
     }))();
-  }
-};
-/* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
-  state: state
-}, actions));
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/PrincipalsStore.js":
-/*!******************************************************************!*\
-  !*** ./resources/js/stores.custom/principals/PrincipalsStore.js ***!
-  \******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
- // import AppStore from '../AppStore';
-
-var AppStore = vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype.AppStore;
-var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
-  selectedPrincipalCode: '',
-  // masterfiles
-  isUploadMasterCustomersOpen: false,
-  isUploadMasterProductsOpen: false,
-  products: [],
-  customers: [],
-  invoices: [],
-  transactions: [],
-  // generated data
-  currentGeneratedData: [],
-  currentRawInvoices: [],
-  textfileLineCount: 0,
-  isGeneratingData: false,
-  currentGeneratedDataSearchKey: '',
-  // invoice import
-  isImportInvoicesVisible: true,
-  invoicesGrandTotal: 0.00,
-  settings: [],
-  sheetImport: false,
-  // Transactions table loading state
-  isInitTransactions: false
-});
-var actions = {
-  initialize: function initialize() {
-    console.log("%cInitializing PrincipalsStore...", 'background:#222; color:#bada55; font-size:16px;');
-    this.initProducts();
-    this.initCustomers();
-    this.initInvoices(state.selectedPrincipalCode, AppStore.state.strDateToday);
-    this.initTransactions(state.selectedPrincipalCode, AppStore.state.strDateToday);
-    this.initInvoicesGrandTotal();
-    this.initSettings();
-    this.initCurrentGeneratedData(state.selectedPrincipalCode);
-  },
-  cleanup: function cleanup() {
-    console.log("%cCleaning up PrincipalsStore a little bit...", 'background:#222; color:#bada55; font-size:16px;'); // state.selectedPrincipalCode = '';
-    // masterfiles
-
-    state.isUploadMasterCustomersOpen = false;
-    state.isUploadMasterProductsOpen = false;
-    state.products = [];
-    state.customers = [];
-    state.invoices = [];
-    state.transactions = []; // generated data
-
-    state.currentGeneratedData = [];
-    state.currentRawInvoices = [];
-    state.textfileLineCount = 0;
-    state.isGeneratingData = false; // invoice import
-
-    state.isImportInvoicesVisible = true;
-    state.invoicesGrandTotal = 0.00;
-    state.settings = [];
-    state.sheetImport = false;
-    state.currentGeneratedDataSearchKey = '';
-    state.isInitTransactions = false;
-  },
-
-  /**
-   * Initialize the current selected principal's product list
-   */
-  initProducts: function initProducts() {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var url, result;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.prev = 0;
-              url = encodeURI(AppStore.state.siteUrl + 'principals/' + state.selectedPrincipalCode + '/products');
-              AppStore.state.showTopLoading = true;
-              _context.next = 5;
-              return axios.get(url);
-
-            case 5:
-              result = _context.sent;
-              state.products = [];
-              state.products = result.data;
-              AppStore.state.showTopLoading = false;
-              _context.next = 14;
-              break;
-
-            case 11:
-              _context.prev = 11;
-              _context.t0 = _context["catch"](0);
-              console.log('PrincipalsStore.initProducts() - ERROR:', _context.t0);
-
-            case 14:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee, null, [[0, 11]]);
-    }))();
-  },
-
-  /**
-   * Initialize the current selected principal's customer list
-   */
-  initCustomers: function initCustomers() {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-      var url, result;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.prev = 0;
-              url = encodeURI(AppStore.state.siteUrl + 'principals/' + state.selectedPrincipalCode + '/customers');
-              AppStore.state.showTopLoading = true;
-              _context2.next = 5;
-              return axios.get(url);
-
-            case 5:
-              result = _context2.sent;
-              state.customers = [];
-              state.customers = result.data;
-              AppStore.state.showTopLoading = false;
-              _context2.next = 14;
-              break;
-
-            case 11:
-              _context2.prev = 11;
-              _context2.t0 = _context2["catch"](0);
-              console.log('PrincipalsStore.initCustomers() - ERROR:', _context2.t0);
-
-            case 14:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2, null, [[0, 11]]);
-    }))();
-  },
-
-  /**
-   * Initialize the current selected principal's uploaded/saved invoices
-   */
-  initInvoices: function initInvoices(principal_code, date) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-      var url, result;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              date.sort();
-              _context3.prev = 1;
-              url = encodeURI(AppStore.state.siteUrl + 'principals/invoices?date=' + date + '&principal_code=' + principal_code);
-              AppStore.state.showTopLoading = true;
-              _context3.next = 6;
-              return axios.get(url);
-
-            case 6:
-              result = _context3.sent;
-              state.invoices = [];
-              state.invoices = result.data;
-              AppStore.state.showTopLoading = false;
-              _context3.next = 15;
-              break;
-
-            case 12:
-              _context3.prev = 12;
-              _context3.t0 = _context3["catch"](1);
-              console.log('PrincipalsStore.initInvoices() - ERROR:', _context3.t0);
-
-            case 15:
-            case "end":
-              return _context3.stop();
-          }
-        }
-      }, _callee3, null, [[1, 12]]);
-    }))();
-  },
-
-  /**
-   * Generate templated data based on pending invoices
-   */
-  initCurrentGeneratedData: function initCurrentGeneratedData(principal_code) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-      var url, result;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              _context4.prev = 0;
-              url = encodeURI(AppStore.state.siteUrl + 'principals/' + principal_code + '/invoices/generate-templated-data');
-              _context4.next = 4;
-              return axios.get(url);
-
-            case 4:
-              result = _context4.sent;
-              state.currentGeneratedData = [];
-              state.currentGeneratedData = Object.entries(result.data.output_template);
-              _context4.next = 12;
-              break;
-
-            case 9:
-              _context4.prev = 9;
-              _context4.t0 = _context4["catch"](0);
-              console.log('PrincipalsStore.initCurrentGeneratedData() - ERROR:', _context4.t0);
-
-            case 12:
-            case "end":
-              return _context4.stop();
-          }
-        }
-      }, _callee4, null, [[0, 9]]);
-    }))();
-  },
-
-  /**
-   * Initialize the current selected principal's transactions
-   */
-  initTransactions: function initTransactions(principal_code, date) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-      var url, result;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              date.sort();
-              _context5.prev = 1;
-              url = encodeURI(AppStore.state.siteUrl + 'principals' + '/transactions' + '?date=' + date + '&principal_code=' + principal_code); // AppStore.state.showTopLoading = true;
-
-              state.isInitTransactions = true;
-              _context5.next = 6;
-              return axios.get(url);
-
-            case 6:
-              result = _context5.sent;
-
-              if (result.data.success == true) {
-                state.transactions = [];
-                state.transactions = result.data.data; // AppStore.state.showTopLoading = false;
-
-                state.isInitTransactions = false;
-              } else {
-                console.log('initTransactions()', result.data.message);
-              }
-
-              _context5.next = 13;
-              break;
-
-            case 10:
-              _context5.prev = 10;
-              _context5.t0 = _context5["catch"](1);
-              console.log('PrincipalsStore.initTransactions() - ERROR:', _context5.t0);
-
-            case 13:
-            case "end":
-              return _context5.stop();
-          }
-        }
-      }, _callee5, null, [[1, 10]]);
-    }))();
-  },
-
-  /**
-   * Get pendings
-   */
-  initPendings: function initPendings() {
-    var _arguments = arguments;
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-      var cols, url, payload, result;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
-        while (1) {
-          switch (_context6.prev = _context6.next) {
-            case 0:
-              cols = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : [];
-              _context6.prev = 1;
-              url = encodeURI(AppStore.state.siteUrl + 'principals' + '/pendings');
-              payload = {
-                cols: cols,
-                principal_code: state.selectedPrincipalCode
-              };
-              AppStore.state.showTopLoading = true;
-              _context6.next = 7;
-              return axios.post(url, payload);
-
-            case 7:
-              result = _context6.sent;
-
-              if (result.data.success == true) {
-                state.currentGeneratedData = result.data.pending_gendata;
-                state.currentRawInvoices = result.data.pending_rawinvoices;
-              } else {
-                console.log('initPendings()', result.data.message);
-              }
-
-              AppStore.state.showTopLoading = false;
-              _context6.next = 15;
-              break;
-
-            case 12:
-              _context6.prev = 12;
-              _context6.t0 = _context6["catch"](1);
-              console.log('PrincipalsStore.initPendings() - ERROR:', _context6.t0);
-
-            case 15:
-            case "end":
-              return _context6.stop();
-          }
-        }
-      }, _callee6, null, [[1, 12]]);
-    }))();
-  },
-
-  /**
-   *
-   */
-  // async exportTableToExcel(wrapperID) {
-  //     console.log("Exporting from PrincipalsStore....");
-  //     const tempDate = new Date();
-  //     // const dateToday = tempDate.getFullYear() +
-  //     //     '-' + tempDate.getMonth() + '-' +
-  //     //     tempDate.getDay();
-  //     const fileName = `${state.selectedPrincipalCode} - ${AppStore.state.strDateToday}.xlsx`;
-  //     AppStore.state.showTopLoading = true;
-  //     AppStore.overlay(true);
-  //     const tblWrapper = document.querySelector(`#${wrapperID}`)
-  //         .children;
-  //     // const tblWrapper = wrapper.children;
-  //     // let ws = XLSX.utils.json_to_sheet(this.sampleData);
-  //     const wBook = XLSX.utils.book_new();
-  //     for (let i = 0; i <= tblWrapper.length - 1; i++) {
-  //         const sheetName = `Sheet ${i+1}`;
-  //         const tbl = tblWrapper[i].querySelector(
-  //             ".table-generated-data"
-  //         );
-  //         const wsFromTbl = XLSX.utils.table_to_sheet(tbl, { raw: true });
-  //         const tempJData = XLSX.utils.sheet_to_json(wsFromTbl);
-  //         let wsFromJData = XLSX.utils.json_to_sheet(tempJData);
-  //         const objKeys = Object.keys(wsFromJData);
-  //         for(let i=1; i<objKeys.length;i++) {
-  //             if(objKeys[i] == '!ref') continue;
-  //             let obj = wsFromJData[objKeys[i]];
-  //             if(obj.v.localeCompare(parseInt(obj.v.toString())) == 0) {
-  //                 obj.t = 'n';
-  //             } else {
-  //                 obj.t = 's';
-  //             }
-  //         }
-  //         console.log(sheetName, wsFromJData);
-  //         // return;
-  //         XLSX.utils.book_append_sheet(wBook, wsFromJData, sheetName);
-  //     }
-  //     XLSX.writeFile(wBook, fileName, { flag: "w+" });
-  //     // this.PrincipalsStore.state.currentGeneratedData = tempData;
-  //     AppStore.state.showTopLoading = false;
-  //     AppStore.overlay(false);
-  //     // this.PrincipalsStore.state.currentGeneratedData = [];
-  // },
-
-  /**
-   * ============================================= exportToExcel() =================================
-   * Exports a json array of data to Excel
-   * ===============================================================================================
-   * jsonData Structure (Array of arrays):
-   * [
-   *   0: [
-   *        0: "Group text"
-   *        1: [Array of data lines]
-   *   ]
-   * ]
-   *
-   */
-  exportToExcel: function exportToExcel() {
-    var _arguments2 = arguments;
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-      var headers, jsonData, includeTotals, fileName, alpha, alphabet, wBook, i, sheetName;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
-        while (1) {
-          switch (_context7.prev = _context7.next) {
-            case 0:
-              headers = _arguments2.length > 0 && _arguments2[0] !== undefined ? _arguments2[0] : [];
-              jsonData = _arguments2.length > 1 && _arguments2[1] !== undefined ? _arguments2[1] : [];
-              includeTotals = _arguments2.length > 2 && _arguments2[2] !== undefined ? _arguments2[2] : [];
-              fileName = _arguments2.length > 3 && _arguments2[3] !== undefined ? _arguments2[3] : '';
-              AppStore.overlay(true, 'Exporting...');
-              console.log("Exporting from PrincipalsStore....");
-              console.log("headers:", headers);
-              console.log("jsonData:", jsonData);
-              alpha = Array.from(Array(26)).map(function (e, i) {
-                return i + 65;
-              });
-              alphabet = alpha.map(function (x) {
-                return String.fromCharCode(x);
-              });
-
-              try {
-                fileName = "".concat(fileName, "_").concat(AppStore.state.strDateToday, ".xlsx");
-                AppStore.state.showTopLoading = true;
-                wBook = XLSX.utils.book_new();
-
-                for (i = 0; i < jsonData.length; i++) {
-                  sheetName = jsonData[i][0].replace(/\//ig, '-');
-                  console.log('SHEEEEEEEEEEEET NAME:', sheetName);
-
-                  if (sheetName != 'TBD') {
-                    (function () {
-                      var lines = jsonData[i][1];
-                      var wSheet = XLSX.utils.json_to_sheet(lines, {
-                        origin: 'A2',
-                        skipHeader: true
-                      });
-
-                      if (includeTotals != null && includeTotals.length > 0) {
-                        var LEN_TOTAL = lines.length + 3;
-                        var LASTCOL = alphabet[Object.keys(lines[0]).length - 1];
-                        wSheet['!ref'] = "A1:".concat(LASTCOL).concat(LEN_TOTAL);
-                        wSheet["A".concat(LEN_TOTAL)] = {
-                          t: 's',
-                          v: 'TOTAL'
-                        };
-                        includeTotals.forEach(function (e) {
-                          var COL = alphabet[e];
-                          wSheet["".concat(COL).concat(LEN_TOTAL)] = {
-                            t: 'n',
-                            f: "=SUM(".concat(COL, "2:").concat(COL).concat(LEN_TOTAL - 2, ")")
-                          };
-                        });
-                      }
-
-                      XLSX.utils.sheet_add_aoa(wSheet, [headers]);
-                      XLSX.utils.book_append_sheet(wBook, wSheet, sheetName);
-                    })();
-                  }
-                }
-
-                XLSX.writeFile(wBook, fileName, {
-                  flag: "w+"
-                });
-              } catch (error) {
-                console.log('exportToExcel()', error);
-                AppStore.toast(error);
-              }
-
-              AppStore.state.showTopLoading = false;
-              AppStore.overlay(false);
-
-            case 13:
-            case "end":
-              return _context7.stop();
-          }
-        }
-      }, _callee7);
-    }))();
-  },
-
-  /**
-   * Returns exactly the same structure as generatedData
-   * but picks only the matching properties specified in subsetKeys.
-   */
-  generatedDataSubset: function generatedDataSubset() {
-    var generatedData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var subsetKeys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-    return generatedData.map(function (element) {
-      var uploadable = [];
-      /**
-       * If customer_notfound & product_notfound properties
-       * are defined, filter out only those with both 0 values (the uploadable ones)
-       */
-
-      if (element[1][0].customer_notfound == undefined && element[1][0].product_notfound == undefined) {
-        uploadable = element[1];
-      } else {
-        uploadable = element[1].filter(function (line) {
-          return line.product_notfound == 0 && line.customer_notfound == 0;
-        });
-      }
-
-      return [element[0], uploadable.map(function (line) {
-        return subsetKeys.reduce(function (r, item) {
-          r[item] = line[item];
-          return r;
-        }, {});
-      })];
-    });
-  },
-
-  /**
-   * Initialize the current selected principal's grand total amount
-   * of uploaded/saved invoices
-   */
-  initInvoicesGrandTotal: function initInvoicesGrandTotal() {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
-      var url, result;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
-        while (1) {
-          switch (_context8.prev = _context8.next) {
-            case 0:
-              _context8.prev = 0;
-              url = encodeURI(AppStore.state.siteUrl + 'principals/invoices/grandtotal?principal_code=' + state.selectedPrincipalCode);
-              _context8.next = 4;
-              return axios.get(url);
-
-            case 4:
-              result = _context8.sent;
-              state.invoicesGrandTotal = !isNaN(result.data) ? result.data : 0;
-              _context8.next = 11;
-              break;
-
-            case 8:
-              _context8.prev = 8;
-              _context8.t0 = _context8["catch"](0);
-              console.log('initInvoicesGrandTotal() - ERROR:', _context8.t0);
-
-            case 11:
-            case "end":
-              return _context8.stop();
-          }
-        }
-      }, _callee8, null, [[0, 8]]);
-    }))();
-  },
-
-  /**
-   * Initialize the current selected principal's settings
-   */
-  initSettings: function initSettings() {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
-      var url, result;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
-        while (1) {
-          switch (_context9.prev = _context9.next) {
-            case 0:
-              _context9.prev = 0;
-              url = encodeURI(AppStore.state.siteUrl + 'principals/settings?principal_code=' + state.selectedPrincipalCode);
-              _context9.next = 4;
-              return axios.get(url);
-
-            case 4:
-              result = _context9.sent;
-
-              // result.data.forEach(setting => {
-              //     state.settings
-              // });
-              if (result.data.error == undefined) {
-                state.settings = [];
-                state.settings = result.data; // state.settings = result.data.map(e=>{
-                //     if(e.type=='toggle') {
-                //         e.value = parseInt(e.value);
-                //     }
-                //     return e;
-                // });
-                // console.log('SETTINGS:', state.settings);
-                // console.log(
-                //     'route_code_mapping',
-                //     eval(state.settings.find(e => e.name=='route_code_mapping').value)
-                // );
-              }
-
-              _context9.next = 11;
-              break;
-
-            case 8:
-              _context9.prev = 8;
-              _context9.t0 = _context9["catch"](0);
-              console.log('initSettings():', _context9.t0);
-
-            case 11:
-            case "end":
-              return _context9.stop();
-          }
-        }
-      }, _callee9, null, [[0, 8]]);
-    }))();
-  },
-
-  /**
-   * Update the current selected principal's settings
-   */
-  saveSettings: function saveSettings() {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
-      var url, payload, result;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
-        while (1) {
-          switch (_context10.prev = _context10.next) {
-            case 0:
-              _context10.prev = 0;
-              AppStore.state.showTopLoading = true;
-              url = encodeURI(AppStore.state.siteUrl + 'principals/settings');
-              payload = {
-                principal_code: state.selectedPrincipalCode,
-                settings: state.settings
-              };
-              _context10.next = 6;
-              return axios.post(url, payload);
-
-            case 6:
-              result = _context10.sent;
-
-              if (result.data.success == true) {
-                AppStore.toast(result.data.message);
-              }
-
-              _context10.next = 13;
-              break;
-
-            case 10:
-              _context10.prev = 10;
-              _context10.t0 = _context10["catch"](0);
-              console.log('saveSettings():', _context10.t0);
-
-            case 13:
-              AppStore.state.showTopLoading = false;
-
-            case 14:
-            case "end":
-              return _context10.stop();
-          }
-        }
-      }, _callee10, null, [[0, 10]]);
-    }))();
-  },
-
-  /**
-   * Get setting value
-   */
-  getSetting: function getSetting(settingName) {
-    var value = null;
-    state.settings.forEach(function (e) {
-      if (e.name == settingName) {
-        value = e;
-        return;
-      }
-    });
-    return value;
-  },
-
-  /**
-   * Returns an object containing the arrays of headers
-   * and its content column format/sequence
-   */
-  getHeaderAndFormat: function getHeaderAndFormat(property) {
-    return {
-      header: vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype[state.selectedPrincipalCode].state[property].map(function (e) {
-        return e.text;
-      }),
-      format: vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype[state.selectedPrincipalCode].state[property].map(function (e) {
-        return e.value;
-      })
-    };
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
