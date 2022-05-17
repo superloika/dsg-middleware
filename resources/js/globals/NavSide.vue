@@ -88,7 +88,7 @@
                     <v-icon>mdi-test-tube</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                    <v-list-item-title>Test Page</v-list-item-title>
+                    <v-list-item-title>Teeeeeest Page</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
         </v-list-item-group>
