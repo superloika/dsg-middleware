@@ -40,6 +40,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["generatedData"],
   data: function data() {
@@ -49,12 +50,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     GeneratedTable: function GeneratedTable() {
-      var vm = this; // return () =>
-      //     import(`../${vm.PrincipalsStore.state.selectedPrincipalCode}/GeneratedTable.vue`);
-
+      var vm = this;
       return function () {
-        return __webpack_require__.e(/*! import() */ 16).then(__webpack_require__.bind(null, /*! ./GeneratedTable.vue */ "./resources/js/pages/Principals/common/GeneratedTable.vue"));
-      };
+        return __webpack_require__("./resources/js/pages/Principals lazy recursive ^\\.\\/.*\\/GeneratedTable\\.vue$")("./".concat(vm.PrincipalsStore.state.selectedPrincipalCode, "/GeneratedTable.vue"));
+      }; // return () => import(`./GeneratedTable.vue`);
     }
   },
   methods: {
@@ -217,7 +216,12 @@ var render = function() {
                   [
                     _c(_vm.GeneratedTable, {
                       tag: "component",
-                      attrs: { items: data[1] }
+                      attrs: {
+                        id:
+                          _vm.PrincipalsStore.state.selectedPrincipalCode +
+                          "_gentable",
+                        items: data[1]
+                      }
                     })
                   ],
                   1
@@ -235,6 +239,45 @@ var staticRenderFns = []
 render._withStripped = true
 
 
+
+/***/ }),
+
+/***/ "./resources/js/pages/Principals lazy recursive ^\\.\\/.*\\/GeneratedTable\\.vue$":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/pages/Principals lazy ^\.\/.*\/GeneratedTable\.vue$ namespace object ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./mead_johnson/GeneratedTable.vue": [
+		"./resources/js/pages/Principals/mead_johnson/GeneratedTable.vue",
+		22
+	],
+	"./wyeth/GeneratedTable.vue": [
+		"./resources/js/pages/Principals/wyeth/GeneratedTable.vue",
+		23
+	]
+};
+function webpackAsyncContext(req) {
+	if(!__webpack_require__.o(map, req)) {
+		return Promise.resolve().then(function() {
+			var e = new Error("Cannot find module '" + req + "'");
+			e.code = 'MODULE_NOT_FOUND';
+			throw e;
+		});
+	}
+
+	var ids = map[req], id = ids[0];
+	return __webpack_require__.e(ids[1]).then(function() {
+		return __webpack_require__(id);
+	});
+}
+webpackAsyncContext.keys = function webpackAsyncContextKeys() {
+	return Object.keys(map);
+};
+webpackAsyncContext.id = "./resources/js/pages/Principals lazy recursive ^\\.\\/.*\\/GeneratedTable\\.vue$";
+module.exports = webpackAsyncContext;
 
 /***/ }),
 

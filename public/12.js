@@ -58,6 +58,12 @@ __webpack_require__.r(__webpack_exports__);
         component: function component() {
           return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ../common/Settings.vue */ "./resources/js/pages/Principals/common/Settings.vue"));
         }
+      }, {
+        title: 'DevChat (TEST)',
+        icon: 'mdi-message',
+        component: function component() {
+          return __webpack_require__.e(/*! import() */ 34).then(__webpack_require__.bind(null, /*! ../common/DevChat.vue */ "./resources/js/pages/Principals/common/DevChat.vue"));
+        }
       }];
     },
     selectedPrincipalCode: function selectedPrincipalCode() {

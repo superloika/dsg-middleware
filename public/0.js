@@ -706,31 +706,31 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "description_supplier"
   }],
   generatedDataTableHeader: [{
-    text: "Order Date (Date) (YYYY/MM/DD)",
+    text: "TEST",
     value: "order_date"
   }, {
-    text: "Customer Code (nv20)",
+    text: "TEST",
     value: "customer_code"
   }, {
-    text: "Route Code (nv20)",
+    text: "TEST",
     value: "route_code"
   }, {
-    text: "Product Category Code (nv20)",
+    text: "TEST",
     value: "item_category_code"
   }, {
-    text: "Ship To (nv40)",
+    text: "TEST",
     value: "ship_to"
   }, {
-    text: "Order Number (nv20)",
+    text: "TEST",
     value: "order_no"
   }, {
-    text: "Remarks (nv50)",
+    text: "TEST",
     value: "remarks"
   }, {
-    text: "Product Code (nv20)",
+    text: "TEST",
     value: "item_code"
   }, {
-    text: "Quantity (numeric 25,4)",
+    text: "TEST",
     value: "quantity"
   }],
   uploadedInvoicesTableHeader: [// {text:"Status", value:"status"},

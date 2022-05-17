@@ -24,6 +24,9 @@ import MasterPrincipals from "./pages/MasterPrincipals";
 import AccountPage from "./pages/AccountPage";
 import ManageAccounts from "./pages/ManageAccounts";
 
+// DEVCHAT
+// import DevChat from "./pages/DevChat.vue";
+
 // ERROR PAGES
 import ErrorPage404 from "./pages/ErrorPages/ErrorPage404";
 
@@ -125,6 +128,16 @@ const router = new VueRouter({
                 name: "Account"
             }
         },
+
+
+        // DEVCHAT ================================================
+        // {
+        //     path: "/devchat",
+        //     component: DevChat,
+        //     meta: {
+        //         name: "DevChat"
+        //     }
+        // },
 
 
         // ==========================================================================

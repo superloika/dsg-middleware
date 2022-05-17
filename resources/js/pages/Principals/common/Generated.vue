@@ -74,7 +74,7 @@
 
                     <!-- MISSING CUSTOMER CODES -->
                     <v-btn
-                        title="Missing Customer/s in Principal's Masterfile"
+                        title="Unmapped Customer/s"
                         icon
                         dense
                         rounded
@@ -93,7 +93,7 @@
                         <MissingInMaster
                             id='customer'
                             type='customer'
-                            title="Missing Customer/s in Principal's Masterfile"
+                            title="Unmapped Customer/s"
                             :missingInMaster="missingInMaster('customer')"
                         ></MissingInMaster>
                     </v-dialog>
@@ -101,7 +101,7 @@
 
                     <!-- MISSING ITEM CODES -->
                     <v-btn
-                        title="Missing Item/s in Principal's Masterfile"
+                        title="Unmapped Item/s"
                         icon
                         dense
                         rounded
@@ -121,14 +121,14 @@
                         <MissingInMaster
                             id='item'
                             type='item'
-                            title="Missing Item/s in Principal's Masterfile"
+                            title="Unmapped Item/s"
                             :missingInMaster="missingInMaster('item')"
                         ></MissingInMaster>
                     </v-dialog>
                     <!-- /MISSING ITEM CODES -->
 
                     <v-btn
-                        title="Save Data and Export to Excel"
+                        title="Export to Excel"
                         icon
                         dense
                         rounded
@@ -156,7 +156,7 @@
                         (itemsNotFoundCount + customersNotFoundCount) >= lineCount
                     " -->
 
-                        <v-icon>mdi-content-save</v-icon>
+                        <v-icon>mdi-file-excel</v-icon>
                     </v-btn>
                     <!-- confirm export dialog -->
                     <v-dialog

@@ -10,7 +10,7 @@ class PrincipalsUtil extends Controller
 {
     private $tblInvoices = 'uploaded_invoices';
     private $tblGenerated = 'generated_data';
-    private static $tblSettings = 'settings';
+    public static $tblSettings = 'settings';
 
     public static $STATUS_COMPLETED = 'completed';
     public static $STATUS_PENDING = 'pending';
@@ -46,7 +46,11 @@ class PrincipalsUtil extends Controller
             ->get();
         $temp = [];
         foreach($settings as $setting) {
-            $temp[$setting->name] = $setting->value;
+            if($setting->type=='json') {
+                $temp[$setting->name] = json_decode($setting->value);
+            } else {
+                $temp[$setting->name] = $setting->value;
+            }
         }
         return $temp;
     }

@@ -121,7 +121,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     // UploadedInvoices: () => import('./UploadedInvoices.vue'),
     Transactions: function Transactions() {
-      return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! ./Transactions.vue */ "./resources/js/pages/Principals/common/Transactions.vue"));
+      return __webpack_require__.e(/*! import() */ 21).then(__webpack_require__.bind(null, /*! ./Transactions.vue */ "./resources/js/pages/Principals/common/Transactions.vue"));
     }
   },
   data: function data() {

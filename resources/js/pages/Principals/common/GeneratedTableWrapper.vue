@@ -20,6 +20,7 @@
         <v-tab-item v-for="(data, index) in generatedData" :key="index">
             <div class="mb-2 pa-0 overflow-auto" v-if="data[1].length > 0">
                 <component
+                    :id="PrincipalsStore.state.selectedPrincipalCode + '_gentable'"
                     :is="GeneratedTable"
                     :items="data[1]"
                 ></component>
@@ -42,9 +43,9 @@ export default {
     computed: {
         GeneratedTable() {
             const vm = this;
-            // return () =>
-            //     import(`../${vm.PrincipalsStore.state.selectedPrincipalCode}/GeneratedTable.vue`);
-            return () => import(`./GeneratedTable.vue`);
+            return () =>
+                import(`../${vm.PrincipalsStore.state.selectedPrincipalCode}/GeneratedTable.vue`);
+            // return () => import(`./GeneratedTable.vue`);
         }
     },
 

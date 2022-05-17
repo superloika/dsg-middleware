@@ -281,23 +281,35 @@ class MeadJohnsonController extends Controller
             $dateToday = Carbon::now();
             $fileCount = 0;
             $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
-            $latest_order_no = DB::table(PrincipalsUtil::$TBL_GENERATED)
-                ->where('principal_code', $this->PRINCIPAL_CODE)
-                ->latest('id')->first()->order_no ?? $settings['custom_order_no'];
-            $chunk_line_count = intval($settings['chunk_line_count']);
+            // $latest_order_no = DB::table(PrincipalsUtil::$TBL_GENERATED)
+            //     ->where('principal_code', $this->PRINCIPAL_CODE)
+            //     ->latest('id')->first()->order_no ?? $settings['custom_order_no'];
 
+            $latest_order_no = intval($settings['custom_order_no']) ?? 100000000;
+
+            $chunk_line_count = intval($settings['chunk_line_count']);
             $unuploadedLineCount = 0;
             $breakFilesIteration = false;
             $pageLineCount = 1;
             $pageNum = 1;
 
+            // ================================================================================
             // Get principal settings (test)
-            $principal_settings = PrincipalsUtil::getPrincipalSettings($this->PRINCIPAL_CODE);
+            // $principal_settings = PrincipalsUtil::getPrincipalSettings($this->PRINCIPAL_CODE);
 
+            // $route_codes = [];
+            // foreach ($principal_settings->route_code_mapping as $rcm) {
+            //     $route_codes[$rcm->salesman_name] = $rcm->route_code;
+            // }
+            // ================================================================================
             $route_codes = [];
-            foreach ($principal_settings->route_code_mapping as $rcm) {
+            $route_code_mapping = $settings['route_code_mapping'];
+            // dd($route_code_mapping);
+
+            foreach($route_code_mapping->route_code_mapping as $rcm) {
                 $route_codes[$rcm->salesman_name] = $rcm->route_code;
             }
+            // ================================================================================
 
             // dd($route_codes);
             //TODO: get pending invoices
@@ -377,8 +389,9 @@ class MeadJohnsonController extends Controller
                     $salesman_name = $customer->salesman_name ?? 'NA';
                 }
 
-                $order_date = $dateToday->format('Y/m/d');
+                $order_date = '\''. $dateToday->format('Y/m/d');
                 $order_no = 'N/A';
+
                 if ($item_notfound == 1 || $customer_notfound == 1) {
                     // $order_date = 'TBD';
                 } else if ($item_notfound == 0 || $customer_notfound == 0) {
@@ -393,8 +406,8 @@ class MeadJohnsonController extends Controller
                 // )->route_code ?? 'Customer_NA';
                 $route_code = $route_codes[$salesman_name] ?? 'N/A';
 
-                $item_category_code = $settings['item_category_code'];
-                $ship_to = $settings['ship_to'];
+                $item_category_code = $settings['item_category_code'] ?? 'N/A';
+                $ship_to = $settings['ship_to'] ?? 'N/A';
 
                 $remarks = '';
                 $item_code_supplier = $item->item_code_supplier ?? $item_code;
@@ -508,11 +521,15 @@ class MeadJohnsonController extends Controller
 
         $dateToday = Carbon::now()->format('Y-m-d H:i:s');
 
+        // generated data
         try {
-            // generated data
+            // kaloy 2022-04-26
+            $order_no = 0;
+
             foreach ($request->generated_data as $gendata) {
                 foreach ($gendata[1] as $line) {
                     if($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
+                        // dd($line);
                         DB::table(PrincipalsUtil::$TBL_INVOICES)
                             ->where('doc_no', $line['doc_no'])
                             ->where('item_code', $line['alturas_item_code'])
@@ -521,6 +538,12 @@ class MeadJohnsonController extends Controller
                                 'status' => 'completed',
                                 'updated_at' => $dateToday
                             ]);
+
+                        // kaloy 2022-04-26
+                        $temp_orderno = intval($line['order_no']);
+                        if($temp_orderno > $order_no) {
+                            $order_no = $temp_orderno;
+                        }
                     }
                     // if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
                     //     $status = PrincipalsUtil::$STATUS_COMPLETED;
@@ -544,6 +567,15 @@ class MeadJohnsonController extends Controller
                     // }
                 }
             }
+
+            // update latest custom order_no in settings
+            DB::table(PrincipalsUtil::$tblSettings)
+                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->where('name', 'custom_order_no')
+                ->update([
+                    'value' => $order_no,
+                ]);
+
             return response()->json($response);
         } catch (\Throwable $th) {
             $response['success'] = false;

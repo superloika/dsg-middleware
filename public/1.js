@@ -56,6 +56,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -143,12 +144,13 @@ var render = function() {
                     "v-col",
                     { key: index, attrs: { cols: "12" } },
                     [
-                      setting.type == "text"
+                      setting.type == "number" || setting.type == "text"
                         ? _c("v-text-field", {
                             attrs: {
                               label: setting.description,
                               outlined: "",
-                              hint: setting.hint
+                              hint: setting.hint,
+                              type: setting.type
                             },
                             model: {
                               value: setting.value,

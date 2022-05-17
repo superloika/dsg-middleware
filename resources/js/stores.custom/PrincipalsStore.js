@@ -512,11 +512,15 @@ const actions = {
             let result = await axios.post(url, payload);
             if(result.data.success == true) {
                 AppStore.toast(result.data.message);
+                this.initCurrentGeneratedData(state.selectedPrincipalCode);
             }
         } catch (error) {
             console.log('saveSettings():', error);
+            AppStore.toast(error,3000, 'error');
+        } finally {
+            AppStore.state.showTopLoading = false;
         }
-        AppStore.state.showTopLoading = false;
+
     },
 
     /**

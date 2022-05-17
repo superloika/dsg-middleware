@@ -24,10 +24,11 @@
                 :key="index"
             >
                 <v-text-field
-                    v-if="setting.type=='text'"
+                    v-if="setting.type=='number' || setting.type=='text'"
                     v-model="setting.value"
                     :label="setting.description" outlined
                     :hint="setting.hint"
+                    :type="setting.type"
                 >
                 </v-text-field>
                 <v-switch

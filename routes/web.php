@@ -154,6 +154,16 @@ Route::prefix('misc-utils')->group(function () {
 });
 
 
+
+// ====================================================================================
+// ================= DevChat ========================================================
+// ====================================================================================
+Route::prefix('devchat')->group(function () {
+    Route::get('/fetch-messages', "DevChatController@fetchMessages");
+    Route::post('/send-message', "DevChatController@sendMessage");
+});
+
+
 // PRINCIPALS
 // Route::group(['prefix' => 'principals'], function(){
 

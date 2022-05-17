@@ -231,16 +231,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./GeneratedTableWrapper.vue */ "./resources/js/pages/Principals/common/GeneratedTableWrapper.vue"));
     },
     InvoicesImport: function InvoicesImport() {
-      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ./InvoicesImport.vue */ "./resources/js/pages/Principals/common/InvoicesImport.vue"));
+      return __webpack_require__.e(/*! import() */ 16).then(__webpack_require__.bind(null, /*! ./InvoicesImport.vue */ "./resources/js/pages/Principals/common/InvoicesImport.vue"));
     },
     MissingInMaster: function MissingInMaster() {
-      return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ./MissingInMaster.vue */ "./resources/js/pages/Principals/common/MissingInMaster.vue"));
+      return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! ./MissingInMaster.vue */ "./resources/js/pages/Principals/common/MissingInMaster.vue"));
     },
     Settings: function Settings() {
       return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./Settings.vue */ "./resources/js/pages/Principals/common/Settings.vue"));
     },
     Pendings: function Pendings() {
-      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./Pendings.vue */ "./resources/js/pages/Principals/common/Pendings.vue"));
+      return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ./Pendings.vue */ "./resources/js/pages/Principals/common/Pendings.vue"));
     },
     ConfirmExport: function ConfirmExport() {
       return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! ./ConfirmExport.vue */ "./resources/js/pages/Principals/common/ConfirmExport.vue"));
@@ -551,7 +551,7 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: {
-                        title: "Missing Customer/s in Principal's Masterfile",
+                        title: "Unmapped Customer/s",
                         icon: "",
                         dense: "",
                         rounded: "",
@@ -587,7 +587,7 @@ var render = function() {
                         attrs: {
                           id: "customer",
                           type: "customer",
-                          title: "Missing Customer/s in Principal's Masterfile",
+                          title: "Unmapped Customer/s",
                           missingInMaster: _vm.missingInMaster("customer")
                         }
                       })
@@ -599,7 +599,7 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: {
-                        title: "Missing Item/s in Principal's Masterfile",
+                        title: "Unmapped Item/s",
                         icon: "",
                         dense: "",
                         rounded: "",
@@ -639,7 +639,7 @@ var render = function() {
                         attrs: {
                           id: "item",
                           type: "item",
-                          title: "Missing Item/s in Principal's Masterfile",
+                          title: "Unmapped Item/s",
                           missingInMaster: _vm.missingInMaster("item")
                         }
                       })
@@ -651,7 +651,7 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: {
-                        title: "Save Data and Export to Excel",
+                        title: "Export to Excel",
                         icon: "",
                         dense: "",
                         rounded: "",
@@ -671,7 +671,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_c("v-icon", [_vm._v("mdi-content-save")])],
+                    [_c("v-icon", [_vm._v("mdi-file-excel")])],
                     1
                   ),
                   _vm._v(" "),
