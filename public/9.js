@@ -1,1 +1,341 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[9],{10:function(e,t,o){var a={"./gsmi":20,"./gsmi.js":20,"./jsu":21,"./jsu.js":21,"./mead_johnson":22,"./mead_johnson.js":22,"./wyeth":23,"./wyeth.js":23};function r(e){var t=u(e);return o(t)}function u(e){if(!o.o(a,e)){var t=new Error("Cannot find module '"+e+"'");throw t.code="MODULE_NOT_FOUND",t}return a[e]}r.keys=function(){return Object.keys(a)},r.resolve=u,e.exports=r,r.id=10},14:function(e,t,o){"use strict";o.r(t);var a={components:{Base:function(){return o.e(1).then(o.bind(null,25))}},data:function(){return{}},computed:{tabs:function(){return[{title:"Templated Data",icon:"mdi-table",component:function(){return o.e(2).then(o.bind(null,29))}},{title:"Generated Data History",icon:"mdi-timetable",component:function(){return o.e(3).then(o.bind(null,30))}},{title:"Transactions",icon:"mdi-file-check",component:function(){return o.e(5).then(o.bind(null,40))}},{title:"Masterfiles",icon:"mdi-folder-multiple",component:function(){return o.e(4).then(o.bind(null,34))}},{title:"Settings",icon:"mdi-tune",component:function(){return o.e(0).then(o.bind(null,39))}},{title:"DevChat (TEST)",icon:"mdi-message",component:function(){return o.e(12).then(o.bind(null,28))}}]},selectedPrincipalCode:function(){return this.PrincipalsStore.state.selectedPrincipalCode}},methods:{test:function(){}},created:function(){null!=this[this.selectedPrincipalCode]&&null!=this[this.selectedPrincipalCode]||(Vue.prototype[this.selectedPrincipalCode]=o(10)("./".concat(this.selectedPrincipalCode)).default),this.PrincipalsStore.initSettings()},mounted:function(){console.log(this.selectedPrincipalCode+" component mounted")},beforeDestroy:function(){null!=this.PrincipalsStore&&this.PrincipalsStore.cleanup(),this[this.selectedPrincipalCode]=null,Vue.prototype[this.selectedPrincipalCode]=null}},r=o(0),u=Object(r.a)(a,(function(){var e=this.$createElement,t=this._self._c||e;return t("div",[t("Base",{attrs:{tabs:this.tabs}})],1)}),[],!1,null,null,null);t.default=u.exports},20:function(e,t,o){"use strict";o.r(t);var a=o(3);function r(e,t){var o=Object.keys(e);if(Object.getOwnPropertySymbols){var a=Object.getOwnPropertySymbols(e);t&&(a=a.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),o.push.apply(o,a)}return o}function u(e,t,o){return t in e?Object.defineProperty(e,t,{value:o,enumerable:!0,configurable:!0,writable:!0}):e[t]=o,e}var n=o.n(a).a.observable({title:"",customersTableHeader:[{text:"Customer Code",value:"customer_code"},{text:"Name",value:"customer_name"},{text:"Outlet Type",value:"outlet_type"},{text:"Salesman Name",value:"salesman_name"},{text:"Operation Type",value:"operation_type"}],itemsTableHeader:[{text:"Item Code",value:"item_code"},{text:"Description",value:"description"},{text:"Supplier Item Code",value:"item_code_supplier"},{text:"Supplier Item Description",value:"description_supplier"}],generatedDataTableHeader:[{text:"Order Date (Date) (YYYY/MM/DD)",value:"order_date"},{text:"Customer Code (nv20)",value:"customer_code"},{text:"Route Code (nv20)",value:"route_code"},{text:"Product Category Code (nv20)",value:"item_category_code"},{text:"Ship To (nv40)",value:"ship_to"},{text:"Order Number (nv20)",value:"order_no"},{text:"Remarks (nv50)",value:"remarks"},{text:"Product Code (nv20)",value:"item_code"},{text:"Quantity (numeric 25,4)",value:"quantity"}],uploadedInvoicesTableHeader:[{text:"Upload Date",value:"upload_date"},{text:"Document Type",value:"doc_type"},{text:"Document #",value:"doc_no"},{text:"Customer Code",value:"customer_code"},{text:"Posting Date",value:"posting_date"},{text:"Item Code",value:"item_code"},{text:"Quantity",value:"quantity"},{text:"u1",value:"u1"},{text:"u2",value:"u2"},{text:"u3",value:"u3"},{text:"u4",value:"u4"},{text:"u5",value:"u5"},{text:"UOM",value:"uom"}],transactionsTableHeader:[{text:"Upload Date",value:"upload_date"},{text:"Customer Code",value:"customer_code"},{text:"Account Name",value:"customer_name"},{text:"Sales Invoice",value:"doc_no"},{text:"Item Code",value:"item_code"},{text:"Description",value:"description"},{text:"UOM",value:"uom"},{text:"Quantity",value:"quantity"},{text:"Amount",value:"u3"}],generatedDataHistoryFilters:[{text:"Order Date",value:"order_date"},{text:"Route Code",value:"route_code"}],generatedDataDBTableColumns:["id","generated_at","uploaded_by","doc_no","order_date","customer_code","route_code","product_category_code","ship_to","order_no","remarks","item_code","quantity"]});t.default=function(e){for(var t=1;t<arguments.length;t++){var o=null!=arguments[t]?arguments[t]:{};t%2?r(Object(o),!0).forEach((function(t){u(e,t,o[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(o)):r(Object(o)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(o,t))}))}return e}({state:n},{})},21:function(e,t,o){"use strict";o.r(t);var a=o(3);function r(e,t){var o=Object.keys(e);if(Object.getOwnPropertySymbols){var a=Object.getOwnPropertySymbols(e);t&&(a=a.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),o.push.apply(o,a)}return o}function u(e,t,o){return t in e?Object.defineProperty(e,t,{value:o,enumerable:!0,configurable:!0,writable:!0}):e[t]=o,e}var n=o.n(a).a.observable({title:"",customersTableHeader:[{text:"Customer Code",value:"customer_code"},{text:"Name",value:"customer_name"},{text:"Outlet Type",value:"outlet_type"},{text:"Salesman Name",value:"salesman_name"},{text:"Operation Type",value:"operation_type"}],itemsTableHeader:[{text:"Item Code",value:"item_code"},{text:"Description",value:"description"},{text:"Supplier Item Code",value:"item_code_supplier"},{text:"Supplier Item Description",value:"description_supplier"}],generatedDataTableHeader:[{text:"Order Date (Date) (YYYY/MM/DD)",value:"order_date"},{text:"Customer Code (nv20)",value:"customer_code"},{text:"Route Code (nv20)",value:"route_code"},{text:"Product Category Code (nv20)",value:"item_category_code"},{text:"Ship To (nv40)",value:"ship_to"},{text:"Order Number (nv20)",value:"order_no"},{text:"Remarks (nv50)",value:"remarks"},{text:"Product Code (nv20)",value:"item_code"},{text:"Quantity (numeric 25,4)",value:"quantity"}],uploadedInvoicesTableHeader:[{text:"Upload Date",value:"upload_date"},{text:"Document Type",value:"doc_type"},{text:"Document #",value:"doc_no"},{text:"Customer Code",value:"customer_code"},{text:"Posting Date",value:"posting_date"},{text:"Item Code",value:"item_code"},{text:"Quantity",value:"quantity"},{text:"u1",value:"u1"},{text:"u2",value:"u2"},{text:"u3",value:"u3"},{text:"u4",value:"u4"},{text:"u5",value:"u5"},{text:"UOM",value:"uom"}],transactionsTableHeader:[{text:"Upload Date",value:"upload_date"},{text:"Customer Code",value:"customer_code"},{text:"Account Name",value:"customer_name"},{text:"Sales Invoice",value:"doc_no"},{text:"Item Code",value:"item_code"},{text:"Description",value:"description"},{text:"UOM",value:"uom"},{text:"Quantity",value:"quantity"},{text:"Amount",value:"u3"}],generatedDataHistoryFilters:[{text:"Order Date",value:"order_date"},{text:"Route Code",value:"route_code"}],generatedDataDBTableColumns:["id","generated_at","uploaded_by","doc_no","order_date","customer_code","route_code","product_category_code","ship_to","order_no","remarks","item_code","quantity"]});t.default=function(e){for(var t=1;t<arguments.length;t++){var o=null!=arguments[t]?arguments[t]:{};t%2?r(Object(o),!0).forEach((function(t){u(e,t,o[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(o)):r(Object(o)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(o,t))}))}return e}({state:n},{})},22:function(e,t,o){"use strict";o.r(t);var a=o(3);function r(e,t){var o=Object.keys(e);if(Object.getOwnPropertySymbols){var a=Object.getOwnPropertySymbols(e);t&&(a=a.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),o.push.apply(o,a)}return o}function u(e,t,o){return t in e?Object.defineProperty(e,t,{value:o,enumerable:!0,configurable:!0,writable:!0}):e[t]=o,e}var n=o.n(a).a.observable({title:"",customersTableHeader:[{text:"Customer Code",value:"customer_code"},{text:"Name",value:"customer_name"},{text:"Outlet Type",value:"outlet_type"},{text:"Salesman Name",value:"salesman_name"},{text:"Operation Type",value:"operation_type"}],itemsTableHeader:[{text:"Item Code",value:"item_code"},{text:"Description",value:"description"},{text:"Supplier Item Code",value:"item_code_supplier"},{text:"Supplier Item Description",value:"description_supplier"}],generatedDataTableHeader:[{text:"Order Date (Date) (YYYY/MM/DD)",value:"order_date"},{text:"Customer Code (nv20)",value:"customer_code"},{text:"Route Code (nv20)",value:"route_code"},{text:"Product Category Code (nv20)",value:"item_category_code"},{text:"Ship To (nv40)",value:"ship_to"},{text:"Order Number (nv20)",value:"order_no"},{text:"Remarks (nv50)",value:"remarks"},{text:"Product Code (nv20)",value:"item_code"},{text:"Quantity (numeric 25,4)",value:"quantity"}],uploadedInvoicesTableHeader:[{text:"Upload Date",value:"upload_date"},{text:"Document Type",value:"doc_type"},{text:"Document #",value:"doc_no"},{text:"Customer Code",value:"customer_code"},{text:"Posting Date",value:"posting_date"},{text:"Item Code",value:"item_code"},{text:"Quantity",value:"quantity"},{text:"u1",value:"u1"},{text:"u2",value:"u2"},{text:"u3",value:"u3"},{text:"u4",value:"u4"},{text:"u5",value:"u5"},{text:"UOM",value:"uom"}],transactionsTableHeader:[{text:"Upload Date",value:"upload_date"},{text:"Customer Code",value:"customer_code"},{text:"Account Name",value:"customer_name"},{text:"Sales Invoice",value:"doc_no"},{text:"Item Code",value:"item_code"},{text:"Description",value:"description"},{text:"UOM",value:"uom"},{text:"Quantity",value:"quantity"},{text:"Amount",value:"u3"}],generatedDataHistoryFilters:[{text:"Order Date",value:"order_date"},{text:"Route Code",value:"route_code"}],generatedDataDBTableColumns:["id","generated_at","uploaded_by","doc_no","order_date","customer_code","route_code","product_category_code","ship_to","order_no","remarks","item_code","quantity"]});t.default=function(e){for(var t=1;t<arguments.length;t++){var o=null!=arguments[t]?arguments[t]:{};t%2?r(Object(o),!0).forEach((function(t){u(e,t,o[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(o)):r(Object(o)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(o,t))}))}return e}({state:n},{})},23:function(e,t,o){"use strict";o.r(t);var a=o(3);function r(e,t){var o=Object.keys(e);if(Object.getOwnPropertySymbols){var a=Object.getOwnPropertySymbols(e);t&&(a=a.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),o.push.apply(o,a)}return o}function u(e,t,o){return t in e?Object.defineProperty(e,t,{value:o,enumerable:!0,configurable:!0,writable:!0}):e[t]=o,e}var n=o.n(a).a.observable({title:"",customersTableHeader:[{text:"Customer Code",value:"customer_code"},{text:"Name",value:"customer_name"},{text:"Outlet Type",value:"outlet_type"},{text:"Salesman Name",value:"salesman_name"},{text:"Operation Type",value:"operation_type"}],itemsTableHeader:[{text:"Item Code",value:"item_code"},{text:"Description",value:"description"},{text:"Supplier Item Code",value:"item_code_supplier"},{text:"Supplier Item Description",value:"description_supplier"}],generatedDataTableHeader:[{text:"TEST",value:"order_date"},{text:"TEST",value:"customer_code"},{text:"TEST",value:"route_code"},{text:"TEST",value:"item_category_code"},{text:"TEST",value:"ship_to"},{text:"TEST",value:"order_no"},{text:"TEST",value:"remarks"},{text:"TEST",value:"item_code"},{text:"TEST",value:"quantity"}],uploadedInvoicesTableHeader:[{text:"Upload Date",value:"upload_date"},{text:"Document Type",value:"doc_type"},{text:"Document #",value:"doc_no"},{text:"Customer Code",value:"customer_code"},{text:"Posting Date",value:"posting_date"},{text:"Item Code",value:"item_code"},{text:"Quantity",value:"quantity"},{text:"u1",value:"u1"},{text:"u2",value:"u2"},{text:"u3",value:"u3"},{text:"u4",value:"u4"},{text:"u5",value:"u5"},{text:"UOM",value:"uom"}],transactionsTableHeader:[{text:"Upload Date",value:"upload_date"},{text:"Customer Code",value:"customer_code"},{text:"Account Name",value:"customer_name"},{text:"Sales Invoice",value:"doc_no"},{text:"Item Code",value:"item_code"},{text:"Description",value:"description"},{text:"UOM",value:"uom"},{text:"Quantity",value:"quantity"},{text:"Amount",value:"u3"}],generatedDataHistoryFilters:[{text:"Order Date",value:"order_date"},{text:"Route Code",value:"route_code"}],generatedDataDBTableColumns:["id","generated_at","uploaded_by","doc_no","order_date","customer_code","route_code","product_category_code","ship_to","order_no","remarks","item_code","quantity"]});t.default=function(e){for(var t=1;t<arguments.length;t++){var o=null!=arguments[t]?arguments[t]:{};t%2?r(Object(o),!0).forEach((function(t){u(e,t,o[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(o)):r(Object(o)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(o,t))}))}return e}({state:n},{})}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[9],{
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/DevChat.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/DevChat.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      users: [],
+      messages: [],
+      newMessage: ""
+    };
+  },
+  computed: {
+    channel: function channel() {
+      return this.PrincipalsStore.state.selectedPrincipalCode;
+    }
+  },
+  methods: {
+    fetchMessages: function fetchMessages() {
+      var _this = this;
+
+      axios.get("/devchat/fetch-messages?channel=".concat(this.channel)).then(function (response) {
+        _this.messages = response.data;
+      });
+    },
+    sendMessage: function sendMessage(message) {
+      var _this2 = this;
+
+      var payload = {
+        message: message,
+        channel: this.channel
+      };
+      axios.post("/devchat/send-message", payload).then(function (response) {
+        _this2.newMessage = "";
+        console.log(response.data);
+      });
+    }
+  },
+  // watch: {
+  //     messages() {
+  //         console.log(this.messages);
+  //     }
+  // },
+  mounted: function mounted() {
+    console.log("DevChat page mounted.");
+  },
+  created: function created() {
+    var _this3 = this;
+
+    this.fetchMessages();
+    Echo.join(this.channel).listen("MessageSent", function (event) {
+      _this3.messages.unshift(event.message);
+    }); // Echo.join("devchat")
+    //     .here(users => {
+    //         this.users = users;
+    //     })
+    //     .joining(user => {
+    //         this.users.push(user);
+    //     })
+    //     .leaving(user => {
+    //         this.users = this.users.filter(u => u.id !== user.id);
+    //     })
+    //     .listenForWhisper("typing", ({ id, name }) => {
+    //         this.users.forEach((user, index) => {
+    //             if (user.id === id) {
+    //                 user.typing = true;
+    //                 this.$set(this.users, index, user);
+    //             }
+    //         });
+    //     })
+    //     .listen("MessageSent", event => {
+    //         this.messages.unshift(event.message);
+    //         // this.fetchMessages();
+    //         this.users.forEach((user, index) => {
+    //             if (user.id === event.user.id) {
+    //                 user.typing = false;
+    //                 this.$set(this.users, index, user);
+    //             }
+    //         });
+    //     });
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/DevChat.vue?vue&type=template&id=ca20914c&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/DevChat.vue?vue&type=template&id=ca20914c& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("v-container", [
+        _c(
+          "div",
+          [
+            _c("v-text-field", {
+              attrs: {
+                rounded: "",
+                solo: "",
+                placeholder: "Enter message here"
+              },
+              on: {
+                keyup: function($event) {
+                  if (
+                    !$event.type.indexOf("key") &&
+                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                  ) {
+                    return null
+                  }
+                  return _vm.sendMessage(_vm.newMessage)
+                }
+              },
+              model: {
+                value: _vm.newMessage,
+                callback: function($$v) {
+                  _vm.newMessage = $$v
+                },
+                expression: "newMessage"
+              }
+            })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "v-sheet",
+        { staticClass: "pa-4" },
+        _vm._l(_vm.messages, function(message, i) {
+          return _c("div", { key: i, staticClass: "mb-1" }, [
+            _c(
+              "div",
+              {
+                class:
+                  _vm.AuthUser.username == message.username
+                    ? "d-flex align-end flex-column"
+                    : "d-flex align-start flex-column"
+              },
+              [
+                _c(
+                  "v-card",
+                  {
+                    class:
+                      _vm.AuthUser.username == message.username
+                        ? "light-blue darken-2"
+                        : "secondary",
+                    attrs: { dark: "" }
+                  },
+                  [
+                    _c(
+                      "v-list-item",
+                      [
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(message.message) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("v-list-item-subtitle", [
+                              _c("em", { staticClass: "caption" }, [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(message.created_at) +
+                                    "\n                                "
+                                )
+                              ])
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ])
+        }),
+        0
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/Principals/common/DevChat.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/pages/Principals/common/DevChat.vue ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DevChat_vue_vue_type_template_id_ca20914c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DevChat.vue?vue&type=template&id=ca20914c& */ "./resources/js/pages/Principals/common/DevChat.vue?vue&type=template&id=ca20914c&");
+/* harmony import */ var _DevChat_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DevChat.vue?vue&type=script&lang=js& */ "./resources/js/pages/Principals/common/DevChat.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DevChat_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DevChat_vue_vue_type_template_id_ca20914c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DevChat_vue_vue_type_template_id_ca20914c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/Principals/common/DevChat.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Principals/common/DevChat.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/DevChat.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DevChat_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./DevChat.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/DevChat.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DevChat_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/Principals/common/DevChat.vue?vue&type=template&id=ca20914c&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/DevChat.vue?vue&type=template&id=ca20914c& ***!
+  \*****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DevChat_vue_vue_type_template_id_ca20914c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./DevChat.vue?vue&type=template&id=ca20914c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/DevChat.vue?vue&type=template&id=ca20914c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DevChat_vue_vue_type_template_id_ca20914c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DevChat_vue_vue_type_template_id_ca20914c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ })
+
+}]);
+//# sourceMappingURL=9.js.map
