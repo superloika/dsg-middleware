@@ -6,9 +6,9 @@
         <v-card-title class="pa-0">
             <v-app-bar elevation="0" colorx="white">
                 <v-toolbar-title
-                    title="Transactions &amp; Uploaded Invoices"
+                    title="Transactions"
                 >
-                    Transactions &amp; Uploaded Invoices
+                    Transactions
                 </v-toolbar-title>
 
                 <v-spacer></v-spacer>

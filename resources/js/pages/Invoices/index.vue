@@ -14,7 +14,7 @@
             v-model="InvoicesStore.state.invoices.current_page"
             :length="InvoicesStore.state.invoices.last_page"
             @input="onPageChange()"
-            total-visible="3"
+            total-visible="5"
         >
         </v-pagination>
 

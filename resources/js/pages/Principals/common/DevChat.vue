@@ -24,14 +24,25 @@
                         ? 'd-flex align-end flex-column'
                         : 'd-flex align-start flex-column'
                     "
+
                 >
-                    <v-card
+                    <div
                         :class="AuthUser.username==message.username
                             ? 'light-blue darken-2' : 'secondary'
                         "
-                        dark
+                        style="max-width:700px;"
                     >
-                        <v-list-item>
+                        <div class="pl-4 pr-6 pt-4 pb-2 white--text">
+                            <div class="">
+                                {{ message.message }}
+                            </div>
+                            <div class="mt-2">
+                                <em class="caption">
+                                    {{ message.created_at }}
+                                </em>
+                            </div>
+                        </div>
+                        <!-- <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>
                                     {{ message.message }}
@@ -42,8 +53,8 @@
                                     </em>
                                 </v-list-item-subtitle>
                             </v-list-item-content>
-                        </v-list-item>
-                    </v-card>
+                        </v-list-item> -->
+                    </div>
                 </div>
             </div>
         </v-sheet>
@@ -102,36 +113,6 @@ export default {
             .listen("MessageSent", event => {
                 this.messages.unshift(event.message);
             });
-        // Echo.join("devchat")
-        //     .here(users => {
-        //         this.users = users;
-        //     })
-        //     .joining(user => {
-        //         this.users.push(user);
-        //     })
-        //     .leaving(user => {
-        //         this.users = this.users.filter(u => u.id !== user.id);
-        //     })
-        //     .listenForWhisper("typing", ({ id, name }) => {
-        //         this.users.forEach((user, index) => {
-        //             if (user.id === id) {
-        //                 user.typing = true;
-        //                 this.$set(this.users, index, user);
-        //             }
-        //         });
-        //     })
-        //     .listen("MessageSent", event => {
-        //         this.messages.unshift(event.message);
-
-        //         // this.fetchMessages();
-
-        //         this.users.forEach((user, index) => {
-        //             if (user.id === event.user.id) {
-        //                 user.typing = false;
-        //                 this.$set(this.users, index, user);
-        //             }
-        //         });
-        //     });
     }
 };
 </script>

@@ -55,12 +55,12 @@ class PrincipalsUtil extends Controller
         return $temp;
     }
 
-    public static function getPrincipalSettings($principalCode) {
-        $res = DB::table('settings_principal')
-                ->where('principal_code', $principalCode)
-                ->first();
-        return json_decode($res->config ?? '[]');
-    }
+    // public static function getPrincipalSettings($principalCode) {
+    //     $res = DB::table('settings_principal')
+    //             ->where('principal_code', $principalCode)
+    //             ->first();
+    //     return json_decode($res->config ?? '[]');
+    // }
     /**
      * ====================================== /STATICS ======================================
      */
@@ -82,21 +82,21 @@ class PrincipalsUtil extends Controller
         }
     }
 
-    public function principalSettings() {
-        try {
-            $res = DB::table('settings_principal')
-                ->where('principal_code', request()->principal_code)
-                ->first();
-            $settings = [
-                request()->principal_code => json_decode($res->config)
-            ];
-            return response()->json($settings);
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['error'] = $th;
-            return response()->json($res, 500);
-        }
-    }
+    // public function principalSettings() {
+    //     try {
+    //         $res = DB::table('settings_principal')
+    //             ->where('principal_code', request()->principal_code)
+    //             ->first();
+    //         $settings = [
+    //             request()->principal_code => json_decode($res->config)
+    //         ];
+    //         return response()->json($settings);
+    //     } catch (\Throwable $th) {
+    //         $res['success'] = false;
+    //         $res['error'] = $th;
+    //         return response()->json($res, 500);
+    //     }
+    // }
 
     public function saveSettings(Request $request) {
         try {

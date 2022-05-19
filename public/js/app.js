@@ -2951,7 +2951,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsEdit: function AccountsEdit() {
-      return __webpack_require__.e(/*! import() */ 25).then(__webpack_require__.bind(null, /*! ../ManageAccounts/AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
+      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ../ManageAccounts/AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
     }
   },
   computed: {
@@ -3126,10 +3126,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     'ExpendituresAdd': function ExpendituresAdd() {
-      return __webpack_require__.e(/*! import() */ 27).then(__webpack_require__.bind(null, /*! ./ExpendituresAdd.vue */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue"));
+      return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! ./ExpendituresAdd.vue */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue"));
     },
     'TagsComponent': function TagsComponent() {
-      return __webpack_require__.e(/*! import() */ 28).then(__webpack_require__.bind(null, /*! ./TagsComponent.vue */ "./resources/js/pages/ExpendituresPage/TagsComponent.vue"));
+      return __webpack_require__.e(/*! import() */ 23).then(__webpack_require__.bind(null, /*! ./TagsComponent.vue */ "./resources/js/pages/ExpendituresPage/TagsComponent.vue"));
     }
   },
   data: function data() {
@@ -3417,7 +3417,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     InvoicesUpload: function InvoicesUpload() {
-      return __webpack_require__.e(/*! import() */ 29).then(__webpack_require__.bind(null, /*! ./InvoicesUpload.vue */ "./resources/js/pages/Invoices/InvoicesUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 24).then(__webpack_require__.bind(null, /*! ./InvoicesUpload.vue */ "./resources/js/pages/Invoices/InvoicesUpload.vue"));
     }
   },
   data: function data() {
@@ -3569,10 +3569,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsAdd: function AccountsAdd() {
-      return __webpack_require__.e(/*! import() */ 30).then(__webpack_require__.bind(null, /*! ./AccountsAdd.vue */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue"));
+      return __webpack_require__.e(/*! import() */ 25).then(__webpack_require__.bind(null, /*! ./AccountsAdd.vue */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue"));
     },
     AccountsEdit: function AccountsEdit() {
-      return __webpack_require__.e(/*! import() */ 25).then(__webpack_require__.bind(null, /*! ./AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
+      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
     }
   },
   data: function data() {
@@ -3691,7 +3691,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
@@ -3858,7 +3858,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
@@ -3977,7 +3977,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
@@ -4112,7 +4112,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
-      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ../../page_common/master/MasterUpload.vue */ "./resources/js/page_common/master/MasterUpload.vue"));
     }
   },
   data: function data() {
@@ -4362,7 +4362,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     'TestUpload': function TestUpload() {
-      return __webpack_require__.e(/*! import() */ 34).then(__webpack_require__.bind(null, /*! ./TestUpload.vue */ "./resources/js/pages/TestPage/TestUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 29).then(__webpack_require__.bind(null, /*! ./TestUpload.vue */ "./resources/js/pages/TestPage/TestUpload.vue"));
     }
   },
   data: function data() {
@@ -31656,7 +31656,7 @@ var render = function() {
           _c("v-pagination", {
             attrs: {
               length: _vm.InvoicesStore.state.invoices.last_page,
-              "total-visible": "3"
+              "total-visible": "5"
             },
             on: {
               input: function($event) {
@@ -95849,167 +95849,147 @@ var map = {
 	],
 	"./common/Base": [
 		"./resources/js/pages/Principals/common/Base.vue",
-		2
+		5
 	],
 	"./common/Base.vue": [
 		"./resources/js/pages/Principals/common/Base.vue",
-		2
+		5
 	],
 	"./common/ConfirmExport": [
 		"./resources/js/pages/Principals/common/ConfirmExport.vue",
-		15
+		6
 	],
 	"./common/ConfirmExport.vue": [
 		"./resources/js/pages/Principals/common/ConfirmExport.vue",
-		15
+		6
 	],
 	"./common/Customers": [
 		"./resources/js/pages/Principals/common/Customers.vue",
-		16
+		7
 	],
 	"./common/Customers.vue": [
 		"./resources/js/pages/Principals/common/Customers.vue",
-		16
+		7
 	],
 	"./common/DevChat": [
 		"./resources/js/pages/Principals/common/DevChat.vue",
-		9
+		8
 	],
 	"./common/DevChat.vue": [
 		"./resources/js/pages/Principals/common/DevChat.vue",
-		9
+		8
 	],
 	"./common/Generated": [
 		"./resources/js/pages/Principals/common/Generated.vue",
-		3
+		9
 	],
 	"./common/Generated.vue": [
 		"./resources/js/pages/Principals/common/Generated.vue",
-		3
+		9
 	],
 	"./common/GeneratedHistory": [
 		"./resources/js/pages/Principals/common/GeneratedHistory.vue",
-		4
+		10
 	],
 	"./common/GeneratedHistory.vue": [
 		"./resources/js/pages/Principals/common/GeneratedHistory.vue",
-		4
+		10
 	],
 	"./common/GeneratedTableWrapper": [
 		"./resources/js/pages/Principals/common/GeneratedTableWrapper.vue",
-		7
+		1
 	],
 	"./common/GeneratedTableWrapper.vue": [
 		"./resources/js/pages/Principals/common/GeneratedTableWrapper.vue",
-		7
+		1
 	],
 	"./common/InvoicesImport": [
 		"./resources/js/pages/Principals/common/InvoicesImport.vue",
-		17
+		11
 	],
 	"./common/InvoicesImport.vue": [
 		"./resources/js/pages/Principals/common/InvoicesImport.vue",
-		17
+		11
 	],
 	"./common/Items": [
 		"./resources/js/pages/Principals/common/Items.vue",
-		18
+		12
 	],
 	"./common/Items.vue": [
 		"./resources/js/pages/Principals/common/Items.vue",
-		18
+		12
 	],
 	"./common/MasterFiles": [
 		"./resources/js/pages/Principals/common/MasterFiles.vue",
-		5
+		13
 	],
 	"./common/MasterFiles.vue": [
 		"./resources/js/pages/Principals/common/MasterFiles.vue",
-		5
+		13
 	],
 	"./common/MasterfileUpload": [
 		"./resources/js/pages/Principals/common/MasterfileUpload.vue",
-		10
+		3
 	],
 	"./common/MasterfileUpload.vue": [
 		"./resources/js/pages/Principals/common/MasterfileUpload.vue",
-		10
+		3
 	],
 	"./common/MissingInMaster": [
 		"./resources/js/pages/Principals/common/MissingInMaster.vue",
-		19
+		14
 	],
 	"./common/MissingInMaster.vue": [
 		"./resources/js/pages/Principals/common/MissingInMaster.vue",
-		19
+		14
 	],
 	"./common/Pendings": [
 		"./resources/js/pages/Principals/common/Pendings.vue",
-		20
+		15
 	],
 	"./common/Pendings.vue": [
 		"./resources/js/pages/Principals/common/Pendings.vue",
-		20
+		15
 	],
 	"./common/PendingsDataTable": [
 		"./resources/js/pages/Principals/common/PendingsDataTable.vue",
-		21
+		16
 	],
 	"./common/PendingsDataTable.vue": [
 		"./resources/js/pages/Principals/common/PendingsDataTable.vue",
-		21
+		16
 	],
 	"./common/Settings": [
 		"./resources/js/pages/Principals/common/Settings.vue",
-		1
+		4
 	],
 	"./common/Settings.vue": [
 		"./resources/js/pages/Principals/common/Settings.vue",
-		1
+		4
 	],
 	"./common/TransAndInvoices": [
 		"./resources/js/pages/Principals/common/TransAndInvoices.vue",
-		6
+		17
 	],
 	"./common/TransAndInvoices.vue": [
 		"./resources/js/pages/Principals/common/TransAndInvoices.vue",
-		6
+		17
 	],
 	"./common/Transactions": [
 		"./resources/js/pages/Principals/common/Transactions.vue",
-		22
+		18
 	],
 	"./common/Transactions.vue": [
 		"./resources/js/pages/Principals/common/Transactions.vue",
-		22
+		18
 	],
 	"./common/UploadedInvoices": [
 		"./resources/js/pages/Principals/common/UploadedInvoices.vue",
-		26
+		21
 	],
 	"./common/UploadedInvoices.vue": [
 		"./resources/js/pages/Principals/common/UploadedInvoices.vue",
-		26
-	],
-	"./gsmi": [
-		"./resources/js/pages/Principals/gsmi/index.vue",
-		0,
-		11
-	],
-	"./gsmi/": [
-		"./resources/js/pages/Principals/gsmi/index.vue",
-		0,
-		11
-	],
-	"./gsmi/index": [
-		"./resources/js/pages/Principals/gsmi/index.vue",
-		0,
-		11
-	],
-	"./gsmi/index.vue": [
-		"./resources/js/pages/Principals/gsmi/index.vue",
-		0,
-		11
+		21
 	],
 	"./index": [
 		"./resources/js/pages/Principals/index.vue"
@@ -96017,81 +95997,29 @@ var map = {
 	"./index.vue": [
 		"./resources/js/pages/Principals/index.vue"
 	],
-	"./jsu": [
-		"./resources/js/pages/Principals/jsu/index.vue",
-		0,
-		12
-	],
-	"./jsu/": [
-		"./resources/js/pages/Principals/jsu/index.vue",
-		0,
-		12
-	],
-	"./jsu/index": [
-		"./resources/js/pages/Principals/jsu/index.vue",
-		0,
-		12
-	],
-	"./jsu/index.vue": [
-		"./resources/js/pages/Principals/jsu/index.vue",
-		0,
-		12
-	],
 	"./mead_johnson": [
 		"./resources/js/pages/Principals/mead_johnson/index.vue",
-		0,
-		13
+		0
 	],
 	"./mead_johnson/": [
 		"./resources/js/pages/Principals/mead_johnson/index.vue",
-		0,
-		13
+		0
 	],
 	"./mead_johnson/GeneratedTable": [
 		"./resources/js/pages/Principals/mead_johnson/GeneratedTable.vue",
-		23
+		19
 	],
 	"./mead_johnson/GeneratedTable.vue": [
 		"./resources/js/pages/Principals/mead_johnson/GeneratedTable.vue",
-		23
+		19
 	],
 	"./mead_johnson/index": [
 		"./resources/js/pages/Principals/mead_johnson/index.vue",
-		0,
-		13
+		0
 	],
 	"./mead_johnson/index.vue": [
 		"./resources/js/pages/Principals/mead_johnson/index.vue",
-		0,
-		13
-	],
-	"./wyeth": [
-		"./resources/js/pages/Principals/wyeth/index.vue",
-		0,
-		14
-	],
-	"./wyeth/": [
-		"./resources/js/pages/Principals/wyeth/index.vue",
-		0,
-		14
-	],
-	"./wyeth/GeneratedTable": [
-		"./resources/js/pages/Principals/wyeth/GeneratedTable.vue",
-		24
-	],
-	"./wyeth/GeneratedTable.vue": [
-		"./resources/js/pages/Principals/wyeth/GeneratedTable.vue",
-		24
-	],
-	"./wyeth/index": [
-		"./resources/js/pages/Principals/wyeth/index.vue",
-		0,
-		14
-	],
-	"./wyeth/index.vue": [
-		"./resources/js/pages/Principals/wyeth/index.vue",
-		0,
-		14
+		0
 	]
 };
 function webpackAsyncContext(req) {

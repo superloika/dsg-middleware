@@ -1,11 +1,7 @@
 var map = {
 	"./mead_johnson/GeneratedTable.vue": [
 		"./resources/js/pages/Principals/mead_johnson/GeneratedTable.vue",
-		23
-	],
-	"./wyeth/GeneratedTable.vue": [
-		"./resources/js/pages/Principals/wyeth/GeneratedTable.vue",
-		24
+		19
 	]
 };
 function webpackAsyncContext(req) {

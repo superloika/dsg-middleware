@@ -123,7 +123,7 @@ class MeadJohnsonController extends Controller
         } catch (\Throwable $th) {
             $res['success'] = false;
             $res['message'] = $th->getMessage();
-            return response()->json($res);
+            return response()->json($res, 500);
         }
     }
 
@@ -281,11 +281,11 @@ class MeadJohnsonController extends Controller
             $dateToday = Carbon::now();
             $fileCount = 0;
             $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
-            // $latest_order_no = DB::table(PrincipalsUtil::$TBL_GENERATED)
-            //     ->where('principal_code', $this->PRINCIPAL_CODE)
-            //     ->latest('id')->first()->order_no ?? $settings['custom_order_no'];
+            $latest_order_no = DB::table(PrincipalsUtil::$TBL_GENERATED)
+                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->latest('id')->first()->order_no ?? $settings['custom_order_no'];
 
-            $latest_order_no = intval($settings['custom_order_no']) ?? 100000000;
+            // $latest_order_no = intval($settings['custom_order_no']) ?? 100000000;
 
             $chunk_line_count = intval($settings['chunk_line_count']);
             $unuploadedLineCount = 0;
@@ -428,7 +428,7 @@ class MeadJohnsonController extends Controller
                     'order_date' => $order_date,
                     'customer_code' => $customer_code,
                     'route_code' => $route_code,
-                    'item_category_code' => $item_category_code,
+                    'product_category_code' => $item_category_code,
                     'ship_to' => $ship_to,
                     'order_no' => $order_no,
                     'remarks' => $remarks,
@@ -522,6 +522,7 @@ class MeadJohnsonController extends Controller
         $dateToday = Carbon::now()->format('Y-m-d H:i:s');
 
         // generated data
+        DB::beginTransaction();
         try {
             // kaloy 2022-04-26
             $order_no = 0;
@@ -545,39 +546,41 @@ class MeadJohnsonController extends Controller
                             $order_no = $temp_orderno;
                         }
                     }
-                    // if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
-                    //     $status = PrincipalsUtil::$STATUS_COMPLETED;
-                    //     DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
-                    //         'principal_code' => $this->PRINCIPAL_CODE,
-                    //         'status' => $status,
-                    //         'uploaded_by' => auth()->user()->id,
-                    //         'doc_no' => $line['doc_no'],
-                    //         // ====
-                    //         'order_date' => $line['order_date'],
-                    //         'customer_code' => $line['customer_code'],
-                    //         'route_code' => $line['route_code'],
-                    //         'item_category_code' => $line['item_category_code'],
-                    //         'ship_to' => $line['ship_to'],
-                    //         'order_no' => $line['order_no'],
-                    //         'remarks' => $line['remarks'],
-                    //         'item_code' => $line['item_code'],
-                    //         'quantity' => $line['quantity'],
-                    //         'generated_at' => $dateToday->format('Y-m-d H:i:s'),
-                    //     ]);
-                    // }
+
+                    if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
+                        $status = PrincipalsUtil::$STATUS_COMPLETED;
+                        DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
+                            'principal_code' => $this->PRINCIPAL_CODE,
+                            'status' => $status,
+                            'uploaded_by' => auth()->user()->id,
+                            'doc_no' => $line['doc_no'],
+                            // ====
+                            'order_date' => $line['order_date'],
+                            'customer_code' => $line['customer_code'],
+                            'route_code' => $line['route_code'],
+                            'product_category_code' => $line['item_category_code'],
+                            'ship_to' => $line['ship_to'],
+                            'order_no' => $line['order_no'],
+                            'remarks' => $line['remarks'],
+                            'item_code' => $line['item_code'],
+                            'quantity' => $line['quantity'],
+                            'generated_at' => $dateToday
+                        ]);
+                    }
                 }
             }
 
             // update latest custom order_no in settings
-            DB::table(PrincipalsUtil::$tblSettings)
-                ->where('principal_code', $this->PRINCIPAL_CODE)
-                ->where('name', 'custom_order_no')
-                ->update([
-                    'value' => $order_no,
-                ]);
-
+            // DB::table(PrincipalsUtil::$tblSettings)
+            //     ->where('principal_code', $this->PRINCIPAL_CODE)
+            //     ->where('name', 'custom_order_no')
+            //     ->update([
+            //         'value' => $order_no,
+            //     ]);
+            DB::commit();
             return response()->json($response);
         } catch (\Throwable $th) {
+            DB::rollBack();
             $response['success'] = false;
             $response['message'] = $th->getMessage();
             return response()->json($response, 500);
@@ -591,14 +594,7 @@ class MeadJohnsonController extends Controller
     public function saveInvoices(Request $request)
     {
         set_time_limit(0);
-
-        $response = [
-            'success' => true,
-            'message' => 'Successful',
-        ];
-
         $dateToday = Carbon::now();
-
         try {
             // invoices
             foreach ($request->raw_invoices as $line) {
@@ -704,12 +700,19 @@ class MeadJohnsonController extends Controller
                     }
                 }
             }
+
+            $response = [
+                'success' => true,
+                'message' => 'Successful',
+            ];
+
+            return response()->json($response);
+
         } catch (\Throwable $th) {
             $response['success'] = false;
             $response['message'] = $th->getMessage();
+            return response()->json($response, 500);
         }
-
-        return response()->json($response);
     }
 
 
