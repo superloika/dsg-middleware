@@ -145,7 +145,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ['date','searchKey'],
   data: function data() {
@@ -295,8 +294,7 @@ var render = function() {
                 icon: "",
                 dense: "",
                 rounded: "",
-                depressed: "",
-                color: "success"
+                depressed: ""
               },
               on: {
                 click: function($event) {

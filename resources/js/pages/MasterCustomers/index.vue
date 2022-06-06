@@ -17,7 +17,6 @@
             dense
             rounded
             depressed
-            color="success"
             class="mr-2"
             @click="MasterCustomers.initCustomers()"
         >

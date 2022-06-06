@@ -3479,7 +3479,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3793,7 +3792,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3894,7 +3892,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-//
 //
 //
 //
@@ -4099,14 +4096,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
@@ -4122,22 +4111,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    // fetchSampleData(per_page = 10, curr_page = 1) {
-    //     this.isLoading = true;
-    //     axios.get(`${this.AppStore.state.siteUrl}test/test2?per_page=${per_page}&curr_page=${curr_page}`)
-    //         .then(response => response.data)
-    //         .then(data => {
-    //             const [ RowNum, ...rest ] = data;
-    //             console.log(data);
-    //             this.sampleData = data;
-    //             this.isLoading = false;
-    //             this.$root.toast('Test data loaded successfully');
-    //         })
-    //         .catch(error => {
-    //             console.log('ERROR:', error);
-    //             this.isLoading = false;
-    //         })
-    // },
     exportToExcelTest: function exportToExcelTest() {
       this.isLoading = true;
       var tblWrapper = document.querySelector('.tbl-items');
@@ -4150,7 +4123,6 @@ __webpack_require__.r(__webpack_exports__);
       this.isLoading = false;
     }
   },
-  computed: {},
   created: function created() {
     this.MasterPrincipals.initPrincipals();
   },
@@ -31583,8 +31555,7 @@ var render = function() {
                 icon: "",
                 dense: "",
                 rounded: "",
-                depressed: "",
-                color: "success"
+                depressed: ""
               },
               on: {
                 click: function($event) {
@@ -32062,8 +32033,7 @@ var render = function() {
                 icon: "",
                 dense: "",
                 rounded: "",
-                depressed: "",
-                color: "success"
+                depressed: ""
               },
               on: {
                 click: function($event) {
@@ -32259,8 +32229,7 @@ var render = function() {
                 icon: "",
                 dense: "",
                 rounded: "",
-                depressed: "",
-                color: "success"
+                depressed: ""
               },
               on: {
                 click: function($event) {
@@ -32369,7 +32338,7 @@ var render = function() {
     [
       _c(
         "v-app-bar",
-        { attrs: { elevation: "0", densex: "", app: "", colorx: "white" } },
+        { attrs: { elevation: "0", app: "" } },
         [
           _c(
             "v-toolbar-title",
@@ -32389,12 +32358,11 @@ var render = function() {
             {
               staticClass: "mr-2",
               attrs: {
-                title: "Refresh",
                 icon: "",
                 dense: "",
                 rounded: "",
                 depressed: "",
-                color: "success"
+                title: "Refresh"
               },
               on: {
                 click: function($event) {

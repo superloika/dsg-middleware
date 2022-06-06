@@ -19,7 +19,6 @@
                     dense
                     rounded
                     depressed
-                    color="success"
                     class="mr-2"
                     @click="generate(date, selectedFilter)"
                 >

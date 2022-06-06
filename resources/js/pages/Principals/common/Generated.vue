@@ -36,7 +36,6 @@
                         dense
                         rounded
                         depressed
-                        color="success"
                         class="mr-2"
                         @click="PrincipalsStore.initCurrentGeneratedData(selectedPrincipalCode)"
                     >

@@ -134,7 +134,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     GeneratedTable: function GeneratedTable() {
@@ -392,8 +391,7 @@ var render = function() {
                     icon: "",
                     dense: "",
                     rounded: "",
-                    depressed: "",
-                    color: "success"
+                    depressed: ""
                   },
                   on: {
                     click: function($event) {

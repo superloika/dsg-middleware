@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-app-bar elevation="0" densex app colorx="white">
+    <v-app-bar elevation="0" app>
         <v-toolbar-title>
             <v-icon>mdi-store</v-icon>
             {{ $route.meta.name }}
@@ -9,12 +9,11 @@
         <v-spacer></v-spacer>
 
         <v-btn
-            title="Refresh"
             icon
             dense
             rounded
             depressed
-            color="success"
+            title="Refresh"
             class="mr-2"
             @click="MasterPrincipals.initPrincipals()"
         >
@@ -43,13 +42,6 @@
         >
             <v-icon>mdi-file-upload</v-icon>
         </v-btn>
-
-        <!-- <v-btn
-            icon
-            title="Export Products"
-        >
-            <v-icon>mdi-export</v-icon>
-        </v-btn> -->
     </v-app-bar>
 
     <v-data-table
@@ -86,24 +78,6 @@ export default {
     },
 
     methods: {
-        // fetchSampleData(per_page = 10, curr_page = 1) {
-        //     this.isLoading = true;
-        //     axios.get(`${this.AppStore.state.siteUrl}test/test2?per_page=${per_page}&curr_page=${curr_page}`)
-        //         .then(response => response.data)
-        //         .then(data => {
-        //             const [ RowNum, ...rest ] = data;
-        //             console.log(data);
-        //             this.sampleData = data;
-        //             this.isLoading = false;
-
-        //             this.$root.toast('Test data loaded successfully');
-        //         })
-        //         .catch(error => {
-        //             console.log('ERROR:', error);
-        //             this.isLoading = false;
-        //         })
-        // },
-
         exportToExcelTest() {
             this.isLoading = true;
             let tblWrapper = document.querySelector('.tbl-items');
@@ -115,10 +89,6 @@ export default {
             XLSX.writeFile(wb,'tbl.csv');
             this.isLoading = false;
         },
-    },
-
-    computed: {
-
     },
 
     created() {
