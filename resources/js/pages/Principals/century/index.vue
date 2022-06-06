@@ -4,7 +4,6 @@
             :tabs="tabs"
             :id="`${selectedPrincipalCode}_tabs_${new Date().getTime()}`"
         ></Base>
-        <!-- <v-btn @click="test()">Test</v-btn> -->
     </div>
 </template>
 
