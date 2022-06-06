@@ -42,11 +42,13 @@ class MasterPrincipalsController extends Controller
                                 $name = $cols[0];
                                 $vendor_code = $cols[1];
                                 $principal_code = $cols[2];
+                                $template_variation_count = $cols[3];
 
                                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS)->insert([
                                     'name' => $name,
                                     'vendor_code' => $vendor_code,
                                     'code' => $principal_code,
+                                    'template_variation_count' => $template_variation_count,
                                 ]);
                             }
                         }

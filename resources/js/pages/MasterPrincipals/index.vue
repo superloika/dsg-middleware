@@ -8,6 +8,19 @@
 
         <v-spacer></v-spacer>
 
+        <v-btn
+            title="Refresh"
+            icon
+            dense
+            rounded
+            depressed
+            color="success"
+            class="mr-2"
+            @click="MasterPrincipals.initPrincipals()"
+        >
+            <v-icon>mdi-refresh</v-icon>
+        </v-btn>
+
         <v-text-field
             v-model="searchKey"
             label="Search"
@@ -26,6 +39,7 @@
             title="Import"
             @click.stop="AppStore.state.dlgImportMaster=true"
             :disabled="!AppStore.isSuperAdmin()"
+            v-if="AppStore.isSuperAdmin()"
         >
             <v-icon>mdi-file-upload</v-icon>
         </v-btn>

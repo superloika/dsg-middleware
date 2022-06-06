@@ -14,6 +14,19 @@
 
                 <v-spacer></v-spacer>
 
+                <v-btn
+                    title="Refresh"
+                    icon
+                    dense
+                    rounded
+                    depressed
+                    color="success"
+                    class="mr-2"
+                    @click="PrincipalsStore.initItems(selectedPrincipalCode)"
+                >
+                    <v-icon>mdi-refresh</v-icon>
+                </v-btn>
+
                 <v-text-field
                     v-model="searchKey"
                     label="Search"
@@ -86,7 +99,7 @@ export default {
         },
 
         tblHeader() {
-            return this[this.selectedPrincipalCode].state.itemsTableHeader;
+            return this[this.selectedPrincipalCode].state.itemsTableHeader[0];
         },
 
         // principal_code() {
@@ -104,25 +117,37 @@ export default {
     },
 
     methods: {
-        exportToExcel() {
-            const data = [
-                [
-                    'Items',
-                    this.PrincipalsStore.state.items
-                ]
-            ];
-            const config = this.PrincipalsStore.getHeaderAndFormat('itemsTableHeader');
+        // exportToExcel() {
+        //     const data = [
+        //         [
+        //             'Items',
+        //             this.PrincipalsStore.state.items
+        //         ]
+        //     ];
+        //     const config = this.PrincipalsStore.getHeaderAndFormat('itemsTableHeader');
 
-            this.PrincipalsStore.exportToExcel(
-                config.header,
-                this.PrincipalsStore.generatedDataSubset(
-                    data,
-                    config.format
-                ),
+        //     this.PrincipalsStore.exportToExcel(
+        //         config[0].header,
+        //         this.PrincipalsStore.generatedDataSubset(
+        //             data,
+        //             config[0].format
+        //         ),
+        //         null,
+        //         `${this.selectedPrincipalCode}_Items`
+        //     );
+        // },
+
+        exportToExcel() {
+            this.PrincipalsStore.toExcel_simple(
+                'Items',
+                this.PrincipalsStore.state.items,
+                'itemsTableHeader',
                 null,
                 `${this.selectedPrincipalCode}_Items`
             );
-        }
+        },
+
+
     },
 
     created() {

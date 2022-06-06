@@ -105,8 +105,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _this = this;
@@ -272,7 +270,6 @@ var render = function() {
                       dense: "",
                       text: "",
                       label: "Old Password *",
-                      autocomplete: "false",
                       required: "",
                       type: "password",
                       rules: _vm.account.rules.old_password,
@@ -305,7 +302,6 @@ var render = function() {
                       dense: "",
                       text: "",
                       label: "New Password *",
-                      autocomplete: "false",
                       required: "",
                       type: "password",
                       rules: _vm.account.rules.password,

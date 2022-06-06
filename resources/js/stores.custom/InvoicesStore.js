@@ -26,7 +26,7 @@ const state = Vue.observable({
 })
 
 const actions = {
-    async initInvoices(searchKey='', principalCodeFilter='', row_count=10) {
+    async initInvoices(searchKey='', principalCodeFilter='', invoiceStatus='', row_count=10) {
         try {
             state.isLoadingInvoices = true;
             if(searchKey==null) searchKey = '';
@@ -34,6 +34,7 @@ const actions = {
                 + `?row_count=${row_count}`
                 + `&search_key=${searchKey}`
                 + `&principal_code=${principalCodeFilter}`
+                + `&status=${invoiceStatus}`
                 + `&page=${state.invoices.current_page ?? 1}`;
             const response = await axios.get(url);
             state.invoices = {};

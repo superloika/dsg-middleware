@@ -6,7 +6,7 @@ import VueRouter from "vue-router";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import ExpendituresPage from "./pages/ExpendituresPage";
-import TestPage from "./pages/TestPage";
+// import TestPage from "./pages/TestPage";
 
 // PRINCIPAL
 import Principals from "./pages/Principals";
@@ -73,13 +73,13 @@ const router = new VueRouter({
                 name: "Invoices"
             },
         },
-        {
-            path: "/test",
-            component: TestPage,
-            meta: {
-                name: "TestPage"
-            }
-        },
+        // {
+        //     path: "/test",
+        //     component: TestPage,
+        //     meta: {
+        //         name: "TestPage"
+        //     }
+        // },
 
 
         // MASTERFILES =========================================

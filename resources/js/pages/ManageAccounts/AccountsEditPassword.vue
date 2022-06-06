@@ -28,7 +28,6 @@
                         dense
                         text
                         label="Old Password *"
-                        autocomplete="false"
                         required
                         type="password"
                         v-model="account.old_password"
@@ -44,7 +43,6 @@
                         dense
                         text
                         label="New Password *"
-                        autocomplete="false"
                         required
                         type="password"
                         v-model="account.password"

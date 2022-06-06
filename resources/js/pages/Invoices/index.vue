@@ -10,15 +10,21 @@
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
-        <v-pagination
-            v-model="InvoicesStore.state.invoices.current_page"
-            :length="InvoicesStore.state.invoices.last_page"
-            @input="onPageChange()"
-            total-visible="5"
-        >
-        </v-pagination>
 
-        <v-select
+        <v-btn
+            title="Refresh"
+            icon
+            dense
+            rounded
+            depressed
+            color="success"
+            class="mr-2"
+            @click="InvoicesStore.initInvoices()"
+        >
+            <v-icon>mdi-refresh</v-icon>
+        </v-btn>
+
+        <!-- <v-select
             :items="AppStore.state.principals"
             v-model="principalCodeFilter"
             label="Principal"
@@ -53,7 +59,53 @@
                     </v-list-item-content>
                 </v-list-item>
             </template>
-        </v-select>
+        </v-select> -->
+
+        <v-combobox
+            :items="AppStore.state.principals"
+            v-model="principalCodeFilter"
+            label="Principal"
+            item-text="name"
+            item-value="code"
+            :return-object="false"
+            class="mr-3"
+            style="max-width:250px;"
+            outlined
+            rounded
+            hide-details
+            dense
+            clearable
+        >
+            <template v-slot:prepend-item>
+                <v-list-item
+                    link
+                    @click="principalCodeFilter='others'"
+
+                >
+                    <v-list-item-content >
+                        <v-list-item-title link>
+                                <div class="warning--text">
+                                    Others
+                                </div>
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </template>
+        </v-combobox>
+
+        <v-select
+            :items="invoiceStatuses"
+            v-model="invoiceStatus"
+            label="Status"
+            item-text="status"
+            item-value="value"
+            class="mr-3"
+            style="max-width:180px;"
+            outlined
+            rounded
+            hide-details
+            dense
+        ></v-select>
 
         <v-text-field
             v-model="searchKey"
@@ -74,6 +126,21 @@
         >
             <v-icon>mdi-export</v-icon>
         </v-btn> -->
+
+        <template v-slot:extension>
+            <v-app-bar
+                dense
+                elevation="0"
+            >
+                <v-pagination
+                    v-model="InvoicesStore.state.invoices.current_page"
+                    :length="InvoicesStore.state.invoices.last_page"
+                    @input="onPageChange()"
+                    total-visible="5"
+                >
+                </v-pagination>
+            </v-app-bar>
+        </template>
     </v-app-bar>
 
     <InvoicesUpload
@@ -117,6 +184,21 @@ export default {
         return {
             searchKey: '',
             principalCodeFilter: '',
+            invoiceStatuses: [
+                {
+                    status: "All",
+                    value: "",
+                },
+                {
+                    status: "Completed",
+                    value: "completed",
+                },
+                {
+                    status: "Pending",
+                    value: "pending",
+                },
+            ],
+            invoiceStatus: '',
         }
     },
 
@@ -134,7 +216,9 @@ export default {
         },
 
         onPageChange() {
-            this.InvoicesStore.initInvoices(this.searchKey, this.principalCodeFilter);
+            this.InvoicesStore.initInvoices(
+                this.searchKey, this.principalCodeFilter, this.invoiceStatus
+            );
         },
     },
 
@@ -147,13 +231,29 @@ export default {
             if(this.InvoicesStore.state.invoices.current_page != undefined) {
                 this.InvoicesStore.state.invoices.current_page = 1;
             }
-            this.InvoicesStore.initInvoices(this.searchKey, this.principalCodeFilter);
+            this.InvoicesStore.initInvoices(
+                this.searchKey, this.principalCodeFilter, this.invoiceStatus
+            );
         }, 500),
+
         principalCodeFilter: debounce(function() {
+            if(this.principalCodeFilter==null) this.principalCodeFilter='';
+
             if(this.InvoicesStore.state.invoices.current_page != undefined) {
                 this.InvoicesStore.state.invoices.current_page = 1;
             }
-            this.InvoicesStore.initInvoices(this.searchKey, this.principalCodeFilter);
+            this.InvoicesStore.initInvoices(
+                this.searchKey, this.principalCodeFilter, this.invoiceStatus
+            );
+        }, 500),
+
+        invoiceStatus: debounce(function() {
+            if(this.InvoicesStore.state.invoices.current_page != undefined) {
+                this.InvoicesStore.state.invoices.current_page = 1;
+            }
+            this.InvoicesStore.initInvoices(
+                this.searchKey, this.principalCodeFilter, this.invoiceStatus
+            );
         }, 500),
     },
 

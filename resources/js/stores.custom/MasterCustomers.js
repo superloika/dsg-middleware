@@ -4,14 +4,14 @@ import AppStore from './AppStore';
 
 const state = Vue.observable({
     customers: {},
-    // isLoadingCustomers: false,
+    isLoadingCustomers: false,
 })
 
 const actions = {
     async initCustomers(searchKey='', row_count=10) {
         try {
-            // state.isLoadingCustomers = true;
-            AppStore.state.showTopLoading = true;
+            state.isLoadingCustomers = true;
+            // AppStore.state.showTopLoading = true;
             if(searchKey==null) searchKey = '';
             const url = `${AppStore.state.siteUrl}master/customers/all`
                 + `?row_count=${row_count}`
@@ -20,8 +20,8 @@ const actions = {
             const response = await axios.get(url);
             state.customers = {};
             state.customers = response.data;
-            // state.isLoadingCustomers = false;
-            AppStore.state.showTopLoading = false;
+            state.isLoadingCustomers = false;
+            // AppStore.state.showTopLoading = false;
         } catch (error) {
             console.log('MasterCustomers_initCustomers() - ERROR:', error);
         }

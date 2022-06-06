@@ -17,10 +17,8 @@
                 transition="scale-transition"
                 v-model="errMsgsShown"
             >
-                <p
-                    class="ma-0 pa-0"
+                <p class="ma-0 pa-0" :key="index"
                     v-for="(errMsg, index) in errMsgs"
-                    :key="index"
                 >
                     {{ errMsg }}
                 </p>

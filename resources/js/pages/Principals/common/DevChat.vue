@@ -7,7 +7,7 @@
                     @keyup.enter="sendMessage(newMessage)"
                     rounded
                     solo
-                    placeholder="Enter message here"
+                    placeholder="Enter message here (Press Enter to send)"
                 ></v-text-field>
             </div>
         </v-container>

@@ -40,6 +40,14 @@
                 >
 
                 </v-switch>
+                <v-textarea
+                    v-if="setting.type=='json'"
+                    v-model="setting.value"
+                    :label="setting.description"
+                    :value="setting.value"
+                    outlined
+                    rows="15"
+                ></v-textarea>
             </v-col>
         </v-row>
     </v-card-text>

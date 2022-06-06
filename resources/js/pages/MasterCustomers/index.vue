@@ -8,15 +8,21 @@
                 {{ MasterCustomers.state.customers.total }}
             </v-chip>
         </v-toolbar-title>
+
         <v-spacer></v-spacer>
 
-        <v-pagination
-            v-model="MasterCustomers.state.customers.current_page"
-            :length="MasterCustomers.state.customers.last_page"
-            @input="onPageChange()"
-            total-visible="3"
+        <v-btn
+            title="Refresh"
+            icon
+            dense
+            rounded
+            depressed
+            color="success"
+            class="mr-2"
+            @click="MasterCustomers.initCustomers()"
         >
-        </v-pagination>
+            <v-icon>mdi-refresh</v-icon>
+        </v-btn>
 
         <v-text-field
             v-model="searchKey"
@@ -42,9 +48,22 @@
             icon
             title="Import Customers"
             @click="AppStore.state.dlgImportMaster=true"
+            v-if="AppStore.isSuperAdmin()"
         >
             <v-icon>mdi-file-upload</v-icon>
         </v-btn>
+
+        <template v-slot:extension>
+            <div>
+                <v-pagination
+                    v-model="MasterCustomers.state.customers.current_page"
+                    :length="MasterCustomers.state.customers.last_page"
+                    @input="onPageChange()"
+                    total-visible="5"
+                >
+                </v-pagination>
+            </div>
+        </template>
 
     </v-app-bar>
 
@@ -57,6 +76,7 @@
                 densex
                 hide-default-footer
                 disable-pagination
+                :loading="MasterCustomers.state.isLoadingCustomers"
             ></v-data-table>
         </v-col>
     </v-row>

@@ -38,7 +38,11 @@
             class="pa-0"
         >
             <!-- <component :is="t.component" :id="principalName + index"></component> -->
-            <component :is="t.component"></component>
+            <component
+                :is="t.component"
+                :id="`${selectedPrincipalCode}_tab_${new Date().getTime()}`"
+            >
+            </component>
         </v-tab-item>
     </v-tabs-items>
     <!-- </v-container> -->
@@ -58,7 +62,10 @@ export default {
         principalName() {
             return this.AppStore.state.principals
                 .find(e=>e.id==this.$route.params.principal_id).name;
-        }
+        },
+        selectedPrincipalCode() {
+            return this.PrincipalsStore.state.selectedPrincipalCode;
+        },
     },
 
     mounted() {

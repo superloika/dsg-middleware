@@ -3,7 +3,7 @@
         <v-card-title class="pa-0">
             <v-app-bar elevation="0" colorx="white">
                 <v-toolbar-title>
-                    Generated Data History
+                    Templated Data History
                     <div v-if="lineCount > 0">
                         <v-chip x-small outlinedx label color="primary">
                             {{ lineCount }} total line/s
@@ -12,6 +12,19 @@
                 </v-toolbar-title>
 
                 <v-spacer></v-spacer>
+
+                <v-btn
+                    title="Refresh"
+                    icon
+                    dense
+                    rounded
+                    depressed
+                    color="success"
+                    class="mr-2"
+                    @click="generate(date, selectedFilter)"
+                >
+                    <v-icon>mdi-refresh</v-icon>
+                </v-btn>
 
                 <v-text-field
                     v-model="dateRangeText"
@@ -55,7 +68,7 @@
                 <!-- /DATEPICKER -->
 
                 <v-select
-                    :items="myStore.state.generatedDataHistoryFilters"
+                    :items="myStore.state.generatedDataHistoryFilters[0]"
                     v-model="selectedFilter"
                     label="Group By"
                     item-text="text"
@@ -124,9 +137,11 @@ export default {
         // overall
         lineCount() {
             let count = 0;
-            this.generatedData.forEach(e => {
-                count += e[1].length;
-            });
+            if(this.generatedData.length > 0) {
+                this.generatedData[0].output_template.forEach(e => {
+                    count += e[1].length;
+                });
+            }
             return count;
         },
 
@@ -148,15 +163,6 @@ export default {
          */
         async generate(date, dataProp='') {
             date.sort();
-            // const url =
-            //     this.AppStore.state.siteUrl + "principals/"
-            //      + `generated?date=${date}&table_generated=`
-            //      + `generated_${this.PrincipalsStore.state.selectedPrincipalCode}`;
-            // const url =
-            //     this.AppStore.state.siteUrl + "principals"
-            //      + `/generated`
-            //      + `?date=${date}`
-            //      + `&principal_code=${this.PrincipalsStore.state.selectedPrincipalCode}`;
             const url = this.AppStore.state.siteUrl
                 + "principals"
                 + `/generated`;
@@ -172,13 +178,25 @@ export default {
                 this.generatedData = [];
                 let res = await axios.post(url, payload);
 
-                const grouped = res.data.generated_data.reduce(function(r, a) {
-                    r[a[dataProp]] = r[a[dataProp]] || [];
-                    r[a[dataProp]].push(a);
-                    return r;
-                }, Object.create(null));
+                this.generatedData  =
+                // [
+                    res.data.output_template_variations.map(e => {
+                        const grouped = e.output_template.reduce(function(r, a) {
+                            r[a[dataProp]] = r[a[dataProp]] || [];
+                            r[a[dataProp]].push(a);
+                            return r;
+                        }, Object.create(null));
 
-                this.generatedData = Object.entries(grouped);
+                        return {
+                            name: e.name,
+                            output_template: Object.entries(grouped),
+                        }
+                    });
+                // ];
+
+
+
+                // this.generatedData = Object.entries(grouped);
                 this.isGenerating = false;
                 this.AppStore.state.showTopLoading = false;
 
@@ -189,19 +207,86 @@ export default {
             }
         },
 
+        // async generate(date, dataProp='') {
+        //     date.sort();
+        //     // const url =
+        //     //     this.AppStore.state.siteUrl + "principals/"
+        //     //      + `generated?date=${date}&table_generated=`
+        //     //      + `generated_${this.PrincipalsStore.state.selectedPrincipalCode}`;
+        //     // const url =
+        //     //     this.AppStore.state.siteUrl + "principals"
+        //     //      + `/generated`
+        //     //      + `?date=${date}`
+        //     //      + `&principal_code=${this.PrincipalsStore.state.selectedPrincipalCode}`;
+        //     const url = this.AppStore.state.siteUrl
+        //         + "principals"
+        //         + `/generated`;
+        //     const payload = {
+        //         date: date,
+        //         principal_code: this.PrincipalsStore.state.selectedPrincipalCode,
+        //         cols: this.myStore.state.generatedDataDBTableColumns
+        //     };
+
+        //     try {
+        //         this.AppStore.state.showTopLoading = true;
+        //         this.isGenerating = true;
+        //         this.generatedData = [];
+        //         let res = await axios.post(url, payload);
+
+        //         state.currentGeneratedData =
+        //         // [
+        //             result.data.output_template_variations.map(e => {
+        //                 return {
+        //                     name: e.name,
+        //                     output_template: Object.entries(e.output_template),
+        //                 }
+        //             });
+        //         // ];
+
+        //         const grouped = res.data.generated_data.reduce(function(r, a) {
+        //             r[a[dataProp]] = r[a[dataProp]] || [];
+        //             r[a[dataProp]].push(a);
+        //             return r;
+        //         }, Object.create(null));
+
+        //         this.generatedData = Object.entries(grouped);
+        //         this.isGenerating = false;
+        //         this.AppStore.state.showTopLoading = false;
+
+        //         this.dlgSelectDatesShown = false;
+        //     } catch (error) {
+        //         console.log("generate(): ", error);
+        //         this.AppStore.toast(error);
+        //     }
+        // },
+
         exportToExcel() {
             const config = this.PrincipalsStore
                 .getHeaderAndFormat('generatedDataTableHeader');
 
-            this.PrincipalsStore.exportToExcel(
-                config.header,
-                this.PrincipalsStore.generatedDataSubset(
-                    this.generatedData,
-                    config.format
-                ),
-                null,
-                this.PrincipalsStore.state.selectedPrincipalCode
-            );
+            for(let i=0;i<config.length;i++) {
+                // export templated data to Excel
+                this.PrincipalsStore.exportToExcel(
+                    config[i].header,
+                    this.PrincipalsStore.generatedDataSubset(
+                        // this.AppStore.flattenGendata(this.generatedData),
+                        this.generatedData[i].output_template,
+                        config[i].format
+                    ),
+                    null,
+                    this.PrincipalsStore.state.selectedPrincipalCode + '_' + (i+1)
+                );
+            };
+
+            // this.PrincipalsStore.exportToExcel(
+            //     config.header,
+            //     this.PrincipalsStore.generatedDataSubset(
+            //         this.generatedData,
+            //         config.format
+            //     ),
+            //     null,
+            //     this.PrincipalsStore.state.selectedPrincipalCode
+            // );
         },
     },
 
@@ -212,12 +297,13 @@ export default {
     },
 
     created() {
-        this.selectedFilter = this.myStore.state.generatedDataHistoryFilters[0].value;
+        this.selectedFilter = this.myStore.state.generatedDataHistoryFilters[0][0].value;
         // this.generate(this.date, this.selectedFilter);
     },
 
     mounted() {
         console.log("GeneratedHistory component mounted");
+        console.log(this.generatedData);
     }
 };
 </script>

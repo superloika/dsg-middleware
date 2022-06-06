@@ -98,9 +98,9 @@ Route::prefix('invoices')->group(function(){
 Route::prefix('principals')->group(function(){
     $principalCtrls = [
         ['MeadJohnsonController', 'mead_johnson'],
-        ['WyethController', 'wyeth'],
+        ['CenturyController', 'century'],
+        ['MegasoftController', 'megasoft'],
         ['GsmiController', 'gsmi'],
-        ['JsuController', 'jsu'],
     ];
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';

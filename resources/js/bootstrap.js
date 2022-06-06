@@ -64,13 +64,21 @@ window.axios.interceptors.response.use(
         console.log('===================== INTERCEPTOR =====================');
         if (
             error.response.status === 401
-            // || error.response.status === 419
-            // || error.response.status === 440
+            || error.response.status === 419
+            || error.response.status === 440
         ) {
-            console.log('INTERCEPTOR (401):', error);
+            console.log('INTERCEPTOR:', error);
+            let cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i];
+                let eqPos = cookie.indexOf("=");
+                let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            }
             // window.location.href = `/flush-session`;
             // window.location.href = `/login`;
-            // window.location.reload();
+            window.location.assign(window.location.href);
+
         }
 
         console.log('INTERCEPTOR - AUTH USER:', window.AuthUser);

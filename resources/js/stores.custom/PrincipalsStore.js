@@ -131,42 +131,56 @@ const actions = {
     /**
      * Initialize the current selected principal's uploaded/saved invoices
      */
-    async initInvoices(principal_code, date) {
-        date.sort();
-        try {
-            const url = encodeURI(
-                AppStore.state.siteUrl + 'principals/invoices?date=' + date
-                + '&principal_code=' + principal_code
-            );
-            AppStore.state.showTopLoading = true;
-            let result = await axios.get(url);
+    // async initInvoices(principal_code, date) {
+    //     date.sort();
+    //     try {
+    //         const url = encodeURI(
+    //             AppStore.state.siteUrl + 'principals/invoices?date=' + date
+    //             + '&principal_code=' + principal_code
+    //         );
+    //         AppStore.state.showTopLoading = true;
+    //         let result = await axios.get(url);
 
-            state.invoices = [];
-            state.invoices = result.data;
-            AppStore.state.showTopLoading = false;
-        } catch (error) {
-            console.log('PrincipalsStore.initInvoices() - ERROR:', error);
-        }
-    },
+    //         state.invoices = [];
+    //         state.invoices = result.data;
+    //         AppStore.state.showTopLoading = false;
+    //     } catch (error) {
+    //         console.log('PrincipalsStore.initInvoices() - ERROR:', error);
+    //     }
+    // },
 
     /**
      * Generate templated data based on pending invoices
      */
-    async initCurrentGeneratedData(principal_code) {
+    async initCurrentGeneratedData(principal_code, template_variations_count=1) {
         // alert(principal_code);
-
         try {
             state.isGeneratingData = true;
             const url = encodeURI(
                 AppStore.state.siteUrl + 'principals/'
                 + principal_code + '/invoices/generate-templated-data'
-                + '?group_by=route_code'
+                // + '?group_by=route_code'
+                // + '?template_variations_count=' + template_variations_count
             );
             let result = await axios.get(url);
             state.isGeneratingData = false;
             state.currentGeneratedData = [];
-            state.currentGeneratedData = Object.entries(result.data.output_template);
-            console.log('TEMPLATED DATA:', state.currentGeneratedData);
+            // state.currentGeneratedData = Object.entries(result.data.output_template_variations);
+
+            state.currentGeneratedData =
+            // [
+                result.data.output_template_variations.map(e => {
+                    return {
+                        name: e.name,
+                        output_template: Object.entries(e.output_template),
+                    }
+                });
+            // ];
+
+            // state.currentGeneratedData = result.data.output_template_variations;
+
+            console.log('=========================== TEMPLATED DATA: ===========================',
+                state.currentGeneratedData);
         } catch (error) {
             console.log('PrincipalsStore.initCurrentGeneratedData() - ERROR:', error);
             AppStore.toast(error, 3000, 'error');
@@ -196,17 +210,20 @@ const actions = {
                 "generatedDataTableHeader"
             );
 
-            // export templated data to Excel
-            this.exportToExcel(
-                config.header,
-                this.generatedDataSubset(
-                    // this.AppStore.flattenGendata(this.generatedData),
-                    state.currentGeneratedData,
-                    config.format
-                ),
-                null,
-                state.selectedPrincipalCode
-            );
+            // config.forEach(e=>{
+            for(let i=0;i<config.length;i++) {
+                // export templated data to Excel
+                this.exportToExcel(
+                    config[i].header,
+                    this.generatedDataSubset(
+                        // this.AppStore.flattenGendata(this.generatedData),
+                        state.currentGeneratedData[i].output_template,
+                        config[i].format
+                    ),
+                    null,
+                    state.selectedPrincipalCode + '_' + (i+1)
+                );
+            };
 
             state.isExportingTemplatedData = false;
             state.confirmExportDialogOpen = false;
@@ -214,10 +231,10 @@ const actions = {
             // this.PrincipalsStore.state.currentRawInvoices = [];
 
             this.initInvoicesGrandTotal();
-            this.initInvoices(
-                this.selectedPrincipalCode,
-                AppStore.state.strDateToday
-            );
+            // this.initInvoices(
+            //     this.selectedPrincipalCode,
+            //     AppStore.state.strDateToday
+            // );
             this.initCurrentGeneratedData(state.selectedPrincipalCode);
         } catch (error) {
             console.log("setInvoicesComplete():", error);
@@ -357,7 +374,6 @@ const actions = {
      *
      */
     async exportToExcel(headers = [], jsonData=[], includeTotals=[], fileName='') {
-        AppStore.overlay(true, 'Exporting...');
         console.log("Exporting from PrincipalsStore....");
         console.log("headers:", headers);
         console.log("jsonData:", jsonData);
@@ -367,7 +383,6 @@ const actions = {
 
         try {
             fileName = `${fileName}_${AppStore.state.strDateToday}.xlsx`;
-            // AppStore.state.showTopLoading = true;
             let wBook = XLSX.utils.book_new();
 
             for(let i=0; i<jsonData.length; i++) {
@@ -402,9 +417,33 @@ const actions = {
             console.log('exportToExcel()', error);
             AppStore.toast(error);
         }
-        // AppStore.state.showTopLoading = false;
-        AppStore.overlay(false);
     },
+
+
+    /**
+     * Export to simple Excel
+     */
+    toExcel_simple(sheetName, data, tableHeaderPropertyName, includeTotals, fileName){
+        const tempData = [
+            [
+                sheetName,
+                data
+            ]
+        ];
+
+        const config = this.getHeaderAndFormat(tableHeaderPropertyName);
+
+        this.exportToExcel(
+            config[0].header,
+            this.generatedDataSubset(
+                tempData,
+                config[0].format
+            ),
+            includeTotals,
+            `${fileName}`
+        );
+    },
+
 
     /**
      * Returns exactly the same structure as generatedData
@@ -542,15 +581,45 @@ const actions = {
      * and its content column format/sequence
      */
     getHeaderAndFormat(property) {
-        return {
-            header: Vue.prototype[state.selectedPrincipalCode]
-                .state[property].map(e=>{
-                    return e.text;
-                }),
-            format: Vue.prototype[state.selectedPrincipalCode]
-                .state[property].map(e=>{
-                    return e.value;
-                }),
+        // return {
+        //     header: Vue.prototype[state.selectedPrincipalCode]
+        //         .state[property].map(e=>{
+        //             return e.text;
+        //         }),
+        //     format: Vue.prototype[state.selectedPrincipalCode]
+        //         .state[property].map(e=>{
+        //             return e.value;
+        //         }),
+        // }
+        let tempArray = [];
+
+        Vue.prototype[state.selectedPrincipalCode]
+            .state[property].forEach(el=>{
+                const tempObj = {
+                    header: el.map(e=>{
+                            return e.text;
+                        }),
+                    format: el.map(e=>{
+                            return e.value;
+                        }),
+                };
+                tempArray.push(tempObj);
+            });
+        return tempArray;
+    },
+
+
+    /**
+     * Delete site cookies
+     */
+     deleteAllCookies() {
+        let cookies = document.cookie.split(";");
+
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i];
+            let eqPos = cookie.indexOf("=");
+            let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
         }
     }
 

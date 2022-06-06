@@ -1,10 +1,16 @@
 <template>
-    <component class="ma-0" :is="selectedPrincipal"></component>
+    <component class="ma-0" :is="selectedPrincipal"
+        :id="`principal_${selectedPrincipalCode}_${new Date().getTime()}`"
+    ></component>
 </template>
 
 <script>
 export default {
-    data: () => ({}),
+    data() {
+        return {
+
+        }
+    },
 
     computed: {
         selectedPrincipal() {

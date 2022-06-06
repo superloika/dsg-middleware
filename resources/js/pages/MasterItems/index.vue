@@ -10,13 +10,19 @@
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
-        <v-pagination
-            v-model="MasterItems.state.items.current_page"
-            :length="MasterItems.state.items.last_page"
-            @input="onPageChange()"
-            total-visible="4"
+
+        <v-btn
+            title="Refresh"
+            icon
+            dense
+            rounded
+            depressed
+            color="success"
+            class="mr-2"
+            @click="MasterItems.initItems()"
         >
-        </v-pagination>
+            <v-icon>mdi-refresh</v-icon>
+        </v-btn>
 
         <v-text-field
             v-model="searchKey"
@@ -35,16 +41,22 @@
             icon
             title="Import Items Masterfile"
             @click.stop="AppStore.state.dlgImportMaster=true"
+            v-if="AppStore.isSuperAdmin()"
         >
             <v-icon>mdi-file-upload</v-icon>
         </v-btn>
 
-        <!-- <v-btn
-            icon
-            title="Export Items"
-        >
-            <v-icon>mdi-export</v-icon>
-        </v-btn> -->
+        <template v-slot:extension>
+            <div>
+                <v-pagination
+                    v-model="MasterItems.state.items.current_page"
+                    :length="MasterItems.state.items.last_page"
+                    @input="onPageChange()"
+                    total-visible="5"
+                >
+                </v-pagination>
+            </div>
+        </template>
     </v-app-bar>
 
     <v-data-table

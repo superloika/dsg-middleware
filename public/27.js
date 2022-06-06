@@ -1,22 +1,45 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[27],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -109,129 +132,104 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    var _this = this;
-
     return {
-      frmEditPw: false,
-      account: {
-        id: this.ManageAccounts.state.toEdit.id,
-        // old_password_hashed: this.ManageAccounts.state.toEdit.old_password_hashed,
-        old_password: '',
-        password: '',
-        password_confirmation: '',
-        rules: {
-          old_password: [function (v) {
-            return !!v || "Old password is required.";
-          }],
-          password: [function (v) {
-            return !!v || "Password is required.";
-          }, function (v) {
-            return v.length >= 5 || "Password must be 5 characters or above.";
-          }],
-          password_confirmation: [function (v) {
-            return !!v || "Please confirm your password.";
-          }, function (v) {
-            return v === _this.account.password || "Password confirmation is incorrect.";
-          }]
-        }
-      },
-      updatingPassword: false,
-      errMsgs: [],
-      errMsgsShown: false,
-      errorMsgs: {}
+      particulars: [],
+      modal_datepicker: false,
+      isSaving: false,
+      tags: this.Expenditures.state.tags,
+      particular: null,
+      amount: null,
+      quantity: null,
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10),
+      selectedTags: null
     };
   },
-  watch: {},
   methods: {
-    updatePassword: function updatePassword() {
+    initParticulars: function initParticulars() {
+      var _this = this;
+
+      // const vm = this;
+      var url = "".concat(this.AppStore.state.siteUrl, "api_expenses/particulars");
+      axios.get(url).then(function (response) {
+        console.log(response.data);
+
+        try {
+          _this.particulars = response.data.map(function (el) {
+            return el.particular;
+          });
+        } catch (error) {
+          _this.AppStore.toast(error);
+        }
+      })["catch"](function (err) {
+        _this.AppStore.toast(err);
+      });
+    },
+    saveExpense: function saveExpense() {
       var _this2 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var url, payload, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!_this2.$refs.form.validate()) {
-                  _context.next = 16;
-                  break;
-                }
+      var url = "".concat(this.AppStore.state.siteUrl, "api_expenses/store");
+      this.isSaving = true;
+      var expenseData = {
+        "particular": this.particular,
+        "amount": this.amount,
+        "quantity": this.quantity,
+        "expense_date": this.date,
+        "tag_ids": this.selectedTags
+      };
+      axios.post(url, expenseData).then(function (response) {
+        if (response.data == true) {
+          _this2.AppStore.toast('New expense added');
 
-                url = "".concat(_this2.AppStore.state.siteUrl, "accounts/update-password");
-                payload = {
-                  _method: "PATCH",
-                  id: _this2.account.id,
-                  // old_password_hashed: this.account.old_password_hashed,
-                  old_password: _this2.account.old_password,
-                  password: _this2.account.password,
-                  password_confirmation: _this2.account.password_confirmation
-                };
-                _context.prev = 3;
-                _this2.updatingPassword = true;
-                _context.next = 7;
-                return axios.post(url, payload);
+          _this2.Expenditures.expenses();
 
-              case 7:
-                response = _context.sent;
+          _this2.Expenditures.state.add_expense = false;
+          _this2.isSaving = false;
+        }
+      })["catch"](function (err) {
+        console.log(err);
+        _this2.isSaving = false;
+      });
+    },
+    appendNewParticular: function appendNewParticular(e) {
+      var newParticular = e.target.value;
 
-                if (response.data == true) {
-                  if (_this2.$route.meta.name === 'Account') {
-                    location.reload();
-                  }
-
-                  _this2.ManageAccounts.initUsers();
-
-                  _this2.ManageAccounts.state.modalEditIsOpen = false;
-
-                  _this2.AppStore.toast("Password updated", 1500);
-                } else if (response.data.invalidations != undefined || response.data.invalidations != null) {
-                  _this2.errMsgs = [];
-                  _this2.errorMsgs = {};
-                  _this2.errorMsgs = response.data.invalidations;
-                  Object.entries(response.data.invalidations).forEach(function (field) {
-                    _this2.errMsgs.push(field[1][0]);
-                  }); // this.AppStore.toast(this.errMsgs, 3000);
-
-                  _this2.errMsgsShown = true;
-                } else if (response.data.errorInfo != null || response.data.errorInfo != undefined) {
-                  _this2.AppStore.toast("An error occured", 2000);
-
-                  console.log(response.data.errorInfo);
-                }
-
-                _context.next = 15;
-                break;
-
-              case 11:
-                _context.prev = 11;
-                _context.t0 = _context["catch"](3);
-                console.log(_context.t0);
-
-                _this2.AppStore.toast(_context.t0, 3000);
-
-              case 15:
-                _this2.updatingPassword = false;
-
-              case 16:
-              case "end":
-                return _context.stop();
-            }
+      if (newParticular != '') {
+        var newParticularExists = false;
+        this.particulars.forEach(function (el) {
+          if (el.toLowerCase() === newParticular.toLowerCase()) {
+            newParticularExists = true;
           }
-        }, _callee, null, [[3, 11]]);
-      }))();
+        });
+
+        if (!newParticularExists) {
+          this.particulars.push(newParticular);
+          this.particular = newParticular;
+        }
+
+        console.log('PARTICULARS:', this.particulars);
+      }
     }
   },
+  computed: {},
+  watch: {
+    selectedTags: function selectedTags() {
+      console.log(this.selectedTags);
+    }
+  },
+  created: function created() {
+    this.initParticulars();
+  },
   mounted: function mounted() {
-    console.log('AccountsEditPassword component mounted');
+    console.log("ExpendituresAdd mounted.");
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=template&id=0f82d596&":
-/*!*********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=template&id=0f82d596& ***!
-  \*********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=template&id=0ca3598a&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=template&id=0ca3598a& ***!
+  \******************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -244,51 +242,44 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-container",
+    "v-card",
     [
+      _c("v-card-title", { staticClass: "mb-5" }, [
+        _c("span", { staticClass: "text-h5" }, [_vm._v("Add Test Data")])
+      ]),
+      _vm._v(" "),
       _c(
-        "v-form",
-        {
-          ref: "form",
-          model: {
-            value: _vm.frmEditPw,
-            callback: function($$v) {
-              _vm.frmEditPw = $$v
-            },
-            expression: "frmEditPw"
-          }
-        },
+        "v-card-text",
         [
           _c(
             "v-row",
             [
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "4", sm: "6" } },
+                {
+                  staticClass: "pb-0 pt-0",
+                  attrs: { cols: "12", sm: "6", md: "4" }
+                },
                 [
-                  _c("v-text-field", {
+                  _c("v-autocomplete", {
                     attrs: {
-                      outlined: "",
+                      items: _vm.particulars,
                       dense: "",
-                      text: "",
-                      label: "Old Password *",
-                      autocomplete: "false",
-                      required: "",
-                      type: "password",
-                      rules: _vm.account.rules.old_password,
-                      error:
-                        _vm.errorMsgs.old_password != undefined ? true : false,
-                      "error-messages":
-                        _vm.errorMsgs.old_password != undefined
-                          ? _vm.errorMsgs.old_password
-                          : []
+                      outlined: "",
+                      autofocus: "",
+                      label: "Particular *"
+                    },
+                    on: {
+                      blur: function($event) {
+                        return _vm.appendNewParticular($event)
+                      }
                     },
                     model: {
-                      value: _vm.account.old_password,
+                      value: _vm.particular,
                       callback: function($$v) {
-                        _vm.$set(_vm.account, "old_password", $$v)
+                        _vm.particular = $$v
                       },
-                      expression: "account.old_password"
+                      expression: "particular"
                     }
                   })
                 ],
@@ -297,30 +288,24 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "4", sm: "6" } },
+                {
+                  staticClass: "pb-0 pt-0",
+                  attrs: { cols: "12", sm: "6", md: "4" }
+                },
                 [
                   _c("v-text-field", {
                     attrs: {
                       outlined: "",
                       dense: "",
-                      text: "",
-                      label: "New Password *",
-                      autocomplete: "false",
-                      required: "",
-                      type: "password",
-                      rules: _vm.account.rules.password,
-                      error: _vm.errorMsgs.password != undefined ? true : false,
-                      "error-messages":
-                        _vm.errorMsgs.password != undefined
-                          ? _vm.errorMsgs.password
-                          : []
+                      label: "Amount *",
+                      prefix: "P"
                     },
                     model: {
-                      value: _vm.account.password,
+                      value: _vm.amount,
                       callback: function($$v) {
-                        _vm.$set(_vm.account, "password", $$v)
+                        _vm.amount = $$v
                       },
-                      expression: "account.password"
+                      expression: "amount"
                     }
                   })
                 ],
@@ -329,25 +314,182 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "4", sm: "6" } },
+                {
+                  staticClass: "pb-0 pt-0",
+                  attrs: { cols: "12", sm: "6", md: "4" }
+                },
                 [
                   _c("v-text-field", {
                     attrs: {
                       outlined: "",
                       dense: "",
-                      text: "",
-                      label: "Confirm Password *",
-                      autocomplete: "false",
-                      required: "",
-                      type: "password",
-                      rules: _vm.account.rules.password_confirmation
+                      label: "Quantity*",
+                      required: ""
                     },
                     model: {
-                      value: _vm.account.password_confirmation,
+                      value: _vm.quantity,
                       callback: function($$v) {
-                        _vm.$set(_vm.account, "password_confirmation", $$v)
+                        _vm.quantity = $$v
                       },
-                      expression: "account.password_confirmation"
+                      expression: "quantity"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                {
+                  staticClass: "pb-0 pt-0",
+                  attrs: { cols: "12", sm: "6", md: "4" }
+                },
+                [
+                  _c(
+                    "v-dialog",
+                    {
+                      ref: "dialog_datepicker",
+                      attrs: { "return-value": _vm.date, width: "290px" },
+                      on: {
+                        "update:returnValue": function($event) {
+                          _vm.date = $event
+                        },
+                        "update:return-value": function($event) {
+                          _vm.date = $event
+                        }
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "activator",
+                          fn: function(ref) {
+                            var on = ref.on
+                            var attrs = ref.attrs
+                            return [
+                              _c(
+                                "v-text-field",
+                                _vm._g(
+                                  _vm._b(
+                                    {
+                                      attrs: {
+                                        label: "Date *",
+                                        readonly: "",
+                                        dense: "",
+                                        outlined: ""
+                                      },
+                                      model: {
+                                        value: _vm.date,
+                                        callback: function($$v) {
+                                          _vm.date = $$v
+                                        },
+                                        expression: "date"
+                                      }
+                                    },
+                                    "v-text-field",
+                                    attrs,
+                                    false
+                                  ),
+                                  on
+                                )
+                              )
+                            ]
+                          }
+                        }
+                      ]),
+                      model: {
+                        value: _vm.modal_datepicker,
+                        callback: function($$v) {
+                          _vm.modal_datepicker = $$v
+                        },
+                        expression: "modal_datepicker"
+                      }
+                    },
+                    [
+                      _vm._v(" "),
+                      _c(
+                        "v-date-picker",
+                        {
+                          attrs: { scrollable: "" },
+                          model: {
+                            value: _vm.date,
+                            callback: function($$v) {
+                              _vm.date = $$v
+                            },
+                            expression: "date"
+                          }
+                        },
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { text: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  _vm.modal_datepicker = false
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Cancel\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { text: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$refs.dialog_datepicker.save(
+                                    _vm.date
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Ok\n                        "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                {
+                  staticClass: "pb-0 pt-0",
+                  attrs: { cols: "12", sm: "6", md: "4" }
+                },
+                [
+                  _c("v-select", {
+                    attrs: {
+                      items: _vm.tags,
+                      "item-text": "tag_name",
+                      "item-value": "tag_id",
+                      label: "Tags",
+                      multiple: "",
+                      chips: "",
+                      dense: "",
+                      outlined: "",
+                      "small-chips": ""
+                    },
+                    model: {
+                      value: _vm.selectedTags,
+                      callback: function($$v) {
+                        _vm.selectedTags = $$v
+                      },
+                      expression: "selectedTags"
                     }
                   })
                 ],
@@ -357,44 +499,66 @@ var render = function() {
             1
           ),
           _vm._v(" "),
+          _c("small", [_vm._v("* indicates required field")]),
+          _vm._v(" "),
           _c(
             "v-row",
-            { staticClass: "pt-0 pb-0", attrs: { "background-color": "red" } },
             [
-              _c(
-                "v-col",
-                {
-                  staticClass: "pt-0 pb-0",
-                  attrs: { "background-color": "red" }
-                },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass:
-                        "float-lg-right float-md-right float-sm-right",
-                      attrs: {
-                        color: "primary",
-                        loading: _vm.updatingPassword,
-                        outlinedx: "",
-                        smallx: "",
-                        roundedx: ""
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.updatePassword()
+              _c("v-col", [
+                _c(
+                  "div",
+                  { staticClass: "float-right" },
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: {
+                          color: "primary",
+                          loading: _vm.isSaving,
+                          dense: "",
+                          outlinedx: "",
+                          text: "",
+                          smallx: ""
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.saveExpense()
+                          }
                         }
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                    Update Password\n                "
-                      )
-                    ]
-                  )
-                ],
-                1
-              )
+                      },
+                      [
+                        _vm._v(
+                          "\n                        Save\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: {
+                          color: "primary",
+                          dense: "",
+                          outlinedx: "",
+                          text: "",
+                          smallx: ""
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.Expenditures.state.add_expense = false
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        Close\n                    "
+                        )
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ])
             ],
             1
           )
@@ -412,17 +576,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/pages/ManageAccounts/AccountsEditPassword.vue":
-/*!********************************************************************!*\
-  !*** ./resources/js/pages/ManageAccounts/AccountsEditPassword.vue ***!
-  \********************************************************************/
+/***/ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue ***!
+  \*****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _AccountsEditPassword_vue_vue_type_template_id_0f82d596___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AccountsEditPassword.vue?vue&type=template&id=0f82d596& */ "./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=template&id=0f82d596&");
-/* harmony import */ var _AccountsEditPassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AccountsEditPassword.vue?vue&type=script&lang=js& */ "./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=script&lang=js&");
+/* harmony import */ var _ExpendituresAdd_vue_vue_type_template_id_0ca3598a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ExpendituresAdd.vue?vue&type=template&id=0ca3598a& */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=template&id=0ca3598a&");
+/* harmony import */ var _ExpendituresAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ExpendituresAdd.vue?vue&type=script&lang=js& */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -432,9 +596,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _AccountsEditPassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _AccountsEditPassword_vue_vue_type_template_id_0f82d596___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _AccountsEditPassword_vue_vue_type_template_id_0f82d596___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _ExpendituresAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ExpendituresAdd_vue_vue_type_template_id_0ca3598a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ExpendituresAdd_vue_vue_type_template_id_0ca3598a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -444,38 +608,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/pages/ManageAccounts/AccountsEditPassword.vue"
+component.options.__file = "resources/js/pages/ExpendituresPage/ExpendituresAdd.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************!*\
-  !*** ./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************/
+/***/ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditPassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AccountsEditPassword.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditPassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpendituresAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ExpendituresAdd.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpendituresAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=template&id=0f82d596&":
-/*!***************************************************************************************************!*\
-  !*** ./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=template&id=0f82d596& ***!
-  \***************************************************************************************************/
+/***/ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=template&id=0ca3598a&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=template&id=0ca3598a& ***!
+  \************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditPassword_vue_vue_type_template_id_0f82d596___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AccountsEditPassword.vue?vue&type=template&id=0f82d596& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=template&id=0f82d596&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditPassword_vue_vue_type_template_id_0f82d596___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpendituresAdd_vue_vue_type_template_id_0ca3598a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ExpendituresAdd.vue?vue&type=template&id=0ca3598a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=template&id=0ca3598a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpendituresAdd_vue_vue_type_template_id_0ca3598a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditPassword_vue_vue_type_template_id_0f82d596___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpendituresAdd_vue_vue_type_template_id_0ca3598a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -19,28 +19,33 @@ class InvoicesController extends Controller
         $row_count = request()->row_count ?? 10;
         $search_key = request()->search_key ?? '';
         $principal_code = request()->principal_code ?? '';
+        $status = request()->status ?? '';
 
         // dd($principal_code);
 
         $result = DB::table(PrincipalsUtil::$TBL_INVOICES)
-            ->where(function($query) use ($search_key){
+            ->where(function($query) use ($search_key, $status){
                 $query->where('doc_no','like', '%'.$search_key. '%')
                     ->orWhere('doc_type','like', '%'.$search_key. '%')
                     ->orWhere('customer_code','like', '%'.$search_key. '%')
                     ->orWhere('posting_date','like', '%'.$search_key. '%')
+
                     ->orWhere(
                         PrincipalsUtil::$TBL_INVOICES.'.item_code', 'like', '%'.$search_key. '%'
                     );
             })
             ->where(function($query) use ($principal_code) {
                 if($principal_code != '') {
-                    if($principal_code=='unidentified') {
+                    if($principal_code=='others') {
                         $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code', null);
                     } else {
                         $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.code', $principal_code);
                     }
                 }
             })
+            ->where(
+                PrincipalsUtil::$TBL_INVOICES. '.status','like', '%'.$status. '%'
+            )
 
             ->leftJoin('users', 'users.id', PrincipalsUtil::$TBL_INVOICES. '.uploaded_by')
             ->leftJoin(

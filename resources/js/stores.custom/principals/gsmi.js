@@ -1,78 +1,85 @@
 import Vue from "vue";
-// import PrincipalsStore from "./PrincipalsStore";
-
 
 const state = Vue.observable({
-    title: '',
-    // customersTableHeader: [
-    //     { text: "Distributor Code", value: "distributor_code" },
-    //     { text: "Customer Code", value: "customer_code" },
-    //     { text: "Customer Name", value: "customer_name" },
-    //     { text: "Outlet Type", value: "outlet_type" },
-    //     { text: "Salesman Name", value: "salesman_name" },
-    //     { text: "Route Code", value: "route_code" },
-    //     { text: "Operation Type", value: "operation_type" },
-    //     { text: "Status", value: "status" },
-    //     { text: "Address_1", value: "address_1" },
-    //     { text: "Address_4", value: "address_4" },
-    //     { text: "Address_5", value: "address_5" },
-    //     { text: "postal_code", value: "postal_code" },
-    // ],
     customersTableHeader: [
-        { text: "Customer Code", value: "customer_code" },
-        { text: "Name", value: "customer_name" },
-        { text: "Outlet Type", value: "outlet_type" },
-        { text: "Salesman Name", value: "salesman_name" },
-        { text: "Operation Type", value: "operation_type" },
-        // { text: "Route Code", value: "route_code" },
+        [
+            { text: "Customer Code", value: "customer_code" },
+            { text: "Name", value: "customer_name" },
+            { text: "Address", value: "address" },
+            // { text: "Principal Customer Code", value: "customer_code_supplier" },
+        ],
     ],
     itemsTableHeader: [
-        {text:"Item Code", value:"item_code"},
-        {text:"Description", value:"description"},
-        {text:"Supplier Item Code", value:"item_code_supplier"},
-        {text:"Supplier Item Description", value:"description_supplier"},
+        [
+            {text:"Item Code", value:"item_code"},
+            {text:"Description", value:"description"},
+            {text:"Supplier Item Code", value:"item_code_supplier"},
+            {text:"Supplier Item Description", value:"description_supplier"},
+            {text:"UOM", value:"uom"},
+            {text:"Conversion UOM", value:"conversion_uom"},
+            {text:"Conversion Quantity", value:"conversion_qty"},
+        ]
     ],
+
+    // templated data table header
     generatedDataTableHeader: [
-        {text:"Order Date (Date) (YYYY/MM/DD)", value: "order_date"},
-        {text:"Customer Code (nv20)", value: "customer_code"},
-        {text:"Route Code (nv20)", value: "route_code"},
-        {text:"Product Category Code (nv20)", value: "item_category_code"},
-        {text:"Ship To (nv40)", value: "ship_to"},
-        {text:"Order Number (nv20)", value: "order_no"},
-        {text:"Remarks (nv50)", value: "remarks"},
-        {text:"Product Code (nv20)", value: "item_code"},
-        {text:"Quantity (numeric 25,4)", value: "quantity"},
+        [
+            {text:"Distributor ID", value: "distributor_id"},
+            {text:"Salesman", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Docno", value: "doc_no"},
+            {text:"Location", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Ordered Date", value: "order_date"},
+            {text:"Request Delivery Date", value: "request_delivery_date"},
+            {text:"Payment Term", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Account Code", value: "customer_code"},
+            {text:"Product Code", value: "item_code"},
+            {text:"Bulk Qty", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Loose Qty", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"System Date", value: "system_date"},
+            {text:"User", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+        ],
+        [
+            {text:"Distributor ID", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Sales Agent ID", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Invoice No (Doc No)", value: "doc_no"},
+            {text:"Location", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Invoice Date", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Payment Term Code", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Customer No", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Product Code", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Bulk Qty", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Loose Qty", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"System Date", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Default User", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Invoice No", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Expiry Date", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+        ],
     ],
-    uploadedInvoicesTableHeader: [
-        // {text:"Status", value:"status"},
-        {text:"Upload Date", value:"upload_date"},
-        {text:"Document Type", value:"doc_type"},
-        {text:"Document #", value:"doc_no"},
-        {text:"Customer Code", value:"customer_code"},
-        {text:"Posting Date", value:"posting_date"},
-        {text:"Item Code", value:"item_code"},
-        {text:"Quantity", value:"quantity"},
-        {text:"u1", value:"u1"},
-        {text:"u2", value:"u2"},
-        {text:"u3", value:"u3"},
-        {text:"u4", value:"u4"},
-        {text:"u5", value:"u5"},
-        {text:"UOM", value:"uom"},
-    ],
+
+    // transactions table header
     transactionsTableHeader: [
-        {text:"Upload Date", value:"upload_date"},
-        {text:"Customer Code", value:"customer_code"},
-        {text:"Account Name", value:"customer_name"},
-        {text:"Sales Invoice", value:"doc_no"},
-        {text:"Item Code", value:"item_code"},
-        {text:"Description", value:"description"},
-        {text:"UOM", value:"uom"},
-        {text:"Quantity", value:"quantity"},
-        {text:"Amount", value:"u3"},
+        [
+            {text:"Upload Date", value:"updated_at"},
+            {text:"Customer Code", value:"customer_code"},
+            {text:"Account Name", value:"customer_name"},
+            {text:"Sales Invoice", value:"doc_no"},
+            {text:"Item Code", value:"item_code"},
+            {text:"Description", value:"description"},
+            {text:"UOM", value:"uom"},
+            {text:"Quantity", value:"quantity"},
+            {text:"Amount", value:"u3"},
+        ]
     ],
+
+
+    // ***********************************************************************************
     generatedDataHistoryFilters: [
-        {text: 'Order Date', value: 'order_date'},
-        {text: 'Route Code', value: 'route_code'},
+        [
+            {text: 'Order Date', value: 'order_date'},
+            {text: 'Route Code', value: 'route_code'},
+            {text: 'Item Code', value: 'item_code'},
+            {text: 'Customer Code', value: 'customer_code'},
+        ]
     ],
     generatedDataDBTableColumns: [
         // common
@@ -81,46 +88,26 @@ const state = Vue.observable({
         'uploaded_by',
         'doc_no',
         // principal template
-        'order_date',
-        'customer_code',
-        'route_code',
-        'product_category_code',
-        'ship_to',
-        'order_no',
-        'remarks',
-        'item_code',
-        'quantity'
-    ]
+        'distributor_id',
+        'sales_agent_id',
+        'invoice_no',
+        'location',
+        'invoice_date',
+        'payment_term_code',
+        'bulk_qty',
+        'loose_qty',
+        'system_date',
+        'default_user',
+        'expiry_date',
+        'request_delivery_date',
+    ],
 });
 
 
 const actions = {
-    // generatedDataHeader() {
-    //     return state.generatedDataTableHeader.map(e=>{
-    //         return e.text;
-    //     });
-    // },
-
-    // generatedDataFormat() {
-    //     return state.generatedDataTableHeader.map(e=>{
-    //         return e.value;
-    //     });
-    // },
-
-    // transactionsHeader() {
-    //     return state.transactionsTableHeader.map(e=>{
-    //         return e.text;
-    //     });
-    // },
-
-    // transactionsFormat() {
-    //     return state.transactionsTableHeader.map(e=>{
-    //         return e.value;
-    //     });
-    // },
 };
 
 export default {
     state,
-    ...actions
+    // ...actions
 };

@@ -11,7 +11,6 @@
             v-if="item.customer_notfound==1"
             color="warning"
             small
-            linkx
             outlined
             title="Unmapped"
         >
@@ -28,7 +27,6 @@
             v-if="item.route_code=='N/A'"
             color="warning"
             small
-            linkx
             outlined
             title=""
         >
@@ -44,11 +42,9 @@
             v-if="item.item_notfound==1"
             color="warning"
             small
-            linkx
             outlined
             title="Unmapped"
         >
-            <!-- @click="AppStore.copyToClipboard(item.item_code)" -->
             <div :id="item.item_code">
                 {{ item.item_code }}
             </div>
@@ -60,23 +56,20 @@
 
 <script>
 export default {
-    name: 'GeneratedTable',
-
-    props: ['items'],
-
-    data: () => ({
-
-    }),
+    props: ['items','template_variation_index'],
 
     computed: {
         tableHeader() {
             return this[this.PrincipalsStore.state.selectedPrincipalCode]
-                .state.generatedDataTableHeader;
+                .state.generatedDataTableHeader[this.template_variation_index];
         }
     },
 
     mounted() {
-        console.log("GeneratedTable component mounted", this.PrincipalsStore.state.selectedPrincipalCode);
+        console.log(
+            "GeneratedTable component mounted", this.PrincipalsStore.state.selectedPrincipalCode
+        );
+        console.log('TEMPLATE VARSSSSSSSSSSSSSSSSSSSSSSSS', this.template_variation_index);
     }
 };
 </script>

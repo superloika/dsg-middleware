@@ -74,7 +74,7 @@
         <v-main>
             <v-container class="pa-0" fluid>
                 <!-- <keep-alive> -->
-                <router-view></router-view>
+                    <router-view></router-view>
                 <!-- </keep-alive> -->
             </v-container>
         </v-main>

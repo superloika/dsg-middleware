@@ -1,6 +1,9 @@
 <template>
     <div>
-        <Base :tabs="tabs"></Base>
+        <Base
+            :tabs="tabs"
+            :id="`${selectedPrincipalCode}_tabs_${new Date().getTime()}`"
+        ></Base>
         <!-- <v-btn @click="test()">Test</v-btn> -->
     </div>
 </template>
@@ -25,14 +28,15 @@ export default {
                     component: () => import("../common/Generated.vue"),
                 },
                 {
-                    title: 'Generated Data History',
+                    title: 'Templated Data History',
                     icon: 'mdi-timetable',
                     component: () => import("../common/GeneratedHistory.vue"),
                 },
                 {
                     title: 'Transactions',
                     icon: 'mdi-file-check',
-                    component: () => import("../common/TransAndInvoices.vue"),
+                    // component: () => import("../common/TransAndInvoices.vue"),
+                    component: () => import("../common/Transactions.vue"),
                 },
                 {
                     title: 'Masterfiles',

@@ -1,8 +1,6 @@
 <template>
+
 <v-card outlinedx class="elevation-0 transparent pa-0">
-    <!-- <v-card-title>
-        Upload Invoices
-    </v-card-title> -->
     <v-card-text class="">
         <v-row class="">
             <v-col class="pb-0" cols lg="9" md="7" sm="8">
@@ -37,6 +35,7 @@
         </v-row>
     </v-card-text>
 </v-card>
+
 </template>
 
 

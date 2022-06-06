@@ -70,6 +70,7 @@
             <v-tabs
                 heightx="40"
                 v-model="tab"
+                grow
             >
                 <v-tab class="px-2">
                     <v-icon class="mr-1">mdi-file-check</v-icon>

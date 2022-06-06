@@ -14,6 +14,19 @@
 
                 <v-spacer></v-spacer>
 
+                <v-btn
+                    title="Refresh"
+                    icon
+                    dense
+                    rounded
+                    depressed
+                    color="success"
+                    class="mr-2"
+                    @click="PrincipalsStore.initCustomers(selectedPrincipalCode)"
+                >
+                    <v-icon>mdi-refresh</v-icon>
+                </v-btn>
+
                 <v-text-field
                     v-model="searchKey"
                     label="Search"
@@ -88,7 +101,7 @@ export default {
         },
 
         tblHeader() {
-            return this[this.selectedPrincipalCode].state.customersTableHeader;
+            return this[this.selectedPrincipalCode].state.customersTableHeader[0];
             // if(this.PrincipalsStore.state.selectedPrincipalCode == 'wyeth') {
             //     return this.WyethStore.state.customersTableHeader;
             // } else {
@@ -112,24 +125,14 @@ export default {
 
     methods: {
         exportToExcel() {
-            const data = [
-                [
-                    'Customers',
-                    this.PrincipalsStore.state.customers
-                ]
-            ];
-            const config = this.PrincipalsStore.getHeaderAndFormat('customersTableHeader');
-
-            this.PrincipalsStore.exportToExcel(
-                config.header,
-                this.PrincipalsStore.generatedDataSubset(
-                    data,
-                    config.format
-                ),
+            this.PrincipalsStore.toExcel_simple(
+                'Customers',
+                this.PrincipalsStore.state.customers,
+                'customersTableHeader',
                 null,
                 `${this.selectedPrincipalCode}_Customers`
             );
-        }
+        },
     },
 
     created() {

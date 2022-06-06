@@ -1,30 +1,46 @@
 <template>
 <v-sheet>
-    <!-- <v-tabs v-model="tab" heightx="35" show-arrow background-color="grey darken-4"> -->
-    <v-tabs v-model="tab" heightx="35" show-arrow>
-        <v-tab v-for="(data, index) in generatedData" :key="index"
+    <v-tabs v-model="tab_template_variation" height="35" show-arrow color="accent">
+        <v-tab v-for="(templatedData, index) in generatedData" :key="index"
             class="px-3 text-caption"
         >
-            {{ data[0] }}
-            <v-chip color="warning" x-small
-                class="ml-1 text-captionx px-1"
-                v-if="groupCustomersNotFoundLineCount(data[1]) > 0
-                    || groupItemsNotFoundLineCount(data[1]) > 0"
-            >
-                {{ groupCustomersNotFoundLineCount(data[1]) > groupItemsNotFoundLineCount(data[1]) ?
-                    groupCustomersNotFoundLineCount(data[1]) : groupItemsNotFoundLineCount(data[1]) }}
-            </v-chip>
+            {{ templatedData.name }}
         </v-tab>
     </v-tabs>
-    <v-tabs-items v-model="tab">
-        <v-tab-item v-for="(data, index) in generatedData" :key="index">
-            <div class="mb-2 pa-0 overflow-auto" v-if="data[1].length > 0">
-                <component
-                    :id="PrincipalsStore.state.selectedPrincipalCode + '_gentable'"
-                    :is="GeneratedTable"
-                    :items="data[1]"
-                ></component>
-            </div>
+    <v-tabs-items v-model="tab_template_variation">
+        <v-tab-item
+            v-for="(templatedData, template_variation_tabitem_index) in generatedData"
+            :key="template_variation_tabitem_index"
+        >
+            <v-sheet>
+                <v-tabs v-model="tab" height="45" show-arrow>
+                    <v-tab v-for="(data, index) in templatedData.output_template" :key="index"
+                        class="px-3 text-caption"
+                    >
+                        {{ data[0] }}
+                        <v-chip color="warning" x-small
+                            class="ml-1 text-captionx px-1"
+                            v-if="groupCustomersNotFoundLineCount(data[1]) > 0
+                                || groupItemsNotFoundLineCount(data[1]) > 0"
+                        >
+                            {{ groupCustomersNotFoundLineCount(data[1]) > groupItemsNotFoundLineCount(data[1]) ?
+                                groupCustomersNotFoundLineCount(data[1]) : groupItemsNotFoundLineCount(data[1]) }}
+                        </v-chip>
+                    </v-tab>
+                </v-tabs>
+                <v-tabs-items v-model="tab">
+                    <v-tab-item v-for="(data, index) in templatedData.output_template" :key="index">
+                        <div class="mb-2 pa-0 overflow-auto" v-if="data[1].length > 0">
+                            <component
+                                :id="PrincipalsStore.state.selectedPrincipalCode + '_gentable'"
+                                :is="GeneratedTable"
+                                :items="data[1]"
+                                :template_variation_index="template_variation_tabitem_index"
+                            ></component>
+                        </div>
+                    </v-tab-item>
+                </v-tabs-items>
+            </v-sheet>
         </v-tab-item>
     </v-tabs-items>
 </v-sheet>
@@ -36,16 +52,17 @@ export default {
 
     data() {
         return {
-            tab: null
+            tab: null,
+            tab_template_variation: null,
         }
     },
 
     computed: {
         GeneratedTable() {
             const vm = this;
-            return () =>
-                import(`../${vm.PrincipalsStore.state.selectedPrincipalCode}/GeneratedTable.vue`);
-            // return () => import(`./GeneratedTable.vue`);
+            // return () =>
+            //     import(`../${vm.PrincipalsStore.state.selectedPrincipalCode}/GeneratedTable.vue`);
+            return () => import(`./GeneratedTable.vue`);
         }
     },
 
@@ -67,10 +84,17 @@ export default {
         }
     },
 
+    watch: {
+        tab_template_variation() {
+            this.tab = null;
+        }
+    },
+
     created() {},
 
     mounted() {
         console.log("GeneratedTableWrapper component mounted");
+        console.log(this.generatedData);
     }
 };
 </script>
