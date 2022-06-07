@@ -10,7 +10,6 @@ import Vue from "vue";
 const host = `http://${window.location.host}/`;
 // const localStorage = window.localStorage;
 
-
 const state = Vue.observable({
     AppName: 'DSG - MIDDLEWARE (DEV)',
     // AppName: 'DSG - MIDDLEWARE',

@@ -42,7 +42,9 @@
                     <v-icon>mdi-store</v-icon>
                 </v-list-item-icon> -->
                 <v-list-item-content class="pl-8">
-                    <v-list-item-title>{{
+                    <v-list-item-title
+                        :class="principal.proj_status==1 ? '':''"
+                    >{{
                         principal.name
                     }}</v-list-item-title>
                 </v-list-item-content>

@@ -57,8 +57,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["generatedData"],
+  props: ["generatedData", "allow_export"],
   data: function data() {
     return {
       tab: null,
@@ -219,7 +221,7 @@ var render = function() {
                   _c(
                     "v-tabs",
                     {
-                      attrs: { height: "45", "show-arrow": "" },
+                      attrs: { height: "35", "show-arrow": "" },
                       model: {
                         value: _vm.tab,
                         callback: function($$v) {
@@ -305,8 +307,10 @@ var render = function() {
                                     id:
                                       _vm.PrincipalsStore.state
                                         .selectedPrincipalCode + "_gentable",
+                                    tab_caption: data[0],
                                     items: data[1],
-                                    template_variation_index: template_variation_tabitem_index
+                                    template_variation_index: template_variation_tabitem_index,
+                                    allow_export: _vm.allow_export
                                   }
                                 })
                               ],

@@ -94,6 +94,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterfileUpload: function MasterfileUpload() {
@@ -168,15 +172,18 @@ var render = function() {
             { attrs: { elevation: "0", colorx: "white" } },
             [
               _c("v-toolbar-title", [
-                _vm._v(
-                  "\n                Customers Masterfile\n                "
-                ),
-                _c("em", { staticClass: "text-caption primary--text" }, [
-                  _vm._v(
-                    "\n                    Updated at " +
-                      _vm._s(_vm.updatedAt) +
-                      "\n                "
-                  )
+                _c("div", [
+                  _vm._v("\n                    Customers\n                ")
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("em", { staticClass: "text-caption primary--text" }, [
+                    _vm._v(
+                      "\n                        Updated at " +
+                        _vm._s(_vm.updatedAt) +
+                        "\n                    "
+                    )
+                  ])
                 ])
               ]),
               _vm._v(" "),

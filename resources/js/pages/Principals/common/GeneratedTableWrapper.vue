@@ -13,7 +13,7 @@
             :key="template_variation_tabitem_index"
         >
             <v-sheet>
-                <v-tabs v-model="tab" height="45" show-arrow>
+                <v-tabs v-model="tab" height="35" show-arrow>
                     <v-tab v-for="(data, index) in templatedData.output_template" :key="index"
                         class="px-3 text-caption"
                     >
@@ -34,8 +34,10 @@
                             <component
                                 :id="PrincipalsStore.state.selectedPrincipalCode + '_gentable'"
                                 :is="GeneratedTable"
+                                :tab_caption="data[0]"
                                 :items="data[1]"
                                 :template_variation_index="template_variation_tabitem_index"
+                                :allow_export="allow_export"
                             ></component>
                         </div>
                     </v-tab-item>
@@ -48,7 +50,7 @@
 
 <script>
 export default {
-    props: ["generatedData"],
+    props: ["generatedData","allow_export"],
 
     data() {
         return {

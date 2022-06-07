@@ -134,9 +134,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    GeneratedTable: function GeneratedTable() {
+    GeneratedTableWrapper: function GeneratedTableWrapper() {
       return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./GeneratedTableWrapper.vue */ "./resources/js/pages/Principals/common/GeneratedTableWrapper.vue"));
     }
   },
@@ -195,13 +208,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cols: _this.myStore.state.generatedDataDBTableColumns
                 };
                 _context.prev = 4;
-                _this.AppStore.state.showTopLoading = true;
                 _this.isGenerating = true;
                 _this.generatedData = [];
-                _context.next = 10;
+                _context.next = 9;
                 return axios.post(url, payload);
 
-              case 10:
+              case 9:
                 res = _context.sent;
                 _this.generatedData = // [
                 res.data.output_template_variations.map(function (e) {
@@ -218,24 +230,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 // this.generatedData = Object.entries(grouped);
 
                 _this.isGenerating = false;
-                _this.AppStore.state.showTopLoading = false;
                 _this.dlgSelectDatesShown = false;
-                _context.next = 21;
+                _context.next = 19;
                 break;
 
-              case 17:
-                _context.prev = 17;
+              case 15:
+                _context.prev = 15;
                 _context.t0 = _context["catch"](4);
                 console.log("generate(): ", _context.t0);
 
                 _this.AppStore.toast(_context.t0);
 
-              case 21:
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[4, 17]]);
+        }, _callee, null, [[4, 15]]);
       }))();
     },
     // async generate(date, dataProp='') {
@@ -559,29 +570,54 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "v-card-text",
-        { staticClass: "pa-0 pb-4" },
-        [
-          _vm.generatedData.length < 1
-            ? _c(
-                "div",
-                { staticClass: "d-flex justify-center mt-5" },
-                [
-                  _c("v-chip", { attrs: { color: "accent", small: "" } }, [
-                    _vm._v(
-                      "\n                No available data to display\n            "
+      _c("v-card-text", { staticClass: "pa-0 pb-4" }, [
+        _vm.isGenerating
+          ? _c(
+              "div",
+              { staticClass: "d-flex justify-center" },
+              [
+                _c("v-progress-circular", {
+                  attrs: {
+                    size: 70,
+                    width: 7,
+                    color: "accent",
+                    indeterminate: ""
+                  }
+                })
+              ],
+              1
+            )
+          : _c(
+              "div",
+              [
+                _vm.generatedData.length < 1
+                  ? _c(
+                      "div",
+                      { staticClass: "d-flex justify-center mt-5" },
+                      [
+                        _c(
+                          "v-chip",
+                          { attrs: { color: "accent", small: "" } },
+                          [
+                            _vm._v(
+                              "\n                    No available data to displayxx\n                "
+                            )
+                          ]
+                        )
+                      ],
+                      1
                     )
-                  ])
-                ],
-                1
-              )
-            : _c("GeneratedTable", {
-                attrs: { id: _vm.wrapperID, generatedData: _vm.generatedData }
-              })
-        ],
-        1
-      )
+                  : _c("GeneratedTableWrapper", {
+                      attrs: {
+                        id: _vm.wrapperID,
+                        generatedData: _vm.generatedData,
+                        allow_export: true
+                      }
+                    })
+              ],
+              1
+            )
+      ])
     ],
     1
   )

@@ -65,16 +65,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['items', 'template_variation_index'],
+  props: ['items', 'template_variation_index', 'tab_caption', 'allow_export'],
   computed: {
     tableHeader: function tableHeader() {
       return this[this.PrincipalsStore.state.selectedPrincipalCode].state.generatedDataTableHeader[this.template_variation_index];
     }
   },
+  methods: {
+    exportToCsv: function exportToCsv() {
+      this.PrincipalsStore.toExcel_simple("".concat(this.tab_caption), this.items, 'generatedDataTableHeader', null, "".concat(this.tab_caption), 'csv');
+    }
+  },
   mounted: function mounted() {
     console.log("GeneratedTable component mounted", this.PrincipalsStore.state.selectedPrincipalCode);
     console.log('TEMPLATE VARSSSSSSSSSSSSSSSSSSSSSSSS', this.template_variation_index);
+    console.log('ITEEEEEEMMMMMSSSSSS', this.items);
   }
 });
 
@@ -95,111 +115,152 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-data-table", {
-    attrs: {
-      dense: "",
-      items: _vm.items,
-      headers: _vm.tableHeader,
-      "items-per-page": 10,
-      search: _vm.PrincipalsStore.state.currentGeneratedDataSearchKey
-    },
-    scopedSlots: _vm._u(
-      [
-        {
-          key: "item.customer_code",
-          fn: function(ref) {
-            var item = ref.item
-            return [
-              item.customer_notfound == 1
-                ? _c(
-                    "v-chip",
+  return _c(
+    "div",
+    [
+      _vm.allow_export
+        ? _c(
+            "v-sheet",
+            {
+              staticClass: "px-3 pt-1 pb-2",
+              attrs: { color: "grey lighten-5" }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "d-flex justify-end" },
+                [
+                  _c(
+                    "v-btn",
                     {
                       attrs: {
-                        color: "warning",
-                        small: "",
-                        outlined: "",
-                        title: "Unmapped"
+                        title: "Export table to CSV",
+                        color: "success",
+                        "x-small": ""
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.exportToCsv()
+                        }
                       }
                     },
-                    [
-                      _c("div", { attrs: { id: item.customer_code } }, [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(item.customer_code) +
-                            "\n            "
-                        )
-                      ])
-                    ]
+                    [_vm._v("Export " + _vm._s(_vm.tab_caption) + " to CSV")]
                   )
-                : _c("span", [_vm._v(_vm._s(item.customer_code))])
+                ],
+                1
+              )
             ]
-          }
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("v-data-table", {
+        attrs: {
+          dense: "",
+          items: _vm.items,
+          headers: _vm.tableHeader,
+          "items-per-page": 10,
+          search: _vm.PrincipalsStore.state.currentGeneratedDataSearchKey
         },
-        {
-          key: "item.route_code",
-          fn: function(ref) {
-            var item = ref.item
-            return [
-              item.route_code == "N/A"
-                ? _c(
-                    "v-chip",
-                    {
-                      attrs: {
-                        color: "warning",
-                        small: "",
-                        outlined: "",
-                        title: ""
-                      }
-                    },
-                    [
-                      _c("div", { attrs: { id: item.route_code } }, [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(item.route_code) +
-                            "\n            "
-                        )
-                      ])
-                    ]
-                  )
-                : _c("span", [_vm._v(_vm._s(item.route_code))])
-            ]
-          }
-        },
-        {
-          key: "item.item_code",
-          fn: function(ref) {
-            var item = ref.item
-            return [
-              item.item_notfound == 1
-                ? _c(
-                    "v-chip",
-                    {
-                      attrs: {
-                        color: "warning",
-                        small: "",
-                        outlined: "",
-                        title: "Unmapped"
-                      }
-                    },
-                    [
-                      _c("div", { attrs: { id: item.item_code } }, [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(item.item_code) +
-                            "\n            "
-                        )
-                      ])
-                    ]
-                  )
-                : _c("span", [_vm._v(_vm._s(item.item_code))])
-            ]
-          }
-        }
-      ],
-      null,
-      true
-    )
-  })
+        scopedSlots: _vm._u(
+          [
+            {
+              key: "item.customer_code",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  item.customer_notfound == 1
+                    ? _c(
+                        "v-chip",
+                        {
+                          attrs: {
+                            color: "warning",
+                            small: "",
+                            outlined: "",
+                            title: "Unmapped"
+                          }
+                        },
+                        [
+                          _c("div", { attrs: { id: item.customer_code } }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.customer_code) +
+                                "\n                "
+                            )
+                          ])
+                        ]
+                      )
+                    : _c("span", [_vm._v(_vm._s(item.customer_code))])
+                ]
+              }
+            },
+            {
+              key: "item.route_code",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  item.route_code == "N/A"
+                    ? _c(
+                        "v-chip",
+                        {
+                          attrs: {
+                            color: "warning",
+                            small: "",
+                            outlined: "",
+                            title: ""
+                          }
+                        },
+                        [
+                          _c("div", { attrs: { id: item.route_code } }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.route_code) +
+                                "\n                "
+                            )
+                          ])
+                        ]
+                      )
+                    : _c("span", [_vm._v(_vm._s(item.route_code))])
+                ]
+              }
+            },
+            {
+              key: "item.item_code",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  item.item_notfound == 1
+                    ? _c(
+                        "v-chip",
+                        {
+                          attrs: {
+                            color: "warning",
+                            small: "",
+                            outlined: "",
+                            title: "Unmapped"
+                          }
+                        },
+                        [
+                          _c("div", { attrs: { id: item.item_code } }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.item_code) +
+                                "\n                "
+                            )
+                          ])
+                        ]
+                      )
+                    : _c("span", [_vm._v(_vm._s(item.item_code))])
+                ]
+              }
+            }
+          ],
+          null,
+          true
+        )
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

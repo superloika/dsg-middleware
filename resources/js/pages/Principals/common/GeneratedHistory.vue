@@ -97,20 +97,33 @@
             </v-app-bar>
         </v-card-title>
         <v-card-text class="pa-0 pb-4">
-            <div
-                v-if="generatedData.length < 1"
-                class="d-flex justify-center mt-5"
+            <div v-if="isGenerating"
+                class="d-flex justify-center"
             >
-                <v-chip color="accent" small>
-                    No available data to display
-                </v-chip>
+                <v-progress-circular
+                    :size="70"
+                    :width="7"
+                    color="accent"
+                    indeterminate
+                ></v-progress-circular>
             </div>
-            <GeneratedTable
-                v-else
-                :id="wrapperID"
-                :generatedData="generatedData"
-            >
-            </GeneratedTable>
+            <div v-else>
+                <div
+                    v-if="generatedData.length < 1"
+                    class="d-flex justify-center mt-5"
+                >
+                    <v-chip color="accent" small>
+                        No available data to displayxx
+                    </v-chip>
+                </div>
+                <GeneratedTableWrapper
+                    v-else
+                    :id="wrapperID"
+                    :generatedData="generatedData"
+                    :allow_export="true"
+                >
+                </GeneratedTableWrapper>
+            </div>
         </v-card-text>
     </v-card>
 </template>
@@ -118,7 +131,7 @@
 <script>
 export default {
     components: {
-        GeneratedTable: () => import("./GeneratedTableWrapper.vue"),
+        GeneratedTableWrapper: () => import("./GeneratedTableWrapper.vue"),
     },
 
     data: () => ({
@@ -172,7 +185,6 @@ export default {
             };
 
             try {
-                this.AppStore.state.showTopLoading = true;
                 this.isGenerating = true;
                 this.generatedData = [];
                 let res = await axios.post(url, payload);
@@ -197,8 +209,6 @@ export default {
 
                 // this.generatedData = Object.entries(grouped);
                 this.isGenerating = false;
-                this.AppStore.state.showTopLoading = false;
-
                 this.dlgSelectDatesShown = false;
             } catch (error) {
                 console.log("generate(): ", error);

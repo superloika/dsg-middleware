@@ -6,10 +6,14 @@
         <v-card-title class="pa-0 mb-2">
             <v-app-bar elevation="0" colorx="white">
                 <v-toolbar-title>
-                    Customers Masterfile
-                    <em class="text-caption primary--text">
-                        Updated at {{ updatedAt }}
-                    </em>
+                    <div>
+                        Customers
+                    </div>
+                    <div>
+                        <em class="text-caption primary--text">
+                            Updated at {{ updatedAt }}
+                        </em>
+                    </div>
                 </v-toolbar-title>
 
                 <v-spacer></v-spacer>

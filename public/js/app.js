@@ -2619,16 +2619,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('NavSide mounted');
@@ -2646,6 +2636,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -30473,26 +30465,6 @@ var render = function() {
               )
             ],
             1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-list-item",
-            { attrs: { link: "", to: "/test" } },
-            [
-              _c(
-                "v-list-item-icon",
-                { staticClass: "mr-2" },
-                [_c("v-icon", [_vm._v("mdi-test-tube")])],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-list-item-content",
-                [_c("v-list-item-title", [_vm._v("Test Page")])],
-                1
-              )
-            ],
-            1
           )
         ],
         1
@@ -30543,7 +30515,7 @@ var render = function() {
                 "v-list-item-content",
                 [
                   _c("v-list-item-title", [
-                    _vm._v("Principals\r\n                ")
+                    _vm._v("Principals\n                ")
                   ])
                 ],
                 1
@@ -30606,7 +30578,13 @@ var render = function() {
                 _c(
                   "v-list-item-content",
                   { staticClass: "pl-8" },
-                  [_c("v-list-item-title", [_vm._v(_vm._s(principal.name))])],
+                  [
+                    _c(
+                      "v-list-item-title",
+                      { class: principal.proj_status == 1 ? "" : "" },
+                      [_vm._v(_vm._s(principal.name))]
+                    )
+                  ],
                   1
                 )
               ],
@@ -97330,7 +97308,8 @@ var actions = {
               state.isGeneratingData = true;
               url = encodeURI(AppStore.state.siteUrl + 'principals/' + principal_code + '/invoices/generate-templated-data' // + '?group_by=route_code'
               // + '?template_variations_count=' + template_variations_count
-              );
+              ); // {cancelToken:axiosSource.token}
+
               _context3.next = 6;
               return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(url);
 
@@ -97348,7 +97327,7 @@ var actions = {
               }); // ];
               // state.currentGeneratedData = result.data.output_template_variations;
 
-              console.log('=========================== TEMPLATED DATA: ===========================', state.currentGeneratedData);
+              console.log('================= TEMPLATED DATA: =================', state.currentGeneratedData);
               _context3.next = 17;
               break;
 
@@ -97589,7 +97568,7 @@ var actions = {
   exportToExcel: function exportToExcel() {
     var _arguments3 = arguments;
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-      var headers, jsonData, includeTotals, fileName, alpha, alphabet, wBook, i, sheetName, lines;
+      var headers, jsonData, includeTotals, fileName, extension, alpha, alphabet, wBook, i, sheetName, lines;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
         while (1) {
           switch (_context7.prev = _context7.next) {
@@ -97598,6 +97577,7 @@ var actions = {
               jsonData = _arguments3.length > 1 && _arguments3[1] !== undefined ? _arguments3[1] : [];
               includeTotals = _arguments3.length > 2 && _arguments3[2] !== undefined ? _arguments3[2] : [];
               fileName = _arguments3.length > 3 && _arguments3[3] !== undefined ? _arguments3[3] : '';
+              extension = _arguments3.length > 4 && _arguments3[4] !== undefined ? _arguments3[4] : 'xlsx';
               console.log("Exporting from PrincipalsStore....");
               console.log("headers:", headers);
               console.log("jsonData:", jsonData);
@@ -97609,7 +97589,7 @@ var actions = {
               });
 
               try {
-                fileName = "".concat(fileName, "_").concat(AppStore.state.strDateToday, ".xlsx");
+                fileName = "".concat(fileName, "_").concat(AppStore.state.strDateToday, ".").concat(extension);
                 wBook = XLSX.utils.book_new();
 
                 for (i = 0; i < jsonData.length; i++) {
@@ -97655,7 +97635,7 @@ var actions = {
                 AppStore.toast(error);
               }
 
-            case 10:
+            case 11:
             case "end":
               return _context7.stop();
           }
@@ -97668,9 +97648,10 @@ var actions = {
    * Export to simple Excel
    */
   toExcel_simple: function toExcel_simple(sheetName, data, tableHeaderPropertyName, includeTotals, fileName) {
+    var extension = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 'xlsx';
     var tempData = [[sheetName, data]];
     var config = this.getHeaderAndFormat(tableHeaderPropertyName);
-    this.exportToExcel(config[0].header, this.generatedDataSubset(tempData, config[0].format), includeTotals, "".concat(fileName));
+    this.exportToExcel(config[0].header, this.generatedDataSubset(tempData, config[0].format), includeTotals, fileName, extension);
   },
 
   /**

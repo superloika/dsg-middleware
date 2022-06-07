@@ -153,7 +153,6 @@ const actions = {
      * Generate templated data based on pending invoices
      */
     async initCurrentGeneratedData(principal_code, template_variations_count=1) {
-        // alert(principal_code);
         try {
             state.isGeneratingData = true;
             const url = encodeURI(
@@ -162,6 +161,7 @@ const actions = {
                 // + '?group_by=route_code'
                 // + '?template_variations_count=' + template_variations_count
             );
+            // {cancelToken:axiosSource.token}
             let result = await axios.get(url);
             state.isGeneratingData = false;
             state.currentGeneratedData = [];
@@ -179,7 +179,7 @@ const actions = {
 
             // state.currentGeneratedData = result.data.output_template_variations;
 
-            console.log('=========================== TEMPLATED DATA: ===========================',
+            console.log('================= TEMPLATED DATA: =================',
                 state.currentGeneratedData);
         } catch (error) {
             console.log('PrincipalsStore.initCurrentGeneratedData() - ERROR:', error);
@@ -373,7 +373,7 @@ const actions = {
      * ]
      *
      */
-    async exportToExcel(headers = [], jsonData=[], includeTotals=[], fileName='') {
+    async exportToExcel(headers = [], jsonData=[], includeTotals=[], fileName='', extension='xlsx') {
         console.log("Exporting from PrincipalsStore....");
         console.log("headers:", headers);
         console.log("jsonData:", jsonData);
@@ -382,7 +382,7 @@ const actions = {
         const alphabet = alpha.map((x) => String.fromCharCode(x));
 
         try {
-            fileName = `${fileName}_${AppStore.state.strDateToday}.xlsx`;
+            fileName = `${fileName}_${AppStore.state.strDateToday}.${extension}`;
             let wBook = XLSX.utils.book_new();
 
             for(let i=0; i<jsonData.length; i++) {
@@ -423,7 +423,7 @@ const actions = {
     /**
      * Export to simple Excel
      */
-    toExcel_simple(sheetName, data, tableHeaderPropertyName, includeTotals, fileName){
+    toExcel_simple(sheetName, data, tableHeaderPropertyName, includeTotals, fileName,extension='xlsx'){
         const tempData = [
             [
                 sheetName,
@@ -440,7 +440,8 @@ const actions = {
                 config[0].format
             ),
             includeTotals,
-            `${fileName}`
+            fileName,
+            extension
         );
     },
 

@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\Storage;
 
 class MasterPrincipalsController extends Controller
 {
-
     public function index()
     {
-        $res = DB::table('principals')->orderBy('name')->get();
+        $res = DB::table('principals')
+            ->orderBy('proj_status', 'DESC')
+            ->orderBy('name')
+            ->get();
 
         return response()->json($res);
     }
