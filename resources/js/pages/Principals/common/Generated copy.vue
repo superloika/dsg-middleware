@@ -20,7 +20,7 @@
                                 outlinedx
                                 label
                                 color="transparent"
-                                v-if="warningsCount > 0"
+                                v-if="customersNotFoundCount > 0 || itemsNotFoundCount > 0"
                                 class="px-1 warning--text"
                             >
                                 {{ warningsCount }} total warning(s)
@@ -56,6 +56,38 @@
                         solo-inverted
                         :disabled="PrincipalsStore.state.currentGeneratedData.length<1"
                     ></v-text-field>
+
+                    <!-- =====================  PENDINGS ====================== -->
+                    <!-- <v-btn
+                        title="Pending Lines"
+                        icon dense rounded depressed
+                        color="yellow"
+                        @click.stop="dlgPendings = true"
+                        disabled
+                    >
+                        <v-icon>mdi-file-document</v-icon>
+                    </v-btn>
+                    <v-dialog
+                        v-model="dlgPendings"
+                        max-width="1200"
+                        style="height:600px;"
+                        scrollable
+                        scrollable-x
+                    >
+                        <Pendings></Pendings>
+                    </v-dialog> -->
+                    <!-- =====================  /PENDINGS ====================== -->
+
+
+                    <!-- FOR TESTING -->
+                    <!-- <v-btn
+                        icon
+                        color="error"
+                        @click="century.state.generatedDataTableHeader[0].shift()"
+                    >
+                        <v-icon>mdi-account-multiple</v-icon>
+                    </v-btn> -->
+
 
                     <!-- UNMAPPED CUSTOMERS -->
                     <v-btn
@@ -122,9 +154,9 @@
                         color="success"
                         @click.stop="PrincipalsStore.state.confirmExportDialogOpen = true"
                         :disabled="
-                            lineCount < 1
-                            || searchKeyLength > 0
-                            || warningsCount >= lineCount
+                            lineCount < 1 ||
+                            searchKeyLength > 0 ||
+                            (itemsNotFoundCount + customersNotFoundCount) >= lineCount
                         "
                     >
                         <v-icon>mdi-file-excel</v-icon>
@@ -220,47 +252,47 @@ export default {
             return count;
         },
 
-        // // overall
-        // itemsNotFoundCount() {
-        //     // return 1;
-        //     let count = 0;
-        //     // this.generatedData.forEach(e => {
-        //     //     const nf = e.output_template[0].filter(line => {
-        //     //         return line.item_notfound == 1;
-        //     //     });
-        //     //     count += nf.length;
-        //     // });
-        //     if(this.generatedData.length > 0) {
-        //         this.generatedData[0].output_template.forEach(e => {
-        //             const nf = e[1].filter(line => {
-        //                 return line.item_notfound == 1;
-        //             });
-        //             count += nf.length;
-        //         });
-        //     }
-        //     return count;
-        // },
+        // overall
+        itemsNotFoundCount() {
+            // return 1;
+            let count = 0;
+            // this.generatedData.forEach(e => {
+            //     const nf = e.output_template[0].filter(line => {
+            //         return line.item_notfound == 1;
+            //     });
+            //     count += nf.length;
+            // });
+            if(this.generatedData.length > 0) {
+                this.generatedData[0].output_template.forEach(e => {
+                    const nf = e[1].filter(line => {
+                        return line.item_notfound == 1;
+                    });
+                    count += nf.length;
+                });
+            }
+            return count;
+        },
 
-        // // overall
-        // customersNotFoundCount() {
-        //     let count = 0;
-        //     // this.generatedData.forEach(e => {
-        //     //     const nf = e.output_template[0].filter(line => {
-        //     //         return line.customer_notfound == 1;
-        //     //     });
-        //     //     count += nf.length;
-        //     // });
+        // overall
+        customersNotFoundCount() {
+            let count = 0;
+            // this.generatedData.forEach(e => {
+            //     const nf = e.output_template[0].filter(line => {
+            //         return line.customer_notfound == 1;
+            //     });
+            //     count += nf.length;
+            // });
 
-        //     if(this.generatedData.length > 0) {
-        //         this.generatedData[0].output_template.forEach(e => {
-        //             const nf = e[1].filter(line => {
-        //                 return line.customer_notfound == 1;
-        //             });
-        //             count += nf.length;
-        //         });
-        //     }
-        //     return count;
-        // },
+            if(this.generatedData.length > 0) {
+                this.generatedData[0].output_template.forEach(e => {
+                    const nf = e[1].filter(line => {
+                        return line.customer_notfound == 1;
+                    });
+                    count += nf.length;
+                });
+            }
+            return count;
+        },
 
         // overall
         warningsCount() {
@@ -286,6 +318,7 @@ export default {
         selectedPrincipalCode() {
             return this.PrincipalsStore.state.selectedPrincipalCode;
         },
+
 
         searchKeyLength() {
             try {
@@ -332,6 +365,31 @@ export default {
                     });
                 }
 
+                // this.generatedData.forEach(e => {
+                //     console.log(e);
+                //     let tempArray = [];
+                //     e.output_template[0].forEach(line => {
+                //         if(type=='customer') {
+                //             if(line.customer_notfound == 1) {
+                //                 tempArray.push({
+                //                     customer_code: line.customer_code,
+                //                     missing_customer_name: line.missing_customer_name
+                //                 });
+                //             }
+                //         } else if (type=='item') {
+                //             if(line.item_notfound == 1) {
+                //                 tempArray.push({
+                //                     item_code: line.item_code,
+                //                     missing_item_name: line.missing_item_name
+                //                 });
+                //             }
+                //         }
+                //     });
+                //     if (tempArray.length > 0) {
+                //         result.push(...tempArray);
+                //     }
+                // });
+
                 let unique = [];
                 let distinct = [];
                 for( let i = 0; i < result.length; i++ ){
@@ -341,6 +399,7 @@ export default {
                     }
                 }
                 return distinct;
+
             } catch (error) {
                 console.log("missingInMaster() - ERR:", error);
                 return [];

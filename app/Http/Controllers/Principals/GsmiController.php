@@ -317,7 +317,7 @@ class GsmiController extends Controller
             // **************** /PENDING INVOICES ************************************
 
 
-            // ********************************** TEMPLATES **********************************
+            // ********************************** TEMPLATE(S) **********************************
             $pageLineCount = 1;
             $pageNum = 1;
             for ($tvc_index = 0; $tvc_index < $template_variation_count; $tvc_index++) {
@@ -328,7 +328,7 @@ class GsmiController extends Controller
 
                 // Loop through each line of the file content
                 foreach ($pendingInvoices as $pendingInvoice) {
-                    // ======================= INIT ================================================
+                    // ======================= INIT =========================================
                     $doc_type = trim($pendingInvoice->doc_type);
                     $doc_no = trim($pendingInvoice->doc_no);
                     $customer_code = trim($pendingInvoice->customer_code);
@@ -351,6 +351,17 @@ class GsmiController extends Controller
                         ->where('item_code', $item_code)
                         ->first();
 
+                    // quantity_conversion
+                    $bulk_qty = 0;
+                    $loose_qty = 0;
+                    if($item != null) {
+                        $quo = $quantity/$item->conversion_qty;
+                        $mod = $quantity%$item->conversion_qty;
+                        $bulk_qty = intval($quo);
+                        $loose_qty = $mod;
+                    }
+
+                    // ******************** TEMPLATE 1 **************************
                     if ($tvc_index == 0) {
                         $item_notfound = 0;
                         $customer_notfound = 0;
@@ -379,9 +390,9 @@ class GsmiController extends Controller
                         $customer_code_supplier = $item->customer_code_supplier ?? $customer_code;
 
                         $distributor_id = $settings['distributor_id'] ?? 'N/A';
-                        // ======================= /INIT ================================================
+                        // ======================= /INIT ===========================================
 
-                        // =========== SETTING UP =======================================================
+                        // =========== SETTING UP ==================================================
                         // Generated data line structure
                         $arrGenerated = [
                             //commons
@@ -398,6 +409,8 @@ class GsmiController extends Controller
                             'system_date' => $dateToday->format('m/d/Y'),
                             'request_delivery_date' => $dateToday->format('m/d/Y'),
                             'distributor_id' => $distributor_id,
+                            'bulk_qty' => $bulk_qty,
+                            'loose_qty' => $loose_qty,
                         ];
 
                         if ($chunk_line_count > 0) {
@@ -419,95 +432,17 @@ class GsmiController extends Controller
                         } else {
                             // group output_template_variations
                             if (
-                                !isset($res['output_template_variations'][$tvc_index]['output_template'][$order_date])
+                                !isset($res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')])
                             ) {
-                                $res['output_template_variations'][$tvc_index]['output_template'][$order_date] = [];
+                                $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')] = [];
                             }
                             array_push(
-                                $res['output_template_variations'][$tvc_index]['output_template'][$order_date],
+                                $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')],
                                 $arrGenerated
                             );
                         }
                         // =========== /SETTING UP =======================================================
 
-                    } else if ($tvc_index == 1) {
-                        $item_notfound = 0;
-                        $customer_notfound = 0;
-                        $missing_customer_name = '';
-                        $missing_item_name = '';
-
-                        if ($item == null) {
-                            $item_notfound = 1;
-                            $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                                ->where('item_code', $item_code)
-                                ->first()->description ?? '[ Not Found ]';
-                        } else {
-                        }
-
-                        if ($customer == null) {
-                            $customer_notfound = 1;
-                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                ->where('customer_code', $customer_code)
-                                ->first()->name ?? '[ Not Found ]';
-                        } else {
-                        }
-
-                        $order_date = $dateToday->format('Y/m/d');
-
-                        $item_code_supplier = $item->item_code_supplier ?? $item_code;
-                        $customer_code_supplier = $item->customer_code_supplier ?? $customer_code;
-
-                        $distributor_id = $settings['distributor_id'] ?? 'N/A';
-                        // ======================= /INIT ================================================
-
-                        // =========== SETTING UP =======================================================
-                        // Generated data line structure
-                        $arrGenerated = [
-                            //commons
-                            'customer_code' => $customer_code_supplier,
-                            'item_code' => $item_code_supplier,
-                            'alturas_item_code' => $item_code,
-                            'doc_no' => $doc_no. '.teeeeeeeeesst!!',
-                            'missing_customer_name' => $missing_customer_name,
-                            'missing_item_name' => $missing_item_name,
-                            'customer_notfound' => $customer_notfound,
-                            'item_notfound' => $item_notfound,
-                            // principal specific
-                            'order_date' => $order_date,
-                            'system_date' => $dateToday->format('m/d/Y'),
-                            'request_delivery_date' => $dateToday->format('m/d/Y'),
-                            'distributor_id' => $distributor_id,
-                        ];
-
-                        if ($chunk_line_count > 0) {
-                            if (
-                                !isset($res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum])
-                            ) {
-                                $res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum],
-                                $arrGenerated
-                            );
-
-                            $pageLineCount += 1;
-                            if ($pageLineCount > $chunk_line_count) {
-                                $pageNum += 1;
-                                $pageLineCount = 1;
-                            }
-                        } else {
-                            // group output_template_variations
-                            if (
-                                !isset($res['output_template_variations'][$tvc_index]['output_template'][$order_date])
-                            ) {
-                                $res['output_template_variations'][$tvc_index]['output_template'][$order_date] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][$tvc_index]['output_template'][$order_date],
-                                $arrGenerated
-                            );
-                        }
-                        // =========== /SETTING UP =======================================================
                     }
                 }
 
@@ -541,9 +476,6 @@ class GsmiController extends Controller
         // generated data
         DB::beginTransaction();
         try {
-            // kaloy 2022-04-26
-            $order_no = 0;
-
             foreach ($request->generated_data[0]['output_template'] as $gendata) {
                 foreach ($gendata[1] as $line) {
                     if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
@@ -556,12 +488,6 @@ class GsmiController extends Controller
                                 'status' => 'completed',
                                 'updated_at' => $dateToday
                             ]);
-
-                        // kaloy 2022-04-26
-                        $temp_orderno = intval($line['order_no']);
-                        if ($temp_orderno > $order_no) {
-                            $order_no = $temp_orderno;
-                        }
                     }
                 }
             }
@@ -573,22 +499,18 @@ class GsmiController extends Controller
                         if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
                             $status = PrincipalsUtil::$STATUS_COMPLETED;
                             DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
+                                // common
                                 'principal_code' => $this->PRINCIPAL_CODE,
-                                'status' => $status,
-                                'uploaded_by' => auth()->user()->id,
-                                'doc_no' => $line['doc_no'],
-                                // ====
-                                'order_date' => $line['order_date'],
-                                'customer_code' => $line['customer_code'],
-                                'route_code' => $line['route_code'],
-                                'product_category_code' => $line['product_category_code'],
-                                'ship_to' => $line['ship_to'],
-                                'order_no' => $line['order_no'],
-                                'remarks' => $line['remarks'],
-                                'item_code' => $line['item_code'],
-                                'quantity' => $line['quantity'],
-                                'generated_at' => $dateToday,
                                 'template_variation' => $template_variation,
+                                'generated_at' => $dateToday,
+                                'uploaded_by' => auth()->user()->id,
+                                'status' => $status,
+                                'doc_no' => $line['doc_no'],
+                                // principal specific
+                                'customer_code' => $line['customer_code'],
+                                'item_code' => $line['item_code'],
+                                'bulk_qty' => $line['bulk_qty'],
+                                'loose_qty' => $line['loose_qty'],
                             ]);
                         }
                     }

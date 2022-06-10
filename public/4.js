@@ -189,38 +189,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     GeneratedTableWrapper: function GeneratedTableWrapper() {
@@ -269,47 +237,45 @@ __webpack_require__.r(__webpack_exports__);
 
       return count;
     },
-    // overall
-    itemsNotFoundCount: function itemsNotFoundCount() {
-      // return 1;
-      var count = 0; // this.generatedData.forEach(e => {
-      //     const nf = e.output_template[0].filter(line => {
-      //         return line.item_notfound == 1;
-      //     });
-      //     count += nf.length;
-      // });
-
-      if (this.generatedData.length > 0) {
-        this.generatedData[0].output_template.forEach(function (e) {
-          var nf = e[1].filter(function (line) {
-            return line.item_notfound == 1;
-          });
-          count += nf.length;
-        });
-      }
-
-      return count;
-    },
-    // overall
-    customersNotFoundCount: function customersNotFoundCount() {
-      var count = 0; // this.generatedData.forEach(e => {
-      //     const nf = e.output_template[0].filter(line => {
-      //         return line.customer_notfound == 1;
-      //     });
-      //     count += nf.length;
-      // });
-
-      if (this.generatedData.length > 0) {
-        this.generatedData[0].output_template.forEach(function (e) {
-          var nf = e[1].filter(function (line) {
-            return line.customer_notfound == 1;
-          });
-          count += nf.length;
-        });
-      }
-
-      return count;
-    },
+    // // overall
+    // itemsNotFoundCount() {
+    //     // return 1;
+    //     let count = 0;
+    //     // this.generatedData.forEach(e => {
+    //     //     const nf = e.output_template[0].filter(line => {
+    //     //         return line.item_notfound == 1;
+    //     //     });
+    //     //     count += nf.length;
+    //     // });
+    //     if(this.generatedData.length > 0) {
+    //         this.generatedData[0].output_template.forEach(e => {
+    //             const nf = e[1].filter(line => {
+    //                 return line.item_notfound == 1;
+    //             });
+    //             count += nf.length;
+    //         });
+    //     }
+    //     return count;
+    // },
+    // // overall
+    // customersNotFoundCount() {
+    //     let count = 0;
+    //     // this.generatedData.forEach(e => {
+    //     //     const nf = e.output_template[0].filter(line => {
+    //     //         return line.customer_notfound == 1;
+    //     //     });
+    //     //     count += nf.length;
+    //     // });
+    //     if(this.generatedData.length > 0) {
+    //         this.generatedData[0].output_template.forEach(e => {
+    //             const nf = e[1].filter(line => {
+    //                 return line.customer_notfound == 1;
+    //             });
+    //             count += nf.length;
+    //         });
+    //     }
+    //     return count;
+    // },
     // overall
     warningsCount: function warningsCount() {
       var count = 0; // this.generatedData.forEach(e => {
@@ -374,31 +340,7 @@ __webpack_require__.r(__webpack_exports__);
               result.push.apply(result, tempArray);
             }
           });
-        } // this.generatedData.forEach(e => {
-        //     console.log(e);
-        //     let tempArray = [];
-        //     e.output_template[0].forEach(line => {
-        //         if(type=='customer') {
-        //             if(line.customer_notfound == 1) {
-        //                 tempArray.push({
-        //                     customer_code: line.customer_code,
-        //                     missing_customer_name: line.missing_customer_name
-        //                 });
-        //             }
-        //         } else if (type=='item') {
-        //             if(line.item_notfound == 1) {
-        //                 tempArray.push({
-        //                     item_code: line.item_code,
-        //                     missing_item_name: line.missing_item_name
-        //                 });
-        //             }
-        //         }
-        //     });
-        //     if (tempArray.length > 0) {
-        //         result.push(...tempArray);
-        //     }
-        // });
-
+        }
 
         var unique = [];
         var distinct = [];
@@ -486,8 +428,7 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            _vm.customersNotFoundCount > 0 ||
-                            _vm.itemsNotFoundCount > 0
+                            _vm.warningsCount > 0
                               ? _c(
                                   "v-chip",
                                   {
@@ -684,8 +625,7 @@ var render = function() {
                         disabled:
                           _vm.lineCount < 1 ||
                           _vm.searchKeyLength > 0 ||
-                          _vm.itemsNotFoundCount + _vm.customersNotFoundCount >=
-                            _vm.lineCount
+                          _vm.warningsCount >= _vm.lineCount
                       },
                       on: {
                         click: function($event) {

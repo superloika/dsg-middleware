@@ -112,10 +112,10 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "item_code"
   }, {
     text: "Bulk Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "bulk_qty"
   }, {
     text: "Loose Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "loose_qty"
   }, {
     text: "System Date",
     value: "system_date"
@@ -124,7 +124,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   }], [{
     text: "Distributor ID",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "distributor_id"
   }, {
     text: "Sales Agent ID",
     value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -142,16 +142,16 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   }, {
     text: "Customer No",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "customer_code"
   }, {
     text: "Product Code",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "item_code"
   }, {
     text: "Bulk Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   }, {
     text: "Loose Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   }, {
     text: "System Date",
     value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -267,28 +267,20 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "conversion_qty"
   }]],
   // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Distributor ID",
-    value: "distributor_id"
-  }, {
-    text: "Salesman",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
+  generatedDataTableHeader: [[// {text:"Distributor ID", value: "distributor_id"},
+  // {text:"Salesman", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+  {
     text: "Docno",
     value: "doc_no"
-  }, {
-    text: "Location",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
+  }, // {text:"Location", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+  {
     text: "Ordered Date",
     value: "order_date"
   }, {
     text: "Request Delivery Date",
     value: "request_delivery_date"
-  }, {
-    text: "Payment Term",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
+  }, // {text:"Payment Term", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+  {
     text: "Account Code",
     value: "customer_code"
   }, {
@@ -296,59 +288,15 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "item_code"
   }, {
     text: "Bulk Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "bulk_qty"
   }, {
     text: "Loose Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "loose_qty"
   }, {
     text: "System Date",
     value: "system_date"
-  }, {
-    text: "User",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }], [{
-    text: "Distributor ID",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Sales Agent ID",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Invoice No (Doc No)",
-    value: "doc_no"
-  }, {
-    text: "Location",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Invoice Date",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Payment Term Code",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Customer No",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Product Code",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Bulk Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Loose Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "System Date",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Default User",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Invoice No",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Expiry Date",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }]],
+  } // {text:"User", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+  ]],
   // transactions table header
   transactionsTableHeader: [[{
     text: "Upload Date",
@@ -380,21 +328,18 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }]],
   // ***********************************************************************************
   generatedDataHistoryFilters: [[{
-    text: 'Order Date',
-    value: 'order_date'
-  }, {
-    text: 'Route Code',
-    value: 'route_code'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
+    text: 'Generated Date',
+    value: 'generated_at'
   }, {
     text: 'Customer Code',
     value: 'customer_code'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
   }]],
   generatedDataDBTableColumns: [// common
   'id', 'generated_at', 'uploaded_by', 'doc_no', // principal template
-  'distributor_id', 'sales_agent_id', 'invoice_no', 'location', 'invoice_date', 'payment_term_code', 'bulk_qty', 'loose_qty', 'system_date', 'default_user', 'expiry_date', 'request_delivery_date']
+  'customer_code', 'item_code', 'bulk_qty', 'loose_qty']
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -545,13 +490,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Route Code',
     value: 'route_code'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }]],
+  } // {text: 'Item Code', value: 'item_code'},
+  // {text: 'Customer Code', value: 'customer_code'},
+  ]],
   generatedDataDBTableColumns: [// common
   'id', 'generated_at', 'uploaded_by', 'doc_no', // principal template
   'order_date', 'customer_code', 'route_code', 'product_category_code', 'ship_to', 'order_no', 'remarks', 'item_code', 'quantity'] // uploadedInvoicesTableHeader: [
@@ -649,26 +590,8 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }]],
   // templated data table header
   generatedDataTableHeader: [[{
-    text: "Distributor ID",
-    value: "distributor_id"
-  }, {
-    text: "Salesman",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
     text: "Docno",
     value: "doc_no"
-  }, {
-    text: "Location",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Ordered Date",
-    value: "order_date"
-  }, {
-    text: "Request Delivery Date",
-    value: "request_delivery_date"
-  }, {
-    text: "Payment Term",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   }, {
     text: "Account Code",
     value: "customer_code"
@@ -677,58 +600,10 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "item_code"
   }, {
     text: "Bulk Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "bulk_qty"
   }, {
     text: "Loose Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "System Date",
-    value: "system_date"
-  }, {
-    text: "User",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }], [{
-    text: "Distributor ID",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Sales Agent ID",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Invoice No (Doc No)",
-    value: "doc_no"
-  }, {
-    text: "Location",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Invoice Date",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Payment Term Code",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Customer No",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Product Code",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Bulk Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Loose Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "System Date",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Default User",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Invoice No",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  }, {
-    text: "Expiry Date",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "loose_qty"
   }]],
   // transactions table header
   transactionsTableHeader: [[{
@@ -761,11 +636,8 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }]],
   // ***********************************************************************************
   generatedDataHistoryFilters: [[{
-    text: 'Order Date',
-    value: 'order_date'
-  }, {
-    text: 'Route Code',
-    value: 'route_code'
+    text: 'Generated Date',
+    value: 'generated_at'
   }, {
     text: 'Item Code',
     value: 'item_code'
@@ -774,8 +646,8 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: 'customer_code'
   }]],
   generatedDataDBTableColumns: [// common
-  'id', 'generated_at', 'uploaded_by', 'doc_no', // principal template
-  'distributor_id', 'sales_agent_id', 'invoice_no', 'location', 'invoice_date', 'payment_term_code', 'bulk_qty', 'loose_qty', 'system_date', 'default_user', 'expiry_date', 'request_delivery_date']
+  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
+  'customer_code', 'item_code', 'bulk_qty', 'loose_qty']
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({

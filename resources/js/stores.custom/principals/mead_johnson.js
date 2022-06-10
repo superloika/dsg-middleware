@@ -83,8 +83,8 @@ const state = Vue.observable({
         [
             {text: 'Order Date', value: 'order_date'},
             {text: 'Route Code', value: 'route_code'},
-            {text: 'Item Code', value: 'item_code'},
-            {text: 'Customer Code', value: 'customer_code'},
+            // {text: 'Item Code', value: 'item_code'},
+            // {text: 'Customer Code', value: 'customer_code'},
         ]
     ],
     generatedDataDBTableColumns: [

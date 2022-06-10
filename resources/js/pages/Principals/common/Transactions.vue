@@ -96,6 +96,17 @@
         >
             <v-icon>mdi-file-excel</v-icon>
         </v-btn>
+
+        <v-btn
+            icon
+            title="Export to PDF"
+            @click="PrincipalsStore.exportToPdf(PrincipalsStore.state.transactions)"
+            :disabled="(searchKey!=null && searchKey!='') ||
+                    PrincipalsStore.state.transactions.length < 1
+                "
+        >
+            <v-icon>mdi-export</v-icon>
+        </v-btn>
     </v-app-bar>
     <v-sheet>
         <v-data-table

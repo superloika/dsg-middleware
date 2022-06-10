@@ -23,6 +23,7 @@
         "vuetify": "^2.6.4"
     },
     "dependencies": {
+        "jspdf": "^2.5.1",
         "laravel-echo": "^1.11.7",
         "pusher-js": "^7.1.0-beta"
     }

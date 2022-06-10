@@ -2,6 +2,7 @@ import Vue from 'vue';
 // import AppStore from '../AppStore';
 let AppStore = Vue.prototype.AppStore;
 import axios from 'axios';
+import {jsPDF} from 'jspdf';
 
 let state = Vue.observable({
     selectedPrincipalCode: '',
@@ -622,6 +623,45 @@ const actions = {
             let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
             document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
         }
+    },
+
+
+    /**
+     * Create PDFHeaders for exportToPDF()
+     */
+    createPDFHeaders(keys) {
+        let result = [];
+        console.log('KEYSSSSSS', keys);
+        for (let i = 0; i < keys.length; i += 1) {
+            result.push({
+            id: keys[i][0],
+            name: keys[i][0],
+            prompt: keys[i][1],
+            align: "center",
+            padding: 0
+            });
+        }
+        return result;
+    },
+
+    /**
+     * Export to PDF
+     */
+    exportToPdf(data) {
+        console.log(data);
+        let headers = this.createPDFHeaders([
+            ["customer_code",'Customer Code'],
+            ["customer_name",'Customer Name'],
+            ["doc_no",'Sales Invoice'],
+            ["item_code",'Item Code'],
+            ["description",'Description'],
+            ["uom",'UOM'],
+            ["quantity",'Quantity'],
+            ["u3",'Amount'],
+        ]);
+        const doc = new jsPDF({ putOnlyUsedFonts: true, orientation: "l", });
+        doc.table(1, 1, data, headers, { autoSize: true });
+        doc.save('test.pdf');
     }
 
 };

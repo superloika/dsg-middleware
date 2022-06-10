@@ -600,7 +600,7 @@ var render = function() {
                           { attrs: { color: "accent", small: "" } },
                           [
                             _vm._v(
-                              "\n                    No available data to displayxx\n                "
+                              "\n                    No available data to display\n                "
                             )
                           ]
                         )

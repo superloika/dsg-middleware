@@ -113,7 +113,7 @@
                     class="d-flex justify-center mt-5"
                 >
                     <v-chip color="accent" small>
-                        No available data to displayxx
+                        No available data to display
                     </v-chip>
                 </div>
                 <GeneratedTableWrapper

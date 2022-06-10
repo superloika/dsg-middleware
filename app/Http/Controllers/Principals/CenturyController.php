@@ -352,6 +352,17 @@ class CenturyController extends Controller
                         ->where('item_code', $item_code)
                         ->first();
 
+                    // quantity_conversion
+                    $bulk_qty = 0;
+                    $loose_qty = 0;
+                    if($item != null) {
+                        $quo = $quantity/$item->conversion_qty;
+                        $mod = $quantity%$item->conversion_qty;
+                        $bulk_qty = intval($quo);
+                        $loose_qty = $mod;
+                    }
+
+                    // ************************* TEMPLATE 1 **************************
                     if ($tvc_index == 0) {
                         $item_notfound = 0;
                         $customer_notfound = 0;
@@ -389,6 +400,7 @@ class CenturyController extends Controller
                             'customer_code' => $customer_code_supplier,
                             'item_code' => $item_code_supplier,
                             'alturas_item_code' => $item_code,
+                            'alturas_customer_code' => $customer_code,
                             'doc_no' => $doc_no,
                             'missing_customer_name' => $missing_customer_name,
                             'missing_item_name' => $missing_item_name,
@@ -399,6 +411,8 @@ class CenturyController extends Controller
                             'system_date' => $dateToday->format('m/d/Y'),
                             'request_delivery_date' => $dateToday->format('m/d/Y'),
                             'distributor_id' => $distributor_id,
+                            'bulk_qty' => $bulk_qty,
+                            'loose_qty' => $loose_qty,
                         ];
 
                         if ($chunk_line_count > 0) {
@@ -431,7 +445,10 @@ class CenturyController extends Controller
                         }
                         // =========== /SETTING UP =======================================================
 
-                    } else if ($tvc_index == 1) {
+                    }
+
+                    // ************************* TEMPLATE 2 **************************
+                    else if ($tvc_index == 1) {
                         $item_notfound = 0;
                         $customer_notfound = 0;
                         $missing_customer_name = '';
@@ -453,7 +470,7 @@ class CenturyController extends Controller
                         } else {
                         }
 
-                        $order_date = $dateToday->format('Y/m/d');
+                        // $order_date = $dateToday->format('Y/m/d');
 
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
                         $customer_code_supplier = $item->customer_code_supplier ?? $customer_code;
@@ -468,13 +485,14 @@ class CenturyController extends Controller
                             'customer_code' => $customer_code_supplier,
                             'item_code' => $item_code_supplier,
                             'alturas_item_code' => $item_code,
-                            'doc_no' => $doc_no. '.teeeeeeeeesst!!',
+                            'alturas_customer_code' => $customer_code,
+                            'doc_no' => $doc_no,
                             'missing_customer_name' => $missing_customer_name,
                             'missing_item_name' => $missing_item_name,
                             'customer_notfound' => $customer_notfound,
                             'item_notfound' => $item_notfound,
                             // principal specific
-                            'order_date' => $order_date,
+                            // 'order_date' => $order_date,
                             'system_date' => $dateToday->format('m/d/Y'),
                             'request_delivery_date' => $dateToday->format('m/d/Y'),
                             'distributor_id' => $distributor_id,
@@ -499,12 +517,12 @@ class CenturyController extends Controller
                         } else {
                             // group output_template_variations
                             if (
-                                !isset($res['output_template_variations'][$tvc_index]['output_template'][$order_date])
+                                !isset($res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')])
                             ) {
-                                $res['output_template_variations'][$tvc_index]['output_template'][$order_date] = [];
+                                $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')] = [];
                             }
                             array_push(
-                                $res['output_template_variations'][$tvc_index]['output_template'][$order_date],
+                                $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')],
                                 $arrGenerated
                             );
                         }

@@ -57,8 +57,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["generatedData", "allow_export"],
   data: function data() {
@@ -78,19 +76,25 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    // get item_notfound line count per group
-    groupItemsNotFoundLineCount: function groupItemsNotFoundLineCount() {
+    // // get item_notfound line count per group
+    // groupItemsNotFoundLineCount(lines = []) {
+    //     const test = lines.filter(e => {
+    //         return e.item_notfound == 1;
+    //     });
+    //     return test.length;
+    // },
+    // // get customer_notfound line count per group
+    // groupCustomersNotFoundLineCount(lines = []) {
+    //     const test = lines.filter(e => {
+    //         return e.customer_notfound == 1;
+    //     });
+    //     return test.length;
+    // },
+    // get total warnings
+    warningsCount: function warningsCount() {
       var lines = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
       var test = lines.filter(function (e) {
-        return e.item_notfound == 1;
-      });
-      return test.length;
-    },
-    // get customer_notfound line count per group
-    groupCustomersNotFoundLineCount: function groupCustomersNotFoundLineCount() {
-      var lines = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-      var test = lines.filter(function (e) {
-        return e.customer_notfound == 1;
+        return e.customer_notfound == 1 || e.item_notfound == 1;
       });
       return test.length;
     }
@@ -243,8 +247,7 @@ var render = function() {
                               _vm._s(data[0]) +
                               "\n                        "
                           ),
-                          _vm.groupCustomersNotFoundLineCount(data[1]) > 0 ||
-                          _vm.groupItemsNotFoundLineCount(data[1]) > 0
+                          _vm.warningsCount(data[1]) > 0
                             ? _c(
                                 "v-chip",
                                 {
@@ -254,20 +257,7 @@ var render = function() {
                                 [
                                   _vm._v(
                                     "\n                            " +
-                                      _vm._s(
-                                        _vm.groupCustomersNotFoundLineCount(
-                                          data[1]
-                                        ) >
-                                          _vm.groupItemsNotFoundLineCount(
-                                            data[1]
-                                          )
-                                          ? _vm.groupCustomersNotFoundLineCount(
-                                              data[1]
-                                            )
-                                          : _vm.groupItemsNotFoundLineCount(
-                                              data[1]
-                                            )
-                                      ) +
+                                      _vm._s(_vm.warningsCount(data[1])) +
                                       "\n                        "
                                   )
                                 ]

@@ -20,11 +20,9 @@
                         {{ data[0] }}
                         <v-chip color="warning" x-small
                             class="ml-1 text-captionx px-1"
-                            v-if="groupCustomersNotFoundLineCount(data[1]) > 0
-                                || groupItemsNotFoundLineCount(data[1]) > 0"
+                            v-if="warningsCount(data[1]) > 0"
                         >
-                            {{ groupCustomersNotFoundLineCount(data[1]) > groupItemsNotFoundLineCount(data[1]) ?
-                                groupCustomersNotFoundLineCount(data[1]) : groupItemsNotFoundLineCount(data[1]) }}
+                            {{ warningsCount(data[1]) }}
                         </v-chip>
                     </v-tab>
                 </v-tabs>
@@ -69,21 +67,29 @@ export default {
     },
 
     methods: {
-        // get item_notfound line count per group
-        groupItemsNotFoundLineCount(lines = []) {
+        // // get item_notfound line count per group
+        // groupItemsNotFoundLineCount(lines = []) {
+        //     const test = lines.filter(e => {
+        //         return e.item_notfound == 1;
+        //     });
+        //     return test.length;
+        // },
+
+        // // get customer_notfound line count per group
+        // groupCustomersNotFoundLineCount(lines = []) {
+        //     const test = lines.filter(e => {
+        //         return e.customer_notfound == 1;
+        //     });
+        //     return test.length;
+        // },
+
+        // get total warnings
+        warningsCount(lines = []) {
             const test = lines.filter(e => {
-                return e.item_notfound == 1;
+                return e.customer_notfound == 1 || e.item_notfound == 1;
             });
             return test.length;
         },
-
-        // get customer_notfound line count per group
-        groupCustomersNotFoundLineCount(lines = []) {
-            const test = lines.filter(e => {
-                return e.customer_notfound == 1;
-            });
-            return test.length;
-        }
     },
 
     watch: {

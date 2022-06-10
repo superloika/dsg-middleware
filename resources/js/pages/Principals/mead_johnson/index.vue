@@ -48,11 +48,11 @@ export default {
                     icon: 'mdi-tune',
                     component: () => import("../common/Settings.vue"),
                 },
-                {
-                    title: 'DevChat (TEST)',
-                    icon: 'mdi-message',
-                    component: () => import("../common/DevChat.vue"),
-                },
+                // {
+                //     title: 'DevChat (TEST)',
+                //     icon: 'mdi-message',
+                //     component: () => import("../common/DevChat.vue"),
+                // },
             ]
         },
 

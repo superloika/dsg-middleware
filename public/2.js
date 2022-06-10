@@ -145,6 +145,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ['date','searchKey'],
   data: function data() {
@@ -440,6 +451,28 @@ var render = function() {
               }
             },
             [_c("v-icon", [_vm._v("mdi-file-excel")])],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: {
+                icon: "",
+                title: "Export to PDF",
+                disabled:
+                  (_vm.searchKey != null && _vm.searchKey != "") ||
+                  _vm.PrincipalsStore.state.transactions.length < 1
+              },
+              on: {
+                click: function($event) {
+                  return _vm.PrincipalsStore.exportToPdf(
+                    _vm.PrincipalsStore.state.transactions
+                  )
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-export")])],
             1
           )
         ],

@@ -77,8 +77,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['items', 'template_variation_index', 'tab_caption', 'allow_export'],
   computed: {
@@ -118,15 +116,12 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.allow_export
-        ? _c(
-            "v-sheet",
-            {
-              staticClass: "px-3 pt-1 pb-2",
-              attrs: { color: "grey lighten-5" }
-            },
-            [
-              _c(
+      _c(
+        "v-sheet",
+        { staticClass: "px-3 pt-1 pb-2", attrs: { color: "grey lighten-5" } },
+        [
+          _vm.allow_export
+            ? _c(
                 "div",
                 { staticClass: "d-flex justify-end" },
                 [
@@ -149,9 +144,9 @@ var render = function() {
                 ],
                 1
               )
-            ]
-          )
-        : _vm._e(),
+            : _vm._e()
+        ]
+      ),
       _vm._v(" "),
       _c("v-data-table", {
         attrs: {
