@@ -1,7 +1,7 @@
 <template>
 <div>
-    <v-sheet class="px-3 pt-1 pb-2" color="grey lighten-5">
-        <div class="d-flex justify-end" v-if="allow_export">
+    <v-sheet class="px-3 pt-1 pb-2" color="grey lighten-5" v-if="allow_export">
+        <div class="d-flex justify-end">
             <v-btn
                 title="Export table to CSV"
                 color="success"

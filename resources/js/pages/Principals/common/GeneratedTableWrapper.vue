@@ -1,13 +1,12 @@
 <template>
 <v-sheet>
-    <v-tabs v-model="tab_template_variation" height="35" show-arrow color="accent">
-        <v-tab v-for="(templatedData, index) in generatedData" :key="index"
+    <v-tabs v-model="tab_template_variation" height="25">
+        <v-tab
+            v-for="(templatedData, index) in generatedData" :key="index"
             class="px-3 text-caption"
         >
             {{ templatedData.name }}
         </v-tab>
-    </v-tabs>
-    <v-tabs-items v-model="tab_template_variation">
         <v-tab-item
             v-for="(templatedData, template_variation_tabitem_index) in generatedData"
             :key="template_variation_tabitem_index"
@@ -42,7 +41,10 @@
                 </v-tabs-items>
             </v-sheet>
         </v-tab-item>
-    </v-tabs-items>
+    </v-tabs>
+
+    <!-- <v-tabs-items v-model="tab_template_variation">
+    </v-tabs-items> -->
 </v-sheet>
 </template>
 

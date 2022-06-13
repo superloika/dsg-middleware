@@ -495,14 +495,14 @@ var render = function() {
             scopedSlots: _vm._u(
               [
                 {
-                  key: "item.upload_date",
+                  key: "item.updated_at",
                   fn: function(ref) {
                     var item = ref.item
                     return [
                       _c("span", [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(item.upload_date.substring(0, 10)) +
+                            _vm._s(item.updated_at.substring(0, 10)) +
                             "\n                "
                         )
                       ])

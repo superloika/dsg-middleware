@@ -46,7 +46,8 @@
                     :label="setting.description"
                     :value="setting.value"
                     outlined
-                    rows="15"
+                    color="warning"
+                    auto-grow
                 ></v-textarea>
             </v-col>
         </v-row>

@@ -44,13 +44,19 @@ class PrincipalsUtil extends Controller
         $temp = [];
         foreach($settings as $setting) {
             if($setting->type=='json') {
-                $temp[$setting->name] = json_decode($setting->value);
+                // $json_string = "{\"$setting->name\":[$setting->value]}";
+                $setting->value = rtrim($setting->value,",");
+                $json_string = "{\"$setting->name\":[$setting->value]}";
+                // dd($json_string);
+                // $temp[$setting->name] = json_decode($setting->value);
+                $temp[$setting->name] = json_decode($json_string);
             } else {
                 $temp[$setting->name] = $setting->value;
             }
         }
         return $temp;
     }
+
 
     // public static function getPrincipalSettings($principalCode) {
     //     $res = DB::table('settings_principal')

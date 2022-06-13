@@ -25,7 +25,7 @@ class CenturyController extends Controller
 
     // =====================================================================
     // =====================================================================
-    // ITEMS =============================================================
+    // ITEMS ===============================================================
     // =====================================================================
     // =====================================================================
 
@@ -263,7 +263,7 @@ class CenturyController extends Controller
 
     // =====================================================================
     // =====================================================================
-    // INVOICES ===========================================================
+    // INVOICES ============================================================
     // =====================================================================
     // =====================================================================
 
@@ -290,6 +290,8 @@ class CenturyController extends Controller
             $filesTotalLineCount = 0;
             $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
             $breakFilesIteration = false;
+            $default_user = $settings['default_user'] ?? 'N/A';
+            $payment_term_code = $settings['payment_term_code'] ?? 'CODx';
 
             // **************** PENDING INVOICES ************************************
             $pendingInvoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
@@ -324,6 +326,7 @@ class CenturyController extends Controller
             for ($tvc_index = 0; $tvc_index < $template_variation_count; $tvc_index++) {
                 array_push($res['output_template_variations'], [
                     'name' => 'Template ' . ($tvc_index + 1),
+                    // 'name' => ($tvc_index + 1),
                     'output_template' => [],
                 ]);
 
@@ -385,10 +388,10 @@ class CenturyController extends Controller
                         } else {
                         }
 
-                        $order_date = $dateToday->format('Y/m/d');
+                        $order_date = $dateToday->format('m/d/Y');
 
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
-                        $customer_code_supplier = $item->customer_code_supplier ?? $customer_code;
+                        $customer_code_supplier = $customer->customer_code_supplier ?? $customer_code;
 
                         $distributor_id = $settings['distributor_id'] ?? 'N/A';
                         // ======================= /INIT ================================================
@@ -398,9 +401,9 @@ class CenturyController extends Controller
                         $arrGenerated = [
                             //commons
                             'customer_code' => $customer_code_supplier,
+                            'alturas_customer_code' => $customer_code,
                             'item_code' => $item_code_supplier,
                             'alturas_item_code' => $item_code,
-                            'alturas_customer_code' => $customer_code,
                             'doc_no' => $doc_no,
                             'missing_customer_name' => $missing_customer_name,
                             'missing_item_name' => $missing_item_name,
@@ -408,21 +411,27 @@ class CenturyController extends Controller
                             'item_notfound' => $item_notfound,
                             // principal specific
                             'order_date' => $order_date,
-                            'system_date' => $dateToday->format('m/d/Y'),
-                            'request_delivery_date' => $dateToday->format('m/d/Y'),
+                            'system_date' => $order_date,
+                            'request_delivery_date' => $order_date,
                             'distributor_id' => $distributor_id,
                             'bulk_qty' => $bulk_qty,
                             'loose_qty' => $loose_qty,
+                            'default_user' => $default_user,
+                            'payment_term_code' => $payment_term_code,
                         ];
 
+                        // for chunked results
                         if ($chunk_line_count > 0) {
                             if (
-                                !isset($res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum])
+                                !isset($res['output_template_variations']
+                                    [$tvc_index]['output_template']["Page " . $pageNum])
                             ) {
-                                $res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum] = [];
+                                $res['output_template_variations']
+                                    [$tvc_index]['output_template']["Page " . $pageNum] = [];
                             }
                             array_push(
-                                $res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum],
+                                $res['output_template_variations']
+                                    [$tvc_index]['output_template']["Page " . $pageNum],
                                 $arrGenerated
                             );
 
@@ -434,12 +443,15 @@ class CenturyController extends Controller
                         } else {
                             // group output_template_variations
                             if (
-                                !isset($res['output_template_variations'][$tvc_index]['output_template'][$order_date])
+                                !isset($res['output_template_variations']
+                                    [$tvc_index]['output_template'][$order_date])
                             ) {
-                                $res['output_template_variations'][$tvc_index]['output_template'][$order_date] = [];
+                                $res['output_template_variations']
+                                    [$tvc_index]['output_template'][$order_date] = [];
                             }
                             array_push(
-                                $res['output_template_variations'][$tvc_index]['output_template'][$order_date],
+                                $res['output_template_variations']
+                                    [$tvc_index]['output_template'][$order_date],
                                 $arrGenerated
                             );
                         }
@@ -500,12 +512,15 @@ class CenturyController extends Controller
 
                         if ($chunk_line_count > 0) {
                             if (
-                                !isset($res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum])
+                                !isset($res['output_template_variations']
+                                    [$tvc_index]['output_template']["Page " . $pageNum])
                             ) {
-                                $res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum] = [];
+                                $res['output_template_variations']
+                                    [$tvc_index]['output_template']["Page " . $pageNum] = [];
                             }
                             array_push(
-                                $res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum],
+                                $res['output_template_variations']
+                                    [$tvc_index]['output_template']["Page " . $pageNum],
                                 $arrGenerated
                             );
 
@@ -517,12 +532,15 @@ class CenturyController extends Controller
                         } else {
                             // group output_template_variations
                             if (
-                                !isset($res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')])
+                                !isset($res['output_template_variations']
+                                    [$tvc_index]['output_template'][$dateToday->format('m/d/Y')])
                             ) {
-                                $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')] = [];
+                                $res['output_template_variations']
+                                    [$tvc_index]['output_template'][$dateToday->format('m/d/Y')] = [];
                             }
                             array_push(
-                                $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')],
+                                $res['output_template_variations']
+                                    [$tvc_index]['output_template'][$dateToday->format('m/d/Y')],
                                 $arrGenerated
                             );
                         }
@@ -560,58 +578,106 @@ class CenturyController extends Controller
         // generated data
         DB::beginTransaction();
         try {
-            // kaloy 2022-04-26
-            $order_no = 0;
-
-            foreach ($request->generated_data[0]['output_template'] as $gendata) {
-                foreach ($gendata[1] as $line) {
-                    if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
-                        // dd($line);
-                        DB::table(PrincipalsUtil::$TBL_INVOICES)
-                            ->where('doc_no', $line['doc_no'])
-                            ->where('item_code', $line['alturas_item_code'])
-                            ->where('status', 'pending')
-                            ->update([
-                                'status' => 'completed',
-                                'updated_at' => $dateToday
-                            ]);
-
-                        // kaloy 2022-04-26
-                        $temp_orderno = intval($line['order_no']);
-                        if ($temp_orderno > $order_no) {
-                            $order_no = $temp_orderno;
+            // UPDATE INVOICES TABLE
+            foreach($request->generated_data as $generated_data) {
+                foreach ($generated_data['output_template'] as $output_template) {
+                    foreach ($output_template[1] as $line) {
+                        if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
+                            // dd($line);
+                            DB::table(PrincipalsUtil::$TBL_INVOICES)
+                                ->where('doc_no', $line['doc_no'])
+                                ->where('item_code', $line['alturas_item_code'])
+                                ->where('customer_code', $line['alturas_customer_code'])
+                                ->where('status', 'pending')
+                                ->update([
+                                    'status' => 'completed',
+                                    'updated_at' => $dateToday
+                                ]);
                         }
                     }
                 }
             }
 
+            // INSERT TO GENERATED/TEMPLATED TABLE
             $template_variation = 1;
             foreach ($request->generated_data as $variations) {
-                foreach ($variations['output_template'] as $gendata) {
-                    foreach ($gendata[1] as $line) {
-                        if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
-                            $status = PrincipalsUtil::$STATUS_COMPLETED;
-                            DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
-                                'principal_code' => $this->PRINCIPAL_CODE,
-                                'status' => $status,
-                                'uploaded_by' => auth()->user()->id,
-                                'doc_no' => $line['doc_no'],
-                                // ====
-                                'order_date' => $line['order_date'],
-                                'customer_code' => $line['customer_code'],
-                                'route_code' => $line['route_code'],
-                                'product_category_code' => $line['product_category_code'],
-                                'ship_to' => $line['ship_to'],
-                                'order_no' => $line['order_no'],
-                                'remarks' => $line['remarks'],
-                                'item_code' => $line['item_code'],
-                                'quantity' => $line['quantity'],
-                                'generated_at' => $dateToday,
-                                'template_variation' => $template_variation,
-                            ]);
+                // foreach ($variations['output_template'] as $gendata) {
+                //     foreach ($gendata[1] as $line) {
+                //         if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
+                //             $status = PrincipalsUtil::$STATUS_COMPLETED;
+                //             DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
+                //                 'principal_code' => $this->PRINCIPAL_CODE,
+                //                 'status' => $status,
+                //                 'uploaded_by' => auth()->user()->id,
+                //                 'doc_no' => $line['doc_no'],
+                //                 'generated_at' => $dateToday,
+                //                 'template_variation' => $template_variation,
+                //                 // ====
+                //                 'distributor_id' => $line['distributor_id'],
+                //                 'order_date' => $line['order_date'],
+                //                 'request_delivery_date' => $line['request_delivery_date'],
+                //                 'payment_term_code' => $line['payment_term_code'],
+                //                 'customer_code' => $line['customer_code'],
+                //                 'item_code' => $line['item_code'],
+                //                 'bulk_qty' => $line['bulk_qty'],
+                //                 'loose_qty' => $line['loose_qty'],
+                //                 'system_date' => $line['system_date'],
+                //             ]);
+                //         }
+                //     }
+                // }
+                // ************************** template variation 1 **************************
+                if($template_variation==1) {
+                    foreach ($variations['output_template'] as $gendata) {
+                        foreach ($gendata[1] as $line) {
+                            if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
+                                $status = PrincipalsUtil::$STATUS_COMPLETED;
+                                DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
+                                    'principal_code' => $this->PRINCIPAL_CODE,
+                                    'status' => $status,
+                                    'uploaded_by' => auth()->user()->id,
+                                    'doc_no' => $line['doc_no'],
+                                    'generated_at' => $dateToday,
+                                    'template_variation' => $template_variation,
+                                    // ====
+                                    'distributor_id' => $line['distributor_id'],
+                                    'order_date' => $line['order_date'],
+                                    'request_delivery_date' => $line['request_delivery_date'],
+                                    'payment_term_code' => $line['payment_term_code'],
+                                    'customer_code' => $line['customer_code'],
+                                    'item_code' => $line['item_code'],
+                                    'bulk_qty' => $line['bulk_qty'],
+                                    'loose_qty' => $line['loose_qty'],
+                                    'system_date' => $line['system_date'],
+                                    'default_user' => $line['default_user'],
+                                ]);
+                            }
                         }
                     }
                 }
+                // ************************** template variation 2 **************************
+                else if($template_variation==2) {
+                    foreach ($variations['output_template'] as $gendata) {
+                        foreach ($gendata[1] as $line) {
+                            if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
+                                $status = PrincipalsUtil::$STATUS_COMPLETED;
+                                DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
+                                    'principal_code' => $this->PRINCIPAL_CODE,
+                                    'status' => $status,
+                                    'uploaded_by' => auth()->user()->id,
+                                    'doc_no' => $line['doc_no'],
+                                    'generated_at' => $dateToday,
+                                    'template_variation' => $template_variation,
+                                    // ====
+                                    'distributor_id' => $line['distributor_id'],
+                                    'customer_code' => $line['customer_code'],
+                                    'item_code' => $line['item_code'],
+                                ]);
+                            }
+                        }
+                    }
+                }
+
                 $template_variation++;
             }
 

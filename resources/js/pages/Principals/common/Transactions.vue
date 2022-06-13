@@ -118,9 +118,9 @@
             id="transactions"
             :loading="PrincipalsStore.state.isInitTransactions"
         >
-            <template v-slot:[`item.upload_date`] = "{ item }">
+            <template v-slot:[`item.updated_at`] = "{ item }">
                 <span>
-                    {{ item.upload_date.substring(0,10) }}
+                    {{ item.updated_at.substring(0,10) }}
                 </span>
             </template>
             <!-- u3 = amount (haha) -->

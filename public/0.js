@@ -88,13 +88,13 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "distributor_id"
   }, {
     text: "Salesman",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "sales_agent_id"
   }, {
     text: "Docno",
     value: "doc_no"
   }, {
     text: "Location",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "location"
   }, {
     text: "Ordered Date",
     value: "order_date"
@@ -103,7 +103,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "request_delivery_date"
   }, {
     text: "Payment Term",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "payment_term_code"
   }, {
     text: "Account Code",
     value: "customer_code"
@@ -121,7 +121,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "system_date"
   }, {
     text: "User",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "default_user"
   }], [{
     text: "Distributor ID",
     value: "distributor_id"
@@ -195,22 +195,32 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "u3"
   }]],
   // ***********************************************************************************
+  generatedDataDBTableColumns: [// common
+  'id', 'generated_at', 'uploaded_by', 'doc_no', 'item_code', 'customer_code', // principal template
+  'distributor_id', 'sales_agent_id', // salesman code
+  'invoice_no', 'location', 'invoice_date', 'payment_term_code', 'bulk_qty', 'loose_qty', 'default_user', 'system_date', 'expiry_date', 'order_date', 'request_delivery_date'],
   generatedDataHistoryFilters: [[{
     text: 'Order Date',
     value: 'order_date'
   }, {
-    text: 'Route Code',
-    value: 'route_code'
+    text: 'Document #',
+    value: 'doc_no'
   }, {
-    text: 'Item Code',
+    text: 'Product Code',
     value: 'item_code'
   }, {
-    text: 'Customer Code',
+    text: 'Account Code',
     value: 'customer_code'
-  }]],
-  generatedDataDBTableColumns: [// common
-  'id', 'generated_at', 'uploaded_by', 'doc_no', // principal template
-  'distributor_id', 'sales_agent_id', 'invoice_no', 'location', 'invoice_date', 'payment_term_code', 'bulk_qty', 'loose_qty', 'system_date', 'default_user', 'expiry_date', 'request_delivery_date']
+  }, {
+    text: 'Salesman',
+    value: 'sales_agent_id'
+  }, {
+    text: 'Location',
+    value: 'location'
+  }, {
+    text: 'Invoice Posting Date',
+    value: 'invoice_date'
+  }]]
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({

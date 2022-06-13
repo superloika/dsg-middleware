@@ -12,7 +12,7 @@
                         outlined
                         dense
                         required
-                        placeholder="Select invoices file/s to upload"
+                        placeholder="Select text files to upload (invoices)"
                         v-model="file"
                         accept=".txt"
                         multiple

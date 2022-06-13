@@ -29,6 +29,7 @@ class InvoicesController extends Controller
                     ->orWhere('doc_type','like', '%'.$search_key. '%')
                     ->orWhere('customer_code','like', '%'.$search_key. '%')
                     ->orWhere('posting_date','like', '%'.$search_key. '%')
+                    ->orWhere(PrincipalsUtil::$TBL_INVOICES.'.created_at','like', '%'.$search_key. '%')
 
                     ->orWhere(
                         PrincipalsUtil::$TBL_INVOICES.'.item_code', 'like', '%'.$search_key. '%'

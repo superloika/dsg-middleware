@@ -154,6 +154,7 @@
         disable-pagination
         dense
         disable-sort
+
     >
         <template v-slot:[`item.status`] = '{ item }'>
             <v-chip color="warning" x-small v-if="item.status=='pending'">
@@ -166,6 +167,14 @@
         <template v-slot:[`item.created_at`] = '{ item }'>
             <div>
                 {{ item.created_at.substring(0,10) }}
+            </div>
+        </template>
+        <template v-slot:[`item.principals_name`] = '{ item }'>
+            <div v-if="item.principals_name != null">
+                {{ item.principals_name }}
+            </div>
+            <div v-else>
+                <v-icon>mdi-help-circle-outline</v-icon>
             </div>
         </template>
     </v-data-table>

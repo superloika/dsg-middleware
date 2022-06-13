@@ -23,18 +23,18 @@ const state = Vue.observable({
     generatedDataTableHeader: [
         [
             {text:"Distributor ID", value: "distributor_id"},
-            {text:"Salesman", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Salesman", value: "sales_agent_id"},
             {text:"Docno", value: "doc_no"},
-            {text:"Location", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Location", value: "location"},
             {text:"Ordered Date", value: "order_date"},
             {text:"Request Delivery Date", value: "request_delivery_date"},
-            {text:"Payment Term", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"Payment Term", value: "payment_term_code"},
             {text:"Account Code", value: "customer_code"},
             {text:"Product Code", value: "item_code"},
             {text:"Bulk Qty", value: "bulk_qty"},
             {text:"Loose Qty", value: "loose_qty"},
             {text:"System Date", value: "system_date"},
-            {text:"User", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+            {text:"User", value: "default_user"},
         ],
         [
             {text:"Distributor ID", value: "distributor_id"},
@@ -71,33 +71,39 @@ const state = Vue.observable({
 
 
     // ***********************************************************************************
-    generatedDataHistoryFilters: [
-        [
-            {text: 'Order Date', value: 'order_date'},
-            {text: 'Route Code', value: 'route_code'},
-            {text: 'Item Code', value: 'item_code'},
-            {text: 'Customer Code', value: 'customer_code'},
-        ]
-    ],
     generatedDataDBTableColumns: [
         // common
         'id',
         'generated_at',
         'uploaded_by',
         'doc_no',
+        'item_code',
+        'customer_code',
         // principal template
         'distributor_id',
-        'sales_agent_id',
+        'sales_agent_id', // salesman code
         'invoice_no',
         'location',
         'invoice_date',
         'payment_term_code',
         'bulk_qty',
         'loose_qty',
-        'system_date',
         'default_user',
+        'system_date',
         'expiry_date',
+        'order_date',
         'request_delivery_date',
+    ],
+    generatedDataHistoryFilters: [
+        [
+            {text: 'Order Date', value: 'order_date'},
+            {text: 'Document #', value: 'doc_no'},
+            {text: 'Product Code', value: 'item_code'},
+            {text: 'Account Code', value: 'customer_code'},
+            {text: 'Salesman', value: 'sales_agent_id'},
+            {text: 'Location', value: 'location'},
+            {text: 'Invoice Posting Date', value: 'invoice_date'},
+        ]
     ],
 });
 

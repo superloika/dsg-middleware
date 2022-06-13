@@ -57,6 +57,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["generatedData", "allow_export"],
   data: function data() {
@@ -71,7 +73,7 @@ __webpack_require__.r(__webpack_exports__);
       //     import(`../${vm.PrincipalsStore.state.selectedPrincipalCode}/GeneratedTable.vue`);
 
       return function () {
-        return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ./GeneratedTable.vue */ "./resources/js/pages/Principals/common/GeneratedTable.vue"));
+        return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ./GeneratedTable.vue */ "./resources/js/pages/Principals/common/GeneratedTable.vue"));
       };
     }
   },
@@ -183,7 +185,7 @@ var render = function() {
       _c(
         "v-tabs",
         {
-          attrs: { height: "35", "show-arrow": "", color: "accent" },
+          attrs: { height: "25" },
           model: {
             value: _vm.tab_template_variation,
             callback: function($$v) {
@@ -192,133 +194,128 @@ var render = function() {
             expression: "tab_template_variation"
           }
         },
-        _vm._l(_vm.generatedData, function(templatedData, index) {
-          return _c("v-tab", { key: index, staticClass: "px-3 text-caption" }, [
-            _vm._v("\n            " + _vm._s(templatedData.name) + "\n        ")
-          ])
-        }),
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-tabs-items",
-        {
-          model: {
-            value: _vm.tab_template_variation,
-            callback: function($$v) {
-              _vm.tab_template_variation = $$v
-            },
-            expression: "tab_template_variation"
-          }
-        },
-        _vm._l(_vm.generatedData, function(
-          templatedData,
-          template_variation_tabitem_index
-        ) {
-          return _c(
-            "v-tab-item",
-            { key: template_variation_tabitem_index },
-            [
-              _c(
-                "v-sheet",
-                [
-                  _c(
-                    "v-tabs",
-                    {
-                      attrs: { height: "35", "show-arrow": "" },
-                      model: {
-                        value: _vm.tab,
-                        callback: function($$v) {
-                          _vm.tab = $$v
-                        },
-                        expression: "tab"
-                      }
-                    },
-                    _vm._l(templatedData.output_template, function(
-                      data,
-                      index
-                    ) {
-                      return _c(
-                        "v-tab",
-                        { key: index, staticClass: "px-3 text-caption" },
-                        [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(data[0]) +
-                              "\n                        "
-                          ),
-                          _vm.warningsCount(data[1]) > 0
+        [
+          _vm._l(_vm.generatedData, function(templatedData, index) {
+            return _c(
+              "v-tab",
+              { key: index, staticClass: "px-3 text-caption" },
+              [
+                _vm._v(
+                  "\n            " + _vm._s(templatedData.name) + "\n        "
+                )
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _vm._l(_vm.generatedData, function(
+            templatedData,
+            template_variation_tabitem_index
+          ) {
+            return _c(
+              "v-tab-item",
+              { key: template_variation_tabitem_index },
+              [
+                _c(
+                  "v-sheet",
+                  [
+                    _c(
+                      "v-tabs",
+                      {
+                        attrs: { height: "35", "show-arrow": "" },
+                        model: {
+                          value: _vm.tab,
+                          callback: function($$v) {
+                            _vm.tab = $$v
+                          },
+                          expression: "tab"
+                        }
+                      },
+                      _vm._l(templatedData.output_template, function(
+                        data,
+                        index
+                      ) {
+                        return _c(
+                          "v-tab",
+                          { key: index, staticClass: "px-3 text-caption" },
+                          [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(data[0]) +
+                                "\n                        "
+                            ),
+                            _vm.warningsCount(data[1]) > 0
+                              ? _c(
+                                  "v-chip",
+                                  {
+                                    staticClass: "ml-1 text-captionx px-1",
+                                    attrs: { color: "warning", "x-small": "" }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                            " +
+                                        _vm._s(_vm.warningsCount(data[1])) +
+                                        "\n                        "
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      }),
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-tabs-items",
+                      {
+                        model: {
+                          value: _vm.tab,
+                          callback: function($$v) {
+                            _vm.tab = $$v
+                          },
+                          expression: "tab"
+                        }
+                      },
+                      _vm._l(templatedData.output_template, function(
+                        data,
+                        index
+                      ) {
+                        return _c("v-tab-item", { key: index }, [
+                          data[1].length > 0
                             ? _c(
-                                "v-chip",
-                                {
-                                  staticClass: "ml-1 text-captionx px-1",
-                                  attrs: { color: "warning", "x-small": "" }
-                                },
+                                "div",
+                                { staticClass: "mb-2 pa-0 overflow-auto" },
                                 [
-                                  _vm._v(
-                                    "\n                            " +
-                                      _vm._s(_vm.warningsCount(data[1])) +
-                                      "\n                        "
-                                  )
-                                ]
+                                  _c(_vm.GeneratedTable, {
+                                    tag: "component",
+                                    attrs: {
+                                      id:
+                                        _vm.PrincipalsStore.state
+                                          .selectedPrincipalCode + "_gentable",
+                                      tab_caption: data[0],
+                                      items: data[1],
+                                      template_variation_index: template_variation_tabitem_index,
+                                      allow_export: _vm.allow_export
+                                    }
+                                  })
+                                ],
+                                1
                               )
                             : _vm._e()
-                        ],
-                        1
-                      )
-                    }),
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tabs-items",
-                    {
-                      model: {
-                        value: _vm.tab,
-                        callback: function($$v) {
-                          _vm.tab = $$v
-                        },
-                        expression: "tab"
-                      }
-                    },
-                    _vm._l(templatedData.output_template, function(
-                      data,
-                      index
-                    ) {
-                      return _c("v-tab-item", { key: index }, [
-                        data[1].length > 0
-                          ? _c(
-                              "div",
-                              { staticClass: "mb-2 pa-0 overflow-auto" },
-                              [
-                                _c(_vm.GeneratedTable, {
-                                  tag: "component",
-                                  attrs: {
-                                    id:
-                                      _vm.PrincipalsStore.state
-                                        .selectedPrincipalCode + "_gentable",
-                                    tab_caption: data[0],
-                                    items: data[1],
-                                    template_variation_index: template_variation_tabitem_index,
-                                    allow_export: _vm.allow_export
-                                  }
-                                })
-                              ],
-                              1
-                            )
-                          : _vm._e()
-                      ])
-                    }),
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        }),
-        1
+                        ])
+                      }),
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          })
+        ],
+        2
       )
     ],
     1
