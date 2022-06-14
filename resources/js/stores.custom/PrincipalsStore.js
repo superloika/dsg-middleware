@@ -424,7 +424,9 @@ const actions = {
     /**
      * Export to simple Excel
      */
-    toExcel_simple(sheetName, data, tableHeaderPropertyName, includeTotals, fileName,extension='xlsx'){
+    toExcel_simple(
+        sheetName, data, tableHeaderPropertyName, includeTotals,
+        fileName, extension='xlsx', tableHeadersIndex=0){
         const tempData = [
             [
                 sheetName,
@@ -435,10 +437,10 @@ const actions = {
         const config = this.getHeaderAndFormat(tableHeaderPropertyName);
 
         this.exportToExcel(
-            config[0].header,
+            config[tableHeadersIndex].header,
             this.generatedDataSubset(
                 tempData,
-                config[0].format
+                config[tableHeadersIndex].format
             ),
             includeTotals,
             fileName,

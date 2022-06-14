@@ -81,18 +81,19 @@ __webpack_require__.r(__webpack_exports__);
   props: ['items', 'template_variation_index', 'tab_caption', 'allow_export'],
   computed: {
     tableHeader: function tableHeader() {
+      // alert(this.template_variation_index);
       return this[this.PrincipalsStore.state.selectedPrincipalCode].state.generatedDataTableHeader[this.template_variation_index];
     }
   },
   methods: {
     exportToCsv: function exportToCsv() {
-      this.PrincipalsStore.toExcel_simple("".concat(this.tab_caption), this.items, 'generatedDataTableHeader', null, "".concat(this.tab_caption), 'csv');
+      this.PrincipalsStore.toExcel_simple("".concat(this.tab_caption), this.items, 'generatedDataTableHeader', null, "".concat(this.tab_caption), 'csv', this.template_variation_index);
     }
   },
   mounted: function mounted() {
     console.log("GeneratedTable component mounted", this.PrincipalsStore.state.selectedPrincipalCode);
     console.log('TEMPLATE VARSSSSSSSSSSSSSSSSSSSSSSSS', this.template_variation_index);
-    console.log('ITEEEEEEMMMMMSSSSSS', this.items);
+    console.log('ITEEEEEEMMMMMSSSSSS', this.items); // alert(this.template_variation_index);
   }
 });
 

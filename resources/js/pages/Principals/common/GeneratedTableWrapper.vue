@@ -7,6 +7,9 @@
         >
             {{ templatedData.name }}
         </v-tab>
+    </v-tabs>
+
+    <v-tabs-items v-model="tab_template_variation">
         <v-tab-item
             v-for="(templatedData, template_variation_tabitem_index) in generatedData"
             :key="template_variation_tabitem_index"
@@ -41,10 +44,7 @@
                 </v-tabs-items>
             </v-sheet>
         </v-tab-item>
-    </v-tabs>
-
-    <!-- <v-tabs-items v-model="tab_template_variation">
-    </v-tabs-items> -->
+    </v-tabs-items>
 </v-sheet>
 </template>
 

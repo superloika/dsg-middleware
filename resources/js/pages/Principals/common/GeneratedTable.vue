@@ -72,6 +72,7 @@ export default {
 
     computed: {
         tableHeader() {
+            // alert(this.template_variation_index);
             return this[this.PrincipalsStore.state.selectedPrincipalCode]
                 .state.generatedDataTableHeader[this.template_variation_index];
         }
@@ -85,7 +86,8 @@ export default {
                 'generatedDataTableHeader',
                 null,
                 `${this.tab_caption}`,
-                'csv'
+                'csv',
+                this.template_variation_index
             );
         },
     },
@@ -96,6 +98,7 @@ export default {
         );
         console.log('TEMPLATE VARSSSSSSSSSSSSSSSSSSSSSSSS', this.template_variation_index);
         console.log('ITEEEEEEMMMMMSSSSSS', this.items);
+        // alert(this.template_variation_index);
     }
 };
 </script>

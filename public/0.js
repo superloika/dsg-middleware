@@ -127,19 +127,19 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "distributor_id"
   }, {
     text: "Sales Agent ID",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "sales_agent_id"
   }, {
     text: "Invoice No (Doc No)",
     value: "doc_no"
   }, {
     text: "Location",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "location"
   }, {
     text: "Invoice Date",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "invoice_date"
   }, {
     text: "Payment Term Code",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "payment_term_code"
   }, {
     text: "Customer No",
     value: "customer_code"
@@ -148,22 +148,22 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "item_code"
   }, {
     text: "Bulk Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "bulk_qty"
   }, {
     text: "Loose Qty",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "loose_qty"
   }, {
     text: "System Date",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "system_date"
   }, {
     text: "Default User",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "default_user"
   }, {
     text: "Invoice No",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "invoice_no"
   }, {
     text: "Expiry Date",
-    value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value: "expiry_date"
   }]],
   // transactions table header
   transactionsTableHeader: [[{
