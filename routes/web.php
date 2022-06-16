@@ -87,6 +87,7 @@ Route::prefix('master')->group(function(){
 Route::prefix('invoices')->group(function(){
     Route::get('/all', 'InvoicesController@index');
     Route::post('/upload', 'InvoicesController@upload');
+    Route::post("/delete", "InvoicesController@deleteInvoices");
 });
 
 /**
@@ -113,6 +114,10 @@ Route::prefix('principals')->group(function(){
             // Customers
             Route::get("/customers", $ctrl. "customers");
             Route::post("/customers/upload", $ctrl. "uploadMasterCustomers");
+
+            // Salesmen
+            Route::get("/salesmen", $ctrl. "salesmen");
+            Route::post("/salesmen/upload", $ctrl. "uploadMasterSalesmen");
 
             // Invoices (import & save)
             Route::get("/invoices/generate-templated-data", $ctrl. "generateTemplatedData");

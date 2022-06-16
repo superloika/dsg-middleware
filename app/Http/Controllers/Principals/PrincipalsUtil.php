@@ -19,6 +19,8 @@ class PrincipalsUtil extends Controller
 
     public static $TBL_PRINCIPALS_CUSTOMERS = 'principals_customers';
     public static $TBL_PRINCIPALS_ITEMS = 'principals_items';
+    public static $TBL_PRINCIPALS_SALESMEN = 'principals_salesmen';
+
     public static $TBL_GENERAL_ITEMS = 'general_items';
     public static $TBL_GENERAL_CUSTOMERS = 'general_customers';
 

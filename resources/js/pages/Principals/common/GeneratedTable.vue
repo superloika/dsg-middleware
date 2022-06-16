@@ -62,6 +62,21 @@
             </v-chip>
             <span v-else>{{ item.item_code }}</span>
         </template>
+
+        <template v-slot:[`item.sales_agent_id`]="{ item }">
+            <v-chip
+                v-if="item.sales_agent_id=='N/A'"
+                color="warning"
+                small
+                outlined
+                title=""
+            >
+                <div :id="item.sales_agent_id">
+                    {{ item.sales_agent_id }}
+                </div>
+            </v-chip>
+            <span v-else>{{ item.sales_agent_id }}</span>
+        </template>
     </v-data-table>
 </div>
 </template>

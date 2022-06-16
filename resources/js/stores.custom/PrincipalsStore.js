@@ -10,10 +10,12 @@ let state = Vue.observable({
     // masterfiles
     isUploadMasterCustomersOpen: false,
     isUploadMasterItemsOpen: false,
+    isUploadMasterSalesmenOpen: false,
     items: [],
     customers: [],
     invoices: [],
     transactions: [],
+    salesmen: [],
 
     // generated data
     currentGeneratedData: [],
@@ -55,6 +57,8 @@ const actions = {
         this.initInvoicesGrandTotal();
         this.initSettings();
         this.initCurrentGeneratedData(state.selectedPrincipalCode,);
+
+        this.initSalesmen();
     },
 
     cleanup() {
@@ -87,6 +91,8 @@ const actions = {
         state.isInitTransactions = false;
         state.confirmExportDialogOpen = false;
         state.isExportingTemplatedData = false;
+
+        state.salesmen = [];
     },
 
     /**
@@ -126,6 +132,27 @@ const actions = {
             AppStore.state.showTopLoading = false;
         } catch (error) {
             console.log('PrincipalsStore.initCustomers() - ERROR:', error);
+        }
+    },
+
+
+    /**
+     * Initialize the current selected principal's salesmen list
+     */
+    async initSalesmen() {
+        try {
+            const url = encodeURI(
+                AppStore.state.siteUrl + 'principals/' +
+                state.selectedPrincipalCode + '/salesmen'
+            );
+            AppStore.state.showTopLoading = true;
+            let result = await axios.get(url);
+
+            state.salesmen = [];
+            state.salesmen = result.data;
+            AppStore.state.showTopLoading = false;
+        } catch (error) {
+            console.log('PrincipalsStore.initSalesmen() - ERROR:', error);
         }
     },
 

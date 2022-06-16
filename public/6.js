@@ -39,6 +39,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Items: function Items() {
@@ -46,6 +52,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     Customers: function Customers() {
       return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! ./Customers.vue */ "./resources/js/pages/Principals/common/Customers.vue"));
+    },
+    Salesmen: function Salesmen() {
+      return __webpack_require__.e(/*! import() */ 38).then(__webpack_require__.bind(null, /*! ./Salesmen.vue */ "./resources/js/pages/Principals/common/Salesmen.vue"));
     }
   },
   data: function data() {
@@ -118,6 +127,16 @@ var render = function() {
               _vm._v(" Items \n        ")
             ],
             1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-tab",
+            { attrs: { exact: "" } },
+            [
+              _c("v-icon", { staticClass: "mr-1" }, [_vm._v("mdi-account")]),
+              _vm._v(" Salesmen \n        ")
+            ],
+            1
           )
         ],
         1
@@ -137,7 +156,9 @@ var render = function() {
         [
           _c("v-tab-item", [_c("Customers")], 1),
           _vm._v(" "),
-          _c("v-tab-item", [_c("Items")], 1)
+          _c("v-tab-item", [_c("Items")], 1),
+          _vm._v(" "),
+          _c("v-tab-item", [_c("Salesmen")], 1)
         ],
         1
       )

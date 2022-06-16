@@ -10,7 +10,8 @@
         <v-spacer></v-spacer>
         <v-btn icon
             @click="PrincipalsStore.state.isUploadMasterCustomersOpen = false;
-                PrincipalsStore.state.isUploadMasterItemsOpen = false;"
+                PrincipalsStore.state.isUploadMasterItemsOpen = false;
+                PrincipalsStore.state.isUploadMasterSalesmenOpen = false;"
             title="Close"
         >
             <v-icon>mdi-close-box-outline</v-icon>
@@ -121,10 +122,13 @@ export default {
                         this.PrincipalsStore.initItems();
                     } else if(this.id == 'customers') {
                         this.PrincipalsStore.initCustomers();
+                    } else if(this.id == 'salesmen') {
+                        this.PrincipalsStore.initSalesmen();
                     }
 
                     this.PrincipalsStore.state.isUploadMasterCustomersOpen = false;
                     this.PrincipalsStore.state.isUploadMasterItemsOpen = false;
+                    this.PrincipalsStore.state.isUploadMasterSalesmenOpen = false;
                 })
                 .catch(error => {
                     vm.uploadResponse.success = false;

@@ -263,6 +263,97 @@ class CenturyController extends Controller
 
     // =====================================================================
     // =====================================================================
+    // SALESMEN ===========================================================
+    // =====================================================================
+    // =====================================================================
+
+    /**
+     * Get salesmen list
+     */
+    function salesmen()
+    {
+        set_time_limit(0);
+
+        $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->get();
+        return response()->json($result);
+    }
+
+    /**
+     * Import salesmen masterfile (.csv)
+     */
+    public function uploadMasterSalesmen(Request $request)
+    {
+        set_time_limit(0);
+        try {
+            $delimiter = ',';
+            $fileName = time() . '.' . $request->file->getClientOriginalName();
+            $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/salesmen";
+            Storage::putFileAs($fileStoragePath, $request->file, $fileName);
+
+            DB::beginTransaction();
+
+            if (Storage::exists("$fileStoragePath/$fileName")) {
+                $fileContent = Storage::get("$fileStoragePath/$fileName");
+
+                // init lineCount to 1 for the header
+                $lineCount = 1;
+
+                DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+
+                $fileContentLines = explode(
+                    PHP_EOL,
+                    mb_convert_encoding($fileContent, "UTF-8", "UTF-8")
+                );
+                $arrLines = [];
+
+                foreach ($fileContentLines as $fileContentLine) {
+                    // Begin at the second line (exclude the header)
+                    if ($lineCount > 1) {
+                        $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+
+                        if (count($arrFileContentLine) > 1) {
+                            // ==========================================================================
+                            $sm_name = trim(str_replace('"', '', $arrFileContentLine[0]));
+                            $sm_code = trim(str_replace('"', '', $arrFileContentLine[1]));
+                            $sm_code_supplier = trim(str_replace('"', '', $arrFileContentLine[2]));
+                            // =========================================================================
+
+                            $arrLines[] = [
+                                'principal_code' => $this->PRINCIPAL_CODE,
+                                'sm_name' => $sm_name,
+                                'sm_code' => $sm_code,
+                                'sm_code_supplier' => $sm_code_supplier,
+                                'uploaded_by' => auth()->user()->id
+                            ];
+                        }
+                    }
+                    $lineCount++;
+                }
+
+                $chunks = array_chunk($arrLines, 500);
+                foreach ($chunks as $chunk) {
+                    DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)->insert($chunk);
+                }
+            }
+
+            DB::commit();
+            $res['success'] = true;
+            $res['message'] = 'File uploaded successfully';
+            return response()->json($res);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $res['success'] = false;
+            $res['message'] = $th->getMessage();
+            return response()->json($res, 500);
+        }
+    }
+
+
+    // =====================================================================
+    // =====================================================================
     // INVOICES ============================================================
     // =====================================================================
     // =====================================================================
@@ -343,7 +434,7 @@ class CenturyController extends Controller
                     $u2 = trim($pendingInvoice->u2);
                     $u3 = trim($pendingInvoice->u3);
                     $u4 = trim($pendingInvoice->u4);
-                    $u5 = trim($pendingInvoice->u5);
+                    $u5 = trim($pendingInvoice->u5); // salesman code diay ni haha
                     $uom = trim($pendingInvoice->uom);
 
                     $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
@@ -353,6 +444,10 @@ class CenturyController extends Controller
                     $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                         ->where('principal_code', $this->PRINCIPAL_CODE)
                         ->where('item_code', $item_code)
+                        ->first();
+                    $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                        ->where('sm_code', $u5)
                         ->first();
 
                     // quantity_conversion
@@ -394,6 +489,7 @@ class CenturyController extends Controller
                         $customer_code_supplier = $customer->customer_code_supplier ?? $customer_code;
 
                         $distributor_id = $settings['distributor_id'] ?? 'N/A';
+                        $location = $settings['location'] ?? 'N/A';
                         // ======================= /INIT ================================================
 
                         // =========== SETTING UP =======================================================
@@ -418,6 +514,8 @@ class CenturyController extends Controller
                             'loose_qty' => $loose_qty,
                             'default_user' => $default_user,
                             'payment_term_code' => $payment_term_code,
+                            'location' => $location,
+                            'sales_agent_id' => $salesman->sm_code_supplier ?? 'N/A',
                         ];
 
                         // for chunked results
@@ -637,6 +735,8 @@ class CenturyController extends Controller
                                     'status' => $status,
                                     'uploaded_by' => auth()->user()->id,
                                     'doc_no' => $line['doc_no'],
+                                    'alturas_customer_code' => $line['alturas_customer_code'],
+                                    'alturas_item_code' => $line['alturas_item_code'],
                                     'generated_at' => $dateToday,
                                     'template_variation' => $template_variation,
                                     // ====
@@ -650,6 +750,8 @@ class CenturyController extends Controller
                                     'loose_qty' => $line['loose_qty'],
                                     'system_date' => $line['system_date'],
                                     'default_user' => $line['default_user'],
+                                    'sales_agent_id' => $line['sales_agent_id'],
+                                    'location' => $line['location'],
                                 ]);
                             }
                         }
@@ -666,6 +768,8 @@ class CenturyController extends Controller
                                     'status' => $status,
                                     'uploaded_by' => auth()->user()->id,
                                     'doc_no' => $line['doc_no'],
+                                    'alturas_customer_code' => $line['alturas_customer_code'],
+                                    'alturas_item_code' => $line['alturas_item_code'],
                                     'generated_at' => $dateToday,
                                     'template_variation' => $template_variation,
                                     // ====

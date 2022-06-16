@@ -18,6 +18,13 @@ const state = Vue.observable({
             {text:"PCS per CASE", value:"conversion_qty"},
         ]
     ],
+    salesmenTableHeader: [
+        [
+            {text:"Salesman Name", value:"sm_name"},
+            {text:"Salesman Code", value:"sm_code"},
+            {text:"Salesman Code - Supplier", value:"sm_code_supplier"},
+        ]
+    ],
 
     // templated data table header
     generatedDataTableHeader: [

@@ -181,4 +181,34 @@ class InvoicesController extends Controller
             return response()->json($res, 500);
         }
     }
+
+    public function deleteInvoices(Request $request) {
+        $selectedInvoices = $request->selectedInvoices ?? [];
+        $res = [];
+        // dd($selectedInvoices);
+        try {
+            DB::beginTransaction();
+            foreach($selectedInvoices as $invoice) {
+                DB::table(PrincipalsUtil::$TBL_INVOICES)
+                    ->where('id', $invoice['id'])
+                    ->delete();
+                DB::table(PrincipalsUtil::$TBL_GENERATED)
+                    ->where('principal_code', $invoice['code'])
+                    ->where('doc_no', $invoice['doc_no'])
+                    ->where('alturas_customer_code', $invoice['customer_code'])
+                    ->where('alturas_item_code', $invoice['item_code'])
+                    ->delete();
+            }
+            DB::commit();
+            $res['success'] = true;
+            $res['message'] = "Deleted successfully";
+
+            return response()->json($res);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $res['success'] = false;
+            $res['message'] = $th->getMessage();
+            return response()->json($res, 500);
+        }
+    }
 }

@@ -18,9 +18,24 @@
             rounded
             depressed
             class="mr-2"
-            @click="InvoicesStore.initInvoices()"
+            @click="InvoicesStore.initInvoices(searchKey, principalCodeFilter, invoiceStatus)"
         >
             <v-icon>mdi-refresh</v-icon>
+        </v-btn>
+
+        <v-btn
+            title="Delete"
+            icon
+            dense
+            rounded
+            depressed
+            class="mr-2"
+            color="error"
+            :disabled="InvoicesStore.state.selectedInvoices.length < 1"
+            @click="InvoicesStore.deleteInvoices()"
+            v-if="AppStore.isSuperAdmin()"
+        >
+            <v-icon>mdi-delete</v-icon>
         </v-btn>
 
         <!-- <v-select
@@ -150,11 +165,12 @@
         :items="InvoicesStore.state.invoices.data"
         :headers="InvoicesStore.state.tableHeader"
         :loading="InvoicesStore.state.isLoadingInvoices"
+        item-key="id"
+        v-model="InvoicesStore.state.selectedInvoices"
         hide-default-footer
         disable-pagination
-        dense
         disable-sort
-
+        show-select
     >
         <template v-slot:[`item.status`] = '{ item }'>
             <v-chip color="warning" x-small v-if="item.status=='pending'">

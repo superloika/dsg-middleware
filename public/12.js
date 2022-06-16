@@ -60,6 +60,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'MasterfileUpload',
   props: ['id', 'master_type'],
@@ -131,10 +132,13 @@ __webpack_require__.r(__webpack_exports__);
           _this.PrincipalsStore.initItems();
         } else if (_this.id == 'customers') {
           _this.PrincipalsStore.initCustomers();
+        } else if (_this.id == 'salesmen') {
+          _this.PrincipalsStore.initSalesmen();
         }
 
         _this.PrincipalsStore.state.isUploadMasterCustomersOpen = false;
         _this.PrincipalsStore.state.isUploadMasterItemsOpen = false;
+        _this.PrincipalsStore.state.isUploadMasterSalesmenOpen = false;
       })["catch"](function (error) {
         vm.uploadResponse.success = false;
         vm.uploadResponse.message = error;
@@ -194,6 +198,7 @@ var render = function() {
                 click: function($event) {
                   _vm.PrincipalsStore.state.isUploadMasterCustomersOpen = false
                   _vm.PrincipalsStore.state.isUploadMasterItemsOpen = false
+                  _vm.PrincipalsStore.state.isUploadMasterSalesmenOpen = false
                 }
               }
             },

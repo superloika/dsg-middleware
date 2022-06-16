@@ -77,6 +77,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['items', 'template_variation_index', 'tab_caption', 'allow_export'],
   computed: {
@@ -249,6 +264,36 @@ var render = function() {
                         ]
                       )
                     : _c("span", [_vm._v(_vm._s(item.item_code))])
+                ]
+              }
+            },
+            {
+              key: "item.sales_agent_id",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  item.sales_agent_id == "N/A"
+                    ? _c(
+                        "v-chip",
+                        {
+                          attrs: {
+                            color: "warning",
+                            small: "",
+                            outlined: "",
+                            title: ""
+                          }
+                        },
+                        [
+                          _c("div", { attrs: { id: item.sales_agent_id } }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.sales_agent_id) +
+                                "\n                "
+                            )
+                          ])
+                        ]
+                      )
+                    : _c("span", [_vm._v(_vm._s(item.sales_agent_id))])
                 ]
               }
             }

@@ -23,6 +23,7 @@ const state = Vue.observable({
         { text: "UOM", value: "uom" },
         { text: "Uploaded By", value: "username" },
     ],
+    selectedInvoices: [],
 })
 
 const actions = {
@@ -44,7 +45,21 @@ const actions = {
         } finally {
             state.isLoadingInvoices = false;
         }
-    }
+    },
+    async deleteInvoices() {
+        try {
+            const url = `${AppStore.state.siteUrl}invoices/delete`;
+            const response = await axios.post(
+                url,
+                {selectedInvoices: state.selectedInvoices}
+            );
+        } catch (error) {
+            console.log('deleteInvoices() - ERROR:', error);
+        } finally {
+            this.initInvoices();
+            state.selectedInvoices = [];
+        }
+    },
 }
 
 
