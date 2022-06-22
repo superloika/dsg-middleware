@@ -3,7 +3,7 @@
         <v-card-title class="pa-0">
             <v-app-bar elevation="0" colorx="white">
                 <v-toolbar-title>
-                    Templated Data History
+                    Templated Data - History
                     <div v-if="lineCount > 0">
                         <v-chip x-small outlinedx label color="primary">
                             {{ lineCount }} total line/s
@@ -92,6 +92,7 @@
                     @click="exportToExcel()"
                     :disabled="generatedData.length < 1"
                 >
+                    <!-- Export -->
                     <v-icon>mdi-file-excel</v-icon>
                 </v-btn>
             </v-app-bar>
@@ -119,8 +120,8 @@
                 <GeneratedTableWrapper
                     v-else
                     :id="wrapperID"
-                    :generatedData="generatedData"
                     :allow_export="true"
+                    :generatedData="generatedData"
                 >
                 </GeneratedTableWrapper>
             </div>
@@ -204,8 +205,6 @@ export default {
                         }
                     });
                 // ];
-
-
 
                 // this.generatedData = Object.entries(grouped);
                 this.isGenerating = false;

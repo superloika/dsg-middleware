@@ -18,7 +18,7 @@
             rounded
             depressed
             class="mr-2"
-            @click="InvoicesStore.initInvoices(searchKey, principalCodeFilter, invoiceStatus)"
+            @click="onPageChange()"
         >
             <v-icon>mdi-refresh</v-icon>
         </v-btn>
@@ -37,43 +37,6 @@
         >
             <v-icon>mdi-delete</v-icon>
         </v-btn>
-
-        <!-- <v-select
-            :items="AppStore.state.principals"
-            v-model="principalCodeFilter"
-            label="Principal"
-            item-text="name"
-            item-value="code"
-            class="mr-3"
-            style="max-width:215px;"
-            outlined
-            rounded
-            hide-details
-            dense
-        >
-            <template v-slot:prepend-item>
-                <v-list-item
-                    link
-                    @click="principalCodeFilter=''"
-                >
-                    <v-list-item-content>
-                        <v-list-item-title link>
-                                All Principals
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item
-                    link
-                    @click="principalCodeFilter='unidentified'"
-                >
-                    <v-list-item-content>
-                        <v-list-item-title link>
-                                Unidentified
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </template>
-        </v-select> -->
 
         <v-combobox
             :items="AppStore.state.principals"
@@ -146,6 +109,18 @@
                 dense
                 elevation="0"
             >
+                <v-select
+                    :items="tblPageRowCounts"
+                    v-model="tblPageRowCount"
+                    class="mr-3"
+                    style="max-width:125px;"
+                    label="Rows"
+                    outlined
+                    rounded
+                    hide-details
+                    dense
+                >
+                </v-select>
                 <v-pagination
                     v-model="InvoicesStore.state.invoices.current_page"
                     :length="InvoicesStore.state.invoices.last_page"
@@ -223,25 +198,27 @@ export default {
                 },
             ],
             invoiceStatus: '',
+            tblPageRowCounts: [10, 20, 30, 50, 100, 500],
+            tblPageRowCount: 10,
         }
     },
 
     methods: {
-        exportToExcelTest() {
-            this.isLoading = true;
-            let tblWrapper = document.querySelector('.tbl-items');
-            let tbl = tblWrapper.querySelector('table');
-            let wb = XLSX.utils.book_new();
-            // var ws = XLSX.utils.table_to_sheet(tbl);
-            var ws = XLSX.utils.json_to_sheet(this.sampleData);
-            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-            XLSX.writeFile(wb,'tbl.csv');
-            this.isLoading = false;
-        },
+        // exportToExcelTest() {
+        //     this.isLoading = true;
+        //     let tblWrapper = document.querySelector('.tbl-items');
+        //     let tbl = tblWrapper.querySelector('table');
+        //     let wb = XLSX.utils.book_new();
+        //     // var ws = XLSX.utils.table_to_sheet(tbl);
+        //     var ws = XLSX.utils.json_to_sheet(this.sampleData);
+        //     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        //     XLSX.writeFile(wb,'tbl.csv');
+        //     this.isLoading = false;
+        // },
 
         onPageChange() {
             this.InvoicesStore.initInvoices(
-                this.searchKey, this.principalCodeFilter, this.invoiceStatus
+                this.searchKey, this.principalCodeFilter, this.invoiceStatus, this.tblPageRowCount
             );
         },
     },
@@ -255,9 +232,7 @@ export default {
             if(this.InvoicesStore.state.invoices.current_page != undefined) {
                 this.InvoicesStore.state.invoices.current_page = 1;
             }
-            this.InvoicesStore.initInvoices(
-                this.searchKey, this.principalCodeFilter, this.invoiceStatus
-            );
+            this.onPageChange()
         }, 500),
 
         principalCodeFilter: debounce(function() {
@@ -266,19 +241,22 @@ export default {
             if(this.InvoicesStore.state.invoices.current_page != undefined) {
                 this.InvoicesStore.state.invoices.current_page = 1;
             }
-            this.InvoicesStore.initInvoices(
-                this.searchKey, this.principalCodeFilter, this.invoiceStatus
-            );
-        }, 500),
+            this.onPageChange()
+        }, 200),
 
         invoiceStatus: debounce(function() {
             if(this.InvoicesStore.state.invoices.current_page != undefined) {
                 this.InvoicesStore.state.invoices.current_page = 1;
             }
-            this.InvoicesStore.initInvoices(
-                this.searchKey, this.principalCodeFilter, this.invoiceStatus
-            );
-        }, 500),
+            this.onPageChange()
+        }, 200),
+
+        tblPageRowCount: debounce(function() {
+            if(this.InvoicesStore.state.invoices.current_page != undefined) {
+                this.InvoicesStore.state.invoices.current_page = 1;
+            }
+            this.onPageChange()
+        }, 200),
     },
 
     created() {

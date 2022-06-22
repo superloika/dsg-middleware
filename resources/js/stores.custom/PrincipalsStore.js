@@ -1,8 +1,8 @@
 import Vue from 'vue';
 // import AppStore from '../AppStore';
 let AppStore = Vue.prototype.AppStore;
-import axios from 'axios';
-import {jsPDF} from 'jspdf';
+// import axios from 'axios';
+
 
 let state = Vue.observable({
     selectedPrincipalCode: '',
@@ -185,7 +185,7 @@ const actions = {
             state.isGeneratingData = true;
             const url = encodeURI(
                 AppStore.state.siteUrl + 'principals/'
-                + principal_code + '/invoices/generate-templated-data'
+                + principal_code + '/generate-templated-data'
                 // + '?group_by=route_code'
                 // + '?template_variations_count=' + template_variations_count
             );
@@ -224,7 +224,7 @@ const actions = {
             const url =
                 AppStore.state.siteUrl +
                 "principals" +
-                `/${state.selectedPrincipalCode}/invoices/set-invoices-complete`;
+                `/${state.selectedPrincipalCode}/set-invoices-complete`;
 
             const payload = {
                 // raw_invoices: this.PrincipalsStore.state.currentRawInvoices,
@@ -302,32 +302,32 @@ const actions = {
     /**
      * Get pendings
      */
-    async initPendings(cols=[]) {
-        try {
-            const url = encodeURI(
-                AppStore.state.siteUrl
-                + 'principals'
-                + '/pendings'
-            );
-            const payload = {
-                cols: cols,
-                principal_code: state.selectedPrincipalCode
-            };
+    // async initPendings(cols=[]) {
+    //     try {
+    //         const url = encodeURI(
+    //             AppStore.state.siteUrl
+    //             + 'principals'
+    //             + '/pendings'
+    //         );
+    //         const payload = {
+    //             cols: cols,
+    //             principal_code: state.selectedPrincipalCode
+    //         };
 
-            AppStore.state.showTopLoading = true;
-            let result = await axios.post(url, payload);
+    //         AppStore.state.showTopLoading = true;
+    //         let result = await axios.post(url, payload);
 
-            if(result.data.success==true) {
-                state.currentGeneratedData = result.data.pending_gendata;
-                state.currentRawInvoices = result.data.pending_rawinvoices;
-            } else {
-                console.log('initPendings()', result.data.message);
-            }
-            AppStore.state.showTopLoading = false;
-        } catch (error) {
-            console.log('PrincipalsStore.initPendings() - ERROR:', error);
-        }
-    },
+    //         if(result.data.success==true) {
+    //             state.currentGeneratedData = result.data.pending_gendata;
+    //             state.currentRawInvoices = result.data.pending_rawinvoices;
+    //         } else {
+    //             console.log('initPendings()', result.data.message);
+    //         }
+    //         AppStore.state.showTopLoading = false;
+    //     } catch (error) {
+    //         console.log('PrincipalsStore.initPendings() - ERROR:', error);
+    //     }
+    // },
 
 
     /**
@@ -490,11 +490,13 @@ const actions = {
              */
             if(element[1][0].customer_notfound == undefined
                 && element[1][0].item_notfound == undefined
+                && element[1][0].salesman_notfound == undefined
             ) {
                 uploadable = element[1];
             } else {
                 uploadable = element[1].filter(line => {
-                    return line.item_notfound==0 && line.customer_notfound==0;
+                    return line.item_notfound==0 && line.customer_notfound==0
+                        && line.salesman_notfound==0;
                 });
             }
 
@@ -654,44 +656,6 @@ const actions = {
         }
     },
 
-
-    /**
-     * Create PDFHeaders for exportToPDF()
-     */
-    createPDFHeaders(keys) {
-        let result = [];
-        console.log('KEYSSSSSS', keys);
-        for (let i = 0; i < keys.length; i += 1) {
-            result.push({
-            id: keys[i][0],
-            name: keys[i][0],
-            prompt: keys[i][1],
-            align: "center",
-            padding: 0
-            });
-        }
-        return result;
-    },
-
-    /**
-     * Export to PDF
-     */
-    exportToPdf(data) {
-        console.log(data);
-        let headers = this.createPDFHeaders([
-            ["customer_code",'Customer Code'],
-            ["customer_name",'Customer Name'],
-            ["doc_no",'Sales Invoice'],
-            ["item_code",'Item Code'],
-            ["description",'Description'],
-            ["uom",'UOM'],
-            ["quantity",'Quantity'],
-            ["u3",'Amount'],
-        ]);
-        const doc = new jsPDF({ putOnlyUsedFonts: true, orientation: "l", });
-        doc.table(1, 1, data, headers, { autoSize: true });
-        doc.save('test.pdf');
-    }
 
 };
 

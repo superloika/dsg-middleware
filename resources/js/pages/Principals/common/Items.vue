@@ -51,14 +51,14 @@
                 >
                     <v-icon>mdi-file-upload</v-icon>
                 </v-btn>
-                <v-btn
+                <!-- <v-btn
                     title="Export to Excel"
                     icon
                     dense
                     @click="exportToExcel()"
                 >
                     <v-icon>mdi-file-excel</v-icon>
-                </v-btn>
+                </v-btn> -->
             </v-app-bar>
         </v-card-title>
 

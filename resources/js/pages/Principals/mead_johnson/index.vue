@@ -62,9 +62,7 @@ export default {
     },
 
     methods: {
-        test() {
-            // window.location.href = `/logout`;
-        }
+
     },
 
     created() {

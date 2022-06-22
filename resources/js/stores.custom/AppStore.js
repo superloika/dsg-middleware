@@ -4,7 +4,7 @@
  * whenever I need warmth and comfort.
  */
 
-import axios from "axios";
+// import axios from "axios";
 import Vue from "vue";
 
 const host = `http://${window.location.host}/`;

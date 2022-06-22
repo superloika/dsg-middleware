@@ -1,9 +1,12 @@
 <template>
 <v-sheet>
-    <v-tabs v-model="tab_template_variation" height="25">
+    <v-tabs v-model="tab_template_variation"
+        :height="generatedData.length > 1 ? 25 : 0"
+    >
         <v-tab
             v-for="(templatedData, index) in generatedData" :key="index"
             class="px-3 text-caption"
+
         >
             {{ templatedData.name }}
         </v-tab>
@@ -51,6 +54,7 @@
 <script>
 export default {
     props: ["generatedData","allow_export"],
+    // props: ["allow_export"],
 
     data() {
         return {
@@ -60,6 +64,10 @@ export default {
     },
 
     computed: {
+        // generatedData() {
+        //     return this.PrincipalsStore.state.currentGeneratedData;
+        // },
+
         GeneratedTable() {
             const vm = this;
             // return () =>
@@ -88,7 +96,8 @@ export default {
         // get total warnings
         warningsCount(lines = []) {
             const test = lines.filter(e => {
-                return e.customer_notfound == 1 || e.item_notfound == 1;
+                return e.customer_notfound == 1 || e.item_notfound == 1
+                    || e.salesman_notfound == 1;
             });
             return test.length;
         },

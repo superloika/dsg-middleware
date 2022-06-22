@@ -464,6 +464,7 @@ class CenturyController extends Controller
                     if ($tvc_index == 0) {
                         $item_notfound = 0;
                         $customer_notfound = 0;
+                        $salesman_notfound = 0;
                         $missing_customer_name = '';
                         $missing_item_name = '';
 
@@ -483,6 +484,10 @@ class CenturyController extends Controller
                         } else {
                         }
 
+                        if ($salesman == null) {
+                            $salesman_notfound = 1;
+                        }
+
                         $order_date = $dateToday->format('m/d/Y');
 
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
@@ -490,22 +495,25 @@ class CenturyController extends Controller
 
                         $distributor_id = $settings['distributor_id'] ?? 'N/A';
                         $location = $settings['location'] ?? 'N/A';
+                        $sm_code_supplier = $salesman->sm_code_supplier ?? $u5; // u5 = salesman code - txtfile
                         // ======================= /INIT ================================================
 
                         // =========== SETTING UP =======================================================
                         // Generated data line structure
                         $arrGenerated = [
                             //commons
-                            'customer_code' => $customer_code_supplier,
                             'alturas_customer_code' => $customer_code,
-                            'item_code' => $item_code_supplier,
                             'alturas_item_code' => $item_code,
+                            'alturas_sm_code' => $u5, // u5 = sm code
                             'doc_no' => $doc_no,
                             'missing_customer_name' => $missing_customer_name,
                             'missing_item_name' => $missing_item_name,
                             'customer_notfound' => $customer_notfound,
                             'item_notfound' => $item_notfound,
+                            'salesman_notfound' => $salesman_notfound,
                             // principal specific
+                            'customer_code' => $customer_code_supplier,
+                            'item_code' => $item_code_supplier,
                             'order_date' => $order_date,
                             'system_date' => $order_date,
                             'request_delivery_date' => $order_date,
@@ -515,7 +523,7 @@ class CenturyController extends Controller
                             'default_user' => $default_user,
                             'payment_term_code' => $payment_term_code,
                             'location' => $location,
-                            'sales_agent_id' => $salesman->sm_code_supplier ?? 'N/A',
+                            'sales_agent_id' => $sm_code_supplier,
                         ];
 
                         // for chunked results
@@ -680,7 +688,10 @@ class CenturyController extends Controller
             foreach($request->generated_data as $generated_data) {
                 foreach ($generated_data['output_template'] as $output_template) {
                     foreach ($output_template[1] as $line) {
-                        if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
+                        if (
+                            $line['customer_notfound'] == 0 && $line['item_notfound'] == 0
+                            && $line['salesman_notfound'] == 0
+                        ) {
                             // dd($line);
                             DB::table(PrincipalsUtil::$TBL_INVOICES)
                                 ->where('doc_no', $line['doc_no'])
@@ -696,39 +707,19 @@ class CenturyController extends Controller
                 }
             }
 
+            // Being in a relationship is unexplainably happy until fate fucks the hell out of it.
+
             // INSERT TO GENERATED/TEMPLATED TABLE
             $template_variation = 1;
             foreach ($request->generated_data as $variations) {
-                // foreach ($variations['output_template'] as $gendata) {
-                //     foreach ($gendata[1] as $line) {
-                //         if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
-                //             $status = PrincipalsUtil::$STATUS_COMPLETED;
-                //             DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
-                //                 'principal_code' => $this->PRINCIPAL_CODE,
-                //                 'status' => $status,
-                //                 'uploaded_by' => auth()->user()->id,
-                //                 'doc_no' => $line['doc_no'],
-                //                 'generated_at' => $dateToday,
-                //                 'template_variation' => $template_variation,
-                //                 // ====
-                //                 'distributor_id' => $line['distributor_id'],
-                //                 'order_date' => $line['order_date'],
-                //                 'request_delivery_date' => $line['request_delivery_date'],
-                //                 'payment_term_code' => $line['payment_term_code'],
-                //                 'customer_code' => $line['customer_code'],
-                //                 'item_code' => $line['item_code'],
-                //                 'bulk_qty' => $line['bulk_qty'],
-                //                 'loose_qty' => $line['loose_qty'],
-                //                 'system_date' => $line['system_date'],
-                //             ]);
-                //         }
-                //     }
-                // }
-                // ************************** template variation 1 **************************
+                 // ************************** template variation 1 ********************************
                 if($template_variation==1) {
                     foreach ($variations['output_template'] as $gendata) {
                         foreach ($gendata[1] as $line) {
-                            if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
+                            if (
+                                $line['customer_notfound'] == 0 && $line['item_notfound'] == 0
+                                && $line['salesman_notfound'] == 0
+                            ) {
                                 $status = PrincipalsUtil::$STATUS_COMPLETED;
                                 DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
                                     'principal_code' => $this->PRINCIPAL_CODE,
@@ -757,7 +748,7 @@ class CenturyController extends Controller
                         }
                     }
                 }
-                // ************************** template variation 2 **************************
+                // ************************** template variation 2 **********************************
                 else if($template_variation==2) {
                     foreach ($variations['output_template'] as $gendata) {
                         foreach ($gendata[1] as $line) {
@@ -781,7 +772,6 @@ class CenturyController extends Controller
                         }
                     }
                 }
-
                 $template_variation++;
             }
 

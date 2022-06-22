@@ -30,134 +30,29 @@
 
                     <v-spacer></v-spacer>
 
-                    <v-btn
-                        title="Refresh"
-                        icon
-                        dense
-                        rounded
-                        depressed
-                        class="mr-2"
-                        @click="PrincipalsStore.initCurrentGeneratedData(selectedPrincipalCode)"
-                    >
-                        <v-icon>mdi-refresh</v-icon>
-                    </v-btn>
-
-                    <v-text-field
-                        v-model="PrincipalsStore.state.currentGeneratedDataSearchKey"
-                        label="Search"
-                        title="Search"
-                        hide-details
-                        dense
-                        class="mr-3"
-                        style="max-width: 200px"
-                        flat
-                        rounded
-                        clearable
-                        solo-inverted
-                        :disabled="PrincipalsStore.state.currentGeneratedData.length<1"
-                    ></v-text-field>
-
-                    <!-- UNMAPPED CUSTOMERS -->
-                    <v-btn
-                        title="Unmapped Customer/s"
-                        icon
-                        dense
-                        rounded
-                        depressed
-                        color="warning"
-                        @click.stop="dlgMissingCustomers = true"
-                        :disabled="missingInMaster('customer').length < 1"
-                    >
-                        <v-icon>mdi-account-multiple</v-icon>
-                    </v-btn>
-                    <v-dialog
-                        v-model="dlgMissingCustomers"
-                        max-width="900"
-                        scrollable
-                    >
-                        <MissingInMaster
-                            id='customer'
-                            type='customer'
-                            title="Unmapped Customer/s"
-                            :missingInMaster="missingInMaster('customer')"
-                        ></MissingInMaster>
-                    </v-dialog>
-                    <!-- /UNMAPPED CUSTOMERS -->
-
-                    <!-- UNMAPPED ITEMS -->
-                    <v-btn
-                        title="Unmapped Item/s"
-                        icon
-                        dense
-                        rounded
-                        depressed
-                        color="warning"
-                        @click.stop="dlgMissingItems = true"
-                        :disabled="missingInMaster('item').length < 1"
-                    >
-                        <v-icon>mdi-cube</v-icon>
-                    </v-btn>
-                    <v-dialog
-                        v-model="dlgMissingItems"
-                        persistentx
-                        max-width="900"
-                        scrollable
-                    >
-                        <MissingInMaster
-                            id='item'
-                            type='item'
-                            title="Unmapped Item/s"
-                            :missingInMaster="missingInMaster('item')"
-                        ></MissingInMaster>
-                    </v-dialog>
-                    <!-- /UNMAPPED ITEMS -->
-
-                    <v-btn
-                        title="Export to Excel"
-                        icon
-                        dense
-                        rounded
-                        outlinedx
-                        depressed
-                        color="success"
-                        @click.stop="PrincipalsStore.state.confirmExportDialogOpen = true"
-                        :disabled="
-                            lineCount < 1
-                            || searchKeyLength > 0
-                            || warningsCount >= lineCount
-                        "
-                    >
-                        <v-icon>mdi-file-excel</v-icon>
-                    </v-btn>
-                    <!-- confirm export dialog -->
-                    <v-dialog
-                        persistent
-                        v-model="PrincipalsStore.state.confirmExportDialogOpen"
-                        max-width="500"
-                    >
-                        <ConfirmExport
-                            :id="'confirm_export_' + PrincipalsStore.state.selectedPrincipalCode"
-                        >
-                        </ConfirmExport>
-                    </v-dialog>
+                    <GeneratedActions
+                        :lineCount="lineCount"
+                        :warningsCount="warningsCount"
+                    ></GeneratedActions>
                 </v-app-bar>
             </v-card-title>
 
             <v-card-text class="mx-0 px-0">
                 <div class="">
                     <div v-if="PrincipalsStore.state.isGeneratingData"
-                        class="d-flex justify-center mt-3"
+                        class="d-flex justify-center mt-6"
                     >
                         <v-progress-circular
-                            :size="70"
-                            :width="7"
+                            :size="50"
+                            :width="4"
                             color="accent"
                             indeterminate
                         ></v-progress-circular>
                     </div>
                     <div v-else>
                         <div
-                            v-if="generatedData.length < 1
+                            v-if="
+                                generatedData.length < 1
                                 || generatedData[0].output_template.length < 1
                             "
                             class="d-flex justify-center mt-3"
@@ -166,6 +61,7 @@
                                 No available data to display
                             </v-chip>
                         </div>
+
                         <GeneratedTableWrapper
                             v-else
                             :generatedData="generatedData"
@@ -183,26 +79,18 @@
 export default {
     components: {
         GeneratedTableWrapper: () => import("./GeneratedTableWrapper.vue"),
-        InvoicesImport: () => import("./InvoicesImport.vue"),
-        MissingInMaster: () => import("./MissingInMaster.vue"),
-        Settings: () => import("./Settings.vue"),
-        Pendings: () => import("./Pendings.vue"),
-        ConfirmExport: () => import("./ConfirmExport.vue"),
+        GeneratedActions: () => import("./GeneratedActions.vue"),
     },
 
     data() {
         return {
-            searchKey: "",
-            dlgMissingCustomers: null,
-            dlgMissingItems: null,
-            dlgPendings: null,
+
         }
     },
 
 
     computed: {
         generatedData() {
-            console.log('XXXXXXXXXXXXXXXX', this.PrincipalsStore.state.currentGeneratedData);
             return this.PrincipalsStore.state.currentGeneratedData;
         },
 
@@ -220,62 +108,14 @@ export default {
             return count;
         },
 
-        // // overall
-        // itemsNotFoundCount() {
-        //     // return 1;
-        //     let count = 0;
-        //     // this.generatedData.forEach(e => {
-        //     //     const nf = e.output_template[0].filter(line => {
-        //     //         return line.item_notfound == 1;
-        //     //     });
-        //     //     count += nf.length;
-        //     // });
-        //     if(this.generatedData.length > 0) {
-        //         this.generatedData[0].output_template.forEach(e => {
-        //             const nf = e[1].filter(line => {
-        //                 return line.item_notfound == 1;
-        //             });
-        //             count += nf.length;
-        //         });
-        //     }
-        //     return count;
-        // },
-
-        // // overall
-        // customersNotFoundCount() {
-        //     let count = 0;
-        //     // this.generatedData.forEach(e => {
-        //     //     const nf = e.output_template[0].filter(line => {
-        //     //         return line.customer_notfound == 1;
-        //     //     });
-        //     //     count += nf.length;
-        //     // });
-
-        //     if(this.generatedData.length > 0) {
-        //         this.generatedData[0].output_template.forEach(e => {
-        //             const nf = e[1].filter(line => {
-        //                 return line.customer_notfound == 1;
-        //             });
-        //             count += nf.length;
-        //         });
-        //     }
-        //     return count;
-        // },
-
         // overall
         warningsCount() {
             let count = 0;
-            // this.generatedData.forEach(e => {
-            //     const nf = e.output_template[0].filter(line => {
-            //         return line.customer_notfound == 1;
-            //     });
-            //     count += nf.length;
-            // });
-
             if(this.generatedData.length > 0) {
                 this.generatedData[0].output_template.forEach(e => {
                     const nf = e[1].filter(line => {
-                        return line.customer_notfound == 1 || line.item_notfound == 1;
+                        return line.customer_notfound == 1 || line.item_notfound == 1
+                            || line.salesman_notfound == 1;
                     });
                     count += nf.length;
                 });
@@ -305,7 +145,6 @@ export default {
         missingInMaster(type) {
             try {
                 let result = [];
-                // this.PrincipalsStore.state.currentGeneratedData.forEach(e => {
                 if(this.generatedData.length > 0) {
                     this.generatedData[0].output_template.forEach(e => {
                         let tempArray = [];
@@ -322,6 +161,15 @@ export default {
                                     tempArray.push({
                                         item_code: line.item_code,
                                         missing_item_name: line.missing_item_name
+                                    });
+                                }
+                            } else if (type=='salesman') {
+                                if(line.salesman_notfound == 1) {
+                                    tempArray.push({
+                                        // bit of hacking here haha..
+                                        real_salesman_code: line.alturas_sm_code,
+                                        salesman_code: line.missing_salesman_name,
+                                        missing_salesman_name: line.missing_salesman_name,
                                     });
                                 }
                             }

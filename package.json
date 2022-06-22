@@ -24,7 +24,9 @@
     },
     "dependencies": {
         "jspdf": "^2.5.1",
+        "jspdf-autotable": "^3.5.25",
         "laravel-echo": "^1.11.7",
-        "pusher-js": "^7.1.0-beta"
+        "pusher-js": "^7.1.0-beta",
+        "xlsx": "https://cdn.sheetjs.com/xlsx-0.18.9/xlsx-0.18.9.tgz"
     }
 }

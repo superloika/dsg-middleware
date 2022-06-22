@@ -35,7 +35,7 @@
 
         <v-text-field
             v-model="dateRangeText"
-            label="Date - YYYY-MM-DD"
+            label="Date Uploaded - YYYY-MM-DD"
             hide-details
             readonly
             dense
@@ -100,7 +100,7 @@
         <v-btn
             icon
             title="Export to PDF"
-            @click="PrincipalsStore.exportToPdf(PrincipalsStore.state.transactions)"
+            @click="exportToPDF()"
             :disabled="(searchKey!=null && searchKey!='') ||
                     PrincipalsStore.state.transactions.length < 1
                 "
@@ -146,6 +146,9 @@
 
 
 <script>
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
 export default {
     // props: ['date','searchKey'],
 
@@ -221,6 +224,95 @@ export default {
             this.PrincipalsStore.initTransactions(this.selectedPrincipalCode, this.date);
             // this.PrincipalsStore.initInvoices(this.selectedPrincipalCode, this.date);
             this.PrincipalsStore.initInvoicesGrandTotal();
+        },
+
+        /**
+         * Export to PDF (test)
+         */
+        exportToPDF() {
+            const totalAmount = this.AppStore.formatAsCurrency(this.totalAmount);
+            const fileName = `${this.selectedPrincipalCode}_Transactions`;
+            const doc = new jsPDF({orientation:'landscape'});
+            const totalPagesExp = '{total_pages_count_string}';
+
+            doc.setFontSize(18);
+            doc.text(`Transactions`, 14, 22);
+            doc.setFontSize(11);
+            doc.setTextColor(100);
+
+            // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+            var pageSize = doc.internal.pageSize;
+            var pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+            var text = doc.splitTextToSize(
+                this.dateRangeText,
+                pageWidth - 35,
+                {}
+            );
+            doc.text(text, 14, 30)
+
+            doc.setFontSize(8)
+            const tempObj = {
+                head: [[
+                    'Customer Code','Account Name','Sales Invoice',
+                    'Item Code','Description','UOM','Quantity','Amount'
+                ]]
+                ,
+                body: this.PrincipalsStore.state.transactions.map(e=>{
+                    const { customer_code,customer_name,doc_no,
+                        item_code,description,uom,quantity,u3,
+                        ...rest } = e;
+                    return [customer_code,customer_name,doc_no,
+                        item_code,description,uom,quantity,
+                        {content:u3, styles:{halign:'right'}}
+                    ];
+                }),
+                footer: [['Total', '']],
+                theme: 'grid',
+                startY: 40,
+                showHead: 'firstPage',
+                headStyles: {fillColor: '#1ea4f7'},
+                didDrawPage: function (data) {
+                    // Header
+                    // doc.setFontSize(20)
+                    // doc.setTextColor(40)
+                    // // if (base64Img) {
+                    // //     doc.addImage(base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10)
+                    // // }
+                    // doc.text('Report', data.settings.margin.left + 15, 22)
+
+                    // Footer
+                    let str = 'Page ' + doc.internal.getNumberOfPages()
+                    // Total page number plugin only available in jspdf v1.0+
+                    if (typeof doc.putTotalPages === 'function') {
+                        str = str + ' of ' + totalPagesExp
+                    }
+                    doc.setFontSize(10)
+
+                    // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+                    var pageSize = doc.internal.pageSize
+                    var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight()
+                    doc.text(str, data.settings.margin.left, pageHeight - 10)
+                },
+            };
+
+            const rowTotalAmount = [
+                {content:'Total',colSpan:7,styles:{fontStyle:'bold',fontSize:12}},
+                {content:totalAmount,styles:{halign:'right',fontStyle:'bold',fontSize:12}}
+            ];
+            tempObj.body.push(rowTotalAmount);
+
+            autoTable(doc, tempObj);
+
+            // let finalY = doc.lastAutoTable.finalY; // The y position on the page
+            // doc.setFontSize(16);
+            // doc.text(20, finalY, "Hello!")
+
+            // Total page number plugin only available in jspdf v1.0+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            doc.save(`${fileName}.pdf`);
         },
     },
 

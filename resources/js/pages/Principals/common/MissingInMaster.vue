@@ -18,37 +18,7 @@
             clearable
             solo-inverted
         ></v-text-field>
-        <!-- <v-btn icon
-            title="Copy All"
-            @click="AppStore.copyToClipboard(codesNA)">
-            <v-icon>mdi-content-copy</v-icon>
-        </v-btn> -->
-        <!-- <v-btn icon
-            title="Download"
-            @click="AppStore.exportToTxt(title+'.txt', codesNA)">
-            <v-icon>mdi-file-download</v-icon>
-        </v-btn> -->
     </v-card-title>
-    <!-- <v-card-text class="pa-1" v-if="type=='customer'">
-        <v-chip v-for="(missing, id) in missingInMaster"
-            :key="id" color="warning" small class="ma-1"
-            outlined
-        >
-            {{ missing.customer_code }} -
-            {{ missing.customer_name }}
-            <br>
-        </v-chip>
-    </v-card-text>
-    <v-card-text class="pa-1" v-else-if="type=='item'">
-        <v-chip v-for="(missing, id) in missingInMaster"
-            :key="id" color="warning" small class="ma-1"
-            outlined
-        >
-            {{ missing.customer_code }} -
-            {{ missing.customer_name }}
-            <br>
-        </v-chip>
-    </v-card-text> -->
 
     <v-card-text>
         <v-data-table
@@ -98,10 +68,14 @@ export default {
                     {text:'Customer Code', value:'customer_code'},
                     {text:'Customer Name', value:'missing_customer_name'},
                 ];
-            } else if(this.type='item') {
+            } else if(this.type=='item') {
                 return [
                     {text:'Item Code', value:'item_code'},
                     {text:'Item Name', value:'missing_item_name'},
+                ];
+            } else if(this.type=='salesman') {
+                return [
+                    {text:'Salesman Name', value:'missing_salesman_name'},
                 ];
             }
         },
@@ -113,6 +87,7 @@ export default {
     },
 
     methods: {
+
     },
 
     mounted() {

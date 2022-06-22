@@ -3,11 +3,23 @@
     <v-sheet class="px-3 pt-1 pb-2" color="grey lighten-5" v-if="allow_export">
         <div class="d-flex justify-end">
             <v-btn
-                title="Export table to CSV"
+                title="Export table to TXT file (Tab Delimited)"
                 color="success"
+                class="mr-2"
                 x-small
+                rounded
+                @click="exportToCsv('txt')"
+            >Export {{ tab_caption }} to TXT</v-btn>
+            <v-btn
+                title="Export table to CSV file (Comma Delimited)"
+                color="success"
+                class=""
+                x-small
+                rounded
                 @click="exportToCsv()"
-            >Export {{ tab_caption }} to CSV</v-btn>
+            >
+                Export {{ tab_caption }} to CSV
+            </v-btn>
         </div>
     </v-sheet>
     <v-data-table
@@ -65,17 +77,19 @@
 
         <template v-slot:[`item.sales_agent_id`]="{ item }">
             <v-chip
-                v-if="item.sales_agent_id=='N/A'"
+                v-if="item.salesman_notfound==1"
                 color="warning"
                 small
                 outlined
-                title=""
+                title="Unmapped"
             >
                 <div :id="item.sales_agent_id">
                     {{ item.sales_agent_id }}
                 </div>
             </v-chip>
-            <span v-else>{{ item.sales_agent_id }}</span>
+            <span v-else
+                :title="item.alturas_sm_code"
+            >{{ item.sales_agent_id }}</span>
         </template>
     </v-data-table>
 </div>
@@ -94,14 +108,14 @@ export default {
     },
 
     methods: {
-        exportToCsv() {
+        exportToCsv(extention='csv') {
             this.PrincipalsStore.toExcel_simple(
                 `${this.tab_caption}`,
                 this.items,
                 'generatedDataTableHeader',
                 null,
                 `${this.tab_caption}`,
-                'csv',
+                extention,
                 this.template_variation_index
             );
         },

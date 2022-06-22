@@ -120,8 +120,8 @@ Route::prefix('principals')->group(function(){
             Route::post("/salesmen/upload", $ctrl. "uploadMasterSalesmen");
 
             // Invoices (import & save)
-            Route::get("/invoices/generate-templated-data", $ctrl. "generateTemplatedData");
-            Route::post("/invoices/set-invoices-complete", $ctrl. "setInvoicesComplete");
+            Route::get("/generate-templated-data", $ctrl. "generateTemplatedData");
+            Route::post("/set-invoices-complete", $ctrl. "setInvoicesComplete");
             // Route::post("/invoices/import", $ctrl. "importInvoices");
             // Route::post("/invoices/save", $ctrl. "saveInvoices");
         });
@@ -134,10 +134,10 @@ Route::prefix('principals')->group(function(){
     // Settings
     Route::get("/settings", "Principals\PrincipalsUtil@settings");
     Route::post("/settings", "Principals\PrincipalsUtil@saveSettings");
-    Route::get("/settings_principal", "Principals\PrincipalsUtil@principalSettings");
+    // Route::get("/settings_principal", "Principals\PrincipalsUtil@principalSettings");
 
     // Invoices
-    Route::get("/invoices", "Principals\PrincipalsUtil@invoices");
+    // Route::get("/invoices", "Principals\PrincipalsUtil@invoices");
     Route::get("/invoices/grandtotal", "Principals\PrincipalsUtil@invoicesGrandTotal");
 
     // Generated Data (should be a POST method... gotta change later)
@@ -147,7 +147,7 @@ Route::prefix('principals')->group(function(){
     Route::get("/transactions", "Principals\PrincipalsUtil@transactions");
 
     // Pendings
-    Route::post("/pendings", "Principals\PrincipalsUtil@getPendingGendataAndInvoices");
+    // Route::post("/pendings", "Principals\PrincipalsUtil@getPendingGendataAndInvoices");
 });
 
 

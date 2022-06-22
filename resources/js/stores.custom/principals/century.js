@@ -26,7 +26,7 @@ const state = Vue.observable({
         ]
     ],
 
-    // templated data table header
+    // templated data table header(s)
     generatedDataTableHeader: [
         [
             {text:"Distributor ID", value: "distributor_id"},
@@ -43,22 +43,22 @@ const state = Vue.observable({
             {text:"System Date", value: "system_date"},
             {text:"User", value: "default_user"},
         ],
-        [
-            {text:"Distributor ID", value: "distributor_id"},
-            {text:"Sales Agent ID", value: "sales_agent_id"},
-            {text:"Invoice No (Doc No)", value: "doc_no"},
-            {text:"Location", value: "location"},
-            {text:"Invoice Date", value: "invoice_date"},
-            {text:"Payment Term Code", value: "payment_term_code"},
-            {text:"Customer No", value: "customer_code"},
-            {text:"Product Code", value: "item_code"},
-            {text:"Bulk Qty", value: "bulk_qty"},
-            {text:"Loose Qty", value: "loose_qty"},
-            {text:"System Date", value: "system_date"},
-            {text:"Default User", value: "default_user"},
-            {text:"Invoice No", value: "invoice_no"},
-            {text:"Expiry Date", value: "expiry_date"},
-        ],
+        // [
+        //     {text:"Distributor ID", value: "distributor_id"},
+        //     {text:"Sales Agent ID", value: "sales_agent_id"},
+        //     {text:"Invoice No (Doc No)", value: "doc_no"},
+        //     {text:"Location", value: "location"},
+        //     {text:"Invoice Date", value: "invoice_date"},
+        //     {text:"Payment Term Code", value: "payment_term_code"},
+        //     {text:"Customer No", value: "customer_code"},
+        //     {text:"Product Code", value: "item_code"},
+        //     {text:"Bulk Qty", value: "bulk_qty"},
+        //     {text:"Loose Qty", value: "loose_qty"},
+        //     {text:"System Date", value: "system_date"},
+        //     {text:"Default User", value: "default_user"},
+        //     {text:"Invoice No", value: "invoice_no"},
+        //     {text:"Expiry Date", value: "expiry_date"},
+        // ],
     ],
 
     // transactions table header
@@ -77,16 +77,17 @@ const state = Vue.observable({
     ],
 
 
-    // ***********************************************************************************
+    // ************************* Templated Data History *******************************
+    // custom cols (Templated Data History)
     generatedDataDBTableColumns: [
         // common
         'id',
         'generated_at',
         'uploaded_by',
         'doc_no',
+        // principal template
         'item_code',
         'customer_code',
-        // principal template
         'distributor_id',
         'sales_agent_id', // salesman code
         'invoice_no',
@@ -112,6 +113,8 @@ const state = Vue.observable({
             {text: 'Invoice Posting Date', value: 'invoice_date'},
         ]
     ],
+    // ************************* /Templated Data History *******************************
+
 });
 
 

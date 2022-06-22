@@ -92,7 +92,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Salesman Code - Supplier",
     value: "sm_code_supplier"
   }]],
-  // templated data table header
+  // templated data table header(s)
   generatedDataTableHeader: [[{
     text: "Distributor ID",
     value: "distributor_id"
@@ -132,49 +132,23 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "User",
     value: "default_user"
-  }], [{
-    text: "Distributor ID",
-    value: "distributor_id"
-  }, {
-    text: "Sales Agent ID",
-    value: "sales_agent_id"
-  }, {
-    text: "Invoice No (Doc No)",
-    value: "doc_no"
-  }, {
-    text: "Location",
-    value: "location"
-  }, {
-    text: "Invoice Date",
-    value: "invoice_date"
-  }, {
-    text: "Payment Term Code",
-    value: "payment_term_code"
-  }, {
-    text: "Customer No",
-    value: "customer_code"
-  }, {
-    text: "Product Code",
-    value: "item_code"
-  }, {
-    text: "Bulk Qty",
-    value: "bulk_qty"
-  }, {
-    text: "Loose Qty",
-    value: "loose_qty"
-  }, {
-    text: "System Date",
-    value: "system_date"
-  }, {
-    text: "Default User",
-    value: "default_user"
-  }, {
-    text: "Invoice No",
-    value: "invoice_no"
-  }, {
-    text: "Expiry Date",
-    value: "expiry_date"
-  }]],
+  }] // [
+  //     {text:"Distributor ID", value: "distributor_id"},
+  //     {text:"Sales Agent ID", value: "sales_agent_id"},
+  //     {text:"Invoice No (Doc No)", value: "doc_no"},
+  //     {text:"Location", value: "location"},
+  //     {text:"Invoice Date", value: "invoice_date"},
+  //     {text:"Payment Term Code", value: "payment_term_code"},
+  //     {text:"Customer No", value: "customer_code"},
+  //     {text:"Product Code", value: "item_code"},
+  //     {text:"Bulk Qty", value: "bulk_qty"},
+  //     {text:"Loose Qty", value: "loose_qty"},
+  //     {text:"System Date", value: "system_date"},
+  //     {text:"Default User", value: "default_user"},
+  //     {text:"Invoice No", value: "invoice_no"},
+  //     {text:"Expiry Date", value: "expiry_date"},
+  // ],
+  ],
   // transactions table header
   transactionsTableHeader: [[{
     text: "Upload Date",
@@ -204,10 +178,11 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Amount",
     value: "u3"
   }]],
-  // ***********************************************************************************
+  // ************************* Templated Data History *******************************
+  // custom cols (Templated Data History)
   generatedDataDBTableColumns: [// common
-  'id', 'generated_at', 'uploaded_by', 'doc_no', 'item_code', 'customer_code', // principal template
-  'distributor_id', 'sales_agent_id', // salesman code
+  'id', 'generated_at', 'uploaded_by', 'doc_no', // principal template
+  'item_code', 'customer_code', 'distributor_id', 'sales_agent_id', // salesman code
   'invoice_no', 'location', 'invoice_date', 'payment_term_code', 'bulk_qty', 'loose_qty', 'default_user', 'system_date', 'expiry_date', 'order_date', 'request_delivery_date'],
   generatedDataHistoryFilters: [[{
     text: 'Order Date',
@@ -230,7 +205,8 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Invoice Posting Date',
     value: 'invoice_date'
-  }]]
+  }]] // ************************* /Templated Data History *******************************
+
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -380,30 +356,8 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
- // import PrincipalsStore from "./PrincipalsStore";
 
 var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  title: '',
-  // customersTableHeader: [
-  //     { text: "Distributor Code", value: "distributor_code" },
-  //     { text: "Customer Code", value: "customer_code" },
-  //     { text: "Customer Name", value: "customer_name" },
-  //     { text: "Outlet Type", value: "outlet_type" },
-  //     { text: "Salesman Name", value: "salesman_name" },
-  //     { text: "Route Code", value: "route_code" },
-  //     { text: "Operation Type", value: "operation_type" },
-  //     { text: "Status", value: "status" },
-  //     { text: "Address_1", value: "address_1" },
-  //     { text: "Address_4", value: "address_4" },
-  //     { text: "Address_5", value: "address_5" },
-  //     { text: "postal_code", value: "postal_code" },
-  // ],
   customersTableHeader: [[{
     text: "Customer Code",
     value: "customer_code"
@@ -419,8 +373,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Operation Type",
     value: "operation_type"
-  } // { text: "Route Code", value: "route_code" },
-  ]],
+  }]],
   itemsTableHeader: [[{
     text: "Item Code",
     value: "item_code"
@@ -433,6 +386,13 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Supplier Item Description",
     value: "description_supplier"
+  }]],
+  salesmenTableHeader: [[{
+    text: "Salesman Name",
+    value: "sm_name"
+  }, {
+    text: "Route Code",
+    value: "route_code"
   }]],
   // templated data table header
   generatedDataTableHeader: [[{
@@ -462,18 +422,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Quantity (numeric 25,4)",
     value: "quantity"
-  }] // [
-  //     {text:"Order Date (Date) (YYYY/MM/DD)", value: "order_date"},
-  //     {text:"Customer Code (nv20)", value: "customer_code"},
-  //     {text:"Product Code (nv20)", value: "item_code"},
-  //     // {text:"Route Code (nv20)", value: "route_code"},
-  //     // {text:"Product Category Code (nv20)", value: "product_category_code"},
-  //     // {text:"Ship To (nv40)", value: "ship_to"},
-  //     {text:"Order Number (nv20)", value: "order_no"},
-  //     // {text:"Remarks (nv50)", value: "remarks"},
-  //     {text:"Quantity (numeric 25,4)", value: "quantity"},
-  // ]
-  ],
+  }]],
   // transactions table header
   transactionsTableHeader: [[{
     text: "Upload Date",
@@ -503,60 +452,31 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Amount",
     value: "u3"
   }]],
-  // ***********************************************************************************
+  // ************************* Templated Data History *******************************
+  // custom cols (Templated Data History)
+  generatedDataDBTableColumns: [// common
+  'id', 'generated_at', 'uploaded_by', 'doc_no', // principal template
+  'order_date', 'customer_code', 'route_code', 'product_category_code', 'ship_to', 'order_no', 'remarks', 'item_code', 'quantity'],
   generatedDataHistoryFilters: [[{
     text: 'Order Date',
     value: 'order_date'
   }, {
     text: 'Route Code',
     value: 'route_code'
-  } // {text: 'Item Code', value: 'item_code'},
-  // {text: 'Customer Code', value: 'customer_code'},
-  ]],
-  generatedDataDBTableColumns: [// common
-  'id', 'generated_at', 'uploaded_by', 'doc_no', // principal template
-  'order_date', 'customer_code', 'route_code', 'product_category_code', 'ship_to', 'order_no', 'remarks', 'item_code', 'quantity'] // uploadedInvoicesTableHeader: [
-  //     // {text:"Status", value:"status"},
-  //     {text:"Upload Date", value:"upload_date"},
-  //     {text:"Document Type", value:"doc_type"},
-  //     {text:"Document #", value:"doc_no"},
-  //     {text:"Customer Code", value:"customer_code"},
-  //     {text:"Posting Date", value:"posting_date"},
-  //     {text:"Item Code", value:"item_code"},
-  //     {text:"Quantity", value:"quantity"},
-  //     {text:"u1", value:"u1"},
-  //     {text:"u2", value:"u2"},
-  //     {text:"u3", value:"u3"},
-  //     {text:"u4", value:"u4"},
-  //     {text:"u5", value:"u5"},
-  //     {text:"UOM", value:"uom"},
-  // ],
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }]] // ************************* /Templated Data History *******************************
 
 });
-var actions = {// generatedDataHeader() {
-  //     return state.generatedDataTableHeader.map(e=>{
-  //         return e.text;
-  //     });
-  // },
-  // generatedDataFormat() {
-  //     return state.generatedDataTableHeader.map(e=>{
-  //         return e.value;
-  //     });
-  // },
-  // transactionsHeader() {
-  //     return state.transactionsTableHeader.map(e=>{
-  //         return e.text;
-  //     });
-  // },
-  // transactionsFormat() {
-  //     return state.transactionsTableHeader.map(e=>{
-  //         return e.value;
-  //     });
-  // },
-};
-/* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
-  state: state
-}, actions));
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
 
 /***/ }),
 

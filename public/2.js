@@ -9,6 +9,15 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
+/* harmony import */ var jspdf_autotable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jspdf-autotable */ "./node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js");
+/* harmony import */ var jspdf_autotable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jspdf_autotable__WEBPACK_IMPORTED_MODULE_1__);
+var _excluded = ["customer_code", "customer_name", "doc_no", "item_code", "description", "uom", "quantity", "u3"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 //
 //
 //
@@ -156,6 +165,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ['date','searchKey'],
   data: function data() {
@@ -216,6 +227,103 @@ __webpack_require__.r(__webpack_exports__);
       this.PrincipalsStore.initTransactions(this.selectedPrincipalCode, this.date); // this.PrincipalsStore.initInvoices(this.selectedPrincipalCode, this.date);
 
       this.PrincipalsStore.initInvoicesGrandTotal();
+    },
+
+    /**
+     * Export to PDF (test)
+     */
+    exportToPDF: function exportToPDF() {
+      var totalAmount = this.AppStore.formatAsCurrency(this.totalAmount);
+      var fileName = "".concat(this.selectedPrincipalCode, "_Transactions");
+      var doc = new jspdf__WEBPACK_IMPORTED_MODULE_0__["default"]({
+        orientation: 'landscape'
+      });
+      var totalPagesExp = '{total_pages_count_string}';
+      doc.setFontSize(18);
+      doc.text("Transactions", 14, 22);
+      doc.setFontSize(11);
+      doc.setTextColor(100); // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+
+      var pageSize = doc.internal.pageSize;
+      var pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+      var text = doc.splitTextToSize(this.dateRangeText, pageWidth - 35, {});
+      doc.text(text, 14, 30);
+      doc.setFontSize(8);
+      var tempObj = {
+        head: [['Customer Code', 'Account Name', 'Sales Invoice', 'Item Code', 'Description', 'UOM', 'Quantity', 'Amount']],
+        body: this.PrincipalsStore.state.transactions.map(function (e) {
+          var customer_code = e.customer_code,
+              customer_name = e.customer_name,
+              doc_no = e.doc_no,
+              item_code = e.item_code,
+              description = e.description,
+              uom = e.uom,
+              quantity = e.quantity,
+              u3 = e.u3,
+              rest = _objectWithoutProperties(e, _excluded);
+
+          return [customer_code, customer_name, doc_no, item_code, description, uom, quantity, {
+            content: u3,
+            styles: {
+              halign: 'right'
+            }
+          }];
+        }),
+        footer: [['Total', '']],
+        theme: 'grid',
+        startY: 40,
+        showHead: 'firstPage',
+        headStyles: {
+          fillColor: '#1ea4f7'
+        },
+        didDrawPage: function didDrawPage(data) {
+          // Header
+          // doc.setFontSize(20)
+          // doc.setTextColor(40)
+          // // if (base64Img) {
+          // //     doc.addImage(base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10)
+          // // }
+          // doc.text('Report', data.settings.margin.left + 15, 22)
+          // Footer
+          var str = 'Page ' + doc.internal.getNumberOfPages(); // Total page number plugin only available in jspdf v1.0+
+
+          if (typeof doc.putTotalPages === 'function') {
+            str = str + ' of ' + totalPagesExp;
+          }
+
+          doc.setFontSize(10); // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+
+          var pageSize = doc.internal.pageSize;
+          var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+          doc.text(str, data.settings.margin.left, pageHeight - 10);
+        }
+      };
+      var rowTotalAmount = [{
+        content: 'Total',
+        colSpan: 7,
+        styles: {
+          fontStyle: 'bold',
+          fontSize: 12
+        }
+      }, {
+        content: totalAmount,
+        styles: {
+          halign: 'right',
+          fontStyle: 'bold',
+          fontSize: 12
+        }
+      }];
+      tempObj.body.push(rowTotalAmount);
+      jspdf_autotable__WEBPACK_IMPORTED_MODULE_1___default()(doc, tempObj); // let finalY = doc.lastAutoTable.finalY; // The y position on the page
+      // doc.setFontSize(16);
+      // doc.text(20, finalY, "Hello!")
+      // Total page number plugin only available in jspdf v1.0+
+
+      if (typeof doc.putTotalPages === 'function') {
+        doc.putTotalPages(totalPagesExp);
+      }
+
+      doc.save("".concat(fileName, ".pdf"));
     }
   },
   created: function created() {
@@ -321,7 +429,7 @@ var render = function() {
             staticClass: "mr-3",
             staticStyle: { "max-width": "230px" },
             attrs: {
-              label: "Date - YYYY-MM-DD",
+              label: "Date Uploaded - YYYY-MM-DD",
               "hide-details": "",
               readonly: "",
               dense: "",
@@ -466,9 +574,7 @@ var render = function() {
               },
               on: {
                 click: function($event) {
-                  return _vm.PrincipalsStore.exportToPdf(
-                    _vm.PrincipalsStore.state.transactions
-                  )
+                  return _vm.exportToPDF()
                 }
               }
             },
