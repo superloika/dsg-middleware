@@ -146,7 +146,7 @@ export default {
 
     .v-data-table__wrapper table tbody tr{
         /* color: #a8a8a8; */
-        color: #6e6e6e;
+        color: #333333;
     }
 
     .theme--dark.v-data-table

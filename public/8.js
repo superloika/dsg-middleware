@@ -62,6 +62,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["generatedData", "allow_export"],
   // props: ["allow_export"],
@@ -80,7 +82,7 @@ __webpack_require__.r(__webpack_exports__);
       //     import(`../${vm.PrincipalsStore.state.selectedPrincipalCode}/GeneratedTable.vue`);
 
       return function () {
-        return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./GeneratedTable.vue */ "./resources/js/pages/Principals/common/GeneratedTable.vue"));
+        return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ./GeneratedTable.vue */ "./resources/js/pages/Principals/common/GeneratedTable.vue"));
       };
     }
   },
@@ -99,7 +101,7 @@ __webpack_require__.r(__webpack_exports__);
     //     });
     //     return test.length;
     // },
-    // get total warnings
+    // get total warnings (e.g. unmapped customers, items, salesmen)
     warningsCount: function warningsCount() {
       var lines = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
       var test = lines.filter(function (e) {

@@ -709,6 +709,8 @@ class CenturyController extends Controller
 
             // Being in a relationship is unexplainably happy until fate fucks the hell out of it.
 
+            // LOL
+
             // INSERT TO GENERATED/TEMPLATED TABLE
             $template_variation = 1;
             foreach ($request->generated_data as $variations) {

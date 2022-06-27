@@ -4,9 +4,8 @@
         :height="generatedData.length > 1 ? 25 : 0"
     >
         <v-tab
-            v-for="(templatedData, index) in generatedData" :key="index"
-            class="px-3 text-caption"
-
+            v-for="(templatedData, index) in generatedData"
+            :key="index" class="px-3 text-caption"
         >
             {{ templatedData.name }}
         </v-tab>
@@ -19,12 +18,12 @@
         >
             <v-sheet>
                 <v-tabs v-model="tab" height="35" show-arrow>
-                    <v-tab v-for="(data, index) in templatedData.output_template" :key="index"
-                        class="px-3 text-caption"
+                    <v-tab
+                        v-for="(data, index) in templatedData.output_template"
+                        :key="index" class="px-3 text-caption"
                     >
                         {{ data[0] }}
-                        <v-chip color="warning" x-small
-                            class="ml-1 text-captionx px-1"
+                        <v-chip color="warning" x-small class="ml-1 text-captionx px-1"
                             v-if="warningsCount(data[1]) > 0"
                         >
                             {{ warningsCount(data[1]) }}
@@ -32,7 +31,10 @@
                     </v-tab>
                 </v-tabs>
                 <v-tabs-items v-model="tab">
-                    <v-tab-item v-for="(data, index) in templatedData.output_template" :key="index">
+                    <v-tab-item
+                        v-for="(data, index) in templatedData.output_template"
+                        :key="index"
+                    >
                         <div class="mb-2 pa-0 overflow-auto" v-if="data[1].length > 0">
                             <component
                                 :id="PrincipalsStore.state.selectedPrincipalCode + '_gentable'"
@@ -93,7 +95,7 @@ export default {
         //     return test.length;
         // },
 
-        // get total warnings
+        // get total warnings (e.g. unmapped customers, items, salesmen)
         warningsCount(lines = []) {
             const test = lines.filter(e => {
                 return e.customer_notfound == 1 || e.item_notfound == 1
