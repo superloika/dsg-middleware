@@ -27,7 +27,7 @@ window.XLSX = require('xlsx');
 window.axios = require("axios");
 
 // console.log('Authorization:',window.CsrfToken);
-window.axios.defaults.headers.common["Authorization"] = `${window.CsrfToken}`;
+// window.axios.defaults.headers.common["Authorization"] = `${window.CsrfToken}`;
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
