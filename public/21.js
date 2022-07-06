@@ -9,6 +9,8 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -97,6 +99,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterfileUpload: function MasterfileUpload() {
@@ -148,10 +161,22 @@ __webpack_require__.r(__webpack_exports__);
     // },
     exportToExcel: function exportToExcel() {
       this.PrincipalsStore.toExcel_simple('Items', this.PrincipalsStore.state.items, 'itemsTableHeader', null, "".concat(this.selectedPrincipalCode, "_Items"));
+    },
+    onPageChange: function onPageChange() {
+      this.PrincipalsStore.initItems(this.searchKey);
     }
   },
+  watch: {
+    searchKey: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["debounce"])(function () {
+      if (this.PrincipalsStore.state.items.current_page != undefined) {
+        this.PrincipalsStore.state.items.current_page = 1;
+      }
+
+      this.PrincipalsStore.initItems(this.searchKey);
+    }, 500)
+  },
   created: function created() {
-    this.PrincipalsStore.initItems(this.selectedPrincipalCode);
+    this.PrincipalsStore.initItems();
   }
 });
 
@@ -215,9 +240,7 @@ var render = function() {
                   },
                   on: {
                     click: function($event) {
-                      return _vm.PrincipalsStore.initItems(
-                        _vm.selectedPrincipalCode
-                      )
+                      return _vm.PrincipalsStore.initItems(_vm.searchKey)
                     }
                   }
                 },
@@ -273,12 +296,42 @@ var render = function() {
         [
           _c("v-data-table", {
             attrs: {
-              items: _vm.PrincipalsStore.state.items,
+              items: _vm.PrincipalsStore.state.items.data,
               headers: _vm.tblHeader,
               dense: "",
-              search: _vm.searchKey
+              "disable-pagination": "",
+              "hide-default-footer": ""
             }
-          })
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            [
+              _c("v-pagination", {
+                attrs: {
+                  length: _vm.PrincipalsStore.state.items.last_page,
+                  "total-visible": "5"
+                },
+                on: {
+                  input: function($event) {
+                    return _vm.onPageChange()
+                  }
+                },
+                model: {
+                  value: _vm.PrincipalsStore.state.items.current_page,
+                  callback: function($$v) {
+                    _vm.$set(
+                      _vm.PrincipalsStore.state.items,
+                      "current_page",
+                      $$v
+                    )
+                  },
+                  expression: "PrincipalsStore.state.items.current_page"
+                }
+              })
+            ],
+            1
+          )
         ],
         1
       ),

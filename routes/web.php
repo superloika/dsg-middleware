@@ -102,6 +102,7 @@ Route::prefix('principals')->group(function(){
         ['CenturyController', 'century'],
         ['MegasoftController', 'megasoft'],
         ['GsmiController', 'gsmi'],
+        ['GspiController', 'gspi'],
     ];
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';

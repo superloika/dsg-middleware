@@ -357,7 +357,9 @@ var render = function() {
         { staticClass: "elevation-0", attrs: { densex: "" } },
         [
           _c("v-toolbar-title", [
-            _c("div", [_vm._v("\n                Transactions\n            ")]),
+            _c("div", [
+              _vm._v("\r\n                Transactions\r\n            ")
+            ]),
             _vm._v(" "),
             _c(
               "div",
@@ -371,9 +373,9 @@ var render = function() {
                   [
                     _c("em", [_vm._v("Total Amount: ")]),
                     _vm._v(
-                      "\n                    " +
+                      "\r\n                    " +
                         _vm._s(_vm.AppStore.formatAsCurrency(_vm.totalAmount)) +
-                        "\n                "
+                        "\r\n                "
                     )
                   ]
                 ),
@@ -387,13 +389,13 @@ var render = function() {
                   [
                     _c("em", [_vm._v("Grand Total: ")]),
                     _vm._v(
-                      "\n                    " +
+                      "\r\n                    " +
                         _vm._s(
                           _vm.AppStore.formatAsCurrency(
                             _vm.PrincipalsStore.state.invoicesGrandTotal
                           )
                         ) +
-                        "\n                "
+                        "\r\n                "
                     )
                   ]
                 )
@@ -498,7 +500,11 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    Cancel\n                ")]
+                    [
+                      _vm._v(
+                        "\r\n                    Cancel\r\n                "
+                      )
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -512,7 +518,11 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    Generate\n                ")]
+                    [
+                      _vm._v(
+                        "\r\n                    Generate\r\n                "
+                      )
+                    ]
                   )
                 ],
                 1
@@ -607,9 +617,9 @@ var render = function() {
                     return [
                       _c("span", [
                         _vm._v(
-                          "\n                    " +
+                          "\r\n                    " +
                             _vm._s(item.updated_at.substring(0, 10)) +
-                            "\n                "
+                            "\r\n                "
                         )
                       ])
                     ]
@@ -622,11 +632,11 @@ var render = function() {
                     return [
                       _c("span", { attrs: { "background-color": "primary" } }, [
                         _vm._v(
-                          "\n                    " +
+                          "\r\n                    " +
                             _vm._s(
                               _vm.AppStore.formatAsCurrency(parseFloat(item.u3))
                             ) +
-                            "\n                "
+                            "\r\n                "
                         )
                       ])
                     ]
@@ -639,9 +649,9 @@ var render = function() {
                     return [
                       _c("span", { staticClass: "text-caption" }, [
                         _vm._v(
-                          "\n                    " +
+                          "\r\n                    " +
                             _vm._s(item.customer_name) +
-                            "\n                "
+                            "\r\n                "
                         )
                       ])
                     ]
@@ -654,9 +664,9 @@ var render = function() {
                     return [
                       _c("span", { staticClass: "text-caption" }, [
                         _vm._v(
-                          "\n                    " +
+                          "\r\n                    " +
                             _vm._s(item.description) +
-                            "\n                "
+                            "\r\n                "
                         )
                       ])
                     ]

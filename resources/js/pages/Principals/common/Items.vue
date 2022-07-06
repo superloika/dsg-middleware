@@ -25,7 +25,7 @@
                     rounded
                     depressed
                     class="mr-2"
-                    @click="PrincipalsStore.initItems(selectedPrincipalCode)"
+                    @click="PrincipalsStore.initItems(searchKey)"
                 >
                     <v-icon>mdi-refresh</v-icon>
                 </v-btn>
@@ -64,12 +64,22 @@
 
         <v-card-text class="mx-0 px-0">
             <v-data-table
-                :items="PrincipalsStore.state.items"
+                :items="PrincipalsStore.state.items.data"
                 :headers="tblHeader"
                 dense
-                :search="searchKey"
+                disable-pagination
+                hide-default-footer
             >
             </v-data-table>
+            <div>
+                <v-pagination
+                    v-model="PrincipalsStore.state.items.current_page"
+                    :length="PrincipalsStore.state.items.last_page"
+                    @input="onPageChange()"
+                    total-visible="5"
+                >
+                </v-pagination>
+            </div>
         </v-card-text>
 
         <v-dialog
@@ -87,6 +97,8 @@
 
 
 <script>
+import {debounce} from 'lodash';
+
 export default {
     components: {
         MasterfileUpload: () => import('./MasterfileUpload.vue'),
@@ -150,11 +162,24 @@ export default {
             );
         },
 
+        onPageChange() {
+            this.PrincipalsStore.initItems(this.searchKey);
+        }
+
 
     },
 
+    watch: {
+        searchKey: debounce(function() {
+            if(this.PrincipalsStore.state.items.current_page != undefined) {
+                this.PrincipalsStore.state.items.current_page = 1;
+            }
+            this.PrincipalsStore.initItems(this.searchKey);
+        }, 500),
+    },
+
     created() {
-        this.PrincipalsStore.initItems(this.selectedPrincipalCode);
+        this.PrincipalsStore.initItems();
     }
 
 

@@ -41,6 +41,10 @@ class MeadJohnsonController extends Controller
         // dd(Hash::make('nenemiro'));
 
         set_time_limit(0);
+
+        $row_count = request()->row_count ?? 10;
+        $search_key = request()->search_key ?? '';
+
         $cols = [
             'id',
             'principal_code',
@@ -52,7 +56,16 @@ class MeadJohnsonController extends Controller
         ];
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
             ->where('principal_code', $this->PRINCIPAL_CODE)
-            ->get($cols);
+            // ->get($cols);
+
+            ->where(function($q) use ($search_key) {
+                $q->where(
+                    PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.item_code',
+                    'like',
+                    '%'. $search_key. '%'
+                );
+            })
+            ->paginate($row_count);
 
         return response()->json($result);
     }
@@ -147,6 +160,9 @@ class MeadJohnsonController extends Controller
     {
         set_time_limit(0);
 
+        $row_count = request()->row_count ?? 10;
+        $search_key = request()->search_key ?? '';
+
         // $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
         //     ->leftJoin(
         //         PrincipalsUtil::$TBL_GENERAL_CUSTOMERS,
@@ -169,7 +185,16 @@ class MeadJohnsonController extends Controller
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
             ->where('principal_code', $this->PRINCIPAL_CODE)
-            ->get();
+            // ->get();
+
+            ->where(function($q) use ($search_key) {
+                $q->where(
+                    PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.customer_code',
+                    'like',
+                    '%'. $search_key. '%'
+                );
+            })
+            ->paginate($row_count);
 
         return response()->json($result);
     }
@@ -224,7 +249,7 @@ class MeadJohnsonController extends Controller
                             $customer_name = trim(str_replace('"', '', $arrFileContentLine[2]));
                             $outlet_type = trim(str_replace('"', '', $arrFileContentLine[3]));
                             $salesman_name = trim(str_replace('"', '', $arrFileContentLine[4]));
-                            $operation_type = trim(str_replace('"', '', $arrFileContentLine[5]));
+                            // $operation_type = trim(str_replace('"', '', $arrFileContentLine[5]));
                             // =========================================================================
 
                             // $isExisting = array_search(
@@ -241,7 +266,7 @@ class MeadJohnsonController extends Controller
                                     'customer_name' => $customer_name,
                                     'outlet_type' => $outlet_type,
                                     'salesman_name' => $salesman_name,
-                                    'operation_type' => $operation_type,
+                                    // 'operation_type' => $operation_type,
                                     'uploaded_by' => auth()->user()->id
                                 ];
                             }

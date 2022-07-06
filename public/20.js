@@ -269,7 +269,11 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    Generate\n                ")]
+                    [
+                      _vm._v(
+                        "\r\n                    Generate\r\n                "
+                      )
+                    ]
                   )
                 ],
                 1

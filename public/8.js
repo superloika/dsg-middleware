@@ -136,7 +136,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\ndiv[data-v-61458e21] {\n    color: #eeeeee;\n}\n", ""]);
+exports.push([module.i, "\ndiv[data-v-61458e21] {\r\n    color: #eeeeee;\n}\r\n", ""]);
 
 // exports
 
@@ -205,7 +205,9 @@ var render = function() {
         },
         _vm._l(_vm.generatedData, function(templatedData, index) {
           return _c("v-tab", { key: index, staticClass: "px-3 text-caption" }, [
-            _vm._v("\n            " + _vm._s(templatedData.name) + "\n        ")
+            _vm._v(
+              "\r\n            " + _vm._s(templatedData.name) + "\r\n        "
+            )
           ])
         }),
         1
@@ -254,9 +256,9 @@ var render = function() {
                         { key: index, staticClass: "px-3 text-caption" },
                         [
                           _vm._v(
-                            "\n                        " +
+                            "\r\n                        " +
                               _vm._s(data[0]) +
-                              "\n                        "
+                              "\r\n                        "
                           ),
                           _vm.warningsCount(data[1]) > 0
                             ? _c(
@@ -267,9 +269,9 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                            " +
+                                    "\r\n                            " +
                                       _vm._s(_vm.warningsCount(data[1])) +
-                                      "\n                        "
+                                      "\r\n                        "
                                   )
                                 ]
                               )

@@ -25,7 +25,7 @@
                     rounded
                     depressed
                     class="mr-2"
-                    @click="PrincipalsStore.initCustomers(selectedPrincipalCode)"
+                    @click="PrincipalsStore.initCustomers(searchKey)"
                 >
                     <v-icon>mdi-refresh</v-icon>
                 </v-btn>
@@ -65,12 +65,24 @@
 
         <v-card-text class="mx-0 px-0">
             <v-data-table
-                :items="PrincipalsStore.state.customers"
+                :items="PrincipalsStore.state.customers.data"
                 :headers="tblHeader"
                 dense
-                :search="searchKey"
+                :searchx="searchKey"
+                disable-pagination
+                disable-filtering
+                hide-default-footer
             >
             </v-data-table>
+            <div>
+                <v-pagination
+                    v-model="PrincipalsStore.state.customers.current_page"
+                    :length="PrincipalsStore.state.customers.last_page"
+                    @input="onPageChange()"
+                    total-visible="5"
+                >
+                </v-pagination>
+            </div>
         </v-card-text>
 
         <v-dialog
@@ -88,6 +100,8 @@
 
 
 <script>
+import {debounce} from 'lodash';
+
 export default {
     components: {
         MasterfileUpload: () => import('./MasterfileUpload.vue'),
@@ -136,10 +150,23 @@ export default {
                 `${this.selectedPrincipalCode}_Customers`
             );
         },
+
+        onPageChange() {
+            this.PrincipalsStore.initCustomers(this.searchKey);
+        },
+    },
+
+    watch: {
+        searchKey: debounce(function() {
+            if(this.PrincipalsStore.state.customers.current_page != undefined) {
+                this.PrincipalsStore.state.customers.current_page = 1;
+            }
+            this.PrincipalsStore.initCustomers(this.searchKey);
+        }, 500),
     },
 
     created() {
-        this.PrincipalsStore.initCustomers(this.selectedPrincipalCode);
+        this.PrincipalsStore.initCustomers();
     },
 }
 </script>

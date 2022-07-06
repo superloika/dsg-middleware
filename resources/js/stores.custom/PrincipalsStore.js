@@ -11,8 +11,8 @@ let state = Vue.observable({
     isUploadMasterCustomersOpen: false,
     isUploadMasterItemsOpen: false,
     isUploadMasterSalesmenOpen: false,
-    items: [],
-    customers: [],
+    items: {},
+    customers: {},
     invoices: [],
     transactions: [],
     salesmen: [],
@@ -69,8 +69,8 @@ const actions = {
         // masterfiles
         state.isUploadMasterCustomersOpen = false;
         state.isUploadMasterItemsOpen = false;
-        state.items = [];
-        state.customers = [];
+        state.items = {};
+        state.customers = {};
         state.invoices = [];
         state.transactions = [];
 
@@ -98,17 +98,21 @@ const actions = {
     /**
      * Initialize the current selected principal's items list
      */
-    async initItems() {
+    async initItems(searchKey='', row_count=10) {
         try {
+            if(searchKey==null) searchKey = '';
             const url = encodeURI(
                 AppStore.state.siteUrl + 'principals/' +
                 state.selectedPrincipalCode + '/items'
+                + `?row_count=${row_count}`
+                + `&search_key=${searchKey}`
+                + `&page=${state.items.current_page ?? 1}`
             );
-            AppStore.state.showTopLoading = true;
+            // AppStore.state.showTopLoading = true;
             let result = await axios.get(url);
-            state.items = [];
+            state.items = {};
             state.items = result.data;
-            AppStore.state.showTopLoading = false;
+            // AppStore.state.showTopLoading = false;
 
         } catch (error) {
             console.log('PrincipalsStore.initItems() - ERROR:', error);
@@ -118,18 +122,22 @@ const actions = {
     /**
      * Initialize the current selected principal's customer list
      */
-    async initCustomers() {
+    async initCustomers(searchKey='', row_count=10) {
         try {
+            if(searchKey==null) searchKey = '';
             const url = encodeURI(
                 AppStore.state.siteUrl + 'principals/' +
                 state.selectedPrincipalCode + '/customers'
+                + `?row_count=${row_count}`
+                + `&search_key=${searchKey}`
+                + `&page=${state.customers.current_page ?? 1}`
             );
-            AppStore.state.showTopLoading = true;
+            // AppStore.state.showTopLoading = true;
             let result = await axios.get(url);
 
-            state.customers = [];
+            state.customers = {};
             state.customers = result.data;
-            AppStore.state.showTopLoading = false;
+            // AppStore.state.showTopLoading = false;
         } catch (error) {
             console.log('PrincipalsStore.initCustomers() - ERROR:', error);
         }
@@ -145,12 +153,12 @@ const actions = {
                 AppStore.state.siteUrl + 'principals/' +
                 state.selectedPrincipalCode + '/salesmen'
             );
-            AppStore.state.showTopLoading = true;
+            // AppStore.state.showTopLoading = true;
             let result = await axios.get(url);
 
             state.salesmen = [];
             state.salesmen = result.data;
-            AppStore.state.showTopLoading = false;
+            // AppStore.state.showTopLoading = false;
         } catch (error) {
             console.log('PrincipalsStore.initSalesmen() - ERROR:', error);
         }

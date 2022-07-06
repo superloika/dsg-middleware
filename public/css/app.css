@@ -3,6 +3,8 @@ var map = {
 	"./century.js": "./resources/js/stores.custom/principals/century.js",
 	"./gsmi": "./resources/js/stores.custom/principals/gsmi.js",
 	"./gsmi.js": "./resources/js/stores.custom/principals/gsmi.js",
+	"./gspi": "./resources/js/stores.custom/principals/gspi.js",
+	"./gspi.js": "./resources/js/stores.custom/principals/gspi.js",
 	"./mead_johnson": "./resources/js/stores.custom/principals/mead_johnson.js",
 	"./mead_johnson.js": "./resources/js/stores.custom/principals/mead_johnson.js",
 	"./megasoft": "./resources/js/stores.custom/principals/megasoft.js",

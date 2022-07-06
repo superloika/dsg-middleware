@@ -177,7 +177,7 @@ var render = function() {
         "v-card-title",
         { staticClass: "mb-4" },
         [
-          _c("div", [_vm._v("\n            Upload Masterfile\n        ")]),
+          _c("div", [_vm._v("\r\n            Upload Masterfile\r\n        ")]),
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
@@ -260,7 +260,11 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    Submit\n                ")]
+                    [
+                      _vm._v(
+                        "\r\n                    Submit\r\n                "
+                      )
+                    ]
                   )
                 ],
                 1

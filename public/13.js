@@ -129,7 +129,7 @@ var render = function() {
         "v-card-title",
         { staticClass: "text-h6" },
         [
-          _vm._v("\n        " + _vm._s(_vm.title) + " \n        "),
+          _vm._v("\r\n        " + _vm._s(_vm.title) + " \r\n        "),
           _c(
             "v-chip",
             {
@@ -138,9 +138,9 @@ var render = function() {
             },
             [
               _vm._v(
-                "\n            " +
+                "\r\n            " +
                   _vm._s(_vm.missingInMaster.length) +
-                  "\n        "
+                  "\r\n        "
               )
             ]
           ),

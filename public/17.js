@@ -9,6 +9,8 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -98,6 +100,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterfileUpload: function MasterfileUpload() {
@@ -135,10 +150,22 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     exportToExcel: function exportToExcel() {
       this.PrincipalsStore.toExcel_simple('Customers', this.PrincipalsStore.state.customers, 'customersTableHeader', null, "".concat(this.selectedPrincipalCode, "_Customers"));
+    },
+    onPageChange: function onPageChange() {
+      this.PrincipalsStore.initCustomers(this.searchKey);
     }
   },
+  watch: {
+    searchKey: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["debounce"])(function () {
+      if (this.PrincipalsStore.state.customers.current_page != undefined) {
+        this.PrincipalsStore.state.customers.current_page = 1;
+      }
+
+      this.PrincipalsStore.initCustomers(this.searchKey);
+    }, 500)
+  },
   created: function created() {
-    this.PrincipalsStore.initCustomers(this.selectedPrincipalCode);
+    this.PrincipalsStore.initCustomers();
   }
 });
 
@@ -202,9 +229,7 @@ var render = function() {
                   },
                   on: {
                     click: function($event) {
-                      return _vm.PrincipalsStore.initCustomers(
-                        _vm.selectedPrincipalCode
-                      )
+                      return _vm.PrincipalsStore.initCustomers(_vm.searchKey)
                     }
                   }
                 },
@@ -260,12 +285,44 @@ var render = function() {
         [
           _c("v-data-table", {
             attrs: {
-              items: _vm.PrincipalsStore.state.customers,
+              items: _vm.PrincipalsStore.state.customers.data,
               headers: _vm.tblHeader,
               dense: "",
-              search: _vm.searchKey
+              searchx: _vm.searchKey,
+              "disable-pagination": "",
+              "disable-filtering": "",
+              "hide-default-footer": ""
             }
-          })
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            [
+              _c("v-pagination", {
+                attrs: {
+                  length: _vm.PrincipalsStore.state.customers.last_page,
+                  "total-visible": "5"
+                },
+                on: {
+                  input: function($event) {
+                    return _vm.onPageChange()
+                  }
+                },
+                model: {
+                  value: _vm.PrincipalsStore.state.customers.current_page,
+                  callback: function($$v) {
+                    _vm.$set(
+                      _vm.PrincipalsStore.state.customers,
+                      "current_page",
+                      $$v
+                    )
+                  },
+                  expression: "PrincipalsStore.state.customers.current_page"
+                }
+              })
+            ],
+            1
+          )
         ],
         1
       ),

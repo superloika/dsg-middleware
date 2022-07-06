@@ -499,7 +499,7 @@ var render = function() {
               }
             },
             [
-              _vm._v("\n            Export\n            "),
+              _vm._v("\r\n            Export\r\n            "),
               _c(
                 "v-icon",
                 { attrs: { right: "", color: "success", size: "25" } },

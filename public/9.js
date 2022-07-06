@@ -182,9 +182,9 @@ var render = function() {
         [
           _c("div", [
             _vm._v(
-              "\n            Upload/Update Masterfile (" +
+              "\r\n            Upload/Update Masterfile (" +
                 _vm._s(_vm.id) +
-                ")\n        "
+                ")\r\n        "
             )
           ]),
           _vm._v(" "),
@@ -269,7 +269,11 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    Submit\n                ")]
+                    [
+                      _vm._v(
+                        "\r\n                    Submit\r\n                "
+                      )
+                    ]
                   )
                 ],
                 1

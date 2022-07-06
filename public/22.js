@@ -112,7 +112,7 @@ var render = function() {
         "v-card-title",
         { staticClass: "text-h6" },
         [
-          _vm._v("\n        Pending Lines\n\n        "),
+          _vm._v("\r\n        Pending Lines\r\n\r\n        "),
           _c("v-spacer"),
           _vm._v(" "),
           _c(
@@ -150,9 +150,9 @@ var render = function() {
             _vm._l(_vm.pendings, function(pending, i) {
               return _c("v-tab", { key: i, staticClass: "px-3" }, [
                 _vm._v(
-                  "\n                " +
+                  "\r\n                " +
                     _vm._s(pending[0]) +
-                    ".txt\n            "
+                    ".txt\r\n            "
                 )
               ])
             }),

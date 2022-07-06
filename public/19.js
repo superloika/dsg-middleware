@@ -195,9 +195,9 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                Export " +
+                        "\r\n                Export " +
                           _vm._s(_vm.tab_caption) +
-                          " to CSV\n            "
+                          " to CSV\r\n            "
                       )
                     ]
                   )
@@ -237,9 +237,9 @@ var render = function() {
                         [
                           _c("div", { attrs: { id: item.customer_code } }, [
                             _vm._v(
-                              "\n                    " +
+                              "\r\n                    " +
                                 _vm._s(item.customer_code) +
-                                "\n                "
+                                "\r\n                "
                             )
                           ])
                         ]
@@ -267,9 +267,9 @@ var render = function() {
                         [
                           _c("div", { attrs: { id: item.route_code } }, [
                             _vm._v(
-                              "\n                    " +
+                              "\r\n                    " +
                                 _vm._s(item.route_code) +
-                                "\n                "
+                                "\r\n                "
                             )
                           ])
                         ]
@@ -297,9 +297,9 @@ var render = function() {
                         [
                           _c("div", { attrs: { id: item.item_code } }, [
                             _vm._v(
-                              "\n                    " +
+                              "\r\n                    " +
                                 _vm._s(item.item_code) +
-                                "\n                "
+                                "\r\n                "
                             )
                           ])
                         ]
@@ -327,9 +327,9 @@ var render = function() {
                         [
                           _c("div", { attrs: { id: item.sales_agent_id } }, [
                             _vm._v(
-                              "\n                    " +
+                              "\r\n                    " +
                                 _vm._s(item.sales_agent_id) +
-                                "\n                "
+                                "\r\n                "
                             )
                           ])
                         ]

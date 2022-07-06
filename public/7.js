@@ -114,7 +114,7 @@ var render = function() {
               _c("v-icon", { staticClass: "mr-1" }, [
                 _vm._v("mdi-account-multiple")
               ]),
-              _vm._v(" Customers \n            ")
+              _vm._v(" Customers \r\n            ")
             ],
             1
           ),
@@ -124,7 +124,7 @@ var render = function() {
             { attrs: { exact: "" } },
             [
               _c("v-icon", { staticClass: "mr-1" }, [_vm._v("mdi-cube")]),
-              _vm._v(" Items \n        ")
+              _vm._v(" Items \r\n        ")
             ],
             1
           ),
@@ -134,7 +134,7 @@ var render = function() {
             { attrs: { exact: "" } },
             [
               _c("v-icon", { staticClass: "mr-1" }, [_vm._v("mdi-account")]),
-              _vm._v(" Salesmen \n        ")
+              _vm._v(" Salesmen \r\n        ")
             ],
             1
           )
