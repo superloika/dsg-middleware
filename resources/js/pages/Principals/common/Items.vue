@@ -71,7 +71,7 @@
                 hide-default-footer
             >
             </v-data-table>
-            <div>
+            <v-container>
                 <v-pagination
                     v-model="PrincipalsStore.state.items.current_page"
                     :length="PrincipalsStore.state.items.last_page"
@@ -79,7 +79,7 @@
                     total-visible="5"
                 >
                 </v-pagination>
-            </div>
+            </v-container>
         </v-card-text>
 
         <v-dialog

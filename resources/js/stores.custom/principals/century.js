@@ -4,17 +4,18 @@ const state = Vue.observable({
     customersTableHeader: [
         [
             { text: "Customer Code", value: "customer_code" },
-            { text: "Name", value: "customer_name" },
-            { text: "Address", value: "address" },
+            // { text: "Name", value: "customer_name" },
+            // { text: "Address", value: "address" },
             { text: "Principal Customer Code", value: "customer_code_supplier" },
         ],
     ],
     itemsTableHeader: [
         [
             {text:"Item Code", value:"item_code"},
-            {text:"Description", value:"description"},
+            // {text:"Description", value:"description"},
             {text:"Supplier Item Code", value:"item_code_supplier"},
             {text:"Supplier Item Description", value:"description_supplier"},
+            {text:"CASES", value:"{{1}}"},
             {text:"PCS per CASE", value:"conversion_qty"},
         ]
     ],

@@ -23,7 +23,7 @@
                                 v-if="warningsCount > 0"
                                 class="px-1 warning--text"
                             >
-                                {{ warningsCount }} total warning(s)
+                                {{ warningsCount }} total warning(s) found. Keep masterfiles updated.
                             </v-chip>
                         </div>
                     </v-toolbar-title>

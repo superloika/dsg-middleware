@@ -1,18 +1,8 @@
 <template>
 <div>
     <v-app-bar elevation="0">
-        <v-btn
-            title="Refresh"
-            icon
-            dense
-            rounded
-            depressed
-            class="mr-2"
-            @click="refresh()"
-        >
-            <v-icon>mdi-refresh</v-icon>
-        </v-btn>
 
+        <!-- search -->
         <v-text-field
             v-model="PrincipalsStore.state.currentGeneratedDataSearchKey"
             label="Search"
@@ -30,8 +20,22 @@
             "
         ></v-text-field>
 
-        <!-- UNMAPPED CUSTOMERS -->
+        <!-- refresh -->
         <v-btn
+            title="Refresh"
+            icon
+            dense
+            rounded
+            depressed
+            class="mr-2"
+            @click="refresh()"
+        >
+            <v-icon>mdi-refresh</v-icon>
+        </v-btn>
+
+        <!-- ********************* UNMAPPED SHITS ************************* -->
+        <!-- UNMAPPED CUSTOMERS -->
+        <!-- <v-btn
             title="Unmapped Customer/s"
             icon
             dense
@@ -50,11 +54,11 @@
                 title="Unmapped Customer/s"
                 :missingInMaster="missingInMaster('customer')"
             ></MissingInMaster>
-        </v-dialog>
+        </v-dialog> -->
         <!-- /UNMAPPED CUSTOMERS -->
 
         <!-- UNMAPPED ITEMS -->
-        <v-btn
+        <!-- <v-btn
             title="Unmapped Item/s"
             icon
             dense
@@ -78,11 +82,11 @@
                 title="Unmapped Item/s"
                 :missingInMaster="missingInMaster('item')"
             ></MissingInMaster>
-        </v-dialog>
+        </v-dialog> -->
         <!-- /UNMAPPED ITEMS -->
 
         <!-- UNMAPPED SALESMEN -->
-        <v-btn
+        <!-- <v-btn
             title="Unmapped Salesmen"
             icon
             dense
@@ -106,9 +110,11 @@
                 title="Unmapped Salesmen"
                 :missingInMaster="missingInMaster('salesman')"
             ></MissingInMaster>
-        </v-dialog>
+        </v-dialog> -->
         <!-- /UNMAPPED SALESMEN -->
+        <!-- ********************* /UNMAPPED SHITS ************************* -->
 
+        <!-- ********************* EXPORT ************************ -->
         <v-btn
             title="Export to Excel"
             iconx
@@ -126,7 +132,7 @@
                     warningsCount >= lineCount
             "
         >
-            Export
+            Export({{ lineCount - warningsCount }})
             <v-icon right color="success" size="25">mdi-file-excel</v-icon>
         </v-btn>
         <!-- confirm export dialog -->
@@ -143,6 +149,8 @@
             >
             </ConfirmExport>
         </v-dialog>
+        <!-- ********************* /EXPORT ************************ -->
+
     </v-app-bar>
 </div>
 </template>

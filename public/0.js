@@ -58,28 +58,25 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   customersTableHeader: [[{
     text: "Customer Code",
     value: "customer_code"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }, {
-    text: "Address",
-    value: "address"
-  }, {
+  }, // { text: "Name", value: "customer_name" },
+  // { text: "Address", value: "address" },
+  {
     text: "Principal Customer Code",
     value: "customer_code_supplier"
   }]],
   itemsTableHeader: [[{
     text: "Item Code",
     value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
+  }, // {text:"Description", value:"description"},
+  {
     text: "Supplier Item Code",
     value: "item_code_supplier"
   }, {
     text: "Supplier Item Description",
     value: "description_supplier"
+  }, {
+    text: "CASES",
+    value: "{{1}}"
   }, {
     text: "PCS per CASE",
     value: "conversion_qty"
@@ -540,10 +537,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   customersTableHeader: [[{
+    text: "Distributor",
+    value: "distributor_code"
+  }, {
     text: "Customer Code",
     value: "customer_code"
   }, {
-    text: "Name",
+    text: "Customer Name",
     value: "customer_name"
   }, {
     text: "Outlet Type",

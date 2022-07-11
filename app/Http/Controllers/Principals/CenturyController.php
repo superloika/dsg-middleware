@@ -53,15 +53,15 @@ class CenturyController extends Controller
         ];
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-            ->leftJoin(
-                PrincipalsUtil::$TBL_GENERAL_ITEMS,
-                PrincipalsUtil::$TBL_GENERAL_ITEMS . '.item_code',
-                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS . '.item_code'
-            )
-            ->select(
-                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS . '.*',
-                PrincipalsUtil::$TBL_GENERAL_ITEMS . '.description'
-            )
+            // ->leftJoin(
+            //     PrincipalsUtil::$TBL_GENERAL_ITEMS,
+            //     PrincipalsUtil::$TBL_GENERAL_ITEMS . '.item_code',
+            //     PrincipalsUtil::$TBL_PRINCIPALS_ITEMS . '.item_code'
+            // )
+            // ->select(
+            //     PrincipalsUtil::$TBL_PRINCIPALS_ITEMS . '.*',
+            //     PrincipalsUtil::$TBL_GENERAL_ITEMS . '.description'
+            // )
             ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.principal_code',
                 $this->PRINCIPAL_CODE)
             // ->get($cols);
@@ -72,7 +72,16 @@ class CenturyController extends Controller
                     PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.item_code',
                     'like',
                     '%'. $search_key. '%'
-                );
+                )
+                ->orWhere(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.item_code_supplier',
+                    'like',
+                    '%'. $search_key. '%'
+                )
+                ->orWhere(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.description_supplier',
+                    'like',
+                    '%'. $search_key. '%'
+                )
+                ;
             })
             ->paginate($row_count);
 
@@ -177,19 +186,19 @@ class CenturyController extends Controller
         $search_key = request()->search_key ?? '';
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-            ->leftJoin(
-                PrincipalsUtil::$TBL_GENERAL_CUSTOMERS,
-                PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.customer_code',
-                '=',
-                PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.customer_code'
-            )
-            ->select(
-                PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.*',
-                PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.name AS customer_name',
-                PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.address',
-                PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.address_2',
-                PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.city',
-            )
+            // ->leftJoin(
+            //     PrincipalsUtil::$TBL_GENERAL_CUSTOMERS,
+            //     PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.customer_code',
+            //     '=',
+            //     PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.customer_code'
+            // )
+            // ->select(
+            //     PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.*',
+            //     PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.name AS customer_name',
+            //     PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.address',
+            //     PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.address_2',
+            //     PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.city',
+            // )
             ->where(
                 PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.principal_code',
                 $this->PRINCIPAL_CODE
@@ -201,7 +210,12 @@ class CenturyController extends Controller
                     PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.customer_code',
                     'like',
                     '%'. $search_key. '%'
-                );
+                )->orWhere(
+                    PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.customer_code_supplier',
+                    'like',
+                    '%'. $search_key. '%'
+                )
+                ;
             })
             ->paginate($row_count);
 

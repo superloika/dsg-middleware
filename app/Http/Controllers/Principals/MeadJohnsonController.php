@@ -45,15 +45,15 @@ class MeadJohnsonController extends Controller
         $row_count = request()->row_count ?? 10;
         $search_key = request()->search_key ?? '';
 
-        $cols = [
-            'id',
-            'principal_code',
-            'upload_date',
-            'item_code',
-            'description',
-            'item_code_supplier',
-            'description_supplier'
-        ];
+        // $cols = [
+        //     'id',
+        //     'principal_code',
+        //     'upload_date',
+        //     'item_code',
+        //     'description',
+        //     'item_code_supplier',
+        //     'description_supplier'
+        // ];
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
             ->where('principal_code', $this->PRINCIPAL_CODE)
             // ->get($cols);
@@ -63,7 +63,20 @@ class MeadJohnsonController extends Controller
                     PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.item_code',
                     'like',
                     '%'. $search_key. '%'
-                );
+                )->orWhere(
+                    PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.description',
+                    'like',
+                    '%'. $search_key. '%'
+                )->orWhere(
+                    PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.item_code_supplier',
+                    'like',
+                    '%'. $search_key. '%'
+                )->orWhere(
+                    PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.description_supplier',
+                    'like',
+                    '%'. $search_key. '%'
+                )
+                ;
             })
             ->paginate($row_count);
 
@@ -189,10 +202,27 @@ class MeadJohnsonController extends Controller
 
             ->where(function($q) use ($search_key) {
                 $q->where(
+                    PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.distributor_code',
+                    'like',
+                    '%'. $search_key. '%'
+                )->orWhere(
                     PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.customer_code',
                     'like',
                     '%'. $search_key. '%'
-                );
+                )->orWhere(
+                    PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.customer_name',
+                    'like',
+                    '%'. $search_key. '%'
+                )->orWhere(
+                    PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.outlet_type',
+                    'like',
+                    '%'. $search_key. '%'
+                )->orWhere(
+                    PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.salesman_name',
+                    'like',
+                    '%'. $search_key. '%'
+                )
+                ;
             })
             ->paginate($row_count);
 

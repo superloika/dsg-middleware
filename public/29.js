@@ -1,77 +1,14 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[29],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/zzzTransAndInvoices.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/zzzTransAndInvoices.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/UploadedInvoices.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/UploadedInvoices.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -119,44 +56,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    // UploadedInvoices: () => import('./UploadedInvoices.vue'),
-    Transactions: function Transactions() {
-      return Promise.all(/*! import() */[__webpack_require__.e(3), __webpack_require__.e(2)]).then(__webpack_require__.bind(null, /*! ./Transactions.vue */ "./resources/js/pages/Principals/common/Transactions.vue"));
-    }
-  },
+  props: ['date', 'searchKey'],
   data: function data() {
     return {
-      searchKey: '',
-      datePickerShown: false,
-      date: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10)],
-      grandTotal: 0.00,
-      tab: null
+      grandTotal: 0.00
     };
   },
   computed: {
     selectedPrincipalCode: function selectedPrincipalCode() {
       return this.PrincipalsStore.state.selectedPrincipalCode;
     },
-    dateRangeText: function dateRangeText() {
-      return this.date.join(' ~ ');
+    tblHeader: function tblHeader() {
+      return this[this.selectedPrincipalCode].state.uploadedInvoicesTableHeader;
+    },
+    totalAmount: function totalAmount() {
+      var amount = 0.00;
+
+      if (this.PrincipalsStore.state.invoices.length > 0) {
+        this.PrincipalsStore.state.invoices.forEach(function (e) {
+          amount += parseFloat(e.u3);
+        });
+      }
+
+      return amount;
     }
   },
   methods: {
-    loadInvoicesOrTransactions: function loadInvoicesOrTransactions() {
-      this.PrincipalsStore.initTransactions(this.selectedPrincipalCode, this.date); // this.PrincipalsStore.initInvoices(this.selectedPrincipalCode, this.date);
-
-      this.PrincipalsStore.initInvoicesGrandTotal();
+    loadInvoices: function loadInvoices() {
+      this.PrincipalsStore.initInvoices(this.selectedPrincipalCode, this.date);
     }
-  }
+  },
+  created: function created() {
+    // this.PrincipalsStore.initInvoicesGrandTotal();
+    // this.loadInvoices();
+    this.PrincipalsStore.initInvoices(this.selectedPrincipalCode, this.date);
+  },
+  mounted: function mounted() {}
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/zzzTransAndInvoices.vue?vue&type=template&id=fd5f4548&":
-/*!***********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/zzzTransAndInvoices.vue?vue&type=template&id=fd5f4548& ***!
-  \***********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/UploadedInvoices.vue?vue&type=template&id=4ab5b32e&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/UploadedInvoices.vue?vue&type=template&id=4ab5b32e& ***!
+  \********************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -169,216 +112,64 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-card",
-    { staticClass: "elevation-0 pt-0", attrs: { outlinedx: "" } },
+    "v-sheet",
     [
       _c(
-        "v-card-title",
-        { staticClass: "pa-0" },
+        "v-sheet",
         [
-          _c(
-            "v-app-bar",
-            { attrs: { elevation: "0", colorx: "white" } },
-            [
-              _c("v-toolbar-title", { attrs: { title: "Transactions" } }, [
-                _vm._v("\n                Transactions\n            ")
-              ]),
-              _vm._v(" "),
-              _c("v-spacer"),
-              _vm._v(" "),
-              _c("v-text-field", {
-                staticClass: "mr-3",
-                staticStyle: { "max-width": "230px" },
-                attrs: {
-                  label: "Date - YYYY-MM-DD",
-                  "hide-details": "",
-                  readonly: "",
-                  dense: "",
-                  outlined: "",
-                  rounded: ""
-                },
-                on: {
-                  click: function($event) {
-                    $event.stopPropagation()
-                    _vm.datePickerShown = true
-                  }
-                },
-                model: {
-                  value: _vm.dateRangeText,
-                  callback: function($$v) {
-                    _vm.dateRangeText = $$v
-                  },
-                  expression: "dateRangeText"
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "v-dialog",
+          _c("v-data-table", {
+            staticClass: "elevation-1",
+            attrs: {
+              items: _vm.PrincipalsStore.state.invoices,
+              headers: _vm.tblHeader,
+              dense: "",
+              search: _vm.searchKey
+            },
+            scopedSlots: _vm._u(
+              [
                 {
-                  ref: "datePicker",
-                  attrs: { "return-value": _vm.date, width: "290px" },
-                  on: {
-                    "update:returnValue": function($event) {
-                      _vm.date = $event
-                    },
-                    "update:return-value": function($event) {
-                      _vm.date = $event
-                    }
-                  },
-                  model: {
-                    value: _vm.datePickerShown,
-                    callback: function($$v) {
-                      _vm.datePickerShown = $$v
-                    },
-                    expression: "datePickerShown"
+                  key: "item.status",
+                  fn: function(ref) {
+                    var item = ref.item
+                    return [
+                      item.status == "completed"
+                        ? _c("span", { staticClass: "primary--text" }, [
+                            _vm._v(
+                              "\r\n                    " +
+                                _vm._s(item.status) +
+                                "\r\n                "
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      item.status == "pending"
+                        ? _c("span", { staticClass: "warning--text" }, [
+                            _vm._v(
+                              "\r\n                    " +
+                                _vm._s(item.status) +
+                                "\r\n                "
+                            )
+                          ])
+                        : _vm._e()
+                    ]
                   }
                 },
-                [
-                  _c(
-                    "v-date-picker",
-                    {
-                      attrs: { scrollable: "", range: "" },
-                      model: {
-                        value: _vm.date,
-                        callback: function($$v) {
-                          _vm.date = $$v
-                        },
-                        expression: "date"
-                      }
-                    },
-                    [
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { text: "", color: "primary" },
-                          on: {
-                            click: function($event) {
-                              _vm.datePickerShown = false
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                        Cancel\n                    "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { text: "", color: "primary" },
-                          on: {
-                            click: function($event) {
-                              _vm.$refs.datePicker.save(_vm.date)
-                              _vm.loadInvoicesOrTransactions()
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                        Generate\n                    "
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-text-field", {
-                staticStyle: { "max-width": "230px" },
-                attrs: {
-                  label: "Search",
-                  clearable: "",
-                  "hide-details": "",
-                  dense: "",
-                  flat: "",
-                  rounded: "",
-                  "solo-inverted": ""
-                },
-                model: {
-                  value: _vm.searchKey,
-                  callback: function($$v) {
-                    _vm.searchKey = $$v
-                  },
-                  expression: "searchKey"
+                {
+                  key: "item.upload_date",
+                  fn: function(ref) {
+                    var item = ref.item
+                    return [
+                      _c("span", [
+                        _vm._v(_vm._s(item.upload_date.substr(0, 10)))
+                      ])
+                    ]
+                  }
                 }
-              })
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-card-text",
-        { staticClass: "mx-0 pa-0" },
-        [
-          _c(
-            "v-tabs",
-            {
-              attrs: { heightx: "40", grow: "" },
-              model: {
-                value: _vm.tab,
-                callback: function($$v) {
-                  _vm.tab = $$v
-                },
-                expression: "tab"
-              }
-            },
-            [
-              _c(
-                "v-tab",
-                { staticClass: "px-2" },
-                [
-                  _c("v-icon", { staticClass: "mr-1" }, [
-                    _vm._v("mdi-file-check")
-                  ]),
-                  _vm._v("\n                Transactions\n            ")
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-tabs-items",
-            {
-              model: {
-                value: _vm.tab,
-                callback: function($$v) {
-                  _vm.tab = $$v
-                },
-                expression: "tab"
-              }
-            },
-            [
-              _c(
-                "v-tab-item",
-                [
-                  _c(
-                    "v-sheet",
-                    {},
-                    [
-                      _c("Transactions", {
-                        attrs: { searchKey: _vm.searchKey, date: _vm.date }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
+              ],
+              null,
+              true
+            )
+          })
         ],
         1
       )
@@ -393,17 +184,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/zzzTransAndInvoices.vue":
-/*!**********************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/zzzTransAndInvoices.vue ***!
-  \**********************************************************************/
+/***/ "./resources/js/pages/Principals/common/UploadedInvoices.vue":
+/*!*******************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/UploadedInvoices.vue ***!
+  \*******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _zzzTransAndInvoices_vue_vue_type_template_id_fd5f4548___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./zzzTransAndInvoices.vue?vue&type=template&id=fd5f4548& */ "./resources/js/pages/Principals/common/zzzTransAndInvoices.vue?vue&type=template&id=fd5f4548&");
-/* harmony import */ var _zzzTransAndInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./zzzTransAndInvoices.vue?vue&type=script&lang=js& */ "./resources/js/pages/Principals/common/zzzTransAndInvoices.vue?vue&type=script&lang=js&");
+/* harmony import */ var _UploadedInvoices_vue_vue_type_template_id_4ab5b32e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UploadedInvoices.vue?vue&type=template&id=4ab5b32e& */ "./resources/js/pages/Principals/common/UploadedInvoices.vue?vue&type=template&id=4ab5b32e&");
+/* harmony import */ var _UploadedInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UploadedInvoices.vue?vue&type=script&lang=js& */ "./resources/js/pages/Principals/common/UploadedInvoices.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -413,9 +204,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _zzzTransAndInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _zzzTransAndInvoices_vue_vue_type_template_id_fd5f4548___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _zzzTransAndInvoices_vue_vue_type_template_id_fd5f4548___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _UploadedInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UploadedInvoices_vue_vue_type_template_id_4ab5b32e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _UploadedInvoices_vue_vue_type_template_id_4ab5b32e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -425,38 +216,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/pages/Principals/common/zzzTransAndInvoices.vue"
+component.options.__file = "resources/js/pages/Principals/common/UploadedInvoices.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/zzzTransAndInvoices.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/zzzTransAndInvoices.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************/
+/***/ "./resources/js/pages/Principals/common/UploadedInvoices.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/UploadedInvoices.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_zzzTransAndInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./zzzTransAndInvoices.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/zzzTransAndInvoices.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_zzzTransAndInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadedInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./UploadedInvoices.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/UploadedInvoices.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadedInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/zzzTransAndInvoices.vue?vue&type=template&id=fd5f4548&":
-/*!*****************************************************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/zzzTransAndInvoices.vue?vue&type=template&id=fd5f4548& ***!
-  \*****************************************************************************************************/
+/***/ "./resources/js/pages/Principals/common/UploadedInvoices.vue?vue&type=template&id=4ab5b32e&":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/UploadedInvoices.vue?vue&type=template&id=4ab5b32e& ***!
+  \**************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_zzzTransAndInvoices_vue_vue_type_template_id_fd5f4548___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./zzzTransAndInvoices.vue?vue&type=template&id=fd5f4548& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/zzzTransAndInvoices.vue?vue&type=template&id=fd5f4548&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_zzzTransAndInvoices_vue_vue_type_template_id_fd5f4548___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadedInvoices_vue_vue_type_template_id_4ab5b32e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./UploadedInvoices.vue?vue&type=template&id=4ab5b32e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/UploadedInvoices.vue?vue&type=template&id=4ab5b32e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadedInvoices_vue_vue_type_template_id_4ab5b32e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_zzzTransAndInvoices_vue_vue_type_template_id_fd5f4548___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadedInvoices_vue_vue_type_template_id_4ab5b32e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
