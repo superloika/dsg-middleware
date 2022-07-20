@@ -128,7 +128,7 @@ export default {
 
         updatedAt() {
             try {
-                return this.PrincipalsStore.state.customers[0].upload_date;
+                return this.PrincipalsStore.state.customers.data[0].upload_date;
             } catch (error) {
                 return '...';
             }

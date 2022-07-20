@@ -3,27 +3,28 @@ import Vue from "vue";
 const state = Vue.observable({
     customersTableHeader: [
         [
-            { text: "Customer Code", value: "customer_code" },
-            { text: "Name", value: "customer_name" },
-            { text: "Barangay", value: "address_1" },
-            { text: "Town", value: "address_2" },
-            { text: "Province", value: "address_3" },
+            { text: "Customer Code",   value: "customer_code" },
+            { text: "Name",            value: "customer_name" },
+            { text: "Barangay",        value: "address_1" },
+            { text: "Town",            value: "address_2" },
+            { text: "Province",        value: "address_3" },
         ],
     ],
     itemsTableHeader: [
         [
             {text:"Item Code", value:"item_code"},
+            {text:"Item Code (Supplier)", value:"item_code_supplier"},
+            {text:"Description (Supplier)", value:"description_supplier"},
             {text:"Description", value:"description"},
-            {text:"Supplier Item Code", value:"item_code_supplier"},
-            {text:"Supplier Item Description", value:"description_supplier"},
-            {text:"PCS per CASE", value:"conversion_qty"},
+            {text:"Price in PCS", value:"conversion_uom_price"},
+            {text:"Price in CASE", value:"uom_price"},
         ]
     ],
     salesmenTableHeader: [
         [
             {text:"Salesman Name", value:"sm_name"},
             {text:"Salesman Code", value:"sm_code"},
-            {text:"Salesman Code - Supplier", value:"sm_code_supplier"},
+            {text:"Salesman Code (Supplier)", value:"sm_code_supplier"},
         ]
     ],
 

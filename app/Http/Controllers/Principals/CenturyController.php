@@ -39,18 +39,18 @@ class CenturyController extends Controller
         $row_count = request()->row_count ?? 10;
         $search_key = request()->search_key ?? '';
 
-        $cols = [
-            'id',
-            'principal_code',
-            'upload_date',
-            'item_code',
-            'description',
-            'item_code_supplier',
-            'description_supplier',
-            'uom',
-            'conversion_uom',
-            'conversion_qty',
-        ];
+        // $cols = [
+        //     'id',
+        //     'principal_code',
+        //     'upload_date',
+        //     'item_code',
+        //     'description',
+        //     'item_code_supplier',
+        //     'description_supplier',
+        //     'uom',
+        //     'conversion_uom',
+        //     'conversion_qty',
+        // ];
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
             // ->leftJoin(
@@ -84,6 +84,14 @@ class CenturyController extends Controller
                 ;
             })
             ->paginate($row_count);
+
+            // append custom column value (case = '1')
+            $result = tap($result, function($paginatedInstance){
+                return $paginatedInstance->getCollection()->transform(function($value){
+                    $value->case = 1;
+                    return $value;
+                });
+            });
 
         return response()->json($result);
     }

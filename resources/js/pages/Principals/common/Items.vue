@@ -124,7 +124,7 @@ export default {
 
         updatedAt() {
             try {
-                return this.PrincipalsStore.state.items[0].upload_date;
+                return this.PrincipalsStore.state.items.data[0].upload_date;
             } catch (error) {
                 return 'NA';
             }

@@ -144,9 +144,12 @@ export default {
         border: 1px solid #f1f1f1;
     }
 
-    .v-data-table__wrapper table tbody tr{
-        /* color: #a8a8a8; */
-        color: #333333;
+    /* .v-data-table__wrapper table tbody tr{
+
+    } */
+    .v-data-table__wrapper table tbody tr td.text-start{
+        color: #222222;
+        font-size: 12px;
     }
 
     .theme--dark.v-data-table

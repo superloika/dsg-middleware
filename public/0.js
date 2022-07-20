@@ -75,10 +75,10 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Supplier Item Description",
     value: "description_supplier"
   }, {
-    text: "CASES",
-    value: "{{1}}"
+    text: "CASE",
+    value: "case"
   }, {
-    text: "PCS per CASE",
+    text: "PCS",
     value: "conversion_qty"
   }]],
   salesmenTableHeader: [[{
@@ -377,17 +377,20 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Item Code",
     value: "item_code"
   }, {
+    text: "Item Code (Supplier)",
+    value: "item_code_supplier"
+  }, {
+    text: "Description (Supplier)",
+    value: "description_supplier"
+  }, {
     text: "Description",
     value: "description"
   }, {
-    text: "Supplier Item Code",
-    value: "item_code_supplier"
+    text: "Price in PCS",
+    value: "conversion_uom_price"
   }, {
-    text: "Supplier Item Description",
-    value: "description_supplier"
-  }, {
-    text: "PCS per CASE",
-    value: "conversion_qty"
+    text: "Price in CASE",
+    value: "uom_price"
   }]],
   salesmenTableHeader: [[{
     text: "Salesman Name",
@@ -396,7 +399,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Salesman Code",
     value: "sm_code"
   }, {
-    text: "Salesman Code - Supplier",
+    text: "Salesman Code (Supplier)",
     value: "sm_code_supplier"
   }]],
   // templated data table header(s)

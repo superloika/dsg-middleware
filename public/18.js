@@ -137,7 +137,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     updatedAt: function updatedAt() {
       try {
-        return this.PrincipalsStore.state.customers[0].upload_date;
+        return this.PrincipalsStore.state.customers.data[0].upload_date;
       } catch (error) {
         return '...';
       }

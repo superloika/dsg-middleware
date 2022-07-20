@@ -35,30 +35,34 @@ class GspiController extends Controller
     function items()
     {
         set_time_limit(0);
-        $cols = [
-            'id',
-            'principal_code',
-            'upload_date',
-            'item_code',
-            'description',
-            'item_code_supplier',
-            'description_supplier',
-            'uom',
-            'conversion_uom',
-            'conversion_qty',
-        ];
+        $row_count = request()->row_count ?? 10;
+        $search_key = request()->search_key ?? '';
+
+        // $cols = [
+        //     'id',
+        //     'principal_code',
+        //     'upload_date',
+        //     'item_code',
+        //     'description',
+        //     'item_code_supplier',
+        //     'description_supplier',
+        //     'uom',
+        //     'conversion_uom',
+        //     'conversion_qty',
+        // ];
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-            ->leftJoin(
-                PrincipalsUtil::$TBL_GENERAL_ITEMS,
-                PrincipalsUtil::$TBL_GENERAL_ITEMS . '.item_code',
-                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS . '.item_code'
-            )
-            ->select(
-                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS . '.*',
-                PrincipalsUtil::$TBL_GENERAL_ITEMS . '.description'
-            )
+            // ->leftJoin(
+            //     PrincipalsUtil::$TBL_GENERAL_ITEMS,
+            //     PrincipalsUtil::$TBL_GENERAL_ITEMS . '.item_code',
+            //     PrincipalsUtil::$TBL_PRINCIPALS_ITEMS . '.item_code'
+            // )
+            // ->select(
+            //     PrincipalsUtil::$TBL_PRINCIPALS_ITEMS . '.*',
+            //     PrincipalsUtil::$TBL_GENERAL_ITEMS . '.description'
+            // )
             ->where('principal_code', $this->PRINCIPAL_CODE)
-            ->get($cols);
+            // ->get($cols);
+            ->paginate($row_count);
 
         return response()->json($result);
     }
@@ -88,7 +92,7 @@ class GspiController extends Controller
             if (Storage::exists("$fileStoragePath/$fileName")) {
                 $fileContent = Storage::get("$fileStoragePath/$fileName");
 
-                // init lineCount to 1 for the header
+                // init lineCount to 2 for the header
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
@@ -98,7 +102,7 @@ class GspiController extends Controller
                 $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
 
                 foreach ($fileContentLines as $fileContentLine) {
-                    // Begin on the second line to skip the headers
+                    // Begin on the 3rd line to skip the headers
                     if ($lineCount > 1) {
 
                         // $arrFileContentLine = explode($delimiter, $fileContentLine);
@@ -108,7 +112,13 @@ class GspiController extends Controller
                             $item_code = trim(str_replace('"', '', $arrFileContentLine[0]));
                             $item_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
                             $description_supplier = trim(str_replace('"', '', $arrFileContentLine[2]));
-                            $conversion_qty = trim(str_replace('"', '', $arrFileContentLine[4]));
+                            $description = trim(str_replace('"', '', $arrFileContentLine[3]));
+                            $conversion_uom_price = trim(str_replace('"', '', $arrFileContentLine[6]));
+                            $conversion_uom_price = trim(str_replace(',', '', $conversion_uom_price));
+                            $uom_price = trim(str_replace('"', '', $arrFileContentLine[7]));
+                            $uom_price = trim(str_replace(',', '', $uom_price));
+
+                            // dd($conversion_uom_price);
                             $uom = 'CASE';
                             $conversion_uom = 'PCS';
 
@@ -118,9 +128,11 @@ class GspiController extends Controller
                                 'item_code' => $item_code,
                                 'item_code_supplier' => $item_code_supplier,
                                 'description_supplier' => $description_supplier,
+                                'description' => $description,
+                                'conversion_uom_price' => doubleval($conversion_uom_price),
+                                'uom_price' => doubleval($uom_price),
                                 'uom' => $uom,
                                 'conversion_uom' => $conversion_uom,
-                                'conversion_qty' => $conversion_qty,
                             ];
                         }
                     }
@@ -185,11 +197,15 @@ class GspiController extends Controller
         $search_key = request()->search_key ?? '';
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+            ->where('principal_code', $this->PRINCIPAL_CODE)
             ->where(function($q) use ($search_key) {
                 $q->where('customer_code','like','%'. $search_key. '%')
-                    ->orWhere('customer_name','like','%'. $search_key. '%');
+                    ->orWhere('customer_name','like','%'. $search_key. '%')
+                    ->orWhere('address_1','like','%'. $search_key. '%')
+                    ->orWhere('address_2','like','%'. $search_key. '%')
+                    ->orWhere('address_3','like','%'. $search_key. '%')
+                    ;
             })
-            ->where('principal_code', $this->PRINCIPAL_CODE)
             ->paginate($row_count);
 
         return response()->json($result);
