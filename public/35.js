@@ -50,12 +50,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'InvoicesUpload',
   props: ['searchKey', 'principalCodeFilter'],
   data: function data() {
     return {
-      file: null
+      file: null,
+      selected_terminal: ''
     };
   },
   methods: {
@@ -89,6 +105,7 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('files[' + i + ']', this.file[i]);
       }
 
+      formData.append('terminal', this.selected_terminal);
       var url = this.AppStore.state.siteUrl + 'invoices/upload';
       axios.post(url, formData, config).then(function (response) {
         var success = response.data.success;
@@ -99,6 +116,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.AppStore.toast(message);
 
         _this.file = null;
+        _this.selected_terminal = '';
 
         _this.InvoicesStore.initInvoices(_this.searchKey, _this.principalCodeFilter);
       })["catch"](function (error) {
@@ -146,7 +164,7 @@ var render = function() {
                 "v-col",
                 {
                   staticClass: "pb-0",
-                  attrs: { cols: "", lg: "9", md: "7", sm: "8" }
+                  attrs: { cols: "", lg: "7", md: "5", sm: "5" }
                 },
                 [
                   _c(
@@ -185,7 +203,37 @@ var render = function() {
                 "v-col",
                 {
                   staticClass: "pb-0",
-                  attrs: { cols: "", lg: "3", md: "5", sm: "4" }
+                  attrs: { cols: "", lg: "3", md: "4", sm: "4" }
+                },
+                [
+                  _c("v-select", {
+                    attrs: {
+                      rounded: "",
+                      outlined: "",
+                      dense: "",
+                      items: _vm.AppStore.state.terminals,
+                      "item-text": "name",
+                      "item-value": "value",
+                      placeholder: "Select Terminal",
+                      title: "Source Terminal"
+                    },
+                    model: {
+                      value: _vm.selected_terminal,
+                      callback: function($$v) {
+                        _vm.selected_terminal = $$v
+                      },
+                      expression: "selected_terminal"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                {
+                  staticClass: "pb-0",
+                  attrs: { cols: "", lg: "2", md: "3", sm: "3" }
                 },
                 [
                   _c(
@@ -196,7 +244,10 @@ var render = function() {
                         color: "primary",
                         block: "",
                         rounded: "",
-                        disabled: _vm.file == null || _vm.file.length < 1
+                        disabled:
+                          _vm.file == null ||
+                          _vm.file.length < 1 ||
+                          _vm.selected_terminal == ""
                       },
                       on: {
                         click: function($event) {
@@ -204,11 +255,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\r\n                    Submit\r\n                "
-                      )
-                    ]
+                    [_vm._v("\n                    Submit\n                ")]
                   )
                 ],
                 1

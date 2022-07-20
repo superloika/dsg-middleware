@@ -3,7 +3,7 @@
 <v-card outlinedx class="elevation-0 transparent pa-0">
     <v-card-text class="">
         <v-row class="">
-            <v-col class="pb-0" cols lg="9" md="7" sm="8">
+            <v-col class="pb-0" cols lg="7" md="5" sm="5">
                 <v-form ref="frm_upload">
                     <v-file-input
                         small-chips
@@ -20,13 +20,28 @@
                     ></v-file-input>
                 </v-form>
             </v-col>
-            <v-col class="pb-0" cols lg="3" md="5" sm="4">
+
+            <v-col class="pb-0" cols lg="3" md="4" sm="4">
+                <v-select
+                    rounded
+                    outlined
+                    dense
+                    :items="AppStore.state.terminals"
+                    item-text="name"
+                    item-value="value"
+                    placeholder="Select Terminal"
+                    v-model="selected_terminal"
+                    title="Source Terminal"
+                ></v-select>
+            </v-col>
+
+            <v-col class="pb-0" cols lg="2" md="3" sm="3">
                 <v-btn
                     dense color="primary"
                     @click="upload()"
                     block
                     rounded
-                    :disabled="file==null || file.length < 1"
+                    :disabled="file==null || file.length < 1 || selected_terminal==''"
                 >
                     Submit
                 </v-btn>
@@ -47,7 +62,7 @@ export default {
     data() {
         return {
             file: null,
-
+            selected_terminal: '',
         }
     },
 
@@ -79,6 +94,8 @@ export default {
                 formData.append('files[' + i + ']', this.file[i]);
             }
 
+            formData.append('terminal', this.selected_terminal);
+
             let url = this.AppStore.state.siteUrl + 'invoices/upload';
 
             axios.post(url, formData, config)
@@ -88,6 +105,7 @@ export default {
                     this.AppStore.overlay(false);
                     this.AppStore.toast(message);
                     this.file = null;
+                    this.selected_terminal = '';
                     this.InvoicesStore.initInvoices(this.searchKey, this.principalCodeFilter);
                 })
                 .catch(error => {

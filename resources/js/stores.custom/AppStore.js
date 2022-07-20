@@ -39,6 +39,16 @@ const state = Vue.observable({
         .substr(0, 10)],
     // navDrawerState: localStorage.getItem('navDrawerState'),
     dlgImportMaster: false,
+    terminals: [
+        {name: '3ps', value: '3PS'},
+        {name: 'CVS', value: 'CVS'},
+        {name: 'WDG', value: 'WDG'},
+        {name: 'DELICA', value: 'DELICA'},
+        {name: 'HORECA', value: 'HORECA'},
+        {name: 'SEC', value: 'SEC'},
+        {name: 'MAS', value: 'MAS'},
+        {name: 'Store', value: 'STORE'},
+    ],
 });
 
 

@@ -2,7 +2,8 @@
     <v-app>
         <v-system-bar app
             height="40"
-            color="grey lighten-3"
+            dark
+            color="grey darken-3"
         >
             <v-btn
                 @click="toggleDrawerState()"

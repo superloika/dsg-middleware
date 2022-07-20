@@ -350,17 +350,24 @@ class GspiController extends Controller
 
                         if (count($arrFileContentLine) > 1) {
                             // ==========================================================================
-                            $sm_name = trim(str_replace('"', '', $arrFileContentLine[0]));
-                            $sm_code = trim(str_replace('"', '', $arrFileContentLine[1]));
-                            $sm_code_supplier = trim(str_replace('"', '', $arrFileContentLine[2]));
+                            $sm_code = trim(str_replace('"', '', $arrFileContentLine[0]));
+                            $sm_contact_no = trim(str_replace('"', '', $arrFileContentLine[1]));
+                            $division = trim(str_replace('"', '', $arrFileContentLine[2]));
+                            $sm_name = trim(str_replace('"', '', $arrFileContentLine[3]));
+                            $supervisor_contact_no = trim(str_replace('"', '', $arrFileContentLine[4]));
+                            $supervisor_name = trim(str_replace('"', '', $arrFileContentLine[5]));
                             // =========================================================================
 
                             $arrLines[] = [
                                 'principal_code' => $this->PRINCIPAL_CODE,
-                                'sm_name' => $sm_name,
+                                'uploaded_by' => auth()->user()->id,
+                                //
                                 'sm_code' => $sm_code,
-                                'sm_code_supplier' => $sm_code_supplier,
-                                'uploaded_by' => auth()->user()->id
+                                'sm_contact_no' => $sm_contact_no,
+                                'division' => $division,
+                                'sm_name' => $sm_name,
+                                'supervisor_contact_no' => $supervisor_contact_no,
+                                'supervisor_name' => $supervisor_name,
                             ];
                         }
                     }

@@ -22,6 +22,8 @@ const state = Vue.observable({
         { text: "Salesman Code", value: "u5" },
         { text: "UOM", value: "uom" },
         { text: "Uploaded By", value: "username" },
+        { text: "Filename", value: "filename" },
+        { text: "Terminal", value: "terminal" },
     ],
     selectedInvoices: [],
 })

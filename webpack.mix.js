@@ -18,6 +18,7 @@ mix.js("resources/js/app.js", "public/js")
     .webpackConfig({
         // plugins: [new VuetifyLoaderPlugin()]
     })
-    .sourceMaps(false, 'source-map');
+    .sourceMaps(false, 'source-map')
+    .version();
 
 

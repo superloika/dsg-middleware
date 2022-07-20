@@ -110,6 +110,18 @@
                 elevation="0"
             >
                 <v-select
+                    :items="groupByColumns"
+                    v-model="groupBy"
+                    class="mr-3"
+                    style="max-width:125px;"
+                    label="Group By"
+                    outlined
+                    rounded
+                    hide-details
+                    dense
+                >
+                </v-select>
+                <v-select
                     :items="tblPageRowCounts"
                     v-model="tblPageRowCount"
                     class="mr-3"
@@ -146,13 +158,21 @@
         disable-pagination
         disable-sort
         show-select
+        :group-by="groupBy"
+        show-group-by
     >
         <template v-slot:[`item.status`] = '{ item }'>
-            <v-chip color="warning" x-small v-if="item.status=='pending'">
-                {{ item.status.toUpperCase() }}
+            <v-chip color="warning" x-small
+                v-if="item.status=='pending'"
+                class="px-2"
+                title="Pending"
+            >
             </v-chip>
-            <v-chip color="success" x-small v-if="item.status=='completed'">
-                {{ item.status.toUpperCase() }}
+            <v-chip color="success" x-small
+                v-if="item.status=='completed'"
+                class="px-2"
+                title="Completed"
+            >
             </v-chip>
         </template>
         <template v-slot:[`item.created_at`] = '{ item }'>
@@ -200,6 +220,11 @@ export default {
             invoiceStatus: '',
             tblPageRowCounts: [10, 20, 30, 50, 100, 500],
             tblPageRowCount: 10,
+
+            groupByColumns: [
+                'filename','status','principals_name','doc_no','terminal'
+            ],
+            groupBy: 'filename',
         }
     },
 

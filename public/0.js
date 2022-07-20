@@ -393,14 +393,23 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "uom_price"
   }]],
   salesmenTableHeader: [[{
-    text: "Salesman Name",
-    value: "sm_name"
-  }, {
     text: "Salesman Code",
     value: "sm_code"
   }, {
-    text: "Salesman Code (Supplier)",
-    value: "sm_code_supplier"
+    text: "Salesman Contact",
+    value: "sm_contact_no"
+  }, {
+    text: "Division",
+    value: "division"
+  }, {
+    text: "Salesman Name",
+    value: "sm_name"
+  }, {
+    text: "Supervisor Contact",
+    value: "supervisor_contact_no"
+  }, {
+    text: "Supervisor",
+    value: "supervisor_name"
   }]],
   // templated data table header(s)
   generatedDataTableHeader: [[{

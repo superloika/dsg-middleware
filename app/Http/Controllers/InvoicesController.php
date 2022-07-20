@@ -83,6 +83,9 @@ class InvoicesController extends Controller
         try {
             $dateTimeToday = Carbon::now()->format('Y-m-d H:i:s');
 
+            // selected source terminal terminal
+            $terminal = $request->terminal;
+
             foreach($request->file('files') as $file) {
                 $fileName = 'invoices-'. time(). '-'. $file->getClientOriginalName();
                 $testFilesPath = "public/invoices/". substr($dateTimeToday, 0, 10);
@@ -151,6 +154,8 @@ class InvoicesController extends Controller
                                         'u5'=>$u5,
                                         'uom'=>$uom,
                                         'uploaded_by'=>auth()->user()->id,
+                                        'filename'=> $fileName,
+                                        'terminal'=>$terminal,
                                     ];
                                 }
 
