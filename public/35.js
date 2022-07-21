@@ -150,7 +150,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { staticClass: "elevation-0 transparent pa-0", attrs: { outlinedx: "" } },
+    { staticClass: "elevation-0 transparent pa-0" },
     [
       _c(
         "v-card-text",

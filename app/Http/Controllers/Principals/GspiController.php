@@ -455,6 +455,8 @@ class GspiController extends Controller
             // ********************************** TEMPLATES **********************************
             $pageLineCount = 1;
             $pageNum = 1;
+
+            // loop through template variations...
             for ($tvc_index = 0; $tvc_index < $template_variation_count; $tvc_index++) {
                 array_push($res['output_template_variations'], [
                     'name' => 'Template ' . ($tvc_index + 1),
@@ -471,9 +473,9 @@ class GspiController extends Controller
                     $posting_date = trim($pendingInvoice->posting_date);
                     $item_code = trim($pendingInvoice->item_code);
                     $quantity = trim($pendingInvoice->quantity);
-                    $u1 = trim($pendingInvoice->u1);
-                    $u2 = trim($pendingInvoice->u2);
-                    $u3 = trim($pendingInvoice->u3);
+                    $u1 = trim($pendingInvoice->u1); // status
+                    $u2 = trim($pendingInvoice->u2); // price
+                    $u3 = trim($pendingInvoice->u3); // amount
                     $u4 = trim($pendingInvoice->u4);
                     $u5 = trim($pendingInvoice->u5); // salesman code diay ni haha
                     $uom = trim($pendingInvoice->uom);
@@ -607,98 +609,16 @@ class GspiController extends Controller
                     }
 
                     // ************************* TEMPLATE 2 **************************
-                    else if ($tvc_index == 1) {
-                        $item_notfound = 0;
-                        $customer_notfound = 0;
-                        $missing_customer_name = '';
-                        $missing_item_name = '';
-
-                        if ($item == null) {
-                            $item_notfound = 1;
-                            $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                                ->where('item_code', $item_code)
-                                ->first()->description ?? '[ Not Found ]';
-                        } else {
-                        }
-
-                        if ($customer == null) {
-                            $customer_notfound = 1;
-                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                ->where('customer_code', $customer_code)
-                                ->first()->name ?? '[ Not Found ]';
-                        } else {
-                        }
-
-                        // $order_date = $dateToday->format('Y/m/d');
-
-                        $item_code_supplier = $item->item_code_supplier ?? $item_code;
-                        $customer_code_supplier = $item->customer_code_supplier ?? $customer_code;
-
-                        $distributor_id = $settings['distributor_id'] ?? 'N/A';
-                        // ======================= /INIT ================================================
-
-                        // =========== SETTING UP =======================================================
-                        // Generated data line structure
-                        $arrGenerated = [
-                            //commons
-                            'customer_code' => $customer_code_supplier,
-                            'item_code' => $item_code_supplier,
-                            'alturas_item_code' => $item_code,
-                            'alturas_customer_code' => $customer_code,
-                            'doc_no' => $doc_no,
-                            'missing_customer_name' => $missing_customer_name,
-                            'missing_item_name' => $missing_item_name,
-                            'customer_notfound' => $customer_notfound,
-                            'item_notfound' => $item_notfound,
-                            // principal specific
-                            // 'order_date' => $order_date,
-                            'system_date' => $dateToday->format('m/d/Y'),
-                            'request_delivery_date' => $dateToday->format('m/d/Y'),
-                            'distributor_id' => $distributor_id,
-                        ];
-
-                        if ($chunk_line_count > 0) {
-                            if (
-                                !isset($res['output_template_variations']
-                                    [$tvc_index]['output_template']["Page " . $pageNum])
-                            ) {
-                                $res['output_template_variations']
-                                    [$tvc_index]['output_template']["Page " . $pageNum] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations']
-                                    [$tvc_index]['output_template']["Page " . $pageNum],
-                                $arrGenerated
-                            );
-
-                            $pageLineCount += 1;
-                            if ($pageLineCount > $chunk_line_count) {
-                                $pageNum += 1;
-                                $pageLineCount = 1;
-                            }
-                        } else {
-                            // group output_template_variations
-                            if (
-                                !isset($res['output_template_variations']
-                                    [$tvc_index]['output_template'][$dateToday->format('m/d/Y')])
-                            ) {
-                                $res['output_template_variations']
-                                    [$tvc_index]['output_template'][$dateToday->format('m/d/Y')] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations']
-                                    [$tvc_index]['output_template'][$dateToday->format('m/d/Y')],
-                                $arrGenerated
-                            );
-                        }
-                        // =========== /SETTING UP =======================================================
-                    }
+                    // else if ($tvc_index == 1) {
+                    // }
                 }
+                // /Loop through each line of the file content
 
                 // reset this guys to 1
                 $pageLineCount = 1;
                 $pageNum = 1;
             }
+            // /loop through template variations...
             // ********************************** /TEMPLATES **********************************
 
             // $fileCount++;

@@ -216,7 +216,7 @@ class PrincipalsUtil extends Controller
             for ($i=1; $i <= $template_variation_count ; $i++) {
                 $gendata = DB::table($this::$TBL_GENERATED)
                 ->where('principal_code', request()->principal_code)
-                ->where('status', $this::$STATUS_COMPLETED)
+                // ->where('status', $this::$STATUS_COMPLETED)
                 ->whereDate('generated_at','>=',$dateFrom)
                 ->whereDate('generated_at','<=',$dateTo)
                 ->where('template_variation',$i)
