@@ -772,10 +772,10 @@ class CenturyController extends Controller
                                 $line['customer_notfound'] == 0 && $line['item_notfound'] == 0
                                 && $line['salesman_notfound'] == 0
                             ) {
-                                $status = PrincipalsUtil::$STATUS_COMPLETED;
+                                // $status = PrincipalsUtil::$STATUS_COMPLETED;
                                 DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
                                     'principal_code' => $this->PRINCIPAL_CODE,
-                                    'status' => $status,
+                                    // 'status' => $status,
                                     'uploaded_by' => auth()->user()->id,
                                     'doc_no' => $line['doc_no'],
                                     'alturas_customer_code' => $line['alturas_customer_code'],
@@ -805,10 +805,10 @@ class CenturyController extends Controller
                     foreach ($variations['output_template'] as $gendata) {
                         foreach ($gendata[1] as $line) {
                             if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
-                                $status = PrincipalsUtil::$STATUS_COMPLETED;
+                                // $status = PrincipalsUtil::$STATUS_COMPLETED;
                                 DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
                                     'principal_code' => $this->PRINCIPAL_CODE,
-                                    'status' => $status,
+                                    // 'status' => $status,
                                     'uploaded_by' => auth()->user()->id,
                                     'doc_no' => $line['doc_no'],
                                     'alturas_customer_code' => $line['alturas_customer_code'],

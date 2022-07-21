@@ -19,7 +19,7 @@ const opts = {
                 success: '#4CAF50',
                 primary: '#2fc900',
                 accent: "#7dd663",
-            }
+            },
         }
     }
 };

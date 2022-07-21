@@ -122,12 +122,14 @@
                         outlined
                         dense
                         hide-details
-                        :items="AppStore.state.terminals"
+                        :items="terminals"
                         item-text="name"
                         item-value="value"
-                        placeholder="Select Terminal"
+                        placeholder="Terminal"
                         v-model="selectedTerminal"
                         title="Source Terminal"
+                        style="max-width:170px;"
+                        class="mr-3"
                     ></v-select>
 
                     <v-select
@@ -270,12 +272,17 @@ export default {
                 this.searchKey,
                 this.principalCodeFilter,
                 this.invoiceStatus,
-                this.tblPageRowCount
+                this.tblPageRowCount,
+                this.selectedTerminal
             );
         }
     },
 
-    computed: {},
+    computed: {
+        terminals() {
+            return [{name:'All',value:''}, ...this.AppStore.state.terminals];
+        }
+    },
 
     watch: {
         searchKey: debounce(function() {
@@ -306,7 +313,14 @@ export default {
                 this.InvoicesStore.state.invoices.current_page = 1;
             }
             this.onPageChange();
-        }, 200)
+        }, 200),
+
+        selectedTerminal: debounce(function() {
+            if (this.InvoicesStore.state.invoices.current_page != undefined) {
+                this.InvoicesStore.state.invoices.current_page = 1;
+            }
+            this.onPageChange();
+        }, 200),
     },
 
     created() {

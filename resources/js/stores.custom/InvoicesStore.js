@@ -15,8 +15,8 @@ const state = Vue.observable({
         { text: "Posting Date", value: "posting_date" },
         { text: "Item Code", value: "item_code" },
         { text: "Quantity", value: "quantity" },
-        { text: "u1", value: "u1" },
-        { text: "u2", value: "u2" },
+        { text: "Status", value: "u1" },
+        { text: "Price", value: "u2" },
         { text: "Amount", value: "u3" },
         { text: "u4", value: "u4" },
         { text: "Salesman Code", value: "u5" },
@@ -29,7 +29,9 @@ const state = Vue.observable({
 })
 
 const actions = {
-    async initInvoices(searchKey='', principalCodeFilter='', invoiceStatus='', row_count=10) {
+    async initInvoices(
+        searchKey='', principalCodeFilter='', invoiceStatus='', row_count=10, selectedTerminal=''
+    ) {
         try {
             state.isLoadingInvoices = true;
             if(searchKey==null) searchKey = '';
@@ -38,6 +40,7 @@ const actions = {
                 + `&search_key=${searchKey}`
                 + `&principal_code=${principalCodeFilter}`
                 + `&status=${invoiceStatus}`
+                + `&terminal=${selectedTerminal}`
                 + `&page=${state.invoices.current_page ?? 1}`;
             const response = await axios.get(url);
             state.invoices = {};

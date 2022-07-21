@@ -20,6 +20,7 @@ class InvoicesController extends Controller
         $search_key = request()->search_key ?? '';
         $principal_code = request()->principal_code ?? '';
         $status = request()->status ?? '';
+        $terminal = request()->terminal ?? '';
 
         // dd($principal_code);
 
@@ -46,6 +47,9 @@ class InvoicesController extends Controller
             })
             ->where(
                 PrincipalsUtil::$TBL_INVOICES. '.status','like', '%'.$status. '%'
+            )
+            ->where(
+                PrincipalsUtil::$TBL_INVOICES. '.terminal','like', '%'.$terminal. '%'
             )
 
             ->leftJoin('users', 'users.id', PrincipalsUtil::$TBL_INVOICES. '.uploaded_by')
