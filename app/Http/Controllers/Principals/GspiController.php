@@ -422,8 +422,8 @@ class GspiController extends Controller
             $filesTotalLineCount = 0;
             $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
             $breakFilesIteration = false;
-            $default_user = $settings['default_user'] ?? 'N/A';
-            $payment_term_code = $settings['payment_term_code'] ?? 'CODx';
+
+            $currency = $settings['currency'] ?? 'PHP';
 
             // **************** PENDING INVOICES ************************************
             $pendingInvoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
@@ -450,7 +450,6 @@ class GspiController extends Controller
 
             $res['line_count'] = $pendingInvoices->count();
             // **************** /PENDING INVOICES ************************************
-
 
             // ********************************** TEMPLATES **********************************
             $pageLineCount = 1;
@@ -479,6 +478,7 @@ class GspiController extends Controller
                     $u4 = trim($pendingInvoice->u4);
                     $u5 = trim($pendingInvoice->u5); // salesman code diay ni haha
                     $uom = trim($pendingInvoice->uom);
+                    $terminal = trim($pendingInvoice->terminal);
 
                     $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
                         ->where('principal_code', $this->PRINCIPAL_CODE)
@@ -490,18 +490,8 @@ class GspiController extends Controller
                         ->first();
                     $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
                         ->where('principal_code', $this->PRINCIPAL_CODE)
-                        ->where('sm_code', $u5)
+                        ->where('division', $terminal)
                         ->first();
-
-                    // quantity_conversion
-                    $bulk_qty = 0;
-                    $loose_qty = 0;
-                    if($item != null) {
-                        $quo = $quantity/$item->conversion_qty;
-                        $mod = $quantity%$item->conversion_qty;
-                        $bulk_qty = intval($quo);
-                        $loose_qty = $mod;
-                    }
 
                     // ************************* TEMPLATE 1 **************************
                     if ($tvc_index == 0) {
@@ -531,14 +521,12 @@ class GspiController extends Controller
                             $salesman_notfound = 1;
                         }
 
-                        $order_date = $dateToday->format('m/d/Y');
-
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
-                        $customer_code_supplier = $customer->customer_code_supplier ?? $customer_code;
+                        $description_supplier = $item->description_supplier ?? 'N/A';
 
-                        $distributor_id = $settings['distributor_id'] ?? 'N/A';
-                        $location = $settings['location'] ?? 'N/A';
-                        $sm_code_supplier = $salesman->sm_code_supplier ?? $u5; // u5 = salesman code - txtfile
+                        // $currency = "PHP";
+                        $salesPrice = $item->conversion_uom_price ?? 0.00;
+                        $salesAmount = $quantity * $salesPrice;
                         // ======================= /INIT ================================================
 
                         // =========== SETTING UP =======================================================
@@ -555,18 +543,25 @@ class GspiController extends Controller
                             'item_notfound' => $item_notfound,
                             'salesman_notfound' => $salesman_notfound,
                             // principal specific
-                            'customer_code' => $customer_code_supplier,
+                            'invoice_date' => $posting_date,
                             'item_code' => $item_code_supplier,
-                            'order_date' => $order_date,
-                            'system_date' => $order_date,
-                            'request_delivery_date' => $order_date,
-                            'distributor_id' => $distributor_id,
-                            'bulk_qty' => $bulk_qty,
-                            'loose_qty' => $loose_qty,
-                            'default_user' => $default_user,
-                            'payment_term_code' => $payment_term_code,
-                            'location' => $location,
-                            'sales_agent_id' => $sm_code_supplier,
+                            'description_supplier' => $description_supplier,
+                            'quantity' => $quantity,
+                            'price' => $salesPrice,
+                            'amount' => $salesAmount,
+                            'uom' => $uom,
+                            'currency' => $currency,
+                            'customer_code' => $customer->customer_code ?? 'N/A',
+                            'customer_name' => $customer->customer_name ?? 'N/A',
+                            'address_1' => $customer->address_1 ?? 'N/A',
+                            'address_2' => $customer->address_2 ?? 'N/A',
+                            'address_3' => $customer->address_3 ?? 'N/A',
+                            'sm_code' => $salesman->sm_code ?? 'N/A',
+                            'sm_name' => $salesman->sm_name ?? 'N/A',
+                            'sm_contact_no' => $salesman->sm_contact_no ?? 'N/A',
+                            'supervisor_contact_no' => $salesman->supervisor_contact_no ?? 'N/A',
+                            'supervisor_name' => $salesman->supervisor_name ?? 'N/A',
+                            'invoice_no' => $doc_no,
                         ];
 
                         // for chunked results
@@ -593,14 +588,14 @@ class GspiController extends Controller
                             // group output_template_variations
                             if (
                                 !isset($res['output_template_variations']
-                                    [$tvc_index]['output_template'][$order_date])
+                                    [$tvc_index]['output_template'][$posting_date])
                             ) {
                                 $res['output_template_variations']
-                                    [$tvc_index]['output_template'][$order_date] = [];
+                                    [$tvc_index]['output_template'][$posting_date] = [];
                             }
                             array_push(
                                 $res['output_template_variations']
-                                    [$tvc_index]['output_template'][$order_date],
+                                    [$tvc_index]['output_template'][$posting_date],
                                 $arrGenerated
                             );
                         }
@@ -668,10 +663,6 @@ class GspiController extends Controller
                 }
             }
 
-            // Being in a relationship is unexplainably happy until fate fucks the hell out of it.
-
-            // LOL
-
             // INSERT TO GENERATED/TEMPLATED TABLE
             $template_variation = 1;
             foreach ($request->generated_data as $variations) {
@@ -686,7 +677,6 @@ class GspiController extends Controller
                                 $status = PrincipalsUtil::$STATUS_COMPLETED;
                                 DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
                                     'principal_code' => $this->PRINCIPAL_CODE,
-                                    'status' => $status,
                                     'uploaded_by' => auth()->user()->id,
                                     'doc_no' => $line['doc_no'],
                                     'alturas_customer_code' => $line['alturas_customer_code'],
@@ -694,47 +684,34 @@ class GspiController extends Controller
                                     'generated_at' => $dateToday,
                                     'template_variation' => $template_variation,
                                     // ====
-                                    'distributor_id' => $line['distributor_id'],
-                                    'order_date' => $line['order_date'],
-                                    'request_delivery_date' => $line['request_delivery_date'],
-                                    'payment_term_code' => $line['payment_term_code'],
-                                    'customer_code' => $line['customer_code'],
+                                    'invoice_date' => $line['invoice_date'],
                                     'item_code' => $line['item_code'],
-                                    'bulk_qty' => $line['bulk_qty'],
-                                    'loose_qty' => $line['loose_qty'],
-                                    'system_date' => $line['system_date'],
-                                    'default_user' => $line['default_user'],
-                                    'sales_agent_id' => $line['sales_agent_id'],
-                                    'location' => $line['location'],
+                                    'description_supplier' => $line['description_supplier'],
+                                    'quantity' => $line['quantity'],
+                                    'price' => $line['price'],
+                                    'amount' => $line['amount'],
+                                    'uom' => $line['uom'],
+                                    'currency' => $line['currency'],
+                                    'customer_code' => $line['customer_code'],
+                                    'customer_name' => $line['customer_name'],
+                                    'address_1' => $line['address_1'],
+                                    'address_2' => $line['address_2'],
+                                    'address_3' => $line['address_3'],
+                                    'sm_code' => $line['sm_code'],
+                                    'sm_name' => $line['sm_name'],
+                                    'sm_contact_no' => $line['sm_contact_no'],
+                                    'supervisor_contact_no' => $line['supervisor_contact_no'],
+                                    'supervisor_name' => $line['supervisor_name'],
+                                    'invoice_no' => $line['invoice_no'],
                                 ]);
                             }
                         }
                     }
                 }
                 // ************************** template variation 2 **********************************
-                else if($template_variation==2) {
-                    foreach ($variations['output_template'] as $gendata) {
-                        foreach ($gendata[1] as $line) {
-                            if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
-                                $status = PrincipalsUtil::$STATUS_COMPLETED;
-                                DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
-                                    'principal_code' => $this->PRINCIPAL_CODE,
-                                    'status' => $status,
-                                    'uploaded_by' => auth()->user()->id,
-                                    'doc_no' => $line['doc_no'],
-                                    'alturas_customer_code' => $line['alturas_customer_code'],
-                                    'alturas_item_code' => $line['alturas_item_code'],
-                                    'generated_at' => $dateToday,
-                                    'template_variation' => $template_variation,
-                                    // ====
-                                    'distributor_id' => $line['distributor_id'],
-                                    'customer_code' => $line['customer_code'],
-                                    'item_code' => $line['item_code'],
-                                ]);
-                            }
-                        }
-                    }
-                }
+                // else if($template_variation==2) {
+                    // code here for variation 2...
+                // }
                 $template_variation++;
             }
 

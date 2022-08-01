@@ -121,8 +121,8 @@
             dense
             rounded
             outlinedx
-            depressedx
-            color="white"
+            depressed
+            color="primary"
             @click.stop="
                 PrincipalsStore.state.confirmExportDialogOpen = true
             "
@@ -132,8 +132,8 @@
                     warningsCount >= lineCount
             "
         >
+            <v-icon left size="25">mdi-file-excel</v-icon>
             Export({{ lineCount - warningsCount }})
-            <v-icon right color="success" size="25">mdi-file-excel</v-icon>
         </v-btn>
         <!-- confirm export dialog -->
         <v-dialog

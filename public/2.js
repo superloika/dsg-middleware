@@ -165,6 +165,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -357,9 +358,7 @@ var render = function() {
         { staticClass: "elevation-0", attrs: { densex: "" } },
         [
           _c("v-toolbar-title", [
-            _c("div", [
-              _vm._v("\r\n                Transactions\r\n            ")
-            ]),
+            _c("div", [_vm._v("\n                Transactions\n            ")]),
             _vm._v(" "),
             _c(
               "div",
@@ -373,9 +372,9 @@ var render = function() {
                   [
                     _c("em", [_vm._v("Total Amount: ")]),
                     _vm._v(
-                      "\r\n                    " +
+                      "\n                    " +
                         _vm._s(_vm.AppStore.formatAsCurrency(_vm.totalAmount)) +
-                        "\r\n                "
+                        "\n                "
                     )
                   ]
                 ),
@@ -389,13 +388,13 @@ var render = function() {
                   [
                     _c("em", [_vm._v("Grand Total: ")]),
                     _vm._v(
-                      "\r\n                    " +
+                      "\n                    " +
                         _vm._s(
                           _vm.AppStore.formatAsCurrency(
                             _vm.PrincipalsStore.state.invoicesGrandTotal
                           )
                         ) +
-                        "\r\n                "
+                        "\n                "
                     )
                   ]
                 )
@@ -500,11 +499,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\r\n                    Cancel\r\n                "
-                      )
-                    ]
+                    [_vm._v("\n                    Cancel\n                ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -518,11 +513,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\r\n                    Generate\r\n                "
-                      )
-                    ]
+                    [_vm._v("\n                    Generate\n                ")]
                   )
                 ],
                 1
@@ -606,7 +597,8 @@ var render = function() {
               search: _vm.searchKey,
               classz: "elevation-1",
               id: "transactions",
-              loading: _vm.PrincipalsStore.state.isInitTransactions
+              loading: _vm.PrincipalsStore.state.isInitTransactions,
+              "disable-sort": ""
             },
             scopedSlots: _vm._u(
               [
@@ -617,9 +609,9 @@ var render = function() {
                     return [
                       _c("span", [
                         _vm._v(
-                          "\r\n                    " +
+                          "\n                    " +
                             _vm._s(item.updated_at.substring(0, 10)) +
-                            "\r\n                "
+                            "\n                "
                         )
                       ])
                     ]
@@ -632,11 +624,11 @@ var render = function() {
                     return [
                       _c("span", { attrs: { "background-color": "primary" } }, [
                         _vm._v(
-                          "\r\n                    " +
+                          "\n                    " +
                             _vm._s(
                               _vm.AppStore.formatAsCurrency(parseFloat(item.u3))
                             ) +
-                            "\r\n                "
+                            "\n                "
                         )
                       ])
                     ]
@@ -649,9 +641,9 @@ var render = function() {
                     return [
                       _c("span", { staticClass: "text-caption" }, [
                         _vm._v(
-                          "\r\n                    " +
+                          "\n                    " +
                             _vm._s(item.customer_name) +
-                            "\r\n                "
+                            "\n                "
                         )
                       ])
                     ]
@@ -664,9 +656,9 @@ var render = function() {
                     return [
                       _c("span", { staticClass: "text-caption" }, [
                         _vm._v(
-                          "\r\n                    " +
+                          "\n                    " +
                             _vm._s(item.description) +
-                            "\r\n                "
+                            "\n                "
                         )
                       ])
                     ]

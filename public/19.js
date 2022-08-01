@@ -348,8 +348,8 @@ var render = function() {
                 dense: "",
                 rounded: "",
                 outlinedx: "",
-                depressedx: "",
-                color: "white",
+                depressed: "",
+                color: "primary",
                 disabled:
                   _vm.lineCount < 1 ||
                   _vm.searchKeyLength > 0 ||
@@ -363,15 +363,13 @@ var render = function() {
               }
             },
             [
+              _c("v-icon", { attrs: { left: "", size: "25" } }, [
+                _vm._v("mdi-file-excel")
+              ]),
               _vm._v(
                 "\n            Export(" +
                   _vm._s(_vm.lineCount - _vm.warningsCount) +
-                  ")\n            "
-              ),
-              _c(
-                "v-icon",
-                { attrs: { right: "", color: "success", size: "25" } },
-                [_vm._v("mdi-file-excel")]
+                  ")\n        "
               )
             ],
             1

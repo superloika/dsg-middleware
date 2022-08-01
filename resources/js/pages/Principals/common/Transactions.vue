@@ -117,6 +117,7 @@
             classz="elevation-1"
             id="transactions"
             :loading="PrincipalsStore.state.isInitTransactions"
+            disable-sort
         >
             <template v-slot:[`item.updated_at`] = "{ item }">
                 <span>

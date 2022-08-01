@@ -575,12 +575,12 @@ var render = function() {
         _vm.isGenerating
           ? _c(
               "div",
-              { staticClass: "d-flex justify-center" },
+              { staticClass: "d-flex justify-center mt-4" },
               [
                 _c("v-progress-circular", {
                   attrs: {
-                    size: 70,
-                    width: 7,
+                    size: 50,
+                    width: 4,
                     color: "accent",
                     indeterminate: ""
                   }

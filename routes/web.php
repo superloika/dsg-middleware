@@ -88,6 +88,7 @@ Route::prefix('invoices')->group(function(){
     Route::get('/all', 'InvoicesController@index');
     Route::post('/upload', 'InvoicesController@upload');
     Route::post("/delete", "InvoicesController@deleteInvoices");
+    Route::post("/sync-textfiles", "InvoicesController@syncTextfiles");
 });
 
 /**

@@ -413,61 +413,63 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }]],
   // templated data table header(s)
   generatedDataTableHeader: [[{
-    text: "Distributor ID",
-    value: "distributor_id"
+    text: "InvoiceDate",
+    value: "invoice_date"
   }, {
-    text: "Salesman",
-    value: "sales_agent_id"
-  }, {
-    text: "Docno",
-    value: "doc_no"
-  }, {
-    text: "Location",
-    value: "location"
-  }, {
-    text: "Ordered Date",
-    value: "order_date"
-  }, {
-    text: "Request Delivery Date",
-    value: "request_delivery_date"
-  }, {
-    text: "Payment Term",
-    value: "payment_term_code"
-  }, {
-    text: "Account Code",
-    value: "customer_code"
-  }, {
-    text: "Product Code",
+    text: "ItemNo",
     value: "item_code"
   }, {
-    text: "Bulk Qty",
-    value: "bulk_qty"
+    text: "Description",
+    value: "description_supplier"
   }, {
-    text: "Loose Qty",
-    value: "loose_qty"
+    text: "SalesQty",
+    value: "quantity"
   }, {
-    text: "System Date",
-    value: "system_date"
+    text: "SalesPrice",
+    value: "price"
   }, {
-    text: "User",
-    value: "default_user"
-  }] // [
-  //     {text:"Distributor ID", value: "distributor_id"},
-  //     {text:"Sales Agent ID", value: "sales_agent_id"},
-  //     {text:"Invoice No (Doc No)", value: "doc_no"},
-  //     {text:"Location", value: "location"},
-  //     {text:"Invoice Date", value: "invoice_date"},
-  //     {text:"Payment Term Code", value: "payment_term_code"},
-  //     {text:"Customer No", value: "customer_code"},
-  //     {text:"Product Code", value: "item_code"},
-  //     {text:"Bulk Qty", value: "bulk_qty"},
-  //     {text:"Loose Qty", value: "loose_qty"},
-  //     {text:"System Date", value: "system_date"},
-  //     {text:"Default User", value: "default_user"},
-  //     {text:"Invoice No", value: "invoice_no"},
-  //     {text:"Expiry Date", value: "expiry_date"},
-  // ],
-  ],
+    text: "SalesAmount",
+    value: "amount"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Currency",
+    value: "currency"
+  }, {
+    text: "CustomerNo",
+    value: "customer_code"
+  }, {
+    text: "CustomerName",
+    value: "customer_name"
+  }, {
+    text: "CustomerAddress",
+    value: "address_1"
+  }, {
+    text: "CustomerCity",
+    value: "address_2"
+  }, {
+    text: "CustomerProvince",
+    value: "address_3"
+  }, {
+    text: "SalesmanNo",
+    value: "sm_code"
+  }, {
+    text: "SalesManName",
+    value: "sm_name"
+  }, {
+    text: "SalesmanPhoneNumber",
+    value: "sm_contact_no"
+  }, {
+    text: "SupervisorNo",
+    value: "supervisor_contact_no"
+  }, {
+    text: "SupervisorName",
+    value: "supervisor_name"
+  }, {
+    text: "InvoiceNo",
+    value: "invoice_no"
+  }]],
   // transactions table header
   transactionsTableHeader: [[{
     text: "Upload Date",
@@ -501,11 +503,10 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   // custom cols (Templated Data History)
   generatedDataDBTableColumns: [// common
   'id', 'generated_at', 'uploaded_by', 'doc_no', // principal template
-  'item_code', 'customer_code', 'distributor_id', 'sales_agent_id', // salesman code
-  'invoice_no', 'location', 'invoice_date', 'payment_term_code', 'bulk_qty', 'loose_qty', 'default_user', 'system_date', 'expiry_date', 'order_date', 'request_delivery_date'],
+  "invoice_date", "item_code", "description_supplier", "quantity", "price", "amount", "uom", "currency", "customer_code", "customer_name", "address_1", "address_2", "address_3", "sm_code", "sm_name", "sm_contact_no", "supervisor_contact_no", "supervisor_name", "invoice_no"],
   generatedDataHistoryFilters: [[{
-    text: 'Order Date',
-    value: 'order_date'
+    text: 'Invoice Posting Date',
+    value: 'invoice_date'
   }, {
     text: 'Document #',
     value: 'doc_no'
@@ -517,13 +518,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: 'customer_code'
   }, {
     text: 'Salesman',
-    value: 'sales_agent_id'
-  }, {
-    text: 'Location',
-    value: 'location'
-  }, {
-    text: 'Invoice Posting Date',
-    value: 'invoice_date'
+    value: 'sm_code'
   }]] // ************************* /Templated Data History *******************************
 
 });

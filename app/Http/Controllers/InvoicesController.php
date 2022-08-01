@@ -80,6 +80,132 @@ class InvoicesController extends Controller
         return response()->json($result);
     }
 
+    public function syncTextfiles(Request $request) {
+        set_time_limit(0);
+        $memory_limit = ini_get('memory_limit');
+
+        try {
+            $dateTimeToday = Carbon::now()->format('Y-m-d H:i:s');
+
+            // selected source terminal terminal
+            $terminal = $request->terminal;
+
+            $terminals = DB::table('terminals')->get();
+
+            foreach($terminals as $terminal) {
+                $fileNames = Storage::disk('dsgm_textfiles')->files($terminal->terminal_code);
+                // dd($fileNames);
+                foreach($fileNames as $fileName) {
+                    // $fileName = 'invoices-'. time(). '-'. $file->getClientOriginalName();
+                    $uploadedPath = $terminal->terminal_code. "\/UPLOADED\/". substr($dateTimeToday, 0, 10). "/";
+                    // Storage::putFileAs($testFilesPath, $file, $fileName);
+
+                    if (Storage::disk('dsgm_textfiles')->exists($fileName)) {
+
+                        $content = Storage::disk('dsgm_textfiles')->get($fileName);
+
+                        $rows = explode(PHP_EOL, utf8_encode($content));
+
+                        // move text file to 'UPLOADED'
+                        $fileName = str_replace("$terminal->terminal_code/", '', $fileName);
+                        Storage::disk('dsgm_textfiles')->move(
+                            "$terminal->terminal_code/$fileName",
+                            "$uploadedPath/". time(). "-$fileName"
+                        );
+
+                        $invoices = [];
+
+                        if(count($rows) > 0) {
+                            //set memory limit to unli for heavy stuff processing
+                            ini_set('memory_limit', -1);
+
+                            foreach ($rows as $row) {
+                                // $cols = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $row);
+                                $cols = explode('|', $row);
+
+                                if (
+                                    count($cols) == 12
+                                    && $cols[0][0] != '#'
+                                    && trim(str_replace('"','',$cols[0])) != 'Credit Memo'
+                                ) {
+                                    $doc_type = trim(str_replace('"','',$cols[0]));
+                                    $doc_no = trim(str_replace('"','',$cols[1]));
+                                    $customer_code = trim(str_replace('"','',$cols[2]));
+                                    $posting_date = trim(str_replace('"','',$cols[3]));
+                                    $item_code = trim(str_replace('"','',$cols[4]));
+                                    $quantity = trim(str_replace('"','',$cols[5]));
+                                    $u1 = trim(str_replace('"','',$cols[6]));
+                                    $u2 = trim(str_replace('"','',$cols[7]));
+                                    $u3 = trim(str_replace('"','',$cols[8]));
+                                    $u4 = trim(str_replace('"','',$cols[9]));
+                                    $u5 = trim(str_replace('"','',$cols[10]));
+                                    $uom = trim(str_replace('"','',$cols[11]));
+
+                                    if(
+                                        DB::table(PrincipalsUtil::$TBL_INVOICES)
+                                            ->where('doc_type',$doc_type)
+                                            ->where('doc_no',$doc_no)
+                                            ->where('customer_code',$customer_code)
+                                            ->where('posting_date',$posting_date)
+                                            ->where('item_code',$item_code)
+                                            ->where('quantity',$quantity)
+                                            ->where('u1',$u1)
+                                            ->where('u2',$u2)
+                                            ->where('u3',$u3)
+                                            ->where('u4',$u4)
+                                            ->where('u5',$u5)
+                                            ->where('uom',$uom)
+                                            ->exists() == false
+                                    ) {
+                                        $invoices[] = [
+                                            'created_at'=>date($dateTimeToday),
+                                            'doc_type'=>$doc_type,
+                                            'doc_no'=>$doc_no,
+                                            'customer_code'=>$customer_code,
+                                            'posting_date'=>$posting_date,
+                                            'item_code'=>$item_code,
+                                            'quantity'=>$quantity,
+                                            'u1'=>$u1,
+                                            'u2'=>$u2,
+                                            'u3'=>$u3,
+                                            'u4'=>$u4,
+                                            'u5'=>$u5,
+                                            'uom'=>$uom,
+                                            'uploaded_by'=>auth()->user()->id,
+                                            'filename'=> $fileName,
+                                            'terminal'=>$terminal->terminal_code,
+                                        ];
+                                    }
+
+                                }
+                            }
+                            $chunks = array_chunk($invoices, 500);
+                            foreach($chunks as $chunk) {
+                                DB::table(PrincipalsUtil::$TBL_INVOICES)
+                                    ->insert($chunk);
+                            }
+
+                            // DB::table(PrincipalsUtil::$TBL_INVOICES)
+                            //     ->where('created_at','<>',$dateTimeToday)->delete();
+                        }
+                    }
+                }
+            }
+
+            // revert to the default memory limit
+            ini_set('memory_limit', $memory_limit);
+
+            $res['success'] = true;
+            $res['message'] = 'Successful';
+            return response()->json($res, 200);
+
+        } catch (\Throwable $th) {
+            $res['success'] = false;
+            $res['message'] = $th->getMessage();
+            return response()->json($res, 500);
+        }
+    }
+
     public function upload(Request $request) {
         set_time_limit(0);
         $memory_limit = ini_get('memory_limit');

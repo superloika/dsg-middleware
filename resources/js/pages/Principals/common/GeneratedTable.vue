@@ -28,6 +28,7 @@
         :headers="tableHeader"
         :items-per-page="10"
         :search="PrincipalsStore.state.currentGeneratedDataSearchKey"
+        disable-sort
     >
         <template v-slot:[`item.customer_code`]="{ item }">
             <v-chip

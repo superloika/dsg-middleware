@@ -106,6 +106,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['items', 'template_variation_index', 'tab_caption', 'allow_export'],
   computed: {
@@ -195,9 +196,9 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\r\n                Export " +
+                        "\n                Export " +
                           _vm._s(_vm.tab_caption) +
-                          " to CSV\r\n            "
+                          " to CSV\n            "
                       )
                     ]
                   )
@@ -214,7 +215,8 @@ var render = function() {
           items: _vm.items,
           headers: _vm.tableHeader,
           "items-per-page": 10,
-          search: _vm.PrincipalsStore.state.currentGeneratedDataSearchKey
+          search: _vm.PrincipalsStore.state.currentGeneratedDataSearchKey,
+          "disable-sort": ""
         },
         scopedSlots: _vm._u(
           [
@@ -237,9 +239,9 @@ var render = function() {
                         [
                           _c("div", { attrs: { id: item.customer_code } }, [
                             _vm._v(
-                              "\r\n                    " +
+                              "\n                    " +
                                 _vm._s(item.customer_code) +
-                                "\r\n                "
+                                "\n                "
                             )
                           ])
                         ]
@@ -267,9 +269,9 @@ var render = function() {
                         [
                           _c("div", { attrs: { id: item.route_code } }, [
                             _vm._v(
-                              "\r\n                    " +
+                              "\n                    " +
                                 _vm._s(item.route_code) +
-                                "\r\n                "
+                                "\n                "
                             )
                           ])
                         ]
@@ -297,9 +299,9 @@ var render = function() {
                         [
                           _c("div", { attrs: { id: item.item_code } }, [
                             _vm._v(
-                              "\r\n                    " +
+                              "\n                    " +
                                 _vm._s(item.item_code) +
-                                "\r\n                "
+                                "\n                "
                             )
                           ])
                         ]
@@ -327,9 +329,9 @@ var render = function() {
                         [
                           _c("div", { attrs: { id: item.sales_agent_id } }, [
                             _vm._v(
-                              "\r\n                    " +
+                              "\n                    " +
                                 _vm._s(item.sales_agent_id) +
-                                "\r\n                "
+                                "\n                "
                             )
                           ])
                         ]

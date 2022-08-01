@@ -99,11 +99,11 @@
         </v-card-title>
         <v-card-text class="pa-0 pb-4">
             <div v-if="isGenerating"
-                class="d-flex justify-center"
+                class="d-flex justify-center mt-4"
             >
                 <v-progress-circular
-                    :size="70"
-                    :width="7"
+                    :size="50"
+                    :width="4"
                     color="accent"
                     indeterminate
                 ></v-progress-circular>

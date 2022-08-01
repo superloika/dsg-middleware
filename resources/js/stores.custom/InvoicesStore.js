@@ -65,6 +65,20 @@ const actions = {
             state.selectedInvoices = [];
         }
     },
+
+    async syncTextfiles() {
+        try {
+            const url = `${AppStore.state.siteUrl}invoices/sync-textfiles`;
+            const response = await axios.post(
+                url
+            );
+        } catch (error) {
+            console.log('syncTextfiles() - ERROR:', error);
+        } finally {
+            this.initInvoices();
+            state.selectedInvoices = [];
+        }
+    }
 }
 
 

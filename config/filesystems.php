@@ -43,6 +43,11 @@ return [
 
     'disks' => [
 
+        'dsgm_textfiles' => [
+            'driver' => 'local',
+            'root' => "\\\\SYSDEV-SPRLKA\\Users\\sysdev\\Documents\\KALOY\\SHARED\\DSGM_TEXTFILES",
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),

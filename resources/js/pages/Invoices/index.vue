@@ -51,12 +51,18 @@
                 <v-icon>mdi-refresh</v-icon>
             </v-btn>
 
-            <!-- <v-btn
-            icon
-            title="Export Items"
-        >
-            <v-icon>mdi-export</v-icon>
-        </v-btn> -->
+            <v-btn
+                title="Sync Text Files"
+                icon
+                dense
+                rounded
+                depressed
+                class="mr-2"
+                color="primary"
+                @click="syncTextfiles()"
+            >
+                <v-icon>mdi-file-sync-outline</v-icon>
+            </v-btn>
 
             <template v-slot:extension>
                 <v-app-bar dense elevation="0">
@@ -144,16 +150,15 @@
                         rounded
                         hide-details
                         dense
-                        clearable
                     ></v-select>
                 </v-app-bar>
             </template>
         </v-app-bar>
 
-        <InvoicesUpload
+        <!-- <InvoicesUpload
             :searchKey="searchKey"
             :principalCodeFilter="principalCodeFilter"
-        ></InvoicesUpload>
+        ></InvoicesUpload> -->
 
         <v-data-table
             :items="InvoicesStore.state.invoices.data"
@@ -217,7 +222,7 @@ import { debounce } from "lodash";
 
 export default {
     components: {
-        InvoicesUpload: () => import("./InvoicesUpload.vue")
+        // InvoicesUpload: () => import("./InvoicesUpload.vue")
     },
     data() {
         return {
@@ -275,6 +280,11 @@ export default {
                 this.tblPageRowCount,
                 this.selectedTerminal
             );
+        },
+
+        syncTextfiles() {
+            this.InvoicesStore.syncTextfiles();
+            this.onPageChange();
         }
     },
 
@@ -294,7 +304,6 @@ export default {
 
         principalCodeFilter: debounce(function() {
             if (this.principalCodeFilter == null) this.principalCodeFilter = "";
-
             if (this.InvoicesStore.state.invoices.current_page != undefined) {
                 this.InvoicesStore.state.invoices.current_page = 1;
             }
@@ -302,6 +311,7 @@ export default {
         }, 200),
 
         invoiceStatus: debounce(function() {
+            if (this.invoiceStatus == null) this.invoiceStatus = "";
             if (this.InvoicesStore.state.invoices.current_page != undefined) {
                 this.InvoicesStore.state.invoices.current_page = 1;
             }
@@ -316,6 +326,7 @@ export default {
         }, 200),
 
         selectedTerminal: debounce(function() {
+            if (this.selectedTerminal == null) this.selectedTerminal = "";
             if (this.InvoicesStore.state.invoices.current_page != undefined) {
                 this.InvoicesStore.state.invoices.current_page = 1;
             }
