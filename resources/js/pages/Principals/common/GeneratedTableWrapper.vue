@@ -22,7 +22,7 @@
                         v-for="(data, index) in templatedData.output_template"
                         :key="index" class="px-3 text-caption"
                     >
-                        {{ data[0] }}
+                        <h3>{{ data[0] }}</h3>
                         <v-chip color="warning" x-small class="ml-1 text-captionx px-1"
                             v-if="warningsCount(data[1]) > 0"
                         >

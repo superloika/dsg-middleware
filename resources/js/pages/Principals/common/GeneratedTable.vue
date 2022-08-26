@@ -31,18 +31,30 @@
         disable-sort
     >
         <template v-slot:[`item.customer_code`]="{ item }">
-            <v-chip
+            <v-tooltip
                 v-if="item.customer_notfound==1"
-                color="warning"
-                small
-                outlined
-                title="Unmapped"
+                right
             >
-                <!-- @click="AppStore.copyToClipboard(item.customer_code)" -->
-                <div :id="item.customer_code">
-                    {{ item.customer_code }}
-                </div>
-            </v-chip>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-chip
+                        v-bind="attrs"
+                        v-on="on"
+                        :color="
+                            item.missing_customer_name==
+                                'CUSTOMER_NOT_FOUND'?'error':'warning'
+                        "
+                        small
+                        outlined
+                        title="Unmapped"
+                    >
+                        <!-- @click="AppStore.copyToClipboard(item.customer_code)" -->
+                        <div :id="item.customer_code">
+                            {{ item.customer_code }}
+                        </div>
+                    </v-chip>
+                </template>
+                <span>{{ item.missing_customer_name }}</span>
+            </v-tooltip>
             <span v-else>{{ item.customer_code }}</span>
         </template>
 
@@ -62,17 +74,31 @@
         </template>
 
         <template v-slot:[`item.item_code`]="{ item }">
-            <v-chip
+            <v-tooltip
                 v-if="item.item_notfound==1"
-                color="warning"
-                small
-                outlined
-                title="Unmapped"
+                left
             >
-                <div :id="item.item_code">
-                    {{ item.item_code }}
-                </div>
-            </v-chip>
+                <template
+                    v-slot:activator="{ on, attrs }"
+                >
+                    <v-chip
+                        v-bind="attrs"
+                        v-on="on"
+                        :color="
+                            item.missing_item_name==
+                                'ITEM_NOT_FOUND'?'error':'warning'
+                        "
+                        small
+                        outlined
+                        title="Unmapped"
+                    >
+                        <div :id="item.item_code">
+                            {{ item.item_code }}
+                        </div>
+                    </v-chip>
+                </template>
+                <span>{{ item.missing_item_name }}</span>
+            </v-tooltip>
             <span v-else>{{ item.item_code }}</span>
         </template>
 

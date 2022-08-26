@@ -6,15 +6,17 @@
                 Transactions
             </div>
             <div>
-                <v-chip color="transparent" label
-                    class="px-1 mr-1 primary--text" small>
-                    <em>Total Amount:&nbsp;</em>
-                    {{ AppStore.formatAsCurrency(totalAmount) }}
+                <v-chip color="primary" label x-small>
+                    <h4>
+                        <em>Total Amount:&nbsp;</em>
+                        {{ AppStore.formatAsCurrency(totalAmount) }}
+                    </h4>
                 </v-chip>
-                <v-chip color="transparent" label
-                    class="px-1 mr-1 primary--text" small>
-                    <em>Grand Total:&nbsp;</em>
-                    {{ AppStore.formatAsCurrency(PrincipalsStore.state.invoicesGrandTotal) }}
+                <v-chip color="primary" label x-small>
+                    <h4>
+                        <em>Grand Total:&nbsp;</em>
+                        {{ AppStore.formatAsCurrency(PrincipalsStore.state.invoicesGrandTotal) }}
+                    </h4>
                 </v-chip>
             </div>
         </v-toolbar-title>

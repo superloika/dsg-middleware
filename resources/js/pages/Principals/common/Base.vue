@@ -2,8 +2,9 @@
 <v-sheet>
     <!-- <v-app-bar elevation="0" app color="secondary darken-1" dense> -->
     <v-app-bar elevation="0" app dense>
-        <v-toolbar-title class="primary--text">
+        <v-toolbar-title class="primary--text text-h5">
             <!-- <v-icon>mdi-store</v-icon> -->
+
             {{ principalName }}
         </v-toolbar-title>
 

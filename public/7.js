@@ -39,13 +39,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['customers', 'items', 'salesmen'],
   components: {
     Items: function Items() {
       return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! ./Items.vue */ "./resources/js/pages/Principals/common/Items.vue"));
@@ -61,8 +56,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       masterfiles_tab: null
     };
-  },
-  created: function created() {// this.PrincipalsStore.initCustomers(this.PrincipalsStore.state.selectedPrincipalCode);
   },
   mounted: function mounted() {
     console.log('MasterFiles component mounted');
@@ -92,12 +85,7 @@ var render = function() {
       _c(
         "v-tabs",
         {
-          attrs: {
-            "slider-color": "primary",
-            heightx: "40",
-            grow: "",
-            "background-colorx": "grey lighten-5"
-          },
+          attrs: { grow: "" },
           model: {
             value: _vm.masterfiles_tab,
             callback: function($$v) {
@@ -114,7 +102,7 @@ var render = function() {
               _c("v-icon", { staticClass: "mr-1" }, [
                 _vm._v("mdi-account-multiple")
               ]),
-              _vm._v(" Customers \r\n            ")
+              _vm._v(" Customers \n        ")
             ],
             1
           ),
@@ -124,7 +112,7 @@ var render = function() {
             { attrs: { exact: "" } },
             [
               _c("v-icon", { staticClass: "mr-1" }, [_vm._v("mdi-cube")]),
-              _vm._v(" Items \r\n        ")
+              _vm._v(" Items \n        ")
             ],
             1
           ),
@@ -134,7 +122,7 @@ var render = function() {
             { attrs: { exact: "" } },
             [
               _c("v-icon", { staticClass: "mr-1" }, [_vm._v("mdi-account")]),
-              _vm._v(" Salesmen \r\n        ")
+              _vm._v(" Salesmen \n        ")
             ],
             1
           )

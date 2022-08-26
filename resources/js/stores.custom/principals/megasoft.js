@@ -4,19 +4,16 @@ const state = Vue.observable({
     customersTableHeader: [
         [
             { text: "Customer Code", value: "customer_code" },
+            { text: "Customer Code (Supplier)", value: "customer_code_supplier" },
             { text: "Name", value: "customer_name" },
-            { text: "Address", value: "address" },
-            { text: "Principal Customer Code", value: "customer_code_supplier" },
         ],
     ],
     itemsTableHeader: [
         [
             {text:"Item Code", value:"item_code"},
-            {text:"Description", value:"description"},
-            {text:"Supplier Item Code", value:"item_code_supplier"},
-            {text:"Supplier Item Description", value:"description_supplier"},
+            {text:"Item Code (Supplier)", value:"item_code_supplier"},
+            {text:"Description (Supplier)", value:"description_supplier"},
             {text:"UOM", value:"uom"},
-            {text:"Conversion UOM", value:"conversion_uom"},
             {text:"Conversion Quantity", value:"conversion_qty"},
         ]
     ],
@@ -24,11 +21,21 @@ const state = Vue.observable({
     // templated data table header
     generatedDataTableHeader: [
         [
-            {text:"Docno", value: "doc_no"},
-            {text:"Account Code", value: "customer_code"},
-            {text:"Product Code", value: "item_code"},
-            {text:"Bulk Qty", value: "bulk_qty"},
-            {text:"Loose Qty", value: "loose_qty"},
+            {text:"Invoice #", value: "invoice_no"},
+            {text:"Customer Code", value: "customer_code"},
+            {text:"Customer Name", value: "customer_name"},
+            {text:"Invoice Date (M/D/Y)", value: "invoice_date"},
+            {text:"Item Code (NAV)", value: "alturas_item_code"},
+            {text:"Item Code (Supplier)", value: "item_code"},
+            {text:"Item Name (NAV)", value: "description"},
+            {text:"Item Name (Supplier)", value: "description_supplier"},
+            {text:"Bulk Quantity", value: "bulk_qty"},
+            {text:"Loose Quantity", value: "loose_qty"},
+            {text:"Price", value: "price"},
+            {text:"Amount", value: "amount"},
+            {text:"Base UOM", value: "base_uom"},
+            {text:"Conversion UOM", value: "uom"},
+            {text:"Salesman Name", value: "sm_name"},
         ],
     ],
 
@@ -66,10 +73,24 @@ const state = Vue.observable({
         'status',
         'doc_no',
         // principal template
+        // principal template
+        'invoice_no',
         'customer_code',
+        'alturas_customer_code',
+        'customer_name',
+        'invoice_date',
+        'alturas_item_code',
         'item_code',
+        'description',
+        'description_supplier',
         'bulk_qty',
         'loose_qty',
+        'price',
+        'amount',
+        'base_uom',
+        'uom',
+        'sm_name',
+        'system_date'
     ],
 });
 

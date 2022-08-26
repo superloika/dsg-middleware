@@ -99,14 +99,16 @@ class GspiController extends Controller
                     ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
-                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
+                $fileContentLines
+                    = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
 
                 foreach ($fileContentLines as $fileContentLine) {
                     // Begin on the 3rd line to skip the headers
                     if ($lineCount > 1) {
 
                         // $arrFileContentLine = explode($delimiter, $fileContentLine);
-                        $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+                        $arrFileContentLine =
+                            preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                         if (count($arrFileContentLine) > 1) {
                             $item_code = trim(str_replace('"', '', $arrFileContentLine[0]));
@@ -243,16 +245,17 @@ class GspiController extends Controller
                 foreach ($fileContentLines as $fileContentLine) {
                     // Begin at the second line (exclude the header)
                     if ($lineCount > 1) {
-                        $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+                        $arrFileContentLine
+                            = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                         if (count($arrFileContentLine) > 1) {
-                            // ==========================================================================
+                            // ===================================================================
                             $customer_code = trim(str_replace('"', '', $arrFileContentLine[0]));
                             $customer_name = trim(str_replace('"', '', $arrFileContentLine[1]));
                             $brgy = trim(str_replace('"', '', $arrFileContentLine[2]));
                             $town = trim(str_replace('"', '', $arrFileContentLine[3]));
                             $province = trim(str_replace('"', '', $arrFileContentLine[4]));
-                            // =========================================================================
+                            // ==================================================================
 
                             // $isExisting = array_search(
                             //     $customer_code,
@@ -346,7 +349,8 @@ class GspiController extends Controller
                 foreach ($fileContentLines as $fileContentLine) {
                     // Begin at the second line (exclude the header)
                     if ($lineCount > 1) {
-                        $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+                        $arrFileContentLine
+                            = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                         if (count($arrFileContentLine) > 1) {
                             // ==========================================================================
@@ -451,7 +455,7 @@ class GspiController extends Controller
             $res['line_count'] = $pendingInvoices->count();
             // **************** /PENDING INVOICES ************************************
 
-            // ********************************** TEMPLATES **********************************
+            // ********************************** TEMPLATES **************************
             $pageLineCount = 1;
             $pageNum = 1;
 
@@ -465,20 +469,20 @@ class GspiController extends Controller
 
                 // Loop through each line of the file content
                 foreach ($pendingInvoices as $pendingInvoice) {
-                    // ======================= INIT ================================================
-                    $doc_type = trim($pendingInvoice->doc_type);
-                    $doc_no = trim($pendingInvoice->doc_no);
-                    $customer_code = trim($pendingInvoice->customer_code);
-                    $posting_date = trim($pendingInvoice->posting_date);
-                    $item_code = trim($pendingInvoice->item_code);
-                    $quantity = trim($pendingInvoice->quantity);
-                    $u1 = trim($pendingInvoice->u1); // status
-                    $u2 = trim($pendingInvoice->u2); // price
-                    $u3 = trim($pendingInvoice->u3); // amount
-                    $u4 = trim($pendingInvoice->u4);
-                    $u5 = trim($pendingInvoice->u5); // salesman code diay ni haha
-                    $uom = trim($pendingInvoice->uom);
-                    $terminal = trim($pendingInvoice->terminal);
+                    // ======================= INIT =========================================
+                    $doc_type =         trim($pendingInvoice->doc_type);
+                    $doc_no =           trim($pendingInvoice->doc_no);
+                    $customer_code =    trim($pendingInvoice->customer_code);
+                    $posting_date =     trim($pendingInvoice->posting_date);
+                    $item_code =        trim($pendingInvoice->item_code);
+                    $quantity =         trim($pendingInvoice->quantity);
+                    $u1 =               trim($pendingInvoice->u1); // status
+                    $u2 =               trim($pendingInvoice->u2); // price
+                    $u3 =               trim($pendingInvoice->u3); // amount
+                    $u4 =               trim($pendingInvoice->u4);
+                    $u5 =               trim($pendingInvoice->u5); // salesman code diay ni haha
+                    $uom =              trim($pendingInvoice->uom);
+                    $terminal =         trim($pendingInvoice->terminal);
 
                     $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
                         ->where('principal_code', $this->PRINCIPAL_CODE)
@@ -493,7 +497,9 @@ class GspiController extends Controller
                         ->where('division', $terminal)
                         ->first();
 
+                    // ***************************************************************
                     // ************************* TEMPLATE 1 **************************
+                    // ***************************************************************
                     if ($tvc_index == 0) {
                         $item_notfound = 0;
                         $customer_notfound = 0;
@@ -501,6 +507,7 @@ class GspiController extends Controller
                         $missing_customer_name = '';
                         $missing_item_name = '';
 
+                        // item not in principal's masterfile
                         if ($item == null) {
                             $item_notfound = 1;
                             $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
@@ -509,6 +516,7 @@ class GspiController extends Controller
                         } else {
                         }
 
+                        // customer not in principal's masterfile
                         if ($customer == null) {
                             $customer_notfound = 1;
                             $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
@@ -517,6 +525,7 @@ class GspiController extends Controller
                         } else {
                         }
 
+                        // salesman not in principal's masterfile
                         if ($salesman == null) {
                             $salesman_notfound = 1;
                         }
@@ -527,9 +536,9 @@ class GspiController extends Controller
                         // $currency = "PHP";
                         $salesPrice = $item->conversion_uom_price ?? 0.00;
                         $salesAmount = $quantity * $salesPrice;
-                        // ======================= /INIT ================================================
+                        // ======================= /INIT =========================================
 
-                        // =========== SETTING UP =======================================================
+                        // =========== SETTING UP ================================================
                         // Generated data line structure
                         $arrGenerated = [
                             //commons
@@ -542,7 +551,7 @@ class GspiController extends Controller
                             'customer_notfound' => $customer_notfound,
                             'item_notfound' => $item_notfound,
                             'salesman_notfound' => $salesman_notfound,
-                            // principal specific
+                            // *************** principal specific ***************
                             'invoice_date' => $posting_date,
                             'item_code' => $item_code_supplier,
                             'description_supplier' => $description_supplier,
@@ -603,8 +612,11 @@ class GspiController extends Controller
 
                     }
 
+                    // ***************************************************************
                     // ************************* TEMPLATE 2 **************************
+                    // ***************************************************************
                     // else if ($tvc_index == 1) {
+                        // code for template 2 here...
                     // }
                 }
                 // /Loop through each line of the file content
@@ -619,7 +631,6 @@ class GspiController extends Controller
             // $fileCount++;
 
             return response()->json($res);
-
         } catch (\Throwable $th) {
             $res['success'] = false;
             $res['message'] = $th->getMessage();

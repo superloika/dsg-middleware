@@ -2,28 +2,31 @@
     <div class="">
         <v-card class="elevation-0" color="">
             <v-card-title class="pa-0">
-                <v-app-bar elevation="0" colorx="white">
+                <v-app-bar elevation="0" colorx="white" appx>
                     <v-toolbar-title>
-                        Templated Data
+                        <div>
+                            Templated Data
+                        </div>
                         <div v-if="lineCount > 0">
                             <v-chip
-                                small
-                                outlinedx
+                                x-small
                                 label
-                                color="transparent"
-                                class="px-1 primary--text"
+                                color="primary"
                             >
-                                {{ lineCount }} total line/s
+                                <h4>
+                                    {{ lineCount }} total line/s
+                                </h4>
                             </v-chip>
                             <v-chip
-                                small
-                                outlinedx
+                                x-small
                                 label
-                                color="transparent"
                                 v-if="warningsCount > 0"
-                                class="px-1 warning--text"
+                                color="warning"
                             >
-                                {{ warningsCount }} total warning(s) found. Keep masterfiles updated.
+                                <h4>
+                                    {{ warningsCount }}
+                                    total warning(s) found. Keep masterfiles updated.
+                                </h4>
                             </v-chip>
                         </div>
                     </v-toolbar-title>
@@ -75,6 +78,7 @@
 </template>
 
 <script>
+import PrincipalsStore from '../../../stores.custom/PrincipalsStore';
 
 export default {
     components: {
@@ -90,8 +94,13 @@ export default {
 
 
     computed: {
+        principalsStore() {
+            return PrincipalsStore;
+        },
+
         generatedData() {
-            return this.PrincipalsStore.state.currentGeneratedData;
+            // return this.PrincipalsStore.state.currentGeneratedData;
+            return PrincipalsStore.state.currentGeneratedData;
         },
 
         // overall
@@ -114,7 +123,8 @@ export default {
             if(this.generatedData.length > 0) {
                 this.generatedData[0].output_template.forEach(e => {
                     const nf = e[1].filter(line => {
-                        return line.customer_notfound == 1 || line.item_notfound == 1
+                        return line.customer_notfound == 1
+                            || line.item_notfound == 1
                             || line.salesman_notfound == 1;
                     });
                     count += nf.length;
@@ -124,7 +134,7 @@ export default {
         },
 
         selectedPrincipalCode() {
-            return this.PrincipalsStore.state.selectedPrincipalCode;
+            return PrincipalsStore.state.selectedPrincipalCode;
         },
 
         searchKeyLength() {
@@ -197,7 +207,7 @@ export default {
     },
 
     created() {
-        this.PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
+        PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
     },
 
     mounted() {

@@ -232,13 +232,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Code",
     value: "customer_code"
   }, {
-    text: "Name",
-    value: "customer_name"
-  }, {
-    text: "Address",
-    value: "address"
-  } // { text: "Principal Customer Code", value: "customer_code_supplier" },
-  ]],
+    text: "Salesman Name",
+    value: "salesman_name"
+  }]],
   itemsTableHeader: [[{
     text: "Item Code",
     value: "item_code"
@@ -262,36 +258,52 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "conversion_qty"
   }]],
   // templated data table header
-  generatedDataTableHeader: [[// {text:"Distributor ID", value: "distributor_id"},
-  // {text:"Salesman", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
-  {
-    text: "Docno",
-    value: "doc_no"
-  }, // {text:"Location", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
-  {
-    text: "Ordered Date",
-    value: "order_date"
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
   }, {
-    text: "Request Delivery Date",
-    value: "request_delivery_date"
-  }, // {text:"Payment Term", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
-  {
-    text: "Account Code",
+    text: "Customer Code",
     value: "customer_code"
   }, {
-    text: "Product Code",
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
     value: "item_code"
   }, {
-    text: "Bulk Qty",
+    text: "Item Name (NAV)",
+    value: "description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "Bulk Quantity",
     value: "bulk_qty"
   }, {
-    text: "Loose Qty",
+    text: "Loose Quantity",
     value: "loose_qty"
   }, {
-    text: "System Date",
-    value: "system_date"
-  } // {text:"User", value: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
-  ]],
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Base UOM",
+    value: "base_uom"
+  }, {
+    text: "Conversion UOM",
+    value: "uom"
+  }, {
+    text: "Salesman Name",
+    value: "sm_name"
+  }]],
   // transactions table header
   transactionsTableHeader: [[{
     text: "Upload Date",
@@ -323,18 +335,27 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }]],
   // ***********************************************************************************
   generatedDataHistoryFilters: [[{
-    text: 'Generated Date',
-    value: 'generated_at'
+    text: 'Export Date',
+    value: 'system_date'
+  }, {
+    text: 'Invoice #',
+    value: 'invoice_no'
   }, {
     text: 'Customer Code',
     value: 'customer_code'
   }, {
+    text: 'Customer Name',
+    value: 'customer_name'
+  }, {
     text: 'Item Code',
     value: 'item_code'
+  }, {
+    text: 'Salesman',
+    value: 'sm_name'
   }]],
   generatedDataDBTableColumns: [// common
   'id', 'generated_at', 'uploaded_by', 'doc_no', // principal template
-  'customer_code', 'item_code', 'bulk_qty', 'loose_qty']
+  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'bulk_qty', 'loose_qty', 'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -683,53 +704,74 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Code",
     value: "customer_code"
   }, {
+    text: "Customer Code (Supplier)",
+    value: "customer_code_supplier"
+  }, {
     text: "Name",
     value: "customer_name"
-  }, {
-    text: "Address",
-    value: "address"
-  }, {
-    text: "Principal Customer Code",
-    value: "customer_code_supplier"
   }]],
   itemsTableHeader: [[{
     text: "Item Code",
     value: "item_code"
   }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "Supplier Item Code",
+    text: "Item Code (Supplier)",
     value: "item_code_supplier"
   }, {
-    text: "Supplier Item Description",
+    text: "Description (Supplier)",
     value: "description_supplier"
   }, {
     text: "UOM",
     value: "uom"
-  }, {
-    text: "Conversion UOM",
-    value: "conversion_uom"
   }, {
     text: "Conversion Quantity",
     value: "conversion_qty"
   }]],
   // templated data table header
   generatedDataTableHeader: [[{
-    text: "Docno",
-    value: "doc_no"
+    text: "Invoice #",
+    value: "invoice_no"
   }, {
-    text: "Account Code",
+    text: "Customer Code",
     value: "customer_code"
   }, {
-    text: "Product Code",
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
     value: "item_code"
   }, {
-    text: "Bulk Qty",
+    text: "Item Name (NAV)",
+    value: "description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "Bulk Quantity",
     value: "bulk_qty"
   }, {
-    text: "Loose Qty",
+    text: "Loose Quantity",
     value: "loose_qty"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Base UOM",
+    value: "base_uom"
+  }, {
+    text: "Conversion UOM",
+    value: "uom"
+  }, {
+    text: "Salesman Name",
+    value: "sm_name"
   }]],
   // transactions table header
   transactionsTableHeader: [[{
@@ -773,7 +815,8 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }]],
   generatedDataDBTableColumns: [// common
   'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
-  'customer_code', 'item_code', 'bulk_qty', 'loose_qty']
+  // principal template
+  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'bulk_qty', 'loose_qty', 'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({

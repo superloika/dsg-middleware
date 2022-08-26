@@ -107,6 +107,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['items', 'template_variation_index', 'tab_caption', 'allow_export'],
   computed: {
@@ -227,22 +253,65 @@ var render = function() {
                 return [
                   item.customer_notfound == 1
                     ? _c(
-                        "v-chip",
+                        "v-tooltip",
                         {
-                          attrs: {
-                            color: "warning",
-                            small: "",
-                            outlined: "",
-                            title: "Unmapped"
-                          }
+                          attrs: { right: "" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "activator",
+                                fn: function(ref) {
+                                  var on = ref.on
+                                  var attrs = ref.attrs
+                                  return [
+                                    _c(
+                                      "v-chip",
+                                      _vm._g(
+                                        _vm._b(
+                                          {
+                                            attrs: {
+                                              color:
+                                                item.missing_customer_name ==
+                                                "CUSTOMER_NOT_FOUND"
+                                                  ? "error"
+                                                  : "warning",
+                                              small: "",
+                                              outlined: "",
+                                              title: "Unmapped"
+                                            }
+                                          },
+                                          "v-chip",
+                                          attrs,
+                                          false
+                                        ),
+                                        on
+                                      ),
+                                      [
+                                        _c(
+                                          "div",
+                                          { attrs: { id: item.customer_code } },
+                                          [
+                                            _vm._v(
+                                              "\n                            " +
+                                                _vm._s(item.customer_code) +
+                                                "\n                        "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            true
+                          )
                         },
                         [
-                          _c("div", { attrs: { id: item.customer_code } }, [
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(item.customer_code) +
-                                "\n                "
-                            )
+                          _vm._v(" "),
+                          _c("span", [
+                            _vm._v(_vm._s(item.missing_customer_name))
                           ])
                         ]
                       )
@@ -287,23 +356,64 @@ var render = function() {
                 return [
                   item.item_notfound == 1
                     ? _c(
-                        "v-chip",
+                        "v-tooltip",
                         {
-                          attrs: {
-                            color: "warning",
-                            small: "",
-                            outlined: "",
-                            title: "Unmapped"
-                          }
+                          attrs: { left: "" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "activator",
+                                fn: function(ref) {
+                                  var on = ref.on
+                                  var attrs = ref.attrs
+                                  return [
+                                    _c(
+                                      "v-chip",
+                                      _vm._g(
+                                        _vm._b(
+                                          {
+                                            attrs: {
+                                              color:
+                                                item.missing_item_name ==
+                                                "ITEM_NOT_FOUND"
+                                                  ? "error"
+                                                  : "warning",
+                                              small: "",
+                                              outlined: "",
+                                              title: "Unmapped"
+                                            }
+                                          },
+                                          "v-chip",
+                                          attrs,
+                                          false
+                                        ),
+                                        on
+                                      ),
+                                      [
+                                        _c(
+                                          "div",
+                                          { attrs: { id: item.item_code } },
+                                          [
+                                            _vm._v(
+                                              "\n                            " +
+                                                _vm._s(item.item_code) +
+                                                "\n                        "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            true
+                          )
                         },
                         [
-                          _c("div", { attrs: { id: item.item_code } }, [
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(item.item_code) +
-                                "\n                "
-                            )
-                          ])
+                          _vm._v(" "),
+                          _c("span", [_vm._v(_vm._s(item.missing_item_name))])
                         ]
                       )
                     : _c("span", [_vm._v(_vm._s(item.item_code))])

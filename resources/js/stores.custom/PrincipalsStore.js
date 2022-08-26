@@ -246,9 +246,14 @@ const actions = {
                 "generatedDataTableHeader"
             );
 
+            console.log('XXXXXXXXXXXXXXXXXXXXXXXXXX', config);
+
             // config.forEach(e=>{
             for(let i=0;i<config.length;i++) {
                 // export templated data to Excel
+                console.log('GENDATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+                state.currentGeneratedData[i].output_template
+                );
                 this.exportToExcel(
                     config[i].header,
                     this.generatedDataSubset(
@@ -425,33 +430,37 @@ const actions = {
                 const sheetName = jsonData[i][0].replace(/\//ig,'-');
                 console.log('SHEEEEEEEEEEEET NAME:', sheetName);
                 const lines = jsonData[i][1];
+                console.info(lines);
 
-                // if(sheetName != 'TBD') {
-                if(lines.length > 0) {
-                    let wSheet = XLSX.utils.json_to_sheet(lines, { origin: 'A2', skipHeader: true });
+                if(sheetName != 'Unmapped') {
+                    if(lines.length > 0) {
+                        let wSheet = XLSX.utils.json_to_sheet(
+                            lines, { origin: 'A2', skipHeader: true }
+                        );
 
-                    // if row for total is to be included
-                    if(includeTotals != null && includeTotals.length > 0) {
-                        const LEN_TOTAL = lines.length + 3;
-                        const LASTCOL = alphabet[Object.keys(lines[0]).length-1];
-                        wSheet['!ref'] = `A1:${LASTCOL}${LEN_TOTAL}`;
-                        wSheet[`A${LEN_TOTAL}`] = {t:'s',v:'TOTAL'};
+                        // if row for total is to be included
+                        if(includeTotals != null && includeTotals.length > 0) {
+                            const LEN_TOTAL = lines.length + 3;
+                            const LASTCOL = alphabet[Object.keys(lines[0]).length-1];
+                            wSheet['!ref'] = `A1:${LASTCOL}${LEN_TOTAL}`;
+                            wSheet[`A${LEN_TOTAL}`] = {t:'s',v:'TOTAL'};
 
-                        includeTotals.forEach(e => {
-                            const COL = alphabet[e];
-                            wSheet[`${COL}${LEN_TOTAL}`]
-                                = {t:'n',f:`=SUM(${COL}2:${COL}${LEN_TOTAL-2})`};
-                        });
+                            includeTotals.forEach(e => {
+                                const COL = alphabet[e];
+                                wSheet[`${COL}${LEN_TOTAL}`]
+                                    = {t:'n',f:`=SUM(${COL}2:${COL}${LEN_TOTAL-2})`};
+                            });
+                        }
+
+                        XLSX.utils.sheet_add_aoa(wSheet, [headers]);
+                        XLSX.utils.book_append_sheet(wBook, wSheet, sheetName);
                     }
-
-                    XLSX.utils.sheet_add_aoa(wSheet, [headers]);
-                    XLSX.utils.book_append_sheet(wBook, wSheet, sheetName);
                 }
             }
             XLSX.writeFile(wBook, fileName, { flag: "w+" });
         } catch (error) {
-            console.log('exportToExcel()', error);
-            AppStore.toast(error);
+            console.error('exportToExcel()', error);
+            AppStore.toast(error,null,'error');
         }
     },
 

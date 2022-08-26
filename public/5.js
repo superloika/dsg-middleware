@@ -9,6 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _stores_custom_PrincipalsStore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../stores.custom/PrincipalsStore */ "./resources/js/stores.custom/PrincipalsStore.js");
 //
 //
 //
@@ -85,6 +86,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     GeneratedTableWrapper: function GeneratedTableWrapper() {
@@ -98,8 +103,12 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   computed: {
+    principalsStore: function principalsStore() {
+      return _stores_custom_PrincipalsStore__WEBPACK_IMPORTED_MODULE_0__["default"];
+    },
     generatedData: function generatedData() {
-      return this.PrincipalsStore.state.currentGeneratedData;
+      // return this.PrincipalsStore.state.currentGeneratedData;
+      return _stores_custom_PrincipalsStore__WEBPACK_IMPORTED_MODULE_0__["default"].state.currentGeneratedData;
     },
     // overall
     lineCount: function lineCount() {
@@ -131,7 +140,7 @@ __webpack_require__.r(__webpack_exports__);
       return count;
     },
     selectedPrincipalCode: function selectedPrincipalCode() {
-      return this.PrincipalsStore.state.selectedPrincipalCode;
+      return _stores_custom_PrincipalsStore__WEBPACK_IMPORTED_MODULE_0__["default"].state.selectedPrincipalCode;
     },
     searchKeyLength: function searchKeyLength() {
       try {
@@ -203,7 +212,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
+    _stores_custom_PrincipalsStore__WEBPACK_IMPORTED_MODULE_0__["default"].initCurrentGeneratedData(this.selectedPrincipalCode);
   },
   mounted: function mounted() {
     console.log("Generated component mounted");
@@ -241,12 +250,15 @@ var render = function() {
             [
               _c(
                 "v-app-bar",
-                { attrs: { elevation: "0", colorx: "white" } },
+                { attrs: { elevation: "0", colorx: "white", appx: "" } },
                 [
                   _c("v-toolbar-title", [
-                    _vm._v(
-                      "\n                    Templated Data\n                    "
-                    ),
+                    _c("div", [
+                      _vm._v(
+                        "\n                        Templated Data\n                    "
+                      )
+                    ]),
+                    _vm._v(" "),
                     _vm.lineCount > 0
                       ? _c(
                           "div",
@@ -254,20 +266,20 @@ var render = function() {
                             _c(
                               "v-chip",
                               {
-                                staticClass: "px-1 primary--text",
                                 attrs: {
-                                  small: "",
-                                  outlinedx: "",
+                                  "x-small": "",
                                   label: "",
-                                  color: "transparent"
+                                  color: "primary"
                                 }
                               },
                               [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(_vm.lineCount) +
-                                    " total line/s\n                        "
-                                )
+                                _c("h4", [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(_vm.lineCount) +
+                                      " total line/s\n                            "
+                                  )
+                                ])
                               ]
                             ),
                             _vm._v(" "),
@@ -275,20 +287,20 @@ var render = function() {
                               ? _c(
                                   "v-chip",
                                   {
-                                    staticClass: "px-1 warning--text",
                                     attrs: {
-                                      small: "",
-                                      outlinedx: "",
+                                      "x-small": "",
                                       label: "",
-                                      color: "transparent"
+                                      color: "warning"
                                     }
                                   },
                                   [
-                                    _vm._v(
-                                      "\n                            " +
-                                        _vm._s(_vm.warningsCount) +
-                                        " total warning(s) found. Keep masterfiles updated.\n                        "
-                                    )
+                                    _c("h4", [
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(_vm.warningsCount) +
+                                          "\n                                total warning(s) found. Keep masterfiles updated.\n                            "
+                                      )
+                                    ])
                                   ]
                                 )
                               : _vm._e()

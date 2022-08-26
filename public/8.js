@@ -136,7 +136,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\ndiv[data-v-61458e21] {\r\n    color: #eeeeee;\n}\r\n", ""]);
+exports.push([module.i, "\ndiv[data-v-61458e21] {\n    color: #eeeeee;\n}\n", ""]);
 
 // exports
 
@@ -205,9 +205,7 @@ var render = function() {
         },
         _vm._l(_vm.generatedData, function(templatedData, index) {
           return _c("v-tab", { key: index, staticClass: "px-3 text-caption" }, [
-            _vm._v(
-              "\r\n            " + _vm._s(templatedData.name) + "\r\n        "
-            )
+            _vm._v("\n            " + _vm._s(templatedData.name) + "\n        ")
           ])
         }),
         1
@@ -255,11 +253,8 @@ var render = function() {
                         "v-tab",
                         { key: index, staticClass: "px-3 text-caption" },
                         [
-                          _vm._v(
-                            "\r\n                        " +
-                              _vm._s(data[0]) +
-                              "\r\n                        "
-                          ),
+                          _c("h3", [_vm._v(_vm._s(data[0]))]),
+                          _vm._v(" "),
                           _vm.warningsCount(data[1]) > 0
                             ? _c(
                                 "v-chip",
@@ -269,9 +264,9 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\r\n                            " +
+                                    "\n                            " +
                                       _vm._s(_vm.warningsCount(data[1])) +
-                                      "\r\n                        "
+                                      "\n                        "
                                   )
                                 ]
                               )

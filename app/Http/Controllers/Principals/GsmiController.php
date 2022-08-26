@@ -35,30 +35,38 @@ class GsmiController extends Controller
     function items()
     {
         set_time_limit(0);
-        $cols = [
-            'id',
-            'principal_code',
-            'upload_date',
-            'item_code',
-            'description',
-            'item_code_supplier',
-            'description_supplier',
-            'uom',
-            'conversion_uom',
-            'conversion_qty',
-        ];
+
+        $row_count = request()->row_count ?? 10;
+        $search_key = request()->search_key ?? '';
+
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-            ->leftJoin(
-                PrincipalsUtil::$TBL_GENERAL_ITEMS,
-                PrincipalsUtil::$TBL_GENERAL_ITEMS . '.item_code',
-                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS . '.item_code'
-            )
-            ->select(
-                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS . '.*',
-                PrincipalsUtil::$TBL_GENERAL_ITEMS . '.description'
-            )
             ->where('principal_code', $this->PRINCIPAL_CODE)
-            ->get($cols);
+
+            ->where(function($q) use ($search_key) {
+                $q->where(
+                    PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.item_code',
+                    'like',
+                    '%'. $search_key. '%'
+                )
+                ->orWhere(
+                    PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.item_code_supplier',
+                    'like',
+                    '%'. $search_key. '%'
+                )
+                ->orWhere(
+                    PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.description',
+                    'like',
+                    '%'. $search_key. '%'
+                )
+                ->orWhere(
+                    PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.description_supplier',
+                    'like',
+                    '%'. $search_key. '%'
+                )
+                ;
+            })
+
+            ->paginate($row_count);
 
         return response()->json($result);
     }
@@ -71,10 +79,6 @@ class GsmiController extends Controller
         set_time_limit(0);
 
         try {
-            // $fileName = $request->file->getClientOriginalName()
-            //     . '-' . time() . '.' . $request->file->getClientOriginalExtension();
-            // $request->file->storeAs('public/test_files', $fileName);
-
             $delimiter = ',';
             $fileName = time() . '.' . $request->file->getClientOriginalName();
             $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/items";
@@ -95,27 +99,36 @@ class GsmiController extends Controller
                     ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
-                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
+                $fileContentLines =
+                    explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
 
                 foreach ($fileContentLines as $fileContentLine) {
                     // Begin on the second line to skip the headers
                     if ($lineCount > 1) {
 
                         // $arrFileContentLine = explode($delimiter, $fileContentLine);
-                        $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+                        $arrFileContentLine =
+                            preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                         if (count($arrFileContentLine) > 1) {
-                            $item_code = trim(str_replace('"', '', $arrFileContentLine[0]));
-                            // $item_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
-                            $item_code_supplier = trim(str_replace('"', '', $arrFileContentLine[2]));
-                            $description_supplier = trim(str_replace('"', '', $arrFileContentLine[3]));
-                            $uom = trim(str_replace('"', '', $arrFileContentLine[4]));
-                            $conversion_qty = trim(str_replace('"', '', $arrFileContentLine[5]));
+                            $item_code =
+                                trim(str_replace('"', '', $arrFileContentLine[0]));
+                            $description =
+                                trim(str_replace('"', '', $arrFileContentLine[1]));
+                            $item_code_supplier =
+                                trim(str_replace('"', '', $arrFileContentLine[2]));
+                            $description_supplier =
+                                trim(str_replace('"', '', $arrFileContentLine[3]));
+                            $uom =
+                                trim(str_replace('"', '', $arrFileContentLine[4]));
+                            $conversion_qty =
+                                trim(str_replace('"', '', $arrFileContentLine[5]));
                             $conversion_uom = 'PCS';
 
                             $arrLines[] = [
                                 'principal_code' => $this->PRINCIPAL_CODE,
                                 'uploaded_by' => auth()->user()->id,
+                                'description' => $description,
                                 'item_code' => $item_code,
                                 'item_code_supplier' => $item_code_supplier,
                                 'description_supplier' => $description_supplier,
@@ -157,30 +170,26 @@ class GsmiController extends Controller
     function customers()
     {
         set_time_limit(0);
+        $row_count = request()->row_count ?? 10;
+        $search_key = request()->search_key ?? '';
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-            ->leftJoin(
-                PrincipalsUtil::$TBL_GENERAL_CUSTOMERS,
-                PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.customer_code',
-                '=',
-                PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.customer_code'
-            )
-            ->select(
-                PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.*',
-                PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.name AS customer_name',
-                PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.address',
-                PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.address_2',
-                PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.city',
-            )
-            ->where(
-                PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.principal_code',
-                $this->PRINCIPAL_CODE
-            )
-            ->get();
+            ->where('principal_code', $this->PRINCIPAL_CODE)
 
-        // $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-        //     ->get();
+            ->where(function($q) use ($search_key) {
+                $q->where(
+                    PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.customer_code',
+                    'like',
+                    '%'. $search_key. '%'
+                )->orWhere(
+                    PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.salesman_name',
+                    'like',
+                    '%'. $search_key. '%'
+                )
+                ;
+            })
+
+            ->paginate($row_count);
 
         return response()->json($result);
     }
@@ -221,7 +230,10 @@ class GsmiController extends Controller
 
                         if (count($arrFileContentLine) > 1) {
                             // ==========================================================================
-                            $customer_code = trim(str_replace('"', '', $arrFileContentLine[0]));
+                            $customer_code =
+                                trim(str_replace('"', '', $arrFileContentLine[0]));
+                            $salesman_name =
+                                trim(str_replace('"', '', $arrFileContentLine[1]));
                             // =========================================================================
 
                             // $isExisting = array_search(
@@ -233,6 +245,7 @@ class GsmiController extends Controller
                                 $arrLines[] = [
                                     'principal_code' => $this->PRINCIPAL_CODE,
                                     'customer_code' => $customer_code,
+                                    'salesman_name' => $salesman_name,
                                     'uploaded_by' => auth()->user()->id
                                 ];
                             }
@@ -290,7 +303,7 @@ class GsmiController extends Controller
             $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
             $breakFilesIteration = false;
 
-            // **************** PENDING INVOICES ************************************
+            // **************** PENDING INVOICES **************************
             $pendingInvoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
                 ->leftJoin(
                     PrincipalsUtil::$TBL_GENERAL_ITEMS,
@@ -314,10 +327,10 @@ class GsmiController extends Controller
                 ->get();
 
             $res['line_count'] = $pendingInvoices->count();
-            // **************** /PENDING INVOICES ************************************
+            // **************** /PENDING INVOICES **************************
 
 
-            // ********************************** TEMPLATE(S) **********************************
+            // **************************** TEMPLATE(S) ****************************
             $pageLineCount = 1;
             $pageNum = 1;
             for ($tvc_index = 0; $tvc_index < $template_variation_count; $tvc_index++) {
@@ -328,7 +341,7 @@ class GsmiController extends Controller
 
                 // Loop through each line of the file content
                 foreach ($pendingInvoices as $pendingInvoice) {
-                    // ======================= INIT =========================================
+                    // ======================= INIT ===============================
                     $doc_type = trim($pendingInvoice->doc_type);
                     $doc_no = trim($pendingInvoice->doc_no);
                     $customer_code = trim($pendingInvoice->customer_code);
@@ -343,9 +356,25 @@ class GsmiController extends Controller
                     $uom = trim($pendingInvoice->uom);
 
                     $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
-                        ->where('customer_code', $customer_code)
+                        ->select([
+                            PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.name AS customer_name_general',
+                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.*'
+                        ])
+                        ->join(
+                            PrincipalsUtil::$TBL_GENERAL_CUSTOMERS,
+                            PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.customer_code',
+                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.customer_code',
+                        )
+                        ->where(
+                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.principal_code',
+                            $this->PRINCIPAL_CODE
+                        )
+                        ->where(
+                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.customer_code',
+                            $customer_code
+                        )
                         ->first();
+
                     $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                         ->where('principal_code', $this->PRINCIPAL_CODE)
                         ->where('item_code', $item_code)
@@ -361,6 +390,7 @@ class GsmiController extends Controller
                         $loose_qty = $mod;
                     }
 
+
                     // ******************** TEMPLATE 1 **************************
                     if ($tvc_index == 0) {
                         $item_notfound = 0;
@@ -372,7 +402,7 @@ class GsmiController extends Controller
                             $item_notfound = 1;
                             $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
                                 ->where('item_code', $item_code)
-                                ->first()->description ?? '[ Not Found ]';
+                                ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
                         } else {
                         }
 
@@ -380,7 +410,7 @@ class GsmiController extends Controller
                             $customer_notfound = 1;
                             $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
                                 ->where('customer_code', $customer_code)
-                                ->first()->name ?? '[ Not Found ]';
+                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         } else {
                         }
 
@@ -388,8 +418,6 @@ class GsmiController extends Controller
 
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
                         $customer_code_supplier = $item->customer_code_supplier ?? $customer_code;
-
-                        $distributor_id = $settings['distributor_id'] ?? 'N/A';
                         // ======================= /INIT ===========================================
 
                         // =========== SETTING UP ==================================================
@@ -397,6 +425,7 @@ class GsmiController extends Controller
                         $arrGenerated = [
                             //commons
                             'customer_code' => $customer_code_supplier,
+                            'alturas_customer_code' => $customer_code,
                             'item_code' => $item_code_supplier,
                             'alturas_item_code' => $item_code,
                             'doc_no' => $doc_no,
@@ -404,13 +433,24 @@ class GsmiController extends Controller
                             'missing_item_name' => $missing_item_name,
                             'customer_notfound' => $customer_notfound,
                             'item_notfound' => $item_notfound,
+                            'salesman_notfound' => 0,
                             // principal specific
-                            'order_date' => $order_date,
-                            'system_date' => $dateToday->format('m/d/Y'),
-                            'request_delivery_date' => $dateToday->format('m/d/Y'),
-                            'distributor_id' => $distributor_id,
+                            'invoice_no' => $doc_no,
+                            'invoice_date' => $posting_date,
+                            'quantity' => $quantity,
                             'bulk_qty' => $bulk_qty,
                             'loose_qty' => $loose_qty,
+                            // 'status' => $u1, // invoice status
+                            'price' => $u2, // price
+                            'amount' => $u3, // amount
+                            // 'sm_code' => $u5, // salesman code
+                            'uom' => $uom,
+                            'base_uom' => $item->uom ?? 'N/A',
+                            'description' => $item->description ?? 'N/A',
+                            'description_supplier' => $item->description_supplier ?? 'N/A',
+                            'customer_name' => $customer->customer_name_general ?? 'N/A',
+                            'sm_name' => $customer->salesman_name ?? 'N/A',
+                            'system_date' => $dateToday->format('Y-m-d')
                         ];
 
                         if ($chunk_line_count > 0) {
@@ -431,15 +471,32 @@ class GsmiController extends Controller
                             }
                         } else {
                             // group output_template_variations
-                            if (
-                                !isset($res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')])
-                            ) {
-                                $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')] = [];
+                            if($item_notfound==1 || $customer_notfound==1) {
+                                // ---------------------------------------------------------------------------
+                                if (
+                                    !isset($res['output_template_variations'][$tvc_index]['output_template']['Unmapped'])
+                                ) {
+                                    $res['output_template_variations'][$tvc_index]['output_template']['Unmapped'] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations'][$tvc_index]['output_template']['Unmapped'],
+                                    $arrGenerated
+                                );
+                                // ---------------------------------------------------------------------------
+                            } else {
+                                // ---------------------------------------------------------------------------
+                                if (
+                                    !isset($res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')])
+                                ) {
+                                    $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')],
+                                    $arrGenerated
+                                );
+                                // ---------------------------------------------------------------------------
                             }
-                            array_push(
-                                $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')],
-                                $arrGenerated
-                            );
+
                         }
                         // =========== /SETTING UP =======================================================
 
@@ -499,18 +556,32 @@ class GsmiController extends Controller
                         if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
                             $status = PrincipalsUtil::$STATUS_COMPLETED;
                             DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
-                                // common
+                                // common ***********************************************
                                 'principal_code' => $this->PRINCIPAL_CODE,
                                 'template_variation' => $template_variation,
                                 'generated_at' => $dateToday,
                                 'uploaded_by' => auth()->user()->id,
-                                'status' => $status,
+                                // 'status' => $status,
                                 'doc_no' => $line['doc_no'],
-                                // principal specific
+                                // principal specific ***********************************
+                                'invoice_no' => $line['invoice_no'],
                                 'customer_code' => $line['customer_code'],
+                                'alturas_customer_code' => $line['alturas_customer_code'],
+                                'customer_name' => $line['customer_name'],
+                                'sm_name' => $line['sm_name'],
+                                'invoice_date' => $line['invoice_date'],
+                                'alturas_item_code' => $line['alturas_item_code'],
                                 'item_code' => $line['item_code'],
+                                'description' => $line['description'],
+                                'description_supplier' => $line['description_supplier'],
                                 'bulk_qty' => $line['bulk_qty'],
                                 'loose_qty' => $line['loose_qty'],
+                                'price' => $line['price'],
+                                'amount' => $line['amount'],
+                                'base_uom' => $line['base_uom'],
+                                'uom' => $line['uom'],
+                                'sm_name' => $line['sm_name'],
+                                'system_date' => $line['system_date'],
                             ]);
                         }
                     }

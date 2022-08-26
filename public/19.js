@@ -9,6 +9,8 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _stores_custom_PrincipalsStore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../stores.custom/PrincipalsStore */ "./resources/js/stores.custom/PrincipalsStore.js");
+/* harmony import */ var _stores_custom_AppStore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../stores.custom/AppStore */ "./resources/js/stores.custom/AppStore.js");
 //
 //
 //
@@ -162,10 +164,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['lineCount', 'warningsCount'],
   components: {
@@ -186,14 +186,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     generatedData: function generatedData() {
-      return this.PrincipalsStore.state.currentGeneratedData;
+      return _stores_custom_PrincipalsStore__WEBPACK_IMPORTED_MODULE_0__["default"].state.currentGeneratedData;
     },
     selectedPrincipalCode: function selectedPrincipalCode() {
-      return this.PrincipalsStore.state.selectedPrincipalCode;
+      return _stores_custom_PrincipalsStore__WEBPACK_IMPORTED_MODULE_0__["default"].state.selectedPrincipalCode;
     },
     searchKeyLength: function searchKeyLength() {
       try {
-        return this.PrincipalsStore.state.currentGeneratedDataSearchKey.length;
+        return _stores_custom_PrincipalsStore__WEBPACK_IMPORTED_MODULE_0__["default"].state.currentGeneratedDataSearchKey.length;
       } catch (error) {
         return 0;
       }
@@ -257,8 +257,9 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     refresh: function refresh() {
-      this.PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
-      this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
+      _stores_custom_PrincipalsStore__WEBPACK_IMPORTED_MODULE_0__["default"].initCurrentGeneratedData(this.selectedPrincipalCode);
+      _stores_custom_PrincipalsStore__WEBPACK_IMPORTED_MODULE_0__["default"].state.currentGeneratedDataSearchKey = '';
+      _stores_custom_AppStore__WEBPACK_IMPORTED_MODULE_1__["default"].toast('Refreshed', 1000, 'success');
     }
   },
   mounted: function mounted() {
@@ -290,6 +291,27 @@ var render = function() {
         "v-app-bar",
         { attrs: { elevation: "0" } },
         [
+          _c(
+            "v-btn",
+            {
+              staticClass: "mr-2",
+              attrs: {
+                title: "Refresh",
+                icon: "",
+                dense: "",
+                rounded: "",
+                depressed: ""
+              },
+              on: {
+                click: function($event) {
+                  return _vm.refresh()
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-refresh")])],
+            1
+          ),
+          _vm._v(" "),
           _c("v-text-field", {
             staticClass: "mr-3",
             staticStyle: { "max-width": "200px" },
@@ -321,34 +343,10 @@ var render = function() {
           _c(
             "v-btn",
             {
-              staticClass: "mr-2",
-              attrs: {
-                title: "Refresh",
-                icon: "",
-                dense: "",
-                rounded: "",
-                depressed: ""
-              },
-              on: {
-                click: function($event) {
-                  return _vm.refresh()
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-refresh")])],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
               attrs: {
                 title: "Export to Excel",
-                iconx: "",
                 dense: "",
                 rounded: "",
-                outlinedx: "",
-                depressed: "",
                 color: "primary",
                 disabled:
                   _vm.lineCount < 1 ||

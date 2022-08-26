@@ -1,6 +1,18 @@
 <template>
 <div>
     <v-app-bar elevation="0">
+        <!-- refresh -->
+        <v-btn
+            title="Refresh"
+            icon
+            dense
+            rounded
+            depressed
+            class="mr-2"
+            @click="refresh()"
+        >
+            <v-icon>mdi-refresh</v-icon>
+        </v-btn>
 
         <!-- search -->
         <v-text-field
@@ -19,19 +31,6 @@
                 PrincipalsStore.state.currentGeneratedData.length < 1
             "
         ></v-text-field>
-
-        <!-- refresh -->
-        <v-btn
-            title="Refresh"
-            icon
-            dense
-            rounded
-            depressed
-            class="mr-2"
-            @click="refresh()"
-        >
-            <v-icon>mdi-refresh</v-icon>
-        </v-btn>
 
         <!-- ********************* UNMAPPED SHITS ************************* -->
         <!-- UNMAPPED CUSTOMERS -->
@@ -117,11 +116,8 @@
         <!-- ********************* EXPORT ************************ -->
         <v-btn
             title="Export to Excel"
-            iconx
             dense
             rounded
-            outlinedx
-            depressed
             color="primary"
             @click.stop="
                 PrincipalsStore.state.confirmExportDialogOpen = true
@@ -156,6 +152,9 @@
 </template>
 
 <script>
+import PrincipalsStore from '../../../stores.custom/PrincipalsStore';
+import AppStore from '../../../stores.custom/AppStore';
+
 export default {
     props: ['lineCount','warningsCount'],
 
@@ -175,16 +174,16 @@ export default {
 
     computed: {
         generatedData() {
-            return this.PrincipalsStore.state.currentGeneratedData;
+            return PrincipalsStore.state.currentGeneratedData;
         },
 
         selectedPrincipalCode() {
-            return this.PrincipalsStore.state.selectedPrincipalCode;
+            return PrincipalsStore.state.selectedPrincipalCode;
         },
 
         searchKeyLength() {
             try {
-                return this.PrincipalsStore.state.currentGeneratedDataSearchKey.length;
+                return PrincipalsStore.state.currentGeneratedDataSearchKey.length;
             } catch (error) {
                 return 0;
             }
@@ -251,8 +250,9 @@ export default {
         },
 
         refresh() {
-            this.PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
-            this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
+            PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
+            PrincipalsStore.state.currentGeneratedDataSearchKey = '';
+            AppStore.toast('Refreshed', 1000, 'success');
         },
     },
 

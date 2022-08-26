@@ -1,10 +1,7 @@
 <template>
-    <v-card
-        outlinedx
-        class="elevation-0"
-    >
+    <v-card class="elevation-0">
         <v-card-title class="pa-0 mb-2">
-            <v-app-bar elevation="0" colorx="white">
+            <v-app-bar elevation="0">
                 <v-toolbar-title>
                     <div>
                         Customers

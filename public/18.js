@@ -109,9 +109,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -188,7 +185,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { staticClass: "elevation-0", attrs: { outlinedx: "" } },
+    { staticClass: "elevation-0" },
     [
       _c(
         "v-card-title",
@@ -196,7 +193,7 @@ var render = function() {
         [
           _c(
             "v-app-bar",
-            { attrs: { elevation: "0", colorx: "white" } },
+            { attrs: { elevation: "0" } },
             [
               _c("v-toolbar-title", [
                 _c("div", [

@@ -128,18 +128,18 @@ class InvoicesController extends Controller
                                     && $cols[0][0] != '#'
                                     && trim(str_replace('"','',$cols[0])) != 'Credit Memo'
                                 ) {
-                                    $doc_type = trim(str_replace('"','',$cols[0]));
-                                    $doc_no = trim(str_replace('"','',$cols[1]));
-                                    $customer_code = trim(str_replace('"','',$cols[2]));
-                                    $posting_date = trim(str_replace('"','',$cols[3]));
-                                    $item_code = trim(str_replace('"','',$cols[4]));
-                                    $quantity = trim(str_replace('"','',$cols[5]));
-                                    $u1 = trim(str_replace('"','',$cols[6]));
-                                    $u2 = trim(str_replace('"','',$cols[7]));
-                                    $u3 = trim(str_replace('"','',$cols[8]));
-                                    $u4 = trim(str_replace('"','',$cols[9]));
-                                    $u5 = trim(str_replace('"','',$cols[10]));
-                                    $uom = trim(str_replace('"','',$cols[11]));
+                                    $doc_type =         trim(str_replace('"','',$cols[0]));
+                                    $doc_no =           trim(str_replace('"','',$cols[1]));
+                                    $customer_code =    trim(str_replace('"','',$cols[2]));
+                                    $posting_date =     trim(str_replace('"','',$cols[3]));
+                                    $item_code =        trim(str_replace('"','',$cols[4]));
+                                    $quantity =         trim(str_replace('"','',$cols[5]));
+                                    $u1 =               trim(str_replace('"','',$cols[6]));
+                                    $u2 =               trim(str_replace('"','',$cols[7]));
+                                    $u3 =               trim(str_replace('"','',$cols[8]));
+                                    $u4 =               trim(str_replace('"','',$cols[9]));
+                                    $u5 =               trim(str_replace('"','',$cols[10]));
+                                    $uom =              trim(str_replace('"','',$cols[11]));
 
                                     if(
                                         DB::table(PrincipalsUtil::$TBL_INVOICES)

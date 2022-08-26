@@ -30,25 +30,35 @@
             </v-text-field>
         </div>
         <div class="pb-6">
-            <v-list-item
+            <v-tooltip
+                right
                 v-for="(principal, i) in filteredPrincipals"
                 :key="i"
-                link
-                :to="'/principals/' + principal.id"
-                color="primary"
-                :title="principal.name"
             >
-                <!-- <v-list-item-icon>
-                    <v-icon>mdi-store</v-icon>
-                </v-list-item-icon> -->
-                <v-list-item-content class="pl-8">
-                    <v-list-item-title
-                        :class="principal.proj_status==1 ? '':''"
-                    >{{
-                        principal.name
-                    }}</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-list-item
+                        link
+                        :to="'/principals/' + principal.id"
+                        color="primary"
+                        :title="principal.name"
+                        v-bind="attrs"
+                        v-on="on"
+                    >
+                        <!-- <v-list-item-icon>
+                            <v-icon>mdi-store</v-icon>
+                        </v-list-item-icon> -->
+                        <v-list-item-content class="pl-8">
+                            <v-list-item-title
+                                :class="principal.proj_status==1 ? '':''"
+                            >
+                                {{ principal.name }}
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </template>
+                <span>{{ principal.name }}</span>
+            </v-tooltip>
+
         </div>
     </div>
 </v-list-group>

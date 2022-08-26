@@ -166,6 +166,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -365,37 +367,37 @@ var render = function() {
               [
                 _c(
                   "v-chip",
-                  {
-                    staticClass: "px-1 mr-1 primary--text",
-                    attrs: { color: "transparent", label: "", small: "" }
-                  },
+                  { attrs: { color: "primary", label: "", "x-small": "" } },
                   [
-                    _c("em", [_vm._v("Total Amount: ")]),
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(_vm.AppStore.formatAsCurrency(_vm.totalAmount)) +
-                        "\n                "
-                    )
+                    _c("h4", [
+                      _c("em", [_vm._v("Total Amount: ")]),
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(
+                            _vm.AppStore.formatAsCurrency(_vm.totalAmount)
+                          ) +
+                          "\n                    "
+                      )
+                    ])
                   ]
                 ),
                 _vm._v(" "),
                 _c(
                   "v-chip",
-                  {
-                    staticClass: "px-1 mr-1 primary--text",
-                    attrs: { color: "transparent", label: "", small: "" }
-                  },
+                  { attrs: { color: "primary", label: "", "x-small": "" } },
                   [
-                    _c("em", [_vm._v("Grand Total: ")]),
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(
-                          _vm.AppStore.formatAsCurrency(
-                            _vm.PrincipalsStore.state.invoicesGrandTotal
-                          )
-                        ) +
-                        "\n                "
-                    )
+                    _c("h4", [
+                      _c("em", [_vm._v("Grand Total: ")]),
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(
+                            _vm.AppStore.formatAsCurrency(
+                              _vm.PrincipalsStore.state.invoicesGrandTotal
+                            )
+                          ) +
+                          "\n                    "
+                      )
+                    ])
                   ]
                 )
               ],

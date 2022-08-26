@@ -26,6 +26,9 @@ class PrincipalsUtil extends Controller
 
     public static $TBL_PRINCIPALS = 'principals';
 
+    public static $ITEM_NOT_FOUND = 'ITEM_NOT_FOUND';
+    public static $CUSTOMER_NOT_FOUND = 'CUSTOMER_NOT_FOUND';
+
     /**
      * Create a new controller instance.
      *

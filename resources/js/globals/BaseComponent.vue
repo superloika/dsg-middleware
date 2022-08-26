@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-system-bar app
-            height="40"
+            height="30"
             dark
             color="primary"
         >
@@ -11,14 +11,14 @@
             >&#9776;</v-btn>
 
             <v-toolbar-title class="ml-1">
-                <span class="text-h6">
+                <!-- <span class="text-h6"> -->
                     {{ AppStore.state.AppName }}
-                </span>
+                <!-- </span> -->
             </v-toolbar-title>
 
             <v-spacer></v-spacer>
 
-            <span class="text-caption mr-3 overflow-auto">
+            <span class="text-caption white--text mr-3 overflow-auto">
                 Howdy, {{ AuthUser.name }}!
             </span>
 

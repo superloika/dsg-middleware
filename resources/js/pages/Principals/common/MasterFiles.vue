@@ -2,16 +2,10 @@
 <v-sheet>
     <v-tabs
         v-model="masterfiles_tab"
-        slider-color = "primary"
-        heightx="40"
         grow
-        background-colorx="grey lighten-5"
     >
         <v-tab exact>
             <v-icon class="mr-1">mdi-account-multiple</v-icon> Customers&nbsp;
-            <!-- <v-chip color="primary" x-small>
-                {{ PrincipalsStore.state.customers.length }}
-            </v-chip> -->
         </v-tab>
         <v-tab exact>
             <v-icon class="mr-1">mdi-cube</v-icon> Items&nbsp;
@@ -36,6 +30,7 @@
 
 <script>
 export default {
+    props: ['customers','items','salesmen'],
     components: {
         Items: () => import("./Items.vue"),
         Customers: () => import("./Customers.vue"),
@@ -45,10 +40,6 @@ export default {
     data: () => ({
         masterfiles_tab: null,
     }),
-
-    created() {
-        // this.PrincipalsStore.initCustomers(this.PrincipalsStore.state.selectedPrincipalCode);
-    },
 
     mounted() {
         console.log('MasterFiles component mounted');

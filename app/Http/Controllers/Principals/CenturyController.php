@@ -520,17 +520,19 @@ class CenturyController extends Controller
 
                         if ($item == null) {
                             $item_notfound = 1;
-                            $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                            $missing_item_name =
+                                DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
                                 ->where('item_code', $item_code)
-                                ->first()->description ?? '[ Not Found ]';
+                                ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
                         } else {
                         }
 
                         if ($customer == null) {
                             $customer_notfound = 1;
-                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            $missing_customer_name =
+                                DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
                                 ->where('customer_code', $customer_code)
-                                ->first()->name ?? '[ Not Found ]';
+                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         } else {
                         }
 
@@ -540,8 +542,10 @@ class CenturyController extends Controller
 
                         $order_date = $dateToday->format('m/d/Y');
 
-                        $item_code_supplier = $item->item_code_supplier ?? $item_code;
-                        $customer_code_supplier = $customer->customer_code_supplier ?? $customer_code;
+                        $item_code_supplier =
+                            $item->item_code_supplier ?? $item_code;
+                        $customer_code_supplier =
+                            $customer->customer_code_supplier ?? $customer_code;
 
                         $distributor_id = $settings['distributor_id'] ?? 'N/A';
                         $location = $settings['location'] ?? 'N/A';
@@ -598,18 +602,33 @@ class CenturyController extends Controller
                             }
                         } else {
                             // group output_template_variations
-                            if (
-                                !isset($res['output_template_variations']
-                                    [$tvc_index]['output_template'][$order_date])
-                            ) {
-                                $res['output_template_variations']
-                                    [$tvc_index]['output_template'][$order_date] = [];
+                            if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
+                                if (
+                                    !isset($res['output_template_variations']
+                                        [$tvc_index]['output_template']['Unmapped'])
+                                ) {
+                                    $res['output_template_variations']
+                                        [$tvc_index]['output_template']['Unmapped'] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations']
+                                        [$tvc_index]['output_template']['Unmapped'],
+                                    $arrGenerated
+                                );
+                            } else {
+                                if (
+                                    !isset($res['output_template_variations']
+                                        [$tvc_index]['output_template'][$order_date])
+                                ) {
+                                    $res['output_template_variations']
+                                        [$tvc_index]['output_template'][$order_date] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations']
+                                        [$tvc_index]['output_template'][$order_date],
+                                    $arrGenerated
+                                );
                             }
-                            array_push(
-                                $res['output_template_variations']
-                                    [$tvc_index]['output_template'][$order_date],
-                                $arrGenerated
-                            );
                         }
                         // =========== /SETTING UP =======================================================
 
@@ -624,7 +643,8 @@ class CenturyController extends Controller
 
                         if ($item == null) {
                             $item_notfound = 1;
-                            $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                            $missing_item_name =
+                                DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
                                 ->where('item_code', $item_code)
                                 ->first()->description ?? '[ Not Found ]';
                         } else {
@@ -632,7 +652,8 @@ class CenturyController extends Controller
 
                         if ($customer == null) {
                             $customer_notfound = 1;
-                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            $missing_customer_name =
+                                DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
                                 ->where('customer_code', $customer_code)
                                 ->first()->name ?? '[ Not Found ]';
                         } else {
@@ -758,7 +779,6 @@ class CenturyController extends Controller
             }
 
             // Being in a relationship is unexplainably happy until fate fucks the hell out of it.
-
             // LOL
 
             // INSERT TO GENERATED/TEMPLATED TABLE
@@ -772,7 +792,6 @@ class CenturyController extends Controller
                                 $line['customer_notfound'] == 0 && $line['item_notfound'] == 0
                                 && $line['salesman_notfound'] == 0
                             ) {
-                                // $status = PrincipalsUtil::$STATUS_COMPLETED;
                                 DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
                                     'principal_code' => $this->PRINCIPAL_CODE,
                                     // 'status' => $status,
