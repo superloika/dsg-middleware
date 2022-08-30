@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-system-bar app
-            height="30"
+            height="35"
             dark
             color="primary"
         >
@@ -10,10 +10,8 @@
                 icon
             >&#9776;</v-btn>
 
-            <v-toolbar-title class="ml-1">
-                <!-- <span class="text-h6"> -->
-                    {{ AppStore.state.AppName }}
-                <!-- </span> -->
+            <v-toolbar-title class="ml-1 white--text">
+                {{ AppStore.state.AppName }}
             </v-toolbar-title>
 
             <v-spacer></v-spacer>
@@ -74,9 +72,9 @@
         <!-- MAIN -->
         <v-main>
             <v-container class="pa-0" fluid>
-                <!-- <keep-alive> -->
+                <keep-alive>
                     <router-view></router-view>
-                <!-- </keep-alive> -->
+                </keep-alive>
             </v-container>
         </v-main>
 

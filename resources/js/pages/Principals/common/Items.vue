@@ -70,6 +70,34 @@
                 disable-pagination
                 hide-default-footer
             >
+                <template v-slot:[`item.item_code`]="{item}">
+                    <v-chip
+                        v-if="item.vendor_code==null || item.vendor_code==''"
+                        color="error"
+                        outlined
+                        small
+                        title="Not found in General Masterfile"
+                    >
+                        {{ item.item_code }}
+                    </v-chip>
+
+                    <v-chip
+                        v-else-if="
+                            item.vendor_code!=
+                            PrincipalsStore.getVendorCode($route.params.principal_id)
+                        "
+                        color="warning"
+                        outlined
+                        small
+                        :title="
+                            item.principal_name + ' - ' + item.vendor_code
+                        "
+                    >
+                        {{ item.item_code }}
+                    </v-chip>
+
+                    <span v-else>{{ item.item_code }}</span>
+                </template>
             </v-data-table>
             <v-container>
                 <v-pagination
@@ -98,6 +126,7 @@
 
 <script>
 import {debounce} from 'lodash';
+import AppStore from '../../../stores.custom/AppStore';
 
 export default {
     components: {

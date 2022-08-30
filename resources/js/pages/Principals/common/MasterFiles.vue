@@ -2,24 +2,27 @@
 <v-sheet>
     <v-tabs
         v-model="masterfiles_tab"
-        grow
+        height="40"
     >
-        <v-tab exact>
-            <v-icon class="mr-1">mdi-account-multiple</v-icon> Customers&nbsp;
+        <v-tab exact class="px-6">
+            <v-icon class="mr-1">mdi-cube</v-icon>
+            Items
         </v-tab>
-        <v-tab exact>
-            <v-icon class="mr-1">mdi-cube</v-icon> Items&nbsp;
+        <v-tab exact class="px-6">
+            <v-icon class="mr-1">mdi-account-multiple</v-icon>
+            Customers
         </v-tab>
-        <v-tab exact>
-            <v-icon class="mr-1">mdi-account</v-icon> Salesmen&nbsp;
+        <v-tab exact class="px-6">
+            <v-icon class="mr-1">mdi-account</v-icon>
+            Salesmen
         </v-tab>
     </v-tabs>
     <v-tabs-items v-model="masterfiles_tab">
         <v-tab-item>
-            <Customers></Customers>
+            <Items></Items>
         </v-tab-item>
         <v-tab-item>
-            <Items></Items>
+            <Customers></Customers>
         </v-tab-item>
         <v-tab-item>
             <Salesmen></Salesmen>

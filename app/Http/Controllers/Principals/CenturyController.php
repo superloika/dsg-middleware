@@ -35,33 +35,24 @@ class CenturyController extends Controller
     function items()
     {
         set_time_limit(0);
-
         $row_count = request()->row_count ?? 10;
         $search_key = request()->search_key ?? '';
 
-        // $cols = [
-        //     'id',
-        //     'principal_code',
-        //     'upload_date',
-        //     'item_code',
-        //     'description',
-        //     'item_code_supplier',
-        //     'description_supplier',
-        //     'uom',
-        //     'conversion_uom',
-        //     'conversion_qty',
-        // ];
-
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-            // ->leftJoin(
-            //     PrincipalsUtil::$TBL_GENERAL_ITEMS,
-            //     PrincipalsUtil::$TBL_GENERAL_ITEMS . '.item_code',
-            //     PrincipalsUtil::$TBL_PRINCIPALS_ITEMS . '.item_code'
-            // )
-            // ->select(
-            //     PrincipalsUtil::$TBL_PRINCIPALS_ITEMS . '.*',
-            //     PrincipalsUtil::$TBL_GENERAL_ITEMS . '.description'
-            // )
+            ->leftJoin(PrincipalsUtil::$TBL_GENERAL_ITEMS,
+                PrincipalsUtil::$TBL_GENERAL_ITEMS. '.item_code',
+                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.item_code'
+            )
+            ->leftJoin(PrincipalsUtil::$TBL_PRINCIPALS,
+                PrincipalsUtil::$TBL_PRINCIPALS. '.vendor_code',
+                PrincipalsUtil::$TBL_GENERAL_ITEMS. '.vendor_code'
+            )
+            ->select([
+                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.*',
+                PrincipalsUtil::$TBL_GENERAL_ITEMS. '.vendor_code',
+                PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
+            ])
+
             ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.principal_code',
                 $this->PRINCIPAL_CODE)
             // ->get($cols);

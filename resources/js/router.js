@@ -150,6 +150,7 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
+    window.abortController.abort();
     next();
 })
 

@@ -35,22 +35,24 @@ class MegasoftController extends Controller
     function items()
     {
         set_time_limit(0);
-        // $cols = [
-        //     'id',
-        //     'principal_code',
-        //     'upload_date',
-        //     'item_code',
-        //     'description',
-        //     'item_code_supplier',
-        //     'description_supplier',
-        //     'uom',
-        //     'conversion_uom',
-        //     'conversion_qty',
-        // ];
         $row_count = request()->row_count ?? 10;
         $search_key = request()->search_key ?? '';
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+            ->leftJoin(PrincipalsUtil::$TBL_GENERAL_ITEMS,
+                PrincipalsUtil::$TBL_GENERAL_ITEMS. '.item_code',
+                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.item_code'
+            )
+            ->leftJoin(PrincipalsUtil::$TBL_PRINCIPALS,
+                PrincipalsUtil::$TBL_PRINCIPALS. '.vendor_code',
+                PrincipalsUtil::$TBL_GENERAL_ITEMS. '.vendor_code'
+            )
+            ->select([
+                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.*',
+                PrincipalsUtil::$TBL_GENERAL_ITEMS. '.vendor_code',
+                PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
+            ])
+
             ->where('principal_code', $this->PRINCIPAL_CODE)
 
             ->where(function($q) use ($search_key) {
@@ -104,14 +106,16 @@ class MegasoftController extends Controller
                     ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
-                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
+                $fileContentLines =
+                    explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
 
                 foreach ($fileContentLines as $fileContentLine) {
                     // Begin on the second line to skip the headers
                     if ($lineCount > 1) {
 
                         // $arrFileContentLine = explode($delimiter, $fileContentLine);
-                        $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+                        $arrFileContentLine =
+                            preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                         if (count($arrFileContentLine) > 1) {
                             $item_code =
@@ -236,13 +240,17 @@ class MegasoftController extends Controller
                 foreach ($fileContentLines as $fileContentLine) {
                     // Begin at the second line (exclude the header)
                     if ($lineCount > 1) {
-                        $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+                        $arrFileContentLine =
+                            preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                         if (count($arrFileContentLine) > 1) {
                             // ==========================================================================
-                            $customer_code = trim(str_replace('"', '', $arrFileContentLine[0]));
-                            $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
-                            $customer_name = trim(str_replace('"', '', $arrFileContentLine[2]));
+                            $customer_code =
+                                trim(str_replace('"', '', $arrFileContentLine[0]));
+                            $customer_code_supplier =
+                                trim(str_replace('"', '', $arrFileContentLine[1]));
+                            $customer_name =
+                                trim(str_replace('"', '', $arrFileContentLine[2]));
                             // =========================================================================
 
                             // $isExisting = array_search(
@@ -559,24 +567,16 @@ class MegasoftController extends Controller
                     $u5 = trim($pendingInvoice->u5);
                     $uom = trim($pendingInvoice->uom);
 
+                    $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                        ->where('customer_code', $customer_code)
+                        ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                        ->where('item_code', $item_code)
+                        ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
+
                     $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        ->select([
-                            PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.name AS customer_name_general',
-                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.*'
-                        ])
-                        ->join(
-                            PrincipalsUtil::$TBL_GENERAL_CUSTOMERS,
-                            PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.customer_code',
-                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.customer_code',
-                        )
-                        ->where(
-                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.principal_code',
-                            $this->PRINCIPAL_CODE
-                        )
-                        ->where(
-                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.customer_code',
-                            $customer_code
-                        )
+                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                        ->where('customer_code', $customer_code)
                         ->first();
 
                     $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
@@ -604,22 +604,20 @@ class MegasoftController extends Controller
 
                         if ($item == null) {
                             $item_notfound = 1;
-                            $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                                ->where('item_code', $item_code)
-                                ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
+                            $missing_item_name = $nav_item_name;
                         } else {
                         }
 
                         if ($customer == null) {
                             $customer_notfound = 1;
-                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                ->where('customer_code', $customer_code)
-                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                            $missing_customer_name = $nav_customer_name;
                         } else {
                         }
 
-                        $item_code_supplier = $item->item_code_supplier ?? $item_code;
-                        $customer_code_supplier = $item->customer_code_supplier ?? $customer_code;
+                        $item_code_supplier =
+                            $item->item_code_supplier ?? $item_code;
+                        $customer_code_supplier =
+                            $item->customer_code_supplier ?? $customer_code;
                         // ======================= /INIT ===========================================
 
                         // =========== SETTING UP ==================================================
@@ -648,9 +646,11 @@ class MegasoftController extends Controller
                             // 'sm_code' => $u5, // salesman code
                             'uom' => $uom,
                             'base_uom' => $item->uom ?? 'N/A',
-                            'description' => $item->description ?? 'N/A',
+                            // 'description' => $item->description ?? 'N/A',
+                            'description' => $nav_item_name,
                             'description_supplier' => $item->description_supplier ?? 'N/A',
-                            'customer_name' => $customer->customer_name_general ?? 'N/A',
+                            // 'customer_name' => $customer->customer_name_general ?? 'N/A',
+                            'customer_name' => $nav_customer_name,
                             'sm_name' => $customer->salesman_name ?? 'N/A',
                             'system_date' => $dateToday->format('Y-m-d')
                         ];
@@ -727,7 +727,7 @@ class MegasoftController extends Controller
      * Change invoice's status to 'complete'
      * NOTE: This happens when the user exports the generated templated data
      */
-    public function setInvoicesComplete(Request $request)
+    public function setInvoicesComplete_1(Request $request)
     {
         set_time_limit(0);
         $dateToday = Carbon::now()->format('Y-m-d H:i:s');
@@ -769,6 +769,89 @@ class MegasoftController extends Controller
                                 'customer_code' => $line['customer_code'],
                                 'bulk_qty' => $line['bulk_qty'],
                                 'loose_qty' => $line['loose_qty'],
+                            ]);
+                        }
+                    }
+                }
+                $template_variation++;
+            }
+
+            DB::commit();
+            $response = [
+                'success' => true,
+                'message' => 'Successful',
+            ];
+            return response()->json($response);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $response['success'] = false;
+            $response['message'] = $th->getMessage();
+            return response()->json($response, 500);
+        }
+    }
+
+
+    /**
+     * Change invoice's status to 'complete'
+     * NOTE: This happens when the user exports the generated templated data
+     */
+    public function setInvoicesComplete(Request $request)
+    {
+        set_time_limit(0);
+        $dateToday = Carbon::now()->format('Y-m-d H:i:s');
+
+        // generated data
+        DB::beginTransaction();
+        try {
+            foreach ($request->generated_data[0]['output_template'] as $gendata) {
+                foreach ($gendata[1] as $line) {
+                    if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
+                        // dd($line);
+                        DB::table(PrincipalsUtil::$TBL_INVOICES)
+                            ->where('doc_no', $line['doc_no'])
+                            ->where('item_code', $line['alturas_item_code'])
+                            ->where('status', 'pending')
+                            ->update([
+                                'status' => 'completed',
+                                'updated_at' => $dateToday
+                            ]);
+                    }
+                }
+            }
+
+            $template_variation = 1;
+            foreach ($request->generated_data as $variations) {
+                foreach ($variations['output_template'] as $gendata) {
+                    foreach ($gendata[1] as $line) {
+                        if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
+                            $status = PrincipalsUtil::$STATUS_COMPLETED;
+                            DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
+                                // common ***********************************************
+                                'principal_code' => $this->PRINCIPAL_CODE,
+                                'template_variation' => $template_variation,
+                                'generated_at' => $dateToday,
+                                'uploaded_by' => auth()->user()->id,
+                                // 'status' => $status,
+                                'doc_no' => $line['doc_no'],
+                                // principal specific ***********************************
+                                'invoice_no' => $line['invoice_no'],
+                                'customer_code' => $line['customer_code'],
+                                'alturas_customer_code' => $line['alturas_customer_code'],
+                                'customer_name' => $line['customer_name'],
+                                'sm_name' => $line['sm_name'],
+                                'invoice_date' => $line['invoice_date'],
+                                'alturas_item_code' => $line['alturas_item_code'],
+                                'item_code' => $line['item_code'],
+                                'description' => $line['description'],
+                                'description_supplier' => $line['description_supplier'],
+                                'bulk_qty' => $line['bulk_qty'],
+                                'loose_qty' => $line['loose_qty'],
+                                'price' => $line['price'],
+                                'amount' => $line['amount'],
+                                'base_uom' => $line['base_uom'],
+                                'uom' => $line['uom'],
+                                'sm_name' => $line['sm_name'],
+                                'system_date' => $line['system_date'],
                             ]);
                         }
                     }

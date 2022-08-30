@@ -153,7 +153,6 @@
 
 <script>
 import PrincipalsStore from '../../../stores.custom/PrincipalsStore';
-import AppStore from '../../../stores.custom/AppStore';
 
 export default {
     props: ['lineCount','warningsCount'],
@@ -252,7 +251,6 @@ export default {
         refresh() {
             PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
             PrincipalsStore.state.currentGeneratedDataSearchKey = '';
-            AppStore.toast('Refreshed', 1000, 'success');
         },
     },
 

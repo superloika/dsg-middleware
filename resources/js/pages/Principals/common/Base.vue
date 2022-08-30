@@ -4,8 +4,9 @@
     <v-app-bar elevation="0" app dense>
         <v-toolbar-title class="primary--text text-h5">
             <!-- <v-icon>mdi-store</v-icon> -->
-
-            {{ principalName }}
+            <h6>
+                {{ principalName }} ({{ vendorCode }})
+            </h6>
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
@@ -63,6 +64,10 @@ export default {
         principalName() {
             return this.AppStore.state.principals
                 .find(e=>e.id==this.$route.params.principal_id).name;
+        },
+        vendorCode() {
+            return this.AppStore.state.principals
+                .find(e=>e.id==this.$route.params.principal_id).vendor_code;
         },
         selectedPrincipalCode() {
             return this.PrincipalsStore.state.selectedPrincipalCode;

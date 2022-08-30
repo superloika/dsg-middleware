@@ -8,8 +8,12 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./cdo_foodsphere": "./resources/js/stores.custom/principals/cdo_foodsphere.js",
+	"./cdo_foodsphere.js": "./resources/js/stores.custom/principals/cdo_foodsphere.js",
 	"./century": "./resources/js/stores.custom/principals/century.js",
 	"./century.js": "./resources/js/stores.custom/principals/century.js",
+	"./foodsphere_inc": "./resources/js/stores.custom/principals/foodsphere_inc.js",
+	"./foodsphere_inc.js": "./resources/js/stores.custom/principals/foodsphere_inc.js",
 	"./gsmi": "./resources/js/stores.custom/principals/gsmi.js",
 	"./gsmi.js": "./resources/js/stores.custom/principals/gsmi.js",
 	"./gspi": "./resources/js/stores.custom/principals/gspi.js",
@@ -39,6 +43,139 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = "./resources/js/stores.custom/principals sync recursive ^\\.\\/.*$";
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/cdo_foodsphere.js":
+/*!*****************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/cdo_foodsphere.js ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  customersTableHeader: [[{
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Code (Supplier)",
+    value: "customer_code_supplier"
+  }, {
+    text: "Name",
+    value: "customer_name"
+  }]],
+  itemsTableHeader: [[{
+    text: "Item Code",
+    value: "item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code_supplier"
+  }, {
+    text: "Description (Supplier)",
+    value: "description_supplier"
+  }]],
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "Bulk Quantity",
+    value: "bulk_qty"
+  }, {
+    text: "Loose Quantity",
+    value: "loose_qty"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Base UOM",
+    value: "base_uom"
+  }, {
+    text: "Conversion UOM",
+    value: "uom"
+  }, {
+    text: "Salesman Name",
+    value: "sm_name"
+  }]],
+  // transactions table header
+  transactionsTableHeader: [[{
+    text: "Upload Date",
+    value: "updated_at"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Account Name",
+    value: "customer_name"
+  }, {
+    text: "Sales Invoice",
+    value: "doc_no"
+  }, {
+    text: "Item Code",
+    value: "item_code"
+  }, {
+    text: "Description",
+    value: "description"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Amount",
+    value: "u3"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'Generated Date',
+    value: 'generated_at'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }]],
+  generatedDataDBTableColumns: [// common
+  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
+  // principal template
+  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'bulk_qty', 'loose_qty', 'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
 
 /***/ }),
 
@@ -206,6 +343,138 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: 'invoice_date'
   }]] // ************************* /Templated Data History *******************************
 
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/foodsphere_inc.js":
+/*!*****************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/foodsphere_inc.js ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  customersTableHeader: [[{
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Code (Supplier)",
+    value: "customer_code_supplier"
+  }, {
+    text: "Name",
+    value: "customer_name"
+  }]],
+  itemsTableHeader: [[{
+    text: "Item Code",
+    value: "item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code_supplier"
+  }, {
+    text: "Description (Supplier)",
+    value: "description_supplier"
+  }]],
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, // {text:"Bulk Quantity", value: "bulk_qty"},
+  // {text:"Loose Quantity", value: "loose_qty"},
+  {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, // {text:"Base UOM", value: "base_uom"},
+  // {text:"Conversion UOM", value: "uom"},
+  {
+    text: "Salesman Name",
+    value: "sm_name"
+  }]],
+  // transactions table header
+  transactionsTableHeader: [[{
+    text: "Upload Date",
+    value: "updated_at"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Account Name",
+    value: "customer_name"
+  }, {
+    text: "Sales Invoice",
+    value: "doc_no"
+  }, {
+    text: "Item Code",
+    value: "item_code"
+  }, {
+    text: "Description",
+    value: "description"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Amount",
+    value: "u3"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'Generated Date',
+    value: 'generated_at'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }]],
+  generatedDataDBTableColumns: [// common
+  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
+  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'quantity', // 'bulk_qty',
+  // 'loose_qty',
+  'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({

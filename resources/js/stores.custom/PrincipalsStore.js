@@ -198,7 +198,7 @@ const actions = {
                 // + '?template_variations_count=' + template_variations_count
             );
             // {cancelToken:axiosSource.token}
-            let result = await axios.get(url);
+            let result = await axios.get(url, { signal: window.abortController.abort() });
             state.isGeneratingData = false;
             state.currentGeneratedData = [];
             // state.currentGeneratedData = Object.entries(result.data.output_template_variations);
@@ -673,6 +673,10 @@ const actions = {
         }
     },
 
+    getVendorCode(id) {
+        return AppStore.state.principals
+            .find(e=>e.id==id).vendor_code;
+    },
 
 };
 

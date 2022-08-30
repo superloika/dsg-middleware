@@ -39,17 +39,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['customers', 'items', 'salesmen'],
   components: {
     Items: function Items() {
-      return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! ./Items.vue */ "./resources/js/pages/Principals/common/Items.vue"));
+      return __webpack_require__.e(/*! import() */ 24).then(__webpack_require__.bind(null, /*! ./Items.vue */ "./resources/js/pages/Principals/common/Items.vue"));
     },
     Customers: function Customers() {
-      return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! ./Customers.vue */ "./resources/js/pages/Principals/common/Customers.vue"));
+      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./Customers.vue */ "./resources/js/pages/Principals/common/Customers.vue"));
     },
     Salesmen: function Salesmen() {
-      return __webpack_require__.e(/*! import() */ 25).then(__webpack_require__.bind(null, /*! ./Salesmen.vue */ "./resources/js/pages/Principals/common/Salesmen.vue"));
+      return __webpack_require__.e(/*! import() */ 27).then(__webpack_require__.bind(null, /*! ./Salesmen.vue */ "./resources/js/pages/Principals/common/Salesmen.vue"));
     }
   },
   data: function data() {
@@ -85,7 +88,7 @@ var render = function() {
       _c(
         "v-tabs",
         {
-          attrs: { grow: "" },
+          attrs: { height: "40" },
           model: {
             value: _vm.masterfiles_tab,
             callback: function($$v) {
@@ -97,32 +100,32 @@ var render = function() {
         [
           _c(
             "v-tab",
-            { attrs: { exact: "" } },
+            { staticClass: "px-6", attrs: { exact: "" } },
+            [
+              _c("v-icon", { staticClass: "mr-1" }, [_vm._v("mdi-cube")]),
+              _vm._v("\n            Items\n        ")
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-tab",
+            { staticClass: "px-6", attrs: { exact: "" } },
             [
               _c("v-icon", { staticClass: "mr-1" }, [
                 _vm._v("mdi-account-multiple")
               ]),
-              _vm._v(" Customers \n        ")
+              _vm._v("\n            Customers\n        ")
             ],
             1
           ),
           _vm._v(" "),
           _c(
             "v-tab",
-            { attrs: { exact: "" } },
-            [
-              _c("v-icon", { staticClass: "mr-1" }, [_vm._v("mdi-cube")]),
-              _vm._v(" Items \n        ")
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-tab",
-            { attrs: { exact: "" } },
+            { staticClass: "px-6", attrs: { exact: "" } },
             [
               _c("v-icon", { staticClass: "mr-1" }, [_vm._v("mdi-account")]),
-              _vm._v(" Salesmen \n        ")
+              _vm._v("\n            Salesmen\n        ")
             ],
             1
           )
@@ -142,9 +145,9 @@ var render = function() {
           }
         },
         [
-          _c("v-tab-item", [_c("Customers")], 1),
-          _vm._v(" "),
           _c("v-tab-item", [_c("Items")], 1),
+          _vm._v(" "),
+          _c("v-tab-item", [_c("Customers")], 1),
           _vm._v(" "),
           _c("v-tab-item", [_c("Salesmen")], 1)
         ],

@@ -62,6 +62,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['tabs'],
   data: function data() {
@@ -76,6 +77,13 @@ __webpack_require__.r(__webpack_exports__);
       return this.AppStore.state.principals.find(function (e) {
         return e.id == _this.$route.params.principal_id;
       }).name;
+    },
+    vendorCode: function vendorCode() {
+      var _this2 = this;
+
+      return this.AppStore.state.principals.find(function (e) {
+        return e.id == _this2.$route.params.principal_id;
+      }).vendor_code;
     },
     selectedPrincipalCode: function selectedPrincipalCode() {
       return this.PrincipalsStore.state.selectedPrincipalCode;
@@ -111,9 +119,15 @@ var render = function() {
         { attrs: { elevation: "0", app: "", dense: "" } },
         [
           _c("v-toolbar-title", { staticClass: "primary--text text-h5" }, [
-            _vm._v(
-              "\n\n            " + _vm._s(_vm.principalName) + "\n        "
-            )
+            _c("h6", [
+              _vm._v(
+                "\n                " +
+                  _vm._s(_vm.principalName) +
+                  " (" +
+                  _vm._s(_vm.vendorCode) +
+                  ")\n            "
+              )
+            ])
           ]),
           _vm._v(" "),
           _c("v-spacer"),

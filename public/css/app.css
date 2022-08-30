@@ -1,6 +1,10 @@
 var map = {
+	"./cdo_foodsphere": "./resources/js/stores.custom/principals/cdo_foodsphere.js",
+	"./cdo_foodsphere.js": "./resources/js/stores.custom/principals/cdo_foodsphere.js",
 	"./century": "./resources/js/stores.custom/principals/century.js",
 	"./century.js": "./resources/js/stores.custom/principals/century.js",
+	"./foodsphere_inc": "./resources/js/stores.custom/principals/foodsphere_inc.js",
+	"./foodsphere_inc.js": "./resources/js/stores.custom/principals/foodsphere_inc.js",
 	"./gsmi": "./resources/js/stores.custom/principals/gsmi.js",
 	"./gsmi.js": "./resources/js/stores.custom/principals/gsmi.js",
 	"./gspi": "./resources/js/stores.custom/principals/gspi.js",

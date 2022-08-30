@@ -40,6 +40,20 @@ class GsmiController extends Controller
         $search_key = request()->search_key ?? '';
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+            ->leftJoin(PrincipalsUtil::$TBL_GENERAL_ITEMS,
+                PrincipalsUtil::$TBL_GENERAL_ITEMS. '.item_code',
+                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.item_code'
+            )
+            ->leftJoin(PrincipalsUtil::$TBL_PRINCIPALS,
+                PrincipalsUtil::$TBL_PRINCIPALS. '.vendor_code',
+                PrincipalsUtil::$TBL_GENERAL_ITEMS. '.vendor_code'
+            )
+            ->select([
+                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.*',
+                PrincipalsUtil::$TBL_GENERAL_ITEMS. '.vendor_code',
+                PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
+            ])
+
             ->where('principal_code', $this->PRINCIPAL_CODE)
 
             ->where(function($q) use ($search_key) {
@@ -355,24 +369,16 @@ class GsmiController extends Controller
                     $u5 = trim($pendingInvoice->u5);
                     $uom = trim($pendingInvoice->uom);
 
+                    $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                        ->where('customer_code', $customer_code)
+                        ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                        ->where('item_code', $item_code)
+                        ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
+
                     $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        ->select([
-                            PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.name AS customer_name_general',
-                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.*'
-                        ])
-                        ->join(
-                            PrincipalsUtil::$TBL_GENERAL_CUSTOMERS,
-                            PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.customer_code',
-                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.customer_code',
-                        )
-                        ->where(
-                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.principal_code',
-                            $this->PRINCIPAL_CODE
-                        )
-                        ->where(
-                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.customer_code',
-                            $customer_code
-                        )
+                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                        ->where('customer_code', $customer_code)
                         ->first();
 
                     $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
@@ -446,9 +452,11 @@ class GsmiController extends Controller
                             // 'sm_code' => $u5, // salesman code
                             'uom' => $uom,
                             'base_uom' => $item->uom ?? 'N/A',
-                            'description' => $item->description ?? 'N/A',
+                            // 'description' => $item->description ?? 'N/A',
+                            'description' => $nav_item_name,
                             'description_supplier' => $item->description_supplier ?? 'N/A',
-                            'customer_name' => $customer->customer_name_general ?? 'N/A',
+                            // 'customer_name' => $customer->customer_name_general ?? 'N/A',
+                            'customer_name' => $nav_customer_name,
                             'sm_name' => $customer->salesman_name ?? 'N/A',
                             'system_date' => $dateToday->format('Y-m-d')
                         ];

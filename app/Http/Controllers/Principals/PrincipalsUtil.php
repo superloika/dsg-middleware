@@ -167,14 +167,27 @@ class PrincipalsUtil extends Controller
     public function invoicesGrandTotal() {
         try {
             $res = DB::table($this::$TBL_INVOICES)
-                // ->where('principal_code', request()->principal_code)
-                ->leftJoin(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS,
-                    $this::$TBL_PRINCIPALS_ITEMS. '.item_code',
-                    $this::$TBL_INVOICES. '.item_code'
+                ->join(
+                    $this::$TBL_GENERATED,
+                    function($q) {
+                        $q->on(
+                            self::$TBL_GENERATED. '.doc_no',
+                            self::$TBL_INVOICES. '.doc_no',
+                        )
+                        ->on(
+                            self::$TBL_GENERATED. '.alturas_item_code',
+                            self::$TBL_INVOICES. '.item_code',
+                        )
+                        ->on(
+                            self::$TBL_GENERATED. '.alturas_customer_code',
+                            self::$TBL_INVOICES. '.customer_code',
+                        )
+                        ;
+                    }
                 )
                 ->where($this::$TBL_INVOICES. '.status', self::$STATUS_COMPLETED)
-                ->where($this::$TBL_PRINCIPALS_ITEMS. '.principal_code', request()->principal_code)
-                ->sum($this::$TBL_INVOICES. '.u3');
+                ->where($this::$TBL_GENERATED. '.principal_code', request()->principal_code)
+                ->sum($this::$TBL_INVOICES. '.u3'); // u3 column = amount
 
             return response()->json($res);
         } catch (\Throwable $th) {
@@ -256,7 +269,7 @@ class PrincipalsUtil extends Controller
     /**
      * Retrieve the list of transactions
      */
-    public function transactions(Request $request) {
+    public function transactions_1(Request $request) {
         set_time_limit(0);
 
         try {
@@ -300,7 +313,7 @@ class PrincipalsUtil extends Controller
                 ->select(
                     $this::$TBL_INVOICES. '.*',
                     $this::$TBL_PRINCIPALS_CUSTOMERS. '.principal_code',
-                    // $this::$TBL_PRINCIPALS_CUSTOMERS. '.customer_code',
+                    $this::$TBL_PRINCIPALS_CUSTOMERS. '.customer_code',
                     // $this::$TBL_PRINCIPALS_CUSTOMERS. '.customer_name',
                     $this::$TBL_GENERAL_CUSTOMERS. '.name as customer_name',
                     $this::$TBL_GENERAL_CUSTOMERS. '.customer_code',
@@ -316,9 +329,96 @@ class PrincipalsUtil extends Controller
                 ->where($this::$TBL_PRINCIPALS_ITEMS. '.principal_code', request()->principal_code)
                 ->whereDate($this::$TBL_INVOICES. '.updated_at','>=', $dateFrom)
                 ->whereDate($this::$TBL_INVOICES. '.updated_at','<=', $dateTo)
+
                 ->orderBy($this::$TBL_INVOICES. '.updated_at', 'DESC')
                 ->orderBy($this::$TBL_INVOICES. '.customer_code', 'ASC')
                 ->orderBy($this::$TBL_INVOICES. '.doc_no', 'ASC')
+
+                ->get();
+
+            $res['success'] = true;
+            $res['message'] = 'Success';
+            $res['data'] = $result;
+
+            return response()->json($res);
+        } catch (\Throwable $th) {
+            $res['success'] = false;
+            $res['nessage'] = $th->getMessage();
+            $res['data'] = [];
+            return response()->json($res, 500);
+        }
+    }
+
+
+    /**
+     * Retrieve the list of transactions
+     */
+    public function transactions(Request $request) {
+        set_time_limit(0);
+        try {
+            $dates = explode(',', $request->input('date'));
+            // sort($dates);
+            $dateFrom = '';
+            $dateTo = '';
+            if(count($dates) > 1) {
+                $dateFrom = $dates[0];
+                $dateTo = $dates[1];
+            } else if(count($dates) == 1) {
+                $dateFrom = $dates[0];
+                $dateTo = $dates[0];
+            }
+
+            $result = DB::table($this::$TBL_INVOICES)
+                ->leftJoin(
+                    $this::$TBL_GENERAL_CUSTOMERS,
+                    $this::$TBL_INVOICES. '.customer_code',
+                    '=',
+                    $this::$TBL_GENERAL_CUSTOMERS. '.customer_code'
+                )
+                ->leftJoin(
+                    $this::$TBL_GENERAL_ITEMS,
+                    $this::$TBL_INVOICES. '.item_code',
+                    '=',
+                    $this::$TBL_GENERAL_ITEMS. '.item_code'
+                )
+                ->join(
+                    $this::$TBL_GENERATED,
+                    function($q) {
+                        $q->on(
+                            self::$TBL_GENERATED. '.doc_no',
+                            self::$TBL_INVOICES. '.doc_no',
+                        )
+                        ->on(
+                            self::$TBL_GENERATED. '.alturas_item_code',
+                            self::$TBL_INVOICES. '.item_code',
+                        )
+                        ->on(
+                            self::$TBL_GENERATED. '.alturas_customer_code',
+                            self::$TBL_INVOICES. '.customer_code',
+                        )
+                        ;
+                    }
+                )
+                ->select(
+                    $this::$TBL_INVOICES. '.*',
+                    $this::$TBL_GENERAL_CUSTOMERS. '.name as customer_name',
+                    $this::$TBL_GENERAL_CUSTOMERS. '.customer_code',
+                    $this::$TBL_GENERAL_ITEMS. '.description',
+                    $this::$TBL_GENERAL_ITEMS. '.item_code',
+                )
+
+                ->where($this::$TBL_INVOICES. '.status', 'completed')
+                ->whereDate($this::$TBL_INVOICES. '.updated_at','>=', $dateFrom)
+                ->whereDate($this::$TBL_INVOICES. '.updated_at','<=', $dateTo)
+                ->where(
+                    $this::$TBL_GENERATED. '.principal_code',
+                    $request->principal_code
+                )
+
+                ->orderBy($this::$TBL_INVOICES. '.updated_at', 'DESC')
+                ->orderBy($this::$TBL_INVOICES. '.customer_code', 'ASC')
+                ->orderBy($this::$TBL_INVOICES. '.doc_no', 'ASC')
+
                 ->get();
 
             $res['success'] = true;
