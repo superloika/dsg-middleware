@@ -1,8 +1,8 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[23],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/InvoicesImport.vue?vue&type=script&lang=js&":
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/GeneratedTable.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/InvoicesImport.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/GeneratedTable.vue?vue&type=script&lang=js& ***!
   \**************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -50,138 +50,115 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'InvoicesImport',
-  // props: ['master_type','principal_code'],
-  data: function data() {
-    return {
-      file: null // uploadResponse: {
-      //     success: '',
-      //     message: '',
-      //     output_template: [],
-      //     line_count: 0,
-      //     raw_invoices: [],
-      // },
-
-    };
-  },
-  methods: {
-    formSubmit: function formSubmit() {
-      var _this = this;
-
-      var vm = this; // if(!this.$refs.frm_upload.validate()) {
-      //     // alert('An unexpected error occured');
-      //     console.log('formSubmit()', 'An unexpected error occured');
-      //     return;
-      // }
-      // if(this.file===null || this.file.length===0 || this.file===undefined) {
-      //     this.AppStore.toast('Please select file/s to import', 1000);
-      //     return;
-      // }
-
-      this.AppStore.overlay(true);
-      this.PrincipalsStore.state.isGeneratingData = true;
-      this.AppStore.state.showTopLoading = true;
-      var config = {
-        headers: {
-          'content-type': 'multipart/form-data'
-        },
-        onUploadProgress: function onUploadProgress(progressEvent) {
-          var progressPercentage = progressEvent.loaded / vm.file.size * 100;
-          var statusText = 'Importing...';
-
-          if (progressPercentage < 100) {
-            statusText = 'Uploading... ' + progressPercentage.toFixed(0) + '%';
-          } else if (progressPercentage == 100) {
-            statusText = 'File uploaded';
-          } else if (progressPercentage > 100) {
-            statusText = 'Generating data...';
-          }
-
-          _this.AppStore.state.overlay.msg = statusText;
-        }
-      };
-      var formData = new FormData();
-
-      for (var i = 0; i < this.file.length; i++) {
-        formData.append('files[' + i + ']', this.file[i]);
-      }
-
-      var url = this.AppStore.state.siteUrl + 'principals/' + this.PrincipalsStore.state.selectedPrincipalCode + '/invoices/import';
-      axios.post(url, formData, config).then(function (response) {
-        var success = response.data.success;
-        var message = response.data.message;
-        var output_template = response.data.output_template;
-        var line_count = response.data.line_count;
-        var raw_invoices = response.data.raw_invoices;
-
-        _this.AppStore.overlay(false);
-
-        _this.PrincipalsStore.state.isGeneratingData = false;
-        _this.AppStore.state.showTopLoading = false;
-
-        _this.AppStore.toast(message); // this.file = null;
-
-
-        _this.PrincipalsStore.state.currentGeneratedData = Object.entries(output_template);
-        _this.PrincipalsStore.state.currentRawInvoices = raw_invoices; // this.PrincipalsStore.state.textfileLineCount = line_count;
-
-        _this.PrincipalsStore.state.sheetImport = false;
-        console.log('currentGeneratedData:', _this.PrincipalsStore.state.currentGeneratedData);
-        console.log('currentRawInvoices:', _this.PrincipalsStore.state.currentRawInvoices);
-      })["catch"](function (error) {
-        _this.AppStore.overlay(false);
-
-        _this.AppStore.toast(error);
-
-        _this.PrincipalsStore.state.isGeneratingData = false;
-        console.log('ImportResponse:', error);
-      });
-    },
-    getPending: function getPending() {
-      var _this2 = this;
-
-      var url = this.AppStore.state.siteUrl + 'principals/' + this.PrincipalsStore.state.selectedPrincipalCode + '/invoices/import';
-      axios.post(url, {
-        files: null
-      }).then(function (response) {
-        var success = response.data.success;
-
-        if (success) {
-          var output_template = response.data.output_template;
-          var raw_invoices = response.data.raw_invoices;
-
-          _this2.AppStore.overlay(false);
-
-          _this2.PrincipalsStore.state.isGeneratingData = false;
-          _this2.AppStore.state.showTopLoading = false;
-          _this2.PrincipalsStore.state.currentGeneratedData = Object.entries(output_template);
-          _this2.PrincipalsStore.state.currentRawInvoices = raw_invoices;
-          console.log('currentGeneratedData:', _this2.PrincipalsStore.state.currentGeneratedData);
-          console.log('currentRawInvoices:', _this2.PrincipalsStore.state.currentRawInvoices);
-        }
-      })["catch"](function (error) {
-        _this2.AppStore.overlay(false);
-
-        _this2.AppStore.toast(error);
-
-        _this2.PrincipalsStore.state.isGeneratingData = false;
-        console.log('getPending():', error);
-      });
+  props: ['items', 'template_variation_index', 'tab_caption', 'allow_export'],
+  computed: {
+    tableHeader: function tableHeader() {
+      // alert(this.template_variation_index);
+      return this[this.PrincipalsStore.state.selectedPrincipalCode].state.generatedDataTableHeader[this.template_variation_index];
     }
   },
-  created: function created() {// this.getPending();
+  methods: {
+    exportToCsv: function exportToCsv() {
+      var extention = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'csv';
+      this.PrincipalsStore.toExcel_simple("".concat(this.tab_caption), this.items, 'generatedDataTableHeader', null, "".concat(this.tab_caption), extention, this.template_variation_index);
+    }
   },
   mounted: function mounted() {
-    console.log('InvoicesImport mounted.'); // this.file = null;
+    console.log("GeneratedTable component mounted", this.PrincipalsStore.state.selectedPrincipalCode);
+    console.log('TEMPLATE VARSSSSSSSSSSSSSSSSSSSSSSSS', this.template_variation_index);
+    console.log('ITEEEEEEMMMMMSSSSSS', this.items); // alert(this.template_variation_index);
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/InvoicesImport.vue?vue&type=template&id=a2e7d924&":
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/GeneratedTable.vue?vue&type=template&id=c9cf427c&":
 /*!******************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/InvoicesImport.vue?vue&type=template&id=a2e7d924& ***!
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/GeneratedTable.vue?vue&type=template&id=c9cf427c& ***!
   \******************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -195,95 +172,291 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-card",
-    { staticClass: "elevation-0 pa-0", attrs: { outlinedx: "" } },
+    "div",
     [
-      _c(
-        "v-card-text",
-        { staticClass: "pa-0" },
-        [
-          _c(
-            "v-row",
-            {},
+      _vm.allow_export
+        ? _c(
+            "v-sheet",
+            {
+              staticClass: "px-3 pt-1 pb-2",
+              attrs: { color: "grey lighten-5" }
+            },
             [
               _c(
-                "v-col",
-                {
-                  staticClass: "pb-0",
-                  attrs: { cols: "", lg: "9", md: "7", sm: "8" }
-                },
-                [
-                  _c(
-                    "v-form",
-                    { ref: "frm_upload" },
-                    [
-                      _c("v-file-input", {
-                        attrs: {
-                          "small-chips": "",
-                          "show-sizex": "",
-                          rounded: "",
-                          outlined: "",
-                          dense: "",
-                          required: "",
-                          placeholder: "Select file/s to import",
-                          accept: ".txt",
-                          multiple: "",
-                          color: "primary"
-                        },
-                        model: {
-                          value: _vm.file,
-                          callback: function($$v) {
-                            _vm.file = $$v
-                          },
-                          expression: "file"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                {
-                  staticClass: "pb-0",
-                  attrs: { cols: "", lg: "3", md: "5", sm: "4" }
-                },
+                "div",
+                { staticClass: "d-flex justify-end" },
                 [
                   _c(
                     "v-btn",
                     {
+                      staticClass: "mr-2",
                       attrs: {
-                        dense: "",
-                        color: "primary",
-                        block: "",
-                        rounded: "",
-                        depressed: "",
-                        loading: _vm.PrincipalsStore.state.isGeneratingData
+                        title: "Export table to TXT file (Tab Delimited)",
+                        color: "success",
+                        "x-small": "",
+                        rounded: ""
                       },
                       on: {
                         click: function($event) {
-                          return _vm.formSubmit()
+                          return _vm.exportToCsv("txt")
+                        }
+                      }
+                    },
+                    [_vm._v("Export " + _vm._s(_vm.tab_caption) + " to TXT")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        title: "Export table to CSV file (Comma Delimited)",
+                        color: "success",
+                        "x-small": "",
+                        rounded: ""
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.exportToCsv()
                         }
                       }
                     },
                     [
                       _vm._v(
-                        "\r\n                    Generate\r\n                "
+                        "\n                Export " +
+                          _vm._s(_vm.tab_caption) +
+                          " to CSV\n            "
                       )
                     ]
                   )
                 ],
                 1
               )
-            ],
-            1
+            ]
           )
-        ],
-        1
-      )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("v-data-table", {
+        attrs: {
+          dense: "",
+          items: _vm.items,
+          headers: _vm.tableHeader,
+          "items-per-page": 10,
+          search: _vm.PrincipalsStore.state.currentGeneratedDataSearchKey,
+          "disable-sort": ""
+        },
+        scopedSlots: _vm._u(
+          [
+            {
+              key: "item.customer_code",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  item.customer_notfound == 1
+                    ? _c(
+                        "v-tooltip",
+                        {
+                          attrs: { right: "" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "activator",
+                                fn: function(ref) {
+                                  var on = ref.on
+                                  var attrs = ref.attrs
+                                  return [
+                                    _c(
+                                      "v-chip",
+                                      _vm._g(
+                                        _vm._b(
+                                          {
+                                            attrs: {
+                                              color:
+                                                item.missing_customer_name ==
+                                                "CUSTOMER_NOT_FOUND"
+                                                  ? "error"
+                                                  : "warning",
+                                              small: "",
+                                              outlined: "",
+                                              title: "Unmapped"
+                                            }
+                                          },
+                                          "v-chip",
+                                          attrs,
+                                          false
+                                        ),
+                                        on
+                                      ),
+                                      [
+                                        _c(
+                                          "div",
+                                          { attrs: { id: item.customer_code } },
+                                          [
+                                            _vm._v(
+                                              "\n                            " +
+                                                _vm._s(item.customer_code) +
+                                                "\n                        "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            true
+                          )
+                        },
+                        [
+                          _vm._v(" "),
+                          _c("span", [
+                            _vm._v(_vm._s(item.missing_customer_name))
+                          ])
+                        ]
+                      )
+                    : _c("span", [_vm._v(_vm._s(item.customer_code))])
+                ]
+              }
+            },
+            {
+              key: "item.route_code",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  item.route_code == "N/A"
+                    ? _c(
+                        "v-chip",
+                        {
+                          attrs: {
+                            color: "warning",
+                            small: "",
+                            outlined: "",
+                            title: ""
+                          }
+                        },
+                        [
+                          _c("div", { attrs: { id: item.route_code } }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.route_code) +
+                                "\n                "
+                            )
+                          ])
+                        ]
+                      )
+                    : _c("span", [_vm._v(_vm._s(item.route_code))])
+                ]
+              }
+            },
+            {
+              key: "item.item_code",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  item.item_notfound == 1
+                    ? _c(
+                        "v-tooltip",
+                        {
+                          attrs: { left: "" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "activator",
+                                fn: function(ref) {
+                                  var on = ref.on
+                                  var attrs = ref.attrs
+                                  return [
+                                    _c(
+                                      "v-chip",
+                                      _vm._g(
+                                        _vm._b(
+                                          {
+                                            attrs: {
+                                              color:
+                                                item.missing_item_name ==
+                                                "ITEM_NOT_FOUND"
+                                                  ? "error"
+                                                  : "warning",
+                                              small: "",
+                                              outlined: "",
+                                              title: "Unmapped"
+                                            }
+                                          },
+                                          "v-chip",
+                                          attrs,
+                                          false
+                                        ),
+                                        on
+                                      ),
+                                      [
+                                        _c(
+                                          "div",
+                                          { attrs: { id: item.item_code } },
+                                          [
+                                            _vm._v(
+                                              "\n                            " +
+                                                _vm._s(item.item_code) +
+                                                "\n                        "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            true
+                          )
+                        },
+                        [
+                          _vm._v(" "),
+                          _c("span", [_vm._v(_vm._s(item.missing_item_name))])
+                        ]
+                      )
+                    : _c("span", [_vm._v(_vm._s(item.item_code))])
+                ]
+              }
+            },
+            {
+              key: "item.sales_agent_id",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  item.salesman_notfound == 1
+                    ? _c(
+                        "v-chip",
+                        {
+                          attrs: {
+                            color: "warning",
+                            small: "",
+                            outlined: "",
+                            title: "Unmapped"
+                          }
+                        },
+                        [
+                          _c("div", { attrs: { id: item.sales_agent_id } }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.sales_agent_id) +
+                                "\n                "
+                            )
+                          ])
+                        ]
+                      )
+                    : _c("span", { attrs: { title: item.alturas_sm_code } }, [
+                        _vm._v(_vm._s(item.sales_agent_id))
+                      ])
+                ]
+              }
+            }
+          ],
+          null,
+          true
+        )
+      })
     ],
     1
   )
@@ -295,17 +468,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/InvoicesImport.vue":
+/***/ "./resources/js/pages/Principals/common/GeneratedTable.vue":
 /*!*****************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/InvoicesImport.vue ***!
+  !*** ./resources/js/pages/Principals/common/GeneratedTable.vue ***!
   \*****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _InvoicesImport_vue_vue_type_template_id_a2e7d924___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InvoicesImport.vue?vue&type=template&id=a2e7d924& */ "./resources/js/pages/Principals/common/InvoicesImport.vue?vue&type=template&id=a2e7d924&");
-/* harmony import */ var _InvoicesImport_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InvoicesImport.vue?vue&type=script&lang=js& */ "./resources/js/pages/Principals/common/InvoicesImport.vue?vue&type=script&lang=js&");
+/* harmony import */ var _GeneratedTable_vue_vue_type_template_id_c9cf427c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GeneratedTable.vue?vue&type=template&id=c9cf427c& */ "./resources/js/pages/Principals/common/GeneratedTable.vue?vue&type=template&id=c9cf427c&");
+/* harmony import */ var _GeneratedTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GeneratedTable.vue?vue&type=script&lang=js& */ "./resources/js/pages/Principals/common/GeneratedTable.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -315,9 +488,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _InvoicesImport_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _InvoicesImport_vue_vue_type_template_id_a2e7d924___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _InvoicesImport_vue_vue_type_template_id_a2e7d924___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _GeneratedTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _GeneratedTable_vue_vue_type_template_id_c9cf427c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GeneratedTable_vue_vue_type_template_id_c9cf427c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -327,38 +500,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/pages/Principals/common/InvoicesImport.vue"
+component.options.__file = "resources/js/pages/Principals/common/GeneratedTable.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/InvoicesImport.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/pages/Principals/common/GeneratedTable.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/InvoicesImport.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/pages/Principals/common/GeneratedTable.vue?vue&type=script&lang=js& ***!
   \******************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoicesImport_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./InvoicesImport.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/InvoicesImport.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoicesImport_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GeneratedTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./GeneratedTable.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/GeneratedTable.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GeneratedTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/InvoicesImport.vue?vue&type=template&id=a2e7d924&":
+/***/ "./resources/js/pages/Principals/common/GeneratedTable.vue?vue&type=template&id=c9cf427c&":
 /*!************************************************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/InvoicesImport.vue?vue&type=template&id=a2e7d924& ***!
+  !*** ./resources/js/pages/Principals/common/GeneratedTable.vue?vue&type=template&id=c9cf427c& ***!
   \************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoicesImport_vue_vue_type_template_id_a2e7d924___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./InvoicesImport.vue?vue&type=template&id=a2e7d924& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/InvoicesImport.vue?vue&type=template&id=a2e7d924&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoicesImport_vue_vue_type_template_id_a2e7d924___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GeneratedTable_vue_vue_type_template_id_c9cf427c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./GeneratedTable.vue?vue&type=template&id=c9cf427c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/GeneratedTable.vue?vue&type=template&id=c9cf427c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GeneratedTable_vue_vue_type_template_id_c9cf427c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoicesImport_vue_vue_type_template_id_a2e7d924___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GeneratedTable_vue_vue_type_template_id_c9cf427c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

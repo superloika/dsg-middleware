@@ -66,7 +66,9 @@
                         <v-icon>mdi-store</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
-                        <v-list-item-title>Principals</v-list-item-title>
+                        <v-list-item-title>
+                            Principals
+                        </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list-group>
@@ -87,6 +89,8 @@
 
 
 <script>
+import AppStore from '../stores.custom/AppStore';
+
 export default {
     mounted() {
         console.log('NavSide mounted');

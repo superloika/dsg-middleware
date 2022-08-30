@@ -12,7 +12,9 @@ var map = {
 	"./mead_johnson": "./resources/js/stores.custom/principals/mead_johnson.js",
 	"./mead_johnson.js": "./resources/js/stores.custom/principals/mead_johnson.js",
 	"./megasoft": "./resources/js/stores.custom/principals/megasoft.js",
-	"./megasoft.js": "./resources/js/stores.custom/principals/megasoft.js"
+	"./megasoft.js": "./resources/js/stores.custom/principals/megasoft.js",
+	"./mondelez_ph": "./resources/js/stores.custom/principals/mondelez_ph.js",
+	"./mondelez_ph.js": "./resources/js/stores.custom/principals/mondelez_ph.js"
 };
 
 

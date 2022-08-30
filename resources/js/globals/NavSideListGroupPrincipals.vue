@@ -6,7 +6,7 @@
         </v-list-item-icon>
         <v-list-item-content>
             <v-list-item-title>Principals
-                <!-- <v-chip x-small color="accent">
+                <!-- <v-chip v-if="principalsCount > 0" x-small>
                     {{ principalsCount }}
                 </v-chip> -->
             </v-list-item-title>

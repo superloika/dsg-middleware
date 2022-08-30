@@ -104,7 +104,7 @@
                     v-model="PrincipalsStore.state.items.current_page"
                     :length="PrincipalsStore.state.items.last_page"
                     @input="onPageChange()"
-                    total-visible="5"
+                    total-visible="10"
                 >
                 </v-pagination>
             </v-container>

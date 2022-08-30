@@ -118,8 +118,8 @@ var render = function() {
         "v-app-bar",
         { attrs: { elevation: "0", app: "", dense: "" } },
         [
-          _c("v-toolbar-title", { staticClass: "primary--text text-h5" }, [
-            _c("h6", [
+          _c("v-toolbar-title", { staticClass: "primary--text" }, [
+            _c("h5", [
               _vm._v(
                 "\n                " +
                   _vm._s(_vm.principalName) +

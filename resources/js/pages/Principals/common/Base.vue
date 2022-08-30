@@ -2,11 +2,11 @@
 <v-sheet>
     <!-- <v-app-bar elevation="0" app color="secondary darken-1" dense> -->
     <v-app-bar elevation="0" app dense>
-        <v-toolbar-title class="primary--text text-h5">
+        <v-toolbar-title class="primary--text">
             <!-- <v-icon>mdi-store</v-icon> -->
-            <h6>
+            <h5>
                 {{ principalName }} ({{ vendorCode }})
-            </h6>
+            </h5>
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
