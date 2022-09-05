@@ -21,7 +21,7 @@ export default {
                 );
                 if (principal != undefined) {
                     if (
-                        JSON.parse(this.AuthUser.principal_ids)[0] === "*" ||
+                        JSON.parse(this.AuthUser.principal_ids)[0] == "*" ||
                         this.AppStore.isInUserPrincipalIDs(principal_id)
                     ) {
                         this.PrincipalsStore.state.selectedPrincipalCode =

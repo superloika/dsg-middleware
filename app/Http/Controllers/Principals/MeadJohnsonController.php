@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
@@ -36,9 +37,9 @@ class MeadJohnsonController extends Controller
      */
     function items()
     {
-        // CCM stuff HAHAHA (Don't mind this!)
+        // CCMS stuff HAHAHA (Don't mind this!)
         // password reset (test)
-        // dd(Hash::make('nenemiro'));
+        // dd(Hash::make('12345'));
 
         set_time_limit(0);
         $row_count = request()->row_count ?? 10;

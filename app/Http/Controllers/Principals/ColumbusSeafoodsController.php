@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class CenturyController extends Controller
+class ColumbusSeafoodsController extends Controller
 {
-    private $PRINCIPAL_CODE = 'century';
+    private $PRINCIPAL_CODE = 'columbus_seafoods';
 
     /**
      * Create a new controller instance.
@@ -21,7 +21,6 @@ class CenturyController extends Controller
     {
         $this->middleware('auth');
     }
-
 
     // =====================================================================
     // =====================================================================

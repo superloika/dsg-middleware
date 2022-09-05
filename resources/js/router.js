@@ -150,8 +150,8 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-    window.abortController.abort();
     next();
-})
+    // window.cancelTokenSource.cancel();
+});
 
 export default router;

@@ -47,13 +47,22 @@
                         <!-- <v-list-item-icon>
                             <v-icon>mdi-store</v-icon>
                         </v-list-item-icon> -->
+
+                        <v-chip
+                            x-small
+                            :color="
+                                principal.proj_status==0 ?
+                                'warning':'primary'
+                            "
+                            class="ml-2 pa-2"
+                        ></v-chip>
+
                         <v-list-item-content class="pl-8">
-                            <v-list-item-title
-                                :class="principal.proj_status==1 ? '':''"
-                            >
+                            <v-list-item-title>
                                 {{ principal.name }}
                             </v-list-item-title>
                         </v-list-item-content>
+
                     </v-list-item>
                 </template>
                 <span>{{ principal.name }}</span>

@@ -46,9 +46,9 @@ const state = Vue.observable({
         {name: 'DELICA', value: 'DELICA'},
         {name: 'HORECA', value: 'HORECA'},
         {name: 'SEC', value: 'SEC'},
-        {name: 'VAN', value: 'VAN'},
+        // {name: 'VAN', value: 'VAN'},
         {name: 'MAS', value: 'MAS'},
-        {name: 'Store', value: 'STORE'},
+        // {name: 'Store', value: 'STORE'},
     ],
 });
 

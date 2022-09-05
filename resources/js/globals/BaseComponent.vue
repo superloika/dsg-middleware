@@ -3,6 +3,7 @@
         <v-system-bar app
             height="35"
             dark
+            colorx="grey lighten-3"
             color="primary"
         >
             <v-btn
@@ -10,13 +11,13 @@
                 icon
             >&#9776;</v-btn>
 
-            <v-toolbar-title class="ml-1 white--text">
+            <v-toolbar-title class="ml-1 white--textx">
                 {{ AppStore.state.AppName }}
             </v-toolbar-title>
 
             <v-spacer></v-spacer>
 
-            <span class="text-caption white--text mr-3 overflow-auto">
+            <span class="text-caption white--textx mr-3 overflow-auto">
                 Howdy, {{ AuthUser.name }}!
             </span>
 
@@ -72,12 +73,12 @@
         <!-- MAIN -->
         <v-main>
             <v-container class="pa-0" fluid>
-                <keep-alive>
+                <!-- <keep-alive> -->
                     <router-view></router-view>
-                </keep-alive>
+                <!-- </keep-alive> -->
             </v-container>
-        </v-main>
 
+        </v-main>
 
         <!-- MISC -->
         <v-snackbar
@@ -94,19 +95,18 @@
             z-index="999999"
             opacity="0.2"
         >
-            <v-chip
-
-            >
+            <v-chip>
                 <v-progress-circular
                     :value="64"
                     indeterminate
                     size="20"
                 ></v-progress-circular>
-                <!-- <v-progress-linear :value="64" indeterminate></v-progress-linear> -->
                 &nbsp;
                 {{ AppStore.state.overlay.msg }}
             </v-chip>
         </v-overlay>
+
+
     </v-app>
 </template>
 
@@ -117,9 +117,8 @@ export default {
         navDrawerState: null,
     }),
 
-    computed: {
-
-    },
+    // computed: {
+    // },
 
     methods: {
         toggleDrawerState() {

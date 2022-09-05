@@ -58,7 +58,7 @@
             <span v-else>{{ item.customer_code }}</span>
         </template>
 
-        <template v-slot:[`item.route_code`]="{ item }">
+        <!-- <template v-slot:[`item.route_code`]="{ item }">
             <v-chip
                 v-if="item.route_code=='N/A'"
                 color="warning"
@@ -71,7 +71,7 @@
                 </div>
             </v-chip>
             <span v-else>{{ item.route_code }}</span>
-        </template>
+        </template> -->
 
         <template v-slot:[`item.item_code`]="{ item }">
             <v-tooltip

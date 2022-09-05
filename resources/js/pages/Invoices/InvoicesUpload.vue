@@ -29,7 +29,7 @@
                     :items="AppStore.state.terminals"
                     item-text="name"
                     item-value="value"
-                    placeholder="Select Terminal"
+                    placeholder="Select Source"
                     v-model="selected_terminal"
                     title="Source Terminal"
                 ></v-select>

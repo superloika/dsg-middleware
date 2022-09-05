@@ -4,8 +4,10 @@
     <v-app-bar elevation="0" app dense>
         <v-toolbar-title class="primary--text">
             <!-- <v-icon>mdi-store</v-icon> -->
-            <h5>
-                {{ principalName }} ({{ vendorCode }})
+            <h5 style="padding:0;">
+                {{ principalName }}
+                <v-chip x-small>{{ vendorCode }}</v-chip>
+                <v-chip x-small>{{ PrincipalsStore.state.selectedPrincipalCode }}</v-chip>
             </h5>
         </v-toolbar-title>
 

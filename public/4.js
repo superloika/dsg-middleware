@@ -63,6 +63,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['tabs'],
   data: function data() {
@@ -119,15 +121,27 @@ var render = function() {
         { attrs: { elevation: "0", app: "", dense: "" } },
         [
           _c("v-toolbar-title", { staticClass: "primary--text" }, [
-            _c("h5", [
-              _vm._v(
-                "\n                " +
-                  _vm._s(_vm.principalName) +
-                  " (" +
-                  _vm._s(_vm.vendorCode) +
-                  ")\n            "
-              )
-            ])
+            _c(
+              "h5",
+              { staticStyle: { padding: "0" } },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.principalName) +
+                    "\n                "
+                ),
+                _c("v-chip", { attrs: { "x-small": "" } }, [
+                  _vm._v(_vm._s(_vm.vendorCode))
+                ]),
+                _vm._v(" "),
+                _c("v-chip", { attrs: { "x-small": "" } }, [
+                  _vm._v(
+                    _vm._s(_vm.PrincipalsStore.state.selectedPrincipalCode)
+                  )
+                ])
+              ],
+              1
+            )
           ]),
           _vm._v(" "),
           _c("v-spacer"),

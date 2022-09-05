@@ -190,6 +190,8 @@ const actions = {
      */
     async initCurrentGeneratedData(principal_code, template_variations_count=1) {
         try {
+
+
             state.isGeneratingData = true;
             const url = encodeURI(
                 AppStore.state.siteUrl + 'principals/'
@@ -198,7 +200,12 @@ const actions = {
                 // + '?template_variations_count=' + template_variations_count
             );
             // {cancelToken:axiosSource.token}
-            let result = await axios.get(url, { signal: window.abortController.abort() });
+            let result = await axios.get(url,
+                {
+                    // signal: window.abortCtrl.signal,
+                    cancelToken: window.cancelTokenSource.token,
+                }
+            );
             state.isGeneratingData = false;
             state.currentGeneratedData = [];
             // state.currentGeneratedData = Object.entries(result.data.output_template_variations);

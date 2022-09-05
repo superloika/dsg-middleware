@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class MondelezPhController extends Controller
+class CadburyAdamsController extends Controller
 {
-    private $PRINCIPAL_CODE = 'mondelez_ph';
+    private $PRINCIPAL_CODE = 'cadbury_adams';
 
     /**
      * Create a new controller instance.

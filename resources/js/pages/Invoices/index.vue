@@ -67,17 +67,17 @@
             <template v-slot:extension>
                 <v-app-bar dense elevation="0">
                     <!-- <v-select
-                    :items="groupByColumns"
-                    v-model="groupBy"
-                    class="mr-3"
-                    style="max-width:125px;"
-                    label="Group By"
-                    outlined
-                    rounded
-                    hide-details
-                    dense
-                >
-                </v-select> -->
+                        :items="groupByColumns"
+                        v-model="groupBy"
+                        class="mr-3"
+                        style="max-width:125px;"
+                        label="Group By"
+                        outlined
+                        rounded
+                        hide-details
+                        dense
+                    >
+                    </v-select> -->
 
                     <v-select
                         :items="tblPageRowCounts"
@@ -91,6 +91,8 @@
                         dense
                     >
                     </v-select>
+
+                    <v-spacer></v-spacer>
 
                     <v-combobox
                         :items="AppStore.state.principals"
@@ -136,6 +138,7 @@
                         title="Source Terminal"
                         style="max-width:170px;"
                         class="mr-3"
+                        label="Source"
                     ></v-select>
 
                     <v-select
@@ -155,10 +158,11 @@
             </template>
         </v-app-bar>
 
-        <!-- <InvoicesUpload
+        <!-- Invoice upload component -->
+        <InvoicesUpload
             :searchKey="searchKey"
             :principalCodeFilter="principalCodeFilter"
-        ></InvoicesUpload> -->
+        ></InvoicesUpload>
 
         <v-data-table
             :items="InvoicesStore.state.invoices.data"
@@ -217,12 +221,13 @@
     </div>
 </template>
 
+
 <script>
 import { debounce } from "lodash";
 
 export default {
     components: {
-        // InvoicesUpload: () => import("./InvoicesUpload.vue")
+        InvoicesUpload: () => import("./InvoicesUpload.vue")
     },
     data() {
         return {

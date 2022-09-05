@@ -33,6 +33,10 @@ window.axios = require("axios");
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
+// window.abortCtrl = new AbortController();
+const CancelToken = axios.CancelToken;
+window.cancelTokenSource = CancelToken.source();
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -58,6 +62,8 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 // check if user session has expired or user is unauthorized
 window.axios.interceptors.response.use(
     function(response) {
+        console.log('****************** Axios RESPONSE *******************');
+        console.log(response);
         // if(window.AuthUser===null) {
         //     let url = new URL(window.location.href);
         //     if(url.pathname !== '/login') {
@@ -68,13 +74,13 @@ window.axios.interceptors.response.use(
     },
 
     function(error) {
-        console.log('===================== INTERCEPTOR =====================');
+        console.info('===================== INTERCEPTOR =====================');
         if (
             error.response.status === 401
             || error.response.status === 419
             || error.response.status === 440
         ) {
-            console.log('INTERCEPTOR:', error);
+            console.error('INTERCEPTOR:', error);
             let cookies = document.cookie.split(";");
             for (let i = 0; i < cookies.length; i++) {
                 let cookie = cookies[i];
@@ -84,16 +90,13 @@ window.axios.interceptors.response.use(
             }
             // window.location.href = `/flush-session`;
             // window.location.href = `/login`;
-            window.location.assign(window.location.href);
-
+            // window.location.assign(window.location.href);
         }
 
-        console.log('INTERCEPTOR - AUTH USER:', window.AuthUser);
-        console.log('INTERCEPTOR:', error);
-        console.log('===================== INTERCEPTOR =====================');
+        console.info('INTERCEPTOR - AUTH USER:', window.AuthUser);
+        console.error('INTERCEPTOR:', error);
+        console.info('===================== INTERCEPTOR =====================');
         return Promise.reject(error);
     }
 );
 
-
-window.abortController = new AbortController();

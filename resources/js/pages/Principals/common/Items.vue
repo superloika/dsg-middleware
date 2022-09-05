@@ -75,26 +75,29 @@
                         v-if="item.vendor_code==null || item.vendor_code==''"
                         color="error"
                         outlined
-                        small
+                        x-small
                         title="Not found in General Masterfile"
                     >
                         {{ item.item_code }}
                     </v-chip>
 
-                    <v-chip
+                    <div
                         v-else-if="
                             item.vendor_code!=
                             PrincipalsStore.getVendorCode($route.params.principal_id)
                         "
-                        color="warning"
-                        outlined
-                        small
-                        :title="
-                            item.principal_name + ' - ' + item.vendor_code
-                        "
                     >
-                        {{ item.item_code }}
-                    </v-chip>
+                        <v-chip
+                            color="warning"
+                            outlined
+                            x-small
+                        >
+                            {{ item.item_code }}
+                        </v-chip>
+                        <v-chip x-small>
+                            {{ item.principal_name }} - {{ item.vendor_code }}
+                        </v-chip>
+                    </div>
 
                     <span v-else>{{ item.item_code }}</span>
                 </template>

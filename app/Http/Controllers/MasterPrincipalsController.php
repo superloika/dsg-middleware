@@ -12,8 +12,10 @@ class MasterPrincipalsController extends Controller
     public function index()
     {
         $res = DB::table('principals')
+            ->where('active', 1)
             ->orderBy('proj_status', 'DESC')
-            ->orderBy('name')
+            // ->orderBy('code')
+            ->orderBy('id')
             ->get();
 
         return response()->json($res);

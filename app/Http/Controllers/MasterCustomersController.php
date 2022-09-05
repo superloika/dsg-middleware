@@ -21,7 +21,7 @@ class MasterCustomersController extends Controller
             ->orWhere('address_2','like','%'. $search_key. '%')
             ->orWhere('city','like','%'. $search_key. '%')
             ->orWhere('contact','like','%'. $search_key. '%')
-            ->orWhere('phone_no','like','%'. $search_key. '%')
+            // ->orWhere('phone_no','like','%'. $search_key. '%')
             ->paginate($row_count);
         return response()->json($result);
     }
@@ -30,10 +30,10 @@ class MasterCustomersController extends Controller
     public function upload(Request $request) {
         set_time_limit(0);
         // DB::disableQueryLog();
+        $memory_limit = ini_get('memory_limit');
+        ini_set('memory_limit', -1);
 
         try {
-            $delimiter = ',';
-
             foreach($request->file('files') as $masterfile) {
                 $fileName = 'customers-'. time(). '-'. $masterfile->getClientOriginalName();
 
@@ -44,35 +44,43 @@ class MasterCustomersController extends Controller
                     $fileContent = Storage::get("$filePath/$fileName");
                     $fileContentLines = explode(PHP_EOL, utf8_encode($fileContent));
 
-                    $loopCounter = 1;
-                    // DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)->truncate();
+                    // $loopCounter = 1;
                     $arrLines = [];
                     $dateToday = Carbon::now()->toDateTimeString();
 
                     DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)->truncate();
 
                     foreach ($fileContentLines as $fileContentLine) {
-                        if($loopCounter > 1) {
-                            // $arrFileContentLine = explode($delimiter, $fileContentLine);
+                        // if($loopCounter > 0) {
+                            $arrFileContentLine = explode('|', $fileContentLine);
                             // $arrFileContentLine = preg_split('/".*"|[^,"]+/', $fileContentLine);
-                            $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+                            // $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                             // dd($arrFileContentLine);
+                            // dd(count($arrFileContentLine));
 
-                            if (count($arrFileContentLine) > 1 && substr($arrFileContentLine[0], 0, 1) != '#') {
-                                $customer_code = trim($arrFileContentLine[0]);
-                                $name = str_replace('"','',$arrFileContentLine[1]);
-                                $address = str_replace('"','',$arrFileContentLine[2]);
-                                $address_2 = str_replace('"','',$arrFileContentLine[3]);
-                                $city = str_replace('"','',$arrFileContentLine[4]);
-                                $contact = str_replace('"','',$arrFileContentLine[5]);
-                                $phone_no = str_replace('"','',$arrFileContentLine[6]);
+                            if (count($arrFileContentLine) > 0) {
+                                $customer_code =
+                                    trim(str_replace('"','',$arrFileContentLine[0]));
+                                $name =
+                                    trim(str_replace('"','',$arrFileContentLine[1] ?? 'N/A'));
+                                $address =
+                                    trim(str_replace('"','',$arrFileContentLine[4] ?? 'N/A'));
+                                $address_2 =
+                                    trim(str_replace('"','',$arrFileContentLine[5] ?? 'N/A'));
+                                $city =
+                                    trim(str_replace('"','',$arrFileContentLine[6] ?? 'N/A'));
+                                $contact =
+                                    trim(str_replace('"','',$arrFileContentLine[7] ?? 'N/A'));
+                                // $phone_no = str_replace('"','',$arrFileContentLine[6]);
 
-                                $isExisting = array_search(
-                                    $customer_code, array_column($arrLines, 'customer_code')
-                                );
+                                // dd($address_2);
+
+                                // $isExisting = array_search(
+                                //     $customer_code, array_column($arrLines, 'customer_code')
+                                // );
                                 // $isExisting = false;
-                                if($isExisting==false) {
+                                // if($isExisting==false) {
                                     $arrLines[] = [
                                         'updated_at'=>$dateToday,
                                         'customer_code'=>$customer_code,
@@ -81,12 +89,14 @@ class MasterCustomersController extends Controller
                                         'address_2'=>$address_2,
                                         'city'=>$city,
                                         'contact'=>$contact,
-                                        'phone_no'=>$phone_no,
+                                        // 'phone_no'=>$phone_no,
                                     ];
-                                }
+
+                                    // dd($arrLines);
+                                // }
                             }
-                        }
-                        $loopCounter++;
+                        // }
+                        // $loopCounter++;
                     }
 
                     $chunks = array_chunk($arrLines, 500);
@@ -98,6 +108,9 @@ class MasterCustomersController extends Controller
                 }
             }
 
+            // revert to the default memory limit
+            ini_set('memory_limit', $memory_limit);
+
             $res['success'] = true;
             $res['message'] = 'Success';
 
@@ -105,8 +118,8 @@ class MasterCustomersController extends Controller
 
         } catch (\Throwable $th) {
             $res['success'] = false;
-            $res['message'] = $th;
-            return response()->json($res);
+            $res['message'] = $th->getMessage();
+            return response()->json($res, 500);
         }
     }
 }
