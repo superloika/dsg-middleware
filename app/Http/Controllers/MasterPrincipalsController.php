@@ -12,7 +12,7 @@ class MasterPrincipalsController extends Controller
     public function index()
     {
         $res = DB::table('principals')
-            ->where('active', 1)
+            // ->where('active', 1)
             ->orderBy('proj_status', 'DESC')
             // ->orderBy('code')
             ->orderBy('id')

@@ -11,7 +11,7 @@ const host = `http://${window.location.host}/`;
 // const localStorage = window.localStorage;
 
 const state = Vue.observable({
-    AppName: 'DSG MIDDLEWARE - DEV',
+    AppName: 'DSG PRINCIPAL MIDDLEWARE - DEV',
     // AppName: 'DSG - MIDDLEWARE',
     siteUrl: host,
     snackBar: {
@@ -39,17 +39,6 @@ const state = Vue.observable({
         .substr(0, 10)],
     // navDrawerState: localStorage.getItem('navDrawerState'),
     dlgImportMaster: false,
-    terminals: [
-        {name: '3ps', value: '3PS'},
-        {name: 'CVS', value: 'CVS'},
-        {name: 'WDG', value: 'WDG'},
-        {name: 'DELICA', value: 'DELICA'},
-        {name: 'HORECA', value: 'HORECA'},
-        {name: 'SEC', value: 'SEC'},
-        // {name: 'VAN', value: 'VAN'},
-        {name: 'MAS', value: 'MAS'},
-        // {name: 'Store', value: 'STORE'},
-    ],
 });
 
 
@@ -83,6 +72,18 @@ const actions = {
             if (
                 JSON.parse(window.AuthUser.principal_ids)
                     .includes(parseInt(principal_id))
+            ) {
+                return true;
+            }
+        }
+        return false;
+    },
+
+    isInUserPrincipalCodes(principal_code) {
+        if (window.AuthUser != undefined || window.AuthUser != null) {
+            if (
+                JSON.parse(window.AuthUser.principal_codes)
+                    .includes(parseInt(principal_code))
             ) {
                 return true;
             }

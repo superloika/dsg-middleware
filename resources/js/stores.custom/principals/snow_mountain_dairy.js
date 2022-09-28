@@ -21,9 +21,9 @@ const state = Vue.observable({
     ],
     salesmenTableHeader: [
         [
-            {text:"Salesman Name", value:"sm_name"},
-            {text:"Salesman Code", value:"sm_code"},
-            {text:"Salesman Code - Supplier", value:"sm_code_supplier"},
+            {text:"Group Code", value:"group_code"},
+            {text:"Salesman Code - NOAH", value:"sm_code_supplier"},
+            {text:"Location Code - NOAH", value:"location_code_supplier"},
         ]
     ],
 
@@ -63,19 +63,19 @@ const state = Vue.observable({
     ],
 
     // transactions table header
-    transactionsTableHeader: [
-        [
-            {text:"Upload Date", value:"updated_at"},
-            {text:"Customer Code", value:"customer_code"},
-            {text:"Account Name", value:"customer_name"},
-            {text:"Sales Invoice", value:"doc_no"},
-            {text:"Item Code", value:"item_code"},
-            {text:"Description", value:"description"},
-            {text:"UOM", value:"uom"},
-            {text:"Quantity", value:"quantity"},
-            {text:"Amount", value:"u3"},
-        ]
-    ],
+    // transactionsTableHeader: [
+    //     [
+    //         {text:"Upload Date", value:"updated_at"},
+    //         {text:"Customer Code", value:"customer_code"},
+    //         {text:"Account Name", value:"customer_name"},
+    //         {text:"Sales Invoice", value:"doc_no"},
+    //         {text:"Item Code", value:"item_code"},
+    //         {text:"Description", value:"description"},
+    //         {text:"UOM", value:"uom"},
+    //         {text:"Quantity", value:"quantity"},
+    //         {text:"Amount", value:"u3"},
+    //     ]
+    // ],
 
 
     // ************************* Templated Data History *******************************
@@ -106,12 +106,12 @@ const state = Vue.observable({
     generatedDataHistoryFilters: [
         [
             {text: 'Order Date', value: 'order_date'},
-            {text: 'Document #', value: 'doc_no'},
+            {text: 'Invoice #', value: 'doc_no'},
             {text: 'Product Code', value: 'item_code'},
-            {text: 'Account Code', value: 'customer_code'},
-            {text: 'Salesman', value: 'sales_agent_id'},
+            {text: 'Customer Code', value: 'customer_code'},
+            {text: 'Salesman', value: 'sm_code_supplier'},
             {text: 'Location', value: 'location'},
-            {text: 'Invoice Posting Date', value: 'invoice_date'},
+            {text: 'Invoice Posting Date', value: 'posting_date'},
         ]
     ],
     // ************************* /Templated Data History *******************************

@@ -84,7 +84,7 @@
                     <div
                         v-else-if="
                             item.vendor_code!=
-                            PrincipalsStore.getVendorCode($route.params.principal_id)
+                            PrincipalsStore.getVendorCode($route.params.principal_code)
                         "
                     >
                         <v-chip

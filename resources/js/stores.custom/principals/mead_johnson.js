@@ -45,46 +45,47 @@ const state = Vue.observable({
 
 
     // transactions table header
-    transactionsTableHeader: [
-        [
-            {text:"Upload Date",    value:"updated_at"},
-            {text:"Customer Code",  value:"customer_code"},
-            {text:"Account Name",   value:"customer_name"},
-            {text:"Sales Invoice",  value:"doc_no"},
-            {text:"Item Code",      value:"item_code"},
-            {text:"Description",    value:"description"},
-            {text:"UOM",            value:"uom"},
-            {text:"Quantity",       value:"quantity"},
-            {text:"Amount",         value:"u3"},
-        ]
-    ],
+    // transactionsTableHeader: [
+    //     [
+    //         {text:"Upload Date",    value:"updated_at"},
+    //         {text:"Customer Code",  value:"customer_code"},
+    //         {text:"Account Name",   value:"customer_name"},
+    //         {text:"Sales Invoice",  value:"doc_no"},
+    //         {text:"Item Code",      value:"item_code"},
+    //         {text:"Description",    value:"description"},
+    //         {text:"UOM",            value:"uom"},
+    //         {text:"Quantity",       value:"quantity"},
+    //         {text:"Amount",         value:"u3"},
+    //     ]
+    // ],
 
 
     // ************************* Templated Data History *******************************
     // custom cols (Templated Data History)
-    generatedDataDBTableColumns: [
-        // common
-        'id',
-        'generated_at',
-        'uploaded_by',
-        'doc_no',
-        // principal template
-        'order_date',
-        'customer_code',
-        'route_code',
-        'product_category_code',
-        'ship_to',
-        'order_no',
-        'remarks',
-        'item_code',
-        'quantity'
-    ],
+    // generatedDataDBTableColumns: [
+    //     // common
+    //     'id',
+    //     'generated_at',
+    //     'uploaded_by',
+    //     'doc_no',
+    //     // principal template
+    //     'order_date',
+    //     'customer_code',
+    //     'route_code',
+    //     'product_category_code',
+    //     'ship_to',
+    //     'order_no',
+    //     'remarks',
+    //     'item_code',
+    //     'quantity'
+    // ],
     generatedDataHistoryFilters: [
         [
-            {text: 'Order Date',    value: 'order_date'},
             {text: 'Route Code',    value: 'route_code'},
+            {text: 'Order Date',    value: 'order_date'},
             {text: 'Item Code',     value: 'item_code'},
             {text: 'Customer Code', value: 'customer_code'},
+            {text: 'Invoice #', value: 'doc_no'},
         ]
     ],
     // ************************* /Templated Data History *******************************

@@ -1,21 +1,50 @@
 <template>
 <div>
     <v-app-bar elevation="0">
-        <!-- refresh -->
-        <v-btn
-            title="Refresh"
+        <!-- date filter -->
+        <!-- <v-btn
+            title="Generate"
             icon
             dense
             rounded
             depressed
             class="mr-2"
+            @click="PrincipalsStore.state.generateFilterShown=true"
+        >
+            <v-icon>mdi-cog-play-outline</v-icon>
+        </v-btn> -->
+
+        <!-- reload -->
+        <v-btn
+            title="Load"
+            icon
+            dense
+            rounded
+            depressed
+            class="mr-3"
+            color="primary"
             @click="refresh()"
         >
-            <v-icon>mdi-refresh</v-icon>
+            <v-icon>mdi-tray-arrow-down</v-icon>
         </v-btn>
 
+        <v-select
+            :items="selPrincipalStore.state.generatedDataHistoryFilters[0]"
+            v-model="PrincipalsStore.state.selectedGroupBy"
+            label="Group By"
+            item-text="text"
+            item-value="value"
+            class="mr-3"
+            style="max-width:215px;"
+            outlined
+            rounded
+            hide-details
+            dense
+        >
+        </v-select>
+
         <!-- search -->
-        <v-text-field
+        <!-- <v-text-field
             v-model="PrincipalsStore.state.currentGeneratedDataSearchKey"
             label="Search"
             title="Search"
@@ -30,7 +59,7 @@
             :disabled="
                 PrincipalsStore.state.currentGeneratedData.length < 1
             "
-        ></v-text-field>
+        ></v-text-field> -->
 
         <!-- ********************* UNMAPPED SHITS ************************* -->
         <!-- UNMAPPED CUSTOMERS -->
@@ -119,6 +148,7 @@
             dense
             rounded
             color="primary"
+            class="ml-4"
             @click.stop="
                 PrincipalsStore.state.confirmExportDialogOpen = true
             "
@@ -131,6 +161,11 @@
             <v-icon left size="25">mdi-file-excel</v-icon>
             Export({{ lineCount - warningsCount }})
         </v-btn>
+
+        <!-- ***************************************************************** -->
+        <!-- ********************* DIALOGS *********************************** -->
+        <!-- ***************************************************************** -->
+
         <!-- confirm export dialog -->
         <v-dialog
             persistent
@@ -138,7 +173,7 @@
             max-width="500"
         >
             <ConfirmExport
-                :id="
+                :key="
                     'confirm_export_' +
                         PrincipalsStore.state.selectedPrincipalCode
                 "
@@ -146,6 +181,14 @@
             </ConfirmExport>
         </v-dialog>
         <!-- ********************* /EXPORT ************************ -->
+
+        <!-- ********************* GENERATE ************************ -->
+        <GenerateFilter></GenerateFilter>
+        <!-- ********************* /GENERATE ************************ -->
+
+        <!-- ***************************************************************** -->
+        <!-- ********************* /DIALOGS ********************************** -->
+        <!-- ***************************************************************** -->
 
     </v-app-bar>
 </div>
@@ -159,7 +202,8 @@ export default {
 
     components: {
         MissingInMaster: () => import("./MissingInMaster.vue"),
-        ConfirmExport: () => import("./ConfirmExport.vue")
+        ConfirmExport: () => import("./ConfirmExport.vue"),
+        GenerateFilter: () => import("./GenerateFilter.vue")
     },
 
     data() {
@@ -167,7 +211,7 @@ export default {
             dlgMissingCustomers: null,
             dlgMissingItems: null,
             dlgMissingSalesmen: null,
-            // dlgPendings: null
+            // dlgPendings: null,
         };
     },
 
@@ -187,6 +231,9 @@ export default {
                 return 0;
             }
         },
+        selPrincipalStore() {
+            return this[this.PrincipalsStore.state.selectedPrincipalCode];
+        }
     },
 
     methods: {
@@ -249,7 +296,11 @@ export default {
         },
 
         refresh() {
-            PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
+            PrincipalsStore.initCurrentGeneratedData(
+                this.selectedPrincipalCode,
+                null,
+                this.PrincipalsStore.state.selectedGroupBy
+            );
             PrincipalsStore.state.currentGeneratedDataSearchKey = '';
         },
     },

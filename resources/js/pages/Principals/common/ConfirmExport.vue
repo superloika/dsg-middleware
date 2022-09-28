@@ -9,7 +9,7 @@
         <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
-                @click="PrincipalsStore.setInvoicesComplete()"
+                @click="InvoicesStore.setInvoicesComplete()"
                 color="primary"
                 :loading="PrincipalsStore.state.isExportingTemplatedData"
                 text

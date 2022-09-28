@@ -171,7 +171,8 @@ export default {
         },
 
         tblHeader() {
-            return this[this.selectedPrincipalCode].state.transactionsTableHeader[0];
+            // return this[this.selectedPrincipalCode].state.transactionsTableHeader[0];
+            return this.InvoicesStore.state.transactionsTableHeader[0];
         },
 
         totalAmount() {
@@ -179,7 +180,7 @@ export default {
 
             if(this.PrincipalsStore.state.transactions.length > 0) {
                 this.PrincipalsStore.state.transactions.forEach(e => {
-                    amount += parseFloat(e.u3);
+                    amount += parseFloat(e.amount);
                 });
             }
             return amount;

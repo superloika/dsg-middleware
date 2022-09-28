@@ -1,32 +1,14 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[6],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/GeneratedHistory.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/GeneratedHistory.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -149,194 +131,105 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    GeneratedTableWrapper: function GeneratedTableWrapper() {
-      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./GeneratedTableWrapper.vue */ "./resources/js/pages/Principals/common/GeneratedTableWrapper.vue"));
-    }
-  },
   data: function data() {
     return {
-      datePickerShown: false,
-      date: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10)],
-      generatedData: [],
-      isGenerating: false,
-      wrapperID: 'gendata_history_wrapper',
-      selectedFilter: null
+      particulars: [],
+      modal_datepicker: false,
+      isSaving: false,
+      tags: this.Expenditures.state.tags,
+      particular: null,
+      amount: null,
+      quantity: null,
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10),
+      selectedTags: null
     };
   },
-  computed: {
-    // overall
-    lineCount: function lineCount() {
-      var count = 0;
-
-      if (this.generatedData.length > 0) {
-        this.generatedData[0].output_template.forEach(function (e) {
-          count += e[1].length;
-        });
-      }
-
-      return count;
-    },
-    dateRangeText: function dateRangeText() {
-      return this.date.join(' ~ ');
-    },
-    myStore: function myStore() {
-      return this[this.PrincipalsStore.state.selectedPrincipalCode];
-    }
-  },
   methods: {
-    /**
-     * This will regenerate the templated data
-     * and will be filtered based on the passed 'date'.
-     * The reult will also be grouped based on 'dataProp'
-     */
-    generate: function generate(date) {
-      var _arguments = arguments,
-          _this = this;
+    initParticulars: function initParticulars() {
+      var _this = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var dataProp, url, payload, res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                dataProp = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : '';
-                date.sort();
-                url = _this.AppStore.state.siteUrl + "principals" + "/generated";
-                payload = {
-                  date: date,
-                  principal_code: _this.PrincipalsStore.state.selectedPrincipalCode,
-                  cols: _this.myStore.state.generatedDataDBTableColumns
-                };
-                _context.prev = 4;
-                _this.isGenerating = true;
-                _this.generatedData = [];
-                _context.next = 9;
-                return axios.post(url, payload);
+      // const vm = this;
+      var url = "".concat(this.AppStore.state.siteUrl, "api_expenses/particulars");
+      axios.get(url).then(function (response) {
+        console.log(response.data);
 
-              case 9:
-                res = _context.sent;
-                _this.generatedData = // [
-                res.data.output_template_variations.map(function (e) {
-                  var grouped = e.output_template.reduce(function (r, a) {
-                    r[a[dataProp]] = r[a[dataProp]] || [];
-                    r[a[dataProp]].push(a);
-                    return r;
-                  }, Object.create(null));
-                  return {
-                    name: e.name,
-                    output_template: Object.entries(grouped)
-                  };
-                }); // ];
-                // this.generatedData = Object.entries(grouped);
-
-                _this.isGenerating = false;
-                _this.dlgSelectDatesShown = false;
-                _context.next = 19;
-                break;
-
-              case 15:
-                _context.prev = 15;
-                _context.t0 = _context["catch"](4);
-                console.log("generate(): ", _context.t0);
-
-                _this.AppStore.toast(_context.t0);
-
-              case 19:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, null, [[4, 15]]);
-      }))();
+        try {
+          _this.particulars = response.data.map(function (el) {
+            return el.particular;
+          });
+        } catch (error) {
+          _this.AppStore.toast(error);
+        }
+      })["catch"](function (err) {
+        _this.AppStore.toast(err);
+      });
     },
-    // async generate(date, dataProp='') {
-    //     date.sort();
-    //     // const url =
-    //     //     this.AppStore.state.siteUrl + "principals/"
-    //     //      + `generated?date=${date}&table_generated=`
-    //     //      + `generated_${this.PrincipalsStore.state.selectedPrincipalCode}`;
-    //     // const url =
-    //     //     this.AppStore.state.siteUrl + "principals"
-    //     //      + `/generated`
-    //     //      + `?date=${date}`
-    //     //      + `&principal_code=${this.PrincipalsStore.state.selectedPrincipalCode}`;
-    //     const url = this.AppStore.state.siteUrl
-    //         + "principals"
-    //         + `/generated`;
-    //     const payload = {
-    //         date: date,
-    //         principal_code: this.PrincipalsStore.state.selectedPrincipalCode,
-    //         cols: this.myStore.state.generatedDataDBTableColumns
-    //     };
-    //     try {
-    //         this.AppStore.state.showTopLoading = true;
-    //         this.isGenerating = true;
-    //         this.generatedData = [];
-    //         let res = await axios.post(url, payload);
-    //         state.currentGeneratedData =
-    //         // [
-    //             result.data.output_template_variations.map(e => {
-    //                 return {
-    //                     name: e.name,
-    //                     output_template: Object.entries(e.output_template),
-    //                 }
-    //             });
-    //         // ];
-    //         const grouped = res.data.generated_data.reduce(function(r, a) {
-    //             r[a[dataProp]] = r[a[dataProp]] || [];
-    //             r[a[dataProp]].push(a);
-    //             return r;
-    //         }, Object.create(null));
-    //         this.generatedData = Object.entries(grouped);
-    //         this.isGenerating = false;
-    //         this.AppStore.state.showTopLoading = false;
-    //         this.dlgSelectDatesShown = false;
-    //     } catch (error) {
-    //         console.log("generate(): ", error);
-    //         this.AppStore.toast(error);
-    //     }
-    // },
-    exportToExcel: function exportToExcel() {
-      var config = this.PrincipalsStore.getHeaderAndFormat('generatedDataTableHeader');
+    saveExpense: function saveExpense() {
+      var _this2 = this;
 
-      for (var i = 0; i < config.length; i++) {
-        // export templated data to Excel
-        this.PrincipalsStore.exportToExcel(config[i].header, this.PrincipalsStore.generatedDataSubset( // this.AppStore.flattenGendata(this.generatedData),
-        this.generatedData[i].output_template, config[i].format), null, this.PrincipalsStore.state.selectedPrincipalCode + '_' + (i + 1));
+      var url = "".concat(this.AppStore.state.siteUrl, "api_expenses/store");
+      this.isSaving = true;
+      var expenseData = {
+        "particular": this.particular,
+        "amount": this.amount,
+        "quantity": this.quantity,
+        "expense_date": this.date,
+        "tag_ids": this.selectedTags
+      };
+      axios.post(url, expenseData).then(function (response) {
+        if (response.data == true) {
+          _this2.AppStore.toast('New expense added');
+
+          _this2.Expenditures.expenses();
+
+          _this2.Expenditures.state.add_expense = false;
+          _this2.isSaving = false;
+        }
+      })["catch"](function (err) {
+        console.log(err);
+        _this2.isSaving = false;
+      });
+    },
+    appendNewParticular: function appendNewParticular(e) {
+      var newParticular = e.target.value;
+
+      if (newParticular != '') {
+        var newParticularExists = false;
+        this.particulars.forEach(function (el) {
+          if (el.toLowerCase() === newParticular.toLowerCase()) {
+            newParticularExists = true;
+          }
+        });
+
+        if (!newParticularExists) {
+          this.particulars.push(newParticular);
+          this.particular = newParticular;
+        }
+
+        console.log('PARTICULARS:', this.particulars);
       }
-
-      ; // this.PrincipalsStore.exportToExcel(
-      //     config.header,
-      //     this.PrincipalsStore.generatedDataSubset(
-      //         this.generatedData,
-      //         config.format
-      //     ),
-      //     null,
-      //     this.PrincipalsStore.state.selectedPrincipalCode
-      // );
     }
   },
+  computed: {},
   watch: {
-    selectedFilter: function selectedFilter(val) {
-      this.generate(this.date, val);
+    selectedTags: function selectedTags() {
+      console.log(this.selectedTags);
     }
   },
   created: function created() {
-    this.selectedFilter = this.myStore.state.generatedDataHistoryFilters[0][0].value; // this.generate(this.date, this.selectedFilter);
+    this.initParticulars();
   },
   mounted: function mounted() {
-    console.log("GeneratedHistory component mounted");
-    console.log(this.generatedData);
+    console.log("ExpendituresAdd mounted.");
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/GeneratedHistory.vue?vue&type=template&id=7ab5cd88&":
-/*!********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/GeneratedHistory.vue?vue&type=template&id=7ab5cd88& ***!
-  \********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=template&id=0ca3598a&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=template&id=0ca3598a& ***!
+  \******************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -350,168 +243,220 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { staticClass: "elevation-0 pt-0", attrs: { outlinedx: "" } },
     [
+      _c("v-card-title", { staticClass: "mb-5" }, [
+        _c("span", { staticClass: "text-h5" }, [_vm._v("Add Test Data")])
+      ]),
+      _vm._v(" "),
       _c(
-        "v-card-title",
-        { staticClass: "pa-0" },
+        "v-card-text",
         [
           _c(
-            "v-app-bar",
-            { attrs: { elevation: "0", colorx: "white" } },
+            "v-row",
             [
-              _c("v-toolbar-title", [
-                _vm._v(
-                  "\n                Templated Data - History\n                "
-                ),
-                _vm.lineCount > 0
-                  ? _c(
-                      "div",
-                      [
-                        _c(
-                          "v-chip",
-                          {
-                            attrs: {
-                              "x-small": "",
-                              outlinedx: "",
-                              label: "",
-                              color: "primary"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(_vm.lineCount) +
-                                " total line/s\n                    "
-                            )
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("v-spacer"),
-              _vm._v(" "),
               _c(
-                "v-btn",
+                "v-col",
                 {
-                  staticClass: "mr-2",
-                  attrs: {
-                    title: "Refresh",
-                    icon: "",
-                    dense: "",
-                    rounded: "",
-                    depressed: ""
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.generate(_vm.date, _vm.selectedFilter)
-                    }
-                  }
+                  staticClass: "pb-0 pt-0",
+                  attrs: { cols: "12", sm: "6", md: "4" }
                 },
-                [_c("v-icon", [_vm._v("mdi-refresh")])],
+                [
+                  _c("v-autocomplete", {
+                    attrs: {
+                      items: _vm.particulars,
+                      dense: "",
+                      outlined: "",
+                      autofocus: "",
+                      label: "Particular *"
+                    },
+                    on: {
+                      blur: function($event) {
+                        return _vm.appendNewParticular($event)
+                      }
+                    },
+                    model: {
+                      value: _vm.particular,
+                      callback: function($$v) {
+                        _vm.particular = $$v
+                      },
+                      expression: "particular"
+                    }
+                  })
+                ],
                 1
               ),
               _vm._v(" "),
-              _c("v-text-field", {
-                staticClass: "mr-3",
-                staticStyle: { "max-width": "230px" },
-                attrs: {
-                  label: "Date (YYYY-MM-DD)",
-                  "hide-details": "",
-                  readonly: "",
-                  dense: "",
-                  outlined: "",
-                  rounded: "",
-                  disabled: _vm.isGenerating
+              _c(
+                "v-col",
+                {
+                  staticClass: "pb-0 pt-0",
+                  attrs: { cols: "12", sm: "6", md: "4" }
                 },
-                on: {
-                  click: function($event) {
-                    $event.stopPropagation()
-                    _vm.datePickerShown = true
-                  }
-                },
-                model: {
-                  value: _vm.dateRangeText,
-                  callback: function($$v) {
-                    _vm.dateRangeText = $$v
-                  },
-                  expression: "dateRangeText"
-                }
-              }),
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      outlined: "",
+                      dense: "",
+                      label: "Amount *",
+                      prefix: "P"
+                    },
+                    model: {
+                      value: _vm.amount,
+                      callback: function($$v) {
+                        _vm.amount = $$v
+                      },
+                      expression: "amount"
+                    }
+                  })
+                ],
+                1
+              ),
               _vm._v(" "),
               _c(
-                "v-dialog",
+                "v-col",
                 {
-                  ref: "datePicker",
-                  attrs: { "return-value": _vm.date, width: "290px" },
-                  on: {
-                    "update:returnValue": function($event) {
-                      _vm.date = $event
+                  staticClass: "pb-0 pt-0",
+                  attrs: { cols: "12", sm: "6", md: "4" }
+                },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      outlined: "",
+                      dense: "",
+                      label: "Quantity*",
+                      required: ""
                     },
-                    "update:return-value": function($event) {
-                      _vm.date = $event
+                    model: {
+                      value: _vm.quantity,
+                      callback: function($$v) {
+                        _vm.quantity = $$v
+                      },
+                      expression: "quantity"
                     }
-                  },
-                  model: {
-                    value: _vm.datePickerShown,
-                    callback: function($$v) {
-                      _vm.datePickerShown = $$v
-                    },
-                    expression: "datePickerShown"
-                  }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                {
+                  staticClass: "pb-0 pt-0",
+                  attrs: { cols: "12", sm: "6", md: "4" }
                 },
                 [
                   _c(
-                    "v-date-picker",
+                    "v-dialog",
                     {
-                      attrs: { scrollable: "", range: "" },
-                      model: {
-                        value: _vm.date,
-                        callback: function($$v) {
-                          _vm.date = $$v
+                      ref: "dialog_datepicker",
+                      attrs: { "return-value": _vm.date, width: "290px" },
+                      on: {
+                        "update:returnValue": function($event) {
+                          _vm.date = $event
                         },
-                        expression: "date"
+                        "update:return-value": function($event) {
+                          _vm.date = $event
+                        }
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "activator",
+                          fn: function(ref) {
+                            var on = ref.on
+                            var attrs = ref.attrs
+                            return [
+                              _c(
+                                "v-text-field",
+                                _vm._g(
+                                  _vm._b(
+                                    {
+                                      attrs: {
+                                        label: "Date *",
+                                        readonly: "",
+                                        dense: "",
+                                        outlined: ""
+                                      },
+                                      model: {
+                                        value: _vm.date,
+                                        callback: function($$v) {
+                                          _vm.date = $$v
+                                        },
+                                        expression: "date"
+                                      }
+                                    },
+                                    "v-text-field",
+                                    attrs,
+                                    false
+                                  ),
+                                  on
+                                )
+                              )
+                            ]
+                          }
+                        }
+                      ]),
+                      model: {
+                        value: _vm.modal_datepicker,
+                        callback: function($$v) {
+                          _vm.modal_datepicker = $$v
+                        },
+                        expression: "modal_datepicker"
                       }
                     },
                     [
-                      _c("v-spacer"),
                       _vm._v(" "),
                       _c(
-                        "v-btn",
+                        "v-date-picker",
                         {
-                          attrs: { text: "", color: "primary" },
-                          on: {
-                            click: function($event) {
-                              _vm.datePickerShown = false
-                            }
+                          attrs: { scrollable: "" },
+                          model: {
+                            value: _vm.date,
+                            callback: function($$v) {
+                              _vm.date = $$v
+                            },
+                            expression: "date"
                           }
                         },
                         [
-                          _vm._v(
-                            "\n                        Cancel\n                    "
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { text: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  _vm.modal_datepicker = false
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Cancel\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { text: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$refs.dialog_datepicker.save(
+                                    _vm.date
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Ok\n                        "
+                              )
+                            ]
                           )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { text: "", color: "primary" },
-                          on: {
-                            click: function($event) {
-                              _vm.$refs.datePicker.save(_vm.date)
-                              _vm.generate(_vm.date, _vm.selectedFilter)
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                        Generate\n                    "
-                          )
-                        ]
+                        ],
+                        1
                       )
                     ],
                     1
@@ -520,105 +465,106 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("v-select", {
-                staticClass: "mr-3",
-                staticStyle: { "max-width": "215px" },
-                attrs: {
-                  items: _vm.myStore.state.generatedDataHistoryFilters[0],
-                  label: "Group By",
-                  "item-text": "text",
-                  "item-value": "value",
-                  disabled: _vm.isGenerating,
-                  outlined: "",
-                  rounded: "",
-                  "hide-details": "",
-                  dense: ""
-                },
-                model: {
-                  value: _vm.selectedFilter,
-                  callback: function($$v) {
-                    _vm.selectedFilter = $$v
-                  },
-                  expression: "selectedFilter"
-                }
-              }),
-              _vm._v(" "),
               _c(
-                "v-btn",
+                "v-col",
                 {
-                  attrs: {
-                    title: "Export to Excel",
-                    icon: "",
-                    dense: "",
-                    rounded: "",
-                    outlinedx: "",
-                    color: "success",
-                    disabled: _vm.generatedData.length < 1
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.exportToExcel()
-                    }
-                  }
+                  staticClass: "pb-0 pt-0",
+                  attrs: { cols: "12", sm: "6", md: "4" }
                 },
-                [_c("v-icon", [_vm._v("mdi-file-excel")])],
+                [
+                  _c("v-select", {
+                    attrs: {
+                      items: _vm.tags,
+                      "item-text": "tag_name",
+                      "item-value": "tag_id",
+                      label: "Tags",
+                      multiple: "",
+                      chips: "",
+                      dense: "",
+                      outlined: "",
+                      "small-chips": ""
+                    },
+                    model: {
+                      value: _vm.selectedTags,
+                      callback: function($$v) {
+                        _vm.selectedTags = $$v
+                      },
+                      expression: "selectedTags"
+                    }
+                  })
+                ],
                 1
               )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("small", [_vm._v("* indicates required field")]),
+          _vm._v(" "),
+          _c(
+            "v-row",
+            [
+              _c("v-col", [
+                _c(
+                  "div",
+                  { staticClass: "float-right" },
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: {
+                          color: "primary",
+                          loading: _vm.isSaving,
+                          dense: "",
+                          outlinedx: "",
+                          text: "",
+                          smallx: ""
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.saveExpense()
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        Save\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: {
+                          color: "primary",
+                          dense: "",
+                          outlinedx: "",
+                          text: "",
+                          smallx: ""
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.Expenditures.state.add_expense = false
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        Close\n                    "
+                        )
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ])
             ],
             1
           )
         ],
         1
-      ),
-      _vm._v(" "),
-      _c("v-card-text", { staticClass: "pa-0 pb-4" }, [
-        _vm.isGenerating
-          ? _c(
-              "div",
-              { staticClass: "d-flex justify-center mt-4" },
-              [
-                _c("v-progress-circular", {
-                  attrs: {
-                    size: 50,
-                    width: 4,
-                    color: "accent",
-                    indeterminate: ""
-                  }
-                })
-              ],
-              1
-            )
-          : _c(
-              "div",
-              [
-                _vm.generatedData.length < 1
-                  ? _c(
-                      "div",
-                      { staticClass: "d-flex justify-center mt-5" },
-                      [
-                        _c(
-                          "v-chip",
-                          { attrs: { color: "accent", small: "" } },
-                          [
-                            _vm._v(
-                              "\n                    No available data to display\n                "
-                            )
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  : _c("GeneratedTableWrapper", {
-                      attrs: {
-                        id: _vm.wrapperID,
-                        allow_export: true,
-                        generatedData: _vm.generatedData
-                      }
-                    })
-              ],
-              1
-            )
-      ])
+      )
     ],
     1
   )
@@ -630,18 +576,18 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/GeneratedHistory.vue":
-/*!*******************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/GeneratedHistory.vue ***!
-  \*******************************************************************/
+/***/ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue ***!
+  \*****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _GeneratedHistory_vue_vue_type_template_id_7ab5cd88___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GeneratedHistory.vue?vue&type=template&id=7ab5cd88& */ "./resources/js/pages/Principals/common/GeneratedHistory.vue?vue&type=template&id=7ab5cd88&");
-/* harmony import */ var _GeneratedHistory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GeneratedHistory.vue?vue&type=script&lang=js& */ "./resources/js/pages/Principals/common/GeneratedHistory.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _ExpendituresAdd_vue_vue_type_template_id_0ca3598a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ExpendituresAdd.vue?vue&type=template&id=0ca3598a& */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=template&id=0ca3598a&");
+/* harmony import */ var _ExpendituresAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ExpendituresAdd.vue?vue&type=script&lang=js& */ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -650,9 +596,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _GeneratedHistory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _GeneratedHistory_vue_vue_type_template_id_7ab5cd88___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _GeneratedHistory_vue_vue_type_template_id_7ab5cd88___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _ExpendituresAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ExpendituresAdd_vue_vue_type_template_id_0ca3598a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ExpendituresAdd_vue_vue_type_template_id_0ca3598a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -662,38 +608,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/pages/Principals/common/GeneratedHistory.vue"
+component.options.__file = "resources/js/pages/ExpendituresPage/ExpendituresAdd.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/GeneratedHistory.vue?vue&type=script&lang=js&":
-/*!********************************************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/GeneratedHistory.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************************/
+/***/ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GeneratedHistory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./GeneratedHistory.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/GeneratedHistory.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GeneratedHistory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpendituresAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ExpendituresAdd.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpendituresAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/GeneratedHistory.vue?vue&type=template&id=7ab5cd88&":
-/*!**************************************************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/GeneratedHistory.vue?vue&type=template&id=7ab5cd88& ***!
-  \**************************************************************************************************/
+/***/ "./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=template&id=0ca3598a&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=template&id=0ca3598a& ***!
+  \************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GeneratedHistory_vue_vue_type_template_id_7ab5cd88___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./GeneratedHistory.vue?vue&type=template&id=7ab5cd88& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/GeneratedHistory.vue?vue&type=template&id=7ab5cd88&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GeneratedHistory_vue_vue_type_template_id_7ab5cd88___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpendituresAdd_vue_vue_type_template_id_0ca3598a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ExpendituresAdd.vue?vue&type=template&id=0ca3598a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ExpendituresPage/ExpendituresAdd.vue?vue&type=template&id=0ca3598a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpendituresAdd_vue_vue_type_template_id_0ca3598a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GeneratedHistory_vue_vue_type_template_id_7ab5cd88___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpendituresAdd_vue_vue_type_template_id_0ca3598a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -23,6 +23,7 @@ let state = Vue.observable({
     textfileLineCount: 0,
     isGeneratingData: false,
     currentGeneratedDataSearchKey: '',
+    selectedGroupBy: null,
 
     // invoice import
     isImportInvoicesVisible: true,
@@ -37,12 +38,14 @@ let state = Vue.observable({
 
     confirmExportDialogOpen: false,
     isExportingTemplatedData: false,
+
+    generateFilterShown: false,
 });
 
 
 const actions = {
     initialize() {
-        console.log(`%cInitializing PrincipalsStore...`,
+        console.log(`%cInitializing PrincipalsStore... [${state.selectedPrincipalCode}]`,
             'background:#222; color:#bada55; font-size:16px;');
         this.initItems();
         this.initCustomers();
@@ -56,7 +59,7 @@ const actions = {
         );
         this.initInvoicesGrandTotal();
         this.initSettings();
-        this.initCurrentGeneratedData(state.selectedPrincipalCode,);
+        // this.initCurrentGeneratedData(state.selectedPrincipalCode);
 
         this.initSalesmen();
     },
@@ -79,6 +82,7 @@ const actions = {
         state.currentRawInvoices = [];
         state.textfileLineCount = 0;
         state.isGeneratingData = false;
+        state.selectedGroupBy = null;
 
         // invoice import
         state.isImportInvoicesVisible = true;
@@ -93,6 +97,8 @@ const actions = {
         state.isExportingTemplatedData = false;
 
         state.salesmen = [];
+
+        state.generateFilterShown = false;
     },
 
     /**
@@ -188,15 +194,17 @@ const actions = {
     /**
      * Generate templated data based on pending invoices
      */
-    async initCurrentGeneratedData(principal_code, template_variations_count=1) {
+    async initCurrentGeneratedData(
+        principal_code,
+        template_variations_count=1,
+        group_by
+    ) {
         try {
-
-
             state.isGeneratingData = true;
             const url = encodeURI(
                 AppStore.state.siteUrl + 'principals/'
                 + principal_code + '/generate-templated-data'
-                // + '?group_by=route_code'
+                + '?group_by=' + group_by
                 // + '?template_variations_count=' + template_variations_count
             );
             // {cancelToken:axiosSource.token}
@@ -230,64 +238,6 @@ const actions = {
         }
     },
 
-    /**
-     * Export templated data to Excel and set invoices' status to 'complete'
-     */
-    async setInvoicesComplete() {
-        try {
-            state.isExportingTemplatedData = true;
-            const url =
-                AppStore.state.siteUrl +
-                "principals" +
-                `/${state.selectedPrincipalCode}/set-invoices-complete`;
-
-            const payload = {
-                // raw_invoices: this.PrincipalsStore.state.currentRawInvoices,
-                // generated_data: this.generatedData
-                generated_data: state.currentGeneratedData
-            };
-
-            let response = await axios.post(url, payload);
-
-            const config = this.getHeaderAndFormat(
-                "generatedDataTableHeader"
-            );
-
-            console.log('XXXXXXXXXXXXXXXXXXXXXXXXXX', config);
-
-            // config.forEach(e=>{
-            for(let i=0;i<config.length;i++) {
-                // export templated data to Excel
-                console.log('GENDATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
-                state.currentGeneratedData[i].output_template
-                );
-                this.exportToExcel(
-                    config[i].header,
-                    this.generatedDataSubset(
-                        // this.AppStore.flattenGendata(this.generatedData),
-                        state.currentGeneratedData[i].output_template,
-                        config[i].format
-                    ),
-                    null,
-                    state.selectedPrincipalCode + '_' + (i+1)
-                );
-            };
-
-            state.isExportingTemplatedData = false;
-            state.confirmExportDialogOpen = false;
-            // this.PrincipalsStore.state.currentGeneratedData = [];
-            // this.PrincipalsStore.state.currentRawInvoices = [];
-
-            this.initInvoicesGrandTotal();
-            // this.initInvoices(
-            //     this.selectedPrincipalCode,
-            //     AppStore.state.strDateToday
-            // );
-            this.initCurrentGeneratedData(state.selectedPrincipalCode);
-        } catch (error) {
-            console.log("setInvoicesComplete():", error);
-        }
-    },
 
     /**
      * Initialize the current selected principal's transactions
@@ -319,94 +269,6 @@ const actions = {
         }
     },
 
-    /**
-     * Get pendings
-     */
-    // async initPendings(cols=[]) {
-    //     try {
-    //         const url = encodeURI(
-    //             AppStore.state.siteUrl
-    //             + 'principals'
-    //             + '/pendings'
-    //         );
-    //         const payload = {
-    //             cols: cols,
-    //             principal_code: state.selectedPrincipalCode
-    //         };
-
-    //         AppStore.state.showTopLoading = true;
-    //         let result = await axios.post(url, payload);
-
-    //         if(result.data.success==true) {
-    //             state.currentGeneratedData = result.data.pending_gendata;
-    //             state.currentRawInvoices = result.data.pending_rawinvoices;
-    //         } else {
-    //             console.log('initPendings()', result.data.message);
-    //         }
-    //         AppStore.state.showTopLoading = false;
-    //     } catch (error) {
-    //         console.log('PrincipalsStore.initPendings() - ERROR:', error);
-    //     }
-    // },
-
-
-    /**
-     *
-     */
-    // async exportTableToExcel(wrapperID) {
-    //     console.log("Exporting from PrincipalsStore....");
-
-    //     const tempDate = new Date();
-    //     // const dateToday = tempDate.getFullYear() +
-    //     //     '-' + tempDate.getMonth() + '-' +
-    //     //     tempDate.getDay();
-    //     const fileName = `${state.selectedPrincipalCode} - ${AppStore.state.strDateToday}.xlsx`;
-
-    //     AppStore.state.showTopLoading = true;
-    //     AppStore.overlay(true);
-    //     const tblWrapper = document.querySelector(`#${wrapperID}`)
-    //         .children;
-    //     // const tblWrapper = wrapper.children;
-
-    //     // let ws = XLSX.utils.json_to_sheet(this.sampleData);
-    //     const wBook = XLSX.utils.book_new();
-
-    //     for (let i = 0; i <= tblWrapper.length - 1; i++) {
-    //         const sheetName = `Sheet ${i+1}`;
-    //         const tbl = tblWrapper[i].querySelector(
-    //             ".table-generated-data"
-    //         );
-    //         const wsFromTbl = XLSX.utils.table_to_sheet(tbl, { raw: true });
-    //         const tempJData = XLSX.utils.sheet_to_json(wsFromTbl);
-
-    //         let wsFromJData = XLSX.utils.json_to_sheet(tempJData);
-
-    //         const objKeys = Object.keys(wsFromJData);
-    //         for(let i=1; i<objKeys.length;i++) {
-    //             if(objKeys[i] == '!ref') continue;
-
-    //             let obj = wsFromJData[objKeys[i]];
-    //             if(obj.v.localeCompare(parseInt(obj.v.toString())) == 0) {
-    //                 obj.t = 'n';
-    //             } else {
-    //                 obj.t = 's';
-    //             }
-    //         }
-
-    //         console.log(sheetName, wsFromJData);
-    //         // return;
-    //         XLSX.utils.book_append_sheet(wBook, wsFromJData, sheetName);
-    //     }
-
-    //     XLSX.writeFile(wBook, fileName, { flag: "w+" });
-
-    //     // this.PrincipalsStore.state.currentGeneratedData = tempData;
-
-    //     AppStore.state.showTopLoading = false;
-    //     AppStore.overlay(false);
-    //     // this.PrincipalsStore.state.currentGeneratedData = [];
-    // },
-
 
     /**
      * ============================================= exportToExcel() =================================
@@ -430,7 +292,8 @@ const actions = {
         const alphabet = alpha.map((x) => String.fromCharCode(x));
 
         try {
-            fileName = `${fileName}_${AppStore.state.strDateToday}.${extension}`;
+            fileName = `${state.selectedPrincipalCode}_${fileName}_` +
+                `${AppStore.state.strDateToday}.${extension}`;
             let wBook = XLSX.utils.book_new();
 
             for(let i=0; i<jsonData.length; i++) {
@@ -540,12 +403,13 @@ const actions = {
      * Initialize the current selected principal's grand total amount
      * of uploaded/saved invoices
      */
-    async initInvoicesGrandTotal() {
+    async initInvoicesGrandTotal(status='completed') {
         try {
             const url = encodeURI(
                 AppStore.state.siteUrl +
-                'principals/invoices/grandtotal?principal_code='
+                'invoices/grandtotal?principal_code='
                 + state.selectedPrincipalCode
+                + '&status=' + status
             );
             let result = await axios.get(url);
             state.invoicesGrandTotal = !isNaN(result.data) ? result.data : 0;
@@ -608,7 +472,11 @@ const actions = {
             let result = await axios.post(url, payload);
             if(result.data.success == true) {
                 AppStore.toast(result.data.message);
-                this.initCurrentGeneratedData(state.selectedPrincipalCode);
+                this.initCurrentGeneratedData(
+                    state.selectedPrincipalCode,
+                    null,
+                    state.selectedGroupBy
+                );
             }
         } catch (error) {
             console.log('saveSettings():', error);
@@ -680,9 +548,9 @@ const actions = {
         }
     },
 
-    getVendorCode(id) {
+    getVendorCode(principal_code) {
         return AppStore.state.principals
-            .find(e=>e.id==id).vendor_code;
+            .find(e=>e.code==principal_code).vendor_code;
     },
 
 };

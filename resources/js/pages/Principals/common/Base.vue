@@ -6,8 +6,12 @@
             <!-- <v-icon>mdi-store</v-icon> -->
             <h5 style="padding:0;">
                 {{ principalName }}
-                <v-chip x-small>{{ vendorCode }}</v-chip>
-                <v-chip x-small>{{ PrincipalsStore.state.selectedPrincipalCode }}</v-chip>
+                <v-chip x-small title="Vendor Code">
+                    {{ vendorCode }}
+                </v-chip>
+                <v-chip x-small title="Middleware Code">
+                    {{ PrincipalsStore.state.selectedPrincipalCode }}
+                </v-chip>
             </h5>
         </v-toolbar-title>
 
@@ -65,11 +69,11 @@ export default {
     computed: {
         principalName() {
             return this.AppStore.state.principals
-                .find(e=>e.id==this.$route.params.principal_id).name;
+                .find(e=>e.code==this.$route.params.principal_code).name;
         },
         vendorCode() {
             return this.AppStore.state.principals
-                .find(e=>e.id==this.$route.params.principal_id).vendor_code;
+                .find(e=>e.code==this.$route.params.principal_code).vendor_code;
         },
         selectedPrincipalCode() {
             return this.PrincipalsStore.state.selectedPrincipalCode;
@@ -78,6 +82,7 @@ export default {
 
     mounted() {
         console.log('PrincipalBase component mounted');
+        console.log(this.selectedPrincipalCode);
     },
 };
 </script>

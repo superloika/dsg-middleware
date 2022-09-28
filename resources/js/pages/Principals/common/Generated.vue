@@ -43,11 +43,11 @@
             <v-card-text class="mx-0 px-0">
                 <div class="">
                     <div v-if="PrincipalsStore.state.isGeneratingData"
-                        class="d-flex justify-center mt-6"
+                        class="d-flex justify-center mt-12"
                     >
                         <v-progress-circular
-                            :size="50"
-                            :width="4"
+                            :size="60"
+                            :width="5"
                             color="accent"
                             indeterminate
                         ></v-progress-circular>
@@ -68,6 +68,7 @@
                         <GeneratedTableWrapper
                             v-else
                             :generatedData="generatedData"
+                            :allow_export="true"
                         >
                         </GeneratedTableWrapper>
                     </div>
@@ -207,7 +208,7 @@ export default {
     },
 
     created() {
-        PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
+        // PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
     },
 
     mounted() {

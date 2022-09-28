@@ -2,16 +2,16 @@
     <v-app>
         <v-system-bar app
             height="35"
-            dark
-            colorx="grey lighten-3"
-            color="primary"
+            light
+            color="grey lighten-3"
+            colorx="primary"
         >
             <v-btn
                 @click="toggleDrawerState()"
                 icon
             >&#9776;</v-btn>
 
-            <v-toolbar-title class="ml-1 white--textx">
+            <v-toolbar-title class="ml-1">
                 {{ AppStore.state.AppName }}
             </v-toolbar-title>
 
@@ -73,9 +73,9 @@
         <!-- MAIN -->
         <v-main>
             <v-container class="pa-0" fluid>
-                <!-- <keep-alive> -->
+                <keep-alive>
                     <router-view></router-view>
-                <!-- </keep-alive> -->
+                </keep-alive>
             </v-container>
 
         </v-main>

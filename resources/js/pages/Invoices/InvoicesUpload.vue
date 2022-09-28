@@ -1,9 +1,47 @@
 <template>
 
-<v-card class="elevation-0 transparent pa-0">
+<v-card
+    class="elevation-0 transparent pa-0"
+>
     <v-card-text class="">
+        <v-row>
+            <v-col>
+                <small>
+                    <strong>Important Note:</strong>
+                    Filenames should include a group keyword
+                    in order for the system to identify which group the data came from.
+                    Keyword includes
+                        <v-chip x-small color="default">
+                            CWDG
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            UWDG
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            3PS
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            CVS
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            DEL
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            HOR
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            MAS
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            SEC
+                        </v-chip>
+                    Example: "CWDG_PCS Sept 1-5.txt"
+                </small>
+            </v-col>
+        </v-row>
         <v-row class="">
-            <v-col class="pb-0" cols lg="7" md="5" sm="5">
+            <v-col class="pb-0" cols lg="9" md="9" sm="12">
+
                 <v-form ref="frm_upload">
                     <v-file-input
                         small-chips
@@ -17,11 +55,12 @@
                         accept=".txt"
                         multiple
                         color="primary"
+                        background-color="white"
                     ></v-file-input>
                 </v-form>
             </v-col>
 
-            <v-col class="pb-0" cols lg="3" md="4" sm="4">
+            <!-- <v-col class="pb-0" cols lg="3" md="4" sm="4">
                 <v-select
                     rounded
                     outlined
@@ -30,25 +69,42 @@
                     item-text="name"
                     item-value="value"
                     placeholder="Select Source"
-                    v-model="selected_terminal"
+                    v-model="selected_group"
                     title="Source Terminal"
                 ></v-select>
-            </v-col>
+            </v-col> -->
 
-            <v-col class="pb-0" cols lg="2" md="3" sm="3">
+            <v-col class="pb-0" cols lg="2" md="2" sm="11">
                 <v-btn
                     dense color="primary"
                     @click="upload()"
                     block
                     rounded
-                    :disabled="file==null || file.length < 1 || selected_terminal==''"
+                    :disabled="file==null || file.length < 1 || selected_group=='XXX'"
                 >
                     Submit
+                </v-btn>
+            </v-col>
+            <v-col class="pb-0" cols lg="1" md="1" sm="1">
+                <v-btn icon title="Previous upload summary"
+                    @click.stop="showPreviousSummary()"
+                    :disabled="isNoPreviousSummary"
+                >
+                    <v-icon>mdi-history</v-icon>
                 </v-btn>
             </v-col>
 
         </v-row>
     </v-card-text>
+
+    <v-dialog
+        v-model="InvoicesStore.state.isUploadSummaryShown"
+        max-width="900px"
+
+    >
+        <InvoiceUploadSummary :uploadResponse="uploadResponse"></InvoiceUploadSummary>
+    </v-dialog>
+
 </v-card>
 
 </template>
@@ -59,10 +115,20 @@
 export default {
     name: 'InvoicesUpload',
     props: ['searchKey', 'principalCodeFilter'],
+    components: {
+        InvoiceUploadSummary: () => import('./InvoiceUploadSummary.vue')
+    },
     data() {
         return {
             file: null,
-            selected_terminal: '',
+            selected_group: '',
+            uploadResponse: {},
+        }
+    },
+
+    computed: {
+        isNoPreviousSummary() {
+            return Object.keys(this.uploadResponse).length === 0;
         }
     },
 
@@ -94,7 +160,7 @@ export default {
                 formData.append('files[' + i + ']', this.file[i]);
             }
 
-            formData.append('terminal', this.selected_terminal);
+            formData.append('terminal', this.selected_group);
 
             let url = this.AppStore.state.siteUrl + 'invoices/upload';
 
@@ -105,14 +171,22 @@ export default {
                     this.AppStore.overlay(false);
                     this.AppStore.toast(message);
                     this.file = null;
-                    this.selected_terminal = '';
+                    this.selected_group = '';
                     this.InvoicesStore.initInvoices(this.searchKey, this.principalCodeFilter);
+                    this.uploadResponse = response.data;
+                    if(response.data.success) {
+                        this.InvoicesStore.state.isUploadSummaryShown = true;
+                    }
                 })
                 .catch(error => {
                     this.AppStore.overlay(false);
                     this.AppStore.toast(error);
                 });
         },
+
+        showPreviousSummary() {
+            this.InvoicesStore.state.isUploadSummaryShown = true;
+        }
 
     },
 

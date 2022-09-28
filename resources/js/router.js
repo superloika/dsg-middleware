@@ -60,7 +60,7 @@ const router = new VueRouter({
             }
         },
         {
-            path: "/principals/:principal_id",
+            path: "/principals/:principal_code",
             component: Principals,
             meta: {
                 name: "Principals"

@@ -37,6 +37,7 @@
                     :disabled="isGenerating"
                     class="mr-3"
                     style="max-width:230px;"
+                    clearable
                 ></v-text-field>
                 <!-- DATEPICKER -->
                 <v-dialog
@@ -140,6 +141,7 @@ export default {
         date: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
             .toISOString()
             .substr(0, 10)],
+        // date: [],
         generatedData: [],
         isGenerating: false,
         wrapperID: 'gendata_history_wrapper',
@@ -168,11 +170,10 @@ export default {
     },
 
     methods: {
-
         /**
          * This will regenerate the templated data
          * and will be filtered based on the passed 'date'.
-         * The reult will also be grouped based on 'dataProp'
+         * The rezzzzzult will also be grouped based on the 'dataProp' value
          */
         async generate(date, dataProp='') {
             date.sort();

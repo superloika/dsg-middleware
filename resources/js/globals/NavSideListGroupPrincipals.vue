@@ -6,9 +6,18 @@
         </v-list-item-icon>
         <v-list-item-content>
             <v-list-item-title>Principals
-                <!-- <v-chip v-if="principalsCount > 0" x-small>
+                <v-chip v-if="principalsCount > 0" x-small
+                    class="px-1"
+                    color="accent"
+                >
                     {{ principalsCount }}
-                </v-chip> -->
+                </v-chip>
+                <v-chip v-if="principalsCountTemp > 0" x-small
+                    class="px-1"
+                    color="warning"
+                >
+                    {{ principalsCountTemp }}
+                </v-chip>
             </v-list-item-title>
         </v-list-item-content>
     </template>
@@ -35,10 +44,12 @@
                 v-for="(principal, i) in filteredPrincipals"
                 :key="i"
             >
-                <template v-slot:activator="{ on, attrs }">
+                <template v-slot:activator="{ on, attrs }"
+                    v-if="principal.proj_status==1"
+                >
                     <v-list-item
                         link
-                        :to="'/principals/' + principal.id"
+                        :to="`/principals/${principal.code}`"
                         color="primary"
                         :title="principal.name"
                         v-bind="attrs"
@@ -52,7 +63,7 @@
                             x-small
                             :color="
                                 principal.proj_status==0 ?
-                                'warning':'primary'
+                                'warning' : 'accent'
                             "
                             class="ml-2 pa-2"
                         ></v-chip>
@@ -102,7 +113,20 @@ export default {
         },
 
         principalsCount() {
-            return this.AppStore.state.principals.length;
+            // return this.AppStore.state.principals.length;
+            let count = 0;
+            this.AppStore.state.principals.forEach(e=>{
+                if(e.proj_status > 0) count++;
+            });
+            return count;
+        },
+
+        principalsCountTemp() {
+            let count = 0;
+            this.AppStore.state.principals.forEach(e=>{
+                if(e.proj_status < 1) count++;
+            });
+            return count;
         },
     },
 

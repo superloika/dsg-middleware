@@ -290,195 +290,234 @@ class SmfiSmisFrozenController extends Controller
     /**
      * Generate templated data based on invoices with 'pending' status
      */
-    public function generateTemplatedData_1(Request $request)
-    {
-        set_time_limit(0);
+    // public function generateTemplatedData_1(Request $request)
+    // {
+    //     set_time_limit(0);
 
-        try {
-            $template_variation_count = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                ->select('template_variation_count')
-                ->where('code', $this->PRINCIPAL_CODE)
-                ->first()->template_variation_count;
+    //     try {
+    //         $template_variation_count = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+    //             ->select('template_variation_count')
+    //             ->where('code', $this->PRINCIPAL_CODE)
+    //             ->first()->template_variation_count;
 
-            $res['success'] = true;
-            $res['message'] = 'Success';
-            $res['line_count'] = 0;
-            $res['output_template_variations'] = [];
+    //         $res['success'] = true;
+    //         $res['message'] = 'Success';
+    //         $res['line_count'] = 0;
+    //         $res['output_template_variations'] = [];
 
-            $dateToday = Carbon::now();
-            $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
-            $filesTotalLineCount = 0;
-            $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
-            $breakFilesIteration = false;
+    //         $dateToday = Carbon::now();
+    //         $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
+    //         $filesTotalLineCount = 0;
+    //         $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
+    //         $breakFilesIteration = false;
 
-            // **************** PENDING INVOICES ************************************
-            $pendingInvoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
-                ->leftJoin(
-                    PrincipalsUtil::$TBL_GENERAL_ITEMS,
-                    PrincipalsUtil::$TBL_GENERAL_ITEMS . '.item_code',
-                    PrincipalsUtil::$TBL_INVOICES . '.item_code'
-                )
-                ->select(
-                    PrincipalsUtil::$TBL_INVOICES . '.*',
-                    PrincipalsUtil::$TBL_GENERAL_ITEMS . '.description',
-                    PrincipalsUtil::$TBL_GENERAL_ITEMS . '.vendor_code',
-                )
-                // ->where('invoices.')
-                ->where(
-                    PrincipalsUtil::$TBL_GENERAL_ITEMS . '.vendor_code',
-                    DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                        ->where('code', $this->PRINCIPAL_CODE)
-                        ->select('vendor_code')
-                        ->first()->vendor_code ?? 'NA'
-                )
-                ->where(PrincipalsUtil::$TBL_INVOICES . '.status', 'pending')
-                ->get();
+    //         // **************** PENDING INVOICES **************************
+    //         $pendingInvoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
+    //             ->leftJoin(
+    //                 PrincipalsUtil::$TBL_GENERAL_ITEMS,
+    //                 PrincipalsUtil::$TBL_GENERAL_ITEMS . '.item_code',
+    //                 PrincipalsUtil::$TBL_INVOICES . '.item_code'
+    //             )
+    //             ->select(
+    //                 PrincipalsUtil::$TBL_INVOICES . '.*',
+    //                 PrincipalsUtil::$TBL_GENERAL_ITEMS . '.description',
+    //                 PrincipalsUtil::$TBL_GENERAL_ITEMS . '.vendor_code',
+    //             )
+    //             // ->where('invoices.')
+    //             ->where(
+    //                 PrincipalsUtil::$TBL_GENERAL_ITEMS . '.vendor_code',
+    //                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+    //                     ->where('code', $this->PRINCIPAL_CODE)
+    //                     ->select('vendor_code')
+    //                     ->first()->vendor_code ?? 'NA'
+    //             )
+    //             ->where(PrincipalsUtil::$TBL_INVOICES . '.status', 'pending')
+    //             ->get();
 
-            $res['line_count'] = $pendingInvoices->count();
-            // **************** /PENDING INVOICES ************************************
+    //         $res['line_count'] = $pendingInvoices->count();
+    //         // **************** /PENDING INVOICES **************************
 
 
-            // ********************************** TEMPLATES **********************************
-            $pageLineCount = 1;
-            $pageNum = 1;
-            for ($tvc_index = 0; $tvc_index < $template_variation_count; $tvc_index++) {
-                array_push($res['output_template_variations'], [
-                    'name' => 'Template ' . ($tvc_index + 1),
-                    'output_template' => [],
-                ]);
+    //         // **************************** TEMPLATE(S) ****************************
+    //         $pageLineCount = 1;
+    //         $pageNum = 1;
+    //         for ($tvc_index = 0; $tvc_index < $template_variation_count; $tvc_index++) {
+    //             array_push($res['output_template_variations'], [
+    //                 'name' => 'Template ' . ($tvc_index + 1),
+    //                 'output_template' => [],
+    //             ]);
 
-                // Loop through each line of the file content
-                foreach ($pendingInvoices as $pendingInvoice) {
-                    // ======================= INIT ================================================
-                    $doc_type = trim($pendingInvoice->doc_type);
-                    $doc_no = trim($pendingInvoice->doc_no);
-                    $customer_code = trim($pendingInvoice->customer_code);
-                    $posting_date = trim($pendingInvoice->posting_date);
-                    $item_code = trim($pendingInvoice->item_code);
-                    $quantity = trim($pendingInvoice->quantity);
-                    $u1 = trim($pendingInvoice->u1);
-                    $u2 = trim($pendingInvoice->u2);
-                    $u3 = trim($pendingInvoice->u3);
-                    $u4 = trim($pendingInvoice->u4);
-                    $u5 = trim($pendingInvoice->u5);
-                    $uom = trim($pendingInvoice->uom);
+    //             // Loop through each line of the file content
+    //             foreach ($pendingInvoices as $pendingInvoice) {
+    //                 // ======================= INIT ===============================
+    //                 $doc_type = trim($pendingInvoice->doc_type);
+    //                 $doc_no = trim($pendingInvoice->doc_no);
+    //                 $customer_code = trim($pendingInvoice->customer_code);
+    //                 $posting_date = trim($pendingInvoice->posting_date);
+    //                 $item_code = trim($pendingInvoice->item_code);
+    //                 $quantity = trim($pendingInvoice->quantity);
+    //                 $u1 = trim($pendingInvoice->u1);
+    //                 $u2 = trim($pendingInvoice->u2);
+    //                 $u3 = trim($pendingInvoice->u3);
+    //                 $u4 = trim($pendingInvoice->u4);
+    //                 $u5 = trim($pendingInvoice->u5);
+    //                 $uom = trim($pendingInvoice->uom);
 
-                    $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
-                        ->where('customer_code', $customer_code)
-                        ->first();
-                    $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
-                        ->where('item_code', $item_code)
-                        ->first();
+    //                 $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+    //                     ->where('customer_code', $customer_code)
+    //                     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+    //                 $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+    //                     ->where('item_code', $item_code)
+    //                     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
 
-                    // quantity_conversion
-                    $bulk_qty = 0;
-                    $loose_qty = 0;
-                    if($item != null) {
-                        $quo = $quantity/$item->conversion_qty;
-                        $mod = $quantity%$item->conversion_qty;
-                        $bulk_qty = intval($quo);
-                        $loose_qty = $mod;
-                    }
+    //                 $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+    //                     ->where('principal_code', $this->PRINCIPAL_CODE)
+    //                     ->where('customer_code', $customer_code)
+    //                     ->first();
 
-                    // ********************* TEMPLATE 1 ****************************
-                    if ($tvc_index == 0) {
-                        $item_notfound = 0;
-                        $customer_notfound = 0;
-                        $missing_customer_name = '';
-                        $missing_item_name = '';
+    //                 $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+    //                     ->where('principal_code',$this->PRINCIPAL_CODE)
+    //                     ->where('item_code', $item_code)
+    //                     ->first();
 
-                        if ($item == null) {
-                            $item_notfound = 1;
-                            $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                                ->where('item_code', $item_code)
-                                ->first()->description ?? '[ Not Found ]';
-                        } else {
-                        }
+    //                 // QTY-CONVERSION *******************************************
+    //                 // $bulk_qty = 0;
+    //                 // $loose_qty = 0;
+    //                 // if($item != null) {
+    //                 //     $quo = $quantity/$item->conversion_qty;
+    //                 //     $mod = $quantity%$item->conversion_qty;
+    //                 //     $bulk_qty = intval($quo);
+    //                 //     $loose_qty = $mod;
+    //                 // }
 
-                        if ($customer == null) {
-                            $customer_notfound = 1;
-                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                ->where('customer_code', $customer_code)
-                                ->first()->name ?? '[ Not Found ]';
-                        } else {
-                        }
 
-                        $item_code_supplier = $item->item_code_supplier ?? $item_code;
-                        $customer_code_supplier = $item->customer_code_supplier ?? $customer_code;
+    //                 // ******************** TEMPLATE 1 **************************
+    //                 if ($tvc_index == 0) {
+    //                     $item_notfound = 0;
+    //                     $customer_notfound = 0;
+    //                     $missing_customer_name = '';
+    //                     $missing_item_name = '';
 
-                        $distributor_id = $settings['distributor_id'] ?? 'N/A';
-                        // ======================= /INIT ================================================
+    //                     if ($item == null) {
+    //                         $item_notfound = 1;
+    //                         $missing_item_name = $nav_item_name;
+    //                     } else {
+    //                     }
 
-                        // =========== SETTING UP =======================================================
-                        // Generated data line structure
-                        $arrGenerated = [
-                            //commons
-                            'customer_code' => $customer_code_supplier,
-                            'item_code' => $item_code_supplier,
-                            'alturas_item_code' => $item_code,
-                            'doc_no' => $doc_no,
-                            'missing_customer_name' => $missing_customer_name,
-                            'missing_item_name' => $missing_item_name,
-                            'customer_notfound' => $customer_notfound,
-                            'item_notfound' => $item_notfound,
-                            // principal specific
-                            'bulk_qty' => $bulk_qty,
-                            'loose_qty' => $loose_qty,
-                            'system_date' => $dateToday->format('m/d/Y'),
-                            'request_delivery_date' => $dateToday->format('m/d/Y'),
-                            'distributor_id' => $distributor_id,
-                        ];
+    //                     if ($customer == null) {
+    //                         // $customer_notfound = 1;
+    //                         $missing_customer_name = $nav_customer_name;
+    //                     } else {
+    //                     }
 
-                        if ($chunk_line_count > 0) {
-                            if (
-                                !isset($res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum])
-                            ) {
-                                $res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum],
-                                $arrGenerated
-                            );
+    //                     $item_code_supplier =
+    //                         $item->item_code_supplier ?? $item_code;
+    //                     $customer_code_supplier =
+    //                         $item->customer_code_supplier ?? $customer_code;
+    //                     // ======================= /INIT =========================
 
-                            $pageLineCount += 1;
-                            if ($pageLineCount > $chunk_line_count) {
-                                $pageNum += 1;
-                                $pageLineCount = 1;
-                            }
-                        } else {
-                            // group output_template_variations
-                            if (
-                                !isset($res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')])
-                            ) {
-                                $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')],
-                                $arrGenerated
-                            );
-                        }
-                        // =========== /SETTING UP =======================================================
-                    }
-                }
+    //                     // =========== SETTING UP ================================
+    //                     // Generated data line structure
+    //                     $arrGenerated = [
+    //                         //commons
+    //                         'customer_code' => $customer_code_supplier,
+    //                         'alturas_customer_code' => $customer_code,
+    //                         'item_code' => $item_code_supplier,
+    //                         'alturas_item_code' => $item_code,
+    //                         'doc_no' => $doc_no,
+    //                         'missing_customer_name' => $missing_customer_name,
+    //                         'missing_item_name' => $missing_item_name,
+    //                         'customer_notfound' => $customer_notfound,
+    //                         'item_notfound' => $item_notfound,
+    //                         'salesman_notfound' => 0,
+    //                         // principal specific
+    //                         'invoice_no' => $doc_no,
+    //                         'invoice_date' => $posting_date,
+    //                         'quantity' => $quantity,
+    //                         // 'bulk_qty' => $bulk_qty,
+    //                         // 'loose_qty' => $loose_qty,
+    //                         // 'status' => $u1, // invoice status
+    //                         'price' => $u2, // price
+    //                         'amount' => $u3, // amount
+    //                         // 'sm_code' => $u5, // salesman code
+    //                         'uom' => $uom,
+    //                         'base_uom' => $item->uom ?? 'N/A',
+    //                         'description' =>
+    //                             ($item->description==null || $item->description=='')
+    //                             ? $nav_item_name : $item->description,
+    //                         'description_supplier' => $item->description_supplier ?? 'N/A',
+    //                         // 'customer_name' => $customer->customer_name_general ?? 'N/A',
+    //                         'customer_name' => $customer->customer_name ?? $nav_customer_name,
+    //                         'sm_name' => $customer->salesman_name ?? 'N/A',
+    //                         'system_date' => $dateToday->format('Y-m-d')
+    //                     ];
 
-                // reset this guys to 1
-                $pageLineCount = 1;
-                $pageNum = 1;
-            }
-            // ********************************** /TEMPLATES **********************************
+    //                     if ($chunk_line_count > 0) {
+    //                         if (
+    //                             !isset($res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum])
+    //                         ) {
+    //                             $res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum] = [];
+    //                         }
+    //                         array_push(
+    //                             $res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum],
+    //                             $arrGenerated
+    //                         );
 
-            // $fileCount++;
+    //                         $pageLineCount += 1;
+    //                         if ($pageLineCount > $chunk_line_count) {
+    //                             $pageNum += 1;
+    //                             $pageLineCount = 1;
+    //                         }
+    //                     } else {
+    //                         // group output_template_variations
+    //                         if($item_notfound==1 || $customer_notfound==1) {
+    //                             // ---------------------------------------------------------------------------
+    //                             if (
+    //                                 !isset($res['output_template_variations'][$tvc_index]['output_template']['Unmapped'])
+    //                             ) {
+    //                                 $res['output_template_variations'][$tvc_index]['output_template']['Unmapped'] = [];
+    //                             }
+    //                             array_push(
+    //                                 $res['output_template_variations'][$tvc_index]['output_template']['Unmapped'],
+    //                                 $arrGenerated
+    //                             );
+    //                             // ---------------------------------------------------------------------------
+    //                         } else {
+    //                             // ---------------------------------------------------------------------------
+    //                             if (
+    //                                 !isset($res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')])
+    //                             ) {
+    //                                 $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')] = [];
+    //                             }
+    //                             array_push(
+    //                                 $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')],
+    //                                 $arrGenerated
+    //                             );
+    //                             // ---------------------------------------------------------------------------
+    //                         }
 
-            return response()->json($res);
+    //                     }
+    //                     // =========== /SETTING UP =======================================================
 
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-            return response()->json($res, 500);
-        }
-    }
+    //                 }
+    //             }
+
+    //             // reset this guys to 1
+    //             $pageLineCount = 1;
+    //             $pageNum = 1;
+    //         }
+    //         // ********************************** /TEMPLATES **********************************
+
+    //         // $fileCount++;
+
+    //         return response()->json($res);
+
+    //     } catch (\Throwable $th) {
+    //         $res['success'] = false;
+    //         $res['message'] = $th->getMessage();
+    //         return response()->json($res, 500);
+    //     }
+    // }
 
 
     /**
@@ -489,6 +528,12 @@ class SmfiSmisFrozenController extends Controller
         set_time_limit(0);
 
         try {
+            // templated data grouped result filter
+            $group_by = $request->group_by;
+            if($group_by==null || $group_by=='null' || $group_by=='' || $group_by=='undefined') {
+                $group_by = 'system_date';
+            }
+
             $template_variation_count = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
                 ->select('template_variation_count')
                 ->where('code', $this->PRINCIPAL_CODE)
@@ -501,40 +546,33 @@ class SmfiSmisFrozenController extends Controller
 
             $dateToday = Carbon::now();
             $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
+            // ***************************************************************************
+
+            // ************************* MISC INITS **************************************
             $filesTotalLineCount = 0;
             $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
             $breakFilesIteration = false;
+            // ************************* /MISC INITS *************************************
 
             // **************** PENDING INVOICES **************************
             $pendingInvoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
-                ->leftJoin(
-                    PrincipalsUtil::$TBL_GENERAL_ITEMS,
-                    PrincipalsUtil::$TBL_GENERAL_ITEMS . '.item_code',
-                    PrincipalsUtil::$TBL_INVOICES . '.item_code'
-                )
-                ->select(
-                    PrincipalsUtil::$TBL_INVOICES . '.*',
-                    PrincipalsUtil::$TBL_GENERAL_ITEMS . '.description',
-                    PrincipalsUtil::$TBL_GENERAL_ITEMS . '.vendor_code',
-                )
-                // ->where('invoices.')
                 ->where(
-                    PrincipalsUtil::$TBL_GENERAL_ITEMS . '.vendor_code',
+                    'vendor_code',
                     DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
                         ->where('code', $this->PRINCIPAL_CODE)
                         ->select('vendor_code')
                         ->first()->vendor_code ?? 'NA'
                 )
-                ->where(PrincipalsUtil::$TBL_INVOICES . '.status', 'pending')
+                ->where('status', 'pending')
                 ->get();
 
             $res['line_count'] = $pendingInvoices->count();
             // **************** /PENDING INVOICES **************************
 
-
             // **************************** TEMPLATE(S) ****************************
             $pageLineCount = 1;
             $pageNum = 1;
+
             for ($tvc_index = 0; $tvc_index < $template_variation_count; $tvc_index++) {
                 array_push($res['output_template_variations'], [
                     'name' => 'Template ' . ($tvc_index + 1),
@@ -543,60 +581,56 @@ class SmfiSmisFrozenController extends Controller
 
                 // Loop through each line of the file content
                 foreach ($pendingInvoices as $pendingInvoice) {
-                    // ======================= INIT ===============================
-                    $doc_type = trim($pendingInvoice->doc_type);
                     $doc_no = trim($pendingInvoice->doc_no);
                     $customer_code = trim($pendingInvoice->customer_code);
                     $posting_date = trim($pendingInvoice->posting_date);
                     $item_code = trim($pendingInvoice->item_code);
                     $quantity = trim($pendingInvoice->quantity);
-                    $u1 = trim($pendingInvoice->u1);
-                    $u2 = trim($pendingInvoice->u2);
-                    $u3 = trim($pendingInvoice->u3);
-                    $u4 = trim($pendingInvoice->u4);
-                    $u5 = trim($pendingInvoice->u5);
+                    $price = trim($pendingInvoice->price);
+                    $amount = trim($pendingInvoice->amount);
                     $uom = trim($pendingInvoice->uom);
+                    $item_description = trim($pendingInvoice->item_description);
+                    $group_code = trim($pendingInvoice->group);
+
+                    //********************************************************************
+                    $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                        ->where('customer_code', $customer_code)
+                        ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                    //     ->where('item_code', $item_code)
+                    //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
 
                     $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        ->select([
-                            PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.name AS customer_name_general',
-                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.*'
-                        ])
-                        ->join(
-                            PrincipalsUtil::$TBL_GENERAL_CUSTOMERS,
-                            PrincipalsUtil::$TBL_GENERAL_CUSTOMERS . '.customer_code',
-                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.customer_code',
-                        )
-                        ->where(
-                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.principal_code',
-                            $this->PRINCIPAL_CODE
-                        )
-                        ->where(
-                            PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.customer_code',
-                            $customer_code
-                        )
+                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                        ->where('customer_code', $customer_code)
                         ->first();
 
                     $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                         ->where('principal_code', $this->PRINCIPAL_CODE)
                         ->where('item_code', $item_code)
                         ->first();
+                    $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                        ->where('group_code', $group_code)
+                        ->first();
+                    //********************************************************************
 
                     // quantity_conversion
-                    $bulk_qty = 0;
-                    $loose_qty = 0;
-                    if($item != null) {
-                        $quo = $quantity/$item->conversion_qty;
-                        $mod = $quantity%$item->conversion_qty;
-                        $bulk_qty = intval($quo);
-                        $loose_qty = $mod;
-                    }
-
+                    // $bulk_qty = 0;
+                    // $loose_qty = 0;
+                    // if($item != null) {
+                    //     $quo = $quantity/$item->conversion_qty;
+                    //     $mod = $quantity%$item->conversion_qty;
+                    //     $bulk_qty = intval($quo);
+                    //     $loose_qty = $mod;
+                    // }
 
                     // ******************** TEMPLATE 1 **************************
                     if ($tvc_index == 0) {
+                        // ************************* MISC INITS **************************
                         $item_notfound = 0;
                         $customer_notfound = 0;
+                        $salesman_notfound = 0;
                         $missing_customer_name = '';
                         $missing_item_name = '';
 
@@ -608,19 +642,24 @@ class SmfiSmisFrozenController extends Controller
                         } else {
                         }
 
-                        if ($customer == null) {
-                            $customer_notfound = 1;
-                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                ->where('customer_code', $customer_code)
-                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        } else {
+                        // if ($customer == null) {
+                        //     $customer_notfound = 1;
+                        //     $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                        //         ->where('customer_code', $customer_code)
+                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                        // } else {
+                        // }
+
+                        if ($salesman == null) {
+                            $salesman_notfound = 1;
                         }
 
-                        $item_code_supplier = $item->item_code_supplier ?? $item_code;
-                        $customer_code_supplier = $item->customer_code_supplier ?? $customer_code;
-                        // ======================= /INIT ===========================================
+                        $system_date = $dateToday->format('Y/m/d');
 
-                        // =========== SETTING UP ==================================================
+                        $item_code_supplier = $item->item_code_supplier ?? $item_code;
+                        $customer_code_supplier = $customer->customer_code_supplier ?? $customer_code;
+                        // ************************* /MISC INITS **************************
+
                         // Generated data line structure
                         $arrGenerated = [
                             //commons
@@ -633,24 +672,23 @@ class SmfiSmisFrozenController extends Controller
                             'missing_item_name' => $missing_item_name,
                             'customer_notfound' => $customer_notfound,
                             'item_notfound' => $item_notfound,
-                            'salesman_notfound' => 0,
+                            'salesman_notfound' => $salesman_notfound,
                             // principal specific
                             'invoice_no' => $doc_no,
                             'invoice_date' => $posting_date,
                             'quantity' => $quantity,
-                            'bulk_qty' => $bulk_qty,
-                            'loose_qty' => $loose_qty,
-                            // 'status' => $u1, // invoice status
-                            'price' => $u2, // price
-                            'amount' => $u3, // amount
-                            // 'sm_code' => $u5, // salesman code
+                            // 'bulk_qty' => $bulk_qty,
+                            // 'loose_qty' => $loose_qty,
+                            'price' => $price,
+                            'amount' => $amount,
                             'uom' => $uom,
-                            'base_uom' => $item->uom ?? 'N/A',
-                            'description' => $item->description ?? 'N/A',
+                            'item_description' => $item_description,
                             'description_supplier' => $item->description_supplier ?? 'N/A',
-                            'customer_name' => $customer->customer_name_general ?? 'N/A',
-                            'sm_name' => $customer->salesman_name ?? 'N/A',
-                            'system_date' => $dateToday->format('Y-m-d')
+                            // 'customer_name' => $nav_customer_name,
+                            'customer_name' => $customer->customer_name ?? $nav_customer_name,
+                            'sm_name' => $salesman->sm_name ?? 'N/A',
+                            'system_date' => $system_date,
+                            'group' => $pendingInvoice->group
                         ];
 
                         if ($chunk_line_count > 0) {
@@ -686,19 +724,18 @@ class SmfiSmisFrozenController extends Controller
                             } else {
                                 // ---------------------------------------------------------------------------
                                 if (
-                                    !isset($res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')])
+                                    !isset($res['output_template_variations'][$tvc_index]['output_template'][$$group_by])
                                 ) {
-                                    $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')] = [];
+                                    $res['output_template_variations'][$tvc_index]['output_template'][$$group_by] = [];
                                 }
                                 array_push(
-                                    $res['output_template_variations'][$tvc_index]['output_template'][$dateToday->format('m/d/Y')],
+                                    $res['output_template_variations'][$tvc_index]['output_template'][$$group_by],
                                     $arrGenerated
                                 );
                                 // ---------------------------------------------------------------------------
                             }
 
                         }
-                        // =========== /SETTING UP =======================================================
 
                     }
                 }
@@ -720,154 +757,4 @@ class SmfiSmisFrozenController extends Controller
         }
     }
 
-
-    /**
-     * Change invoice's status to 'complete'
-     * NOTE: This happens when the user exports the generated templated data
-     */
-    public function setInvoicesComplete_1(Request $request)
-    {
-        set_time_limit(0);
-        $dateToday = Carbon::now()->format('Y-m-d H:i:s');
-
-        // generated data
-        DB::beginTransaction();
-        try {
-            foreach ($request->generated_data[0]['output_template'] as $gendata) {
-                foreach ($gendata[1] as $line) {
-                    if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
-                        // dd($line);
-                        DB::table(PrincipalsUtil::$TBL_INVOICES)
-                            ->where('doc_no', $line['doc_no'])
-                            ->where('item_code', $line['alturas_item_code'])
-                            ->where('status', 'pending')
-                            ->update([
-                                'status' => 'completed',
-                                'updated_at' => $dateToday
-                            ]);
-                    }
-                }
-            }
-
-            $template_variation = 1;
-            foreach ($request->generated_data as $variations) {
-                foreach ($variations['output_template'] as $gendata) {
-                    foreach ($gendata[1] as $line) {
-                        if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
-                            $status = PrincipalsUtil::$STATUS_COMPLETED;
-                            DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
-                                'principal_code' => $this->PRINCIPAL_CODE,
-                                'template_variation' => $template_variation,
-                                'generated_at' => $dateToday,
-                                'uploaded_by' => auth()->user()->id,
-                                'status' => $status,
-                                'doc_no' => $line['doc_no'],
-                                // ====
-                                'item_code' => $line['item_code'],
-                                'customer_code' => $line['customer_code'],
-                                'bulk_qty' => $line['bulk_qty'],
-                                'loose_qty' => $line['loose_qty'],
-                            ]);
-                        }
-                    }
-                }
-                $template_variation++;
-            }
-
-            DB::commit();
-            $response = [
-                'success' => true,
-                'message' => 'Successful',
-            ];
-            return response()->json($response);
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            $response['success'] = false;
-            $response['message'] = $th->getMessage();
-            return response()->json($response, 500);
-        }
-    }
-
-
-    /**
-     * Change invoice's status to 'complete'
-     * NOTE: This happens when the user exports the generated templated data
-     */
-    public function setInvoicesComplete(Request $request)
-    {
-        set_time_limit(0);
-        $dateToday = Carbon::now()->format('Y-m-d H:i:s');
-
-        // generated data
-        DB::beginTransaction();
-        try {
-            foreach ($request->generated_data[0]['output_template'] as $gendata) {
-                foreach ($gendata[1] as $line) {
-                    if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
-                        // dd($line);
-                        DB::table(PrincipalsUtil::$TBL_INVOICES)
-                            ->where('doc_no', $line['doc_no'])
-                            ->where('item_code', $line['alturas_item_code'])
-                            ->where('status', 'pending')
-                            ->update([
-                                'status' => 'completed',
-                                'updated_at' => $dateToday
-                            ]);
-                    }
-                }
-            }
-
-            $template_variation = 1;
-            foreach ($request->generated_data as $variations) {
-                foreach ($variations['output_template'] as $gendata) {
-                    foreach ($gendata[1] as $line) {
-                        if ($line['customer_notfound'] == 0 && $line['item_notfound'] == 0) {
-                            $status = PrincipalsUtil::$STATUS_COMPLETED;
-                            DB::table(PrincipalsUtil::$TBL_GENERATED)->insert([
-                                // common ***********************************************
-                                'principal_code' => $this->PRINCIPAL_CODE,
-                                'template_variation' => $template_variation,
-                                'generated_at' => $dateToday,
-                                'uploaded_by' => auth()->user()->id,
-                                // 'status' => $status,
-                                'doc_no' => $line['doc_no'],
-                                // principal specific ***********************************
-                                'invoice_no' => $line['invoice_no'],
-                                'customer_code' => $line['customer_code'],
-                                'alturas_customer_code' => $line['alturas_customer_code'],
-                                'customer_name' => $line['customer_name'],
-                                'sm_name' => $line['sm_name'],
-                                'invoice_date' => $line['invoice_date'],
-                                'alturas_item_code' => $line['alturas_item_code'],
-                                'item_code' => $line['item_code'],
-                                'description' => $line['description'],
-                                'description_supplier' => $line['description_supplier'],
-                                'bulk_qty' => $line['bulk_qty'],
-                                'loose_qty' => $line['loose_qty'],
-                                'price' => $line['price'],
-                                'amount' => $line['amount'],
-                                'base_uom' => $line['base_uom'],
-                                'uom' => $line['uom'],
-                                'sm_name' => $line['sm_name'],
-                                'system_date' => $line['system_date'],
-                            ]);
-                        }
-                    }
-                }
-                $template_variation++;
-            }
-
-            DB::commit();
-            $response = [
-                'success' => true,
-                'message' => 'Successful',
-            ];
-            return response()->json($response);
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            $response['success'] = false;
-            $response['message'] = $th->getMessage();
-            return response()->json($response, 500);
-        }
-    }
 }

@@ -4,8 +4,11 @@
             <v-toolbar-title>
                 <v-icon>mdi-file-outline</v-icon>
                 {{ $route.meta.name }}
-                <v-chip color="primary" small>
+                <v-chip color="default" small title="Number of entries">
                     {{ InvoicesStore.state.invoices.total }}
+                </v-chip>
+                <v-chip color="default" small title="Total Amount">
+                    {{ AppStore.formatAsCurrency(InvoicesStore.state.invoicesTotalAmount) }}
                 </v-chip>
             </v-toolbar-title>
 
@@ -21,8 +24,23 @@
                 flat
                 rounded
                 solo-inverted
-                style="max-width: 200px;"
+                style="max-width: 400px;"
             ></v-text-field>
+
+            <v-btn
+                title="Reset"
+                icon
+                dense
+                rounded
+                depressed
+                class="mr-2"
+                color="error"
+                :disabled="InvoicesStore.state.selectedInvoices.length < 1"
+                @click="InvoicesStore.resetInvoices()"
+                v-if="AppStore.isSuperAdmin()"
+            >
+                <v-icon>mdi-reset</v-icon>
+            </v-btn>
 
             <v-btn
                 title="Delete"
@@ -52,6 +70,18 @@
             </v-btn>
 
             <v-btn
+                title="Extract Raw Invoices"
+                icon
+                dense
+                rounded
+                depressed
+                class="mr-2"
+                @click="InvoicesStore.state.isExtractInvoicesShown=true"
+            >
+                <v-icon>mdi-export</v-icon>
+            </v-btn>
+
+            <!-- <v-btn
                 title="Sync Text Files"
                 icon
                 dense
@@ -62,7 +92,7 @@
                 @click="syncTextfiles()"
             >
                 <v-icon>mdi-file-sync-outline</v-icon>
-            </v-btn>
+            </v-btn> -->
 
             <template v-slot:extension>
                 <v-app-bar dense elevation="0">
@@ -130,7 +160,7 @@
                         outlined
                         dense
                         hide-details
-                        :items="terminals"
+                        :items="groups"
                         item-text="name"
                         item-value="value"
                         placeholder="Terminal"
@@ -159,10 +189,13 @@
         </v-app-bar>
 
         <!-- Invoice upload component -->
-        <InvoicesUpload
-            :searchKey="searchKey"
-            :principalCodeFilter="principalCodeFilter"
-        ></InvoicesUpload>
+        <v-sheet class="ma-2 rounded-lg"
+        >
+            <InvoicesUpload
+                :searchKey="searchKey"
+                :principalCodeFilter="principalCodeFilter"
+            ></InvoicesUpload>
+        </v-sheet>
 
         <v-data-table
             :items="InvoicesStore.state.invoices.data"
@@ -174,6 +207,7 @@
             disable-pagination
             disable-sort
             show-select
+            class="elevation-1"
         >
             <template v-slot:footer>
                 <v-container>
@@ -196,7 +230,7 @@
                 >
                 </v-chip>
                 <v-chip
-                    color="success"
+                    color="accent"
                     x-small
                     v-if="item.status == 'completed'"
                     class="px-2"
@@ -217,7 +251,42 @@
                     <v-icon>mdi-help-circle-outline</v-icon>
                 </div>
             </template>
+
+            <!-- expanded -->
+            <!-- <template v-slot:expanded-item="{ item }">
+                <td title="Status">
+                    {{ item.u1 }}
+                </td>
+                <td>
+                    {{ item.u4 }}
+                </td>
+                <td title="Salesman Code">
+                    {{ item.u5 }}
+                </td>
+                <td title="Unit of Measure">
+                    {{ item.uom }}
+                </td>
+                <td title="Source Group">
+                    {{ item.group }}
+                </td>
+                <td title="Uploaded By">
+                    {{ item.username }}
+                </td>
+                <td title="Filename">
+                    {{ item.filename }}
+                </td>
+                <td title="Batch Number">
+                    {{ item.batch_number }}
+                </td>
+            </template> -->
         </v-data-table>
+
+        <v-dialog
+            v-model="InvoicesStore.state.isExtractInvoicesShown"
+            max-width="700px"
+        >
+            <ExtractInvoices></ExtractInvoices>
+        </v-dialog>
     </div>
 </template>
 
@@ -227,7 +296,8 @@ import { debounce } from "lodash";
 
 export default {
     components: {
-        InvoicesUpload: () => import("./InvoicesUpload.vue")
+        InvoicesUpload: () => import("./InvoicesUpload.vue"),
+        ExtractInvoices: () => import("./ExtractInvoices.vue"),
     },
     data() {
         return {
@@ -248,7 +318,7 @@ export default {
                 }
             ],
             invoiceStatus: "",
-            tblPageRowCounts: [10, 20, 30, 50, 100, 500],
+            tblPageRowCounts: [10, 20, 30, 50, 100, 500, 1000, 5000],
             tblPageRowCount: 10,
 
             groupByColumns: [
@@ -261,6 +331,8 @@ export default {
             groupBy: "filename",
 
             selectedTerminal: '',
+
+            expanded: [],
         };
     },
 
@@ -285,6 +357,8 @@ export default {
                 this.tblPageRowCount,
                 this.selectedTerminal
             );
+
+            console.log(this.AppStore.state.principals);
         },
 
         syncTextfiles() {
@@ -294,8 +368,8 @@ export default {
     },
 
     computed: {
-        terminals() {
-            return [{name:'All',value:''}, ...this.AppStore.state.terminals];
+        groups() {
+            return [{name:'All',value:''}, ...this.InvoicesStore.state.groups];
         }
     },
 

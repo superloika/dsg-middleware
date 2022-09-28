@@ -23,7 +23,7 @@
         </div>
     </v-sheet>
     <v-data-table
-        dense
+        densex
         :items="items"
         :headers="tableHeader"
         :items-per-page="10"

@@ -15,7 +15,7 @@ class PrincipalsUtil extends Controller
 
     public static $TBL_GENERATED = 'generated_data';
     // public static $TBL_INVOICES = 'uploaded_invoices';
-    public static $TBL_INVOICES = 'invoices';
+    public static $TBL_INVOICES = 'invoices_lines';
 
     public static $TBL_PRINCIPALS_CUSTOMERS = 'principals_customers';
     public static $TBL_PRINCIPALS_ITEMS = 'principals_items';
@@ -163,39 +163,43 @@ class PrincipalsUtil extends Controller
 
     /**
      * Get the overall total amount of the uploaded invoices
+     * // principal specific
      */
-    public function invoicesGrandTotal() {
-        try {
-            $res = DB::table($this::$TBL_INVOICES)
-                ->join(
-                    $this::$TBL_GENERATED,
-                    function($q) {
-                        $q->on(
-                            self::$TBL_GENERATED. '.doc_no',
-                            self::$TBL_INVOICES. '.doc_no',
-                        )
-                        ->on(
-                            self::$TBL_GENERATED. '.alturas_item_code',
-                            self::$TBL_INVOICES. '.item_code',
-                        )
-                        ->on(
-                            self::$TBL_GENERATED. '.alturas_customer_code',
-                            self::$TBL_INVOICES. '.customer_code',
-                        )
-                        ;
-                    }
-                )
-                ->where($this::$TBL_INVOICES. '.status', self::$STATUS_COMPLETED)
-                ->where($this::$TBL_GENERATED. '.principal_code', request()->principal_code)
-                ->sum($this::$TBL_INVOICES. '.u3'); // u3 column = amount
+    // public function invoicesGrandTotal() {
+    //     try {
+    //         $res = DB::table($this::$TBL_INVOICES)
+    //             ->join(
+    //                 $this::$TBL_GENERATED,
+    //                 function($q) {
+    //                     $q->on(
+    //                         self::$TBL_GENERATED. '.doc_no',
+    //                         self::$TBL_INVOICES. '.doc_no',
+    //                     )
+    //                     ->on(
+    //                         self::$TBL_GENERATED. '.alturas_item_code',
+    //                         self::$TBL_INVOICES. '.item_code',
+    //                     )
+    //                     ->on(
+    //                         self::$TBL_GENERATED. '.alturas_customer_code',
+    //                         self::$TBL_INVOICES. '.customer_code',
+    //                     )
+    //                     ;
+    //                 }
+    //             )
 
-            return response()->json($res);
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-            return response()->json($res, 500);
-        }
-    }
+    //             ->where($this::$TBL_GENERATED. '.principal_code', request()->principal_code)
+    //             // ->where($this::$TBL_INVOICES. '.status', self::$STATUS_COMPLETED)
+
+    //             // ->sum($this::$TBL_INVOICES. '.u3'); // u3 column = amount
+    //             ->sum($this::$TBL_INVOICES. '.amount');
+
+    //         return response()->json($res);
+    //     } catch (\Throwable $th) {
+    //         $res['success'] = false;
+    //         $res['message'] = $th->getMessage();
+    //         return response()->json($res, 500);
+    //     }
+    // }
 
 
     /**
@@ -231,12 +235,12 @@ class PrincipalsUtil extends Controller
 
             for ($i=1; $i <= $template_variation_count ; $i++) {
                 $gendata = DB::table($this::$TBL_GENERATED)
-                ->where('principal_code', request()->principal_code)
-                // ->where('status', $this::$STATUS_COMPLETED)
-                ->whereDate('generated_at','>=',$dateFrom)
-                ->whereDate('generated_at','<=',$dateTo)
-                ->where('template_variation',$i)
-                ->get($cols);
+                    ->where('principal_code', request()->principal_code)
+                    // ->where('status', $this::$STATUS_COMPLETED)
+                    ->whereDate('generated_at','>=',$dateFrom)
+                    ->whereDate('generated_at','<=',$dateTo)
+                    ->where('template_variation',$i)
+                    ->get($cols);
 
                 if(count($gendata) > 0) {
                     $template_variation = [
@@ -368,6 +372,11 @@ class PrincipalsUtil extends Controller
                 $dateTo = $dates[0];
             }
 
+            // $vendor_code = $request->vendor_code ?? 'NA';
+            $vendor_code = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+                ->where('code', request()->principal_code ?? 'NA')
+                ->first()->vendor_code ?? 'NA';
+
             $result = DB::table($this::$TBL_INVOICES)
                 ->leftJoin(
                     $this::$TBL_GENERAL_CUSTOMERS,
@@ -375,45 +384,22 @@ class PrincipalsUtil extends Controller
                     '=',
                     $this::$TBL_GENERAL_CUSTOMERS. '.customer_code'
                 )
-                ->leftJoin(
-                    $this::$TBL_GENERAL_ITEMS,
-                    $this::$TBL_INVOICES. '.item_code',
-                    '=',
-                    $this::$TBL_GENERAL_ITEMS. '.item_code'
-                )
-                ->join(
-                    $this::$TBL_GENERATED,
-                    function($q) {
-                        $q->on(
-                            self::$TBL_GENERATED. '.doc_no',
-                            self::$TBL_INVOICES. '.doc_no',
-                        )
-                        ->on(
-                            self::$TBL_GENERATED. '.alturas_item_code',
-                            self::$TBL_INVOICES. '.item_code',
-                        )
-                        ->on(
-                            self::$TBL_GENERATED. '.alturas_customer_code',
-                            self::$TBL_INVOICES. '.customer_code',
-                        )
-                        ;
-                    }
-                )
                 ->select(
                     $this::$TBL_INVOICES. '.*',
                     $this::$TBL_GENERAL_CUSTOMERS. '.name as customer_name',
                     $this::$TBL_GENERAL_CUSTOMERS. '.customer_code',
-                    $this::$TBL_GENERAL_ITEMS. '.description',
-                    $this::$TBL_GENERAL_ITEMS. '.item_code',
+                    // $this::$TBL_GENERAL_ITEMS. '.description',
+                    // $this::$TBL_GENERAL_ITEMS. '.item_code',
                 )
 
+                ->where($this::$TBL_INVOICES. '.vendor_code', $vendor_code)
                 ->where($this::$TBL_INVOICES. '.status', 'completed')
                 ->whereDate($this::$TBL_INVOICES. '.updated_at','>=', $dateFrom)
                 ->whereDate($this::$TBL_INVOICES. '.updated_at','<=', $dateTo)
-                ->where(
-                    $this::$TBL_GENERATED. '.principal_code',
-                    $request->principal_code
-                )
+                // ->where(
+                //     $this::$TBL_GENERATED. '.principal_code',
+                //     $request->principal_code
+                // )
 
                 ->orderBy($this::$TBL_INVOICES. '.updated_at', 'DESC')
                 ->orderBy($this::$TBL_INVOICES. '.customer_code', 'ASC')

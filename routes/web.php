@@ -43,6 +43,7 @@ Route::prefix('test')->group(function () {
 // ================= /WA NI LABOT ====================================================================
 
 
+
 // ACCOUNTS
 // Route::prefix('accounts')->group(function() {
 Route::group(['prefix' => 'accounts'], function() {
@@ -53,6 +54,7 @@ Route::group(['prefix' => 'accounts'], function() {
     Route::match(['put','patch'], '/update-principal-assignment', 'AccountsController@updatePrincipalAssignment');
     Route::match(['delete'], '/delete', 'AccountsController@delete');
 });
+
 
 
 // MASTERFILES (Pending)
@@ -83,13 +85,21 @@ Route::prefix('master')->group(function(){
 });
 
 
+
 // INVOICES
 Route::prefix('invoices')->group(function(){
+    Route::get("/grandtotal", "InvoicesController@invoicesGrandTotal");
     Route::get('/all', 'InvoicesController@index');
     Route::post('/upload', 'InvoicesController@upload');
     Route::post("/delete", "InvoicesController@deleteInvoices");
+    Route::post("/reset", "InvoicesController@resetInvoices");
     Route::post("/sync-textfiles", "InvoicesController@syncTextfiles");
+    Route::post("/set-invoices-complete", "InvoicesController@setInvoicesComplete");
+    // Route::post("/extract", "InvoicesController@extract");
+    Route::post("/extract-raw-invoices-to-excel", "InvoicesController@extractRawInvoicesToExcel");
 });
+
+
 
 /**
  * ================================================================================================================
@@ -103,23 +113,34 @@ Route::prefix('principals')->group(function(){
         ['MegasoftController', 'megasoft'],
         ['GsmiController', 'gsmi'],
         ['GspiController', 'gspi'],
-
-        ['CdoFoodsphereController', 'cdo_foodsphere'],
         ['FoodsphereIncController', 'foodsphere_inc'],
-
         ['FoodFabricatorsController', 'food_fabricators'],
         ['SmfiSmisFrozenController', 'smfi_smis_frozen'],
-
         ['MondelezController', 'mondelez'],
         ['CadburyAdamsController', 'cadbury_adams'],
-
         ['CenturyCanningController', 'century_canning'],
         ['ColumbusSeafoodsController', 'columbus_seafoods'],
         ['PacificMeatController', 'pacific_meat'],
         ['SnowMountainDairyController', 'snow_mountain_dairy'],
-
         ['JnjController', 'jnj'],
         ['RfmController', 'rfm'],
+
+        // temp
+        // ['AlaskaController', 'alaska'],
+        // ['WyethController', 'wyeth'],
+        // ['DelMonteController', 'del_monte'],
+        // ['EcossentialsController', 'ecossentials'],
+        // ['PeerlessController', 'peerless'],
+        // ['SplashController', 'splash'],
+        // ['GreenCrossController', 'green_cross'],
+        // ['PurefoodsController', 'purefoods'],
+        // ['JsuController', 'jsu'],
+        // ['CleAceController', 'cle_ace'],
+        // ['DoleController', 'dole'],
+        // ['BeviController', 'bevi'],
+
+        // ['OthersController', 'others'],
+        // ['OthersNIController', 'others_ni'],
     ];
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';
@@ -139,7 +160,7 @@ Route::prefix('principals')->group(function(){
 
             // Invoices (import & save)
             Route::get("/generate-templated-data", $ctrl. "generateTemplatedData");
-            Route::post("/set-invoices-complete", $ctrl. "setInvoicesComplete");
+            // Route::post("/set-invoices-complete", $ctrl. "setInvoicesComplete");
             // Route::post("/invoices/import", $ctrl. "importInvoices");
             // Route::post("/invoices/save", $ctrl. "saveInvoices");
         });
@@ -156,7 +177,7 @@ Route::prefix('principals')->group(function(){
 
     // Invoices
     // Route::get("/invoices", "Principals\PrincipalsUtil@invoices");
-    Route::get("/invoices/grandtotal", "Principals\PrincipalsUtil@invoicesGrandTotal");
+    // Route::get("/invoices/grandtotal", "Principals\PrincipalsUtil@invoicesGrandTotal");
 
     // Generated Data (should be a POST method... gotta change later)
     Route::post("/generated", "Principals\PrincipalsUtil@getGeneratedData");
@@ -186,38 +207,6 @@ Route::prefix('devchat')->group(function () {
     Route::post('/send-message', "DevChatController@sendMessage");
 });
 
-
-// PRINCIPALS
-// Route::group(['prefix' => 'principals'], function(){
-
-//     // MEAD JOHNSON
-//     Route::group(['prefix' => 'mead_johnson'], function() {
-//         // Products
-//         Route::get("/products", "Principals\MeadJohnsonController@products");
-//         Route::post("/products/upload", "Principals\MeadJohnsonController@uploadMasterProducts");
-
-//         // Customers
-//         Route::get("/customers", "Principals\MeadJohnsonController@customers");
-//         Route::post("/customers/upload", "Principals\MeadJohnsonController@uploadMasterCustomers");
-
-//         // Invoices
-//         Route::get("/invoices", "Principals\MeadJohnsonController@invoices");
-//         Route::post("/invoices/import", "Principals\MeadJohnsonController@importInvoices");
-//         Route::post("/invoices/save", "Principals\MeadJohnsonController@saveInvoices");
-//         Route::get("/invoices/grandtotal", "Principals\MeadJohnsonController@invoicesGrandTotal");
-
-//         // Generated Data
-//         Route::get("/generated", "Principals\MeadJohnsonController@getGeneratedData");
-
-//         // Settings
-//         Route::get("/settings", "Principals\MeadJohnsonController@settings");
-//         Route::post("/settings", "Principals\MeadJohnsonController@saveSettings");
-
-//         // Transaction Report
-//         Route::get("/transactions", "Principals\MeadJohnsonController@transactions");
-//     });
-
-// });
 
 
 /**
