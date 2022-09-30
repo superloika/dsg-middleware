@@ -5,6 +5,7 @@ const state = Vue.observable({
         [
             { text: "Customer Code", value: "customer_code" },
             { text: "Salesman Name", value: "salesman_name" },
+            { text: "Customer Name", value: "customer_name" },
         ],
     ],
     itemsTableHeader: [
@@ -39,54 +40,14 @@ const state = Vue.observable({
         ],
     ],
 
-    // transactions table header
-    // transactionsTableHeader: [
-    //     [
-    //         {text:"Upload Date", value:"updated_at"},
-    //         {text:"Customer Code", value:"customer_code"},
-    //         {text:"Account Name", value:"customer_name"},
-    //         {text:"Sales Invoice", value:"doc_no"},
-    //         {text:"Item Code", value:"item_code"},
-    //         {text:"Description", value:"description"},
-    //         {text:"UOM", value:"uom"},
-    //         {text:"Quantity", value:"quantity"},
-    //         {text:"Amount", value:"u3"},
-    //     ]
-    // ],
-
-
     // ***********************************************************************************
     generatedDataHistoryFilters: [
         [
             {text: 'System Date', value: 'system_date'},
             {text: 'Invoice #', value: 'doc_no'},
             {text: 'Posting Date', value: 'posting_date'},
+            {text: 'Source Group', value: 'group_code'},
         ]
-    ],
-    generatedDataDBTableColumns: [
-        // common
-        'id',
-        'generated_at',
-        'uploaded_by',
-        'doc_no',
-        // principal template
-        'invoice_no',
-        'customer_code',
-        'alturas_customer_code',
-        'customer_name',
-        'invoice_date',
-        'alturas_item_code',
-        'item_code',
-        'description',
-        'description_supplier',
-        'bulk_qty',
-        'loose_qty',
-        'price',
-        'amount',
-        'base_uom',
-        'uom',
-        'sm_name',
-        'system_date'
     ],
 });
 

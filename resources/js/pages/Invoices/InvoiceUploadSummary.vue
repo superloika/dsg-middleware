@@ -40,7 +40,7 @@
                                 v-else
                                 color="warning"
                             >
-                                mdi-alert-circle
+                                mdi-check
                             </v-icon>
                         </template>
                     </v-expansion-panel-header>
@@ -62,17 +62,17 @@
                             </v-chip>
 
                             <v-chip color="default" small class="px-2"
-                                title="Total number of lines being read as valid invoice data"
-                            >
-                                Line Skipped:
-                                {{ summary.line_total - summary.line_read }}
-                            </v-chip>
-
-                            <v-chip color="default" small class="px-2"
                                 title="Total number of lines already exists in the database"
                             >
                                 Line Existing:
                                 {{ summary.line_existing }}
+                            </v-chip>
+
+                            <v-chip color="default" small class="px-2"
+                                title="Total number of lines being read as valid invoice data"
+                            >
+                                Line Skipped:
+                                {{ summary.line_total - summary.line_read }}
                             </v-chip>
 
                             <v-chip
@@ -152,6 +152,32 @@
                             <small v-for="
                                     (line, index) in
                                     Object.entries(summary.skipped_not_in_item_masterfile)
+                                "
+                                :key="index"
+                                :title="`Line Number: ${line[0]}`"
+                            >
+                                {{ line[1] }}
+                                <br>
+                            </small>
+                        </v-container>
+
+                        <!-- skipped lines ***************************************** -->
+                        <v-container
+                            v-if="Object.keys(summary.skipped_zero_qty).length"
+                            style="border:1px solid #f2f2f2;"
+                            class="mb-4"
+                        >
+                            <div>
+                                <h5>
+                                    Skipped: Zero Quantity
+                                    <v-chip x-small class="px-1">
+                                        {{ Object.keys(summary.skipped_zero_qty).length }}
+                                    </v-chip>
+                                </h5>
+                            </div>
+                            <small v-for="
+                                    (line, index) in
+                                    Object.entries(summary.skipped_zero_qty)
                                 "
                                 :key="index"
                                 :title="`Line Number: ${line[0]}`"

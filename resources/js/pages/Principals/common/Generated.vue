@@ -33,10 +33,30 @@
 
                     <v-spacer></v-spacer>
 
-                    <GeneratedActions
-                        :lineCount="lineCount"
-                        :warningsCount="warningsCount"
-                    ></GeneratedActions>
+                    <v-menu
+                        v-model="menu"
+                        :close-on-content-click="false"
+                        offset-y
+                        bottom
+                        z-index="999"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn v-bind="attrs" v-on="on"
+                                icon
+                                title="More Options"
+                            >
+                                <v-icon>
+                                    mdi-dots-horizontal-circle
+                                </v-icon>
+                            </v-btn>
+                        </template>
+
+                        <GeneratedActions
+                            :lineCount="lineCount"
+                            :warningsCount="warningsCount"
+                        ></GeneratedActions>
+                    </v-menu>
+
                 </v-app-bar>
             </v-card-title>
 
@@ -89,7 +109,7 @@ export default {
 
     data() {
         return {
-
+            menu: false,
         }
     },
 

@@ -13,9 +13,10 @@ class MasterPrincipalsController extends Controller
     {
         $res = DB::table('principals')
             // ->where('active', 1)
+            ->where('active', 1)
             ->orderBy('proj_status', 'DESC')
             // ->orderBy('code')
-            ->orderBy('id')
+            ->orderBy('name')
             ->get();
 
         return response()->json($res);
@@ -43,16 +44,20 @@ class MasterPrincipalsController extends Controller
                             $cols = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $row);
 
                             if (count($cols) > 1) {
-                                $name = $cols[0];
-                                $vendor_code = $cols[1];
-                                $principal_code = $cols[2];
+                                $name = trim($cols[0], ' \t\n\r\0\x0B\"');
+                                $principal_code = $cols[1];
+                                $vendor_code = $cols[2];
                                 $template_variation_count = $cols[3];
+                                $proj_status = $cols[4];
+                                $active = $cols[5];
 
                                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS)->insert([
                                     'name' => $name,
-                                    'vendor_code' => $vendor_code,
                                     'code' => $principal_code,
+                                    'vendor_code' => $vendor_code,
                                     'template_variation_count' => $template_variation_count,
+                                    'proj_status' => $proj_status,
+                                    'active' => $active,
                                 ]);
                             }
                         }

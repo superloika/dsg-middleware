@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Principals;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\InvoicesController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ColumbusSeafoodsController extends Controller
 {
-    private $PRINCIPAL_CODE = 'columbus_seafoods';
+    public static $PRINCIPAL_CODE = 'columbus_seafoods';
 
     /**
      * Create a new controller instance.
@@ -54,7 +55,7 @@ class ColumbusSeafoodsController extends Controller
             ])
 
             ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.principal_code',
-                $this->PRINCIPAL_CODE)
+                self::$PRINCIPAL_CODE)
             // ->get($cols);
 
             // $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
@@ -101,7 +102,8 @@ class ColumbusSeafoodsController extends Controller
 
             $delimiter = ',';
             $fileName = time() . '.' . $request->file->getClientOriginalName();
-            $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/items";
+            $fileStoragePath =
+                "public/principals/" . self::$PRINCIPAL_CODE . "/items";
             Storage::putFileAs($fileStoragePath, $request->file, $fileName);
 
             $res['success'] = true;
@@ -116,17 +118,19 @@ class ColumbusSeafoodsController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('principal_code', self::$PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
-                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
+                $fileContentLines =
+                    explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
 
                 foreach ($fileContentLines as $fileContentLine) {
                     // Begin on the second line to skip the headers
                     if ($lineCount > 1) {
 
                         // $arrFileContentLine = explode($delimiter, $fileContentLine);
-                        $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+                        $arrFileContentLine =
+                            preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                         if (count($arrFileContentLine) > 1) {
                             $item_code = trim(str_replace('"', '', $arrFileContentLine[0]));
@@ -137,7 +141,7 @@ class ColumbusSeafoodsController extends Controller
                             $conversion_uom = 'PCS';
 
                             $arrLines[] = [
-                                'principal_code' => $this->PRINCIPAL_CODE,
+                                'principal_code' => self::$PRINCIPAL_CODE,
                                 'uploaded_by' => auth()->user()->id,
                                 'item_code' => $item_code,
                                 'item_code_supplier' => $item_code_supplier,
@@ -200,7 +204,7 @@ class ColumbusSeafoodsController extends Controller
     //         // )
     //         ->where(
     //             PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.principal_code',
-    //             $this->PRINCIPAL_CODE
+    //             self::$PRINCIPAL_CODE
     //         )
     //         // ->get();
 
@@ -219,7 +223,7 @@ class ColumbusSeafoodsController extends Controller
     //         ->paginate($row_count);
 
     //     // $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-    //     //     ->where('principal_code', $this->PRINCIPAL_CODE)
+    //     //     ->where('principal_code', self::$PRINCIPAL_CODE)
     //     //     ->get();
 
     //     return response()->json($result);
@@ -234,7 +238,7 @@ class ColumbusSeafoodsController extends Controller
     //     try {
     //         $delimiter = ',';
     //         $fileName = time() . '.' . $request->file->getClientOriginalName();
-    //         $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/customers";
+    //         $fileStoragePath = "public/principals/" . self::$PRINCIPAL_CODE . "/customers";
     //         Storage::putFileAs($fileStoragePath, $request->file, $fileName);
 
     //         DB::beginTransaction();
@@ -246,7 +250,7 @@ class ColumbusSeafoodsController extends Controller
     //             $lineCount = 1;
 
     //             DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-    //                 ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+    //                 ->where('principal_code', self::$PRINCIPAL_CODE)->delete();
 
     //             $fileContentLines = explode(
     //                 PHP_EOL,
@@ -272,7 +276,7 @@ class ColumbusSeafoodsController extends Controller
     //                         $isExisting = false;
     //                         if ($isExisting == false) {
     //                             $arrLines[] = [
-    //                                 'principal_code' => $this->PRINCIPAL_CODE,
+    //                                 'principal_code' => self::$PRINCIPAL_CODE,
     //                                 'customer_code' => $customer_code,
     //                                 'customer_code_supplier' => $customer_code_supplier,
     //                                 'uploaded_by' => auth()->user()->id
@@ -316,7 +320,7 @@ class ColumbusSeafoodsController extends Controller
         set_time_limit(0);
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where('principal_code', self::$PRINCIPAL_CODE)
             ->get();
         return response()->json($result);
     }
@@ -330,7 +334,8 @@ class ColumbusSeafoodsController extends Controller
         try {
             $delimiter = ',';
             $fileName = time() . '.' . $request->file->getClientOriginalName();
-            $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/salesmen";
+            $fileStoragePath =
+                "public/principals/" . self::$PRINCIPAL_CODE . "/salesmen";
             Storage::putFileAs($fileStoragePath, $request->file, $fileName);
 
             DB::beginTransaction();
@@ -342,7 +347,7 @@ class ColumbusSeafoodsController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('principal_code', self::$PRINCIPAL_CODE)->delete();
 
                 $fileContentLines = explode(
                     PHP_EOL,
@@ -360,11 +365,12 @@ class ColumbusSeafoodsController extends Controller
                             // ====================================================================
                             $group_code = trim(str_replace('"', '', $arrFileContentLine[0]));
                             $sm_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
-                            $location_code_supplier = trim(str_replace('"', '', $arrFileContentLine[2]));
+                            $location_code_supplier =
+                                trim(str_replace('"', '', $arrFileContentLine[2]));
                             // ====================================================================
 
                             $arrLines[] = [
-                                'principal_code' => $this->PRINCIPAL_CODE,
+                                'principal_code' => self::$PRINCIPAL_CODE,
                                 'group_code' => $group_code,
                                 'sm_code_supplier' => $sm_code_supplier,
                                 'location_code_supplier' => $location_code_supplier,
@@ -416,7 +422,7 @@ class ColumbusSeafoodsController extends Controller
 
             $template_variation_count = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
                 ->select('template_variation_count')
-                ->where('code', $this->PRINCIPAL_CODE)
+                ->where('code', self::$PRINCIPAL_CODE)
                 ->first()->template_variation_count;
 
             $res['success'] = true;
@@ -425,7 +431,7 @@ class ColumbusSeafoodsController extends Controller
             $res['output_template_variations'] = [];
 
             $dateToday = Carbon::now();
-            $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
+            $settings = PrincipalsUtil::getSettings(self::$PRINCIPAL_CODE);
             // ***************************************************************************
 
             // ************************* MISC INITS **************************************
@@ -437,16 +443,9 @@ class ColumbusSeafoodsController extends Controller
             // ************************* /MISC INITS *************************************
 
             // **************** PENDING INVOICES ************************************
-            $pendingInvoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
-                ->where(
-                    'vendor_code',
-                    DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                        ->where('code', $this->PRINCIPAL_CODE)
-                        ->select('vendor_code')
-                        ->first()->vendor_code ?? 'NA'
-                )
-                ->where('status', 'pending')
-                ->get();
+            $pendingInvoices = InvoicesController::getPendingInvoices(
+                self::$PRINCIPAL_CODE, $request->posting_date_range
+            );
 
             $res['line_count'] = $pendingInvoices->count();
             // **************** /PENDING INVOICES ************************************
@@ -476,15 +475,15 @@ class ColumbusSeafoodsController extends Controller
 
                     // ****************************************************************
                     // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                    //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                    //     ->where('principal_code', self::$PRINCIPAL_CODE)
                     //     ->where('customer_code', $customer_code)
                     //     ->first();
                     $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                        ->where('principal_code', self::$PRINCIPAL_CODE)
                         ->where('item_code', $item_code)
                         ->first();
                     $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                        ->where('principal_code', self::$PRINCIPAL_CODE)
                         // ->where('sm_code', $u5)
                         ->where('group_code', $group_code)
                         ->first();
@@ -493,11 +492,21 @@ class ColumbusSeafoodsController extends Controller
                     // quantity_conversion
                     $bulk_qty = 0;
                     $loose_qty = 0;
-                    if($item != null) {
-                        $quo = $quantity/$item->conversion_qty;
-                        $mod = $quantity%$item->conversion_qty;
-                        $bulk_qty = intval($quo);
-                        $loose_qty = $mod;
+                    // if($item != null) {
+                    //     $quo = $quantity/$item->conversion_qty;
+                    //     $mod = $quantity%$item->conversion_qty;
+                    //     $bulk_qty = intval($quo);
+                    //     $loose_qty = $mod;
+                    // }
+
+                    if (
+                        strpos(strtolower($group_code), 'bulk') > -1
+                    ) {
+                        $bulk_qty = $quantity;
+                    } else if (
+                        strpos(strtolower($group_code), 'pcs') > -1
+                    ) {
+                        $loose_qty = $quantity;
                     }
 
                     // ************************* TEMPLATE 1 **************************
@@ -660,9 +669,9 @@ class ColumbusSeafoodsController extends Controller
                         $customer_code_supplier = $item->customer_code_supplier ?? $customer_code;
 
                         $distributor_id = $settings['distributor_id'] ?? 'N/A';
-                        // ======================= /INIT ================================================
+                        // ======================= /INIT =========================================
 
-                        // =========== SETTING UP =======================================================
+                        // =========== SETTING UP ================================================
                         // Generated data line structure
                         $arrGenerated = [
                             //commons
@@ -716,7 +725,7 @@ class ColumbusSeafoodsController extends Controller
                                 $arrGenerated
                             );
                         }
-                        // =========== /SETTING UP =======================================================
+                        // =========== /SETTING UP ============================================
                     }
                 }
 

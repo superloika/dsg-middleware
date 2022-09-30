@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Vue from 'vue';
 import AppStore from './AppStore';
 import PrincipalsStore from './PrincipalsStore';
@@ -34,10 +35,11 @@ const state = Vue.observable({
     // transactions table header
     transactionsTableHeader: [
         [
-            {text:"Upload Date",    value:"updated_at"},
+            // {text:"Upload Date",    value:"updated_at"},
+            {text:"Invoice #",  value:"doc_no"},
+            {text:"Posting Date (m/d/Y)",  value:"posting_date"},
             {text:"Customer Code",  value:"customer_code"},
             {text:"Account Name",   value:"customer_name"},
-            {text:"Sales Invoice",  value:"doc_no"},
             {text:"Item Code",      value:"item_code"},
             {text:"Description",    value:"item_description"},
             {text:"UOM",            value:"uom"},
@@ -159,7 +161,7 @@ const actions = {
                         config[i].format
                     ),
                     null,
-                    PrincipalsStore.state.selectedPrincipalCode + '_' + (i+1)
+                    PrincipalsStore.state.selectedPrincipalCode + '_templated_' + (i+1)
                 );
             };
 
@@ -173,11 +175,7 @@ const actions = {
             //     this.selectedPrincipalCode,
             //     AppStore.state.strDateToday
             // );
-            PrincipalsStore.initCurrentGeneratedData(
-                PrincipalsStore.state.selectedPrincipalCode,
-                null,
-                PrincipalsStore.state.selectedGroupBy
-            );
+            PrincipalsStore.initCurrentGeneratedData();
         } catch (error) {
             console.log("setInvoicesComplete():", error);
         }
@@ -221,6 +219,14 @@ const actions = {
             AppStore.toast(error,null,'error');
         }
     },
+
+    async initGroups() {
+        await axios.get(
+            AppStore.state.siteUrl + 'invoices/groups'
+        ).then(res=>{
+            state.groups = res.data;
+        });
+    }
 
 }
 

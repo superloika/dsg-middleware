@@ -27,13 +27,14 @@
                 >
                     <v-select
                         v-model="account.selected_principals"
-                        :items="AppStore.state.principals"
+                        :items="principals"
                         item-text="name"
                         item-value="id"
                         label="Designated Principals"
                         multiple
                         dense
                         outlined
+                        clearable
                     ></v-select>
                 </v-col>
             </v-row>
@@ -72,6 +73,12 @@ export default {
             errMsgsShown: false,
             errorMsgs: {},
         };
+    },
+
+    computed: {
+        principals() {
+            return this.AppStore.state.principals;
+        }
     },
 
     methods: {

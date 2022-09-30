@@ -97,6 +97,7 @@ Route::prefix('invoices')->group(function(){
     Route::post("/set-invoices-complete", "InvoicesController@setInvoicesComplete");
     // Route::post("/extract", "InvoicesController@extract");
     Route::post("/extract-raw-invoices-to-excel", "InvoicesController@extractRawInvoicesToExcel");
+    Route::get("/groups", "InvoicesController@groups");
 });
 
 

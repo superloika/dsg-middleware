@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Principals;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\InvoicesController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -248,6 +249,8 @@ class GsmiController extends Controller
                                 trim(str_replace('"', '', $arrFileContentLine[0]));
                             $salesman_name =
                                 trim(str_replace('"', '', $arrFileContentLine[1]));
+                            $customer_name =
+                                trim(str_replace('"', '', $arrFileContentLine[2]));
                             // =========================================================================
 
                             // $isExisting = array_search(
@@ -260,6 +263,7 @@ class GsmiController extends Controller
                                     'principal_code' => $this->PRINCIPAL_CODE,
                                     'customer_code' => $customer_code,
                                     'salesman_name' => $salesman_name,
+                                    'customer_name' => $customer_name,
                                     'uploaded_by' => auth()->user()->id
                                 ];
                             }
@@ -328,16 +332,9 @@ class GsmiController extends Controller
             // ************************* /MISC INITS *************************************
 
             // **************** PENDING INVOICES **************************
-            $pendingInvoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
-                ->where(
-                    'vendor_code',
-                    DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                        ->where('code', $this->PRINCIPAL_CODE)
-                        ->select('vendor_code')
-                        ->first()->vendor_code ?? 'NA'
-                )
-                ->where('status', 'pending')
-                ->get();
+            $pendingInvoices = InvoicesController::getPendingInvoices(
+                $this->PRINCIPAL_CODE, $request->posting_date_range
+            );
 
             $res['line_count'] = $pendingInvoices->count();
             // **************** /PENDING INVOICES **************************
@@ -363,6 +360,7 @@ class GsmiController extends Controller
                     $amount = trim($pendingInvoice->amount);
                     $uom = trim($pendingInvoice->uom);
                     $item_description = trim($pendingInvoice->item_description);
+                    $group_code = trim($pendingInvoice->group);
 
                     //********************************************************************
                     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)

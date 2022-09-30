@@ -124,7 +124,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           password: [function (v) {
             return !!v || "Password is required.";
           }, function (v) {
-            return v.length >= 5 || "Password must be 5 characters or above.";
+            return v.length >= 3 || "Password must be 3 characters or above.";
           }],
           password_confirmation: [function (v) {
             return !!v || "Please confirm your password.";

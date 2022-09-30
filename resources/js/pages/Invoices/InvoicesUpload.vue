@@ -12,30 +12,48 @@
                     in order for the system to identify which group the data came from.
                     Keyword includes
                         <v-chip x-small color="default">
-                            CWDG
+                            CWDG_PCS
                         </v-chip>
                         <v-chip x-small color="default">
-                            UWDG
+                            CWDG_BULK
                         </v-chip>
                         <v-chip x-small color="default">
-                            3PS
+                            UWDG_PCS
                         </v-chip>
                         <v-chip x-small color="default">
-                            CVS
+                            UWDG_BULK
                         </v-chip>
                         <v-chip x-small color="default">
-                            DEL
+                            3PS_BULK
                         </v-chip>
                         <v-chip x-small color="default">
-                            HOR
+                            CVS_PCS
                         </v-chip>
                         <v-chip x-small color="default">
-                            MAS
+                            CVS_BULK
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            DELICA_PCS
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            DELICA_BULK
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            HORECA_PCS
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            HORECA_BULK
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            MAS_PCS
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            MAS_BULK
                         </v-chip>
                         <v-chip x-small color="default">
                             SEC
                         </v-chip>
-                    Example: "CWDG_PCS Sept 1-5.txt"
+                    <br>Example: "CWDG_PCS Sept 1-5.txt"
                 </small>
             </v-col>
         </v-row>

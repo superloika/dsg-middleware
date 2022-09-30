@@ -37,7 +37,7 @@
 
         <v-text-field
             v-model="dateRangeText"
-            label="Date Uploaded - YYYY-MM-DD"
+            label="Posting Date (Y-m-d)"
             hide-details
             readonly
             dense
@@ -68,7 +68,7 @@
                     color="primary"
                     @click="$refs.datePicker.save(date);loadInvoicesOrTransactions();"
                 >
-                    Generate
+                    Ok
                 </v-btn>
             </v-date-picker>
         </v-dialog>
@@ -85,6 +85,7 @@
             flat
             rounded
             solo-inverted
+            class="mr-2"
         ></v-text-field>
         <!-- /SEARCH -->
 
@@ -106,8 +107,9 @@
             :disabled="(searchKey!=null && searchKey!='') ||
                     PrincipalsStore.state.transactions.length < 1
                 "
+            color="red"
         >
-            <v-icon>mdi-export</v-icon>
+            <v-icon>mdi-file-pdf-box</v-icon>
         </v-btn>
     </v-app-bar>
     <v-sheet>
@@ -215,12 +217,13 @@ export default {
         // },
 
         exportToExcel() {
+            console.log(this.PrincipalsStore.state.transactions);
             this.PrincipalsStore.toExcel_simple(
                 this.date.toString(),
                 this.PrincipalsStore.state.transactions,
                 'transactionsTableHeader',
-                [7,8],
-                `${this.selectedPrincipalCode}_Transactions`
+                null, //[7,8],
+                `${this.selectedPrincipalCode}_transactions`
             );
         },
 
@@ -235,7 +238,7 @@ export default {
          */
         exportToPDF() {
             const totalAmount = this.AppStore.formatAsCurrency(this.totalAmount);
-            const fileName = `${this.selectedPrincipalCode}_Transactions`;
+            const fileName = `${this.selectedPrincipalCode}_transactions`;
             const doc = new jsPDF({orientation:'landscape'});
             const totalPagesExp = '{total_pages_count_string}';
 
@@ -263,11 +266,11 @@ export default {
                 ,
                 body: this.PrincipalsStore.state.transactions.map(e=>{
                     const { customer_code,customer_name,doc_no,
-                        item_code,description,uom,quantity,u3,
+                        item_code,item_description,uom,quantity,amount,
                         ...rest } = e;
                     return [customer_code,customer_name,doc_no,
-                        item_code,description,uom,quantity,
-                        {content:u3, styles:{halign:'right'}}
+                        item_code,item_description,uom,quantity,
+                        {content:amount, styles:{halign:'right'}}
                     ];
                 }),
                 footer: [['Total', '']],

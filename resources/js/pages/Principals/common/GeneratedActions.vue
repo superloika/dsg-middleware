@@ -1,47 +1,105 @@
 <template>
-<div>
-    <v-app-bar elevation="0">
-        <!-- date filter -->
-        <!-- <v-btn
-            title="Generate"
-            icon
-            dense
-            rounded
-            depressed
-            class="mr-2"
-            @click="PrincipalsStore.state.generateFilterShown=true"
-        >
-            <v-icon>mdi-cog-play-outline</v-icon>
-        </v-btn> -->
+    <v-card>
+        <v-card-text>
+            <v-row>
+                <v-col>
+                    <v-text-field
+                        v-model="dateRangeText"
+                        label="Posting/Shipment Date"
+                        hide-details
+                        readonly
+                        dense
+                        outlined
+                        rounded
+                        @click.stop="datePickerShown=true"
+                        style="max-width:500px;min-width:250px;"
+                    ></v-text-field>
+                    <!-- DATEPICKER -->
+                    <v-dialog
+                        ref="datePicker"
+                        v-model="datePickerShown"
+                        :return-value.sync="PrincipalsStore.state.posting_date_range"
+                        width="290px"
+                    >
+                        <v-date-picker
+                            v-model="PrincipalsStore.state.posting_date_range"
+                            scrollable range
+                        >
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                text
+                                color="primary"
+                                @click="datePickerShown = false"
+                            >
+                                Cancel
+                            </v-btn>
+                            <v-btn
+                                text
+                                color="primary"
+                                @click="
+                                    $refs.datePicker.save(PrincipalsStore.state.posting_date_range);
+                                "
+                            >
+                                Ok
+                            </v-btn>
+                        </v-date-picker>
+                    </v-dialog>
+                    <!-- /DATEPICKER -->
+                </v-col>
 
-        <!-- reload -->
-        <v-btn
-            title="Load"
-            icon
-            dense
-            rounded
-            depressed
-            class="mr-3"
-            color="primary"
-            @click="refresh()"
-        >
-            <v-icon>mdi-tray-arrow-down</v-icon>
-        </v-btn>
+                <v-col>
+                    <v-select
+                        :items="selPrincipalStore.state.generatedDataHistoryFilters[0]"
+                        v-model="PrincipalsStore.state.selectedGroupBy"
+                        label="Group By"
+                        item-text="text"
+                        item-value="value"
+                        style="max-width:500px;min-width:200px;"
+                        outlined
+                        rounded
+                        hide-details
+                        dense
+                    >
+                    </v-select>
+                </v-col>
 
-        <v-select
-            :items="selPrincipalStore.state.generatedDataHistoryFilters[0]"
-            v-model="PrincipalsStore.state.selectedGroupBy"
-            label="Group By"
-            item-text="text"
-            item-value="value"
-            class="mr-3"
-            style="max-width:215px;"
-            outlined
-            rounded
-            hide-details
-            dense
-        >
-        </v-select>
+                <v-col>
+                    <!-- reload -->
+                    <v-btn
+                        title="Generate Templated"
+                        dense
+                        rounded
+                        @click="refresh()"
+                        :loading="PrincipalsStore.state.isGeneratingData"
+                    >
+                        <!-- <v-icon>mdi-tray-arrow-down</v-icon> -->
+                        Generate
+                    </v-btn>
+                </v-col>
+
+                <v-col>
+                    <!-- ********************* EXPORT ************************ -->
+                    <v-btn
+                        title="Export to Excel"
+                        dense
+                        rounded
+                        color="primary"
+                        block
+                        @click.stop="
+                            PrincipalsStore.state.confirmExportDialogOpen = true
+                        "
+                        :disabled="
+                            lineCount < 1 ||
+                                searchKeyLength > 0 ||
+                                warningsCount >= lineCount
+                        "
+                    >
+                        <v-icon left size="25">mdi-file-excel</v-icon>
+                        Export({{ lineCount - warningsCount }})
+                    </v-btn>
+                </v-col>
+            </v-row>
+        </v-card-text>
 
         <!-- search -->
         <!-- <v-text-field
@@ -60,107 +118,6 @@
                 PrincipalsStore.state.currentGeneratedData.length < 1
             "
         ></v-text-field> -->
-
-        <!-- ********************* UNMAPPED SHITS ************************* -->
-        <!-- UNMAPPED CUSTOMERS -->
-        <!-- <v-btn
-            title="Unmapped Customer/s"
-            icon
-            dense
-            rounded
-            depressed
-            color="warning"
-            @click.stop="dlgMissingCustomers = true"
-            :disabled="missingInMaster('customer').length < 1"
-        >
-            <v-icon>mdi-account-multiple</v-icon>
-        </v-btn>
-        <v-dialog v-model="dlgMissingCustomers" max-width="700" scrollable>
-            <MissingInMaster
-                id="customer"
-                type="customer"
-                title="Unmapped Customer/s"
-                :missingInMaster="missingInMaster('customer')"
-            ></MissingInMaster>
-        </v-dialog> -->
-        <!-- /UNMAPPED CUSTOMERS -->
-
-        <!-- UNMAPPED ITEMS -->
-        <!-- <v-btn
-            title="Unmapped Item/s"
-            icon
-            dense
-            rounded
-            depressed
-            color="warning"
-            @click.stop="dlgMissingItems = true"
-            :disabled="missingInMaster('item').length < 1"
-        >
-            <v-icon>mdi-cube</v-icon>
-        </v-btn>
-        <v-dialog
-            v-model="dlgMissingItems"
-            persistentx
-            max-width="900"
-            scrollable
-        >
-            <MissingInMaster
-                id="item"
-                type="item"
-                title="Unmapped Item/s"
-                :missingInMaster="missingInMaster('item')"
-            ></MissingInMaster>
-        </v-dialog> -->
-        <!-- /UNMAPPED ITEMS -->
-
-        <!-- UNMAPPED SALESMEN -->
-        <!-- <v-btn
-            title="Unmapped Salesmen"
-            icon
-            dense
-            rounded
-            depressed
-            color="warning"
-            @click.stop="dlgMissingSalesmen = true"
-            :disabled="missingInMaster('salesman').length < 1"
-        >
-            <v-icon>mdi-account</v-icon>
-        </v-btn>
-        <v-dialog
-            v-model="dlgMissingSalesmen"
-            persistentx
-            max-width="600"
-            scrollable
-        >
-            <MissingInMaster
-                id="salesman"
-                type="salesman"
-                title="Unmapped Salesmen"
-                :missingInMaster="missingInMaster('salesman')"
-            ></MissingInMaster>
-        </v-dialog> -->
-        <!-- /UNMAPPED SALESMEN -->
-        <!-- ********************* /UNMAPPED SHITS ************************* -->
-
-        <!-- ********************* EXPORT ************************ -->
-        <v-btn
-            title="Export to Excel"
-            dense
-            rounded
-            color="primary"
-            class="ml-4"
-            @click.stop="
-                PrincipalsStore.state.confirmExportDialogOpen = true
-            "
-            :disabled="
-                lineCount < 1 ||
-                    searchKeyLength > 0 ||
-                    warningsCount >= lineCount
-            "
-        >
-            <v-icon left size="25">mdi-file-excel</v-icon>
-            Export({{ lineCount - warningsCount }})
-        </v-btn>
 
         <!-- ***************************************************************** -->
         <!-- ********************* DIALOGS *********************************** -->
@@ -182,16 +139,10 @@
         </v-dialog>
         <!-- ********************* /EXPORT ************************ -->
 
-        <!-- ********************* GENERATE ************************ -->
-        <GenerateFilter></GenerateFilter>
-        <!-- ********************* /GENERATE ************************ -->
-
         <!-- ***************************************************************** -->
         <!-- ********************* /DIALOGS ********************************** -->
         <!-- ***************************************************************** -->
-
-    </v-app-bar>
-</div>
+    </v-card>
 </template>
 
 <script>
@@ -203,7 +154,6 @@ export default {
     components: {
         MissingInMaster: () => import("./MissingInMaster.vue"),
         ConfirmExport: () => import("./ConfirmExport.vue"),
-        GenerateFilter: () => import("./GenerateFilter.vue")
     },
 
     data() {
@@ -211,7 +161,7 @@ export default {
             dlgMissingCustomers: null,
             dlgMissingItems: null,
             dlgMissingSalesmen: null,
-            // dlgPendings: null,
+            datePickerShown: false,
         };
     },
 
@@ -233,7 +183,10 @@ export default {
         },
         selPrincipalStore() {
             return this[this.PrincipalsStore.state.selectedPrincipalCode];
-        }
+        },
+        dateRangeText() {
+            return this.PrincipalsStore.state.posting_date_range.join(' ~ ');
+        },
     },
 
     methods: {
@@ -298,8 +251,7 @@ export default {
         refresh() {
             PrincipalsStore.initCurrentGeneratedData(
                 this.selectedPrincipalCode,
-                null,
-                this.PrincipalsStore.state.selectedGroupBy
+                null
             );
             PrincipalsStore.state.currentGeneratedDataSearchKey = '';
         },

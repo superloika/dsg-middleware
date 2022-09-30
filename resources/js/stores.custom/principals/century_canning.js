@@ -1,14 +1,12 @@
 import Vue from "vue";
 
 const state = Vue.observable({
-    customersTableHeader: [
-        [
-            { text: "Customer Code", value: "customer_code" },
-            // { text: "Name", value: "customer_name" },
-            // { text: "Address", value: "address" },
-            { text: "Principal Customer Code", value: "customer_code_supplier" },
-        ],
-    ],
+    // customersTableHeader: [
+    //     [
+    //         { text: "Customer Code", value: "customer_code" },
+    //         { text: "Principal Customer Code", value: "customer_code_supplier" },
+    //     ],
+    // ],
     itemsTableHeader: [
         [
             {text:"Item Code", value:"item_code"},
@@ -62,47 +60,6 @@ const state = Vue.observable({
         // ],
     ],
 
-    // transactions table header
-    // transactionsTableHeader: [
-    //     [
-    //         {text:"Upload Date", value:"updated_at"},
-    //         {text:"Customer Code", value:"customer_code"},
-    //         {text:"Account Name", value:"customer_name"},
-    //         {text:"Sales Invoice", value:"doc_no"},
-    //         {text:"Item Code", value:"item_code"},
-    //         {text:"Description", value:"description"},
-    //         {text:"UOM", value:"uom"},
-    //         {text:"Quantity", value:"quantity"},
-    //         {text:"Amount", value:"u3"},
-    //     ]
-    // ],
-
-
-    // ************************* Templated Data History *******************************
-    // custom cols (Templated Data History)
-    generatedDataDBTableColumns: [
-        // common
-        'id',
-        'generated_at',
-        'uploaded_by',
-        'doc_no',
-        // principal template
-        'item_code',
-        'customer_code',
-        'distributor_id',
-        'sales_agent_id', // salesman code
-        'invoice_no',
-        'location',
-        'invoice_date',
-        'payment_term_code',
-        'bulk_qty',
-        'loose_qty',
-        'default_user',
-        'system_date',
-        'expiry_date',
-        'order_date',
-        'request_delivery_date',
-    ],
     generatedDataHistoryFilters: [
         [
             {text: 'Order Date', value: 'order_date'},
@@ -112,9 +69,9 @@ const state = Vue.observable({
             {text: 'Salesman', value: 'sm_code_supplier'},
             {text: 'Location', value: 'location'},
             {text: 'Invoice Posting Date', value: 'posting_date'},
+            {text: 'Source Group', value: 'group_code'},
         ]
     ],
-    // ************************* /Templated Data History *******************************
 
 });
 

@@ -76,6 +76,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -90,6 +91,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       errMsgsShown: false,
       errorMsgs: {}
     };
+  },
+  computed: {
+    principals: function principals() {
+      return this.AppStore.state.principals;
+    }
   },
   methods: {
     updatePrincipal: function updatePrincipal() {
@@ -223,13 +229,14 @@ var render = function() {
                 [
                   _c("v-select", {
                     attrs: {
-                      items: _vm.AppStore.state.principals,
+                      items: _vm.principals,
                       "item-text": "name",
                       "item-value": "id",
                       label: "Designated Principals",
                       multiple: "",
                       dense: "",
-                      outlined: ""
+                      outlined: "",
+                      clearable: ""
                     },
                     model: {
                       value: _vm.account.selected_principals,

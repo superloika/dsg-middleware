@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Principals;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,8 +27,11 @@ class PrincipalsUtil extends Controller
 
     public static $TBL_PRINCIPALS = 'principals';
 
+    public static $TBL_GROUPS = 'groups';
+
     public static $ITEM_NOT_FOUND = 'ITEM_NOT_FOUND';
     public static $CUSTOMER_NOT_FOUND = 'CUSTOMER_NOT_FOUND';
+
 
     /**
      * Create a new controller instance.
@@ -81,6 +85,7 @@ class PrincipalsUtil extends Controller
         try {
             $res = DB::table(self::$TBL_SETTINGS)
                 ->where('principal_code', request()->principal_code)
+                ->orderBy('name')
                 ->get();
             return response()->json($res);
         } catch (\Throwable $th) {
@@ -371,6 +376,10 @@ class PrincipalsUtil extends Controller
                 $dateFrom = $dates[0];
                 $dateTo = $dates[0];
             }
+            $dateFrom = new Carbon($dateFrom);
+            $dateTo = new Carbon($dateTo);
+
+            $invoice_status = $request->invoice_status ?? PrincipalsUtil::$STATUS_COMPLETED;
 
             // $vendor_code = $request->vendor_code ?? 'NA';
             $vendor_code = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
@@ -388,20 +397,16 @@ class PrincipalsUtil extends Controller
                     $this::$TBL_INVOICES. '.*',
                     $this::$TBL_GENERAL_CUSTOMERS. '.name as customer_name',
                     $this::$TBL_GENERAL_CUSTOMERS. '.customer_code',
-                    // $this::$TBL_GENERAL_ITEMS. '.description',
-                    // $this::$TBL_GENERAL_ITEMS. '.item_code',
                 )
 
                 ->where($this::$TBL_INVOICES. '.vendor_code', $vendor_code)
-                ->where($this::$TBL_INVOICES. '.status', 'completed')
-                ->whereDate($this::$TBL_INVOICES. '.updated_at','>=', $dateFrom)
-                ->whereDate($this::$TBL_INVOICES. '.updated_at','<=', $dateTo)
-                // ->where(
-                //     $this::$TBL_GENERATED. '.principal_code',
-                //     $request->principal_code
-                // )
+                ->where($this::$TBL_INVOICES. '.status','like', "%$invoice_status%")
+                ->whereBetween(
+                    DB::raw("STR_TO_DATE(posting_date, '%m/%d/%Y')"),
+                    [$dateFrom, $dateTo])
 
-                ->orderBy($this::$TBL_INVOICES. '.updated_at', 'DESC')
+                // ->orderBy($this::$TBL_INVOICES. '.updated_at', 'DESC')
+                ->orderBy($this::$TBL_INVOICES. '.posting_date', 'DESC')
                 ->orderBy($this::$TBL_INVOICES. '.customer_code', 'ASC')
                 ->orderBy($this::$TBL_INVOICES. '.doc_no', 'ASC')
 

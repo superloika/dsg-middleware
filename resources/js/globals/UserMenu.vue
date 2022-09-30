@@ -60,12 +60,13 @@
                         block
                         text
                         outlined
-                        @click.stop="logout_dialog = true"
+                        @click.stop="logout()"
+                        :loading="isLoggingOut"
                         icon
                     >
                         Logout
                     </v-btn>
-                    <v-dialog
+                    <!-- <v-dialog
                         persistent
                         v-model="logout_dialog"
                         max-width="300"
@@ -88,7 +89,7 @@
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
-                    </v-dialog>
+                    </v-dialog> -->
                 </v-card-actions>
             </v-card>
         </v-menu>

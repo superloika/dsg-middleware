@@ -107,8 +107,8 @@ export default {
                     name: [
                         v => !!v || "Name is required",
                         v =>
-                            v.length >= 8 ||
-                            "Name must be 8 characters or above",
+                            v.length >= 2 ||
+                            "Name must be 2 characters or above",
                         v =>
                             this.nameRegex.test(v) ||
                             "Invalid name. Use alpha characters only"
@@ -116,8 +116,8 @@ export default {
                     username: [
                         v => !!v || "Username is required",
                         v =>
-                            v.length >= 5 ||
-                            "Username must be 5 characters or above",
+                            v.length >= 3 ||
+                            "Username must be 3 characters or above",
                         v => this.usernameRegex.test(v) || "Invalid username"
                     ],
 

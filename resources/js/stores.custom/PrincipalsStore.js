@@ -1,6 +1,7 @@
 import Vue from 'vue';
 // import AppStore from '../AppStore';
 let AppStore = Vue.prototype.AppStore;
+// let InvoicesStore = Vue.prototype.InvoicesStore;
 // import axios from 'axios';
 
 
@@ -40,6 +41,10 @@ let state = Vue.observable({
     isExportingTemplatedData: false,
 
     generateFilterShown: false,
+
+    posting_date_range: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10)],
 });
 
 
@@ -59,7 +64,7 @@ const actions = {
         );
         this.initInvoicesGrandTotal();
         this.initSettings();
-        // this.initCurrentGeneratedData(state.selectedPrincipalCode);
+        // this.initCurrentGeneratedData();
 
         this.initSalesmen();
     },
@@ -99,6 +104,11 @@ const actions = {
         state.salesmen = [];
 
         state.generateFilterShown = false;
+
+        state.posting_date_range =
+            [new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+            .toISOString()
+            .substr(0, 10)];
     },
 
     /**
@@ -194,17 +204,14 @@ const actions = {
     /**
      * Generate templated data based on pending invoices
      */
-    async initCurrentGeneratedData(
-        principal_code,
-        template_variations_count=1,
-        group_by
-    ) {
+    async initCurrentGeneratedData(template_variations_count=1) {
         try {
             state.isGeneratingData = true;
             const url = encodeURI(
                 AppStore.state.siteUrl + 'principals/'
-                + principal_code + '/generate-templated-data'
-                + '?group_by=' + group_by
+                + state.selectedPrincipalCode + '/generate-templated-data'
+                + '?group_by=' + state.selectedGroupBy
+                + '&posting_date_range=' + state.posting_date_range
                 // + '?template_variations_count=' + template_variations_count
             );
             // {cancelToken:axiosSource.token}
@@ -292,8 +299,11 @@ const actions = {
         const alphabet = alpha.map((x) => String.fromCharCode(x));
 
         try {
-            fileName = `${state.selectedPrincipalCode}_${fileName}_` +
-                `${AppStore.state.strDateToday}.${extension}`;
+            // fileName = `${state.selectedPrincipalCode}_${fileName}_` +
+            //     `${state.posting_date_range.sort()}.${extension}`;
+
+            fileName = `${fileName}_` +
+                `${state.posting_date_range.sort()}.${extension}`;
             let wBook = XLSX.utils.book_new();
 
             for(let i=0; i<jsonData.length; i++) {
@@ -340,7 +350,8 @@ const actions = {
      */
     toExcel_simple(
         sheetName, data, tableHeaderPropertyName, includeTotals,
-        fileName, extension='xlsx', tableHeadersIndex=0){
+        fileName, extension='xlsx', tableHeadersIndex=0
+    ){
         const tempData = [
             [
                 sheetName,
@@ -472,11 +483,7 @@ const actions = {
             let result = await axios.post(url, payload);
             if(result.data.success == true) {
                 AppStore.toast(result.data.message);
-                this.initCurrentGeneratedData(
-                    state.selectedPrincipalCode,
-                    null,
-                    state.selectedGroupBy
-                );
+                this.initCurrentGeneratedData();
             }
         } catch (error) {
             console.log('saveSettings():', error);
@@ -518,18 +525,17 @@ const actions = {
         // }
         let tempArray = [];
 
-        Vue.prototype[state.selectedPrincipalCode]
-            .state[property].forEach(el=>{
-                const tempObj = {
-                    header: el.map(e=>{
-                            return e.text;
-                        }),
-                    format: el.map(e=>{
-                            return e.value;
-                        }),
-                };
-                tempArray.push(tempObj);
-            });
+        Vue.prototype.InvoicesStore.state[property].forEach(el=>{
+            const tempObj = {
+                header: el.map(e=>{
+                        return e.text;
+                    }),
+                format: el.map(e=>{
+                        return e.value;
+                    }),
+            };
+            tempArray.push(tempObj);
+        });
         return tempArray;
     },
 

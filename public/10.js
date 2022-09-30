@@ -121,6 +121,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'InvoicesUpload',
   props: ['searchKey', 'principalCodeFilter'],
@@ -248,7 +266,7 @@ var render = function() {
                       { attrs: { "x-small": "", color: "default" } },
                       [
                         _vm._v(
-                          "\n                            CWDG\n                        "
+                          "\n                            CWDG_PCS\n                        "
                         )
                       ]
                     ),
@@ -258,7 +276,7 @@ var render = function() {
                       { attrs: { "x-small": "", color: "default" } },
                       [
                         _vm._v(
-                          "\n                            UWDG\n                        "
+                          "\n                            CWDG_BULK\n                        "
                         )
                       ]
                     ),
@@ -268,7 +286,7 @@ var render = function() {
                       { attrs: { "x-small": "", color: "default" } },
                       [
                         _vm._v(
-                          "\n                            3PS\n                        "
+                          "\n                            UWDG_PCS\n                        "
                         )
                       ]
                     ),
@@ -278,7 +296,7 @@ var render = function() {
                       { attrs: { "x-small": "", color: "default" } },
                       [
                         _vm._v(
-                          "\n                            CVS\n                        "
+                          "\n                            UWDG_BULK\n                        "
                         )
                       ]
                     ),
@@ -288,7 +306,7 @@ var render = function() {
                       { attrs: { "x-small": "", color: "default" } },
                       [
                         _vm._v(
-                          "\n                            DEL\n                        "
+                          "\n                            3PS_BULK\n                        "
                         )
                       ]
                     ),
@@ -298,7 +316,7 @@ var render = function() {
                       { attrs: { "x-small": "", color: "default" } },
                       [
                         _vm._v(
-                          "\n                            HOR\n                        "
+                          "\n                            CVS_PCS\n                        "
                         )
                       ]
                     ),
@@ -308,7 +326,67 @@ var render = function() {
                       { attrs: { "x-small": "", color: "default" } },
                       [
                         _vm._v(
-                          "\n                            MAS\n                        "
+                          "\n                            CVS_BULK\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-chip",
+                      { attrs: { "x-small": "", color: "default" } },
+                      [
+                        _vm._v(
+                          "\n                            DELICA_PCS\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-chip",
+                      { attrs: { "x-small": "", color: "default" } },
+                      [
+                        _vm._v(
+                          "\n                            DELICA_BULK\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-chip",
+                      { attrs: { "x-small": "", color: "default" } },
+                      [
+                        _vm._v(
+                          "\n                            HORECA_PCS\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-chip",
+                      { attrs: { "x-small": "", color: "default" } },
+                      [
+                        _vm._v(
+                          "\n                            HORECA_BULK\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-chip",
+                      { attrs: { "x-small": "", color: "default" } },
+                      [
+                        _vm._v(
+                          "\n                            MAS_PCS\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-chip",
+                      { attrs: { "x-small": "", color: "default" } },
+                      [
+                        _vm._v(
+                          "\n                            MAS_BULK\n                        "
                         )
                       ]
                     ),
@@ -322,9 +400,9 @@ var render = function() {
                         )
                       ]
                     ),
-                    _vm._v(
-                      '\n                    Example: "CWDG_PCS Sept 1-5.txt"\n                '
-                    )
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v('Example: "CWDG_PCS Sept 1-5.txt"\n                ')
                   ],
                   1
                 )

@@ -153,6 +153,17 @@
                                 </v-list-item-content>
                             </v-list-item>
                         </template>
+                        <template v-slot:item = "{ item }">
+                            <div
+                                :class="item.proj_status==1?'primary--text':'warning--text'"
+                                class="text-caption"
+                            >
+                                <v-chip small>
+                                    {{ item.vendor_code }}
+                                </v-chip>
+                                {{ item.name }}
+                            </div>
+                        </template>
                     </v-combobox>
 
                     <v-select
@@ -161,11 +172,10 @@
                         dense
                         hide-details
                         :items="groups"
-                        item-text="name"
-                        item-value="value"
-                        placeholder="Terminal"
-                        v-model="selectedTerminal"
-                        title="Source Terminal"
+                        item-text="group_name"
+                        item-value="group_code"
+                        v-model="selectedGroup"
+                        title="Source Group"
                         style="max-width:170px;"
                         class="mr-3"
                         label="Source"
@@ -190,6 +200,8 @@
 
         <!-- Invoice upload component -->
         <v-sheet class="ma-2 rounded-lg"
+            v-if="AppStore.isSuperAdmin()"
+            elevation="1"
         >
             <InvoicesUpload
                 :searchKey="searchKey"
@@ -330,7 +342,7 @@ export default {
             ],
             groupBy: "filename",
 
-            selectedTerminal: '',
+            selectedGroup: '',
 
             expanded: [],
         };
@@ -355,7 +367,7 @@ export default {
                 this.principalCodeFilter,
                 this.invoiceStatus,
                 this.tblPageRowCount,
-                this.selectedTerminal
+                this.selectedGroup
             );
 
             console.log(this.AppStore.state.principals);
@@ -369,7 +381,7 @@ export default {
 
     computed: {
         groups() {
-            return [{name:'All',value:''}, ...this.InvoicesStore.state.groups];
+            return [{group_name:'All',group_code:''}, ...this.InvoicesStore.state.groups];
         }
     },
 
@@ -404,8 +416,8 @@ export default {
             this.onPageChange();
         }, 200),
 
-        selectedTerminal: debounce(function() {
-            if (this.selectedTerminal == null) this.selectedTerminal = "";
+        selectedGroup: debounce(function() {
+            if (this.selectedGroup == null) this.selectedGroup = "";
             if (this.InvoicesStore.state.invoices.current_page != undefined) {
                 this.InvoicesStore.state.invoices.current_page = 1;
             }
@@ -415,6 +427,7 @@ export default {
 
     created() {
         this.InvoicesStore.initInvoices();
+        this.InvoicesStore.initGroups();
     },
 
     mounted() {

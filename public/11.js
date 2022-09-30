@@ -179,21 +179,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           name: [function (v) {
             return !!v || "Name is required";
           }, function (v) {
-            return v.length >= 8 || "Name must be 8 characters or above";
+            return v.length >= 2 || "Name must be 2 characters or above";
           }, function (v) {
             return _this.nameRegex.test(v) || "Invalid name. Use alpha characters only";
           }],
           username: [function (v) {
             return !!v || "Username is required";
           }, function (v) {
-            return v.length >= 5 || "Username must be 5 characters or above";
+            return v.length >= 3 || "Username must be 3 characters or above";
           }, function (v) {
             return _this.usernameRegex.test(v) || "Invalid username";
           }],
           password: [function (v) {
             return !!v || "Password is required";
           }, function (v) {
-            return v.length >= 5 || "Password must be 5 characters or above";
+            return v.length >= 3 || "Password must be 3 characters or above";
           }],
           passwordConfirm: [function (v) {
             return !!v || "Please confirm password";

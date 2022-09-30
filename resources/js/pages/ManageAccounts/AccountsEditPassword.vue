@@ -105,8 +105,8 @@ export default {
                     password: [
                         v => !!v || "Password is required.",
                         v =>
-                            v.length >= 5 ||
-                            "Password must be 5 characters or above."
+                            v.length >= 3 ||
+                            "Password must be 3 characters or above."
                     ],
                     password_confirmation: [
                         v => !!v || "Please confirm your password.",

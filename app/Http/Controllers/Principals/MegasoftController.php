@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Principals;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\InvoicesController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -526,16 +527,9 @@ class MegasoftController extends Controller
             // ************************* /MISC INITS *************************************
 
             // **************** PENDING INVOICES **************************
-            $pendingInvoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
-                ->where(
-                    'vendor_code',
-                    DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                        ->where('code', $this->PRINCIPAL_CODE)
-                        ->select('vendor_code')
-                        ->first()->vendor_code ?? 'NA'
-                )
-                ->where('status', 'pending')
-                ->get();
+            $pendingInvoices = InvoicesController::getPendingInvoices(
+                $this->PRINCIPAL_CODE, $request->posting_date_range
+            );
 
             $res['line_count'] = $pendingInvoices->count();
             // **************** /PENDING INVOICES **************************
@@ -561,6 +555,7 @@ class MegasoftController extends Controller
                     $amount = trim($pendingInvoice->amount);
                     $uom = trim($pendingInvoice->uom);
                     $item_description = trim($pendingInvoice->item_description);
+                    $group_code = trim($pendingInvoice->group);
 
                     //********************************************************************
                     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)

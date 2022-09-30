@@ -34,10 +34,10 @@ class AccountsController extends Controller
     function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255', 'min:8',],
-            'username' => ['required', 'string', 'max:255', 'min:5', 'unique:users'],
+            'name' => ['required', 'string', 'max:255', 'min:2',],
+            'username' => ['required', 'string', 'max:255', 'min:3', 'unique:users'],
             'email' => ['max:255', 'unique:users', 'email'],
-            'password' => ['required', 'string', 'min:5'],
+            'password' => ['required', 'string', 'min:3'],
             'user_type' => ['required', 'string', 'max:255'],
             'selected_principals' => ['required'],
         ]);
@@ -70,8 +70,8 @@ class AccountsController extends Controller
     function updateProfile(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255', 'min:8',],
-            'username' => ['required', 'string', 'max:255', 'min:5', "unique:users,username,$request->id"],
+            'name' => ['required', 'string', 'max:255', 'min:2',],
+            'username' => ['required', 'string', 'max:255', 'min:3', "unique:users,username,$request->id"],
             'email' => ['max:255', 'unique:users'],
             'user_type' => ['required', 'string', 'max:255'],
         ]);
@@ -104,7 +104,7 @@ class AccountsController extends Controller
     {
         // dd($request);
         $validator = Validator::make($request->all(), [
-            'password' => 'required|confirmed|min:5',
+            'password' => 'required|confirmed|min:3',
             'old_password' => ['required', function ($attribute, $value, $fail) use ($request) {
                 $old_password_hashed = DB::table('users')->where('id', $request->id)
                     ->first()->password;

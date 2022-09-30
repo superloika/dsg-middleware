@@ -6,18 +6,20 @@
         </v-list-item-icon>
         <v-list-item-content>
             <v-list-item-title>Principals
-                <v-chip v-if="principalsCount > 0" x-small
-                    class="px-1"
-                    color="accent"
-                >
-                    {{ principalsCount }}
-                </v-chip>
-                <v-chip v-if="principalsCountTemp > 0" x-small
-                    class="px-1"
-                    color="warning"
-                >
-                    {{ principalsCountTemp }}
-                </v-chip>
+                <span v-if="AppStore.isSuperAdmin()">
+                    <v-chip v-if="principalsCount > 0" x-small
+                        class="px-1"
+                        color="accent"
+                    >
+                        {{ principalsCount }}
+                    </v-chip>
+                    <v-chip v-if="principalsCountTemp > 0" x-small
+                        class="px-1"
+                        color="warning"
+                    >
+                        {{ principalsCountTemp }}
+                    </v-chip>
+                </span>
             </v-list-item-title>
         </v-list-item-content>
     </template>
@@ -44,9 +46,7 @@
                 v-for="(principal, i) in filteredPrincipals"
                 :key="i"
             >
-                <template v-slot:activator="{ on, attrs }"
-                    v-if="principal.proj_status==1"
-                >
+                <template v-slot:activator="{ on, attrs }">
                     <v-list-item
                         link
                         :to="`/principals/${principal.code}`"

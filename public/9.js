@@ -180,6 +180,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['uploadResponse'],
   mounted: function mounted() {
@@ -278,7 +304,7 @@ var render = function() {
                                       { attrs: { color: "warning" } },
                                       [
                                         _vm._v(
-                                          "\n                            mdi-alert-circle\n                        "
+                                          "\n                            mdi-check\n                        "
                                         )
                                       ]
                                     )
@@ -354,15 +380,13 @@ var render = function() {
                                 color: "default",
                                 small: "",
                                 title:
-                                  "Total number of lines being read as valid invoice data"
+                                  "Total number of lines already exists in the database"
                               }
                             },
                             [
                               _vm._v(
-                                "\n                            Line Skipped:\n                            " +
-                                  _vm._s(
-                                    summary.line_total - summary.line_read
-                                  ) +
+                                "\n                            Line Existing:\n                            " +
+                                  _vm._s(summary.line_existing) +
                                   "\n                        "
                               )
                             ]
@@ -376,13 +400,15 @@ var render = function() {
                                 color: "default",
                                 small: "",
                                 title:
-                                  "Total number of lines already exists in the database"
+                                  "Total number of lines being read as valid invoice data"
                               }
                             },
                             [
                               _vm._v(
-                                "\n                            Line Existing:\n                            " +
-                                  _vm._s(summary.line_existing) +
+                                "\n                            Line Skipped:\n                            " +
+                                  _vm._s(
+                                    summary.line_total - summary.line_read
+                                  ) +
                                   "\n                        "
                               )
                             ]
@@ -585,6 +611,71 @@ var render = function() {
                                 Object.entries(
                                   summary.skipped_not_in_item_masterfile
                                 ),
+                                function(line, index) {
+                                  return _c(
+                                    "small",
+                                    {
+                                      key: index,
+                                      attrs: {
+                                        title: "Line Number: " + line[0]
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                            " +
+                                          _vm._s(line[1]) +
+                                          "\n                            "
+                                      ),
+                                      _c("br")
+                                    ]
+                                  )
+                                }
+                              )
+                            ],
+                            2
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      Object.keys(summary.skipped_zero_qty).length
+                        ? _c(
+                            "v-container",
+                            {
+                              staticClass: "mb-4",
+                              staticStyle: { border: "1px solid #f2f2f2" }
+                            },
+                            [
+                              _c("div", [
+                                _c(
+                                  "h5",
+                                  [
+                                    _vm._v(
+                                      "\n                                Skipped: Zero Quantity\n                                "
+                                    ),
+                                    _c(
+                                      "v-chip",
+                                      {
+                                        staticClass: "px-1",
+                                        attrs: { "x-small": "" }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    " +
+                                            _vm._s(
+                                              Object.keys(
+                                                summary.skipped_zero_qty
+                                              ).length
+                                            ) +
+                                            "\n                                "
+                                        )
+                                      ]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(
+                                Object.entries(summary.skipped_zero_qty),
                                 function(line, index) {
                                   return _c(
                                     "small",

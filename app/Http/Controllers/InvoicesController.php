@@ -75,13 +75,19 @@ class InvoicesController extends Controller
 
             $sum = $result->sum(PrincipalsUtil::$TBL_INVOICES. '.amount');
 
-            $invoices = $result->orderBy('id','DESC')
+            // $invoices = $result->orderBy('id','DESC')
+            $invoices = $result->orderBy('posting_date','DESC')
                 ->paginate($row_count);
 
         return response()->json([
             'sum' => $sum,
             'invoices' => $invoices
         ]);
+    }
+
+    function groups(Request $request) {
+        $groups = DB::table(PrincipalsUtil::$TBL_GROUPS)->get();
+        return response()->json($groups);
     }
 
     function index_1() {
@@ -654,6 +660,7 @@ class InvoicesController extends Controller
                     $summaryItem['skipped_other_principals'] = [];
                     $summaryItem['skipped_unknown_line'] = [];
                     $summaryItem['skipped_not_in_item_masterfile'] = [];
+                    $summaryItem['skipped_zero_qty'] = [];
 
                     $line_number = 0;
 
@@ -701,45 +708,51 @@ class InvoicesController extends Controller
 
                                 if($isNotFromOtherPrincipals) {
                                     // dd('passed');
-                                    $summaryItem['line_read'] += 1;
+
                                     if (
                                         DB::table(PrincipalsUtil::$TBL_INVOICES)
                                             ->where('vendor_code',$vendor_code)
                                             ->where('customer_code',$customer_code)
                                             ->where('doc_no',$doc_no)
-                                            ->where('posting_date',$posting_date)
+                                            // ->where('posting_date',$posting_date)
                                             ->where('item_code',$item_code)
                                             ->where('uom',$uom)
                                             ->where('quantity',$quantity)
-                                            ->where('price',$price)
-                                            ->where('amount',$amount)
-                                            ->where('qty_per_uom',$qty_per_uom)
-                                            ->where('uom_code',$uom_code)
+                                            // ->where('price',$price)
+                                            // ->where('amount',$amount)
+                                            // ->where('qty_per_uom',$qty_per_uom)
+                                            // ->where('uom_code',$uom_code)
 
                                             ->exists() == false
                                     ) {
-                                        $invoices[] = [
-                                            'created_at'=>date($dateTimeToday),
-                                            'uploaded_by'=>auth()->user()->id,
-                                            'filename'=> $origFilename,
-                                            'group'=>$group,
-                                            'batch_number' => $batchNumber,
-                                            //
-                                            'vendor_code'=>$vendor_code,
-                                            'customer_code'=>$customer_code,
-                                            'doc_no'=>$doc_no,
-                                            'posting_date'=>$posting_date,
-                                            'item_code'=>$item_code,
-                                            'item_description'=>$item_description,
-                                            'uom'=>$uom,
-                                            'quantity'=>$quantity,
-                                            'price'=>$price,
-                                            'amount'=>$amount,
-                                            'qty_per_uom'=>$qty_per_uom,
-                                            'uom_code'=>$uom_code
-                                        ];
+                                        if($quantity > 0) {
+                                            $summaryItem['line_read'] += 1;
 
-                                        $summaryItem['line_uploaded'] += 1;
+                                            $invoices[] = [
+                                                'created_at'=>date($dateTimeToday),
+                                                'uploaded_by'=>auth()->user()->id,
+                                                'filename'=> $origFilename,
+                                                'group'=>$group,
+                                                'batch_number' => $batchNumber,
+                                                //
+                                                'vendor_code'=>$vendor_code,
+                                                'customer_code'=>$customer_code,
+                                                'doc_no'=>$doc_no,
+                                                'posting_date'=>$posting_date,
+                                                'item_code'=>$item_code,
+                                                'item_description'=>$item_description,
+                                                'uom'=>$uom,
+                                                'quantity'=>$quantity,
+                                                'price'=>$price,
+                                                'amount'=>$amount,
+                                                'qty_per_uom'=>$qty_per_uom,
+                                                'uom_code'=>$uom_code
+                                            ];
+
+                                            $summaryItem['line_uploaded'] += 1;
+                                        } else {
+                                            $summaryItem['skipped_zero_qty'][$line_number] = $row;
+                                        }
                                     } else {
                                         $summaryItem['line_existing'] += 1;
                                     }
@@ -848,12 +861,12 @@ class InvoicesController extends Controller
                     ->update([
                         'status'=>PrincipalsUtil::$STATUS_PENDING
                     ]);
-                DB::table(PrincipalsUtil::$TBL_GENERATED)
-                    ->where('principal_code', $principal_code)
-                    ->where('doc_no', $invoice['doc_no'])
-                    ->where('alturas_customer_code', $invoice['customer_code'])
-                    ->where('alturas_item_code', $invoice['item_code'])
-                    ->delete();
+                // DB::table(PrincipalsUtil::$TBL_GENERATED)
+                //     ->where('principal_code', $principal_code)
+                //     ->where('doc_no', $invoice['doc_no'])
+                //     ->where('alturas_customer_code', $invoice['customer_code'])
+                //     ->where('alturas_item_code', $invoice['item_code'])
+                //     ->delete();
             }
             DB::commit();
             $res['success'] = true;
@@ -971,6 +984,8 @@ class InvoicesController extends Controller
     public function extract(Request $request) {
         set_time_limit(0);
         try {
+            $principal_code = $request->principal_code;
+
             // $dates = explode(',', $request->input('posting_date'));
             $dates = $request->input('posting_date');
             sort($dates);
@@ -983,11 +998,9 @@ class InvoicesController extends Controller
                 $dateFrom = $dates[0];
                 $dateTo = $dates[0];
             }
-
             $dateFrom = new Carbon($dateFrom);
             $dateTo = new Carbon($dateTo);
 
-            $principal_code = $request->principal_code;
             $vendor_code = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
                 ->where('code', $principal_code)->first()->vendor_code ?? 'NA';
 
@@ -1105,5 +1118,40 @@ class InvoicesController extends Controller
             //throw $th;
             return response()->json($th->getMessage(), 500);
         }
+    }
+
+
+    public static function getPendingInvoices($principal_code, $posting_date_range) {
+        // posting date range
+        $dates = explode(',', $posting_date_range);
+        sort($dates);
+        $dateFrom = '';
+        $dateTo = '';
+        if(count($dates) > 1) {
+            $dateFrom = $dates[0];
+            $dateTo = $dates[1];
+        } else if(count($dates) == 1) {
+            $dateFrom = $dates[0];
+            $dateTo = $dates[0];
+        }
+        $dateFrom = new Carbon($dateFrom);
+        $dateTo = new Carbon($dateTo);
+
+        return DB::table(PrincipalsUtil::$TBL_INVOICES)
+        ->where(
+            'vendor_code',
+            DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+                ->where('code', $principal_code)
+                ->select('vendor_code')
+                ->first()->vendor_code ?? 'NA'
+        )
+        ->whereBetween(
+            DB::raw("STR_TO_DATE(posting_date, '%m/%d/%Y')"),
+            [$dateFrom, $dateTo])
+        ->orderBy('customer_code')
+        ->orderBy('posting_date')
+        ->orderBy('doc_no')
+        ->where('status', 'pending')
+        ->get();
     }
 }
