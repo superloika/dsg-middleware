@@ -16,6 +16,7 @@ class PrincipalsUtil extends Controller
 
     public static $TBL_GENERATED = 'generated_data';
     // public static $TBL_INVOICES = 'uploaded_invoices';
+    public static $TBL_INVOICES_H = 'invoices_headers';
     public static $TBL_INVOICES = 'invoices_lines';
 
     public static $TBL_PRINCIPALS_CUSTOMERS = 'principals_customers';
@@ -31,6 +32,9 @@ class PrincipalsUtil extends Controller
 
     public static $ITEM_NOT_FOUND = 'ITEM_NOT_FOUND';
     public static $CUSTOMER_NOT_FOUND = 'CUSTOMER_NOT_FOUND';
+
+    // invoices upload log
+    public static $TBL_INVOICES_UPLOG = 'invoices_upload_log';
 
 
     /**
@@ -278,90 +282,6 @@ class PrincipalsUtil extends Controller
     /**
      * Retrieve the list of transactions
      */
-    public function transactions_1(Request $request) {
-        set_time_limit(0);
-
-        try {
-            $dates = explode(',', $request->input('date'));
-            // sort($dates);
-            $dateFrom = '';
-            $dateTo = '';
-            if(count($dates) > 1) {
-                $dateFrom = $dates[0];
-                $dateTo = $dates[1];
-            } else if(count($dates) == 1) {
-                $dateFrom = $dates[0];
-                $dateTo = $dates[0];
-            }
-
-            $result = DB::table($this::$TBL_INVOICES)
-                ->leftJoin(
-                    $this::$TBL_GENERAL_CUSTOMERS,
-                    $this::$TBL_INVOICES. '.customer_code',
-                    '=',
-                    $this::$TBL_GENERAL_CUSTOMERS. '.customer_code'
-                )
-                ->leftJoin(
-                    $this::$TBL_GENERAL_ITEMS,
-                    $this::$TBL_INVOICES. '.item_code',
-                    '=',
-                    $this::$TBL_GENERAL_ITEMS. '.item_code'
-                )
-                ->leftJoin(
-                    $this::$TBL_PRINCIPALS_CUSTOMERS,
-                    $this::$TBL_INVOICES. '.customer_code',
-                    '=',
-                    $this::$TBL_PRINCIPALS_CUSTOMERS. '.customer_code'
-                )
-                ->leftJoin(
-                    $this::$TBL_PRINCIPALS_ITEMS,
-                    $this::$TBL_INVOICES. '.item_code',
-                    '=',
-                    $this::$TBL_PRINCIPALS_ITEMS. '.item_code'
-                )
-                ->select(
-                    $this::$TBL_INVOICES. '.*',
-                    $this::$TBL_PRINCIPALS_CUSTOMERS. '.principal_code',
-                    $this::$TBL_PRINCIPALS_CUSTOMERS. '.customer_code',
-                    // $this::$TBL_PRINCIPALS_CUSTOMERS. '.customer_name',
-                    $this::$TBL_GENERAL_CUSTOMERS. '.name as customer_name',
-                    $this::$TBL_GENERAL_CUSTOMERS. '.customer_code',
-                    $this::$TBL_PRINCIPALS_ITEMS. '.principal_code',
-                    // $this::$TBL_PRINCIPALS_ITEMS. '.item_code',
-                    // $this::$TBL_PRINCIPALS_ITEMS. '.description'
-                    $this::$TBL_GENERAL_ITEMS. '.description',
-                    $this::$TBL_GENERAL_ITEMS. '.item_code',
-                )
-                // ->where($this::$TBL_INVOICES. '.principal_code', request()->principal_code)
-                ->where($this::$TBL_INVOICES. '.status', 'completed')
-                ->where($this::$TBL_PRINCIPALS_CUSTOMERS. '.principal_code', request()->principal_code)
-                ->where($this::$TBL_PRINCIPALS_ITEMS. '.principal_code', request()->principal_code)
-                ->whereDate($this::$TBL_INVOICES. '.updated_at','>=', $dateFrom)
-                ->whereDate($this::$TBL_INVOICES. '.updated_at','<=', $dateTo)
-
-                ->orderBy($this::$TBL_INVOICES. '.updated_at', 'DESC')
-                ->orderBy($this::$TBL_INVOICES. '.customer_code', 'ASC')
-                ->orderBy($this::$TBL_INVOICES. '.doc_no', 'ASC')
-
-                ->get();
-
-            $res['success'] = true;
-            $res['message'] = 'Success';
-            $res['data'] = $result;
-
-            return response()->json($res);
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['nessage'] = $th->getMessage();
-            $res['data'] = [];
-            return response()->json($res, 500);
-        }
-    }
-
-
-    /**
-     * Retrieve the list of transactions
-     */
     public function transactions(Request $request) {
         set_time_limit(0);
         try {
@@ -379,7 +299,7 @@ class PrincipalsUtil extends Controller
             $dateFrom = new Carbon($dateFrom);
             $dateTo = new Carbon($dateTo);
 
-            $invoice_status = $request->invoice_status ?? PrincipalsUtil::$STATUS_COMPLETED;
+            $invoice_status = $request->invoice_status ?? '';
 
             // $vendor_code = $request->vendor_code ?? 'NA';
             $vendor_code = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)

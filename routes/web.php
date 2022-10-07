@@ -88,7 +88,7 @@ Route::prefix('master')->group(function(){
 
 // INVOICES
 Route::prefix('invoices')->group(function(){
-    Route::get("/grandtotal", "InvoicesController@invoicesGrandTotal");
+    // Route::get("/grandtotal", "InvoicesController@invoicesGrandTotal");
     Route::get('/all', 'InvoicesController@index');
     Route::post('/upload', 'InvoicesController@upload');
     Route::post("/delete", "InvoicesController@deleteInvoices");
@@ -98,6 +98,7 @@ Route::prefix('invoices')->group(function(){
     // Route::post("/extract", "InvoicesController@extract");
     Route::post("/extract-raw-invoices-to-excel", "InvoicesController@extractRawInvoicesToExcel");
     Route::get("/groups", "InvoicesController@groups");
+    Route::get("/invoices-upload-logs", "InvoicesController@uploadLogs");
 });
 
 

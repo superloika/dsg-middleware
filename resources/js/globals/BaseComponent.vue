@@ -1,10 +1,11 @@
 <template>
     <v-app>
         <v-system-bar app
-            height="35"
-            light
-            color="grey lighten-3"
-            colorx="primary"
+            height="37"
+            lightx
+            dark
+            colorx="grey lighten-3"
+            color="primary"
         >
             <v-btn
                 @click="toggleDrawerState()"
@@ -12,12 +13,14 @@
             >&#9776;</v-btn>
 
             <v-toolbar-title class="ml-1">
-                {{ AppStore.state.AppName }}
+                <a href="/" style="text-decoration:none;" class="white--text">
+                    {{ AppStore.state.AppName }}
+                </a>
             </v-toolbar-title>
 
             <v-spacer></v-spacer>
 
-            <span class="text-caption white--textx mr-3 overflow-auto">
+            <span class="text-caption white--text mr-3 overflow-auto">
                 Howdy, {{ AuthUser.name }}!
             </span>
 

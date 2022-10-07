@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-app-bar elevation="0" app>
+        <v-app-bar elevation="0" app extension-height="65" >
             <v-toolbar-title>
                 <v-icon>mdi-file-outline</v-icon>
                 {{ $route.meta.name }}
@@ -24,7 +24,7 @@
                 flat
                 rounded
                 solo-inverted
-                style="max-width: 400px;"
+                style="max-width: 300px;"
             ></v-text-field>
 
             <v-btn
@@ -39,7 +39,7 @@
                 @click="InvoicesStore.resetInvoices()"
                 v-if="AppStore.isSuperAdmin()"
             >
-                <v-icon>mdi-reset</v-icon>
+                <v-icon>mdi-x</v-icon>
             </v-btn>
 
             <v-btn
@@ -54,7 +54,7 @@
                 @click="InvoicesStore.deleteInvoices()"
                 v-if="AppStore.isSuperAdmin()"
             >
-                <v-icon>mdi-delete</v-icon>
+                <v-icon>mdi-x</v-icon>
             </v-btn>
 
             <v-btn
@@ -71,14 +71,13 @@
 
             <v-btn
                 title="Extract Raw Invoices"
-                icon
                 dense
                 rounded
-                depressed
                 class="mr-2"
                 @click="InvoicesStore.state.isExtractInvoicesShown=true"
             >
                 <v-icon>mdi-export</v-icon>
+                Extract
             </v-btn>
 
             <!-- <v-btn
@@ -95,7 +94,7 @@
             </v-btn> -->
 
             <template v-slot:extension>
-                <v-app-bar dense elevation="0">
+                <v-app-bar densex elevation="0">
                     <!-- <v-select
                         :items="groupByColumns"
                         v-model="groupBy"

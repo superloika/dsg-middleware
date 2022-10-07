@@ -128,6 +128,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -437,7 +438,11 @@ var render = function() {
                     "v-btn",
                     {
                       staticClass: "float-right",
-                      attrs: { color: "primary" },
+                      attrs: {
+                        color: "primary",
+                        disabled:
+                          _vm.principal_code == "" || _vm.principal_code == null
+                      },
                       on: {
                         click: function($event) {
                           return _vm.extractRawInvoicesToExcel()

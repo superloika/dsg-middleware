@@ -94,7 +94,7 @@
                     </v-col>
 
                     <v-col cols="12" md="4" sm="6" class="pt-1 pb-1"
-                        v-if="newAccount.user_type==='user'">
+                        v-if="newAccount.user_type==='encoder'">
                         <v-select
                             v-model="newAccount.selected_principals"
                             :items="AppStore.state.principals"
@@ -203,6 +203,8 @@ export default {
         'newAccount.user_type': function() {
             if (this.newAccount.user_type === 'super_admin') {
                 this.newAccount.selected_principals = ["*"];
+            } else if (this.newAccount.user_type === 'dummy') {
+                this.newAccount.selected_principals = ["?"];
             } else {
                 this.newAccount.selected_principals = [];
             }

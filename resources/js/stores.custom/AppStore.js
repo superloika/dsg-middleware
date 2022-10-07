@@ -12,7 +12,7 @@ const host = `http://${window.location.host}/`;
 
 const state = Vue.observable({
     AppName: 'DSG PRINCIPAL MIDDLEWARE - DEV',
-    // AppName: 'DSG - MIDDLEWARE',
+    // AppName: 'DSG PRINCIPAL MIDDLEWARE',
     siteUrl: host,
     snackBar: {
         show: false,
@@ -28,7 +28,7 @@ const state = Vue.observable({
         show: true,
         msg: "Error"
     },
-    userTypes: ["super_admin", "user"],
+    userTypes: ["super_admin", "dummy", "encoder"],
     guardMsgs: {
         accessDenied: "Access Denied",
     },

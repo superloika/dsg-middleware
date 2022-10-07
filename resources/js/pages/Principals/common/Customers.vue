@@ -49,14 +49,14 @@
                     <v-icon>mdi-file-upload</v-icon>
                 </v-btn>
 
-                <!-- <v-btn
+                <v-btn
                     title="Export to Excel"
                     icon
                     dense
                     @click="exportToExcel()"
                 >
                     <v-icon>mdi-file-excel</v-icon>
-                </v-btn> -->
+                </v-btn>
             </v-app-bar>
         </v-card-title>
 
@@ -139,13 +139,25 @@ export default {
 
     methods: {
         exportToExcel() {
-            this.PrincipalsStore.toExcel_simple(
-                'Customers',
-                this.PrincipalsStore.state.customers,
-                'customersTableHeader',
-                null,
-                `${this.selectedPrincipalCode}_Customers`
-            );
+            try {
+                this.PrincipalsStore.state.customers.current_page = 1;
+            } catch (error) {
+
+            }
+            this.PrincipalsStore.initCustomers('', 9999999)
+                .then(()=>{
+                    this.PrincipalsStore.toExcel_simple(
+                        'Customers',
+                        this.PrincipalsStore.state.customers.data,
+                        {
+                            storeName: this.selectedPrincipalCode,
+                            propertyName: 'customersTableHeader'
+                        },
+                        null,
+                        `${this.selectedPrincipalCode}_Customers`
+                    );
+                    this.PrincipalsStore.initCustomers(this.searchKey);
+                });
         },
 
         onPageChange() {

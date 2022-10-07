@@ -90,7 +90,7 @@ window.axios.interceptors.response.use(
             }
             // window.location.href = `/flush-session`;
             // window.location.href = `/login`;
-            // window.location.assign(window.location.href);
+            window.location.assign(window.location.href);
         }
 
         console.info('INTERCEPTOR - AUTH USER:', window.AuthUser);

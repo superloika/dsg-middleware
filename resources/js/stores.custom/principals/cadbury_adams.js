@@ -37,7 +37,7 @@ const state = Vue.observable({
             {text:"Quantity", value: "quantity"},
             {text:"Price", value: "price"},
             {text:"Amount", value: "amount"},
-            {text:"Salesman", value: "sm_name"},
+            {text:"Salesman", value: "sm_code"},
             {text:"Group", value: "group"}
         ],
     ],

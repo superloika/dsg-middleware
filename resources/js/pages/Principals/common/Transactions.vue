@@ -12,12 +12,12 @@
                         {{ AppStore.formatAsCurrency(totalAmount) }}
                     </h4>
                 </v-chip>
-                <v-chip color="primary" label x-small>
+                <!-- <v-chip color="primary" label x-small>
                     <h4>
-                        <em>Grand Total:&nbsp;</em>
+                        <em>Grand Total (Completed):&nbsp;</em>
                         {{ AppStore.formatAsCurrency(PrincipalsStore.state.invoicesGrandTotal) }}
                     </h4>
-                </v-chip>
+                </v-chip> -->
             </div>
         </v-toolbar-title>
 
@@ -34,6 +34,20 @@
         >
             <v-icon>mdi-refresh</v-icon>
         </v-btn>
+
+        <v-select
+            :items="invoiceStatuses"
+            v-model="invoiceStatus"
+            label="Status"
+            item-text="status"
+            item-value="value"
+            class="mr-3"
+            style="max-width:180px;"
+            outlined
+            rounded
+            hide-details
+            dense
+        ></v-select>
 
         <v-text-field
             v-model="dateRangeText"
@@ -81,7 +95,7 @@
             clearable
             hide-details
             dense
-            style="max-width:230px;"
+            style="max-width:200px;"
             flat
             rounded
             solo-inverted
@@ -165,6 +179,21 @@ export default {
         date: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
             .toISOString()
             .substr(0, 10)],
+        invoiceStatuses: [
+            {
+                status: "All",
+                value: ""
+            },
+            {
+                status: "Completed",
+                value: "completed"
+            },
+            {
+                status: "Pending",
+                value: "pending"
+            }
+        ],
+        invoiceStatus: "",
     }),
 
     computed: {
@@ -221,16 +250,21 @@ export default {
             this.PrincipalsStore.toExcel_simple(
                 this.date.toString(),
                 this.PrincipalsStore.state.transactions,
-                'transactionsTableHeader',
+                {
+                    storeName: 'InvoicesStore',
+                    propertyName: 'transactionsTableHeader'
+                },
                 null, //[7,8],
                 `${this.selectedPrincipalCode}_transactions`
             );
         },
 
         loadInvoicesOrTransactions() {
-            this.PrincipalsStore.initTransactions(this.selectedPrincipalCode, this.date);
+            this.PrincipalsStore.initTransactions(
+                this.selectedPrincipalCode, this.date, this.invoiceStatus
+            );
             // this.PrincipalsStore.initInvoices(this.selectedPrincipalCode, this.date);
-            this.PrincipalsStore.initInvoicesGrandTotal();
+            // this.PrincipalsStore.initInvoicesGrandTotal(this.invoiceStatus);
         },
 
         /**
@@ -321,6 +355,12 @@ export default {
 
             doc.save(`${fileName}.pdf`);
         },
+    },
+
+    watch: {
+        invoiceStatus() {
+            this.loadInvoicesOrTransactions();
+        }
     },
 
     created() {

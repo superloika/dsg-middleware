@@ -13,8 +13,8 @@ const state = Vue.observable({
             // {text:"Description", value:"description"},
             {text:"Supplier Item Code", value:"item_code_supplier"},
             {text:"Supplier Item Description", value:"description_supplier"},
-            {text:"CASE", value:"case"},
-            {text:"PCS", value:"conversion_qty"},
+            // {text:"CASE", value:"case"},
+            // {text:"PCS", value:"conversion_qty"},
         ]
     ],
     salesmenTableHeader: [

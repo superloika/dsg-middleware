@@ -1,7 +1,7 @@
 <template>
-<v-sheet>
+<v-sheet class="ma-6">
     <v-chip color="error" label x-large>
-        404: Not Found. Redirecting...
+        Ooppss! Murag nasaag na ka! :-D
     </v-chip>
 </v-sheet>
 </template>
@@ -9,7 +9,6 @@
 
 <script>
 export default {
-
     mounted() {
         // const vm = this;
         // setTimeout(() => {

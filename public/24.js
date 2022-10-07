@@ -134,7 +134,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     exportToExcel: function exportToExcel() {
-      this.PrincipalsStore.toExcel_simple('Salesmen', this.PrincipalsStore.state.salesmen, 'salesmenTableHeader', null, "".concat(this.selectedPrincipalCode, "_Salesmen"));
+      this.PrincipalsStore.toExcel_simple('Salesmen', this.PrincipalsStore.state.salesmen, {
+        storeName: this.selectedPrincipalCode,
+        propertyName: 'salesmenTableHeader'
+      }, null, "".concat(this.selectedPrincipalCode, "_Salesmen"));
     }
   },
   created: function created() {
@@ -245,6 +248,20 @@ var render = function() {
                   }
                 },
                 [_c("v-icon", [_vm._v("mdi-file-upload")])],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { title: "Export to Excel", icon: "", dense: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.exportToExcel()
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("mdi-file-excel")])],
                 1
               )
             ],

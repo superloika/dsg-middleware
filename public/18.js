@@ -110,6 +110,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -355,7 +357,11 @@ var render = function() {
                                 _vm._g(
                                   _vm._b(
                                     {
-                                      attrs: { icon: "", title: "More Options" }
+                                      attrs: {
+                                        rounded: "",
+                                        color: "primary",
+                                        title: "More Options"
+                                      }
                                     },
                                     "v-btn",
                                     attrs,
@@ -368,7 +374,10 @@ var render = function() {
                                     _vm._v(
                                       "\n                                mdi-dots-horizontal-circle\n                            "
                                     )
-                                  ])
+                                  ]),
+                                  _vm._v(
+                                    "\n                            More\n                        "
+                                  )
                                 ],
                                 1
                               )

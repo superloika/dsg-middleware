@@ -4,60 +4,7 @@
     class="elevation-0 transparent pa-0"
 >
     <v-card-text class="">
-        <v-row>
-            <v-col>
-                <small>
-                    <strong>Important Note:</strong>
-                    Filenames should include a group keyword
-                    in order for the system to identify which group the data came from.
-                    Keyword includes
-                        <v-chip x-small color="default">
-                            CWDG_PCS
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            CWDG_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            UWDG_PCS
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            UWDG_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            3PS_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            CVS_PCS
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            CVS_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            DELICA_PCS
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            DELICA_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            HORECA_PCS
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            HORECA_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            MAS_PCS
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            MAS_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            SEC
-                        </v-chip>
-                    <br>Example: "CWDG_PCS Sept 1-5.txt"
-                </small>
-            </v-col>
-        </v-row>
-        <v-row class="">
+        <v-row class="py-0">
             <v-col class="pb-0" cols lg="9" md="9" sm="12">
 
                 <v-form ref="frm_upload">
@@ -111,14 +58,68 @@
                     <v-icon>mdi-history</v-icon>
                 </v-btn>
             </v-col>
+        </v-row>
 
+        <v-divider></v-divider>
+
+        <v-row class="py-0">
+            <v-col>
+                <small>
+                    <strong>Important Note:</strong>
+                    Filenames should include a group keyword
+                    in order for the system to identify which group the data came from.
+                    Keyword includes
+                        <v-chip x-small color="default">
+                            CWDG_PCS
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            CWDG_BULK
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            UWDG_PCS
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            UWDG_BULK
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            3PS_BULK
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            CVS_PCS
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            CVS_BULK
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            DELICA_PCS
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            DELICA_BULK
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            HORECA_PCS
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            HORECA_BULK
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            MAS_PCS
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            MAS_BULK
+                        </v-chip>
+                        <v-chip x-small color="default">
+                            SEC_BULK
+                        </v-chip>
+                    <br>Example: "CWDG_PCS Sept 1-5.txt"
+                </small>
+            </v-col>
         </v-row>
     </v-card-text>
 
     <v-dialog
         v-model="InvoicesStore.state.isUploadSummaryShown"
         max-width="900px"
-
     >
         <InvoiceUploadSummary :uploadResponse="uploadResponse"></InvoiceUploadSummary>
     </v-dialog>

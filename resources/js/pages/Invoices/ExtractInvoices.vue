@@ -85,6 +85,7 @@
                         @click="extractRawInvoicesToExcel()"
                         color="primary"
                         class="float-right"
+                        :disabled="principal_code==''||principal_code==null"
                     >
                         Extract
                     </v-btn>

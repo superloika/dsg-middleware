@@ -107,6 +107,7 @@ class FoodsphereIncController extends Controller
                     ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
+                $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
 
                 foreach ($fileContentLines as $fileContentLine) {
@@ -226,6 +227,7 @@ class FoodsphereIncController extends Controller
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
                     ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
+                $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(
                     PHP_EOL,
                     mb_convert_encoding($fileContent, "UTF-8", "UTF-8")
@@ -584,29 +586,31 @@ class FoodsphereIncController extends Controller
                     $amount = trim($pendingInvoice->amount);
                     $uom = trim($pendingInvoice->uom);
                     $item_description = trim($pendingInvoice->item_description);
+                    $sm_code = trim($pendingInvoice->sm_code);
                     $group_code = trim($pendingInvoice->group);
 
                     //********************************************************************
-                    $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        ->where('customer_code', $customer_code)
-                        ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    $nav_customer_name = trim($pendingInvoice->customer_name);
+                    // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                    //     ->where('customer_code', $customer_code)
+                    //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                     // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
                     //     ->where('item_code', $item_code)
                     //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
 
-                    $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
-                        ->where('customer_code', $customer_code)
-                        ->first();
+                    // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                    //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                    //     ->where('customer_code', $customer_code)
+                    //     ->first();
 
                     $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                         ->where('principal_code', $this->PRINCIPAL_CODE)
                         ->where('item_code', $item_code)
                         ->first();
-                    $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
-                        ->where('group_code', $group_code)
-                        ->first();
+                    // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+                    //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                    //     ->where('group_code', $group_code)
+                    //     ->first();
                     //********************************************************************
 
                     // quantity_conversion
@@ -630,9 +634,10 @@ class FoodsphereIncController extends Controller
 
                         if ($item == null) {
                             $item_notfound = 1;
-                            $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                                ->where('item_code', $item_code)
-                                ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
+                            // $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                            //     ->where('item_code', $item_code)
+                            //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
+                            $missing_item_name = $item_description;
                         } else {
                         }
 
@@ -644,14 +649,14 @@ class FoodsphereIncController extends Controller
                         // } else {
                         // }
 
-                        if ($salesman == null) {
-                            // $salesman_notfound = 1;
-                        }
+                        // if ($salesman == null) {
+                        //     // $salesman_notfound = 1;
+                        // }
 
                         $system_date = $dateToday->format('Y/m/d');
 
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
-                        $customer_code_supplier = $customer->customer_code_supplier ?? $customer_code;
+                        $customer_code_supplier = $customer_code;
                         // ************************* /MISC INITS **************************
 
                         // Generated data line structure
@@ -679,8 +684,8 @@ class FoodsphereIncController extends Controller
                             'item_description' => $item_description,
                             'description_supplier' => $item->description_supplier ?? 'N/A',
                             // 'customer_name' => $nav_customer_name,
-                            'customer_name' => $customer->customer_name ?? $nav_customer_name,
-                            'sm_name' => $salesman->sm_name ?? 'N/A',
+                            'customer_name' => $nav_customer_name ?? 'N/A',
+                            'sm_code' => $sm_code ?? 'N/A',
                             'system_date' => $system_date,
                             'group' => $pendingInvoice->group
                         ];

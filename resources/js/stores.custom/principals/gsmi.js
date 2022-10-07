@@ -10,13 +10,10 @@ const state = Vue.observable({
     ],
     itemsTableHeader: [
         [
-            {text:"Item Code", value:"item_code"},
-            {text:"Description", value:"description"},
             {text:"Supplier Item Code", value:"item_code_supplier"},
             {text:"Supplier Item Description", value:"description_supplier"},
-            {text:"UOM", value:"uom"},
-            {text:"Conversion UOM", value:"conversion_uom"},
-            {text:"Conversion Quantity", value:"conversion_qty"},
+            {text:"Item Code", value:"item_code"},
+            {text:"Description", value:"description"}
         ]
     ],
 

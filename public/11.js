@@ -217,6 +217,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     'newAccount.user_type': function newAccountUser_type() {
       if (this.newAccount.user_type === 'super_admin') {
         this.newAccount.selected_principals = ["*"];
+      } else if (this.newAccount.user_type === 'dummy') {
+        this.newAccount.selected_principals = ["?"];
       } else {
         this.newAccount.selected_principals = [];
       }
@@ -546,7 +548,7 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _vm.newAccount.user_type === "user"
+                  _vm.newAccount.user_type === "encoder"
                     ? _c(
                         "v-col",
                         {

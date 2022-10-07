@@ -107,6 +107,7 @@ class CadburyAdamsController extends Controller
                     ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
+                $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
 
                 foreach ($fileContentLines as $fileContentLine) {
@@ -123,11 +124,11 @@ class CadburyAdamsController extends Controller
                                 trim(str_replace('"', '', $arrFileContentLine[1]));
                             $description =
                                 trim(str_replace('"', '', $arrFileContentLine[2]));
-                            $delisted_status =
-                                trim(str_replace('"', '', $arrFileContentLine[3]));
+                            // $delisted_status =
+                            //     trim(str_replace('"', '', $arrFileContentLine[3]));
                             // $conversion_uom = 'PCS';
 
-                            if(strtolower($delisted_status) != 'delisted') {
+                            // if(strtolower($delisted_status) != 'delisted') {
                                 $arrLines[] = [
                                     'principal_code' => $this->PRINCIPAL_CODE,
                                     'uploaded_by' => auth()->user()->id,
@@ -138,7 +139,7 @@ class CadburyAdamsController extends Controller
                                     // 'conversion_uom' => $conversion_uom,
                                     // 'conversion_qty' => $conversion_qty,
                                 ];
-                            }
+                            // }
                         }
                     }
                     $lineCount++;
@@ -170,120 +171,121 @@ class CadburyAdamsController extends Controller
     /**
      * Get customers list
      */
-    function customers()
-    {
-        set_time_limit(0);
+    // function customers()
+    // {
+    //     set_time_limit(0);
 
-        $row_count = request()->row_count ?? 10;
-        $search_key = request()->search_key ?? '';
+    //     $row_count = request()->row_count ?? 10;
+    //     $search_key = request()->search_key ?? '';
 
-        $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+    //     $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
 
-            ->where(
-                PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.principal_code',
-                $this->PRINCIPAL_CODE
-            )
+    //         ->where(
+    //             PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.principal_code',
+    //             $this->PRINCIPAL_CODE
+    //         )
 
-            ->where(function($q) use ($search_key) {
-                $q->where(
-                    PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.customer_code',
-                    'like',
-                    '%'. $search_key. '%'
-                )
-                ->orWhere(
-                    PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.customer_code_supplier',
-                    'like',
-                    '%'. $search_key. '%'
-                )
-                ->orWhere(
-                    PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.customer_name',
-                    'like',
-                    '%'. $search_key. '%'
-                )
-                ;
-            })
+    //         ->where(function($q) use ($search_key) {
+    //             $q->where(
+    //                 PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.customer_code',
+    //                 'like',
+    //                 '%'. $search_key. '%'
+    //             )
+    //             ->orWhere(
+    //                 PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.customer_code_supplier',
+    //                 'like',
+    //                 '%'. $search_key. '%'
+    //             )
+    //             ->orWhere(
+    //                 PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS.'.customer_name',
+    //                 'like',
+    //                 '%'. $search_key. '%'
+    //             )
+    //             ;
+    //         })
 
-            ->paginate($row_count);
+    //         ->paginate($row_count);
 
-        return response()->json($result);
-    }
+    //     return response()->json($result);
+    // }
 
     /**
      * Import customers masterfile (.csv)
      */
-    public function uploadMasterCustomers(Request $request)
-    {
-        set_time_limit(0);
-        try {
-            $fileName = time() . '.' . $request->file->getClientOriginalName();
-            $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/customers";
-            Storage::putFileAs($fileStoragePath, $request->file, $fileName);
+    // public function uploadMasterCustomers(Request $request)
+    // {
+    //     set_time_limit(0);
+    //     try {
+    //         $fileName = time() . '.' . $request->file->getClientOriginalName();
+    //         $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/customers";
+    //         Storage::putFileAs($fileStoragePath, $request->file, $fileName);
 
-            DB::beginTransaction();
+    //         DB::beginTransaction();
 
-            if (Storage::exists("$fileStoragePath/$fileName")) {
-                $fileContent = Storage::get("$fileStoragePath/$fileName");
+    //         if (Storage::exists("$fileStoragePath/$fileName")) {
+    //             $fileContent = Storage::get("$fileStoragePath/$fileName");
 
-                // init lineCount to 1 for the header
-                $lineCount = 1;
+    //             // init lineCount to 1 for the header
+    //             $lineCount = 1;
 
-                DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+    //             DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+    //                 ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
-                $fileContentLines = explode(
-                    PHP_EOL,
-                    mb_convert_encoding($fileContent, "UTF-8", "UTF-8")
-                );
-                $arrLines = [];
+    //             $fileContent = utf8_encode($fileContent);
+    //             $fileContentLines = explode(
+    //                 PHP_EOL,
+    //                 mb_convert_encoding($fileContent, "UTF-8", "UTF-8")
+    //             );
+    //             $arrLines = [];
 
-                foreach ($fileContentLines as $fileContentLine) {
-                    // Begin at the second line (exclude the header)
-                    if ($lineCount > 1) {
-                        $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+    //             foreach ($fileContentLines as $fileContentLine) {
+    //                 // Begin at the second line (exclude the header)
+    //                 if ($lineCount > 1) {
+    //                     $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
-                        if (count($arrFileContentLine) > 1) {
-                            // ==========================================================================
-                            $customer_code = trim(str_replace('"', '', $arrFileContentLine[0]));
-                            $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
-                            $customer_name = trim(str_replace('"', '', $arrFileContentLine[2]));
-                            // =========================================================================
+    //                     if (count($arrFileContentLine) > 1) {
+    //                         // ==========================================================================
+    //                         $customer_code = trim(str_replace('"', '', $arrFileContentLine[0]));
+    //                         $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
+    //                         $customer_name = trim(str_replace('"', '', $arrFileContentLine[2]));
+    //                         // =========================================================================
 
-                            // $isExisting = array_search(
-                            //     $customer_code,
-                            //     array_column($arrLines, 'customer_code')
-                            // );
-                            $isExisting = false;
-                            if ($isExisting == false) {
-                                $arrLines[] = [
-                                    'principal_code' => $this->PRINCIPAL_CODE,
-                                    'customer_code' => $customer_code,
-                                    'customer_code_supplier' => $customer_code_supplier,
-                                    'customer_name' => $customer_name,
-                                    'uploaded_by' => auth()->user()->id
-                                ];
-                            }
-                        }
-                    }
-                    $lineCount++;
-                }
+    //                         // $isExisting = array_search(
+    //                         //     $customer_code,
+    //                         //     array_column($arrLines, 'customer_code')
+    //                         // );
+    //                         $isExisting = false;
+    //                         if ($isExisting == false) {
+    //                             $arrLines[] = [
+    //                                 'principal_code' => $this->PRINCIPAL_CODE,
+    //                                 'customer_code' => $customer_code,
+    //                                 'customer_code_supplier' => $customer_code_supplier,
+    //                                 'customer_name' => $customer_name,
+    //                                 'uploaded_by' => auth()->user()->id
+    //                             ];
+    //                         }
+    //                     }
+    //                 }
+    //                 $lineCount++;
+    //             }
 
-                $chunks = array_chunk($arrLines, 500);
-                foreach ($chunks as $chunk) {
-                    DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)->insert($chunk);
-                }
-            }
+    //             $chunks = array_chunk($arrLines, 500);
+    //             foreach ($chunks as $chunk) {
+    //                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)->insert($chunk);
+    //             }
+    //         }
 
-            DB::commit();
-            $res['success'] = true;
-            $res['message'] = 'File uploaded successfully';
-            return response()->json($res);
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-            return response()->json($res, 500);
-        }
-    }
+    //         DB::commit();
+    //         $res['success'] = true;
+    //         $res['message'] = 'File uploaded successfully';
+    //         return response()->json($res);
+    //     } catch (\Throwable $th) {
+    //         DB::rollBack();
+    //         $res['success'] = false;
+    //         $res['message'] = $th->getMessage();
+    //         return response()->json($res, 500);
+    //     }
+    // }
 
 
     // =====================================================================
@@ -295,85 +297,86 @@ class CadburyAdamsController extends Controller
     /**
      * Get salesmen list
      */
-    function salesmen()
-    {
-        set_time_limit(0);
+    // function salesmen()
+    // {
+    //     set_time_limit(0);
 
-        $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-            ->where('principal_code', $this->PRINCIPAL_CODE)
-            ->get();
-        return response()->json($result);
-    }
+    //     $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+    //         ->where('principal_code', $this->PRINCIPAL_CODE)
+    //         ->get();
+    //     return response()->json($result);
+    // }
 
     /**
      * Import salesmen masterfile (.csv)
      */
-    public function uploadMasterSalesmen(Request $request)
-    {
-        set_time_limit(0);
-        try {
-            $delimiter = ',';
-            $fileName = time() . '.' . $request->file->getClientOriginalName();
-            $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/salesmen";
-            Storage::putFileAs($fileStoragePath, $request->file, $fileName);
+    // public function uploadMasterSalesmen(Request $request)
+    // {
+    //     set_time_limit(0);
+    //     try {
+    //         $delimiter = ',';
+    //         $fileName = time() . '.' . $request->file->getClientOriginalName();
+    //         $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/salesmen";
+    //         Storage::putFileAs($fileStoragePath, $request->file, $fileName);
 
-            DB::beginTransaction();
+    //         DB::beginTransaction();
 
-            if (Storage::exists("$fileStoragePath/$fileName")) {
-                $fileContent = Storage::get("$fileStoragePath/$fileName");
+    //         if (Storage::exists("$fileStoragePath/$fileName")) {
+    //             $fileContent = Storage::get("$fileStoragePath/$fileName");
 
-                // init lineCount to 1 for the header
-                $lineCount = 1;
+    //             // init lineCount to 1 for the header
+    //             $lineCount = 1;
 
-                DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+    //             DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+    //                 ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
-                $fileContentLines = explode(
-                    PHP_EOL,
-                    mb_convert_encoding($fileContent, "UTF-8", "UTF-8")
-                );
-                $arrLines = [];
+    //             $fileContent = utf8_encode($fileContent);
+    //             $fileContentLines = explode(
+    //                 PHP_EOL,
+    //                 mb_convert_encoding($fileContent, "UTF-8", "UTF-8")
+    //             );
+    //             $arrLines = [];
 
-                foreach ($fileContentLines as $fileContentLine) {
-                    // Begin at the second line (exclude the header)
-                    if ($lineCount > 1) {
-                        $arrFileContentLine =
-                            preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+    //             foreach ($fileContentLines as $fileContentLine) {
+    //                 // Begin at the second line (exclude the header)
+    //                 if ($lineCount > 1) {
+    //                     $arrFileContentLine =
+    //                         preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
-                        if (count($arrFileContentLine) > 1) {
-                            // ====================================================================
-                            $group_code = trim(str_replace('"', '', $arrFileContentLine[0]));
-                            $sm_name = trim(str_replace('"', '', $arrFileContentLine[1]));
-                            // ====================================================================
+    //                     if (count($arrFileContentLine) > 1) {
+    //                         // ====================================================================
+    //                         $group_code = trim(str_replace('"', '', $arrFileContentLine[0]));
+    //                         $sm_name = trim(str_replace('"', '', $arrFileContentLine[1]));
+    //                         // ====================================================================
 
-                            $arrLines[] = [
-                                'principal_code' => $this->PRINCIPAL_CODE,
-                                'group_code' => $group_code,
-                                'sm_name' => $sm_name,
-                                'uploaded_by' => auth()->user()->id
-                            ];
-                        }
-                    }
-                    $lineCount++;
-                }
+    //                         $arrLines[] = [
+    //                             'principal_code' => $this->PRINCIPAL_CODE,
+    //                             'group_code' => $group_code,
+    //                             'sm_name' => $sm_name,
+    //                             'uploaded_by' => auth()->user()->id
+    //                         ];
+    //                     }
+    //                 }
+    //                 $lineCount++;
+    //             }
 
-                $chunks = array_chunk($arrLines, 500);
-                foreach ($chunks as $chunk) {
-                    DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)->insert($chunk);
-                }
-            }
+    //             $chunks = array_chunk($arrLines, 500);
+    //             foreach ($chunks as $chunk) {
+    //                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)->insert($chunk);
+    //             }
+    //         }
 
-            DB::commit();
-            $res['success'] = true;
-            $res['message'] = 'File uploaded successfully';
-            return response()->json($res);
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-            return response()->json($res, 500);
-        }
-    }
+    //         DB::commit();
+    //         $res['success'] = true;
+    //         $res['message'] = 'File uploaded successfully';
+    //         return response()->json($res);
+    //     } catch (\Throwable $th) {
+    //         DB::rollBack();
+    //         $res['success'] = false;
+    //         $res['message'] = $th->getMessage();
+    //         return response()->json($res, 500);
+    //     }
+    // }
 
 
     // =====================================================================
@@ -677,12 +680,14 @@ class CadburyAdamsController extends Controller
                     $amount = trim($pendingInvoice->amount);
                     $uom = trim($pendingInvoice->uom);
                     $item_description = trim($pendingInvoice->item_description);
+                    $sm_code = trim($pendingInvoice->sm_code);
                     $group_code = trim($pendingInvoice->group);
 
                     //********************************************************************
-                    $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        ->where('customer_code', $customer_code)
-                        ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                    //     ->where('customer_code', $customer_code)
+                    //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    $nav_customer_name = trim($pendingInvoice->customer_name);
                     // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
                     //     ->where('item_code', $item_code)
                     //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
@@ -696,10 +701,10 @@ class CadburyAdamsController extends Controller
                         ->where('principal_code', $this->PRINCIPAL_CODE)
                         ->where('item_code', $item_code)
                         ->first();
-                    $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
-                        ->where('group_code', $group_code)
-                        ->first();
+                    // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+                    //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                    //     ->where('group_code', $group_code)
+                    //     ->first();
                     //********************************************************************
 
                     // quantity_conversion
@@ -723,9 +728,10 @@ class CadburyAdamsController extends Controller
 
                         if ($item == null) {
                             $item_notfound = 1;
-                            $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                                ->where('item_code', $item_code)
-                                ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
+                            // $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                            //     ->where('item_code', $item_code)
+                            //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
+                            $missing_item_name = $item_description;
                         } else {
                         }
 
@@ -770,10 +776,10 @@ class CadburyAdamsController extends Controller
                             'amount' => $amount,
                             'uom' => $uom,
                             'item_description' => $item_description,
-                            'description_supplier' => $item->description_supplier ?? 'N/A',
+                            'description_supplier' => $item->description_supplier ?? $item_description,
                             // 'customer_name' => $nav_customer_name,
                             'customer_name' => $customer->customer_name ?? $nav_customer_name,
-                            'sm_name' => $salesman->sm_name ?? 'N/A',
+                            'sm_code' => $sm_code ?? 'N/A',
                             'system_date' => $system_date,
                             'group' => $pendingInvoice->group
                         ];

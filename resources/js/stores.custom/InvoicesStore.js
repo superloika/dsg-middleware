@@ -12,12 +12,13 @@ const state = Vue.observable({
         { text: "Principal", value: "principals_name" },
         { text: "Uploaded", value: "created_at" },
         { text: "Uploaded By", value: "user_fullname" },
-        { text: "Filename", value: "filename" },
+        // { text: "Filename", value: "filename" },
         { text: "Group", value: "group" },
         { text: "Batch #", value: "batch_number" },
 
         { text: "Vendor Code", value: "vendor_code" },
         { text: "Customer Code", value: "customer_code" },
+        { text: "Customer Name", value: "customer_name" },
         { text: "Invoice #", value: "doc_no" },
         { text: "Posting Date", value: "posting_date" },
         { text: "Item Code", value: "item_code" },
@@ -28,6 +29,7 @@ const state = Vue.observable({
         { text: "Amount", value: "amount" },
         { text: "Quantity/UOM", value: "qty_per_uom" },
         { text: "UOM Code", value: "uom_code" },
+        { text: "Salesman Code", value: "sm_code" },
     ],
     selectedInvoices: [],
     invoicesTotalAmount: 0.00,
@@ -51,6 +53,7 @@ const state = Vue.observable({
     groups: [
         // {name:'test', value:1}
     ],
+    invoices_upload_logs: [],
 })
 
 const actions = {
@@ -142,7 +145,10 @@ const actions = {
             await axios.post(url, payload);
 
             const config = PrincipalsStore.getHeaderAndFormat(
-                "generatedDataTableHeader"
+                {
+                    storeName: PrincipalsStore.state.selectedPrincipalCode,
+                    propertyName: 'generatedDataTableHeader'
+                }
             );
 
             console.log('XXXXXXXXXXXXXXXXXXXXXXXXXX', config);
@@ -225,6 +231,14 @@ const actions = {
             AppStore.state.siteUrl + 'invoices/groups'
         ).then(res=>{
             state.groups = res.data;
+        });
+    },
+
+    async initUploadLogs() {
+        await axios.get(
+            AppStore.state.siteUrl + 'invoices/invoices-upload-logs'
+        ).then(res=>{
+            state.invoices_upload_logs = res.data;
         });
     }
 

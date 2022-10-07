@@ -249,7 +249,7 @@ const actions = {
     /**
      * Initialize the current selected principal's transactions
      */
-    async initTransactions(principal_code, date) {
+    async initTransactions(principal_code, date, invoice_status="completed") {
         date.sort();
         try {
             const url = encodeURI(
@@ -258,6 +258,7 @@ const actions = {
                 + '/transactions'
                 + '?date=' + date
                 + '&principal_code=' + principal_code
+                + '&invoice_status=' + invoice_status
             );
             // AppStore.state.showTopLoading = true;
             state.isInitTransactions = true;
@@ -349,7 +350,7 @@ const actions = {
      * Export to simple Excel
      */
     toExcel_simple(
-        sheetName, data, tableHeaderPropertyName, includeTotals,
+        sheetName, data, headerFormatSource, includeTotals,
         fileName, extension='xlsx', tableHeadersIndex=0
     ){
         const tempData = [
@@ -359,7 +360,7 @@ const actions = {
             ]
         ];
 
-        const config = this.getHeaderAndFormat(tableHeaderPropertyName);
+        const config = this.getHeaderAndFormat(headerFormatSource);
 
         this.exportToExcel(
             config[tableHeadersIndex].header,
@@ -414,20 +415,20 @@ const actions = {
      * Initialize the current selected principal's grand total amount
      * of uploaded/saved invoices
      */
-    async initInvoicesGrandTotal(status='completed') {
-        try {
-            const url = encodeURI(
-                AppStore.state.siteUrl +
-                'invoices/grandtotal?principal_code='
-                + state.selectedPrincipalCode
-                + '&status=' + status
-            );
-            let result = await axios.get(url);
-            state.invoicesGrandTotal = !isNaN(result.data) ? result.data : 0;
-        } catch (error) {
-            console.log('initInvoicesGrandTotal() - ERROR:', error);
-        }
-    },
+    // async initInvoicesGrandTotal(status='completed') {
+    //     try {
+    //         const url = encodeURI(
+    //             AppStore.state.siteUrl +
+    //             'invoices/grandtotal?principal_code='
+    //             + state.selectedPrincipalCode
+    //             + '&status=' + status
+    //         );
+    //         let result = await axios.get(url);
+    //         state.invoicesGrandTotal = !isNaN(result.data) ? result.data : 0;
+    //     } catch (error) {
+    //         console.log('initInvoicesGrandTotal() - ERROR:', error);
+    //     }
+    // },
 
     /**
      * Initialize the current selected principal's settings
@@ -512,7 +513,7 @@ const actions = {
      * Returns an object containing the arrays of headers
      * and its content column format/sequence
      */
-    getHeaderAndFormat(property) {
+    getHeaderAndFormat(headerFormatSource) {
         // return {
         //     header: Vue.prototype[state.selectedPrincipalCode]
         //         .state[property].map(e=>{
@@ -525,20 +526,24 @@ const actions = {
         // }
         let tempArray = [];
 
-        Vue.prototype.InvoicesStore.state[property].forEach(el=>{
-            const tempObj = {
-                header: el.map(e=>{
-                        return e.text;
-                    }),
-                format: el.map(e=>{
-                        return e.value;
-                    }),
-            };
-            tempArray.push(tempObj);
-        });
+        // Vue.prototype.InvoicesStore.state[property].forEach(el=>{
+        Vue.prototype
+            [headerFormatSource.storeName]
+            .state
+            [headerFormatSource.propertyName]
+            .forEach(el=>{
+                const tempObj = {
+                    header: el.map(e=>{
+                            return e.text;
+                        }),
+                    format: el.map(e=>{
+                            return e.value;
+                        }),
+                };
+                tempArray.push(tempObj);
+            });
         return tempArray;
     },
-
 
     /**
      * Delete site cookies

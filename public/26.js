@@ -170,6 +170,20 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -180,7 +194,18 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       // tblFirstPageTotalAmount: 0.00,
       searchKey: '',
       datePickerShown: false,
-      date: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10)]
+      date: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10)],
+      invoiceStatuses: [{
+        status: "All",
+        value: ""
+      }, {
+        status: "Completed",
+        value: "completed"
+      }, {
+        status: "Pending",
+        value: "pending"
+      }],
+      invoiceStatus: ""
     };
   },
   computed: {
@@ -228,13 +253,15 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     // },
     exportToExcel: function exportToExcel() {
       console.log(this.PrincipalsStore.state.transactions);
-      this.PrincipalsStore.toExcel_simple(this.date.toString(), this.PrincipalsStore.state.transactions, 'transactionsTableHeader', null, //[7,8],
+      this.PrincipalsStore.toExcel_simple(this.date.toString(), this.PrincipalsStore.state.transactions, {
+        storeName: 'InvoicesStore',
+        propertyName: 'transactionsTableHeader'
+      }, null, //[7,8],
       "".concat(this.selectedPrincipalCode, "_transactions"));
     },
     loadInvoicesOrTransactions: function loadInvoicesOrTransactions() {
-      this.PrincipalsStore.initTransactions(this.selectedPrincipalCode, this.date); // this.PrincipalsStore.initInvoices(this.selectedPrincipalCode, this.date);
-
-      this.PrincipalsStore.initInvoicesGrandTotal();
+      this.PrincipalsStore.initTransactions(this.selectedPrincipalCode, this.date, this.invoiceStatus); // this.PrincipalsStore.initInvoices(this.selectedPrincipalCode, this.date);
+      // this.PrincipalsStore.initInvoicesGrandTotal(this.invoiceStatus);
     },
 
     /**
@@ -334,6 +361,11 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       doc.save("".concat(fileName, ".pdf"));
     }
   },
+  watch: {
+    invoiceStatus: function invoiceStatus() {
+      this.loadInvoicesOrTransactions();
+    }
+  },
   created: function created() {
     this.loadInvoicesOrTransactions();
   },
@@ -385,25 +417,6 @@ var render = function() {
                       )
                     ])
                   ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-chip",
-                  { attrs: { color: "primary", label: "", "x-small": "" } },
-                  [
-                    _c("h4", [
-                      _c("em", [_vm._v("Grand Total: ")]),
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(
-                            _vm.AppStore.formatAsCurrency(
-                              _vm.PrincipalsStore.state.invoicesGrandTotal
-                            )
-                          ) +
-                          "\n                    "
-                      )
-                    ])
-                  ]
                 )
               ],
               1
@@ -432,6 +445,28 @@ var render = function() {
             [_c("v-icon", [_vm._v("mdi-refresh")])],
             1
           ),
+          _vm._v(" "),
+          _c("v-select", {
+            staticClass: "mr-3",
+            staticStyle: { "max-width": "180px" },
+            attrs: {
+              items: _vm.invoiceStatuses,
+              label: "Status",
+              "item-text": "status",
+              "item-value": "value",
+              outlined: "",
+              rounded: "",
+              "hide-details": "",
+              dense: ""
+            },
+            model: {
+              value: _vm.invoiceStatus,
+              callback: function($$v) {
+                _vm.invoiceStatus = $$v
+              },
+              expression: "invoiceStatus"
+            }
+          }),
           _vm._v(" "),
           _c("v-text-field", {
             staticClass: "mr-3",
@@ -531,7 +566,7 @@ var render = function() {
           _vm._v(" "),
           _c("v-text-field", {
             staticClass: "mr-2",
-            staticStyle: { "max-width": "230px" },
+            staticStyle: { "max-width": "200px" },
             attrs: {
               label: "Search",
               clearable: "",

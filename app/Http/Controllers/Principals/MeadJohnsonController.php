@@ -121,6 +121,7 @@ class MeadJohnsonController extends Controller
                     ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
+                $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
 
                 foreach ($fileContentLines as $fileContentLine) {
@@ -261,6 +262,7 @@ class MeadJohnsonController extends Controller
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
                     ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
+                $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
                 $arrLines = [];
 
@@ -371,6 +373,7 @@ class MeadJohnsonController extends Controller
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
                     ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
+                $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(
                     PHP_EOL,
                     mb_convert_encoding($fileContent, "UTF-8", "UTF-8")

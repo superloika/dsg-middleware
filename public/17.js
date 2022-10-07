@@ -146,7 +146,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     exportToExcel: function exportToExcel() {
-      this.PrincipalsStore.toExcel_simple('Customers', this.PrincipalsStore.state.customers, 'customersTableHeader', null, "".concat(this.selectedPrincipalCode, "_Customers"));
+      var _this = this;
+
+      try {
+        this.PrincipalsStore.state.customers.current_page = 1;
+      } catch (error) {}
+
+      this.PrincipalsStore.initCustomers('', 9999999).then(function () {
+        _this.PrincipalsStore.toExcel_simple('Customers', _this.PrincipalsStore.state.customers.data, {
+          storeName: _this.selectedPrincipalCode,
+          propertyName: 'customersTableHeader'
+        }, null, "".concat(_this.selectedPrincipalCode, "_Customers"));
+
+        _this.PrincipalsStore.initCustomers(_this.searchKey);
+      });
     },
     onPageChange: function onPageChange() {
       this.PrincipalsStore.initCustomers(this.searchKey);
@@ -267,6 +280,20 @@ var render = function() {
                   }
                 },
                 [_c("v-icon", [_vm._v("mdi-file-upload")])],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { title: "Export to Excel", icon: "", dense: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.exportToExcel()
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("mdi-file-excel")])],
                 1
               )
             ],

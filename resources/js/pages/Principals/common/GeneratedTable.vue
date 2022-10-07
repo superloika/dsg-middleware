@@ -139,7 +139,10 @@ export default {
             this.PrincipalsStore.toExcel_simple(
                 `${this.tab_caption}`,
                 this.items,
-                'generatedDataTableHeader',
+                {
+                    storeName: this.PrincipalsStore.state.selectedPrincipalCode,
+                    propertyName: 'generatedDataTableHeader'
+                },
                 null,
                 `${this.tab_caption}`,
                 extention,

@@ -28,16 +28,30 @@ class InvoicesController extends Controller
 
         $result = DB::table(PrincipalsUtil::$TBL_INVOICES)
             ->where(function($query) use ($search_key, $status){
-                $query->where('doc_no','like', '%'.$search_key. '%')
-                    ->orWhere('customer_code','like', '%'.$search_key. '%')
-                    ->orWhere('posting_date','like', '%'.$search_key. '%')
-                    ->orWhere(PrincipalsUtil::$TBL_INVOICES.'.created_at','like', '%'.$search_key. '%')
-
-                    ->orWhere(
-                        PrincipalsUtil::$TBL_INVOICES.'.item_code', 'like', '%'.$search_key. '%'
+                $query->where(
+                        PrincipalsUtil::$TBL_INVOICES.'.doc_no',
+                        'like', '%'.$search_key. '%'
                     )
                     ->orWhere(
-                        PrincipalsUtil::$TBL_INVOICES.'.vendor_code', 'like', '%'.$search_key. '%'
+                        PrincipalsUtil::$TBL_INVOICES.'.customer_code',
+                        'like', '%'.$search_key. '%'
+                    )
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES.'.posting_date',
+                        'like', '%'.$search_key. '%'
+                    )
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES.'.created_at',
+                        'like', '%'.$search_key. '%'
+                    )
+
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES.'.item_code',
+                        'like', '%'.$search_key. '%'
+                    )
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES.'.vendor_code',
+                        'like', '%'.$search_key. '%'
                     )
 
                     ->orWhere('batch_number','like', '%'.$search_key. '%');
@@ -64,6 +78,12 @@ class InvoicesController extends Controller
                 PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
                 PrincipalsUtil::$TBL_INVOICES.'.vendor_code'
             )
+            ->leftJoin(
+                PrincipalsUtil::$TBL_INVOICES_H,
+                PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
+                PrincipalsUtil::$TBL_INVOICES.'.doc_no'
+            )
+
             ->select(
                 PrincipalsUtil::$TBL_INVOICES. '.*',
                 'users.name AS user_fullname',
@@ -71,12 +91,14 @@ class InvoicesController extends Controller
                 PrincipalsUtil::$TBL_PRINCIPALS.'.name AS principals_name',
                 PrincipalsUtil::$TBL_PRINCIPALS.'.code',
                 PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
+                PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
+                PrincipalsUtil::$TBL_INVOICES_H. '.sm_code',
             );
 
             $sum = $result->sum(PrincipalsUtil::$TBL_INVOICES. '.amount');
 
             // $invoices = $result->orderBy('id','DESC')
-            $invoices = $result->orderBy('posting_date','DESC')
+            $invoices = $result->orderBy(PrincipalsUtil::$TBL_INVOICES. '.posting_date','DESC')
                 ->paginate($row_count);
 
         return response()->json([
@@ -90,513 +112,6 @@ class InvoicesController extends Controller
         return response()->json($groups);
     }
 
-    function index_1() {
-        $row_count = request()->row_count ?? 10;
-        $search_key = request()->search_key ?? '';
-        $principal_code = request()->principal_code ?? '';
-        $status = request()->status ?? '';
-        $terminal = request()->terminal ?? '';
-
-        // dd($principal_code);
-
-        $result = DB::table(PrincipalsUtil::$TBL_INVOICES)
-            ->where(function($query) use ($search_key, $status){
-                $query->where('doc_no','like', '%'.$search_key. '%')
-                    ->orWhere('doc_type','like', '%'.$search_key. '%')
-                    ->orWhere('customer_code','like', '%'.$search_key. '%')
-                    ->orWhere('posting_date','like', '%'.$search_key. '%')
-                    ->orWhere(PrincipalsUtil::$TBL_INVOICES.'.created_at','like', '%'.$search_key. '%')
-
-                    ->orWhere(
-                        PrincipalsUtil::$TBL_INVOICES.'.item_code', 'like', '%'.$search_key. '%'
-                    )
-
-                    ->orWhere('batch_number','like', '%'.$search_key. '%');
-            })
-            ->where(function($query) use ($principal_code) {
-                if($principal_code != '') {
-                    if($principal_code=='others') {
-                        $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code', null);
-                    } else {
-                        $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.code', $principal_code);
-                    }
-                }
-            })
-            ->where(
-                PrincipalsUtil::$TBL_INVOICES. '.status','like', '%'.$status. '%'
-            )
-            // ->where(
-            //     PrincipalsUtil::$TBL_INVOICES. '.terminal','like', '%'.$terminal. '%'
-            // )
-            ->where(
-                PrincipalsUtil::$TBL_INVOICES. '.group','like', '%'.$terminal. '%'
-            )
-
-            ->leftJoin('users', 'users.id', PrincipalsUtil::$TBL_INVOICES. '.uploaded_by')
-            ->leftJoin(
-                PrincipalsUtil::$TBL_GENERAL_ITEMS,
-                PrincipalsUtil::$TBL_GENERAL_ITEMS.'.item_code',
-                PrincipalsUtil::$TBL_INVOICES. '.item_code'
-            )
-            ->leftJoin(
-                PrincipalsUtil::$TBL_PRINCIPALS,
-                PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
-                PrincipalsUtil::$TBL_GENERAL_ITEMS.'.vendor_code'
-            )
-
-            ->select(
-                PrincipalsUtil::$TBL_INVOICES. '.*',
-                'users.name AS userFullname',
-                'users.username',
-                PrincipalsUtil::$TBL_GENERAL_ITEMS.'.item_code AS items_item_code',
-                PrincipalsUtil::$TBL_PRINCIPALS.'.name AS principals_name',
-                PrincipalsUtil::$TBL_PRINCIPALS.'.code',
-                PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
-            );
-
-            $sum = $result->sum(PrincipalsUtil::$TBL_INVOICES. '.u3');
-
-            $invoices = $result->orderBy('id','DESC')
-                ->paginate($row_count);
-
-        return response()->json([
-            'sum' => $sum,
-            'invoices' => $invoices
-        ]);
-    }
-
-    public function syncTextfiles(Request $request) {
-        set_time_limit(0);
-        $memory_limit = ini_get('memory_limit');
-
-        try {
-            $dateTimeToday = Carbon::now()->format('Y-m-d H:i:s');
-
-            // selected source terminal terminal
-            $terminal = $request->terminal;
-
-            $terminals = DB::table('terminals')->get();
-
-            foreach($terminals as $terminal) {
-                $fileNames = Storage::disk('dsgm_textfiles')->files($terminal->terminal_code);
-                // dd($fileNames);
-                foreach($fileNames as $fileName) {
-                    // $fileName = 'invoices-'. time(). '-'. $file->getClientOriginalName();
-                    $uploadedPath = $terminal->terminal_code. "\/UPLOADED\/". substr($dateTimeToday, 0, 10). "/";
-                    // Storage::putFileAs($testFilesPath, $file, $fileName);
-
-                    if (Storage::disk('dsgm_textfiles')->exists($fileName)) {
-
-                        $content = Storage::disk('dsgm_textfiles')->get($fileName);
-
-                        $rows = explode(PHP_EOL, utf8_encode($content));
-
-                        // move text file to 'UPLOADED'
-                        $fileName = str_replace("$terminal->terminal_code/", '', $fileName);
-                        Storage::disk('dsgm_textfiles')->move(
-                            "$terminal->terminal_code/$fileName",
-                            "$uploadedPath/". time(). "-$fileName"
-                        );
-
-                        $invoices = [];
-
-                        if(count($rows) > 0) {
-                            //set memory limit to unli for heavy stuff processing
-                            ini_set('memory_limit', -1);
-
-                            foreach ($rows as $row) {
-                                // $cols = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $row);
-                                $cols = explode('|', $row);
-
-                                if (
-                                    count($cols) == 12
-                                    && $cols[0][0] != '#'
-                                    && trim(str_replace('"','',$cols[0])) != 'Credit Memo'
-                                ) {
-                                    $doc_type =         trim(str_replace('"','',$cols[0]));
-                                    $doc_no =           trim(str_replace('"','',$cols[1]));
-                                    $customer_code =    trim(str_replace('"','',$cols[2]));
-                                    $posting_date =     trim(str_replace('"','',$cols[3]));
-                                    $item_code =        trim(str_replace('"','',$cols[4]));
-                                    $quantity =         trim(str_replace('"','',$cols[5]));
-                                    $u1 =               trim(str_replace('"','',$cols[6]));
-                                    $u2 =               trim(str_replace('"','',$cols[7]));
-                                    $u3 =               trim(str_replace('"','',$cols[8]));
-                                    $u4 =               trim(str_replace('"','',$cols[9]));
-                                    $u5 =               trim(str_replace('"','',$cols[10]));
-                                    $uom =              trim(str_replace('"','',$cols[11]));
-
-                                    if(
-                                        DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                            ->where('doc_type',$doc_type)
-                                            ->where('doc_no',$doc_no)
-                                            ->where('customer_code',$customer_code)
-                                            ->where('posting_date',$posting_date)
-                                            ->where('item_code',$item_code)
-                                            ->where('quantity',$quantity)
-                                            ->where('u1',$u1)
-                                            ->where('u2',$u2)
-                                            ->where('u3',$u3)
-                                            ->where('u4',$u4)
-                                            ->where('u5',$u5)
-                                            ->where('uom',$uom)
-                                            ->exists() == false
-                                    ) {
-                                        $invoices[] = [
-                                            'created_at'=>date($dateTimeToday),
-                                            'doc_type'=>$doc_type,
-                                            'doc_no'=>$doc_no,
-                                            'customer_code'=>$customer_code,
-                                            'posting_date'=>$posting_date,
-                                            'item_code'=>$item_code,
-                                            'quantity'=>$quantity,
-                                            'u1'=>$u1,
-                                            'u2'=>$u2,
-                                            'u3'=>$u3,
-                                            'u4'=>$u4,
-                                            'u5'=>$u5,
-                                            'uom'=>$uom,
-                                            'uploaded_by'=>auth()->user()->id,
-                                            'filename'=> $fileName,
-                                            'terminal'=>$terminal->terminal_code,
-                                        ];
-                                    }
-
-                                }
-                            }
-                            $chunks = array_chunk($invoices, 500);
-                            foreach($chunks as $chunk) {
-                                DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                    ->insert($chunk);
-                            }
-
-                            // DB::table(PrincipalsUtil::$TBL_INVOICES)
-                            //     ->where('created_at','<>',$dateTimeToday)->delete();
-                        }
-                    }
-                }
-            }
-
-            // revert to the default memory limit
-            ini_set('memory_limit', $memory_limit);
-
-            $res['success'] = true;
-            $res['message'] = 'Successful';
-            return response()->json($res, 200);
-
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-            return response()->json($res, 500);
-        }
-    }
-
-    public function upload_1(Request $request) {
-        set_time_limit(0);
-        $memory_limit = ini_get('memory_limit');
-
-        try {
-            $dateTimeToday = Carbon::now()->format('Y-m-d H:i:s');
-
-            // selected source terminal terminal
-            $terminal = $request->terminal;
-
-            foreach($request->file('files') as $file) {
-                $fileName = 'invoices-'. time(). '-'. $file->getClientOriginalName();
-                $testFilesPath = "public/invoices/". substr($dateTimeToday, 0, 10);
-                Storage::putFileAs($testFilesPath, $file, $fileName);
-
-                if (Storage::exists("$testFilesPath/$fileName")) {
-                    $content = Storage::get("$testFilesPath/$fileName");
-                    $rows = explode(PHP_EOL, utf8_encode($content));
-
-                    $invoices = [];
-
-                    if(count($rows) > 0) {
-                        //set memory limit to unli for heavy stuff processing
-                        ini_set('memory_limit', -1);
-
-                        foreach ($rows as $row) {
-                            // $cols = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $row);
-                            $cols = explode('|', $row);
-
-                            if (
-                                count($cols) == 12
-                                && $cols[0][0] != '#'
-                                && trim(str_replace('"','',$cols[0])) != 'Credit Memo'
-                            ) {
-                                $doc_type =         trim(str_replace('"','',$cols[0]));
-                                $doc_no =           trim(str_replace('"','',$cols[1]));
-                                $customer_code =    trim(str_replace('"','',$cols[2]));
-                                $posting_date =     trim(str_replace('"','',$cols[3]));
-                                $item_code =        trim(str_replace('"','',$cols[4]));
-                                $quantity =         trim(str_replace('"','',$cols[5]));
-                                $u1 =               trim(str_replace('"','',$cols[6]));
-                                $u2 =               trim(str_replace('"','',$cols[7]));
-                                $u3 =               trim(str_replace('"','',$cols[8]));
-                                $u4 =               trim(str_replace('"','',$cols[9]));
-                                $u5 =               trim(str_replace('"','',$cols[10]));
-                                $uom =              trim(str_replace('"','',$cols[11]));
-
-
-
-                                if(
-                                    DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                        ->where('doc_type',$doc_type)
-                                        ->where('doc_no',$doc_no)
-                                        ->where('customer_code',$customer_code)
-                                        ->where('posting_date',$posting_date)
-                                        ->where('item_code',$item_code)
-                                        ->where('quantity',$quantity)
-                                        ->where('u1',$u1)
-                                        ->where('u2',$u2)
-                                        ->where('u3',$u3)
-                                        ->where('u4',$u4)
-                                        ->where('u5',$u5)
-                                        ->where('uom',$uom)
-                                        ->exists() == false
-                                ) {
-                                    $invoices[] = [
-                                        'created_at'=>date($dateTimeToday),
-                                        'doc_type'=>$doc_type,
-                                        'doc_no'=>$doc_no,
-                                        'customer_code'=>$customer_code,
-                                        'posting_date'=>$posting_date,
-                                        'item_code'=>$item_code,
-                                        'quantity'=>$quantity,
-                                        'u1'=>$u1,
-                                        'u2'=>$u2,
-                                        'u3'=>$u3,
-                                        'u4'=>$u4,
-                                        'u5'=>$u5,
-                                        'uom'=>$uom,
-                                        'uploaded_by'=>auth()->user()->id,
-                                        'filename'=> $fileName,
-                                        'terminal'=>$terminal,
-                                    ];
-                                }
-
-                            }
-                        }
-                        $chunks = array_chunk($invoices, 500);
-                        foreach($chunks as $chunk) {
-                            DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                ->insert($chunk);
-                        }
-
-                        // DB::table(PrincipalsUtil::$TBL_INVOICES)
-                        //     ->where('created_at','<>',$dateTimeToday)->delete();
-                    }
-                }
-            }
-
-            // revert to the default memory limit
-            ini_set('memory_limit', $memory_limit);
-
-            $res['success'] = true;
-            $res['message'] = 'Successful';
-            return response()->json($res, 200);
-
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-            return response()->json($res, 500);
-        }
-    }
-
-    public function upload_2(Request $request) {
-        set_time_limit(0);
-        $memory_limit = ini_get('memory_limit');
-
-        try {
-            $dateTimeToday = Carbon::now()->format('Y-m-d H:i:s');
-
-            $batchNumber =  str_replace('-','', $dateTimeToday);
-            $batchNumber =  str_replace(' ','', $batchNumber);
-            $batchNumber =  str_replace(':','', $batchNumber);
-            $batchNumber =  'DSGPM-'.$batchNumber;
-
-            // selected source terminal terminal
-            $terminal = $request->terminal;
-
-            $groups = DB::table('groups')->get();
-
-            $summary = [];
-
-            foreach($request->file('files') as $file) {
-                $origFilename = $file->getClientOriginalName();
-
-                $summaryItem['file_name'] = $origFilename;
-
-                $group = 'NA';
-                foreach($groups as $g) {
-                    if(
-                        strpos(strtolower($origFilename), strtolower($g->group_code)) > -1
-                    ) {
-                        $group = $g->group_code;
-                        break;
-                    }
-                }
-                // dd($group);
-
-                $fileName = 'invoices-'. time(). '-'. $origFilename;
-                $testFilesPath = "public/invoices/". substr($dateTimeToday, 0, 10);
-                Storage::putFileAs($testFilesPath, $file, $fileName);
-
-
-                if (Storage::exists("$testFilesPath/$fileName")) {
-                    $content = Storage::get("$testFilesPath/$fileName");
-                    $rows = explode(PHP_EOL, utf8_encode($content));
-
-                    $invoices = [];
-
-                    $summaryItem['line_total'] = count($rows);
-                    $summaryItem['line_read'] = 0;
-                    $summaryItem['line_uploaded'] = 0;
-                    $summaryItem['line_existing'] = 0;
-                    $summaryItem['skipped_other_principals'] = [];
-                    $summaryItem['skipped_unknown_line'] = [];
-                    $summaryItem['skipped_not_in_item_masterfile'] = [];
-
-                    $line_number = 0;
-
-                    if(count($rows) > 0) {
-                        //set memory limit to unli for heavy stuff processing
-                        ini_set('memory_limit', -1);
-
-                        foreach ($rows as $row) {
-                            $line_number += 1;
-
-                            // $cols = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $row);
-                            $cols = explode('|', $row);
-
-                            if (
-                                count($cols) == 12
-                                && $cols[0][0] != '#'
-                                && trim(str_replace('"','',$cols[0])) != 'Credit Memo'
-                            ) {
-                                $doc_type =         trim(str_replace('"','',$cols[0]));
-                                $doc_no =           trim(str_replace('"','',$cols[1]));
-                                $customer_code =    trim(str_replace('"','',$cols[2]));
-                                $posting_date =     trim(str_replace('"','',$cols[3]));
-                                $item_code =        trim(str_replace('"','',$cols[4]));
-                                $quantity =         trim(str_replace('"','',$cols[5]));
-                                $u1 =               trim(str_replace('"','',$cols[6]));
-                                $u2 =               trim(str_replace('"','',$cols[7]));
-                                $u3 =               trim(str_replace('"','',$cols[8]));
-                                $u4 =               trim(str_replace('"','',$cols[9]));
-                                $u5 =               trim(str_replace('"','',$cols[10]));
-                                $uom =              trim(str_replace('"','',$cols[11]));
-
-
-                                // -------------------------------------------------------
-                                $item =
-                                    DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                                    ->where(
-                                        PrincipalsUtil::$TBL_GENERAL_ITEMS. '.item_code',
-                                        $item_code
-                                    )
-                                    ->first();
-
-                                if($item != null) {
-                                    $isNotFromOtherPrincipals = null;
-                                    if($item->vendor_code=="") {
-                                        $isNotFromOtherPrincipals = true;
-                                    } else {
-                                        $isNotFromOtherPrincipals =
-                                            DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                                                ->where('vendor_code', $item->vendor_code)
-                                                ->exists();
-                                    }
-
-                                    if($isNotFromOtherPrincipals) {
-                                        // dd('passed');
-                                        $summaryItem['line_read'] += 1;
-                                        if(
-                                            DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                                ->where('doc_type',$doc_type)
-                                                ->where('doc_no',$doc_no)
-                                                ->where('customer_code',$customer_code)
-                                                ->where('posting_date',$posting_date)
-                                                ->where('item_code',$item_code)
-                                                ->where('quantity',$quantity)
-                                                ->where('u1',$u1)
-                                                ->where('u2',$u2)
-                                                ->where('u3',$u3)
-                                                ->where('u4',$u4)
-                                                ->where('u5',$u5)
-                                                ->where('uom',$uom)
-                                                ->exists() == false
-                                        ) {
-                                            $invoices[] = [
-                                                'created_at'=>date($dateTimeToday),
-                                                'doc_type'=>$doc_type,
-                                                'doc_no'=>$doc_no,
-                                                'customer_code'=>$customer_code,
-                                                'posting_date'=>$posting_date,
-                                                'item_code'=>$item_code,
-                                                'quantity'=>$quantity,
-                                                'u1'=>$u1,
-                                                'u2'=>$u2,
-                                                'u3'=>$u3,
-                                                'u4'=>$u4,
-                                                'u5'=>$u5,
-                                                'uom'=>$uom,
-                                                'uploaded_by'=>auth()->user()->id,
-                                                'filename'=> $origFilename,
-                                                'group'=>$group,
-                                                'batch_number' => $batchNumber
-                                            ];
-
-                                            $summaryItem['line_uploaded'] += 1;
-                                        } else {
-                                            $summaryItem['line_existing'] += 1;
-                                        }
-                                    } else {
-                                        $summaryItem['skipped_other_principals'][$line_number] = $row;
-                                    }
-                                } else {
-                                    $summaryItem['skipped_not_in_item_masterfile'][$line_number]
-                                        = $row;
-                                }
-                                // -------------------------------------------------------
-
-                            } else {
-                                if(str_replace(' ','',$row) == '') {
-                                    $row = 'BLANK_LINE';
-                                }
-                                $summaryItem['skipped_unknown_line'][$line_number] = $row;
-                            }
-                        }
-                        $chunks = array_chunk($invoices, 500);
-                        foreach($chunks as $chunk) {
-                            DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                ->insert($chunk);
-                        }
-
-                        // DB::table(PrincipalsUtil::$TBL_INVOICES)
-                        //     ->where('created_at','<>',$dateTimeToday)->delete();
-                    }
-
-                    $summary[] = $summaryItem;
-                }
-            }
-
-            // revert to the default memory limit
-            ini_set('memory_limit', $memory_limit);
-
-            $res['success'] = true;
-            $res['message'] = 'Successful';
-            $res['batch_number'] = $batchNumber;
-            $res['summary'] = $summary;
-            return response()->json($res, 200);
-
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-            return response()->json($res, 500);
-        }
-    }
 
     public function upload(Request $request) {
         set_time_limit(0);
@@ -613,6 +128,8 @@ class InvoicesController extends Controller
             $groups = DB::table('groups')->get();
 
             $summary = [];
+
+            $filenames = "";
 
             $fileCount = 0;
             foreach($request->file('files') as $file) {
@@ -652,6 +169,9 @@ class InvoicesController extends Controller
                     $rows = explode(PHP_EOL, utf8_encode($content));
 
                     $invoices = [];
+
+                    // headers
+                    $invoices_h = [];
 
                     $summaryItem['line_total'] = count($rows);
                     $summaryItem['line_read'] = 0;
@@ -761,6 +281,44 @@ class InvoicesController extends Controller
                                 }
                             // -------------------------------------------------------
 
+                            // if row is a HEADER type -------------------------------
+                            } else if (
+                                count($cols) == 8
+                                && $cols[0][0] != '#'
+                            ) {
+                                $doc_no = trim(str_replace('"','',$cols[0]));
+                                $customer_code = trim(str_replace('"','',$cols[1]));
+                                $customer_name = trim(str_replace('"','',$cols[2]));
+                                $u1 = trim(str_replace('"','',$cols[3]));
+                                $u2 = trim(str_replace('"','',$cols[4]));
+                                $shipment_date = trim(str_replace('"','',$cols[5]));
+                                $posting_date = trim(str_replace('"','',$cols[6]));
+                                $sm_code = trim(str_replace('"','',$cols[7]));
+                                if (
+                                    DB::table(PrincipalsUtil::$TBL_INVOICES_H)
+                                        ->where('doc_no', $doc_no)
+                                        // ->where('customer_code', $customer_code)
+                                        ->exists() == false
+                                ) {
+                                    $invoices_h[] = [
+                                        // 'created_at'=>date($dateTimeToday),
+                                        // 'uploaded_by'=>auth()->user()->id,
+                                        // 'filename'=> $origFilename,
+                                        // 'group'=>$group,
+                                        // 'batch_number' => $batchNumber,
+                                        //
+                                        'doc_no'=>$doc_no,
+                                        'customer_code'=>$customer_code,
+                                        'customer_name'=>$customer_name,
+                                        'u1'=>$u1,
+                                        'u2'=>$u2,
+                                        'shipment_date'=>$shipment_date,
+                                        'posting_date'=>$posting_date,
+                                        'sm_code'=>$sm_code
+                                    ];
+
+                                }
+
                             } else {
                                 if(str_replace(' ','',$row) == '') {
                                     $row = 'BLANK_LINE';
@@ -774,16 +332,29 @@ class InvoicesController extends Controller
                                 ->insert($chunk);
                         }
 
+                        // also save HEADERS
+                        $chunks = array_chunk($invoices_h, 500);
+                        foreach($chunks as $chunk) {
+                            DB::table(PrincipalsUtil::$TBL_INVOICES_H)
+                                ->insert($chunk);
+                        }
+
                         // DB::table(PrincipalsUtil::$TBL_INVOICES)
                         //     ->where('created_at','<>',$dateTimeToday)->delete();
+
                     }
 
                     $summary[] = $summaryItem;
+
+                    $filenames = $filenames . $fileName . ';';
                 }
             }
 
             // revert to the default memory limit
             ini_set('memory_limit', $memory_limit);
+
+            // write upload log
+            self::logInvoicesUpload($batchNumber, $filenames, 'test');
 
             if($fileCount>0) {
                 $res['success'] = true;
@@ -822,6 +393,7 @@ class InvoicesController extends Controller
                 DB::table(PrincipalsUtil::$TBL_INVOICES)
                     ->where('id', $invoice['id'])
                     ->delete();
+
                 DB::table(PrincipalsUtil::$TBL_GENERATED)
                     ->where('principal_code', $principal_code)
                     ->where('doc_no', $invoice['doc_no'])
@@ -886,49 +458,24 @@ class InvoicesController extends Controller
      * Get the overall total amount of the uploaded invoices
      * // principal specific
      */
-    public function invoicesTotalAmount_1() {
-        try {
-            $vendor_code = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                ->where('code', request()->principal_code ?? 'NA')
-                ->first();
+    // public function invoicesGrandTotal() {
+    //     try {
+    //         $vendor = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+    //             ->where('code', request()->principal_code ?? 'NA')
+    //             ->first();
 
-            $res = DB::table(PrincipalsUtil::$TBL_INVOICES)
-                ->where('vendor_code', $vendor_code)
-                ->where('status', request()->status)
+    //         $res = DB::table(PrincipalsUtil::$TBL_INVOICES)
+    //             ->where('vendor_code', $vendor->vendor_code)
+    //             ->where('status','like', "%". request()->status. "%")
+    //             ->sum('amount');
 
-                ->sum('amount');
-
-            return response()->json($res);
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-            return response()->json($res, 500);
-        }
-    }
-
-
-    /**
-     * Get the overall total amount of the uploaded invoices
-     * // principal specific
-     */
-    public function invoicesGrandTotal() {
-        try {
-            $vendor = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                ->where('code', request()->principal_code ?? 'NA')
-                ->first();
-
-            $res = DB::table(PrincipalsUtil::$TBL_INVOICES)
-                ->where('vendor_code', $vendor->vendor_code)
-                // ->where('status', request()->status)
-                ->sum('amount');
-
-            return response()->json($res);
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-            return response()->json($res, 500);
-        }
-    }
+    //         return response()->json($res);
+    //     } catch (\Throwable $th) {
+    //         $res['success'] = false;
+    //         $res['message'] = $th->getMessage();
+    //         return response()->json($res, 500);
+    //     }
+    // }
 
     /**
      * Change invoice's status to 'complete'
@@ -1096,12 +643,45 @@ class InvoicesController extends Controller
                 ->where('code', $principal_code)->first()->vendor_code ?? 'NA';
 
             $invoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
+                // ->leftJoin(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS,
+                //     PrincipalsUtil::$TBL_INVOICES. '.customer_code',
+                //     PrincipalsUtil::$TBL_GENERAL_CUSTOMERS. '.customer_code'
+                // )
+                ->leftJoin(
+                    PrincipalsUtil::$TBL_INVOICES_H,
+                    PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
+                    PrincipalsUtil::$TBL_INVOICES.'.doc_no'
+                )
+                ->select([
+                    PrincipalsUtil::$TBL_INVOICES. '.id',
+                    PrincipalsUtil::$TBL_INVOICES. '.created_at',
+                    PrincipalsUtil::$TBL_INVOICES. '.updated_at',
+                    PrincipalsUtil::$TBL_INVOICES. '.status',
+                    // PrincipalsUtil::$TBL_INVOICES. '.filename',
+                    PrincipalsUtil::$TBL_INVOICES. '.group',
+                    PrincipalsUtil::$TBL_INVOICES. '.batch_number',
+                    PrincipalsUtil::$TBL_INVOICES. '.vendor_code',
+                    PrincipalsUtil::$TBL_INVOICES. '.customer_code',
+                    PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
+                    PrincipalsUtil::$TBL_INVOICES. '.doc_no',
+                    PrincipalsUtil::$TBL_INVOICES. '.posting_date',
+                    PrincipalsUtil::$TBL_INVOICES. '.item_code',
+                    PrincipalsUtil::$TBL_INVOICES. '.item_description',
+                    PrincipalsUtil::$TBL_INVOICES. '.uom',
+                    PrincipalsUtil::$TBL_INVOICES. '.quantity',
+                    PrincipalsUtil::$TBL_INVOICES. '.price',
+                    PrincipalsUtil::$TBL_INVOICES. '.amount',
+                    PrincipalsUtil::$TBL_INVOICES. '.qty_per_uom',
+                    PrincipalsUtil::$TBL_INVOICES. '.uom_code',
+                    PrincipalsUtil::$TBL_INVOICES_H. '.sm_code'
+                ])
                 ->where('vendor_code', $vendor_code)
                 ->whereBetween(
-                    DB::raw("STR_TO_DATE(posting_date, '%m/%d/%Y')"),
+                    DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES.".posting_date, '%m/%d/%Y')"),
                     [$dateFrom, $dateTo])
-                ->orderBy('posting_date')
-                ->orderBy('doc_no')
+                ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.posting_date')
+                ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.customer_code')
+                ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.doc_no')
                 ->get()
                 ;
 
@@ -1138,6 +718,11 @@ class InvoicesController extends Controller
         $dateTo = new Carbon($dateTo);
 
         return DB::table(PrincipalsUtil::$TBL_INVOICES)
+        ->leftJoin(
+            PrincipalsUtil::$TBL_INVOICES_H,
+            PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
+            PrincipalsUtil::$TBL_INVOICES.'.doc_no'
+        )
         ->where(
             'vendor_code',
             DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
@@ -1146,12 +731,34 @@ class InvoicesController extends Controller
                 ->first()->vendor_code ?? 'NA'
         )
         ->whereBetween(
-            DB::raw("STR_TO_DATE(posting_date, '%m/%d/%Y')"),
+            DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES . ".posting_date, '%m/%d/%Y')"),
             [$dateFrom, $dateTo])
-        ->orderBy('customer_code')
-        ->orderBy('posting_date')
-        ->orderBy('doc_no')
         ->where('status', 'pending')
+
+        ->select([
+            PrincipalsUtil::$TBL_INVOICES.'.*',
+            PrincipalsUtil::$TBL_INVOICES_H.'.customer_name',
+            PrincipalsUtil::$TBL_INVOICES_H.'.sm_code'
+        ])
+
+        ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.posting_date')
+        ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.customer_code')
+        ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.doc_no')
         ->get();
+    }
+
+
+    public static function logInvoicesUpload($batch_number, $filename, $remarks) {
+        DB::table(PrincipalsUtil::$TBL_INVOICES_UPLOG)->insert([
+            'batch_number' => $batch_number,
+            'filename' => $filename,
+            'remarks' => $remarks,
+            'uploaded_by' => auth()->user()->id
+        ]);
+    }
+
+    public function uploadLogs() {
+        $res = DB::table(PrincipalsUtil::$TBL_INVOICES_UPLOG)->limit(30)->latest()->get();
+        return response()->json($res);
     }
 }

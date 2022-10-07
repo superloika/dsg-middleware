@@ -121,6 +121,7 @@ class SnowMountainDairyController extends Controller
                     ->where('principal_code', self::$PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
+                $fileContent = utf8_encode($fileContent);
                 $fileContentLines =
                     explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
 
@@ -136,9 +137,9 @@ class SnowMountainDairyController extends Controller
                             $item_code = trim(str_replace('"', '', $arrFileContentLine[0]));
                             $item_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
                             $description_supplier = trim(str_replace('"', '', $arrFileContentLine[2]));
-                            $conversion_qty = trim(str_replace('"', '', $arrFileContentLine[4]));
-                            $uom = 'CASE';
-                            $conversion_uom = 'PCS';
+                            // $conversion_qty = trim(str_replace('"', '', $arrFileContentLine[4]));
+                            // $uom = 'CASE';
+                            // $conversion_uom = 'PCS';
 
                             $arrLines[] = [
                                 'principal_code' => self::$PRINCIPAL_CODE,
@@ -146,9 +147,9 @@ class SnowMountainDairyController extends Controller
                                 'item_code' => $item_code,
                                 'item_code_supplier' => $item_code_supplier,
                                 'description_supplier' => $description_supplier,
-                                'uom' => $uom,
-                                'conversion_uom' => $conversion_uom,
-                                'conversion_qty' => $conversion_qty,
+                                // 'uom' => $uom,
+                                // 'conversion_uom' => $conversion_uom,
+                                // 'conversion_qty' => $conversion_qty,
                             ];
                         }
                     }
@@ -349,6 +350,7 @@ class SnowMountainDairyController extends Controller
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
                     ->where('principal_code', self::$PRINCIPAL_CODE)->delete();
 
+                $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(
                     PHP_EOL,
                     mb_convert_encoding($fileContent, "UTF-8", "UTF-8")

@@ -1,10 +1,10 @@
 <template>
     <v-card elevation="0">
         <v-card-title>
-            DSG - Middleware
+            DSG Principal Middleware
         </v-card-title>
         <v-card-text>
-            DSG - Middleware
+            DSG Principal Middleware
         </v-card-text>
 
     </v-card>

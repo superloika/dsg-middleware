@@ -4,7 +4,7 @@
         class="mb-6"
     >
         <div>
-            Upload/Update Masterfile ({{ id }})
+            Upload/update {{ id }} masterfile
         </div>
 
         <v-spacer></v-spacer>

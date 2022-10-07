@@ -139,6 +139,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'InvoicesUpload',
   props: ['searchKey', 'principalCodeFilter'],
@@ -252,6 +253,117 @@ var render = function() {
         [
           _c(
             "v-row",
+            { staticClass: "py-0" },
+            [
+              _c(
+                "v-col",
+                {
+                  staticClass: "pb-0",
+                  attrs: { cols: "", lg: "9", md: "9", sm: "12" }
+                },
+                [
+                  _c(
+                    "v-form",
+                    { ref: "frm_upload" },
+                    [
+                      _c("v-file-input", {
+                        attrs: {
+                          "small-chips": "",
+                          "show-sizex": "",
+                          rounded: "",
+                          outlined: "",
+                          dense: "",
+                          required: "",
+                          placeholder: "Select text files to upload (invoices)",
+                          accept: ".txt",
+                          multiple: "",
+                          color: "primary",
+                          "background-color": "white"
+                        },
+                        model: {
+                          value: _vm.file,
+                          callback: function($$v) {
+                            _vm.file = $$v
+                          },
+                          expression: "file"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                {
+                  staticClass: "pb-0",
+                  attrs: { cols: "", lg: "2", md: "2", sm: "11" }
+                },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        dense: "",
+                        color: "primary",
+                        block: "",
+                        rounded: "",
+                        disabled:
+                          _vm.file == null ||
+                          _vm.file.length < 1 ||
+                          _vm.selected_group == "XXX"
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.upload()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                    Submit\n                ")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                {
+                  staticClass: "pb-0",
+                  attrs: { cols: "", lg: "1", md: "1", sm: "1" }
+                },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        icon: "",
+                        title: "Previous upload summary",
+                        disabled: _vm.isNoPreviousSummary
+                      },
+                      on: {
+                        click: function($event) {
+                          $event.stopPropagation()
+                          return _vm.showPreviousSummary()
+                        }
+                      }
+                    },
+                    [_c("v-icon", [_vm._v("mdi-history")])],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
+          _c(
+            "v-row",
+            { staticClass: "py-0" },
             [
               _c("v-col", [
                 _c(
@@ -396,7 +508,7 @@ var render = function() {
                       { attrs: { "x-small": "", color: "default" } },
                       [
                         _vm._v(
-                          "\n                            SEC\n                        "
+                          "\n                            SEC_BULK\n                        "
                         )
                       ]
                     ),
@@ -407,114 +519,6 @@ var render = function() {
                   1
                 )
               ])
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-row",
-            {},
-            [
-              _c(
-                "v-col",
-                {
-                  staticClass: "pb-0",
-                  attrs: { cols: "", lg: "9", md: "9", sm: "12" }
-                },
-                [
-                  _c(
-                    "v-form",
-                    { ref: "frm_upload" },
-                    [
-                      _c("v-file-input", {
-                        attrs: {
-                          "small-chips": "",
-                          "show-sizex": "",
-                          rounded: "",
-                          outlined: "",
-                          dense: "",
-                          required: "",
-                          placeholder: "Select text files to upload (invoices)",
-                          accept: ".txt",
-                          multiple: "",
-                          color: "primary",
-                          "background-color": "white"
-                        },
-                        model: {
-                          value: _vm.file,
-                          callback: function($$v) {
-                            _vm.file = $$v
-                          },
-                          expression: "file"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                {
-                  staticClass: "pb-0",
-                  attrs: { cols: "", lg: "2", md: "2", sm: "11" }
-                },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        dense: "",
-                        color: "primary",
-                        block: "",
-                        rounded: "",
-                        disabled:
-                          _vm.file == null ||
-                          _vm.file.length < 1 ||
-                          _vm.selected_group == "XXX"
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.upload()
-                        }
-                      }
-                    },
-                    [_vm._v("\n                    Submit\n                ")]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                {
-                  staticClass: "pb-0",
-                  attrs: { cols: "", lg: "1", md: "1", sm: "1" }
-                },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        icon: "",
-                        title: "Previous upload summary",
-                        disabled: _vm.isNoPreviousSummary
-                      },
-                      on: {
-                        click: function($event) {
-                          $event.stopPropagation()
-                          return _vm.showPreviousSummary()
-                        }
-                      }
-                    },
-                    [_c("v-icon", [_vm._v("mdi-history")])],
-                    1
-                  )
-                ],
-                1
-              )
             ],
             1
           )

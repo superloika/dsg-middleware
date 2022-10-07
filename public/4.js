@@ -206,30 +206,16 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./alaska": "./resources/js/stores.custom/principals/alaska.js",
-	"./alaska.js": "./resources/js/stores.custom/principals/alaska.js",
-	"./bevi": "./resources/js/stores.custom/principals/bevi.js",
-	"./bevi.js": "./resources/js/stores.custom/principals/bevi.js",
 	"./cadbury_adams": "./resources/js/stores.custom/principals/cadbury_adams.js",
 	"./cadbury_adams.js": "./resources/js/stores.custom/principals/cadbury_adams.js",
 	"./century_canning": "./resources/js/stores.custom/principals/century_canning.js",
 	"./century_canning.js": "./resources/js/stores.custom/principals/century_canning.js",
-	"./cle_ace": "./resources/js/stores.custom/principals/cle_ace.js",
-	"./cle_ace.js": "./resources/js/stores.custom/principals/cle_ace.js",
 	"./columbus_seafoods": "./resources/js/stores.custom/principals/columbus_seafoods.js",
 	"./columbus_seafoods.js": "./resources/js/stores.custom/principals/columbus_seafoods.js",
-	"./del_monte": "./resources/js/stores.custom/principals/del_monte.js",
-	"./del_monte.js": "./resources/js/stores.custom/principals/del_monte.js",
-	"./dole": "./resources/js/stores.custom/principals/dole.js",
-	"./dole.js": "./resources/js/stores.custom/principals/dole.js",
-	"./ecossentials": "./resources/js/stores.custom/principals/ecossentials.js",
-	"./ecossentials.js": "./resources/js/stores.custom/principals/ecossentials.js",
 	"./food_fabricators": "./resources/js/stores.custom/principals/food_fabricators.js",
 	"./food_fabricators.js": "./resources/js/stores.custom/principals/food_fabricators.js",
 	"./foodsphere_inc": "./resources/js/stores.custom/principals/foodsphere_inc.js",
 	"./foodsphere_inc.js": "./resources/js/stores.custom/principals/foodsphere_inc.js",
-	"./green_cross": "./resources/js/stores.custom/principals/green_cross.js",
-	"./green_cross.js": "./resources/js/stores.custom/principals/green_cross.js",
 	"./gsmi": "./resources/js/stores.custom/principals/gsmi.js",
 	"./gsmi.js": "./resources/js/stores.custom/principals/gsmi.js",
 	"./gspi": "./resources/js/stores.custom/principals/gspi.js",
@@ -250,20 +236,10 @@ var map = {
 	"./others_ni.js": "./resources/js/stores.custom/principals/others_ni.js",
 	"./pacific_meat": "./resources/js/stores.custom/principals/pacific_meat.js",
 	"./pacific_meat.js": "./resources/js/stores.custom/principals/pacific_meat.js",
-	"./peerless": "./resources/js/stores.custom/principals/peerless.js",
-	"./peerless.js": "./resources/js/stores.custom/principals/peerless.js",
-	"./purefoods": "./resources/js/stores.custom/principals/purefoods.js",
-	"./purefoods.js": "./resources/js/stores.custom/principals/purefoods.js",
 	"./rfm": "./resources/js/stores.custom/principals/rfm.js",
 	"./rfm.js": "./resources/js/stores.custom/principals/rfm.js",
-	"./smfi_smis_frozen": "./resources/js/stores.custom/principals/smfi_smis_frozen.js",
-	"./smfi_smis_frozen.js": "./resources/js/stores.custom/principals/smfi_smis_frozen.js",
 	"./snow_mountain_dairy": "./resources/js/stores.custom/principals/snow_mountain_dairy.js",
-	"./snow_mountain_dairy.js": "./resources/js/stores.custom/principals/snow_mountain_dairy.js",
-	"./splash": "./resources/js/stores.custom/principals/splash.js",
-	"./splash.js": "./resources/js/stores.custom/principals/splash.js",
-	"./wyeth": "./resources/js/stores.custom/principals/wyeth.js",
-	"./wyeth.js": "./resources/js/stores.custom/principals/wyeth.js"
+	"./snow_mountain_dairy.js": "./resources/js/stores.custom/principals/snow_mountain_dairy.js"
 };
 
 
@@ -285,262 +261,6 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = "./resources/js/stores.custom/principals sync recursive ^\\.\\/.*$";
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/alaska.js":
-/*!*********************************************************!*\
-  !*** ./resources/js/stores.custom/principals/alaska.js ***!
-  \*********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }]],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, // {text:"Item Code (Supplier)", value: "item_code"},
-  {
-    text: "Item Name (NAV)",
-    value: "description"
-  }, // {text:"Item Name (Supplier)", value: "description_supplier"},
-  {
-    text: "Quantity",
-    value: "quantity"
-  }, // {text:"Bulk Quantity", value: "bulk_qty"},
-  // {text:"Loose Quantity", value: "loose_qty"},
-  {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, // {text:"Base UOM", value: "base_uom"},
-  // {text:"Conversion UOM", value: "uom"},
-  {
-    text: "Salesman Name",
-    value: "sm_name"
-  }]],
-  // transactions table header
-  transactionsTableHeader: [[{
-    text: "Upload Date",
-    value: "updated_at"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Account Name",
-    value: "customer_name"
-  }, {
-    text: "Sales Invoice",
-    value: "doc_no"
-  }, {
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Amount",
-    value: "u3"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'Generated Date',
-    value: 'generated_at'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }]],
-  generatedDataDBTableColumns: [// common
-  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
-  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'quantity', // 'bulk_qty',
-  // 'loose_qty',
-  'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
-});
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
-});
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/bevi.js":
-/*!*******************************************************!*\
-  !*** ./resources/js/stores.custom/principals/bevi.js ***!
-  \*******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }]],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, // {text:"Item Code (Supplier)", value: "item_code"},
-  {
-    text: "Item Name (NAV)",
-    value: "description"
-  }, // {text:"Item Name (Supplier)", value: "description_supplier"},
-  {
-    text: "Quantity",
-    value: "quantity"
-  }, // {text:"Bulk Quantity", value: "bulk_qty"},
-  // {text:"Loose Quantity", value: "loose_qty"},
-  {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, // {text:"Base UOM", value: "base_uom"},
-  // {text:"Conversion UOM", value: "uom"},
-  {
-    text: "Salesman Name",
-    value: "sm_name"
-  }]],
-  // transactions table header
-  transactionsTableHeader: [[{
-    text: "Upload Date",
-    value: "updated_at"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Account Name",
-    value: "customer_name"
-  }, {
-    text: "Sales Invoice",
-    value: "doc_no"
-  }, {
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Amount",
-    value: "u3"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'Generated Date',
-    value: 'generated_at'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }]],
-  generatedDataDBTableColumns: [// common
-  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
-  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'quantity', // 'bulk_qty',
-  // 'loose_qty',
-  'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
-});
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
-});
 
 /***/ }),
 
@@ -619,7 +339,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "amount"
   }, {
     text: "Salesman",
-    value: "sm_name"
+    value: "sm_code"
   }, {
     text: "Group",
     value: "group"
@@ -676,13 +396,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Supplier Item Description",
     value: "description_supplier"
-  }, {
-    text: "CASE",
-    value: "case"
-  }, {
-    text: "PCS",
-    value: "conversion_qty"
-  }]],
+  } // {text:"CASE", value:"case"},
+  // {text:"PCS", value:"conversion_qty"},
+  ]],
   salesmenTableHeader: [[{
     text: "Group Code",
     value: "group_code"
@@ -775,134 +491,6 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: 'Source Group',
     value: 'group_code'
   }]]
-});
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
-});
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/cle_ace.js":
-/*!**********************************************************!*\
-  !*** ./resources/js/stores.custom/principals/cle_ace.js ***!
-  \**********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }]],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, // {text:"Item Code (Supplier)", value: "item_code"},
-  {
-    text: "Item Name (NAV)",
-    value: "description"
-  }, // {text:"Item Name (Supplier)", value: "description_supplier"},
-  {
-    text: "Quantity",
-    value: "quantity"
-  }, // {text:"Bulk Quantity", value: "bulk_qty"},
-  // {text:"Loose Quantity", value: "loose_qty"},
-  {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, // {text:"Base UOM", value: "base_uom"},
-  // {text:"Conversion UOM", value: "uom"},
-  {
-    text: "Salesman Name",
-    value: "sm_name"
-  }]],
-  // transactions table header
-  transactionsTableHeader: [[{
-    text: "Upload Date",
-    value: "updated_at"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Account Name",
-    value: "customer_name"
-  }, {
-    text: "Sales Invoice",
-    value: "doc_no"
-  }, {
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Amount",
-    value: "u3"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'Generated Date',
-    value: 'generated_at'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }]],
-  generatedDataDBTableColumns: [// common
-  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
-  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'quantity', // 'bulk_qty',
-  // 'loose_qty',
-  'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -941,13 +529,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Supplier Item Description",
     value: "description_supplier"
-  }, {
-    text: "CASE",
-    value: "case"
-  }, {
-    text: "PCS",
-    value: "conversion_qty"
-  }]],
+  } // {text:"CASE", value:"case"},
+  // {text:"PCS", value:"conversion_qty"},
+  ]],
   salesmenTableHeader: [[{
     text: "Group Code",
     value: "group_code"
@@ -1040,390 +624,6 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: 'Source Group',
     value: 'group_code'
   }]]
-});
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
-});
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/del_monte.js":
-/*!************************************************************!*\
-  !*** ./resources/js/stores.custom/principals/del_monte.js ***!
-  \************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }]],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, // {text:"Item Code (Supplier)", value: "item_code"},
-  {
-    text: "Item Name (NAV)",
-    value: "description"
-  }, // {text:"Item Name (Supplier)", value: "description_supplier"},
-  {
-    text: "Quantity",
-    value: "quantity"
-  }, // {text:"Bulk Quantity", value: "bulk_qty"},
-  // {text:"Loose Quantity", value: "loose_qty"},
-  {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, // {text:"Base UOM", value: "base_uom"},
-  // {text:"Conversion UOM", value: "uom"},
-  {
-    text: "Salesman Name",
-    value: "sm_name"
-  }]],
-  // transactions table header
-  transactionsTableHeader: [[{
-    text: "Upload Date",
-    value: "updated_at"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Account Name",
-    value: "customer_name"
-  }, {
-    text: "Sales Invoice",
-    value: "doc_no"
-  }, {
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Amount",
-    value: "u3"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'Generated Date',
-    value: 'generated_at'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }]],
-  generatedDataDBTableColumns: [// common
-  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
-  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'quantity', // 'bulk_qty',
-  // 'loose_qty',
-  'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
-});
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
-});
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/dole.js":
-/*!*******************************************************!*\
-  !*** ./resources/js/stores.custom/principals/dole.js ***!
-  \*******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }]],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, // {text:"Item Code (Supplier)", value: "item_code"},
-  {
-    text: "Item Name (NAV)",
-    value: "description"
-  }, // {text:"Item Name (Supplier)", value: "description_supplier"},
-  {
-    text: "Quantity",
-    value: "quantity"
-  }, // {text:"Bulk Quantity", value: "bulk_qty"},
-  // {text:"Loose Quantity", value: "loose_qty"},
-  {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, // {text:"Base UOM", value: "base_uom"},
-  // {text:"Conversion UOM", value: "uom"},
-  {
-    text: "Salesman Name",
-    value: "sm_name"
-  }]],
-  // transactions table header
-  transactionsTableHeader: [[{
-    text: "Upload Date",
-    value: "updated_at"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Account Name",
-    value: "customer_name"
-  }, {
-    text: "Sales Invoice",
-    value: "doc_no"
-  }, {
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Amount",
-    value: "u3"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'Generated Date',
-    value: 'generated_at'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }]],
-  generatedDataDBTableColumns: [// common
-  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
-  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'quantity', // 'bulk_qty',
-  // 'loose_qty',
-  'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
-});
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
-});
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/ecossentials.js":
-/*!***************************************************************!*\
-  !*** ./resources/js/stores.custom/principals/ecossentials.js ***!
-  \***************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }]],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, // {text:"Item Code (Supplier)", value: "item_code"},
-  {
-    text: "Item Name (NAV)",
-    value: "description"
-  }, // {text:"Item Name (Supplier)", value: "description_supplier"},
-  {
-    text: "Quantity",
-    value: "quantity"
-  }, // {text:"Bulk Quantity", value: "bulk_qty"},
-  // {text:"Loose Quantity", value: "loose_qty"},
-  {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, // {text:"Base UOM", value: "base_uom"},
-  // {text:"Conversion UOM", value: "uom"},
-  {
-    text: "Salesman Name",
-    value: "sm_name"
-  }]],
-  // transactions table header
-  transactionsTableHeader: [[{
-    text: "Upload Date",
-    value: "updated_at"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Account Name",
-    value: "customer_name"
-  }, {
-    text: "Sales Invoice",
-    value: "doc_no"
-  }, {
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Amount",
-    value: "u3"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'Generated Date',
-    value: 'generated_at'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }]],
-  generatedDataDBTableColumns: [// common
-  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
-  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'quantity', // 'bulk_qty',
-  // 'loose_qty',
-  'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1502,7 +702,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "amount"
   }, {
     text: "Salesman",
-    value: "sm_name"
+    value: "sm_code"
   }, {
     text: "Group",
     value: "group"
@@ -1599,7 +799,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "amount"
   }, {
     text: "Salesman",
-    value: "sm_name"
+    value: "sm_code"
   }, {
     text: "Group",
     value: "group"
@@ -1618,134 +818,6 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: 'Source Group',
     value: 'group_code'
   }]]
-});
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
-});
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/green_cross.js":
-/*!**************************************************************!*\
-  !*** ./resources/js/stores.custom/principals/green_cross.js ***!
-  \**************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }]],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, // {text:"Item Code (Supplier)", value: "item_code"},
-  {
-    text: "Item Name (NAV)",
-    value: "description"
-  }, // {text:"Item Name (Supplier)", value: "description_supplier"},
-  {
-    text: "Quantity",
-    value: "quantity"
-  }, // {text:"Bulk Quantity", value: "bulk_qty"},
-  // {text:"Loose Quantity", value: "loose_qty"},
-  {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, // {text:"Base UOM", value: "base_uom"},
-  // {text:"Conversion UOM", value: "uom"},
-  {
-    text: "Salesman Name",
-    value: "sm_name"
-  }]],
-  // transactions table header
-  transactionsTableHeader: [[{
-    text: "Upload Date",
-    value: "updated_at"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Account Name",
-    value: "customer_name"
-  }, {
-    text: "Sales Invoice",
-    value: "doc_no"
-  }, {
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Amount",
-    value: "u3"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'Generated Date',
-    value: 'generated_at'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }]],
-  generatedDataDBTableColumns: [// common
-  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
-  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'quantity', // 'bulk_qty',
-  // 'loose_qty',
-  'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1779,26 +851,17 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "customer_name"
   }]],
   itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
     text: "Supplier Item Code",
     value: "item_code_supplier"
   }, {
     text: "Supplier Item Description",
     value: "description_supplier"
   }, {
-    text: "UOM",
-    value: "uom"
+    text: "Item Code",
+    value: "item_code"
   }, {
-    text: "Conversion UOM",
-    value: "conversion_uom"
-  }, {
-    text: "Conversion Quantity",
-    value: "conversion_qty"
+    text: "Description",
+    value: "description"
   }]],
   // templated data table header
   generatedDataTableHeader: [[{
@@ -2442,16 +1505,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 
 var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }]],
+  // customersTableHeader: [
+  //     [
+  //         { text: "Customer Code", value: "customer_code" },
+  //         { text: "Customer Code (Supplier)", value: "customer_code_supplier" },
+  //         { text: "Name", value: "customer_name" },
+  //     ],
+  // ],
   itemsTableHeader: [[{
     text: "Item Code",
     value: "item_code"
@@ -2462,11 +1522,11 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Description (Supplier)",
     value: "description_supplier"
   }, {
+    text: "Conversion",
+    value: "conversion_qty"
+  }, {
     text: "UOM",
     value: "uom"
-  }, {
-    text: "Conversion Quantity",
-    value: "conversion_qty"
   }]],
   // templated data table header
   generatedDataTableHeader: [[{
@@ -2507,7 +1567,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "amount"
   }, {
     text: "Salesman",
-    value: "sm_name"
+    value: "sm_code"
   }, {
     text: "Group",
     value: "group"
@@ -2610,7 +1670,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "amount"
   }, {
     text: "Salesman",
-    value: "sm_name"
+    value: "sm_code"
   }, {
     text: "Group",
     value: "group"
@@ -2887,13 +1947,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Supplier Item Description",
     value: "description_supplier"
-  }, {
-    text: "CASE",
-    value: "case"
-  }, {
-    text: "PCS",
-    value: "conversion_qty"
-  }]],
+  } // {text:"CASE", value:"case"},
+  // {text:"PCS", value:"conversion_qty"},
+  ]],
   salesmenTableHeader: [[{
     text: "Group Code",
     value: "group_code"
@@ -2986,262 +2042,6 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: 'Source Group',
     value: 'group_code'
   }]]
-});
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
-});
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/peerless.js":
-/*!***********************************************************!*\
-  !*** ./resources/js/stores.custom/principals/peerless.js ***!
-  \***********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }]],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, // {text:"Item Code (Supplier)", value: "item_code"},
-  {
-    text: "Item Name (NAV)",
-    value: "description"
-  }, // {text:"Item Name (Supplier)", value: "description_supplier"},
-  {
-    text: "Quantity",
-    value: "quantity"
-  }, // {text:"Bulk Quantity", value: "bulk_qty"},
-  // {text:"Loose Quantity", value: "loose_qty"},
-  {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, // {text:"Base UOM", value: "base_uom"},
-  // {text:"Conversion UOM", value: "uom"},
-  {
-    text: "Salesman Name",
-    value: "sm_name"
-  }]],
-  // transactions table header
-  transactionsTableHeader: [[{
-    text: "Upload Date",
-    value: "updated_at"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Account Name",
-    value: "customer_name"
-  }, {
-    text: "Sales Invoice",
-    value: "doc_no"
-  }, {
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Amount",
-    value: "u3"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'Generated Date',
-    value: 'generated_at'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }]],
-  generatedDataDBTableColumns: [// common
-  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
-  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'quantity', // 'bulk_qty',
-  // 'loose_qty',
-  'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
-});
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
-});
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/purefoods.js":
-/*!************************************************************!*\
-  !*** ./resources/js/stores.custom/principals/purefoods.js ***!
-  \************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }]],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, // {text:"Item Code (Supplier)", value: "item_code"},
-  {
-    text: "Item Name (NAV)",
-    value: "description"
-  }, // {text:"Item Name (Supplier)", value: "description_supplier"},
-  {
-    text: "Quantity",
-    value: "quantity"
-  }, // {text:"Bulk Quantity", value: "bulk_qty"},
-  // {text:"Loose Quantity", value: "loose_qty"},
-  {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, // {text:"Base UOM", value: "base_uom"},
-  // {text:"Conversion UOM", value: "uom"},
-  {
-    text: "Salesman Name",
-    value: "sm_name"
-  }]],
-  // transactions table header
-  transactionsTableHeader: [[{
-    text: "Upload Date",
-    value: "updated_at"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Account Name",
-    value: "customer_name"
-  }, {
-    text: "Sales Invoice",
-    value: "doc_no"
-  }, {
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Amount",
-    value: "u3"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'Generated Date',
-    value: 'generated_at'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }]],
-  generatedDataDBTableColumns: [// common
-  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
-  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'quantity', // 'bulk_qty',
-  // 'loose_qty',
-  'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3326,7 +2126,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "amount"
   }, {
     text: "Salesman",
-    value: "sm_name"
+    value: "sm_code"
   }, {
     text: "Group",
     value: "group"
@@ -3345,146 +2145,6 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: 'Source Group',
     value: 'group_code'
   }]]
-});
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
-});
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/smfi_smis_frozen.js":
-/*!*******************************************************************!*\
-  !*** ./resources/js/stores.custom/principals/smfi_smis_frozen.js ***!
-  \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }]],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_name"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // transactions table header
-  // transactionsTableHeader: [
-  //     [
-  //         {text:"Upload Date", value:"updated_at"},
-  //         {text:"Customer Code", value:"customer_code"},
-  //         {text:"Account Name", value:"customer_name"},
-  //         {text:"Sales Invoice", value:"doc_no"},
-  //         {text:"Item Code", value:"item_code"},
-  //         {text:"Description", value:"description"},
-  //         {text:"UOM", value:"uom"},
-  //         {text:"Quantity", value:"quantity"},
-  //         {text:"Amount", value:"u3"},
-  //     ]
-  // ],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }]] // generatedDataDBTableColumns: [
-  //     // common
-  //     'id',
-  //     'principal_code',
-  //     'template_variation',
-  //     'generated_at',
-  //     'uploaded_by',
-  //     'status',
-  //     'doc_no',
-  //     // principal template
-  //     // principal template
-  //     'invoice_no',
-  //     'customer_code',
-  //     'alturas_customer_code',
-  //     'customer_name',
-  //     'invoice_date',
-  //     'alturas_item_code',
-  //     'item_code',
-  //     'description',
-  //     'description_supplier',
-  //     'bulk_qty',
-  //     'loose_qty',
-  //     'price',
-  //     'amount',
-  //     'base_uom',
-  //     'uom',
-  //     'sm_name',
-  //     'system_date'
-  // ],
-
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3523,13 +2183,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Supplier Item Description",
     value: "description_supplier"
-  }, {
-    text: "CASE",
-    value: "case"
-  }, {
-    text: "PCS",
-    value: "conversion_qty"
-  }]],
+  } // {text:"CASE", value:"case"},
+  // {text:"PCS", value:"conversion_qty"},
+  ]],
   salesmenTableHeader: [[{
     text: "Group Code",
     value: "group_code"
@@ -3622,262 +2278,6 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: 'Source Group',
     value: 'group_code'
   }]]
-});
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
-});
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/splash.js":
-/*!*********************************************************!*\
-  !*** ./resources/js/stores.custom/principals/splash.js ***!
-  \*********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }]],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, // {text:"Item Code (Supplier)", value: "item_code"},
-  {
-    text: "Item Name (NAV)",
-    value: "description"
-  }, // {text:"Item Name (Supplier)", value: "description_supplier"},
-  {
-    text: "Quantity",
-    value: "quantity"
-  }, // {text:"Bulk Quantity", value: "bulk_qty"},
-  // {text:"Loose Quantity", value: "loose_qty"},
-  {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, // {text:"Base UOM", value: "base_uom"},
-  // {text:"Conversion UOM", value: "uom"},
-  {
-    text: "Salesman Name",
-    value: "sm_name"
-  }]],
-  // transactions table header
-  transactionsTableHeader: [[{
-    text: "Upload Date",
-    value: "updated_at"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Account Name",
-    value: "customer_name"
-  }, {
-    text: "Sales Invoice",
-    value: "doc_no"
-  }, {
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Amount",
-    value: "u3"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'Generated Date',
-    value: 'generated_at'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }]],
-  generatedDataDBTableColumns: [// common
-  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
-  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'quantity', // 'bulk_qty',
-  // 'loose_qty',
-  'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
-});
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
-});
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/wyeth.js":
-/*!********************************************************!*\
-  !*** ./resources/js/stores.custom/principals/wyeth.js ***!
-  \********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }]],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, // {text:"Item Code (Supplier)", value: "item_code"},
-  {
-    text: "Item Name (NAV)",
-    value: "description"
-  }, // {text:"Item Name (Supplier)", value: "description_supplier"},
-  {
-    text: "Quantity",
-    value: "quantity"
-  }, // {text:"Bulk Quantity", value: "bulk_qty"},
-  // {text:"Loose Quantity", value: "loose_qty"},
-  {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, // {text:"Base UOM", value: "base_uom"},
-  // {text:"Conversion UOM", value: "uom"},
-  {
-    text: "Salesman Name",
-    value: "sm_name"
-  }]],
-  // transactions table header
-  transactionsTableHeader: [[{
-    text: "Upload Date",
-    value: "updated_at"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Account Name",
-    value: "customer_name"
-  }, {
-    text: "Sales Invoice",
-    value: "doc_no"
-  }, {
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Amount",
-    value: "u3"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'Generated Date',
-    value: 'generated_at'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }]],
-  generatedDataDBTableColumns: [// common
-  'id', 'principal_code', 'template_variation', 'generated_at', 'uploaded_by', 'status', 'doc_no', // principal template
-  'invoice_no', 'customer_code', 'alturas_customer_code', 'customer_name', 'invoice_date', 'alturas_item_code', 'item_code', 'description', 'description_supplier', 'quantity', // 'bulk_qty',
-  // 'loose_qty',
-  'price', 'amount', 'base_uom', 'uom', 'sm_name', 'system_date']
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({

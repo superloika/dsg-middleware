@@ -1,20 +1,20 @@
 import Vue from "vue";
 
 const state = Vue.observable({
-    customersTableHeader: [
-        [
-            { text: "Customer Code", value: "customer_code" },
-            { text: "Customer Code (Supplier)", value: "customer_code_supplier" },
-            { text: "Name", value: "customer_name" },
-        ],
-    ],
+    // customersTableHeader: [
+    //     [
+    //         { text: "Customer Code", value: "customer_code" },
+    //         { text: "Customer Code (Supplier)", value: "customer_code_supplier" },
+    //         { text: "Name", value: "customer_name" },
+    //     ],
+    // ],
     itemsTableHeader: [
         [
             {text:"Item Code", value:"item_code"},
             {text:"Item Code (Supplier)", value:"item_code_supplier"},
             {text:"Description (Supplier)", value:"description_supplier"},
+            {text:"Conversion", value:"conversion_qty"},
             {text:"UOM", value:"uom"},
-            {text:"Conversion Quantity", value:"conversion_qty"},
         ]
     ],
 
@@ -33,7 +33,7 @@ const state = Vue.observable({
             {text:"Quantity", value: "quantity"},
             {text:"Price", value: "price"},
             {text:"Amount", value: "amount"},
-            {text:"Salesman", value: "sm_name"},
+            {text:"Salesman", value: "sm_code"},
             {text:"Group", value: "group"}
         ],
     ],
@@ -44,7 +44,7 @@ const state = Vue.observable({
             {text: 'System Date', value: 'system_date'},
             {text: 'Item Code', value: 'item_code'},
             {text: 'Customer Code', value: 'customer_code'},
-        {text: 'Source Group', value: 'group_code'},
+            {text: 'Source Group', value: 'group_code'},
         ]
     ],
 });

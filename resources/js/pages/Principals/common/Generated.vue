@@ -42,12 +42,14 @@
                     >
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn v-bind="attrs" v-on="on"
-                                icon
+                                rounded
+                                color="primary"
                                 title="More Options"
                             >
                                 <v-icon>
                                     mdi-dots-horizontal-circle
                                 </v-icon>
+                                More
                             </v-btn>
                         </template>
 
