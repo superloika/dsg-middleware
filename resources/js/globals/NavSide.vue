@@ -91,10 +91,36 @@
 <script>
 import AppStore from '../stores.custom/AppStore';
 
+
 export default {
     mounted() {
         console.log('NavSide mounted');
-    }
+    },
+
+    computed: {
+        // selectedPrincipalCode() {
+        //     return this.PrincipalsStore.state.selectedPrincipalCode;
+        // }
+    },
+
+    watch: {
+        // selectedPrincipalCode(val) {
+        //     console.log(
+        //         'changing selectedPrincipalCode: ',
+        //         this.PrincipalsStore.state.selectedPrincipalCode
+        //     );
+        //     const p = AppStore.state.principals.find(e=>{
+        //         return e.code==val;
+        //     });
+        //     if(p!=undefined) {
+        //         if(p.proj_status==0) {
+        //             this.PrincipalsStore.state.selectedPrincipalCode = 'temprincipals';
+        //         }
+        //     }
+        // }
+
+    },
+
 }
 </script>
 

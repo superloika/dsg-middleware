@@ -107,39 +107,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'InvoicesUpload',
   props: ['searchKey', 'principalCodeFilter'],
@@ -158,6 +125,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     isNoPreviousSummary: function isNoPreviousSummary() {
       return Object.keys(this.uploadResponse).length === 0;
+    },
+    keywordsColor: function keywordsColor() {
+      return 'accent';
     }
   },
   methods: {
@@ -359,7 +329,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("v-divider"),
+          _c("div", { staticClass: "ma-0 pa-0" }),
           _vm._v(" "),
           _c(
             "v-row",
@@ -373,150 +343,28 @@ var render = function() {
                     _vm._v(
                       "\n                    Filenames should include a group keyword\n                    in order for the system to identify which group the data came from.\n                    Keyword includes\n                        "
                     ),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            CWDG_PCS\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            CWDG_BULK\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            UWDG_PCS\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            UWDG_BULK\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            3PS_BULK\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            CVS_PCS\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            CVS_BULK\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            DELICA_PCS\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            DELICA_BULK\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            HORECA_PCS\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            HORECA_BULK\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            MAS_PCS\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            MAS_BULK\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-chip",
-                      { attrs: { "x-small": "", color: "default" } },
-                      [
-                        _vm._v(
-                          "\n                            SEC_BULK\n                        "
-                        )
-                      ]
-                    ),
+                    _vm._l(_vm.InvoicesStore.state.groups, function(group, i) {
+                      return _c(
+                        "v-chip",
+                        {
+                          key: i,
+                          staticClass: "px-2 mr-1",
+                          attrs: { "x-small": "", color: _vm.keywordsColor }
+                        },
+                        [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(group.group_code) +
+                              "\n                        "
+                          )
+                        ]
+                      )
+                    }),
                     _vm._v(" "),
                     _c("br"),
                     _vm._v('Example: "CWDG_PCS Sept 1-5.txt"\n                ')
                   ],
-                  1
+                  2
                 )
               ])
             ],
@@ -529,7 +377,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { "max-width": "900px" },
+          attrs: { "max-width": "700px" },
           model: {
             value: _vm.InvoicesStore.state.isUploadSummaryShown,
             callback: function($$v) {

@@ -70,6 +70,7 @@
             </v-btn>
 
             <v-btn
+                v-if="AppStore.isSuperAdmin() || AppStore.isAdmin() || AppStore.isUploader()"
                 title="Extract Raw Invoices"
                 dense
                 rounded
@@ -198,9 +199,9 @@
         </v-app-bar>
 
         <!-- Invoice upload component -->
-        <v-sheet class="ma-2 rounded-lg"
-            v-if="AppStore.isSuperAdmin()"
-            elevation="1"
+        <v-sheet class="ma-2 rounded-lg green lighten-5"
+            v-if="AppStore.isSuperAdmin() || AppStore.isAdmin() || AppStore.isUploader()"
+            elevation="0"
         >
             <InvoicesUpload
                 :searchKey="searchKey"
@@ -211,7 +212,7 @@
         <v-data-table
             :items="InvoicesStore.state.invoices.data"
             :headers="InvoicesStore.state.tableHeader"
-            :loading="InvoicesStore.state.isLoadingInvoices"
+            :loadingxxx="InvoicesStore.state.isLoadingInvoices"
             item-key="id"
             v-model="InvoicesStore.state.selectedInvoices"
             hide-default-footer
@@ -294,8 +295,7 @@
 
         <v-dialog
             v-model="InvoicesStore.state.isExtractInvoicesShown"
-            max-width="700px"
-        >
+            max-width="700px">
             <ExtractInvoices></ExtractInvoices>
         </v-dialog>
     </div>
@@ -369,7 +369,7 @@ export default {
                 this.selectedGroup
             );
 
-            console.log(this.AppStore.state.principals);
+            // console.log(this.AppStore.state.principals);
         },
 
         syncTextfiles() {
@@ -431,6 +431,7 @@ export default {
 
     mounted() {
         console.log("Invoices page mounted.");
+        this.AppStore.state.showTopLoading=true;
     },
 
     beforeDestroy() {}

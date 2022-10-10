@@ -206,40 +206,146 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./3m_ph": "./resources/js/stores.custom/principals/3m_ph.js",
+	"./3m_ph.js": "./resources/js/stores.custom/principals/3m_ph.js",
+	"./alaska_milk": "./resources/js/stores.custom/principals/alaska_milk.js",
+	"./alaska_milk.js": "./resources/js/stores.custom/principals/alaska_milk.js",
+	"./arla_foods": "./resources/js/stores.custom/principals/arla_foods.js",
+	"./arla_foods.js": "./resources/js/stores.custom/principals/arla_foods.js",
+	"./benby_enterprises": "./resources/js/stores.custom/principals/benby_enterprises.js",
+	"./benby_enterprises.js": "./resources/js/stores.custom/principals/benby_enterprises.js",
+	"./bevi_asia_pacific": "./resources/js/stores.custom/principals/bevi_asia_pacific.js",
+	"./bevi_asia_pacific.js": "./resources/js/stores.custom/principals/bevi_asia_pacific.js",
 	"./cadbury_adams": "./resources/js/stores.custom/principals/cadbury_adams.js",
 	"./cadbury_adams.js": "./resources/js/stores.custom/principals/cadbury_adams.js",
+	"./candyline_food": "./resources/js/stores.custom/principals/candyline_food.js",
+	"./candyline_food.js": "./resources/js/stores.custom/principals/candyline_food.js",
 	"./century_canning": "./resources/js/stores.custom/principals/century_canning.js",
 	"./century_canning.js": "./resources/js/stores.custom/principals/century_canning.js",
+	"./cle_ace_corp": "./resources/js/stores.custom/principals/cle_ace_corp.js",
+	"./cle_ace_corp.js": "./resources/js/stores.custom/principals/cle_ace_corp.js",
+	"./colgate_palmolive": "./resources/js/stores.custom/principals/colgate_palmolive.js",
+	"./colgate_palmolive.js": "./resources/js/stores.custom/principals/colgate_palmolive.js",
 	"./columbus_seafoods": "./resources/js/stores.custom/principals/columbus_seafoods.js",
 	"./columbus_seafoods.js": "./resources/js/stores.custom/principals/columbus_seafoods.js",
+	"./cosmetique_asia": "./resources/js/stores.custom/principals/cosmetique_asia.js",
+	"./cosmetique_asia.js": "./resources/js/stores.custom/principals/cosmetique_asia.js",
+	"./del_monte_ph": "./resources/js/stores.custom/principals/del_monte_ph.js",
+	"./del_monte_ph.js": "./resources/js/stores.custom/principals/del_monte_ph.js",
+	"./diageo_ph": "./resources/js/stores.custom/principals/diageo_ph.js",
+	"./diageo_ph.js": "./resources/js/stores.custom/principals/diageo_ph.js",
+	"./diamond_instant": "./resources/js/stores.custom/principals/diamond_instant.js",
+	"./diamond_instant.js": "./resources/js/stores.custom/principals/diamond_instant.js",
+	"./dole_ph": "./resources/js/stores.custom/principals/dole_ph.js",
+	"./dole_ph.js": "./resources/js/stores.custom/principals/dole_ph.js",
+	"./ecossentials": "./resources/js/stores.custom/principals/ecossentials.js",
+	"./ecossentials.js": "./resources/js/stores.custom/principals/ecossentials.js",
+	"./enerlife": "./resources/js/stores.custom/principals/enerlife.js",
+	"./enerlife.js": "./resources/js/stores.custom/principals/enerlife.js",
+	"./first_pgmc": "./resources/js/stores.custom/principals/first_pgmc.js",
+	"./first_pgmc.js": "./resources/js/stores.custom/principals/first_pgmc.js",
+	"./fonterra_brands": "./resources/js/stores.custom/principals/fonterra_brands.js",
+	"./fonterra_brands.js": "./resources/js/stores.custom/principals/fonterra_brands.js",
 	"./food_fabricators": "./resources/js/stores.custom/principals/food_fabricators.js",
 	"./food_fabricators.js": "./resources/js/stores.custom/principals/food_fabricators.js",
 	"./foodsphere_inc": "./resources/js/stores.custom/principals/foodsphere_inc.js",
 	"./foodsphere_inc.js": "./resources/js/stores.custom/principals/foodsphere_inc.js",
+	"./goldshine_pharma": "./resources/js/stores.custom/principals/goldshine_pharma.js",
+	"./goldshine_pharma.js": "./resources/js/stores.custom/principals/goldshine_pharma.js",
+	"./green_cross": "./resources/js/stores.custom/principals/green_cross.js",
+	"./green_cross.js": "./resources/js/stores.custom/principals/green_cross.js",
 	"./gsmi": "./resources/js/stores.custom/principals/gsmi.js",
 	"./gsmi.js": "./resources/js/stores.custom/principals/gsmi.js",
 	"./gspi": "./resources/js/stores.custom/principals/gspi.js",
 	"./gspi.js": "./resources/js/stores.custom/principals/gspi.js",
+	"./gymboree_marketing": "./resources/js/stores.custom/principals/gymboree_marketing.js",
+	"./gymboree_marketing.js": "./resources/js/stores.custom/principals/gymboree_marketing.js",
+	"./ipi": "./resources/js/stores.custom/principals/ipi.js",
+	"./ipi.js": "./resources/js/stores.custom/principals/ipi.js",
+	"./ipi_chemical": "./resources/js/stores.custom/principals/ipi_chemical.js",
+	"./ipi_chemical.js": "./resources/js/stores.custom/principals/ipi_chemical.js",
+	"./ipi_food": "./resources/js/stores.custom/principals/ipi_food.js",
+	"./ipi_food.js": "./resources/js/stores.custom/principals/ipi_food.js",
+	"./ipi_soap": "./resources/js/stores.custom/principals/ipi_soap.js",
+	"./ipi_soap.js": "./resources/js/stores.custom/principals/ipi_soap.js",
 	"./jnj": "./resources/js/stores.custom/principals/jnj.js",
 	"./jnj.js": "./resources/js/stores.custom/principals/jnj.js",
+	"./jordan_toothbrush": "./resources/js/stores.custom/principals/jordan_toothbrush.js",
+	"./jordan_toothbrush.js": "./resources/js/stores.custom/principals/jordan_toothbrush.js",
 	"./jsu": "./resources/js/stores.custom/principals/jsu.js",
 	"./jsu.js": "./resources/js/stores.custom/principals/jsu.js",
+	"./kalbe_international": "./resources/js/stores.custom/principals/kalbe_international.js",
+	"./kalbe_international.js": "./resources/js/stores.custom/principals/kalbe_international.js",
+	"./kareila_management": "./resources/js/stores.custom/principals/kareila_management.js",
+	"./kareila_management.js": "./resources/js/stores.custom/principals/kareila_management.js",
+	"./makarios_ph": "./resources/js/stores.custom/principals/makarios_ph.js",
+	"./makarios_ph.js": "./resources/js/stores.custom/principals/makarios_ph.js",
+	"./marketventure_dist": "./resources/js/stores.custom/principals/marketventure_dist.js",
+	"./marketventure_dist.js": "./resources/js/stores.custom/principals/marketventure_dist.js",
 	"./mead_johnson": "./resources/js/stores.custom/principals/mead_johnson.js",
 	"./mead_johnson.js": "./resources/js/stores.custom/principals/mead_johnson.js",
+	"./mega_fishing": "./resources/js/stores.custom/principals/mega_fishing.js",
+	"./mega_fishing.js": "./resources/js/stores.custom/principals/mega_fishing.js",
 	"./megasoft": "./resources/js/stores.custom/principals/megasoft.js",
 	"./megasoft.js": "./resources/js/stores.custom/principals/megasoft.js",
 	"./mondelez": "./resources/js/stores.custom/principals/mondelez.js",
 	"./mondelez.js": "./resources/js/stores.custom/principals/mondelez.js",
+	"./nutri_asia": "./resources/js/stores.custom/principals/nutri_asia.js",
+	"./nutri_asia.js": "./resources/js/stores.custom/principals/nutri_asia.js",
 	"./others": "./resources/js/stores.custom/principals/others.js",
 	"./others.js": "./resources/js/stores.custom/principals/others.js",
 	"./others_ni": "./resources/js/stores.custom/principals/others_ni.js",
 	"./others_ni.js": "./resources/js/stores.custom/principals/others_ni.js",
 	"./pacific_meat": "./resources/js/stores.custom/principals/pacific_meat.js",
 	"./pacific_meat.js": "./resources/js/stores.custom/principals/pacific_meat.js",
+	"./peerless": "./resources/js/stores.custom/principals/peerless.js",
+	"./peerless.js": "./resources/js/stores.custom/principals/peerless.js",
+	"./permex_producer": "./resources/js/stores.custom/principals/permex_producer.js",
+	"./permex_producer.js": "./resources/js/stores.custom/principals/permex_producer.js",
+	"./philusa_corp": "./resources/js/stores.custom/principals/philusa_corp.js",
+	"./philusa_corp.js": "./resources/js/stores.custom/principals/philusa_corp.js",
+	"./premier_wine": "./resources/js/stores.custom/principals/premier_wine.js",
+	"./premier_wine.js": "./resources/js/stores.custom/principals/premier_wine.js",
+	"./quanta_paper": "./resources/js/stores.custom/principals/quanta_paper.js",
+	"./quanta_paper.js": "./resources/js/stores.custom/principals/quanta_paper.js",
+	"./reckitt": "./resources/js/stores.custom/principals/reckitt.js",
+	"./reckitt.js": "./resources/js/stores.custom/principals/reckitt.js",
 	"./rfm": "./resources/js/stores.custom/principals/rfm.js",
 	"./rfm.js": "./resources/js/stores.custom/principals/rfm.js",
+	"./scpg_asia": "./resources/js/stores.custom/principals/scpg_asia.js",
+	"./scpg_asia.js": "./resources/js/stores.custom/principals/scpg_asia.js",
 	"./snow_mountain_dairy": "./resources/js/stores.custom/principals/snow_mountain_dairy.js",
-	"./snow_mountain_dairy.js": "./resources/js/stores.custom/principals/snow_mountain_dairy.js"
+	"./snow_mountain_dairy.js": "./resources/js/stores.custom/principals/snow_mountain_dairy.js",
+	"./southern_unicoast": "./resources/js/stores.custom/principals/southern_unicoast.js",
+	"./southern_unicoast.js": "./resources/js/stores.custom/principals/southern_unicoast.js",
+	"./splash_corp": "./resources/js/stores.custom/principals/splash_corp.js",
+	"./splash_corp.js": "./resources/js/stores.custom/principals/splash_corp.js",
+	"./stay_and_shop": "./resources/js/stores.custom/principals/stay_and_shop.js",
+	"./stay_and_shop.js": "./resources/js/stores.custom/principals/stay_and_shop.js",
+	"./sunpride_foods": "./resources/js/stores.custom/principals/sunpride_foods.js",
+	"./sunpride_foods.js": "./resources/js/stores.custom/principals/sunpride_foods.js",
+	"./suychicken_corp": "./resources/js/stores.custom/principals/suychicken_corp.js",
+	"./suychicken_corp.js": "./resources/js/stores.custom/principals/suychicken_corp.js",
+	"./symply_g": "./resources/js/stores.custom/principals/symply_g.js",
+	"./symply_g.js": "./resources/js/stores.custom/principals/symply_g.js",
+	"./tekson": "./resources/js/stores.custom/principals/tekson.js",
+	"./tekson.js": "./resources/js/stores.custom/principals/tekson.js",
+	"./temprincipals": "./resources/js/stores.custom/principals/temprincipals.js",
+	"./temprincipals.js": "./resources/js/stores.custom/principals/temprincipals.js",
+	"./tentay_foods": "./resources/js/stores.custom/principals/tentay_foods.js",
+	"./tentay_foods.js": "./resources/js/stores.custom/principals/tentay_foods.js",
+	"./tridharma": "./resources/js/stores.custom/principals/tridharma.js",
+	"./tridharma.js": "./resources/js/stores.custom/principals/tridharma.js",
+	"./uni_president": "./resources/js/stores.custom/principals/uni_president.js",
+	"./uni_president.js": "./resources/js/stores.custom/principals/uni_president.js",
+	"./uni_soft": "./resources/js/stores.custom/principals/uni_soft.js",
+	"./uni_soft.js": "./resources/js/stores.custom/principals/uni_soft.js",
+	"./wellmade_manufacturing": "./resources/js/stores.custom/principals/wellmade_manufacturing.js",
+	"./wellmade_manufacturing.js": "./resources/js/stores.custom/principals/wellmade_manufacturing.js",
+	"./wrigley_ph": "./resources/js/stores.custom/principals/wrigley_ph.js",
+	"./wrigley_ph.js": "./resources/js/stores.custom/principals/wrigley_ph.js",
+	"./wyeth_ph": "./resources/js/stores.custom/principals/wyeth_ph.js",
+	"./wyeth_ph.js": "./resources/js/stores.custom/principals/wyeth_ph.js"
 };
 
 
@@ -261,6 +367,406 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = "./resources/js/stores.custom/principals sync recursive ^\\.\\/.*$";
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/3m_ph.js":
+/*!********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/3m_ph.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/alaska_milk.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/alaska_milk.js ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/arla_foods.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/arla_foods.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/benby_enterprises.js":
+/*!********************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/benby_enterprises.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/bevi_asia_pacific.js":
+/*!********************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/bevi_asia_pacific.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
 
 /***/ }),
 
@@ -300,6 +806,86 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   //         {text:"Salesman Name", value:"sm_name"},
   //     ]
   // ],
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/candyline_food.js":
+/*!*****************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/candyline_food.js ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   // templated data table header
   generatedDataTableHeader: [[{
     text: "Invoice #",
@@ -500,6 +1086,166 @@ var actions = {};
 
 /***/ }),
 
+/***/ "./resources/js/stores.custom/principals/cle_ace_corp.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/cle_ace_corp.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/colgate_palmolive.js":
+/*!********************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/colgate_palmolive.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
 /***/ "./resources/js/stores.custom/principals/columbus_seafoods.js":
 /*!********************************************************************!*\
   !*** ./resources/js/stores.custom/principals/columbus_seafoods.js ***!
@@ -620,6 +1366,726 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Invoice Posting Date',
     value: 'posting_date'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/cosmetique_asia.js":
+/*!******************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/cosmetique_asia.js ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/del_monte_ph.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/del_monte_ph.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/diageo_ph.js":
+/*!************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/diageo_ph.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/diamond_instant.js":
+/*!******************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/diamond_instant.js ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/dole_ph.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/dole_ph.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/ecossentials.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/ecossentials.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/enerlife.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/enerlife.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/first_pgmc.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/first_pgmc.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/fonterra_brands.js":
+/*!******************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/fonterra_brands.js ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
   }, {
     text: 'Source Group',
     value: 'group_code'
@@ -760,6 +2226,166 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Description (Supplier)",
     value: "description_supplier"
   }]],
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/goldshine_pharma.js":
+/*!*******************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/goldshine_pharma.js ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/green_cross.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/green_cross.js ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   // templated data table header
   generatedDataTableHeader: [[{
     text: "Invoice #",
@@ -1116,6 +2742,406 @@ var actions = {};
 
 /***/ }),
 
+/***/ "./resources/js/stores.custom/principals/gymboree_marketing.js":
+/*!*********************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/gymboree_marketing.js ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/ipi.js":
+/*!******************************************************!*\
+  !*** ./resources/js/stores.custom/principals/ipi.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/ipi_chemical.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/ipi_chemical.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/ipi_food.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/ipi_food.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/ipi_soap.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/ipi_soap.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
 /***/ "./resources/js/stores.custom/principals/jnj.js":
 /*!******************************************************!*\
   !*** ./resources/js/stores.custom/principals/jnj.js ***!
@@ -1196,6 +3222,86 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Salesman",
     value: "sm_name"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/jordan_toothbrush.js":
+/*!********************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/jordan_toothbrush.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
   }, {
     text: "Group",
     value: "group"
@@ -1351,6 +3457,326 @@ var actions = {};
 
 /***/ }),
 
+/***/ "./resources/js/stores.custom/principals/kalbe_international.js":
+/*!**********************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/kalbe_international.js ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/kareila_management.js":
+/*!*********************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/kareila_management.js ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/makarios_ph.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/makarios_ph.js ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/marketventure_dist.js":
+/*!*********************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/marketventure_dist.js ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
 /***/ "./resources/js/stores.custom/principals/mead_johnson.js":
 /*!***************************************************************!*\
   !*** ./resources/js/stores.custom/principals/mead_johnson.js ***!
@@ -1483,6 +3909,86 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: 'group_code'
   }]] // ************************* /Templated Data History *******************************
 
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/mega_fishing.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/mega_fishing.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1631,6 +4137,86 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   //         {text:"Salesman Name", value:"sm_name"},
   //     ]
   // ],
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/nutri_asia.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/nutri_asia.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   // templated data table header
   generatedDataTableHeader: [[{
     text: "Invoice #",
@@ -2051,6 +4637,539 @@ var actions = {};
 
 /***/ }),
 
+/***/ "./resources/js/stores.custom/principals/peerless.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/peerless.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/permex_producer.js":
+/*!******************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/permex_producer.js ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/philusa_corp.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/philusa_corp.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/premier_wine.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/premier_wine.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/quanta_paper.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/quanta_paper.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/reckitt.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/reckitt.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // customersTableHeader: [
+  //     [
+  //         { text: "Customer Code", value: "customer_code" },
+  //         { text: "Principal Customer Code", value: "customer_code_supplier" },
+  //     ],
+  // ],
+  itemsTableHeader: [[{
+    text: "Item Code",
+    value: "item_code"
+  }, // {text:"Description", value:"description"},
+  {
+    text: "Supplier Item Code",
+    value: "item_code_supplier"
+  }, {
+    text: "Supplier Item Description",
+    value: "description_supplier"
+  } // {text:"CASE", value:"case"},
+  // {text:"PCS", value:"conversion_qty"},
+  ]],
+  salesmenTableHeader: [[{
+    text: "Group Code",
+    value: "group_code"
+  }, {
+    text: "Salesman Code - NOAH",
+    value: "sm_code_supplier"
+  }, {
+    text: "Location Code - NOAH",
+    value: "location_code_supplier"
+  }]],
+  // templated data table header(s)
+  generatedDataTableHeader: [[{
+    text: "Distributor ID",
+    value: "distributor_id"
+  }, {
+    text: "Salesman",
+    value: "sales_agent_id"
+  }, {
+    text: "Docno",
+    value: "doc_no"
+  }, {
+    text: "Location",
+    value: "location"
+  }, {
+    text: "Ordered Date",
+    value: "order_date"
+  }, {
+    text: "Request Delivery Date",
+    value: "request_delivery_date"
+  }, {
+    text: "Payment Term",
+    value: "payment_term_code"
+  }, {
+    text: "Account Code",
+    value: "customer_code"
+  }, {
+    text: "Product Code",
+    value: "item_code"
+  }, {
+    text: "Bulk Qty",
+    value: "bulk_qty"
+  }, {
+    text: "Loose Qty",
+    value: "loose_qty"
+  }, {
+    text: "System Date",
+    value: "system_date"
+  }, {
+    text: "User",
+    value: "default_user"
+  }] // [
+  //     {text:"Distributor ID", value: "distributor_id"},
+  //     {text:"Sales Agent ID", value: "sales_agent_id"},
+  //     {text:"Invoice No (Doc No)", value: "doc_no"},
+  //     {text:"Location", value: "location"},
+  //     {text:"Invoice Date", value: "invoice_date"},
+  //     {text:"Payment Term Code", value: "payment_term_code"},
+  //     {text:"Customer No", value: "customer_code"},
+  //     {text:"Product Code", value: "item_code"},
+  //     {text:"Bulk Qty", value: "bulk_qty"},
+  //     {text:"Loose Qty", value: "loose_qty"},
+  //     {text:"System Date", value: "system_date"},
+  //     {text:"Default User", value: "default_user"},
+  //     {text:"Invoice No", value: "invoice_no"},
+  //     {text:"Expiry Date", value: "expiry_date"},
+  // ],
+  ],
+  generatedDataHistoryFilters: [[{
+    text: 'Order Date',
+    value: 'order_date'
+  }, {
+    text: 'Invoice #',
+    value: 'doc_no'
+  }, {
+    text: 'Product Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Salesman',
+    value: 'sm_code_supplier'
+  }, {
+    text: 'Location',
+    value: 'location'
+  }, {
+    text: 'Invoice Posting Date',
+    value: 'posting_date'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
 /***/ "./resources/js/stores.custom/principals/rfm.js":
 /*!******************************************************!*\
   !*** ./resources/js/stores.custom/principals/rfm.js ***!
@@ -2087,6 +5206,86 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   //         {text:"Salesman Name", value:"sm_name"},
   //     ]
   // ],
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/scpg_asia.js":
+/*!************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/scpg_asia.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   // templated data table header
   generatedDataTableHeader: [[{
     text: "Invoice #",
@@ -2274,6 +5473,1226 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Invoice Posting Date',
     value: 'posting_date'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/southern_unicoast.js":
+/*!********************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/southern_unicoast.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/splash_corp.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/splash_corp.js ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/stay_and_shop.js":
+/*!****************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/stay_and_shop.js ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/sunpride_foods.js":
+/*!*****************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/sunpride_foods.js ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/suychicken_corp.js":
+/*!******************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/suychicken_corp.js ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/symply_g.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/symply_g.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/tekson.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/tekson.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/temprincipals.js":
+/*!****************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/temprincipals.js ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // customersTableHeader: [
+  //     [
+  //         { text: "Customer Code", value: "customer_code" },
+  //         { text: "Customer Code (Supplier)", value: "customer_code_supplier" },
+  //         { text: "Name", value: "customer_name" },
+  //     ],
+  // ],
+  // itemsTableHeader: [
+  //     [
+  //         {text:"Item Code", value:"item_code"},
+  //         {text:"Item Code (Supplier)", value:"item_code_supplier"},
+  //         {text:"Description (Supplier)", value:"description_supplier"},
+  //     ]
+  // ],
+  // salesmenTableHeader: [
+  //     [
+  //         {text:"Group Code", value:"group_code"},
+  //         {text:"Salesman Name", value:"sm_name"},
+  //     ]
+  // ],
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/tentay_foods.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/tentay_foods.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/tridharma.js":
+/*!************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/tridharma.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/uni_president.js":
+/*!****************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/uni_president.js ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/uni_soft.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/uni_soft.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/wellmade_manufacturing.js":
+/*!*************************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/wellmade_manufacturing.js ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/wrigley_ph.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/wrigley_ph.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/wyeth_ph.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/wyeth_ph.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
   }, {
     text: 'Source Group',
     value: 'group_code'

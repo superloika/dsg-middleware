@@ -65,10 +65,10 @@
                                 principal.proj_status==0 ?
                                 'warning' : 'accent'
                             "
-                            class="ml-2 pa-2"
-                        ></v-chip>
+                            class="ml-2 mr-0 pa-1"
+                        >{{ i+1 }}</v-chip>
 
-                        <v-list-item-content class="pl-8">
+                        <v-list-item-content class="pl-2">
                             <v-list-item-title>
                                 {{ principal.name }}
                             </v-list-item-title>

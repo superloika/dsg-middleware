@@ -9,7 +9,7 @@
         class="mb-6"
         outlined
     >
-        <v-card-title>
+        <v-card-title :class="isUploadedToday(uplog.created_at) ? 'green--text' : ''">
             <span class="text-overline ">
                 BATCH #: {{ uplog.batch_number  }}
             </span>
@@ -48,6 +48,12 @@ export default {
     data() {
         return {
 
+        }
+    },
+
+    methods: {
+        isUploadedToday(date) {
+            return (new Date(date).toDateString() == new Date().toDateString()) ? true : false;
         }
     },
 

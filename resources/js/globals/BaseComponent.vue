@@ -32,6 +32,7 @@
                 absolute
                 bottom
                 stream
+                color="lime"
             ></v-progress-linear>
         </v-system-bar>
 
@@ -76,9 +77,9 @@
         <!-- MAIN -->
         <v-main>
             <v-container class="pa-0" fluid>
-                <keep-alive>
+                <!-- <keep-alive> -->
                     <router-view></router-view>
-                </keep-alive>
+                <!-- </keep-alive> -->
             </v-container>
 
         </v-main>
@@ -127,6 +128,10 @@ export default {
         toggleDrawerState() {
             this.navDrawerState = !this.navDrawerState;
         },
+    },
+
+    watch: {
+
     },
 
     mounted() {

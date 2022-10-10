@@ -112,6 +112,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -343,7 +344,8 @@ var render = function() {
                         "close-on-content-click": false,
                         "offset-y": "",
                         bottom: "",
-                        "z-index": "999"
+                        "z-index": "999",
+                        transition: "scroll-x-reverse-transition"
                       },
                       scopedSlots: _vm._u([
                         {
@@ -416,7 +418,7 @@ var render = function() {
               _vm.PrincipalsStore.state.isGeneratingData
                 ? _c(
                     "div",
-                    { staticClass: "d-flex justify-center mt-12" },
+                    { staticClass: "d-flex justify-center mt-12 pt-6" },
                     [
                       _c("v-progress-circular", {
                         attrs: {
@@ -436,7 +438,7 @@ var render = function() {
                       _vm.generatedData[0].output_template.length < 1
                         ? _c(
                             "div",
-                            { staticClass: "d-flex justify-center mt-3" },
+                            { staticClass: "d-flex justify-center mt-12 pt-6" },
                             [
                               _c(
                                 "v-chip",

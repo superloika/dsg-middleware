@@ -103,109 +103,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['uploadResponse'],
   mounted: function mounted() {
@@ -326,383 +223,113 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _c(
-                    "v-expansion-panel-content",
-                    [
-                      _c(
-                        "div",
-                        { staticClass: "py-2" },
-                        [
-                          _c(
-                            "v-chip",
-                            {
-                              staticClass: "px-2",
-                              attrs: {
-                                color: "default",
-                                small: "",
-                                title: "Total number of lines in the file"
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Line Total:\n                            " +
-                                  _vm._s(summary.line_total) +
-                                  "\n                        "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-chip",
-                            {
-                              staticClass: "px-2",
-                              attrs: {
-                                color: "default",
-                                small: "",
-                                title:
-                                  "Total number of lines being read as valid invoice data"
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Line Read:\n                            " +
-                                  _vm._s(summary.line_read) +
-                                  "\n                        "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-chip",
-                            {
-                              staticClass: "px-2",
-                              attrs: {
-                                color: "default",
-                                small: "",
-                                title:
-                                  "Total number of lines already exists in the database"
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Line Existing:\n                            " +
-                                  _vm._s(summary.line_existing) +
-                                  "\n                        "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-chip",
-                            {
-                              staticClass: "px-2",
-                              attrs: {
-                                color: "default",
-                                small: "",
-                                title:
-                                  "Total number of lines being read as valid invoice data"
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Line Skipped:\n                            " +
-                                  _vm._s(
-                                    summary.line_total - summary.line_read
-                                  ) +
-                                  "\n                        "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-chip",
-                            {
-                              staticClass: "px-2",
-                              attrs: {
-                                title: "Total number of lines uploaded",
-                                color:
-                                  summary.line_uploaded > 0
-                                    ? "primary"
-                                    : "error",
-                                small: ""
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Line Uploaded:\n                            " +
-                                  _vm._s(summary.line_uploaded) +
-                                  "\n                        "
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      Object.keys(summary.skipped_unknown_line).length
-                        ? _c(
-                            "v-container",
-                            {
-                              staticClass: "mb-4",
-                              staticStyle: { border: "1px solid #f2f2f2" }
-                            },
-                            [
-                              _c(
-                                "h5",
-                                [
-                                  _vm._v(
-                                    "\n                                Skipped: Unknown Lines\n                                "
-                                  ),
-                                  _c(
-                                    "v-chip",
-                                    {
-                                      staticClass: "px-1",
-                                      attrs: { "x-small": "" }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                    " +
-                                          _vm._s(
-                                            Object.keys(
-                                              summary.skipped_unknown_line
-                                            ).length
-                                          ) +
-                                          "\n                                "
-                                      )
-                                    ]
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _vm._l(
-                                Object.entries(summary.skipped_unknown_line),
-                                function(line, index) {
-                                  return _c(
-                                    "small",
-                                    {
-                                      key: index,
-                                      attrs: {
-                                        title: "Line Number: " + line[0]
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                            " +
-                                          _vm._s(line[1]) +
-                                          "\n                            "
-                                      ),
-                                      _c("br")
-                                    ]
-                                  )
-                                }
-                              )
-                            ],
-                            2
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      Object.keys(summary.skipped_other_principals).length
-                        ? _c(
-                            "v-container",
-                            {
-                              staticClass: "mb-4",
-                              staticStyle: { border: "1px solid #f2f2f2" }
-                            },
-                            [
-                              _c("div", [
-                                _c(
-                                  "h5",
-                                  [
-                                    _vm._v(
-                                      "\n                                Skipped: Other Principals\n                                "
-                                    ),
-                                    _c(
-                                      "v-chip",
-                                      {
-                                        staticClass: "px-1",
-                                        attrs: { "x-small": "" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                    " +
-                                            _vm._s(
-                                              Object.keys(
-                                                summary.skipped_other_principals
-                                              ).length
-                                            ) +
-                                            "\n                                "
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _vm._l(
-                                Object.entries(
-                                  summary.skipped_other_principals
-                                ),
-                                function(line, index) {
-                                  return _c(
-                                    "small",
-                                    {
-                                      key: index,
-                                      attrs: {
-                                        title: "Line Number: " + line[0]
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                            " +
-                                          _vm._s(line[1]) +
-                                          "\n                            "
-                                      ),
-                                      _c("br")
-                                    ]
-                                  )
-                                }
-                              )
-                            ],
-                            2
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      Object.keys(summary.skipped_not_in_item_masterfile).length
-                        ? _c(
-                            "v-container",
-                            {
-                              staticClass: "mb-4",
-                              staticStyle: { border: "1px solid #f2f2f2" }
-                            },
-                            [
-                              _c("div", [
-                                _c(
-                                  "h5",
-                                  [
-                                    _vm._v(
-                                      "\n                                Skipped: Item not found in masterfile\n                                "
-                                    ),
-                                    _c(
-                                      "v-chip",
-                                      {
-                                        staticClass: "px-1",
-                                        attrs: { "x-small": "" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                    " +
-                                            _vm._s(
-                                              Object.keys(
-                                                summary.skipped_not_in_item_masterfile
-                                              ).length
-                                            ) +
-                                            "\n                                "
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _vm._l(
-                                Object.entries(
-                                  summary.skipped_not_in_item_masterfile
-                                ),
-                                function(line, index) {
-                                  return _c(
-                                    "small",
-                                    {
-                                      key: index,
-                                      attrs: {
-                                        title: "Line Number: " + line[0]
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                            " +
-                                          _vm._s(line[1]) +
-                                          "\n                            "
-                                      ),
-                                      _c("br")
-                                    ]
-                                  )
-                                }
-                              )
-                            ],
-                            2
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      Object.keys(summary.skipped_zero_qty).length
-                        ? _c(
-                            "v-container",
-                            {
-                              staticClass: "mb-4",
-                              staticStyle: { border: "1px solid #f2f2f2" }
-                            },
-                            [
-                              _c("div", [
-                                _c(
-                                  "h5",
-                                  [
-                                    _vm._v(
-                                      "\n                                Skipped: Zero Quantity\n                                "
-                                    ),
-                                    _c(
-                                      "v-chip",
-                                      {
-                                        staticClass: "px-1",
-                                        attrs: { "x-small": "" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                    " +
-                                            _vm._s(
-                                              Object.keys(
-                                                summary.skipped_zero_qty
-                                              ).length
-                                            ) +
-                                            "\n                                "
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _vm._l(
-                                Object.entries(summary.skipped_zero_qty),
-                                function(line, index) {
-                                  return _c(
-                                    "small",
-                                    {
-                                      key: index,
-                                      attrs: {
-                                        title: "Line Number: " + line[0]
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                            " +
-                                          _vm._s(line[1]) +
-                                          "\n                            "
-                                      ),
-                                      _c("br")
-                                    ]
-                                  )
-                                }
-                              )
-                            ],
-                            2
-                          )
-                        : _vm._e()
-                    ],
-                    1
-                  )
+                  _c("v-expansion-panel-content", [
+                    _c(
+                      "div",
+                      { staticClass: "pt-3" },
+                      [
+                        _c(
+                          "v-chip",
+                          {
+                            staticClass: "px-2",
+                            attrs: {
+                              color: "default",
+                              small: "",
+                              title: "Total number of lines in the file"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Line Total:\n                            " +
+                                _vm._s(summary.line_total) +
+                                "\n                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-chip",
+                          {
+                            staticClass: "px-2",
+                            attrs: {
+                              color: "default",
+                              small: "",
+                              title:
+                                "Total number of lines being read as valid invoice data"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Line Read:\n                            " +
+                                _vm._s(summary.line_read) +
+                                "\n                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-chip",
+                          {
+                            staticClass: "px-2",
+                            attrs: {
+                              color: "default",
+                              small: "",
+                              title:
+                                "Total number of lines already exists in the database"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Line Existing:\n                            " +
+                                _vm._s(summary.line_existing) +
+                                "\n                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-chip",
+                          {
+                            staticClass: "px-2",
+                            attrs: {
+                              color: "default",
+                              small: "",
+                              title:
+                                "Total number of lines being read as valid invoice data"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Line Skipped:\n                            " +
+                                _vm._s(summary.line_total - summary.line_read) +
+                                "\n                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-chip",
+                          {
+                            staticClass: "px-2",
+                            attrs: {
+                              title: "Total number of lines uploaded",
+                              color:
+                                summary.line_uploaded > 0 ? "primary" : "error",
+                              small: ""
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Line Uploaded:\n                            " +
+                                _vm._s(summary.line_uploaded) +
+                                "\n                        "
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  ])
                 ],
                 1
               )

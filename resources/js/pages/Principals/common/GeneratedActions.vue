@@ -13,6 +13,7 @@
                         rounded
                         @click.stop="datePickerShown=true"
                         style="max-width:500px;min-width:250px;"
+                        :disabled="PrincipalsStore.state.isGeneratingData"
                     ></v-text-field>
                     <!-- DATEPICKER -->
                     <v-dialog
@@ -59,6 +60,7 @@
                         rounded
                         hide-details
                         dense
+                        :disabled="PrincipalsStore.state.isGeneratingData"
                     >
                     </v-select>
                 </v-col>
@@ -69,8 +71,10 @@
                         title="Generate Templated"
                         dense
                         rounded
+                        outlined
                         @click="refresh()"
                         :loading="PrincipalsStore.state.isGeneratingData"
+                        color="primary"
                     >
                         <!-- <v-icon>mdi-tray-arrow-down</v-icon> -->
                         Generate
@@ -89,9 +93,10 @@
                             PrincipalsStore.state.confirmExportDialogOpen = true
                         "
                         :disabled="
-                            lineCount < 1 ||
-                                searchKeyLength > 0 ||
-                                warningsCount >= lineCount
+                            lineCount < 1
+                            || searchKeyLength > 0
+                            || warningsCount >= lineCount
+                            || PrincipalsStore.state.isGeneratingData
                         "
                     >
                         <v-icon left size="25">mdi-file-excel</v-icon>

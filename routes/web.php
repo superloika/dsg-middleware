@@ -112,20 +112,30 @@ Route::prefix('invoices')->group(function(){
 Route::prefix('principals')->group(function(){
     $principalCtrls = [
         ['MeadJohnsonController', 'mead_johnson'],
-        ['MegasoftController', 'megasoft'],
-        ['GsmiController', 'gsmi'],
-        ['GspiController', 'gspi'],
+
+        // ['GspiController', 'gspi'],
+
         ['FoodsphereIncController', 'foodsphere_inc'],
         ['FoodFabricatorsController', 'food_fabricators'],
-        ['SmfiSmisFrozenController', 'smfi_smis_frozen'],
+
+        // ['SmfiSmisFrozenController', 'smfi_smis_frozen'],
+
         ['MondelezController', 'mondelez'],
         ['CadburyAdamsController', 'cadbury_adams'],
+
         ['CenturyCanningController', 'century_canning'],
         ['ColumbusSeafoodsController', 'columbus_seafoods'],
         ['PacificMeatController', 'pacific_meat'],
         ['SnowMountainDairyController', 'snow_mountain_dairy'],
+        ['ReckittController', 'reckitt'],
+
         ['JnjController', 'jnj'],
+
         ['RfmController', 'rfm'],
+
+        ['MegasoftController', 'megasoft'],
+
+        ['GsmiController', 'gsmi'],
 
         // temp
         // ['AlaskaController', 'alaska'],
@@ -143,6 +153,60 @@ Route::prefix('principals')->group(function(){
 
         // ['OthersController', 'others'],
         // ['OthersNIController', 'others_ni'],
+
+        ['TemprincipalsController', 'gspi'],
+        ['TemprincipalsController', 'alaska_milk'],
+        ['TemprincipalsController', 'wyeth_ph'],
+        ['TemprincipalsController', 'del_monte_ph'],
+        ['TemprincipalsController', 'ecossentials'],
+        ['TemprincipalsController', 'peerless'],
+        ['TemprincipalsController', 'splash_corp'],
+        ['TemprincipalsController', 'green_cross'],
+        ['TemprincipalsController', 'jsu'],
+        ['TemprincipalsController', 'cle_ace_corp'],
+        ['TemprincipalsController', 'dole_ph'],
+        ['TemprincipalsController', 'bevi_asia_pacific'],
+        ['TemprincipalsController', 'colgate_palmolive'],
+        ['TemprincipalsController', 'wellmade_manufacturing'],
+        ['TemprincipalsController', 'southern_unicoast'],
+        ['TemprincipalsController', '3m_ph'],
+        ['TemprincipalsController', 'sunpride_foods'],
+        ['TemprincipalsController', 'diamond_instant'],
+        ['TemprincipalsController', 'suychicken_corp'],
+        ['TemprincipalsController', 'quanta_paper'],
+        ['TemprincipalsController', 'philusa_corp'],
+        ['TemprincipalsController', 'first_pgmc'],
+        ['TemprincipalsController', 'stay_and_shop'],
+        ['TemprincipalsController', 'makarios_ph'],
+        ['TemprincipalsController', 'marketventure_dist'],
+        ['TemprincipalsController', 'fonterra_brands'],
+        ['TemprincipalsController', 'benby_enterprises'],
+        ['TemprincipalsController', 'symply_g'],
+        ['TemprincipalsController', 'permex_producer'],
+        ['TemprincipalsController', 'uni_soft'],
+        ['TemprincipalsController', 'scpg_asia'],
+        ['TemprincipalsController', 'mega_fishing'],
+        ['TemprincipalsController', 'goldshine_pharma'],
+        ['TemprincipalsController', 'kalbe_international'],
+        ['TemprincipalsController', 'uni_president'],
+        ['TemprincipalsController', 'diageo_ph'],
+        ['TemprincipalsController', 'kareila_management'],
+        ['TemprincipalsController', 'wrigley_ph'],
+        ['TemprincipalsController', 'gymboree_marketing'],
+        ['TemprincipalsController', 'ipi_chemical'],
+        ['TemprincipalsController', 'ipi_food'],
+        ['TemprincipalsController', 'ipi_soap'],
+        ['TemprincipalsController', 'ipi'],
+        ['TemprincipalsController', 'enerlife'],
+        ['TemprincipalsController', 'arla_foods'],
+        ['TemprincipalsController', 'tentay_foods'],
+        ['TemprincipalsController', 'jordan_toothbrush'],
+        ['TemprincipalsController', 'premier_wine'],
+        ['TemprincipalsController', 'candyline_food'],
+        ['TemprincipalsController', 'cosmetique_asia'],
+        ['TemprincipalsController', 'nutri_asia'],
+        ['TemprincipalsController', 'tridharma'],
+        ['TemprincipalsController', 'tekson'],
     ];
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';

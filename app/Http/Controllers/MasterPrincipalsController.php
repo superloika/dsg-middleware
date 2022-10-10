@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Storage;
 
 class MasterPrincipalsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $res = DB::table('principals')
             // ->where('active', 1)
             ->where('active', 1)
-            ->orderBy('proj_status', 'DESC')
+            // ->orderBy('proj_status', 'DESC')
             // ->orderBy('code')
             ->orderBy('name')
             ->get();
@@ -44,14 +44,16 @@ class MasterPrincipalsController extends Controller
                             $cols = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $row);
 
                             if (count($cols) > 1) {
-                                $name = trim($cols[0], ' \t\n\r\0\x0B\"');
-                                $principal_code = $cols[1];
-                                $vendor_code = $cols[2];
-                                $template_variation_count = $cols[3];
-                                $proj_status = $cols[4];
-                                $active = $cols[5];
+                                $id = $cols[0];
+                                $name = trim($cols[1], ' \t\n\r\0\x0B\"');
+                                $principal_code = $cols[2];
+                                $vendor_code = $cols[3];
+                                $template_variation_count = $cols[4];
+                                $proj_status = $cols[5];
+                                $active = $cols[6];
 
                                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS)->insert([
+                                    'id' => $id,
                                     'name' => $name,
                                     'code' => $principal_code,
                                     'vendor_code' => $vendor_code,

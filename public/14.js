@@ -148,6 +148,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       errorMsgs: {}
     };
   },
+  computed: {
+    filteredUserTypes: function filteredUserTypes() {
+      var _this2 = this;
+
+      return this.AppStore.state.userTypes.filter(function (e) {
+        if (_this2.AppStore.isAdmin()) {
+          return e != 'super_admin' && e != 'admin';
+        } else {
+          return e;
+        }
+      });
+    }
+  },
   watch: {
     "account.name": function accountName() {
       this.account.name = this.account.name.replace("  ", " ").trim();
@@ -155,7 +168,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     updateProfile: function updateProfile() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var vm, url, payload, response;
@@ -163,14 +176,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                vm = _this2;
+                vm = _this3;
 
-                if (!_this2.$refs.frm_edit_profile.validate()) {
+                if (!_this3.$refs.frm_edit_profile.validate()) {
                   _context.next = 17;
                   break;
                 }
 
-                url = "".concat(_this2.AppStore.state.siteUrl, "accounts/update-profile");
+                url = "".concat(_this3.AppStore.state.siteUrl, "accounts/update-profile");
                 payload = {
                   _method: "PATCH",
                   id: vm.account.id,
@@ -180,7 +193,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   user_type: vm.account.user_type
                 };
                 _context.prev = 4;
-                _this2.updatingProfile = true;
+                _this3.updatingProfile = true;
                 _context.next = 8;
                 return axios.post(url, payload);
 
@@ -188,7 +201,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context.sent;
 
                 if (response.data == true) {
-                  if (_this2.$route.meta.name === 'Account') {
+                  if (_this3.$route.meta.name === 'Account') {
                     location.reload();
                   } // temp
                   // this.ManageAccounts.state.toEdit.name = vm.account.name;
@@ -200,21 +213,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   //     vm.account.user_type;
 
 
-                  _this2.ManageAccounts.initUsers(); // this.ManageAccounts.state.modalEditIsOpen = false;
+                  _this3.ManageAccounts.initUsers(); // this.ManageAccounts.state.modalEditIsOpen = false;
 
 
-                  _this2.AppStore.toast("Account updated", 2000);
+                  _this3.AppStore.toast("Account updated", 2000);
                 } else if (response.data.invalidations != undefined || response.data.invalidations != null) {
-                  _this2.errMsgs = [];
-                  _this2.errorMsgs = {};
-                  _this2.errorMsgs = response.data.invalidations;
+                  _this3.errMsgs = [];
+                  _this3.errorMsgs = {};
+                  _this3.errorMsgs = response.data.invalidations;
                   Object.entries(response.data.invalidations).forEach(function (field) {
-                    _this2.errMsgs.push(field[1][0]);
+                    _this3.errMsgs.push(field[1][0]);
                   }); // this.AppStore.toast(this.errMsgs, 3000);
 
-                  _this2.errMsgsShown = true;
+                  _this3.errMsgsShown = true;
                 } else if (response.data.errorInfo != null || response.data.errorInfo != undefined) {
-                  _this2.AppStore.toast("An error occured", 2000);
+                  _this3.AppStore.toast("An error occured", 2000);
 
                   console.log(response.data.errorInfo);
                 }
@@ -227,10 +240,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.t0 = _context["catch"](4);
                 console.log(_context.t0);
 
-                _this2.AppStore.toast(_context.t0, 3000);
+                _this3.AppStore.toast(_context.t0, 3000);
 
               case 16:
-                _this2.updatingProfile = false;
+                _this3.updatingProfile = false;
 
               case 17:
               case "end":
@@ -348,7 +361,7 @@ var render = function() {
                 [
                   _c("v-select", {
                     attrs: {
-                      items: _vm.AppStore.state.userTypes,
+                      items: _vm.filteredUserTypes,
                       outlined: "",
                       dense: "",
                       text: "",

@@ -58,9 +58,14 @@ export default {
     computed: {
         isEditPrincipalAssignmentShown() {
             if(
-                (this.ManageAccounts.state.toEdit.user_type == 'super_admin'
-                && this.AppStore.isSuperAdmin()) ||
-                this.AppStore.isSuperAdmin() == false
+                (this.ManageAccounts.state.toEdit.user_type == 'super_admin' &&
+                this.AppStore.isSuperAdmin())
+
+                || (this.ManageAccounts.state.toEdit.user_type == 'admin' &&
+                this.AppStore.isAdmin())
+
+                || (this.AppStore.isSuperAdmin() == false &&
+                this.AppStore.isAdmin() == false)
             ) {
                 return false;
             } else {

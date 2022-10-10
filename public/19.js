@@ -157,6 +157,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['lineCount', 'warningsCount'],
@@ -301,7 +306,8 @@ var render = function() {
                       readonly: "",
                       dense: "",
                       outlined: "",
-                      rounded: ""
+                      rounded: "",
+                      disabled: _vm.PrincipalsStore.state.isGeneratingData
                     },
                     on: {
                       click: function($event) {
@@ -432,7 +438,8 @@ var render = function() {
                       outlined: "",
                       rounded: "",
                       "hide-details": "",
-                      dense: ""
+                      dense: "",
+                      disabled: _vm.PrincipalsStore.state.isGeneratingData
                     },
                     model: {
                       value: _vm.PrincipalsStore.state.selectedGroupBy,
@@ -460,7 +467,9 @@ var render = function() {
                         title: "Generate Templated",
                         dense: "",
                         rounded: "",
-                        loading: _vm.PrincipalsStore.state.isGeneratingData
+                        outlined: "",
+                        loading: _vm.PrincipalsStore.state.isGeneratingData,
+                        color: "primary"
                       },
                       on: {
                         click: function($event) {
@@ -489,7 +498,8 @@ var render = function() {
                         disabled:
                           _vm.lineCount < 1 ||
                           _vm.searchKeyLength > 0 ||
-                          _vm.warningsCount >= _vm.lineCount
+                          _vm.warningsCount >= _vm.lineCount ||
+                          _vm.PrincipalsStore.state.isGeneratingData
                       },
                       on: {
                         click: function($event) {

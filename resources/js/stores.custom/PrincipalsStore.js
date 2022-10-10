@@ -207,10 +207,12 @@ const actions = {
     async initCurrentGeneratedData(template_variations_count=1) {
         try {
             state.isGeneratingData = true;
+            AppStore.overlay(true, 'Generating data, please wait...');
             const url = encodeURI(
                 AppStore.state.siteUrl + 'principals/'
                 + state.selectedPrincipalCode + '/generate-templated-data'
-                + '?group_by=' + state.selectedGroupBy
+                + '?principal_code=' + state.selectedPrincipalCode
+                + '&group_by=' + state.selectedGroupBy
                 + '&posting_date_range=' + state.posting_date_range
                 // + '?template_variations_count=' + template_variations_count
             );
@@ -242,6 +244,8 @@ const actions = {
         } catch (error) {
             console.log('PrincipalsStore.initCurrentGeneratedData() - ERROR:', error);
             AppStore.toast(error, 3000, 'error');
+        } finally {
+            AppStore.overlay(false);
         }
     },
 

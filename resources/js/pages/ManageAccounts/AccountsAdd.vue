@@ -53,7 +53,7 @@
 
                     <v-col cols="12" md="4" sm="6" class="pt-1 pb-1">
                         <v-select
-                            :items="AppStore.state.userTypes"
+                            :items="filteredUserTypes"
                             outlined
                             dense
                             text
@@ -94,7 +94,8 @@
                     </v-col>
 
                     <v-col cols="12" md="4" sm="6" class="pt-1 pb-1"
-                        v-if="newAccount.user_type==='encoder'">
+                        v-if="newAccount.user_type != 'xxx'"
+                    >
                         <v-select
                             v-model="newAccount.selected_principals"
                             :items="AppStore.state.principals"
@@ -203,7 +204,9 @@ export default {
         'newAccount.user_type': function() {
             if (this.newAccount.user_type === 'super_admin') {
                 this.newAccount.selected_principals = ["*"];
-            } else if (this.newAccount.user_type === 'dummy') {
+            } else if (this.newAccount.user_type === 'admin') {
+                this.newAccount.selected_principals = ["*"];
+            } else if (this.newAccount.user_type === 'uploader') {
                 this.newAccount.selected_principals = ["?"];
             } else {
                 this.newAccount.selected_principals = [];
@@ -262,7 +265,17 @@ export default {
         }
     },
 
-    computed: {},
+    computed: {
+        filteredUserTypes() {
+            return this.AppStore.state.userTypes.filter((e)=>{
+                if(this.AppStore.isAdmin()) {
+                    return e != 'super_admin' && e != 'admin'
+                } else {
+                    return e;
+                }
+            })
+        }
+    },
 
     created() {},
 

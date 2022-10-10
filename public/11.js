@@ -155,6 +155,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _this = this;
@@ -217,7 +218,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     'newAccount.user_type': function newAccountUser_type() {
       if (this.newAccount.user_type === 'super_admin') {
         this.newAccount.selected_principals = ["*"];
-      } else if (this.newAccount.user_type === 'dummy') {
+      } else if (this.newAccount.user_type === 'admin') {
+        this.newAccount.selected_principals = ["*"];
+      } else if (this.newAccount.user_type === 'uploader') {
         this.newAccount.selected_principals = ["?"];
       } else {
         this.newAccount.selected_principals = [];
@@ -301,7 +304,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     }
   },
-  computed: {},
+  computed: {
+    filteredUserTypes: function filteredUserTypes() {
+      var _this3 = this;
+
+      return this.AppStore.state.userTypes.filter(function (e) {
+        if (_this3.AppStore.isAdmin()) {
+          return e != 'super_admin' && e != 'admin';
+        } else {
+          return e;
+        }
+      });
+    }
+  },
   created: function created() {},
   mounted: function mounted() {
     console.log("ExpendituresAdd mounted.");
@@ -468,7 +483,7 @@ var render = function() {
                     [
                       _c("v-select", {
                         attrs: {
-                          items: _vm.AppStore.state.userTypes,
+                          items: _vm.filteredUserTypes,
                           outlined: "",
                           dense: "",
                           text: "",
@@ -548,7 +563,7 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _vm.newAccount.user_type === "encoder"
+                  _vm.newAccount.user_type != "xxx"
                     ? _c(
                         "v-col",
                         {

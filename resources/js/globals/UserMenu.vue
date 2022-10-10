@@ -3,7 +3,7 @@
         <v-menu v-model="menu" :close-on-content-click="true" offset-y>
             <template v-slot:activator="{ on, attrs }">
                 <v-btn icon v-bind="attrs" v-on="on">
-                    <v-avatar color="primary" size="25">
+                    <v-avatar color="accent" size="25">
                         <span class="white--text text-h6">
                             {{ userInitial }}
                         </span>
@@ -44,7 +44,9 @@
                             Account Settings
                         </v-list-item>
                         <v-list-item
-                            v-if="this.AuthUser.user_type === 'super_admin'"
+                            v-if="
+                                AppStore.isSuperAdmin() || AppStore.isAdmin()
+                            "
                             link
                             to="/manage-accounts"
                         >

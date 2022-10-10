@@ -617,6 +617,7 @@ class RfmController extends Controller
      */
     public function generateTemplatedData(Request $request)
     {
+        // dd($request);
         set_time_limit(0);
 
         try {

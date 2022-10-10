@@ -11,7 +11,7 @@ const state = Vue.observable({
         { text: "Status", value: "status" },
         { text: "Principal", value: "principals_name" },
         { text: "Uploaded", value: "created_at" },
-        { text: "Uploaded By", value: "user_fullname" },
+        { text: "Uploaded By", value: "username" },
         // { text: "Filename", value: "filename" },
         { text: "Group", value: "group" },
         { text: "Batch #", value: "batch_number" },
@@ -58,15 +58,16 @@ const state = Vue.observable({
 
 const actions = {
     async initInvoices(
-        searchKey='', principalCodeFilter='', invoiceStatus='', row_count=10, selectedTerminal=''
+        searchKey='', principal_code='', invoiceStatus='', row_count=10, selectedTerminal=''
     ) {
         try {
             state.isLoadingInvoices = true;
+            AppStore.state.showTopLoading = true;
             if(searchKey==null) searchKey = '';
             const url = `${AppStore.state.siteUrl}invoices/all`
                 + `?row_count=${row_count}`
                 + `&search_key=${searchKey}`
-                + `&principal_code=${principalCodeFilter}`
+                + `&principal_code=${principal_code}`
                 + `&status=${invoiceStatus}`
                 + `&terminal=${selectedTerminal}`
                 + `&page=${state.invoices.current_page ?? 1}`;
@@ -78,6 +79,7 @@ const actions = {
             console.log('initInvoices() - ERROR:', error);
         } finally {
             state.isLoadingInvoices = false;
+            AppStore.state.showTopLoading = false;
         }
     },
 
@@ -176,7 +178,7 @@ const actions = {
             // this.PrincipalsStore.state.currentGeneratedData = [];
             // this.PrincipalsStore.state.currentRawInvoices = [];
 
-            PrincipalsStore.initInvoicesGrandTotal();
+            // PrincipalsStore.initInvoicesGrandTotal();
             // this.initInvoices(
             //     this.selectedPrincipalCode,
             //     AppStore.state.strDateToday

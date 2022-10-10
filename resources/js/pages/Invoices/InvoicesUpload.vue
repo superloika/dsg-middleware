@@ -60,7 +60,8 @@
             </v-col>
         </v-row>
 
-        <v-divider></v-divider>
+        <!-- <v-divider></v-divider> -->
+        <div class="ma-0 pa-0"></div>
 
         <v-row class="py-0">
             <v-col>
@@ -69,47 +70,13 @@
                     Filenames should include a group keyword
                     in order for the system to identify which group the data came from.
                     Keyword includes
-                        <v-chip x-small color="default">
-                            CWDG_PCS
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            CWDG_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            UWDG_PCS
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            UWDG_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            3PS_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            CVS_PCS
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            CVS_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            DELICA_PCS
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            DELICA_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            HORECA_PCS
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            HORECA_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            MAS_PCS
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            MAS_BULK
-                        </v-chip>
-                        <v-chip x-small color="default">
-                            SEC_BULK
+                        <v-chip
+                            x-small :color="keywordsColor"
+                            v-for="(group, i) in InvoicesStore.state.groups"
+                            :key="i"
+                            class="px-2 mr-1"
+                        >
+                            {{ group.group_code }}
                         </v-chip>
                     <br>Example: "CWDG_PCS Sept 1-5.txt"
                 </small>
@@ -119,7 +86,7 @@
 
     <v-dialog
         v-model="InvoicesStore.state.isUploadSummaryShown"
-        max-width="900px"
+        max-width="700px"
     >
         <InvoiceUploadSummary :uploadResponse="uploadResponse"></InvoiceUploadSummary>
     </v-dialog>
@@ -148,6 +115,10 @@ export default {
     computed: {
         isNoPreviousSummary() {
             return Object.keys(this.uploadResponse).length === 0;
+        },
+
+        keywordsColor() {
+            return 'accent';
         }
     },
 

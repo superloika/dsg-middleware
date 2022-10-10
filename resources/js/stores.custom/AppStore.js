@@ -28,7 +28,7 @@ const state = Vue.observable({
         show: true,
         msg: "Error"
     },
-    userTypes: ["super_admin", "dummy", "encoder"],
+    userTypes: ["super_admin", "admin", "uploader", "encoder"],
     guardMsgs: {
         accessDenied: "Access Denied",
     },
@@ -93,6 +93,34 @@ const actions = {
 
     isSuperAdmin() {
         if(window.AuthUser.user_type == 'super_admin') {
+            return true;
+        }
+        return false;
+    },
+
+    isAdmin() {
+        if(window.AuthUser.user_type == 'admin') {
+            return true;
+        }
+        return false;
+    },
+
+    isEncoder() {
+        if(window.AuthUser.user_type == 'encoder') {
+            return true;
+        }
+        return false;
+    },
+
+    isUploader() {
+        if(window.AuthUser.user_type == 'uploader') {
+            return true;
+        }
+        return false;
+    },
+
+    isDummy() {
+        if(window.AuthUser.user_type == 'dummy') {
             return true;
         }
         return false;

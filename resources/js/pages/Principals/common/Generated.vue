@@ -39,6 +39,7 @@
                         offset-y
                         bottom
                         z-index="999"
+                        transition="scroll-x-reverse-transition"
                     >
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn v-bind="attrs" v-on="on"
@@ -65,7 +66,7 @@
             <v-card-text class="mx-0 px-0">
                 <div class="">
                     <div v-if="PrincipalsStore.state.isGeneratingData"
-                        class="d-flex justify-center mt-12"
+                        class="d-flex justify-center mt-12 pt-6"
                     >
                         <v-progress-circular
                             :size="60"
@@ -80,7 +81,7 @@
                                 generatedData.length < 1
                                 || generatedData[0].output_template.length < 1
                             "
-                            class="d-flex justify-center mt-3"
+                            class="d-flex justify-center mt-12 pt-6"
                         >
                             <v-chip color="accent" small>
                                 No available data to display

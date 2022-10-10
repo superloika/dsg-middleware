@@ -18,9 +18,24 @@ class InvoicesController extends Controller
     }
 
     function index() {
+        // *************************************************
+        // $vendor_codes = "";
+        // $vcs = DB::table('principals')->where('active', 1)
+        //     ->orderBy('id')->pluck('vendor_code');
+        // foreach($vcs as $vc) {
+        //     if($vendor_codes=="") {
+        //         $vendor_codes = $vc;
+        //     } else {
+        //         $vendor_codes = $vendor_codes. "|$vc";
+        //     }
+        // }
+        // dd($vendor_codes);
+        // *************************************************
+
         $row_count = request()->row_count ?? 10;
         $search_key = request()->search_key ?? '';
         $principal_code = request()->principal_code ?? '';
+        // $vendor_code = request()->vendor_code ?? '';
         $status = request()->status ?? '';
         $terminal = request()->terminal ?? '';
 
@@ -56,7 +71,11 @@ class InvoicesController extends Controller
 
                     ->orWhere('batch_number','like', '%'.$search_key. '%');
             })
-            ->where(function($query) use ($principal_code) {
+
+            // ->where(function($query) use ($principal_code) {
+
+            // })
+            ->when($principal_code != '', function($query) use($principal_code) {
                 if($principal_code != '') {
                     if($principal_code=='others') {
                         $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code', null);
@@ -65,6 +84,10 @@ class InvoicesController extends Controller
                     }
                 }
             })
+            // ->where(
+            //     PrincipalsUtil::$TBL_INVOICES. '.vendor_code','like', '%'.$vendor_code. '%'
+            // )
+
             ->where(
                 PrincipalsUtil::$TBL_INVOICES. '.status','like', '%'.$status. '%'
             )
@@ -86,16 +109,17 @@ class InvoicesController extends Controller
 
             ->select(
                 PrincipalsUtil::$TBL_INVOICES. '.*',
-                'users.name AS user_fullname',
+                // 'users.name AS user_fullname',
                 'users.username',
                 PrincipalsUtil::$TBL_PRINCIPALS.'.name AS principals_name',
-                PrincipalsUtil::$TBL_PRINCIPALS.'.code',
-                PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
+                // PrincipalsUtil::$TBL_PRINCIPALS.'.code',
+                // PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
                 PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
                 PrincipalsUtil::$TBL_INVOICES_H. '.sm_code',
             );
 
             $sum = $result->sum(PrincipalsUtil::$TBL_INVOICES. '.amount');
+            // $sum = 0;
 
             // $invoices = $result->orderBy('id','DESC')
             $invoices = $result->orderBy(PrincipalsUtil::$TBL_INVOICES. '.posting_date','DESC')
@@ -271,7 +295,7 @@ class InvoicesController extends Controller
 
                                             $summaryItem['line_uploaded'] += 1;
                                         } else {
-                                            $summaryItem['skipped_zero_qty'][$line_number] = $row;
+                                            // $summaryItem['skipped_zero_qty'][$line_number] = $row;
                                         }
                                     } else {
                                         $summaryItem['line_existing'] += 1;

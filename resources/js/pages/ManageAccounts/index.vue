@@ -1,6 +1,9 @@
 <template>
 <div>
-    <div v-if="this.AuthUser.user_type !== 'super_admin'">
+    <div
+        v-if="this.AppStore.isSuperAdmin()==false && this.AppStore.isAdmin()==false"
+        class="pa-4 error--text"
+    >
         {{ AppStore.state.guardMsgs.accessDenied }}
     </div>
     <div v-else>
@@ -34,7 +37,7 @@
 
         <v-data-table
             :loading="ManageAccounts.state.usersLoading"
-            :items="ManageAccounts.state.users"
+            :items="filteredUsers"
             :headers="tblUsersHeader"
             :search="ManageAccounts.state.searchKey"
             checkbox-color="primary"
@@ -110,7 +113,21 @@ export default {
                     align: "end"
                 }
             ];
-        }
+        },
+
+        filteredUsers() {
+
+            return this.ManageAccounts.state.users.filter((e)=>{
+                if(this.AppStore.isAdmin()) {
+                    return e.user_type != 'super_admin'
+                    && e.user_type != 'admin'
+                    && e.user_type != 'dummy';
+                } else {
+                    return e;
+                }
+            });
+
+        },
     },
 
     methods: {

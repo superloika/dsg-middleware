@@ -71,7 +71,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     isEditPrincipalAssignmentShown: function isEditPrincipalAssignmentShown() {
-      if (this.ManageAccounts.state.toEdit.user_type == 'super_admin' && this.AppStore.isSuperAdmin() || this.AppStore.isSuperAdmin() == false) {
+      if (this.ManageAccounts.state.toEdit.user_type == 'super_admin' && this.AppStore.isSuperAdmin() || this.ManageAccounts.state.toEdit.user_type == 'admin' && this.AppStore.isAdmin() || this.AppStore.isSuperAdmin() == false && this.AppStore.isAdmin() == false) {
         return false;
       } else {
         return true;

@@ -54,7 +54,7 @@
 
                 <v-col cols="12" md="4" sm="6">
                     <v-select
-                        :items="AppStore.state.userTypes"
+                        :items="filteredUserTypes"
                         outlined
                         dense
                         text
@@ -129,6 +129,18 @@ export default {
             errMsgsShown: false,
             errorMsgs: {},
         };
+    },
+
+    computed: {
+        filteredUserTypes() {
+            return this.AppStore.state.userTypes.filter((e) => {
+                if(this.AppStore.isAdmin()) {
+                    return e != 'super_admin' && e != 'admin'
+                } else {
+                    return e;
+                }
+            });
+        }
     },
 
     watch: {
