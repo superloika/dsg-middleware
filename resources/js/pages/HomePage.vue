@@ -1,8 +1,8 @@
 <template>
 <v-container fluid>
-    <v-sheet class="pb-2">
+    <!-- <v-sheet class="pb-2">
         <h3 class="text-overline">Upload Log</h3>
-    </v-sheet>
+    </v-sheet> -->
     <v-card
         v-for="uplog in InvoicesStore.state.invoices_upload_logs"
         :key="uplog.id"
@@ -34,7 +34,7 @@
                         class="ma-1 elevation-1"
                         color="white"
                     >
-                        {{ fn.split('-')[2] }}
+                        {{ fn }}
                     </v-chip>
                 </span>
             </div>

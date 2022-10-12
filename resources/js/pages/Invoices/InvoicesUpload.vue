@@ -47,7 +47,7 @@
                     rounded
                     :disabled="file==null || file.length < 1 || selected_group=='XXX'"
                 >
-                    Submit
+                    Upload
                 </v-btn>
             </v-col>
             <v-col class="pb-0" cols lg="1" md="1" sm="1">

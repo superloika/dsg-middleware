@@ -99,6 +99,7 @@ Route::prefix('invoices')->group(function(){
     Route::post("/extract-raw-invoices-to-excel", "InvoicesController@extractRawInvoicesToExcel");
     Route::get("/groups", "InvoicesController@groups");
     Route::get("/invoices-upload-logs", "InvoicesController@uploadLogs");
+    Route::get("/grand-total", "InvoicesController@grandTotal");
 });
 
 
@@ -136,6 +137,9 @@ Route::prefix('principals')->group(function(){
         ['MegasoftController', 'megasoft'],
 
         ['GsmiController', 'gsmi'],
+
+        // working on...
+        // ['CleAceCorpController', 'cle_ace_corp'],
 
         // temp
         // ['AlaskaController', 'alaska'],

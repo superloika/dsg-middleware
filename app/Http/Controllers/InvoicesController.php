@@ -68,6 +68,14 @@ class InvoicesController extends Controller
                         PrincipalsUtil::$TBL_INVOICES.'.vendor_code',
                         'like', '%'.$search_key. '%'
                     )
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES_H.'.customer_name',
+                        'like', '%'.$search_key. '%'
+                    )
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES_H.'.sm_code',
+                        'like', '%'.$search_key. '%'
+                    )
 
                     ->orWhere('batch_number','like', '%'.$search_key. '%');
             })
@@ -118,17 +126,106 @@ class InvoicesController extends Controller
                 PrincipalsUtil::$TBL_INVOICES_H. '.sm_code',
             );
 
-            $sum = $result->sum(PrincipalsUtil::$TBL_INVOICES. '.amount');
-            // $sum = 0;
+            // $sum = $result->sum(PrincipalsUtil::$TBL_INVOICES. '.amount');
+            $sum = 0;
 
             // $invoices = $result->orderBy('id','DESC')
-            $invoices = $result->orderBy(PrincipalsUtil::$TBL_INVOICES. '.posting_date','DESC')
-                ->paginate($row_count);
+            // $invoices = $result->orderBy(PrincipalsUtil::$TBL_INVOICES. '.posting_date','DESC')
+            //     ->paginate($row_count);
+            $invoices = $result->paginate($row_count);
 
         return response()->json([
             'sum' => $sum,
             'invoices' => $invoices
         ]);
+    }
+
+    function grandTotal() {
+        $row_count = request()->row_count ?? 10;
+        $search_key = request()->search_key ?? '';
+        $principal_code = request()->principal_code ?? '';
+        // $vendor_code = request()->vendor_code ?? '';
+        $status = request()->status ?? '';
+        $terminal = request()->terminal ?? '';
+
+        $result = DB::table(PrincipalsUtil::$TBL_INVOICES)
+            ->where(function($query) use ($search_key, $status){
+                $query->where(
+                        PrincipalsUtil::$TBL_INVOICES.'.doc_no',
+                        'like', '%'.$search_key. '%'
+                    )
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES.'.customer_code',
+                        'like', '%'.$search_key. '%'
+                    )
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES.'.posting_date',
+                        'like', '%'.$search_key. '%'
+                    )
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES.'.created_at',
+                        'like', '%'.$search_key. '%'
+                    )
+
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES.'.item_code',
+                        'like', '%'.$search_key. '%'
+                    )
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES.'.vendor_code',
+                        'like', '%'.$search_key. '%'
+                    )
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES_H.'.customer_name',
+                        'like', '%'.$search_key. '%'
+                    )
+                    ->orWhere(
+                        PrincipalsUtil::$TBL_INVOICES_H.'.sm_code',
+                        'like', '%'.$search_key. '%'
+                    )
+
+                    ->orWhere('batch_number','like', '%'.$search_key. '%');
+            })
+            ->when($principal_code != '', function($query) use($principal_code) {
+                if($principal_code != '') {
+                    if($principal_code=='others') {
+                        $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code', null);
+                    } else {
+                        $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.code', $principal_code);
+                    }
+                }
+            })
+
+            ->where(
+                PrincipalsUtil::$TBL_INVOICES. '.status','like', '%'.$status. '%'
+            )
+            ->where(
+                PrincipalsUtil::$TBL_INVOICES. '.group','like', '%'.$terminal. '%'
+            )
+
+            ->leftJoin(
+                PrincipalsUtil::$TBL_PRINCIPALS,
+                PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
+                PrincipalsUtil::$TBL_INVOICES.'.vendor_code'
+            )
+            ->leftJoin(
+                PrincipalsUtil::$TBL_INVOICES_H,
+                PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
+                PrincipalsUtil::$TBL_INVOICES.'.doc_no'
+            )
+
+            ->select(
+                PrincipalsUtil::$TBL_INVOICES. '.*',
+                // 'users.name AS user_fullname',
+                'users.username',
+                PrincipalsUtil::$TBL_PRINCIPALS.'.name AS principals_name',
+                PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
+                PrincipalsUtil::$TBL_INVOICES_H. '.sm_code',
+            );
+
+            $sum = $result->sum(PrincipalsUtil::$TBL_INVOICES. '.amount');
+
+        return response()->json(['sum'=>$sum]);
     }
 
     function groups(Request $request) {
@@ -370,7 +467,7 @@ class InvoicesController extends Controller
 
                     $summary[] = $summaryItem;
 
-                    $filenames = $filenames . $fileName . ';';
+                    $filenames = $filenames . $origFilename . ';';
                 }
             }
 

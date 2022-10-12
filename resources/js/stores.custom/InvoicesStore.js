@@ -74,7 +74,7 @@ const actions = {
             const response = await axios.get(url);
             state.invoices = {};
             state.invoices = response.data.invoices;
-            state.invoicesTotalAmount = response.data.sum;
+            // state.invoicesTotalAmount = response.data.sum;
         } catch (error) {
             console.log('initInvoices() - ERROR:', error);
         } finally {
@@ -242,6 +242,25 @@ const actions = {
         ).then(res=>{
             state.invoices_upload_logs = res.data;
         });
+    },
+
+    async initInvoicesTotalAmount(
+        searchKey='', principal_code='', invoiceStatus='', row_count=10, selectedTerminal=''
+    ) {
+        try {
+            if(searchKey==null) searchKey = '';
+            const url = `${AppStore.state.siteUrl}invoices/grand-total`
+                + `?row_count=${row_count}`
+                + `&search_key=${searchKey}`
+                + `&principal_code=${principal_code}`
+                + `&status=${invoiceStatus}`
+                + `&terminal=${selectedTerminal}`
+                + `&page=${state.invoices.current_page ?? 1}`;
+            const response = await axios.get(url);
+            state.invoicesTotalAmount = response.data.sum;
+        } catch (error) {
+            console.log('initInvoices() - ERROR:', error);
+        }
     }
 
 }

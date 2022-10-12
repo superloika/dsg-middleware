@@ -291,7 +291,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    Submit\n                ")]
+                    [_vm._v("\n                    Upload\n                ")]
                   )
                 ],
                 1

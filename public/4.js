@@ -224,6 +224,8 @@ var map = {
 	"./century_canning.js": "./resources/js/stores.custom/principals/century_canning.js",
 	"./cle_ace_corp": "./resources/js/stores.custom/principals/cle_ace_corp.js",
 	"./cle_ace_corp.js": "./resources/js/stores.custom/principals/cle_ace_corp.js",
+	"./cle_ace_corp1": "./resources/js/stores.custom/principals/cle_ace_corp1.js",
+	"./cle_ace_corp1.js": "./resources/js/stores.custom/principals/cle_ace_corp1.js",
 	"./colgate_palmolive": "./resources/js/stores.custom/principals/colgate_palmolive.js",
 	"./colgate_palmolive.js": "./resources/js/stores.custom/principals/colgate_palmolive.js",
 	"./columbus_seafoods": "./resources/js/stores.custom/principals/columbus_seafoods.js",
@@ -1153,6 +1155,151 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Customer Code',
     value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/cle_ace_corp1.js":
+/*!****************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/cle_ace_corp1.js ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // customersTableHeader: [
+  //     [
+  //         { text: "Customer Code", value: "customer_code" },
+  //         { text: "Principal Customer Code", value: "customer_code_supplier" },
+  //     ],
+  // ],
+  itemsTableHeader: [[{
+    text: "Item Code",
+    value: "item_code"
+  }, {
+    text: "FAC Item Code",
+    value: "item_code_supplier"
+  }, {
+    text: "Description",
+    value: "description"
+  }, {
+    text: "Inner case",
+    value: "conversion_qty"
+  }, {
+    text: "cp_cases",
+    value: "cp_cases"
+  }, {
+    text: "cp_pcs",
+    value: "cp_pcs"
+  }, {
+    text: "cp_panel_cases",
+    value: "cp_panel_cases"
+  }, {
+    text: "cp_panel_pcs",
+    value: "cp_panel_pcs"
+  }]],
+  salesmenTableHeader: [[{
+    text: "Group Code",
+    value: "group_code"
+  }, {
+    text: "Salesman Code - NOAH",
+    value: "sm_code_supplier"
+  }, {
+    text: "Location Code - NOAH",
+    value: "location_code_supplier"
+  }]],
+  // templated data table header(s)
+  generatedDataTableHeader: [[{
+    text: "Distributor ID",
+    value: "distributor_id"
+  }, {
+    text: "Salesman",
+    value: "sales_agent_id"
+  }, {
+    text: "Docno",
+    value: "doc_no"
+  }, {
+    text: "Location",
+    value: "location"
+  }, {
+    text: "Ordered Date",
+    value: "order_date"
+  }, {
+    text: "Request Delivery Date",
+    value: "request_delivery_date"
+  }, {
+    text: "Payment Term",
+    value: "payment_term_code"
+  }, {
+    text: "Account Code",
+    value: "customer_code"
+  }, {
+    text: "Product Code",
+    value: "item_code"
+  }, {
+    text: "Bulk Qty",
+    value: "bulk_qty"
+  }, {
+    text: "Loose Qty",
+    value: "loose_qty"
+  }, {
+    text: "System Date",
+    value: "system_date"
+  }, {
+    text: "User",
+    value: "default_user"
+  }] // [
+  //     {text:"Distributor ID", value: "distributor_id"},
+  //     {text:"Sales Agent ID", value: "sales_agent_id"},
+  //     {text:"Invoice No (Doc No)", value: "doc_no"},
+  //     {text:"Location", value: "location"},
+  //     {text:"Invoice Date", value: "invoice_date"},
+  //     {text:"Payment Term Code", value: "payment_term_code"},
+  //     {text:"Customer No", value: "customer_code"},
+  //     {text:"Product Code", value: "item_code"},
+  //     {text:"Bulk Qty", value: "bulk_qty"},
+  //     {text:"Loose Qty", value: "loose_qty"},
+  //     {text:"System Date", value: "system_date"},
+  //     {text:"Default User", value: "default_user"},
+  //     {text:"Invoice No", value: "invoice_no"},
+  //     {text:"Expiry Date", value: "expiry_date"},
+  // ],
+  ],
+  generatedDataHistoryFilters: [[{
+    text: 'Order Date',
+    value: 'order_date'
+  }, {
+    text: 'Invoice #',
+    value: 'doc_no'
+  }, {
+    text: 'Product Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Salesman',
+    value: 'sm_code_supplier'
+  }, {
+    text: 'Location',
+    value: 'location'
+  }, {
+    text: 'Invoice Posting Date',
+    value: 'posting_date'
   }, {
     text: 'Source Group',
     value: 'group_code'

@@ -62,6 +62,20 @@
                     <v-icon>mdi-delete-forever</v-icon>
                 </v-btn>
             </template>
+            <template v-slot:[`item.user_type`]="{ item }">
+                <v-chip v-if="item.user_type=='encoder'" small color="default">
+                    {{ item.user_type }}
+                </v-chip>
+                <v-chip v-else-if="item.user_type=='uploader'" small color="secondary">
+                    {{ item.user_type }}
+                </v-chip>
+                <v-chip v-else-if="item.user_type=='admin'" small color="accent">
+                    {{ item.user_type }}
+                </v-chip>
+                <v-chip v-else-if="item.user_type=='super_admin'" small color="info">
+                    {{ item.user_type }}
+                </v-chip>
+            </template>
         </v-data-table>
 
         <!-- Dialogs (Modals)-->

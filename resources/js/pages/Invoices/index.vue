@@ -212,7 +212,6 @@
         <v-data-table
             :items="InvoicesStore.state.invoices.data"
             :headers="InvoicesStore.state.tableHeader"
-            :loadingxxx="InvoicesStore.state.isLoadingInvoices"
             item-key="id"
             v-model="InvoicesStore.state.selectedInvoices"
             hide-default-footer
@@ -227,7 +226,7 @@
                         v-model="InvoicesStore.state.invoices.current_page"
                         :length="InvoicesStore.state.invoices.last_page"
                         @input="onPageChange()"
-                        total-visible="5"
+                        total-visible="10"
                     >
                     </v-pagination>
                 </v-container>
@@ -368,6 +367,13 @@ export default {
                 this.tblPageRowCount,
                 this.selectedGroup
             );
+            this.InvoicesStore.initInvoicesTotalAmount(
+                this.searchKey,
+                this.principalCodeFilter,
+                this.invoiceStatus,
+                this.tblPageRowCount,
+                this.selectedGroup
+            );
 
             // console.log(this.AppStore.state.principals);
         },
@@ -426,6 +432,7 @@ export default {
 
     created() {
         this.InvoicesStore.initInvoices();
+        this.InvoicesStore.initInvoicesTotalAmount();
         this.InvoicesStore.initGroups();
     },
 
