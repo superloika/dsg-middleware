@@ -231,6 +231,7 @@
                     </v-pagination>
                 </v-container>
             </template>
+
             <template v-slot:[`item.status`]="{ item }">
                 <v-chip
                     color="warning"

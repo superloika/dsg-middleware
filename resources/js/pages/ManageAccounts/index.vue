@@ -118,7 +118,7 @@ export default {
             return [
                 { text: "Name", value: "name" },
                 { text: "Username", value: "username" },
-                { text: "E-mail Address", value: "email" },
+                // { text: "E-mail Address", value: "email" },
                 { text: "User Type", value: "user_type" },
                 {
                     text: "Actions",
