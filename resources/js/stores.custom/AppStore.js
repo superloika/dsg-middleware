@@ -11,7 +11,7 @@ const host = `http://${window.location.host}/`;
 // const localStorage = window.localStorage;
 
 const state = Vue.observable({
-    AppName: 'DSG PRINCIPAL MIDDLEWARE - DEV',
+    AppName: 'DSG PRINCIPAL MIDDLEWARE',
     // AppName: 'DSG PRINCIPAL MIDDLEWARE',
     siteUrl: host,
     snackBar: {

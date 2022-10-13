@@ -98,14 +98,24 @@
                     >
                         <v-select
                             v-model="newAccount.selected_principals"
-                            :items="AppStore.state.principals"
+                            :items="filteredPrincipals"
                             item-text="name"
                             item-value="id"
                             label="Designated Principals"
                             multiple
                             dense
                             outlined
-                        ></v-select>
+                        >
+                            <template v-slot:prepend-item>
+                                <div class="mx-2 mb-0 pb-0">
+                                    <v-text-field dense rounded solo-inverted clearable
+                                        placeholder="Search" flat
+                                        v-model="principalsSearchKey"
+                                    >
+                                    </v-text-field>
+                                </div>
+                            </template>
+                        </v-select>
                     </v-col>
                 </v-row>
 
@@ -193,6 +203,7 @@ export default {
             errMsgs: [],
             errMsgsShown: false,
 
+            principalsSearchKey: '',
         };
     },
 
@@ -274,7 +285,29 @@ export default {
                     return e;
                 }
             })
+        },
+
+
+        filteredPrincipals() {
+            const searchRegex = new RegExp(this.principalsSearchKey, "i");
+
+            if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
+                return this.AppStore.state.principals.filter(
+                    principal =>
+                        searchRegex.test(principal.name) ||
+                        !this.principalsSearchKey
+                );
+            } else {
+                return this.AppStore.state.principals.filter(
+                    principal =>
+                        (searchRegex.test(principal.name) ||
+                        !this.principalsSearchKey) &&
+                        this.AppStore.isInUserPrincipalIDs(principal.id)
+                );
+            }
         }
+
+
     },
 
     created() {},

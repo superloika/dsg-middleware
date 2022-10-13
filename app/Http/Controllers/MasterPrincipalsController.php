@@ -45,7 +45,7 @@ class MasterPrincipalsController extends Controller
 
                             if (count($cols) > 1) {
                                 $id = $cols[0];
-                                $name = trim($cols[1], ' \t\n\r\0\x0B\"');
+                                $name = trim($cols[1], ' \t\n\r\0\"');
                                 $principal_code = $cols[2];
                                 $vendor_code = $cols[3];
                                 $template_variation_count = $cols[4];

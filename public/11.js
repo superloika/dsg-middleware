@@ -156,6 +156,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _this = this;
@@ -208,7 +218,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       savingNewUser: false,
       errMsgs: [],
-      errMsgsShown: false
+      errMsgsShown: false,
+      principalsSearchKey: ''
     };
   },
   watch: {
@@ -315,6 +326,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return e;
         }
       });
+    },
+    filteredPrincipals: function filteredPrincipals() {
+      var _this4 = this;
+
+      var searchRegex = new RegExp(this.principalsSearchKey, "i");
+
+      if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
+        return this.AppStore.state.principals.filter(function (principal) {
+          return searchRegex.test(principal.name) || !_this4.principalsSearchKey;
+        });
+      } else {
+        return this.AppStore.state.principals.filter(function (principal) {
+          return (searchRegex.test(principal.name) || !_this4.principalsSearchKey) && _this4.AppStore.isInUserPrincipalIDs(principal.id);
+        });
+      }
     }
   },
   created: function created() {},
@@ -573,7 +599,7 @@ var render = function() {
                         [
                           _c("v-select", {
                             attrs: {
-                              items: _vm.AppStore.state.principals,
+                              items: _vm.filteredPrincipals,
                               "item-text": "name",
                               "item-value": "id",
                               label: "Designated Principals",
@@ -581,6 +607,45 @@ var render = function() {
                               dense: "",
                               outlined: ""
                             },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "prepend-item",
+                                  fn: function() {
+                                    return [
+                                      _c(
+                                        "div",
+                                        { staticClass: "mx-2 mb-0 pb-0" },
+                                        [
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              dense: "",
+                                              rounded: "",
+                                              "solo-inverted": "",
+                                              clearable: "",
+                                              placeholder: "Search",
+                                              flat: ""
+                                            },
+                                            model: {
+                                              value: _vm.principalsSearchKey,
+                                              callback: function($$v) {
+                                                _vm.principalsSearchKey = $$v
+                                              },
+                                              expression: "principalsSearchKey"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    ]
+                                  },
+                                  proxy: true
+                                }
+                              ],
+                              null,
+                              false,
+                              1934076597
+                            ),
                             model: {
                               value: _vm.newAccount.selected_principals,
                               callback: function($$v) {

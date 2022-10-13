@@ -199,9 +199,9 @@
         </v-app-bar>
 
         <!-- Invoice upload component -->
-        <v-sheet class="ma-2 rounded-lg green lighten-5"
+        <v-sheet class="ma-2 rounded-lg white"
             v-if="AppStore.isSuperAdmin() || AppStore.isAdmin() || AppStore.isUploader()"
-            elevation="0"
+            elevation="1"
         >
             <InvoicesUpload
                 :searchKey="searchKey"

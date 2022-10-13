@@ -27,7 +27,7 @@
                 >
                     <v-select
                         v-model="account.selected_principals"
-                        :items="principals"
+                        :items="filteredPrincipals"
                         item-text="name"
                         item-value="id"
                         label="Designated Principals"
@@ -35,7 +35,17 @@
                         dense
                         outlined
                         clearable
-                    ></v-select>
+                    >
+                        <template v-slot:prepend-item>
+                            <div class="mx-2 mb-0 pb-0">
+                                <v-text-field dense rounded solo-inverted clearable
+                                    placeholder="Search" flat
+                                    v-model="principalsSearchKey"
+                                >
+                                </v-text-field>
+                            </div>
+                        </template>
+                    </v-select>
                 </v-col>
             </v-row>
 
@@ -72,13 +82,35 @@ export default {
             errMsgs: [],
             errMsgsShown: false,
             errorMsgs: {},
+            principalsSearchKey: '',
         };
     },
 
     computed: {
         principals() {
             return this.AppStore.state.principals;
-        }
+        },
+
+        filteredPrincipals() {
+            const searchRegex = new RegExp(this.principalsSearchKey, "i");
+
+            if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
+                return this.principals.filter(
+                    principal =>
+                        searchRegex.test(principal.name) ||
+                        !this.principalsSearchKey
+                );
+            } else {
+                return this.principals.filter(
+                    principal =>
+                        (searchRegex.test(principal.name) ||
+                        !this.principalsSearchKey) &&
+                        this.AppStore.isInUserPrincipalIDs(principal.id)
+                );
+            }
+        },
+
+
     },
 
     methods: {

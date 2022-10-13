@@ -77,6 +77,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -89,17 +99,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       updatingPrincipal: false,
       errMsgs: [],
       errMsgsShown: false,
-      errorMsgs: {}
+      errorMsgs: {},
+      principalsSearchKey: ''
     };
   },
   computed: {
     principals: function principals() {
       return this.AppStore.state.principals;
+    },
+    filteredPrincipals: function filteredPrincipals() {
+      var _this = this;
+
+      var searchRegex = new RegExp(this.principalsSearchKey, "i");
+
+      if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
+        return this.principals.filter(function (principal) {
+          return searchRegex.test(principal.name) || !_this.principalsSearchKey;
+        });
+      } else {
+        return this.principals.filter(function (principal) {
+          return (searchRegex.test(principal.name) || !_this.principalsSearchKey) && _this.AppStore.isInUserPrincipalIDs(principal.id);
+        });
+      }
     }
   },
   methods: {
     updatePrincipal: function updatePrincipal() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var vm, url, payload, response;
@@ -107,21 +133,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                vm = _this;
+                vm = _this2;
 
-                if (!_this.$refs.frm_edit_principal.validate()) {
+                if (!_this2.$refs.frm_edit_principal.validate()) {
                   _context.next = 17;
                   break;
                 }
 
-                url = "".concat(_this.AppStore.state.siteUrl, "accounts/update-principal-assignment");
+                url = "".concat(_this2.AppStore.state.siteUrl, "accounts/update-principal-assignment");
                 payload = {
                   _method: "PATCH",
                   id: vm.account.id,
                   selected_principals: vm.account.selected_principals
                 };
                 _context.prev = 4;
-                _this.updatingPrincipal = true;
+                _this2.updatingPrincipal = true;
                 _context.next = 8;
                 return axios.post(url, payload);
 
@@ -129,7 +155,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context.sent;
 
                 if (response.data == true) {
-                  if (_this.$route.meta.name === 'Account') {
+                  if (_this2.$route.meta.name === 'Account') {
                     location.reload();
                   } // temp
                   // this.ManageAccounts.state.toEdit.name = vm.account.name;
@@ -141,21 +167,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   //     vm.account.user_type;
 
 
-                  _this.ManageAccounts.initUsers(); // this.ManageAccounts.state.modalEditIsOpen = false;
+                  _this2.ManageAccounts.initUsers(); // this.ManageAccounts.state.modalEditIsOpen = false;
 
 
-                  _this.AppStore.toast("Account updated", 2000);
+                  _this2.AppStore.toast("Account updated", 2000);
                 } else if (response.data.invalidations != undefined || response.data.invalidations != null) {
-                  _this.errMsgs = [];
-                  _this.errorMsgs = {};
-                  _this.errorMsgs = response.data.invalidations;
+                  _this2.errMsgs = [];
+                  _this2.errorMsgs = {};
+                  _this2.errorMsgs = response.data.invalidations;
                   Object.entries(response.data.invalidations).forEach(function (field) {
-                    _this.errMsgs.push(field[1][0]);
+                    _this2.errMsgs.push(field[1][0]);
                   }); // this.AppStore.toast(this.errMsgs, 3000);
 
-                  _this.errMsgsShown = true;
+                  _this2.errMsgsShown = true;
                 } else if (response.data.errorInfo != null || response.data.errorInfo != undefined) {
-                  _this.AppStore.toast("An error occured", 2000);
+                  _this2.AppStore.toast("An error occured", 2000);
 
                   console.log(response.data.errorInfo);
                 }
@@ -168,10 +194,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.t0 = _context["catch"](4);
                 console.log(_context.t0);
 
-                _this.AppStore.toast(_context.t0, 3000);
+                _this2.AppStore.toast(_context.t0, 3000);
 
               case 16:
-                _this.updatingPrincipal = false;
+                _this2.updatingPrincipal = false;
 
               case 17:
               case "end":
@@ -229,7 +255,7 @@ var render = function() {
                 [
                   _c("v-select", {
                     attrs: {
-                      items: _vm.principals,
+                      items: _vm.filteredPrincipals,
                       "item-text": "name",
                       "item-value": "id",
                       label: "Designated Principals",
@@ -238,6 +264,40 @@ var render = function() {
                       outlined: "",
                       clearable: ""
                     },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "prepend-item",
+                        fn: function() {
+                          return [
+                            _c(
+                              "div",
+                              { staticClass: "mx-2 mb-0 pb-0" },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    dense: "",
+                                    rounded: "",
+                                    "solo-inverted": "",
+                                    clearable: "",
+                                    placeholder: "Search",
+                                    flat: ""
+                                  },
+                                  model: {
+                                    value: _vm.principalsSearchKey,
+                                    callback: function($$v) {
+                                      _vm.principalsSearchKey = $$v
+                                    },
+                                    expression: "principalsSearchKey"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ]
+                        },
+                        proxy: true
+                      }
+                    ]),
                     model: {
                       value: _vm.account.selected_principals,
                       callback: function($$v) {

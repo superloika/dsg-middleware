@@ -32,7 +32,7 @@
                 absolute
                 bottom
                 stream
-                color="lime"
+                color="white"
             ></v-progress-linear>
         </v-system-bar>
 
