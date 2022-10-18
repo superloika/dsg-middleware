@@ -865,7 +865,7 @@ class InvoicesController extends Controller
                 ->first()->vendor_code ?? 'NA'
         )
         ->whereBetween(
-            DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
+            DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES . ".posting_date, '%m/%d/%Y')"),
             [$dateFrom, $dateTo])
         ->where('status', 'pending')
 
