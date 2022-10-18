@@ -681,6 +681,11 @@ class RfmController extends Controller
 
                     //********************************************************************
                     $nav_customer_name = trim($pendingInvoice->customer_name);
+                    if($nav_customer_name==null || $nav_customer_name=='') {
+                        $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            ->where('customer_code', $customer_code)
+                            ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    }
                     // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
                     //     ->where('customer_code', $customer_code)
                     //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;

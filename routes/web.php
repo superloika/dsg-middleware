@@ -113,7 +113,7 @@ Route::prefix('invoices')->group(function(){
 Route::prefix('principals')->group(function(){
     $principalCtrls = [
         ['MeadJohnsonController', 'mead_johnson'],
-        ['ReckittController', 'reckitt'],
+        // ['ReckittController', 'reckitt'],
 
         // ['GspiController', 'gspi'],
 
@@ -216,6 +216,7 @@ Route::prefix('principals')->group(function(){
         ['TemprincipalsController', 'magnolia_inc'],
         ['TemprincipalsController', 'the_purefoods_hormel'],
         ['TemprincipalsController', 'hormel_foods'],
+        ['TemprincipalsController', 'reckitt'],
         // ['TemprincipalsController', 'a_tung_chingco'],
     ];
     foreach($principalCtrls as $principalCtrl) {

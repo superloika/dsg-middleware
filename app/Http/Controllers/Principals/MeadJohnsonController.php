@@ -620,19 +620,19 @@ class MeadJohnsonController extends Controller
                                 );
                                 // ---------------------------------------------------------------------------
                             } else {
-                                if($sm_code==null||$sm_code=='') {
-                                    // ---------------------------------------------------------------------------
-                                    if (
-                                        !isset($res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'])
-                                    ) {
-                                        $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'] = [];
-                                    }
-                                    array_push(
-                                        $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'],
-                                        $arrGenerated
-                                    );
-                                    // ---------------------------------------------------------------------------
-                                } else {
+                                // if($sm_code==null||$sm_code=='') {
+                                //     // ---------------------------------------------------------------------------
+                                //     if (
+                                //         !isset($res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'])
+                                //     ) {
+                                //         $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'] = [];
+                                //     }
+                                //     array_push(
+                                //         $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'],
+                                //         $arrGenerated
+                                //     );
+                                //     // ---------------------------------------------------------------------------
+                                // } else {
                                     // group output_template_variations
                                     if (
                                         !isset($res['output_template_variations'][0]
@@ -646,7 +646,7 @@ class MeadJohnsonController extends Controller
                                             ['output_template'][$$group_by],
                                         $arrGenerated
                                     );
-                                }
+                                // }
                             }
 
                         }

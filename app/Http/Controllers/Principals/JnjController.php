@@ -694,9 +694,12 @@ class JnjController extends Controller
                     $group_code = trim($pendingInvoice->group);
 
                     //********************************************************************
-                    $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        ->where('customer_code', $customer_code)
-                        ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    $nav_customer_name = trim($pendingInvoice->customer_name);
+                    if($nav_customer_name==null || $nav_customer_name=='') {
+                        $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            ->where('customer_code', $customer_code)
+                            ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    }
                     // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
                     //     ->where('item_code', $item_code)
                     //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
@@ -829,19 +832,19 @@ class JnjController extends Controller
                                 );
                                 // ---------------------------------------------------------------------------
                             } else {
-                                if($sm_code==null||$sm_code=='') {
-                                    // ---------------------------------------------------------------------------
-                                    if (
-                                        !isset($res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'])
-                                    ) {
-                                        $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'] = [];
-                                    }
-                                    array_push(
-                                        $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'],
-                                        $arrGenerated
-                                    );
-                                    // ---------------------------------------------------------------------------
-                                } else {
+                                // if($sm_code==null||$sm_code=='') {
+                                //     // ---------------------------------------------------------------------------
+                                //     if (
+                                //         !isset($res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'])
+                                //     ) {
+                                //         $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'] = [];
+                                //     }
+                                //     array_push(
+                                //         $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'],
+                                //         $arrGenerated
+                                //     );
+                                //     // ---------------------------------------------------------------------------
+                                // } else {
                                     // ---------------------------------------------------------------------------
                                     if (
                                         !isset($res['output_template_variations'][$tvc_index]['output_template'][$$group_by])
@@ -853,7 +856,7 @@ class JnjController extends Controller
                                         $arrGenerated
                                     );
                                     // ---------------------------------------------------------------------------
-                                }
+                                // }
                             }
 
                         }

@@ -688,6 +688,11 @@ class CadburyAdamsController extends Controller
                     //     ->where('customer_code', $customer_code)
                     //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                     $nav_customer_name = trim($pendingInvoice->customer_name);
+                    if($nav_customer_name==null || $nav_customer_name=='') {
+                        $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            ->where('customer_code', $customer_code)
+                            ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    }
                     // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
                     //     ->where('item_code', $item_code)
                     //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
@@ -802,7 +807,7 @@ class CadburyAdamsController extends Controller
                             }
                         } else {
                             // group output_template_variations
-                            if($item_notfound==1 || $customer_notfound==1) {
+                            if($item_notfound==1 || $customer_notfound==1||$salesman_notfound==1) {
                                 // ---------------------------------------------------------------------------
                                 if (
                                     !isset($res['output_template_variations'][$tvc_index]['output_template']['Unmapped'])
