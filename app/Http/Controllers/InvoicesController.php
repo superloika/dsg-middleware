@@ -778,7 +778,7 @@ class InvoicesController extends Controller
                 //     PrincipalsUtil::$TBL_INVOICES. '.customer_code',
                 //     PrincipalsUtil::$TBL_GENERAL_CUSTOMERS. '.customer_code'
                 // )
-                ->leftJoin(
+                ->join(
                     PrincipalsUtil::$TBL_INVOICES_H,
                     PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
                     PrincipalsUtil::$TBL_INVOICES.'.doc_no'
@@ -849,7 +849,7 @@ class InvoicesController extends Controller
         $dateTo = new Carbon($dateTo);
 
         return DB::table(PrincipalsUtil::$TBL_INVOICES)
-        ->leftJoin(
+        ->join(
             PrincipalsUtil::$TBL_INVOICES_H,
             PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
             PrincipalsUtil::$TBL_INVOICES.'.doc_no'

@@ -307,7 +307,7 @@ class PrincipalsUtil extends Controller
                 ->first()->vendor_code ?? 'NA';
 
             $result = DB::table($this::$TBL_INVOICES)
-                ->leftJoin(
+                ->join(
                     PrincipalsUtil::$TBL_INVOICES_H,
                     PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
                     PrincipalsUtil::$TBL_INVOICES.'.doc_no'
