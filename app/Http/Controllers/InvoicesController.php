@@ -52,7 +52,7 @@ class InvoicesController extends Controller
                         'like', '%'.$search_key. '%'
                     )
                     ->orWhere(
-                        PrincipalsUtil::$TBL_INVOICES.'.posting_date',
+                        PrincipalsUtil::$TBL_INVOICES_H.'.posting_date',
                         'like', '%'.$search_key. '%'
                     )
                     ->orWhere(
@@ -124,6 +124,7 @@ class InvoicesController extends Controller
                 // PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
                 PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
                 PrincipalsUtil::$TBL_INVOICES_H. '.sm_code',
+                PrincipalsUtil::$TBL_INVOICES_H. '.posting_date',
             );
 
             // $sum = $result->sum(PrincipalsUtil::$TBL_INVOICES. '.amount');
@@ -159,7 +160,7 @@ class InvoicesController extends Controller
                         'like', '%'.$search_key. '%'
                     )
                     ->orWhere(
-                        PrincipalsUtil::$TBL_INVOICES.'.posting_date',
+                        PrincipalsUtil::$TBL_INVOICES_H.'.posting_date',
                         'like', '%'.$search_key. '%'
                     )
                     ->orWhere(
@@ -221,6 +222,7 @@ class InvoicesController extends Controller
                 PrincipalsUtil::$TBL_PRINCIPALS.'.name AS principals_name',
                 PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
                 PrincipalsUtil::$TBL_INVOICES_H. '.sm_code',
+                PrincipalsUtil::$TBL_INVOICES_H. '.posting_date',
             );
 
             $sum = $result->sum(PrincipalsUtil::$TBL_INVOICES. '.amount');
@@ -324,7 +326,7 @@ class InvoicesController extends Controller
                                 $customer_code =    trim(str_replace('"','',$cols[1]));
                                 $doc_no =           trim(str_replace('"','',$cols[2]));
                                 $item_code =        trim(str_replace('"','',$cols[5]));
-                                $posting_date =     trim(str_replace('"','',$cols[6]));
+                                $shipment_date =     trim(str_replace('"','',$cols[6]));
                                 $item_description = trim(str_replace('"','',$cols[7]));
                                 $uom =              trim(str_replace('"','',$cols[8]));
                                 $quantity =         trim(str_replace('"','',$cols[9]));
@@ -355,14 +357,9 @@ class InvoicesController extends Controller
                                             ->where('vendor_code',$vendor_code)
                                             ->where('customer_code',$customer_code)
                                             ->where('doc_no',$doc_no)
-                                            // ->where('posting_date',$posting_date)
                                             ->where('item_code',$item_code)
                                             ->where('uom',$uom)
                                             ->where('quantity',$quantity)
-                                            // ->where('price',$price)
-                                            // ->where('amount',$amount)
-                                            // ->where('qty_per_uom',$qty_per_uom)
-                                            // ->where('uom_code',$uom_code)
 
                                             ->exists() == false
                                     ) {
@@ -379,7 +376,7 @@ class InvoicesController extends Controller
                                                 'vendor_code'=>$vendor_code,
                                                 'customer_code'=>$customer_code,
                                                 'doc_no'=>$doc_no,
-                                                'posting_date'=>$posting_date,
+                                                'shipment_date'=>$shipment_date,
                                                 'item_code'=>$item_code,
                                                 'item_description'=>$item_description,
                                                 'uom'=>$uom,
@@ -662,90 +659,90 @@ class InvoicesController extends Controller
      * Export to textfile
      */
 
-    public function extract(Request $request) {
-        set_time_limit(0);
-        try {
-            $principal_code = $request->principal_code;
+    // public function extract(Request $request) {
+    //     set_time_limit(0);
+    //     try {
+    //         $principal_code = $request->principal_code;
 
-            // $dates = explode(',', $request->input('posting_date'));
-            $dates = $request->input('posting_date');
-            sort($dates);
-            $dateFrom = '';
-            $dateTo = '';
-            if(count($dates) > 1) {
-                $dateFrom = $dates[0];
-                $dateTo = $dates[1];
-            } else if(count($dates) == 1) {
-                $dateFrom = $dates[0];
-                $dateTo = $dates[0];
-            }
-            $dateFrom = new Carbon($dateFrom);
-            $dateTo = new Carbon($dateTo);
+    //         // $dates = explode(',', $request->input('posting_date'));
+    //         $dates = $request->input('posting_date');
+    //         sort($dates);
+    //         $dateFrom = '';
+    //         $dateTo = '';
+    //         if(count($dates) > 1) {
+    //             $dateFrom = $dates[0];
+    //             $dateTo = $dates[1];
+    //         } else if(count($dates) == 1) {
+    //             $dateFrom = $dates[0];
+    //             $dateTo = $dates[0];
+    //         }
+    //         $dateFrom = new Carbon($dateFrom);
+    //         $dateTo = new Carbon($dateTo);
 
-            $vendor_code = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                ->where('code', $principal_code)->first()->vendor_code ?? 'NA';
+    //         $vendor_code = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+    //             ->where('code', $principal_code)->first()->vendor_code ?? 'NA';
 
-            $invoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
-                ->where('vendor_code', $vendor_code)
-                ->whereBetween(
-                    DB::raw("STR_TO_DATE(posting_date, '%m/%d/%Y')"),
-                    [$dateFrom, $dateTo])
-                ->orderBy('doc_no')
-                ->get()
-                ;
+    //         $invoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
+    //             ->where('vendor_code', $vendor_code)
+    //             ->whereBetween(
+    //                 DB::raw("STR_TO_DATE(posting_date, '%m/%d/%Y')"),
+    //                 [$dateFrom, $dateTo])
+    //             ->orderBy('doc_no')
+    //             ->get()
+    //             ;
 
-            $zip_file = public_path('invoices.zip');
-            $zip = new ZipArchive();
-            $zip->open($zip_file, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+    //         $zip_file = public_path('invoices.zip');
+    //         $zip = new ZipArchive();
+    //         $zip->open($zip_file, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
-            $groups = [];
+    //         $groups = [];
 
-            foreach($invoices as $inv) {
-                if(!isset($groups[$inv->group])) {
-                    $groups[$inv->group]['filename'] =
-                        $inv->group. '_'. $dateFrom->format('Y-m-d'). '_'.
-                        $dateTo->format('Y-m-d'). '.txt';
-                    $groups[$inv->group]['data'] = '';
-                }
-                $groups[$inv->group]['data'] = $groups[$inv->group]['data'].
-                    '"'. $inv->vendor_code. '"|'.
-                    '"'. $inv->customer_code. '"|'.
-                    '"'. $inv->doc_no. '"|'.
-                    '"'. $inv->posting_date. '"|'.
-                    '"'. $inv->item_code. '"|'.
-                    '"'. $inv->item_description. '"|'.
-                    '"'. $inv->uom. '"|'.
-                    '"'. $inv->quantity. '"|'.
-                    '"'. $inv->price. '"|'.
-                    '"'. $inv->amount. '"|'.
-                    '"'. $inv->qty_per_uom. '"|'.
-                    '"'. $inv->uom_code. '"'.
-                    PHP_EOL;
-            }
+    //         foreach($invoices as $inv) {
+    //             if(!isset($groups[$inv->group])) {
+    //                 $groups[$inv->group]['filename'] =
+    //                     $inv->group. '_'. $dateFrom->format('Y-m-d'). '_'.
+    //                     $dateTo->format('Y-m-d'). '.txt';
+    //                 $groups[$inv->group]['data'] = '';
+    //             }
+    //             $groups[$inv->group]['data'] = $groups[$inv->group]['data'].
+    //                 '"'. $inv->vendor_code. '"|'.
+    //                 '"'. $inv->customer_code. '"|'.
+    //                 '"'. $inv->doc_no. '"|'.
+    //                 '"'. $inv->posting_date. '"|'.
+    //                 '"'. $inv->item_code. '"|'.
+    //                 '"'. $inv->item_description. '"|'.
+    //                 '"'. $inv->uom. '"|'.
+    //                 '"'. $inv->quantity. '"|'.
+    //                 '"'. $inv->price. '"|'.
+    //                 '"'. $inv->amount. '"|'.
+    //                 '"'. $inv->qty_per_uom. '"|'.
+    //                 '"'. $inv->uom_code. '"'.
+    //                 PHP_EOL;
+    //         }
 
-            foreach($groups as $g) {
-                Storage::put("public\\test\\$g[filename]", $g['data']);
-            }
+    //         foreach($groups as $g) {
+    //             Storage::put("public\\test\\$g[filename]", $g['data']);
+    //         }
 
-            $files = Storage::files('public\\test');
-            foreach($files as $file) {
-                $zip->addFile(storage_path("app\\$file"), basename($file));
-            }
+    //         $files = Storage::files('public\\test');
+    //         foreach($files as $file) {
+    //             $zip->addFile(storage_path("app\\$file"), basename($file));
+    //         }
 
-            $zip->close();
+    //         $zip->close();
 
-            Storage::deleteDirectory('public\\test');
+    //         Storage::deleteDirectory('public\\test');
 
-            return response()->download(
-                $zip_file,
-                $principal_code. '_invoices_'.
-                    $dateFrom->format('Y-m-d'). '_'. $dateTo->format('Y-m-d'). '.zip'
-            );
-        } catch (\Throwable $th) {
-            //throw $th;
-            return response()->json($th->getMessage(), 500);
-        }
-    }
+    //         return response()->download(
+    //             $zip_file,
+    //             $principal_code. '_invoices_'.
+    //                 $dateFrom->format('Y-m-d'). '_'. $dateTo->format('Y-m-d'). '.zip'
+    //         );
+    //     } catch (\Throwable $th) {
+    //         //throw $th;
+    //         return response()->json($th->getMessage(), 500);
+    //     }
+    // }
 
 
 
@@ -798,7 +795,7 @@ class InvoicesController extends Controller
                     PrincipalsUtil::$TBL_INVOICES. '.customer_code',
                     PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
                     PrincipalsUtil::$TBL_INVOICES. '.doc_no',
-                    PrincipalsUtil::$TBL_INVOICES. '.posting_date',
+                    PrincipalsUtil::$TBL_INVOICES_H. '.posting_date',
                     PrincipalsUtil::$TBL_INVOICES. '.item_code',
                     PrincipalsUtil::$TBL_INVOICES. '.item_description',
                     PrincipalsUtil::$TBL_INVOICES. '.uom',
@@ -811,9 +808,9 @@ class InvoicesController extends Controller
                 ])
                 ->where('vendor_code', $vendor_code)
                 ->whereBetween(
-                    DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES.".posting_date, '%m/%d/%Y')"),
+                    DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H.".posting_date, '%m/%d/%Y')"),
                     [$dateFrom, $dateTo])
-                ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.posting_date')
+                ->orderBy(PrincipalsUtil::$TBL_INVOICES_H.'.posting_date')
                 ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.customer_code')
                 ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.doc_no')
                 ->get()
@@ -865,17 +862,18 @@ class InvoicesController extends Controller
                 ->first()->vendor_code ?? 'NA'
         )
         ->whereBetween(
-            DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES . ".posting_date, '%m/%d/%Y')"),
+            DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
             [$dateFrom, $dateTo])
         ->where('status', 'pending')
 
         ->select([
             PrincipalsUtil::$TBL_INVOICES.'.*',
             PrincipalsUtil::$TBL_INVOICES_H.'.customer_name',
-            PrincipalsUtil::$TBL_INVOICES_H.'.sm_code'
+            PrincipalsUtil::$TBL_INVOICES_H.'.sm_code',
+            PrincipalsUtil::$TBL_INVOICES_H.'.posting_date'
         ])
 
-        ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.posting_date')
+        ->orderBy(PrincipalsUtil::$TBL_INVOICES_H.'.posting_date')
         ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.customer_code')
         ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.doc_no')
         ->get();

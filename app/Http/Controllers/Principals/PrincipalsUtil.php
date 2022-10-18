@@ -214,62 +214,62 @@ class PrincipalsUtil extends Controller
     /**
      * Get generated/templated data list
      */
-    public function getGeneratedData() {
-        set_time_limit(0);
-        $cols = request()->cols;
-        $dates = request()->date;
-        $template_variation_count = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-            ->select('template_variation_count')
-            ->where('code', request()->principal_code)
-            ->first()->template_variation_count;
+    // public function getGeneratedData() {
+    //     set_time_limit(0);
+    //     $cols = request()->cols;
+    //     $dates = request()->date;
+    //     $template_variation_count = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+    //         ->select('template_variation_count')
+    //         ->where('code', request()->principal_code)
+    //         ->first()->template_variation_count;
 
-        $res['success'] = true;
-        $res['message'] = 'Successful';
-        $res['output_template_variations'] = [];
+    //     $res['success'] = true;
+    //     $res['message'] = 'Successful';
+    //     $res['output_template_variations'] = [];
 
-        try {
-            sort($dates);
-            $dateFrom = '';
-            $dateTo = '';
-            if(count($dates) > 1) {
-                $dateFrom = $dates[0];
-                $dateTo = $dates[1];
-            } else if(count($dates) == 1) {
-                $dateFrom = $dates[0];
-                $dateTo = $dates[0];
-            }
+    //     try {
+    //         sort($dates);
+    //         $dateFrom = '';
+    //         $dateTo = '';
+    //         if(count($dates) > 1) {
+    //             $dateFrom = $dates[0];
+    //             $dateTo = $dates[1];
+    //         } else if(count($dates) == 1) {
+    //             $dateFrom = $dates[0];
+    //             $dateTo = $dates[0];
+    //         }
 
-            // $gendata = DB::table(request()->table_generated)
+    //         // $gendata = DB::table(request()->table_generated)
 
 
-            for ($i=1; $i <= $template_variation_count ; $i++) {
-                $gendata = DB::table($this::$TBL_GENERATED)
-                    ->where('principal_code', request()->principal_code)
-                    // ->where('status', $this::$STATUS_COMPLETED)
-                    ->whereDate('generated_at','>=',$dateFrom)
-                    ->whereDate('generated_at','<=',$dateTo)
-                    ->where('template_variation',$i)
-                    ->get($cols);
+    //         for ($i=1; $i <= $template_variation_count ; $i++) {
+    //             $gendata = DB::table($this::$TBL_GENERATED)
+    //                 ->where('principal_code', request()->principal_code)
+    //                 // ->where('status', $this::$STATUS_COMPLETED)
+    //                 ->whereDate('generated_at','>=',$dateFrom)
+    //                 ->whereDate('generated_at','<=',$dateTo)
+    //                 ->where('template_variation',$i)
+    //                 ->get($cols);
 
-                if(count($gendata) > 0) {
-                    $template_variation = [
-                        'name' => "Template $i",
-                        'output_template' => $gendata
-                    ];
-                    array_push($res['output_template_variations'], $template_variation);
-                }
-            }
+    //             if(count($gendata) > 0) {
+    //                 $template_variation = [
+    //                     'name' => "Template $i",
+    //                     'output_template' => $gendata
+    //                 ];
+    //                 array_push($res['output_template_variations'], $template_variation);
+    //             }
+    //         }
 
-            return response()->json($res);
-        } catch (\Throwable $th) {
-            $res = [
-                'success' => false,
-                'message' => $th->getMessage(),
-            ];
-            return response()->json($res, 500);
-        }
+    //         return response()->json($res);
+    //     } catch (\Throwable $th) {
+    //         $res = [
+    //             'success' => false,
+    //             'message' => $th->getMessage(),
+    //         ];
+    //         return response()->json($res, 500);
+    //     }
 
-    }
+    // }
 
 
 
@@ -308,6 +308,11 @@ class PrincipalsUtil extends Controller
 
             $result = DB::table($this::$TBL_INVOICES)
                 ->leftJoin(
+                    PrincipalsUtil::$TBL_INVOICES_H,
+                    PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
+                    PrincipalsUtil::$TBL_INVOICES.'.doc_no'
+                )
+                ->leftJoin(
                     $this::$TBL_GENERAL_CUSTOMERS,
                     $this::$TBL_INVOICES. '.customer_code',
                     '=',
@@ -315,6 +320,7 @@ class PrincipalsUtil extends Controller
                 )
                 ->select(
                     $this::$TBL_INVOICES. '.*',
+                    $this::$TBL_INVOICES_H. '.posting_date',
                     $this::$TBL_GENERAL_CUSTOMERS. '.name as customer_name',
                     $this::$TBL_GENERAL_CUSTOMERS. '.customer_code',
                 )
@@ -322,11 +328,14 @@ class PrincipalsUtil extends Controller
                 ->where($this::$TBL_INVOICES. '.vendor_code', $vendor_code)
                 ->where($this::$TBL_INVOICES. '.status','like', "%$invoice_status%")
                 ->whereBetween(
-                    DB::raw("STR_TO_DATE(posting_date, '%m/%d/%Y')"),
+                    DB::raw(
+                        "STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H. ".posting_date, '%m/%d/%Y')"
+                    ),
+                    // DB::raw("STR_TO_DATE(posting_date, '%m/%d/%Y')"),
                     [$dateFrom, $dateTo])
 
                 // ->orderBy($this::$TBL_INVOICES. '.updated_at', 'DESC')
-                ->orderBy($this::$TBL_INVOICES. '.posting_date', 'DESC')
+                ->orderBy($this::$TBL_INVOICES_H. '.posting_date', 'DESC')
                 ->orderBy($this::$TBL_INVOICES. '.customer_code', 'ASC')
                 ->orderBy($this::$TBL_INVOICES. '.doc_no', 'ASC')
 
