@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class CenturyCanningController extends Controller
+class ATungChingcoController extends Controller
 {
-    public static $PRINCIPAL_CODE = 'century_canning';
+    public static $PRINCIPAL_CODE = 'a_tung_chingco';
 
     /**
      * Create a new controller instance.

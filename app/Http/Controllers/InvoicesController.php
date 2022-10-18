@@ -612,20 +612,33 @@ class InvoicesController extends Controller
         try {
             foreach ($request->generated_data[0]['output_template'] as $gendata) {
                 foreach ($gendata[1] as $line) {
-                    if (
-                        $line['customer_notfound'] == 0 && $line['item_notfound'] == 0
-                        && $line['salesman_notfound'] == 0
-                    ) {
-                        // dd($line);
-                        DB::table(PrincipalsUtil::$TBL_INVOICES)
-                            ->where('doc_no', $line['doc_no'])
-                            ->where('item_code', $line['alturas_item_code'])
-                            ->where('status', 'pending')
-                            ->update([
-                                'status' => 'completed',
-                                'updated_at' => $dateToday
-                            ]);
-                    }
+
+                    // strict tagging
+                    // if (
+                    //     $line['customer_notfound'] == 0 && $line['item_notfound'] == 0
+                    //     && $line['salesman_notfound'] == 0
+                    // ) {
+                    //     // dd($line);
+                    //     DB::table(PrincipalsUtil::$TBL_INVOICES)
+                    //         ->where('doc_no', $line['doc_no'])
+                    //         ->where('item_code', $line['alturas_item_code'])
+                    //         ->where('status', 'pending')
+                    //         ->update([
+                    //             'status' => 'completed',
+                    //             'updated_at' => $dateToday
+                    //         ]);
+                    // }
+
+                    //unstrict tagging
+                    DB::table(PrincipalsUtil::$TBL_INVOICES)
+                        ->where('doc_no', $line['doc_no'])
+                        ->where('item_code', $line['alturas_item_code'])
+                        ->where('status', 'pending')
+                        ->update([
+                            'status' => 'completed',
+                            'updated_at' => $dateToday
+                        ]);
+
                 }
             }
 

@@ -89,9 +89,12 @@ class TemprincipalsController extends Controller
 
                     //********************************************************************
                     $nav_customer_name = trim($pendingInvoice->customer_name);
-                    // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                    //     ->where('customer_code', $customer_code)
-                    //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    if($nav_customer_name==null || $nav_customer_name=='') {
+                        $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            ->where('customer_code', $customer_code)
+                            ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    }
+
                     // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
                     //     ->where('item_code', $item_code)
                     //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
@@ -147,14 +150,14 @@ class TemprincipalsController extends Controller
                         // } else {
                         // }
 
-                        // if ($salesman == null) {
-                        //     $salesman_notfound = 1;
-                        // }
+                        if ($sm_code == null || $sm_code == '') {
+                            $salesman_notfound = 1;
+                        }
 
                         $system_date = $dateToday->format('Y/m/d');
 
-                        $item_code_supplier =$item_code ?? 'N/A';
-                        $customer_code_supplier = $customer_code ?? 'N/A';
+                        $item_code_supplier =$item_code ?? 'NA';
+                        $customer_code_supplier = $customer_code ?? 'NA';
                         // ************************* /MISC INITS **************************
 
                         // Generated data line structure
@@ -180,10 +183,10 @@ class TemprincipalsController extends Controller
                             'amount' => $amount,
                             'uom' => $uom,
                             'item_description' => $item_description,
-                            'description_supplier' => $item_description ?? 'N/A',
+                            'description_supplier' => $item_description ?? 'NA',
                             // 'customer_name' => $nav_customer_name,
-                            'customer_name' => $nav_customer_name ?? 'N/A',
-                            'sm_code' => $sm_code ?? 'N/A',
+                            'customer_name' => $nav_customer_name ?? 'NA',
+                            'sm_code' => $sm_code ?? 'NA',
                             'system_date' => $system_date,
                             'group' => $pendingInvoice->group
                         ];
@@ -206,15 +209,15 @@ class TemprincipalsController extends Controller
                             }
                         } else {
                             // group output_template_variations
-                            if($item_notfound==1 || $customer_notfound==1) {
+                            if($salesman_notfound==1) {
                                 // ---------------------------------------------------------------------------
                                 if (
-                                    !isset($res['output_template_variations'][$tvc_index]['output_template']['Unmapped'])
+                                    !isset($res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'])
                                 ) {
-                                    $res['output_template_variations'][$tvc_index]['output_template']['Unmapped'] = [];
+                                    $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'] = [];
                                 }
                                 array_push(
-                                    $res['output_template_variations'][$tvc_index]['output_template']['Unmapped'],
+                                    $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'],
                                     $arrGenerated
                                 );
                                 // ---------------------------------------------------------------------------

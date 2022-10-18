@@ -317,7 +317,7 @@ const actions = {
                 const lines = jsonData[i][1];
                 console.info(lines);
 
-                if(sheetName != 'Unmapped') {
+                // if(sheetName != 'Unmapped') {
                     if(lines.length > 0) {
                         let wSheet = XLSX.utils.json_to_sheet(
                             lines, { origin: 'A2', skipHeader: true }
@@ -340,7 +340,7 @@ const actions = {
                         XLSX.utils.sheet_add_aoa(wSheet, [headers]);
                         XLSX.utils.book_append_sheet(wBook, wSheet, sheetName);
                     }
-                }
+                // }
             }
             XLSX.writeFile(wBook, fileName, { flag: "w+" });
         } catch (error) {
@@ -397,10 +397,13 @@ const actions = {
             ) {
                 uploadable = element[1];
             } else {
-                uploadable = element[1].filter(line => {
-                    return line.item_notfound==0 && line.customer_notfound==0
-                        && line.salesman_notfound==0;
-                });
+                // uploadable = element[1].filter(line => {
+                //     return line.item_notfound==0 && line.customer_notfound==0
+                //         && line.salesman_notfound==0;
+                // });
+
+                // export all (including unmapped lines)
+                uploadable = element[1];
             }
 
             return [

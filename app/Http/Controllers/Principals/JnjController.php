@@ -347,13 +347,13 @@ class JnjController extends Controller
 
                         if (count($arrFileContentLine) > 1) {
                             // ====================================================================
-                            $group_code = trim(str_replace('"', '', $arrFileContentLine[0]));
+                            $sm_code = trim(str_replace('"', '', $arrFileContentLine[0]));
                             $sm_name = trim(str_replace('"', '', $arrFileContentLine[1]));
                             // ====================================================================
 
                             $arrLines[] = [
                                 'principal_code' => $this->PRINCIPAL_CODE,
-                                'group_code' => $group_code,
+                                'sm_code' => $sm_code,
                                 'sm_name' => $sm_name,
                                 'uploaded_by' => auth()->user()->id
                             ];
@@ -548,14 +548,14 @@ class JnjController extends Controller
     //                         'amount' => $u3, // amount
     //                         // 'sm_code' => $u5, // salesman code
     //                         'uom' => $uom,
-    //                         'base_uom' => $item->uom ?? 'N/A',
+    //                         'base_uom' => $item->uom ?? 'NA',
     //                         'description' =>
     //                             ($item->description==null || $item->description=='')
     //                             ? $nav_item_name : $item->description,
-    //                         'description_supplier' => $item->description_supplier ?? 'N/A',
-    //                         // 'customer_name' => $customer->customer_name_general ?? 'N/A',
+    //                         'description_supplier' => $item->description_supplier ?? 'NA',
+    //                         // 'customer_name' => $customer->customer_name_general ?? 'NA',
     //                         'customer_name' => $customer->customer_name ?? $nav_customer_name,
-    //                         'sm_name' => $salesman->sm_name ?? 'N/A',
+    //                         'sm_name' => $salesman->sm_name ?? 'NA',
     //                         'system_date' => $dateToday->format('Y-m-d')
     //                     ];
 
@@ -690,6 +690,7 @@ class JnjController extends Controller
                     $amount = trim($pendingInvoice->amount);
                     $uom = trim($pendingInvoice->uom);
                     $item_description = trim($pendingInvoice->item_description);
+                    $sm_code = trim($pendingInvoice->sm_code);
                     $group_code = trim($pendingInvoice->group);
 
                     //********************************************************************
@@ -711,8 +712,9 @@ class JnjController extends Controller
                         ->first();
                     $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
                         ->where('principal_code', $this->PRINCIPAL_CODE)
-                        ->where('group_code', $group_code)
+                        ->where('sm_code', $sm_code)
                         ->first();
+                    $sm_name = $salesman->sm_name ?? 'NA';
                     //********************************************************************
 
                     // quantity_conversion
@@ -783,11 +785,12 @@ class JnjController extends Controller
                             'amount' => $amount,
                             'uom' => $uom,
                             'item_description' => $item_description,
-                            'description_supplier' => $item->description_supplier ?? 'N/A',
+                            'description_supplier' => $item->description_supplier ?? 'NA',
                             // 'customer_name' => $nav_customer_name,
                             'customer_name' => $customer->customer_name ?? $nav_customer_name,
-                            'sm_name' => $salesman->sm_name ?? 'N/A',
+                            'sm_name' => $salesman->sm_name ?? 'NA',
                             'system_date' => $system_date,
+                            'sm_code' => $pendingInvoice->sm_code,
                             'group' => $pendingInvoice->group
                         ];
 
@@ -809,7 +812,11 @@ class JnjController extends Controller
                             }
                         } else {
                             // group output_template_variations
-                            if($item_notfound==1 || $customer_notfound==1) {
+                            if(
+                                $item_notfound==1
+                                || $customer_notfound==1
+                                || $salesman_notfound==1
+                            ) {
                                 // ---------------------------------------------------------------------------
                                 if (
                                     !isset($res['output_template_variations'][$tvc_index]['output_template']['Unmapped'])
@@ -822,17 +829,31 @@ class JnjController extends Controller
                                 );
                                 // ---------------------------------------------------------------------------
                             } else {
-                                // ---------------------------------------------------------------------------
-                                if (
-                                    !isset($res['output_template_variations'][$tvc_index]['output_template'][$$group_by])
-                                ) {
-                                    $res['output_template_variations'][$tvc_index]['output_template'][$$group_by] = [];
+                                if($sm_code==null||$sm_code=='') {
+                                    // ---------------------------------------------------------------------------
+                                    if (
+                                        !isset($res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'])
+                                    ) {
+                                        $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'] = [];
+                                    }
+                                    array_push(
+                                        $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'],
+                                        $arrGenerated
+                                    );
+                                    // ---------------------------------------------------------------------------
+                                } else {
+                                    // ---------------------------------------------------------------------------
+                                    if (
+                                        !isset($res['output_template_variations'][$tvc_index]['output_template'][$$group_by])
+                                    ) {
+                                        $res['output_template_variations'][$tvc_index]['output_template'][$$group_by] = [];
+                                    }
+                                    array_push(
+                                        $res['output_template_variations'][$tvc_index]['output_template'][$$group_by],
+                                        $arrGenerated
+                                    );
+                                    // ---------------------------------------------------------------------------
                                 }
-                                array_push(
-                                    $res['output_template_variations'][$tvc_index]['output_template'][$$group_by],
-                                    $arrGenerated
-                                );
-                                // ---------------------------------------------------------------------------
                             }
 
                         }

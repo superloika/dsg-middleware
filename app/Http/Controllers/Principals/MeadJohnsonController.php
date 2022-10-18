@@ -499,6 +499,7 @@ class MeadJohnsonController extends Controller
                     $amount = $pendingInvoice->amount;
                     $uom = $pendingInvoice->uom;
                     $group_code = $pendingInvoice->group;
+                    $sm_code = $pendingInvoice->sm_code;
 
                     // ****************************************************************
                     $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
@@ -606,19 +607,48 @@ class MeadJohnsonController extends Controller
                                 $pageLineCount = 1;
                             }
                         } else {
-                            // group output_template_variations
-                            if (
-                                !isset($res['output_template_variations'][0]
-                                    ['output_template'][$$group_by])
-                            ) {
-                                $res['output_template_variations'][0]
-                                    ['output_template'][$$group_by] = [];
+                            if($item_notfound==1||$customer_notfound==1||$salesman_notfound==1) {
+                                // ---------------------------------------------------------------------------
+                                if (
+                                    !isset($res['output_template_variations'][$tvc_index]['output_template']['Unmapped'])
+                                ) {
+                                    $res['output_template_variations'][$tvc_index]['output_template']['Unmapped'] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations'][$tvc_index]['output_template']['Unmapped'],
+                                    $arrGenerated
+                                );
+                                // ---------------------------------------------------------------------------
+                            } else {
+                                if($sm_code==null||$sm_code=='') {
+                                    // ---------------------------------------------------------------------------
+                                    if (
+                                        !isset($res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'])
+                                    ) {
+                                        $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'] = [];
+                                    }
+                                    array_push(
+                                        $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'],
+                                        $arrGenerated
+                                    );
+                                    // ---------------------------------------------------------------------------
+                                } else {
+                                    // group output_template_variations
+                                    if (
+                                        !isset($res['output_template_variations'][0]
+                                            ['output_template'][$$group_by])
+                                    ) {
+                                        $res['output_template_variations'][0]
+                                            ['output_template'][$$group_by] = [];
+                                    }
+                                    array_push(
+                                        $res['output_template_variations'][0]
+                                            ['output_template'][$$group_by],
+                                        $arrGenerated
+                                    );
+                                }
                             }
-                            array_push(
-                                $res['output_template_variations'][0]
-                                    ['output_template'][$$group_by],
-                                $arrGenerated
-                            );
+
                         }
                     }
                 }

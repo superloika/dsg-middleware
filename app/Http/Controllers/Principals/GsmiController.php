@@ -355,6 +355,7 @@ class GsmiController extends Controller
                     $uom = trim($pendingInvoice->uom);
                     $item_description = trim($pendingInvoice->item_description);
                     $group_code = trim($pendingInvoice->group);
+                    $sm_code = trim($pendingInvoice->sm_code);
 
                     //********************************************************************
                     $nav_customer_name = trim($pendingInvoice->customer_name);
@@ -391,8 +392,10 @@ class GsmiController extends Controller
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
                         $customer_notfound = 0;
+                        $salesman_notfound = 0;
                         $missing_customer_name = '';
                         $missing_item_name = '';
+                        $sm_name = $customer->salesman_name ?? 'NA';
 
                         if ($item == null) {
                             $item_notfound = 1;
@@ -431,19 +434,16 @@ class GsmiController extends Controller
                             'customer_notfound' => $customer_notfound,
                             'item_notfound' => $item_notfound,
                             'salesman_notfound' => 0,
-                            // principal specific
                             'invoice_no' => $doc_no,
                             'invoice_date' => $posting_date,
                             'quantity' => $quantity,
-                            // 'bulk_qty' => $bulk_qty,
-                            // 'loose_qty' => $loose_qty,
                             'price' => $price,
                             'amount' => $amount,
                             'uom' => $uom,
                             'item_description' => $item_description,
-                            'description_supplier' => $item->description_supplier ?? 'N/A',
+                            'description_supplier' => $item->description_supplier ?? 'NA',
                             'customer_name' => $customer->customer_name ?? $nav_customer_name,
-                            'sm_name' => $customer->salesman_name ?? 'N/A',
+                            'sm_name' => $sm_name,
                             'system_date' => $system_date,
                             'group' => $pendingInvoice->group
                         ];
@@ -466,7 +466,7 @@ class GsmiController extends Controller
                             }
                         } else {
                             // group output_template_variations
-                            if($item_notfound==1 || $customer_notfound==1) {
+                            if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
                                 // ---------------------------------------------------------------------------
                                 if (
                                     !isset($res['output_template_variations'][$tvc_index]['output_template']['Unmapped'])
@@ -479,17 +479,31 @@ class GsmiController extends Controller
                                 );
                                 // ---------------------------------------------------------------------------
                             } else {
-                                // ---------------------------------------------------------------------------
-                                if (
-                                    !isset($res['output_template_variations'][$tvc_index]['output_template'][$$group_by])
-                                ) {
-                                    $res['output_template_variations'][$tvc_index]['output_template'][$$group_by] = [];
+                                if($sm_code==null||$sm_code=='') {
+                                    // ---------------------------------------------------------------------------
+                                    if (
+                                        !isset($res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'])
+                                    ) {
+                                        $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'] = [];
+                                    }
+                                    array_push(
+                                        $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'],
+                                        $arrGenerated
+                                    );
+                                    // ---------------------------------------------------------------------------
+                                } else {
+                                    // ---------------------------------------------------------------------------
+                                    if (
+                                        !isset($res['output_template_variations'][$tvc_index]['output_template'][$$group_by])
+                                    ) {
+                                        $res['output_template_variations'][$tvc_index]['output_template'][$$group_by] = [];
+                                    }
+                                    array_push(
+                                        $res['output_template_variations'][$tvc_index]['output_template'][$$group_by],
+                                        $arrGenerated
+                                    );
+                                    // ---------------------------------------------------------------------------
                                 }
-                                array_push(
-                                    $res['output_template_variations'][$tvc_index]['output_template'][$$group_by],
-                                    $arrGenerated
-                                );
-                                // ---------------------------------------------------------------------------
                             }
 
                         }

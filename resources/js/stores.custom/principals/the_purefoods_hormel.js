@@ -1,21 +1,6 @@
 import Vue from "vue";
 
 const state = Vue.observable({
-    customersTableHeader: [
-        [
-            { text: "Customer Code", value: "customer_code" },
-            { text: "Salesman Name", value: "salesman_name" },
-            { text: "Customer Name", value: "customer_name" },
-        ],
-    ],
-    itemsTableHeader: [
-        [
-            {text:"Supplier Item Code", value:"item_code_supplier"},
-            {text:"Supplier Item Description", value:"description_supplier"},
-            {text:"Item Code", value:"item_code"},
-            {text:"Description", value:"description"}
-        ]
-    ],
 
     // templated data table header
     generatedDataTableHeader: [
@@ -32,8 +17,8 @@ const state = Vue.observable({
             {text:"Quantity", value: "quantity"},
             {text:"Price", value: "price"},
             {text:"Amount", value: "amount"},
-            {text:"Salesman", value: "sm_name"},
-            {text:"Group", value: "group"},
+            {text:"Salesman", value: "sm_code"},
+            {text:"Group", value: "group"}
         ],
     ],
 
@@ -41,12 +26,12 @@ const state = Vue.observable({
     generatedDataHistoryFilters: [
         [
             {text: 'System Date', value: 'system_date'},
-            {text: 'Salesman', value: 'sm_name'},
-            {text: 'Invoice #', value: 'doc_no'},
-            {text: 'Posting Date', value: 'posting_date'},
+            {text: 'Item Code', value: 'item_code'},
+            {text: 'Customer Code', value: 'customer_code'},
             {text: 'Source Group', value: 'group_code'},
         ]
     ],
+
 });
 
 

@@ -440,7 +440,7 @@ class ColumbusSeafoodsController extends Controller
             $filesTotalLineCount = 0;
             $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
             $breakFilesIteration = false;
-            $default_user = $settings['default_user'] ?? 'N/A';
+            $default_user = $settings['default_user'] ?? 'NA';
             $payment_term_code = $settings['payment_term_code'] ?? 'COD';
             // ************************* /MISC INITS *************************************
 
@@ -474,6 +474,7 @@ class ColumbusSeafoodsController extends Controller
                     $amount = trim($pendingInvoice->amount);
                     $uom = trim($pendingInvoice->uom);
                     $group_code = trim($pendingInvoice->group);
+                    $sm_code = trim($pendingInvoice->sm_code);
 
                     // ****************************************************************
                     // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
@@ -501,15 +502,15 @@ class ColumbusSeafoodsController extends Controller
                     //     $loose_qty = $mod;
                     // }
 
-                    if (
-                        strpos(strtolower($group_code), 'bulk') > -1
-                    ) {
-                        $bulk_qty = $quantity;
-                    } else if (
-                        strpos(strtolower($group_code), 'pcs') > -1
-                    ) {
-                        $loose_qty = $quantity;
-                    }
+                    // if (
+                    //     strpos(strtolower($group_code), 'bulk') > -1
+                    // ) {
+                    //     $bulk_qty = $quantity;
+                    // } else if (
+                    //     strpos(strtolower($group_code), 'pcs') > -1
+                    // ) {
+                    //     $loose_qty = $quantity;
+                    // }
 
                     // ************************* TEMPLATE 1 **************************
                     // tvc = template variation count
@@ -555,10 +556,10 @@ class ColumbusSeafoodsController extends Controller
                         $customer_code_supplier =
                             $customer_code_supplier . str_replace('-','',$customer_code);
 
-                        $distributor_id = $settings['distributor_id'] ?? 'N/A';
-                        // $location = $settings['location'] ?? 'N/A';
-                        $location = $salesman->location_code_supplier ?? 'N/A';
-                        $sm_code_supplier = $salesman->sm_code_supplier ?? 'N/A';
+                        $distributor_id = $settings['distributor_id'] ?? 'NA';
+                        // $location = $settings['location'] ?? 'NA';
+                        $location = $salesman->location_code_supplier ?? 'NA';
+                        $sm_code_supplier = $salesman->sm_code_supplier ?? 'NA';
                         // ********************** /MISC INITS *************************
 
                         // Generated data line structure
@@ -580,6 +581,7 @@ class ColumbusSeafoodsController extends Controller
                             'system_date' => $order_date,
                             'request_delivery_date' => $order_date,
                             'distributor_id' => $distributor_id,
+                            'uom' => $uom, // temporary
                             'bulk_qty' => $bulk_qty,
                             'loose_qty' => $loose_qty,
                             'default_user' => $default_user,
@@ -624,18 +626,33 @@ class ColumbusSeafoodsController extends Controller
                                     $arrGenerated
                                 );
                             } else {
-                                if (
-                                    !isset($res['output_template_variations']
-                                        [$tvc_index]['output_template'][$$group_by])
-                                ) {
-                                    $res['output_template_variations']
-                                        [$tvc_index]['output_template'][$$group_by] = [];
+                                if($sm_code==null|$sm_code=='') {
+                                    if (
+                                        !isset($res['output_template_variations']
+                                            [$tvc_index]['output_template']['NO_SM_CODE'])
+                                    ) {
+                                        $res['output_template_variations']
+                                            [$tvc_index]['output_template']['NO_SM_CODE'] = [];
+                                    }
+                                    array_push(
+                                        $res['output_template_variations']
+                                            [$tvc_index]['output_template']['NO_SM_CODE'],
+                                        $arrGenerated
+                                    );
+                                } else {
+                                    if (
+                                        !isset($res['output_template_variations']
+                                            [$tvc_index]['output_template'][$$group_by])
+                                    ) {
+                                        $res['output_template_variations']
+                                            [$tvc_index]['output_template'][$$group_by] = [];
+                                    }
+                                    array_push(
+                                        $res['output_template_variations']
+                                            [$tvc_index]['output_template'][$$group_by],
+                                        $arrGenerated
+                                    );
                                 }
-                                array_push(
-                                    $res['output_template_variations']
-                                        [$tvc_index]['output_template'][$$group_by],
-                                    $arrGenerated
-                                );
                             }
                         }
                     }
@@ -670,7 +687,7 @@ class ColumbusSeafoodsController extends Controller
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
                         $customer_code_supplier = $item->customer_code_supplier ?? $customer_code;
 
-                        $distributor_id = $settings['distributor_id'] ?? 'N/A';
+                        $distributor_id = $settings['distributor_id'] ?? 'NA';
                         // ======================= /INIT =========================================
 
                         // =========== SETTING UP ================================================

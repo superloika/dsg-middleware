@@ -95,7 +95,6 @@
                         :disabled="
                             lineCount < 1
                             || searchKeyLength > 0
-                            || warningsCount >= lineCount
                             || PrincipalsStore.state.isGeneratingData
                         "
                     >

@@ -18,7 +18,7 @@ const state = Vue.observable({
     ],
     salesmenTableHeader: [
         [
-            {text:"Group", value:"group_code"},
+            {text:"Salesman Code", value:"sm_code"},
             {text:"Salesman Name", value:"sm_name"},
         ]
     ],
@@ -38,6 +38,7 @@ const state = Vue.observable({
             {text:"Quantity", value: "quantity"},
             {text:"Price", value: "price"},
             {text:"Amount", value: "amount"},
+            {text:"Salesman Code", value: "sm_code"},
             {text:"Salesman", value: "sm_name"},
             {text:"Group", value: "group"}
         ],
@@ -47,6 +48,8 @@ const state = Vue.observable({
     generatedDataHistoryFilters: [
         [
             {text: 'System Date', value: 'system_date'},
+            {text: 'Salesman', value: 'sm_name'},
+            {text: 'Salesman Code', value: 'sm_code'},
             {text: 'Item Code', value: 'item_code'},
             {text: 'Customer Code', value: 'customer_code'},
             {text: 'Source Group', value: 'group_code'},

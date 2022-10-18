@@ -118,6 +118,21 @@
                 :title="item.alturas_sm_code"
             >{{ item.sales_agent_id }}</span>
         </template>
+
+        <template v-slot:[`item.sm_code`]="{ item }">
+            <v-chip
+                v-if="item.salesman_notfound==1"
+                color="warning"
+                small
+                outlined
+                title="Unmapped"
+            >
+                <div>
+                    {{ item.sm_code }}
+                </div>
+            </v-chip>
+            <span v-else>{{ item.sm_code }}</span>
+        </template>
     </v-data-table>
 </div>
 </template>

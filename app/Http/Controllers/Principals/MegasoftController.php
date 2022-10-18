@@ -402,6 +402,7 @@ class MegasoftController extends Controller
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
                         $customer_notfound = 0;
+                        $salesman_notfound = 0;
                         $missing_customer_name = '';
                         $missing_item_name = '';
 
@@ -440,7 +441,7 @@ class MegasoftController extends Controller
                             'missing_item_name' => $missing_item_name,
                             'customer_notfound' => $customer_notfound,
                             'item_notfound' => $item_notfound,
-                            'salesman_notfound' => 0,
+                            'salesman_notfound' => $salesman_notfound,
                             // principal specific
                             'invoice_no' => $doc_no,
                             'invoice_date' => $posting_date,
@@ -477,7 +478,7 @@ class MegasoftController extends Controller
                             }
                         } else {
                             // group output_template_variations
-                            if($item_notfound==1 || $customer_notfound==1) {
+                            if($item_notfound==1 || $customer_notfound==1||$salesman_notfound==1) {
                                 // ---------------------------------------------------------------------------
                                 if (
                                     !isset($res['output_template_variations'][$tvc_index]['output_template']['Unmapped'])
@@ -490,17 +491,31 @@ class MegasoftController extends Controller
                                 );
                                 // ---------------------------------------------------------------------------
                             } else {
-                                // ---------------------------------------------------------------------------
-                                if (
-                                    !isset($res['output_template_variations'][$tvc_index]['output_template'][$$group_by])
-                                ) {
-                                    $res['output_template_variations'][$tvc_index]['output_template'][$$group_by] = [];
+                                if($sm_code==null||$sm_code=='') {
+                                    // ---------------------------------------------------------------------------
+                                    if (
+                                        !isset($res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'])
+                                    ) {
+                                        $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'] = [];
+                                    }
+                                    array_push(
+                                        $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'],
+                                        $arrGenerated
+                                    );
+                                    // ---------------------------------------------------------------------------
+                                } else {
+                                    // ---------------------------------------------------------------------------
+                                    if (
+                                        !isset($res['output_template_variations'][$tvc_index]['output_template'][$$group_by])
+                                    ) {
+                                        $res['output_template_variations'][$tvc_index]['output_template'][$$group_by] = [];
+                                    }
+                                    array_push(
+                                        $res['output_template_variations'][$tvc_index]['output_template'][$$group_by],
+                                        $arrGenerated
+                                    );
+                                    // ---------------------------------------------------------------------------
                                 }
-                                array_push(
-                                    $res['output_template_variations'][$tvc_index]['output_template'][$$group_by],
-                                    $arrGenerated
-                                );
-                                // ---------------------------------------------------------------------------
                             }
 
                         }
