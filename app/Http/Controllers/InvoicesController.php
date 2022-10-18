@@ -209,7 +209,7 @@ class InvoicesController extends Controller
                 PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
                 PrincipalsUtil::$TBL_INVOICES.'.vendor_code'
             )
-            ->leftJoin(
+            ->join(
                 PrincipalsUtil::$TBL_INVOICES_H,
                 PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
                 PrincipalsUtil::$TBL_INVOICES.'.doc_no'
