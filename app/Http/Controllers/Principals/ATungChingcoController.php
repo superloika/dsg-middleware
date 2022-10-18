@@ -626,20 +626,20 @@ class ATungChingcoController extends Controller
                                     $arrGenerated
                                 );
                             } else {
-                                if($sm_code==null|$sm_code=='') {
-                                    if (
-                                        !isset($res['output_template_variations']
-                                            [$tvc_index]['output_template']['NO_SM_CODE'])
-                                    ) {
-                                        $res['output_template_variations']
-                                            [$tvc_index]['output_template']['NO_SM_CODE'] = [];
-                                    }
-                                    array_push(
-                                        $res['output_template_variations']
-                                            [$tvc_index]['output_template']['NO_SM_CODE'],
-                                        $arrGenerated
-                                    );
-                                } else {
+                                // if($sm_code==null|$sm_code=='') {
+                                //     if (
+                                //         !isset($res['output_template_variations']
+                                //             [$tvc_index]['output_template']['NO_SM_CODE'])
+                                //     ) {
+                                //         $res['output_template_variations']
+                                //             [$tvc_index]['output_template']['NO_SM_CODE'] = [];
+                                //     }
+                                //     array_push(
+                                //         $res['output_template_variations']
+                                //             [$tvc_index]['output_template']['NO_SM_CODE'],
+                                //         $arrGenerated
+                                //     );
+                                // } else {
                                     if (
                                         !isset($res['output_template_variations']
                                             [$tvc_index]['output_template'][$$group_by])
@@ -652,7 +652,7 @@ class ATungChingcoController extends Controller
                                             [$tvc_index]['output_template'][$$group_by],
                                         $arrGenerated
                                     );
-                                }
+                                // }
                             }
                         }
                     }
