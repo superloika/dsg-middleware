@@ -412,8 +412,8 @@ class InvoicesController extends Controller
                                 $customer_name = trim(str_replace('"','',$cols[2]));
                                 $u1 = trim(str_replace('"','',$cols[3]));
                                 $u2 = trim(str_replace('"','',$cols[4]));
-                                $shipment_date = trim(str_replace('"','',$cols[5]));
-                                $posting_date = trim(str_replace('"','',$cols[6]));
+                                $posting_date = trim(str_replace('"','',$cols[5]));
+                                $shipment_date = trim(str_replace('"','',$cols[6]));
                                 $sm_code = trim(str_replace('"','',$cols[7]));
                                 if (
                                     DB::table(PrincipalsUtil::$TBL_INVOICES_H)
@@ -865,7 +865,7 @@ class InvoicesController extends Controller
                 ->first()->vendor_code ?? 'NA'
         )
         ->whereBetween(
-            DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES . ".posting_date, '%m/%d/%Y')"),
+            DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
             [$dateFrom, $dateTo])
         ->where('status', 'pending')
 
