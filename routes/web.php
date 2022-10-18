@@ -113,6 +113,7 @@ Route::prefix('invoices')->group(function(){
 Route::prefix('principals')->group(function(){
     $principalCtrls = [
         ['MeadJohnsonController', 'mead_johnson'],
+        ['ReckittController', 'reckitt'],
 
         // ['GspiController', 'gspi'],
 
@@ -128,7 +129,7 @@ Route::prefix('principals')->group(function(){
         ['ColumbusSeafoodsController', 'columbus_seafoods'],
         ['PacificMeatController', 'pacific_meat'],
         ['SnowMountainDairyController', 'snow_mountain_dairy'],
-        ['ReckittController', 'reckitt'],
+        ['ATungChingcoController', 'a_tung_chingco'],
 
         ['JnjController', 'jnj'],
 
@@ -215,7 +216,7 @@ Route::prefix('principals')->group(function(){
         ['TemprincipalsController', 'magnolia_inc'],
         ['TemprincipalsController', 'the_purefoods_hormel'],
         ['TemprincipalsController', 'hormel_foods'],
-        ['TemprincipalsController', 'a_tung_chingco'],
+        // ['TemprincipalsController', 'a_tung_chingco'],
     ];
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';
