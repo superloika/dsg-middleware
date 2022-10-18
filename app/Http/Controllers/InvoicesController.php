@@ -131,9 +131,9 @@ class InvoicesController extends Controller
             $sum = 0;
 
             // $invoices = $result->orderBy('id','DESC')
-            // $invoices = $result->orderBy(PrincipalsUtil::$TBL_INVOICES. '.posting_date','DESC')
-            //     ->paginate($row_count);
-            $invoices = $result->paginate($row_count);
+            $invoices = $result->orderBy(PrincipalsUtil::$TBL_INVOICES. '.posting_date','DESC')
+                ->paginate($row_count);
+            // $invoices = $result->paginate($row_count);
 
         return response()->json([
             'sum' => $sum,
