@@ -582,6 +582,7 @@ class ATungChingcoController extends Controller
                             'request_delivery_date' => $order_date,
                             'distributor_id' => $distributor_id,
                             'uom' => $uom, // temporary
+                            'quantity' => $quantity, // temporary
                             'bulk_qty' => $bulk_qty,
                             'loose_qty' => $loose_qty,
                             'default_user' => $default_user,
