@@ -202,19 +202,19 @@ const actions = {
         ];
     },
 
-    async initNotices() {
-        console.log('Invoking initNotices()');
-        await axios.get(
-            `${state.siteUrl}notices`
-        ).then(e=>{
-            state.notices = e.data;
-        });
-    },
+    // async initNotices() {
+    //     console.log('Invoking initNotices()');
+    //     await axios.get(
+    //         `${state.siteUrl}notices`
+    //     ).then(e=>{
+    //         state.notices = e.data;
+    //     });
+    // },
 
 
 };
 
-actions.initNotices();
+// actions.initNotices();
 export default {
     state,
     // localStorage,

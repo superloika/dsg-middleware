@@ -56,8 +56,6 @@
 </template>
 
 <script>
-import AppStore from '../stores.custom/AppStore';
-import InvoicesStore from '../stores.custom/InvoicesStore';
 
 export default {
     data() {
@@ -73,12 +71,12 @@ export default {
     },
 
     created() {
-        InvoicesStore.initUploadLogs();
+        this.InvoicesStore.initUploadLogs();
     },
 
     mounted() {
         console.log("HomePage component mounted.");
-        console.log(AppStore.state.strDateToday);
+        console.log(this.AppStore.state.strDateToday);
     }
 };
 </script>
