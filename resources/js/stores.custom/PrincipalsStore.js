@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import InvoicesStore from './InvoicesStore';
 // import AppStore from '../AppStore';
 let AppStore = Vue.prototype.AppStore;
 // let InvoicesStore = Vue.prototype.InvoicesStore;
@@ -406,9 +407,21 @@ const actions = {
                 uploadable = element[1];
             }
 
+            // console.log('LOOOOOOOOOOOOOOOOOOOOOOOOOKKKKKKKKKKKKKKKKKKKKKK');
+            // console.log(uploadable);
+            // return;
+
+            const filteredUploadable = uploadable.filter(e=>{
+                if(InvoicesStore.state.exportWithCompleted) {
+                    return e;
+                } else {
+                    return e.status == 'pending';
+                }
+            });
+
             return [
                 element[0],
-                uploadable.map(line => {
+                filteredUploadable.map(line => {
                     return subsetKeys.reduce((r, item)=> {
                         r[item] = line[item];
                         return r;

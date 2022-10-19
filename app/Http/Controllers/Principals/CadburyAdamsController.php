@@ -786,7 +786,8 @@ class CadburyAdamsController extends Controller
                             'customer_name' => $customer->customer_name ?? $nav_customer_name,
                             'sm_code' => $sm_code ?? 'N/A',
                             'system_date' => $system_date,
-                            'group' => $pendingInvoice->group
+                            'group' => $pendingInvoice->group,
+                            'status' => $pendingInvoice->status
                         ];
 
                         if ($chunk_line_count > 0) {

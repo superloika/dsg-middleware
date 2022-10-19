@@ -114,7 +114,6 @@ class InvoicesController extends Controller
                 PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
                 PrincipalsUtil::$TBL_INVOICES.'.doc_no'
             )
-
             ->select(
                 PrincipalsUtil::$TBL_INVOICES. '.*',
                 // 'users.name AS user_fullname',
@@ -131,9 +130,9 @@ class InvoicesController extends Controller
             $sum = 0;
 
             // $invoices = $result->orderBy('id','DESC')
-            $invoices = $result->orderBy(PrincipalsUtil::$TBL_INVOICES. '.posting_date','DESC')
-                ->paginate($row_count);
-            // $invoices = $result->paginate($row_count);
+            // $invoices = $result->orderBy(PrincipalsUtil::$TBL_INVOICES_H. '.posting_date','DESC')
+            //     ->paginate($row_count);
+            $invoices = $result->latest()->paginate($row_count);
 
         return response()->json([
             'sum' => $sum,
@@ -864,7 +863,7 @@ class InvoicesController extends Controller
         ->whereBetween(
             DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
             [$dateFrom, $dateTo])
-        ->where('status', 'pending')
+        // ->where('status', 'pending')
 
         ->select([
             PrincipalsUtil::$TBL_INVOICES.'.*',

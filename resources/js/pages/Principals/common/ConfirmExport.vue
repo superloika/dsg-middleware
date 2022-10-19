@@ -7,7 +7,15 @@
             </div>
         </v-card-text>
         <v-card-actions>
+            <v-checkbox
+                label="Include Completed Invoices"
+                :disabled="PrincipalsStore.state.isExportingTemplatedData"
+                v-model="InvoicesStore.state.exportWithCompleted"
+                value="value">
+            </v-checkbox>
+
             <v-spacer></v-spacer>
+
             <v-btn
                 @click="InvoicesStore.setInvoicesComplete()"
                 color="primary"

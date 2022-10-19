@@ -99,7 +99,7 @@
                         "
                     >
                         <v-icon left size="25">mdi-file-excel</v-icon>
-                        Export({{ lineCount - warningsCount }})
+                        Export
                     </v-btn>
                 </v-col>
             </v-row>

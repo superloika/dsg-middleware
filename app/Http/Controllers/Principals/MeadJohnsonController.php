@@ -585,6 +585,7 @@ class MeadJohnsonController extends Controller
                             'remarks' => $remarks,
                             'quantity' => intval($quantity),
                             // 'invoice_uploaded' => $invoice_uploaded,
+                            'status' => $pendingInvoice->status
                         ];
 
                         if ($chunk_line_count > 0) {

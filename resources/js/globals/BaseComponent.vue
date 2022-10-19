@@ -154,7 +154,7 @@ export default {
 
     } */
     .v-data-table__wrapper table tbody tr td.text-start{
-        color: #222222;
+        /* color: #222222; */
         font-size: 12px;
     }
 

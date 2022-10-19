@@ -22,6 +22,7 @@
             </v-btn>
         </div>
     </v-sheet>
+
     <v-data-table
         densex
         :items="items"
@@ -29,6 +30,7 @@
         :items-per-page="10"
         :search="PrincipalsStore.state.currentGeneratedDataSearchKey"
         disable-sort
+        :item-class="itemRowStyle"
     >
         <template v-slot:[`item.customer_code`]="{ item }">
             <v-tooltip
@@ -164,6 +166,14 @@ export default {
                 this.template_variation_index
             );
         },
+
+        itemRowStyle: function(item) {
+            try {
+                return item.status=='completed' ? 'completed-invoice' : '';
+            } catch (error) {
+                return '';
+            }
+        }
     },
 
     mounted() {
@@ -176,4 +186,11 @@ export default {
     }
 };
 </script>
+
+<style>
+    .completed-invoice {
+        color: #009e15;
+        /* color: #ffffff; */
+    }
+</style>
 

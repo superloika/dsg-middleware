@@ -589,6 +589,7 @@ class ColumbusSeafoodsController extends Controller
                             'payment_term_code' => $payment_term_code,
                             'location' => $location,
                             'sales_agent_id' => $sm_code_supplier,
+                            'status' => $pendingInvoice->status
                         ];
 
                         // for chunked results

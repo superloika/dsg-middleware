@@ -54,6 +54,7 @@ const state = Vue.observable({
         // {name:'test', value:1}
     ],
     invoices_upload_logs: [],
+    exportWithCompleted: false,
 })
 
 const actions = {
@@ -159,8 +160,10 @@ const actions = {
             for(let i=0;i<config.length;i++) {
                 // export templated data to Excel
                 console.log('GENDATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
-                PrincipalsStore.state.currentGeneratedData[i].output_template
+                    PrincipalsStore.state.currentGeneratedData[i].output_template
                 );
+                // return;
+
                 PrincipalsStore.exportToExcel(
                     config[i].header,
                     PrincipalsStore.generatedDataSubset(

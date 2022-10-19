@@ -188,7 +188,8 @@ class TemprincipalsController extends Controller
                             'customer_name' => $nav_customer_name ?? 'NA',
                             'sm_code' => $sm_code ?? 'NA',
                             'system_date' => $system_date,
-                            'group' => $pendingInvoice->group
+                            'group' => $pendingInvoice->group,
+                            'status' => $pendingInvoice->status
                         ];
 
                         if ($chunk_line_count > 0) {
