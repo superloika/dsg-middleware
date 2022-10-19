@@ -11,9 +11,12 @@
                 <span class="text-subtitle-1">Login</span>
             </v-card-title>
             <v-card-text>
-                <v-alert dense type="error" dismissible transition="scale-transition"
-                    v-if="error_username" text>
-                    {{ error_username }} <br> {{ error_password }}
+                <v-alert
+                    v-if="error_username" text
+                    dense type="error" dismissible transition="scale-transition"
+                    style="font-size: 11px;"
+                >
+                    <span>{{ error_username }}</span> <br> <span>{{ error_password }}</span>
                 </v-alert>
                 <form method="POST" action="">
                     <input type="hidden" name="_token" :value="CsrfToken">

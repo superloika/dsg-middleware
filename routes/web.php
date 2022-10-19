@@ -42,7 +42,10 @@ Route::prefix('test')->group(function () {
 });
 // ================= /WA NI LABOT ====================================================================
 
-
+// NOTICES
+Route::group(['prefix' => 'notices'], function() {
+    Route::get('/', 'NoticeController@index');
+});
 
 // ACCOUNTS
 // Route::prefix('accounts')->group(function() {

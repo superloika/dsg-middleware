@@ -1,8 +1,20 @@
 <template>
 <v-container fluid>
-    <!-- <v-sheet class="pb-2">
-        <h3 class="text-overline">Upload Log</h3>
-    </v-sheet> -->
+    <div v-if="AppStore.state.notices.length > 0">
+        <v-card
+            v-for="notice in AppStore.state.notices"
+            :key="notice.id"
+            color="light-green lighten-4"
+            class="mb-3"
+            elevation="0"
+
+        >
+            <v-card-text class="" v-html="notice.notice">
+            </v-card-text>
+        </v-card>
+        <br>
+    </div>
+
     <v-card
         v-for="uplog in InvoicesStore.state.invoices_upload_logs"
         :key="uplog.id"
@@ -44,6 +56,9 @@
 </template>
 
 <script>
+import AppStore from '../stores.custom/AppStore';
+import InvoicesStore from '../stores.custom/InvoicesStore';
+
 export default {
     data() {
         return {
@@ -58,12 +73,12 @@ export default {
     },
 
     created() {
-        this.InvoicesStore.initUploadLogs();
+        InvoicesStore.initUploadLogs();
     },
 
     mounted() {
         console.log("HomePage component mounted.");
-        console.log(this.AppStore.state.strDateToday);
+        console.log(AppStore.state.strDateToday);
     }
 };
 </script>

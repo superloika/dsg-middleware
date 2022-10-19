@@ -5,6 +5,7 @@
  */
 
 // import axios from "axios";
+import axios from "axios";
 import Vue from "vue";
 
 const host = `http://${window.location.host}/`;
@@ -39,6 +40,7 @@ const state = Vue.observable({
         .substr(0, 10)],
     // navDrawerState: localStorage.getItem('navDrawerState'),
     dlgImportMaster: false,
+    notices: []
 });
 
 
@@ -198,11 +200,21 @@ const actions = {
                 temp
             ]
         ];
-    }
+    },
+
+    async initNotices() {
+        console.log('Invoking initNotices()');
+        await axios.get(
+            `${state.siteUrl}notices`
+        ).then(e=>{
+            state.notices = e.data;
+        });
+    },
 
 
 };
 
+actions.initNotices();
 export default {
     state,
     // localStorage,
