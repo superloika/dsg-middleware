@@ -205,7 +205,7 @@ const actions = {
     /**
      * Generate templated data based on pending invoices
      */
-    async initCurrentGeneratedData(template_variations_count=1) {
+    async initCurrentGeneratedData(template_variations_count=1, status='') {
         try {
             state.isGeneratingData = true;
             AppStore.overlay(true, 'Generating data, please wait...');
@@ -215,6 +215,7 @@ const actions = {
                 + '?principal_code=' + state.selectedPrincipalCode
                 + '&group_by=' + state.selectedGroupBy
                 + '&posting_date_range=' + state.posting_date_range
+                + '&status=' + status
                 // + '?template_variations_count=' + template_variations_count
             );
             // {cancelToken:axiosSource.token}
@@ -411,17 +412,17 @@ const actions = {
             // console.log(uploadable);
             // return;
 
-            const filteredUploadable = uploadable.filter(e=>{
-                if(InvoicesStore.state.exportWithCompleted) {
-                    return e;
-                } else {
-                    return e.status == 'pending';
-                }
-            });
+            // const filteredUploadable = uploadable.filter(e=>{
+            //     if(InvoicesStore.state.exportWithCompleted) {
+            //         return e;
+            //     } else {
+            //         return e.status == 'pending';
+            //     }
+            // });
 
             return [
                 element[0],
-                filteredUploadable.map(line => {
+                uploadable.map(line => {
                     return subsetKeys.reduce((r, item)=> {
                         r[item] = line[item];
                         return r;

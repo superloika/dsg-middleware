@@ -831,7 +831,7 @@ class InvoicesController extends Controller
     }
 
 
-    public static function getPendingInvoices($principal_code, $posting_date_range) {
+    public static function getPendingInvoices($principal_code, $posting_date_range, $status='') {
         // posting date range
         $dates = explode(',', $posting_date_range);
         sort($dates);
@@ -863,7 +863,7 @@ class InvoicesController extends Controller
         ->whereBetween(
             DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
             [$dateFrom, $dateTo])
-        // ->where('status', 'pending')
+        ->where(PrincipalsUtil::$TBL_INVOICES.'.status','like', "%$status%")
 
         ->select([
             PrincipalsUtil::$TBL_INVOICES.'.*',

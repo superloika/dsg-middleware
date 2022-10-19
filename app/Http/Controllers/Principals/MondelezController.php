@@ -653,7 +653,7 @@ class MondelezController extends Controller
 
             // **************** PENDING INVOICES **************************
             $pendingInvoices = InvoicesController::getPendingInvoices(
-                $this->PRINCIPAL_CODE, $request->posting_date_range
+                $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
             );
 
             $res['line_count'] = $pendingInvoices->count();

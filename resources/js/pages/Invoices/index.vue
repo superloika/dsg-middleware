@@ -182,8 +182,8 @@
                     ></v-select>
 
                     <v-select
-                        :items="invoiceStatuses"
-                        v-model="invoiceStatus"
+                        :items="InvoicesStore.state.invoiceStatuses"
+                        v-model="InvoicesStore.state.invoiceStatus"
                         label="Status"
                         item-text="status"
                         item-value="value"
@@ -314,21 +314,7 @@ export default {
         return {
             searchKey: "",
             principalCodeFilter: "",
-            invoiceStatuses: [
-                {
-                    status: "All",
-                    value: ""
-                },
-                {
-                    status: "Completed",
-                    value: "completed"
-                },
-                {
-                    status: "Pending",
-                    value: "pending"
-                }
-            ],
-            invoiceStatus: "",
+
             tblPageRowCounts: [10, 20, 30, 50, 100, 500, 1000, 5000],
             tblPageRowCount: 10,
 
@@ -364,14 +350,12 @@ export default {
             this.InvoicesStore.initInvoices(
                 this.searchKey,
                 this.principalCodeFilter,
-                this.invoiceStatus,
                 this.tblPageRowCount,
                 this.selectedGroup
             );
             this.InvoicesStore.initInvoicesTotalAmount(
                 this.searchKey,
                 this.principalCodeFilter,
-                this.invoiceStatus,
                 this.tblPageRowCount,
                 this.selectedGroup
             );
@@ -388,7 +372,7 @@ export default {
     computed: {
         groups() {
             return [{group_name:'All',group_code:''}, ...this.InvoicesStore.state.groups];
-        }
+        },
     },
 
     watch: {
@@ -407,8 +391,10 @@ export default {
             this.onPageChange();
         }, 200),
 
-        invoiceStatus: debounce(function() {
-            if (this.invoiceStatus == null) this.invoiceStatus = "";
+        'InvoicesStore.state.invoiceStatus': debounce(function() {
+            if (this.InvoicesStore.state.invoiceStatus == null) {
+                this.InvoicesStore.state.invoiceStatus = "";
+            }
             if (this.InvoicesStore.state.invoices.current_page != undefined) {
                 this.InvoicesStore.state.invoices.current_page = 1;
             }
@@ -432,6 +418,7 @@ export default {
     },
 
     created() {
+        this.InvoicesStore.state.invoiceStatus = '';
         this.InvoicesStore.initInvoices();
         this.InvoicesStore.initInvoicesTotalAmount();
         this.InvoicesStore.initGroups();

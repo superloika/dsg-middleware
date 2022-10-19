@@ -57,7 +57,7 @@ class TemprincipalsController extends Controller
 
             // **************** PENDING INVOICES **************************
             $pendingInvoices = InvoicesController::getPendingInvoices(
-                $request->principal_code, $request->posting_date_range
+                $request->principal_code, $request->posting_date_range, $request->status
             );
 
             $res['line_count'] = $pendingInvoices->count();

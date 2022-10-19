@@ -663,7 +663,7 @@ class JnjController extends Controller
 
             // **************** PENDING INVOICES **************************
             $pendingInvoices = InvoicesController::getPendingInvoices(
-                $this->PRINCIPAL_CODE, $request->posting_date_range
+                $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
             );
 
             $res['line_count'] = $pendingInvoices->count();
@@ -794,7 +794,8 @@ class JnjController extends Controller
                             'sm_name' => $salesman->sm_name ?? 'NA',
                             'system_date' => $system_date,
                             'sm_code' => $pendingInvoice->sm_code,
-                            'group' => $pendingInvoice->group
+                            'group' => $pendingInvoice->group,
+                            'status' => $pendingInvoice->status,
                         ];
 
                         if ($chunk_line_count > 0) {

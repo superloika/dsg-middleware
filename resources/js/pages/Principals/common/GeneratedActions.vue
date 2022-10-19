@@ -5,7 +5,7 @@
                 <v-col>
                     <v-text-field
                         v-model="dateRangeText"
-                        label="Posting/Shipment Date"
+                        label="Posting Date"
                         hide-details
                         readonly
                         dense
@@ -66,15 +66,29 @@
                 </v-col>
 
                 <v-col>
+                    <v-select
+                        :items="InvoicesStore.state.invoiceStatuses"
+                        v-model="InvoicesStore.state.invoiceStatus"
+                        label="Status"
+                        item-text="status"
+                        item-value="value"
+                        style="max-width:180px;"
+                        outlined
+                        rounded
+                        hide-details
+                        dense
+                    ></v-select>
+                </v-col>
+
+                <v-col>
                     <!-- reload -->
                     <v-btn
                         title="Generate Templated"
                         dense
                         rounded
-                        outlined
                         @click="refresh()"
                         :loading="PrincipalsStore.state.isGeneratingData"
-                        color="primary"
+                        color="secondary"
                     >
                         <!-- <v-icon>mdi-tray-arrow-down</v-icon> -->
                         Generate
@@ -150,6 +164,7 @@
 </template>
 
 <script>
+import InvoicesStore from '../../../stores.custom/InvoicesStore';
 import PrincipalsStore from '../../../stores.custom/PrincipalsStore';
 
 export default {
@@ -186,10 +201,10 @@ export default {
             }
         },
         selPrincipalStore() {
-            return this[this.PrincipalsStore.state.selectedPrincipalCode];
+            return this[PrincipalsStore.state.selectedPrincipalCode];
         },
         dateRangeText() {
-            return this.PrincipalsStore.state.posting_date_range.join(' ~ ');
+            return PrincipalsStore.state.posting_date_range.join(' ~ ');
         },
     },
 
@@ -253,12 +268,13 @@ export default {
         },
 
         refresh() {
-            PrincipalsStore.initCurrentGeneratedData(
-                this.selectedPrincipalCode,
-                null
-            );
+            PrincipalsStore.initCurrentGeneratedData(null,InvoicesStore.state.invoiceStatus);
             PrincipalsStore.state.currentGeneratedDataSearchKey = '';
         },
+    },
+
+    created() {
+        InvoicesStore.state.invoiceStatus='';
     },
 
     mounted() {

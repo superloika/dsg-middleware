@@ -54,12 +54,26 @@ const state = Vue.observable({
         // {name:'test', value:1}
     ],
     invoices_upload_logs: [],
-    exportWithCompleted: false,
+    invoiceStatuses: [
+        {
+            status: "All",
+            value: ""
+        },
+        {
+            status: "Completed",
+            value: "completed"
+        },
+        {
+            status: "Pending",
+            value: "pending"
+        }
+    ],
+    invoiceStatus: "",
 })
 
 const actions = {
     async initInvoices(
-        searchKey='', principal_code='', invoiceStatus='', row_count=10, selectedTerminal=''
+        searchKey='', principal_code='', row_count=10, selectedTerminal=''
     ) {
         try {
             state.isLoadingInvoices = true;
@@ -69,7 +83,7 @@ const actions = {
                 + `?row_count=${row_count}`
                 + `&search_key=${searchKey}`
                 + `&principal_code=${principal_code}`
-                + `&status=${invoiceStatus}`
+                + `&status=${state.invoiceStatus}`
                 + `&terminal=${selectedTerminal}`
                 + `&page=${state.invoices.current_page ?? 1}`;
             const response = await axios.get(url);
@@ -186,7 +200,7 @@ const actions = {
             //     this.selectedPrincipalCode,
             //     AppStore.state.strDateToday
             // );
-            PrincipalsStore.initCurrentGeneratedData();
+            PrincipalsStore.initCurrentGeneratedData(null, state.invoiceStatus);
         } catch (error) {
             console.log("setInvoicesComplete():", error);
         }
@@ -248,7 +262,7 @@ const actions = {
     },
 
     async initInvoicesTotalAmount(
-        searchKey='', principal_code='', invoiceStatus='', row_count=10, selectedTerminal=''
+        searchKey='', principal_code='', row_count=10, selectedTerminal=''
     ) {
         try {
             if(searchKey==null) searchKey = '';
@@ -256,7 +270,7 @@ const actions = {
                 + `?row_count=${row_count}`
                 + `&search_key=${searchKey}`
                 + `&principal_code=${principal_code}`
-                + `&status=${invoiceStatus}`
+                + `&status=${state.invoiceStatus}`
                 + `&terminal=${selectedTerminal}`
                 + `&page=${state.invoices.current_page ?? 1}`;
             const response = await axios.get(url);
