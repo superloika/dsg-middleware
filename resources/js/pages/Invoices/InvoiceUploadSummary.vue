@@ -24,7 +24,7 @@
                             <v-icon
                                 v-if="
                                     summary.line_read==summary.line_uploaded
-                                    && summary.line_uploaded > 0
+                                    && summary.line_uploaded > 0 && summary.line_existing == 0
                                 "
                                 color="success"
                             >
