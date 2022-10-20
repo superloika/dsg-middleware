@@ -475,6 +475,7 @@ class ATungChingcoController extends Controller
                     $uom = trim($pendingInvoice->uom);
                     $group_code = trim($pendingInvoice->group);
                     $sm_code = trim($pendingInvoice->sm_code);
+                    $qty_per_uom = trim($pendingInvoice->qty_per_uom);
 
                     // ****************************************************************
                     // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
@@ -495,6 +496,13 @@ class ATungChingcoController extends Controller
                     // quantity_conversion
                     $bulk_qty = 0;
                     $loose_qty = 0;
+
+                    if($qty_per_uom > 1) {
+                        $bulk_qty = $quantity;
+                    } else {
+                        $loose_qty = $quantity;
+                    }
+
                     // if($item != null) {
                     //     $quo = $quantity/$item->conversion_qty;
                     //     $mod = $quantity%$item->conversion_qty;
@@ -581,15 +589,13 @@ class ATungChingcoController extends Controller
                             'system_date' => $order_date,
                             'request_delivery_date' => $order_date,
                             'distributor_id' => $distributor_id,
-                            'uom' => $uom, // temporary
-                            'quantity' => $quantity, // temporary
                             'bulk_qty' => $bulk_qty,
                             'loose_qty' => $loose_qty,
                             'default_user' => $default_user,
                             'payment_term_code' => $payment_term_code,
                             'location' => $location,
                             'sales_agent_id' => $sm_code_supplier,
-                            'status' => $pendingInvoice->status
+                            'status' => $pendingInvoice->status,
                         ];
 
                         // for chunked results

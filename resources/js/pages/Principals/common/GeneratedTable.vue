@@ -4,7 +4,7 @@
         <div class="d-flex justify-end">
             <v-btn
                 title="Export table to TXT file (Tab Delimited)"
-                color="success"
+                color="default"
                 class="mr-2"
                 x-small
                 rounded
@@ -12,7 +12,7 @@
             >Export {{ tab_caption }} to TXT</v-btn>
             <v-btn
                 title="Export table to CSV file (Comma Delimited)"
-                color="success"
+                color="default"
                 class=""
                 x-small
                 rounded
