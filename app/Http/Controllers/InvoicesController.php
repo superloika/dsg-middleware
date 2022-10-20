@@ -414,7 +414,7 @@ class InvoicesController extends Controller
                                 if (
                                     DB::table(PrincipalsUtil::$TBL_INVOICES_H)
                                         ->where('doc_no', $doc_no)
-                                        // ->where('customer_code', $customer_code)
+                                        ->where('customer_code', $customer_code)
                                         ->exists() == false
                                 ) {
                                     $invoices_h[] = [
@@ -847,11 +847,23 @@ class InvoicesController extends Controller
         $dateFrom = new Carbon($dateFrom);
         $dateTo = new Carbon($dateTo);
 
+        // ,
+        //
+
         return DB::table(PrincipalsUtil::$TBL_INVOICES)
         ->join(
             PrincipalsUtil::$TBL_INVOICES_H,
-            PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
-            PrincipalsUtil::$TBL_INVOICES.'.doc_no'
+            function($join) {
+                $join->on(
+                    PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
+                    PrincipalsUtil::$TBL_INVOICES.'.doc_no'
+                )
+                ->on(
+                    PrincipalsUtil::$TBL_INVOICES_H.'.customer_code',
+                    PrincipalsUtil::$TBL_INVOICES.'.customer_code'
+                )
+                ;
+            }
         )
         ->where(
             'vendor_code',
@@ -862,7 +874,8 @@ class InvoicesController extends Controller
         )
         ->whereBetween(
             DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
-            [$dateFrom, $dateTo])
+            [$dateFrom, $dateTo]
+        )
         ->where(PrincipalsUtil::$TBL_INVOICES.'.status','like', "%$status%")
 
         ->select([
