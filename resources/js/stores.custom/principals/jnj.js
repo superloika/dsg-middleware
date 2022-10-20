@@ -18,8 +18,10 @@ const state = Vue.observable({
     ],
     salesmenTableHeader: [
         [
-            {text:"Salesman Code", value:"sm_code"},
-            {text:"Salesman Name", value:"sm_name"},
+            {text:"SM_NAME", value:"sm_name"},
+            {text:"SM_CODE_NAV", value:"sm_code"},
+            {text:"SM_CODE_SUPPLIER", value:"sm_code_supplier"},
+            {text:"GROUP_CODE", value:"group_code"},
         ]
     ],
 
@@ -38,8 +40,8 @@ const state = Vue.observable({
             {text:"Quantity", value: "quantity"},
             {text:"Price", value: "price"},
             {text:"Amount", value: "amount"},
-            {text:"Salesman Code", value: "sm_code"},
             {text:"Salesman", value: "sm_name"},
+            {text:"Salesman Code", value: "sm_code_supplier"},
             {text:"Group", value: "group"}
         ],
     ],

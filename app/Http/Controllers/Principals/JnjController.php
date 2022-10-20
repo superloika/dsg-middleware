@@ -347,14 +347,18 @@ class JnjController extends Controller
 
                         if (count($arrFileContentLine) > 1) {
                             // ====================================================================
-                            $sm_code = trim(str_replace('"', '', $arrFileContentLine[0]));
-                            $sm_name = trim(str_replace('"', '', $arrFileContentLine[1]));
+                            $sm_name = trim(str_replace('"', '', $arrFileContentLine[0]));
+                            $sm_code = trim(str_replace('"', '', $arrFileContentLine[1]));
+                            $sm_code_supplier = trim(str_replace('"', '', $arrFileContentLine[2]));
+                            $group_code = trim(str_replace('"', '', $arrFileContentLine[3]));
                             // ====================================================================
 
                             $arrLines[] = [
                                 'principal_code' => $this->PRINCIPAL_CODE,
-                                'sm_code' => $sm_code,
                                 'sm_name' => $sm_name,
+                                'sm_code' => $sm_code,
+                                'sm_code_supplier' => $sm_code_supplier,
+                                'group_code' => $group_code,
                                 'uploaded_by' => auth()->user()->id
                             ];
                         }
@@ -715,9 +719,21 @@ class JnjController extends Controller
                         ->first();
                     $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
                         ->where('principal_code', $this->PRINCIPAL_CODE)
-                        ->where('sm_code', $sm_code)
+                        ->where(function($q) use($sm_code, $group_code) {
+                            $q->where(function($q) use($sm_code, $group_code) {
+                                $q->where('sm_code', $sm_code)
+                                ->where('group_code', $group_code)
+                                ;
+                            })
+                            ->orWhere(function($q) use($group_code) {
+                                $q->where('sm_code', 'NA')
+                                ->where('group_code', $group_code)
+                                ;
+                            });
+                        })
                         ->first();
-                    $sm_name = $salesman->sm_name ?? 'NA';
+                    // dd($sm_code. 'XXXXX'. $group_code . 'XXXXXX'. $salesman->sm_name);
+
                     //********************************************************************
 
                     // quantity_conversion
@@ -792,6 +808,7 @@ class JnjController extends Controller
                             // 'customer_name' => $nav_customer_name,
                             'customer_name' => $customer->customer_name ?? $nav_customer_name,
                             'sm_name' => $salesman->sm_name ?? 'NA',
+                            'sm_code_supplier' => $salesman->sm_code_supplier ?? 'NA',
                             'system_date' => $system_date,
                             'sm_code' => $pendingInvoice->sm_code,
                             'group' => $pendingInvoice->group,
