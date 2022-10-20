@@ -274,7 +274,7 @@ export default {
     },
 
     created() {
-        InvoicesStore.state.invoiceStatus='';
+        InvoicesStore.state.invoiceStatus='pending';
     },
 
     mounted() {
