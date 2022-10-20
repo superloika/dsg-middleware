@@ -4,13 +4,24 @@
         <v-card
             v-for="notice in AppStore.state.notices"
             :key="notice.id"
-            color="light-green lighten-4"
+            color="secondaryx"
             class="mb-3"
-            elevation="0"
-
+            elevation="1"
         >
             <v-card-text class="" v-html="notice.notice">
             </v-card-text>
+            <v-card-actions class="pl-3">
+                <!-- <v-spacer></v-spacer> -->
+                <v-chip
+                    :color="isUploadedToday(notice.created_at)?'primary':'secondary'"
+                    small
+                >
+                    <span v-if="isUploadedToday(notice.created_at)">
+                        Today
+                    </span>
+                    <span v-else>{{ notice.created_at }}</span>
+                </v-chip>
+            </v-card-actions>
         </v-card>
         <br>
     </div>
