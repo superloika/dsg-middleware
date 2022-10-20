@@ -26,7 +26,14 @@
                 BATCH #: {{ uplog.batch_number  }}
             </span>
             <v-spacer></v-spacer>
-            <em class="text-overline text--accent">Uploaded on {{ uplog.created_at }}</em>
+            <em class="text-overline text--accent">
+                <span
+                    v-if="isUploadedToday(uplog.created_at)"
+                >Uploaded Today</span>
+                <span v-else>
+                    Uploaded on {{ uplog.created_at }}
+                </span>
+            </em>
         </v-card-title>
         <v-card-text>
             <!-- <div>
