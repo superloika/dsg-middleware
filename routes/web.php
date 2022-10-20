@@ -135,6 +135,7 @@ Route::prefix('principals')->group(function(){
         ['ATungChingcoController', 'a_tung_chingco'],
 
         ['JnjController', 'jnj'],
+        ['ApolloController', 'apollo'],
 
         ['RfmController', 'rfm'],
 
@@ -215,7 +216,7 @@ Route::prefix('principals')->group(function(){
         ['TemprincipalsController', 'nutri_asia'],
         ['TemprincipalsController', 'tridharma'],
         ['TemprincipalsController', 'tekson'],
-        ['TemprincipalsController', 'apollo'],
+        // ['TemprincipalsController', 'apollo'],
         ['TemprincipalsController', 'magnolia_inc'],
         ['TemprincipalsController', 'the_purefoods_hormel'],
         ['TemprincipalsController', 'hormel_foods'],
