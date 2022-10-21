@@ -332,15 +332,19 @@ class InvoicesController extends Controller
                     // headers
                     $invoices_h = [];
 
-                    $summaryItem['row_count'] = count($rows);
+                    $summaryItem['line_total'] = count($rows);
+                    $summaryItem['line_read'] = 0;
+                    $summaryItem['line_uploaded'] = 0;
+                    $summaryItem['line_existing'] = 0;
+                    $summaryItem['skipped_other_principals'] = [];
+                    $summaryItem['skipped_unknown_line'] = [];
+                    $summaryItem['skipped_not_in_item_masterfile'] = [];
+                    $summaryItem['skipped_zero_qty'] = [];
 
-                    $summaryItem['lines_count'] = 0;
-                    $summaryItem['lines_count_existing'] = 0;
-                    $summaryItem['lines_count_uploaded'] = 0;
-
-                    $summaryItem['headers_count'] = 0;
-                    $summaryItem['headers_count_existing'] = 0;
-                    $summaryItem['headers_count_uploaded'] = 0;
+                    // $summaryItem['lines_count'] = 0;
+                    // $summaryItem['lines_count_existing'] = 0;
+                    // $summaryItem['headers_count'] = 0;
+                    // $summaryItem['headers_count_existing'] = 0;
 
                     $line_number = 0;
 
@@ -376,47 +380,63 @@ class InvoicesController extends Controller
                                 $qty_per_uom =      trim(str_replace(',','',$qty_per_uom));
                                 $uom_code =         trim(str_replace('"','',$cols[13]));
 
-                                if($quantity > 0) $summaryItem['lines_count'] += 1;
+                                $isNotFromOtherPrincipals = null;
+                                if($vendor_code=="") {
+                                    $isNotFromOtherPrincipals = true;
+                                } else {
+                                    $isNotFromOtherPrincipals =
+                                        DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+                                            ->where('vendor_code', $vendor_code)
+                                            ->exists();
+                                }
 
-                                if (
-                                    DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                        ->where('vendor_code',$vendor_code)
-                                        ->where('customer_code',$customer_code)
-                                        ->where('doc_no',$doc_no)
-                                        ->where('item_code',$item_code)
-                                        ->where('uom',$uom)
-                                        ->where('quantity',$quantity)
+                                if($isNotFromOtherPrincipals) {
+                                    // dd('passed');
 
-                                        ->exists() == false
-                                ) {
-                                    if($quantity > 0) {
+                                    if (
+                                        DB::table(PrincipalsUtil::$TBL_INVOICES)
+                                            ->where('vendor_code',$vendor_code)
+                                            ->where('customer_code',$customer_code)
+                                            ->where('doc_no',$doc_no)
+                                            ->where('item_code',$item_code)
+                                            ->where('uom',$uom)
+                                            ->where('quantity',$quantity)
 
-                                        $summaryItem['lines_count_uploaded'] += 1;
+                                            ->exists() == false
+                                    ) {
+                                        if($quantity > 0) {
+                                            $summaryItem['line_read'] += 1;
 
-                                        $invoices[] = [
-                                            'created_at'=>date($dateTimeToday),
-                                            'uploaded_by'=>auth()->user()->id,
-                                            'filename'=> $origFilename,
-                                            'group'=>$group,
-                                            'batch_number' => $batchNumber,
-                                            //
-                                            'vendor_code'=>$vendor_code,
-                                            'customer_code'=>$customer_code,
-                                            'doc_no'=>$doc_no,
-                                            'shipment_date'=>$shipment_date,
-                                            'item_code'=>$item_code,
-                                            'item_description'=>$item_description,
-                                            'uom'=>$uom,
-                                            'quantity'=>$quantity,
-                                            'price'=>$price,
-                                            'amount'=>$amount,
-                                            'qty_per_uom'=>$qty_per_uom,
-                                            'uom_code'=>$uom_code
-                                        ];
+                                            $invoices[] = [
+                                                'created_at'=>date($dateTimeToday),
+                                                'uploaded_by'=>auth()->user()->id,
+                                                'filename'=> $origFilename,
+                                                'group'=>$group,
+                                                'batch_number' => $batchNumber,
+                                                //
+                                                'vendor_code'=>$vendor_code,
+                                                'customer_code'=>$customer_code,
+                                                'doc_no'=>$doc_no,
+                                                'shipment_date'=>$shipment_date,
+                                                'item_code'=>$item_code,
+                                                'item_description'=>$item_description,
+                                                'uom'=>$uom,
+                                                'quantity'=>$quantity,
+                                                'price'=>$price,
+                                                'amount'=>$amount,
+                                                'qty_per_uom'=>$qty_per_uom,
+                                                'uom_code'=>$uom_code
+                                            ];
 
+                                            $summaryItem['line_uploaded'] += 1;
+                                        } else {
+                                            // $summaryItem['skipped_zero_qty'][$line_number] = $row;
+                                        }
+                                    } else {
+                                        $summaryItem['line_existing'] += 1;
                                     }
                                 } else {
-                                    $summaryItem['lines_count_existing'] += 1;
+                                    $summaryItem['skipped_other_principals'][$line_number] = $row;
                                 }
                             // -------------------------------------------------------
 
@@ -425,8 +445,6 @@ class InvoicesController extends Controller
                                 count($cols) == 8
                                 && $cols[0][0] != '#'
                             ) {
-                                $summaryItem['headers_count'] += 1;
-
                                 $doc_no = trim(str_replace('"','',$cols[0]));
                                 $customer_code = trim(str_replace('"','',$cols[1]));
                                 $customer_name = trim(str_replace('"','',$cols[2]));
@@ -441,9 +459,6 @@ class InvoicesController extends Controller
                                         ->where('customer_code', $customer_code)
                                         ->exists() == false
                                 ) {
-
-                                    $summaryItem['headers_count_uploaded'] += 1;
-
                                     $invoices_h[] = [
                                         // 'created_at'=>date($dateTimeToday),
                                         // 'uploaded_by'=>auth()->user()->id,
@@ -461,9 +476,13 @@ class InvoicesController extends Controller
                                         'sm_code'=>$sm_code
                                     ];
 
-                                } else {
-                                    $summaryItem['headers_count_existing'] += 1;
                                 }
+
+                            } else {
+                                if(str_replace(' ','',$row) == '') {
+                                    $row = 'BLANK_LINE';
+                                }
+                                $summaryItem['skipped_unknown_line'][$line_number] = $row;
                             }
                         }
                         $chunks = array_chunk($invoices, 500);
@@ -494,9 +513,7 @@ class InvoicesController extends Controller
             ini_set('memory_limit', $memory_limit);
 
             // write upload log
-            self::logInvoicesUpload(
-                $batchNumber, $filenames,""
-            );
+            self::logInvoicesUpload($batchNumber, $filenames, 'test');
 
             if($fileCount>0) {
                 $res['success'] = true;

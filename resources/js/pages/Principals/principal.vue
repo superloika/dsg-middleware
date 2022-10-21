@@ -38,6 +38,12 @@ export default {
                     // component: () => import("../common/TransAndInvoices.vue"),
                     component: () => import("./common/Transactions.vue"),
                 },
+                // {
+                //     title: 'Stats',
+                //     icon: 'mdi-chart-line',
+                //     // component: () => import("../common/TransAndInvoices.vue"),
+                //     component: () => import("./common/Stats.vue"),
+                // },
                 {
                     title: 'Masterfiles',
                     icon: 'mdi-folder-multiple',

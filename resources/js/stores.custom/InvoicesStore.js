@@ -21,6 +21,7 @@ const state = Vue.observable({
         { text: "Customer Name", value: "customer_name" },
         { text: "Invoice #", value: "doc_no" },
         { text: "Posting Date", value: "posting_date" },
+        { text: "Shipment Date", value: "shipment_date" },
         { text: "Item Code", value: "item_code" },
         { text: "Item Description", value: "item_description" },
         { text: "UOM", value: "uom" },

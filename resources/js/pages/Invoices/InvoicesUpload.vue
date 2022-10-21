@@ -86,7 +86,7 @@
 
     <v-dialog
         v-model="InvoicesStore.state.isUploadSummaryShown"
-        max-width="700px"
+        max-width="550px"
     >
         <InvoiceUploadSummary :uploadResponse="uploadResponse"></InvoiceUploadSummary>
     </v-dialog>
