@@ -64,14 +64,17 @@
                                 {{ summary.row_count }}
                             </v-chip> -->
 
-                            <v-chip color="default" small class="px-2 ma-1"
+                            <v-chip small class="px-2 ma-1"
                                 title="Total number of lines being read as valid invoice data"
+                                :color="
+                                    summary.lines_count < 1 ? 'error' : 'default'
+                                "
                             >
                                 Lines Read:
                                 {{ summary.lines_count }}
                             </v-chip>
 
-                            <v-chip color="default" small class="px-2 ma-1"
+                            <v-chip small class="px-2 ma-1"
                                 title="Total number of lines already exist in the database"
                             >
                                 Lines Existing:
@@ -87,8 +90,11 @@
 
                             <br>
 
-                            <v-chip color="default" small class="px-2 ma-1"
+                            <v-chip small class="px-2 ma-1"
                                 title="Total number of headers being read as valid invoice data header"
+                                :color="
+                                    summary.headers_count < 1 ? 'error' : 'default'
+                                "
                             >
                                 Headers Read:
                                 {{ summary.headers_count }}
