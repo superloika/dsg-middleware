@@ -121,7 +121,7 @@ export default {
         },
 
         summary(rawData) {
-            if(rawData == '') return [];
+            if(rawData == '' || rawData==null) return [];
 
             // const rawJson = '{"summary":' + rawData + '}';
             const decoded = JSON.parse(rawData);
