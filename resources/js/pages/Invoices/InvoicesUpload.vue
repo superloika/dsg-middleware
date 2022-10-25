@@ -50,14 +50,14 @@
                     Upload
                 </v-btn>
             </v-col>
-            <v-col class="pb-0" cols lg="1" md="1" sm="1">
+            <!-- <v-col class="pb-0" cols lg="1" md="1" sm="1">
                 <v-btn icon title="Previous upload summary"
                     @click.stop="showPreviousSummary()"
                     :disabled="isNoPreviousSummary"
                 >
                     <v-icon>mdi-history</v-icon>
                 </v-btn>
-            </v-col>
+            </v-col> -->
         </v-row>
 
         <!-- <v-divider></v-divider> -->
@@ -113,9 +113,9 @@ export default {
     },
 
     computed: {
-        isNoPreviousSummary() {
-            return Object.keys(this.uploadResponse).length === 0;
-        },
+        // isNoPreviousSummary() {
+        //     return Object.keys(this.uploadResponse).length === 0;
+        // },
 
         keywordsColor() {
             return 'accent';

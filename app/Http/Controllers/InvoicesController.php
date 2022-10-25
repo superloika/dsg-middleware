@@ -493,10 +493,7 @@ class InvoicesController extends Controller
             // revert to the default memory limit
             ini_set('memory_limit', $memory_limit);
 
-            // write upload log
-            self::logInvoicesUpload(
-                $batchNumber, json_encode($summary), $filenames,""
-            );
+
 
             if($fileCount>0) {
                 $res['success'] = true;
@@ -510,6 +507,11 @@ class InvoicesController extends Controller
 
             $res['batch_number'] = $batchNumber;
             $res['summary'] = $summary;
+
+            // write upload log
+            self::logInvoicesUpload(
+                $batchNumber, json_encode($res), $filenames,""
+            );
 
             return response()->json($res, 200);
 

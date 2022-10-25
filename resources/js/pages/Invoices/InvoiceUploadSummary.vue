@@ -2,7 +2,7 @@
     <v-card>
         <v-card-title class="pb-6">
             <div class="mr-2">
-                Upload Summary
+                <span class="text-overline">Upload Summary</span>
             </div>
             <div>
                 <v-chip color="default" small title="Batch Number">

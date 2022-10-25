@@ -1,5 +1,6 @@
 <template>
 <v-container fluid>
+    <!-- NOTICES -->
     <div v-if="AppStore.state.notices.length > 0">
         <v-card
             v-for="notice in AppStore.state.notices"
@@ -26,8 +27,37 @@
         <br>
     </div>
 
-    <v-card
-        v-for="uplog in InvoicesStore.state.invoices_upload_logs"
+
+    <!-- UPLOAD SUMMARIES -->
+    <v-row>
+        <v-col md="6" sm="12" lg="6"
+            v-for="(uplog, uplog_loop_index) in InvoicesStore.state.invoices_upload_logs"
+            :key="uplog.id"
+            class="mb-6"
+        >
+
+            <v-chip :color="isUploadedToday(uplog.created_at) ? 'primary' : ''" small
+                class="rounded-b-0"
+            >
+                <span
+                    v-if="isUploadedToday(uplog.created_at)"
+                >Uploaded Today</span>
+                <span v-else>
+                    Uploaded on {{ uplog.created_at }}
+                </span>
+            </v-chip>
+            <div class="pb-1">
+                <InvoiceUploadSummary :key="uplog_loop_index"
+                    :uploadResponse="summary(uplog.summary)"
+                ></InvoiceUploadSummary>
+            </div>
+
+        </v-col>
+
+    </v-row>
+
+    <!-- <v-card
+        v-for="(uplog, uplog_loop_index) in InvoicesStore.state.invoices_upload_logs"
         :key="uplog.id"
         class="mb-6"
         outlined
@@ -47,14 +77,10 @@
             </em>
         </v-card-title>
         <v-card-text>
-            <!-- <div>
-                {{ uplog.remarks }}
-            </div> -->
-            <!-- <br> -->
+
             <div>
-                <div class="pb-1">
-                    {{ uplog.summary }}
-                </div>
+
+
                 <div class="pb-1">
                     <em class="text-caption">Text Files</em>
                 </div>
@@ -72,13 +98,17 @@
                 </span>
             </div>
         </v-card-text>
-    </v-card>
+    </v-card> -->
 </v-container>
 </template>
 
 <script>
 
 export default {
+    components: {
+        InvoiceUploadSummary: () => import('../pages/Invoices/InvoiceUploadSummary.vue')
+    },
+
     data() {
         return {
 
@@ -88,6 +118,15 @@ export default {
     methods: {
         isUploadedToday(date) {
             return (new Date(date).toDateString() == new Date().toDateString()) ? true : false;
+        },
+
+        summary(rawData) {
+            if(rawData == '') return [];
+
+            // const rawJson = '{"summary":' + rawData + '}';
+            const decoded = JSON.parse(rawData);
+            console.log(decoded);
+            return decoded;
         }
     },
 
