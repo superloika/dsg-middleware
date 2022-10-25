@@ -495,7 +495,7 @@ class InvoicesController extends Controller
 
             // write upload log
             self::logInvoicesUpload(
-                $batchNumber, $filenames,""
+                $batchNumber, json_encode($summary), $filenames,""
             );
 
             if($fileCount>0) {
@@ -934,9 +934,10 @@ class InvoicesController extends Controller
     }
 
 
-    public static function logInvoicesUpload($batch_number, $filename, $remarks) {
+    public static function logInvoicesUpload($batch_number,$summary ,$filename, $remarks) {
         DB::table(PrincipalsUtil::$TBL_INVOICES_UPLOG)->insert([
             'batch_number' => $batch_number,
+            'summary' => $summary,
             'filename' => $filename,
             'remarks' => $remarks,
             'uploaded_by' => auth()->user()->id
@@ -944,7 +945,7 @@ class InvoicesController extends Controller
     }
 
     public function uploadLogs() {
-        $res = DB::table(PrincipalsUtil::$TBL_INVOICES_UPLOG)->limit(30)->latest()->get();
+        $res = DB::table(PrincipalsUtil::$TBL_INVOICES_UPLOG)->limit(20)->latest()->get();
         return response()->json($res);
     }
 }

@@ -53,6 +53,9 @@
             <!-- <br> -->
             <div>
                 <div class="pb-1">
+                    {{ uplog.summary }}
+                </div>
+                <div class="pb-1">
                     <em class="text-caption">Text Files</em>
                 </div>
                 <span
