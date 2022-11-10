@@ -39,7 +39,7 @@
                 ></v-select>
             </v-col> -->
 
-            <v-col class="pb-0" cols lg="2" md="2" sm="11">
+            <v-col class="pb-0" cols lg="3" md="3" sm="12">
                 <v-btn
                     dense color="primary"
                     @click="upload()"

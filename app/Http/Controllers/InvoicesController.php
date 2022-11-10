@@ -538,12 +538,12 @@ class InvoicesController extends Controller
                     ->where('id', $invoice['id'])
                     ->delete();
 
-                DB::table(PrincipalsUtil::$TBL_GENERATED)
-                    ->where('principal_code', $principal_code)
-                    ->where('doc_no', $invoice['doc_no'])
-                    ->where('alturas_customer_code', $invoice['customer_code'])
-                    ->where('alturas_item_code', $invoice['item_code'])
-                    ->delete();
+                // DB::table(PrincipalsUtil::$TBL_GENERATED)
+                //     ->where('principal_code', $principal_code)
+                //     ->where('doc_no', $invoice['doc_no'])
+                //     ->where('alturas_customer_code', $invoice['customer_code'])
+                //     ->where('alturas_item_code', $invoice['item_code'])
+                //     ->delete();
             }
             DB::commit();
             $res['success'] = true;
