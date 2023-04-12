@@ -332,7 +332,7 @@ class PrincipalsUtil extends Controller
                         "STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H. ".posting_date, '%m/%d/%Y')"
                     ),
                     // DB::raw("STR_TO_DATE(posting_date, '%m/%d/%Y')"),
-                    [$dateFrom, $dateTo])
+                    [$dateFrom->subDay(), $dateTo->addDay()])
 
                 // ->orderBy($this::$TBL_INVOICES. '.updated_at', 'DESC')
                 ->orderBy($this::$TBL_INVOICES_H. '.posting_date', 'DESC')

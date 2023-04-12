@@ -20,6 +20,13 @@ const opts = {
                 primary: '#2dba02',
                 accent: "#7dd663",
             },
+            // light: {
+            //     error: '#FF5252',
+            //     info: '#2196F3',
+            //     success: '#4CAF50',
+            //     primary: '#ff5100',
+            //     accent: "#ff8e59",
+            // },
         }
     }
 };

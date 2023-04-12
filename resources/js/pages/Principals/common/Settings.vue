@@ -28,14 +28,16 @@
                     v-model="setting.value"
                     :label="setting.description" outlined
                     :hint="setting.hint"
+                    persistent-hint
                     :type="setting.type"
                 >
                 </v-text-field>
                 <v-switch
                     v-if="setting.type=='toggle'"
-                    inset
                     :label="setting.description"
                     :hint="setting.hint"
+                    persistent-hint
+                    inset
                     v-model="PrincipalsStore.state.settings.find(e => e.name==setting.name).value"
                 >
 
@@ -45,6 +47,8 @@
                     v-model="setting.value"
                     :label="setting.description"
                     :value="setting.value"
+                    :hint="setting.hint"
+                    persistent-hint
                     outlined
                     color="warning"
                     auto-grow

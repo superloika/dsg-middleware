@@ -1,15 +1,15 @@
 <template>
     <v-sheet>
-        <!-- <div class="d-flex mb-4 justify-center">
+        <div class="d-flex mb-4 justify-center">
             <img src="/img/logo.png" alt="logo" srcset="">
             &nbsp;
-            <h6 class="pa-0 text-overline primary--text">{{ AppStore.state.AppName }}</h6>
-        </div> -->
-        <v-card max-width="300" min-width="300" elevation="1" tile>
-            <v-card-title>
+            <h6 class="pa-0 text-overline primary--text font-weight-bold">{{ AppStore.state.AppName }}</h6>
+        </div>
+        <v-card max-width="300" min-width="300" elevation="0" tile>
+            <!-- <v-card-title>
                 <v-icon class="mr-2">mdi-login</v-icon>
                 <span class="text-subtitle-1">Login</span>
-            </v-card-title>
+            </v-card-title> -->
             <v-card-text>
                 <v-alert
                     v-if="error_username" text
@@ -43,10 +43,10 @@
                                 @click:append="showPassword = !showPassword"
                                 autocomplete="false"
                             ></v-text-field>
-                            <div class="float-right">
-                                <v-btn @click.stop="isLogging=true" color="primary"
-                                    type="submit" :loading="isLogging">Login</v-btn>
-                            </div>
+                            <v-btn @click.stop="isLogging=true" color="primary" block
+                                type="submit" :loading="isLogging">Login</v-btn>
+                            <!-- <div class="float-right">
+                            </div> -->
                         </v-col>
                     </v-row>
                 </form>

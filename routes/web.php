@@ -226,6 +226,7 @@ Route::prefix('principals')->group(function(){
         ['TemprincipalsController', 'urc'],
         ['TemprincipalsController', 'loraines_mktg'],
         ['TemprincipalsController', 'emperador_distillers'],
+        ['TemprincipalsController', 'prifood_corp'],
     ];
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';

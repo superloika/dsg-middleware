@@ -30,14 +30,14 @@
 
     <!-- UPLOAD SUMMARIES -->
     <v-row>
-        <v-col md="6" sm="12" lg="6"
+        <v-col md="4" sm="12" lg="4"
             v-for="(uplog, uplog_loop_index) in InvoicesStore.state.invoices_upload_logs"
             :key="uplog.id"
             class="mb-6"
         >
 
             <v-chip :color="isUploadedToday(uplog.created_at) ? 'primary' : ''" small
-                class="rounded-b-0"
+                class="rounded-0"
             >
                 <span
                     v-if="isUploadedToday(uplog.created_at)"

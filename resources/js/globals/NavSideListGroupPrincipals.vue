@@ -70,7 +70,9 @@
 
                         <v-list-item-content class="pl-2">
                             <v-list-item-title>
-                                {{ principal.name }}
+                                <span class="text-caption">
+                                    {{ principal.name }}
+                                </span>
                             </v-list-item-title>
                         </v-list-item-content>
 

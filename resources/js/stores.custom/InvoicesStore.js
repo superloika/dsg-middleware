@@ -9,9 +9,9 @@ const state = Vue.observable({
     isLoadingInvoices: false,
     tableHeader: [
         { text: "Status", value: "status" },
-        { text: "Principal", value: "principals_name" },
+        // { text: "Principal", value: "principals_name" },
         { text: "Uploaded", value: "created_at" },
-        { text: "Uploaded By", value: "username" },
+        // { text: "Uploaded By", value: "username" },
         // { text: "Filename", value: "filename" },
         { text: "Group", value: "group" },
         { text: "Batch #", value: "batch_number" },
@@ -74,18 +74,24 @@ const state = Vue.observable({
 
 const actions = {
     async initInvoices(
-        searchKey='', principal_code='', row_count=10, selectedTerminal=''
+        searchKey='', principal_code='', row_count=10, selectedTerminal='', upload_date_range=''
     ) {
         try {
             state.isLoadingInvoices = true;
             AppStore.state.showTopLoading = true;
             if(searchKey==null) searchKey = '';
+            if(upload_date_range==null||upload_date_range=='') {
+                upload_date_range = [new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+                    .toISOString()
+                    .substr(0, 10)];
+            }
             const url = `${AppStore.state.siteUrl}invoices/all`
                 + `?row_count=${row_count}`
                 + `&search_key=${searchKey}`
                 + `&principal_code=${principal_code}`
                 + `&status=${state.invoiceStatus}`
                 + `&terminal=${selectedTerminal}`
+                + `&upload_date_range=${upload_date_range}`
                 + `&page=${state.invoices.current_page ?? 1}`;
             const response = await axios.get(url);
             state.invoices = {};
@@ -263,16 +269,22 @@ const actions = {
     },
 
     async initInvoicesTotalAmount(
-        searchKey='', principal_code='', row_count=10, selectedTerminal=''
+        searchKey='', principal_code='', row_count=10, selectedTerminal='',upload_date_range=''
     ) {
         try {
             if(searchKey==null) searchKey = '';
+            if(upload_date_range==null||upload_date_range=='') {
+                upload_date_range = [new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+                    .toISOString()
+                    .substr(0, 10)];
+            }
             const url = `${AppStore.state.siteUrl}invoices/grand-total`
                 + `?row_count=${row_count}`
                 + `&search_key=${searchKey}`
                 + `&principal_code=${principal_code}`
                 + `&status=${state.invoiceStatus}`
                 + `&terminal=${selectedTerminal}`
+                + `&upload_date_range=${upload_date_range}`
                 + `&page=${state.invoices.current_page ?? 1}`;
             const response = await axios.get(url);
             state.invoicesTotalAmount = response.data.sum;

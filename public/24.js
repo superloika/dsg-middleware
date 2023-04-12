@@ -1,1 +1,390 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[24],{D3fE:function(e,t,n){"use strict";n.r(t);var a=n("cFfM"),i=n("nYzg"),r={props:["lineCount","warningsCount"],components:{MissingInMaster:function(){return n.e(27).then(n.bind(null,"ccvn"))},ConfirmExport:function(){return n.e(21).then(n.bind(null,"iwX0"))}},data:function(){return{dlgMissingCustomers:null,dlgMissingItems:null,dlgMissingSalesmen:null,datePickerShown:!1}},computed:{generatedData:function(){return i.default.state.currentGeneratedData},selectedPrincipalCode:function(){return i.default.state.selectedPrincipalCode},searchKeyLength:function(){try{return i.default.state.currentGeneratedDataSearchKey.length}catch(e){return 0}},selPrincipalStore:function(){return this[i.default.state.selectedPrincipalCode]},dateRangeText:function(){return i.default.state.posting_date_range.join(" ~ ")}},methods:{missingInMaster:function(e){try{var t=[];this.generatedData.length>0&&this.generatedData[0].output_template.forEach((function(n){var a=[];n[1].forEach((function(t){"customer"==e?1==t.customer_notfound&&a.push({customer_code:t.customer_code,missing_customer_name:t.missing_customer_name}):"item"==e?1==t.item_notfound&&a.push({item_code:t.item_code,missing_item_name:t.missing_item_name}):"salesman"==e&&1==t.salesman_notfound&&a.push({real_salesman_code:t.alturas_sm_code,salesman_code:t.missing_salesman_name,missing_salesman_name:t.missing_salesman_name})})),a.length>0&&t.push.apply(t,a)}));for(var n=[],a=[],i=0;i<t.length;i++)n[t[i][e+"_code"]]||(a.push(t[i]),n[t[i][e+"_code"]]=1);return a}catch(e){return console.log("missingInMaster() - ERR:",e),[]}},refresh:function(){i.default.initCurrentGeneratedData(null,a.default.state.invoiceStatus),i.default.state.currentGeneratedDataSearchKey=""}},created:function(){a.default.state.invoiceStatus="pending"},mounted:function(){console.log("GeneratedActions component mounted")}},s=n("KHd+"),o=Object(s.a)(r,(function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("v-card",[n("v-card-text",[n("v-row",[n("v-col",[n("v-text-field",{staticStyle:{"max-width":"500px","min-width":"250px"},attrs:{label:"Posting Date","hide-details":"",readonly:"",dense:"",outlined:"",rounded:"",disabled:e.PrincipalsStore.state.isGeneratingData},on:{click:function(t){t.stopPropagation(),e.datePickerShown=!0}},model:{value:e.dateRangeText,callback:function(t){e.dateRangeText=t},expression:"dateRangeText"}}),e._v(" "),n("v-dialog",{ref:"datePicker",attrs:{"return-value":e.PrincipalsStore.state.posting_date_range,width:"290px"},on:{"update:returnValue":function(t){return e.$set(e.PrincipalsStore.state,"posting_date_range",t)},"update:return-value":function(t){return e.$set(e.PrincipalsStore.state,"posting_date_range",t)}},model:{value:e.datePickerShown,callback:function(t){e.datePickerShown=t},expression:"datePickerShown"}},[n("v-date-picker",{attrs:{scrollable:"",range:""},model:{value:e.PrincipalsStore.state.posting_date_range,callback:function(t){e.$set(e.PrincipalsStore.state,"posting_date_range",t)},expression:"PrincipalsStore.state.posting_date_range"}},[n("v-spacer"),e._v(" "),n("v-btn",{attrs:{text:"",color:"primary"},on:{click:function(t){e.datePickerShown=!1}}},[e._v("\n                            Cancel\n                        ")]),e._v(" "),n("v-btn",{attrs:{text:"",color:"primary"},on:{click:function(t){return e.$refs.datePicker.save(e.PrincipalsStore.state.posting_date_range)}}},[e._v("\n                            Ok\n                        ")])],1)],1)],1),e._v(" "),n("v-col",[n("v-select",{staticStyle:{"max-width":"500px","min-width":"200px"},attrs:{items:e.selPrincipalStore.state.generatedDataHistoryFilters[0],label:"Group By","item-text":"text","item-value":"value",outlined:"",rounded:"","hide-details":"",dense:"",disabled:e.PrincipalsStore.state.isGeneratingData},model:{value:e.PrincipalsStore.state.selectedGroupBy,callback:function(t){e.$set(e.PrincipalsStore.state,"selectedGroupBy",t)},expression:"PrincipalsStore.state.selectedGroupBy"}})],1),e._v(" "),n("v-col",[n("v-select",{staticStyle:{"max-width":"180px"},attrs:{items:e.InvoicesStore.state.invoiceStatuses,label:"Status","item-text":"status","item-value":"value",outlined:"",rounded:"","hide-details":"",dense:""},model:{value:e.InvoicesStore.state.invoiceStatus,callback:function(t){e.$set(e.InvoicesStore.state,"invoiceStatus",t)},expression:"InvoicesStore.state.invoiceStatus"}})],1),e._v(" "),n("v-col",[n("v-btn",{attrs:{title:"Generate Templated",dense:"",rounded:"",loading:e.PrincipalsStore.state.isGeneratingData,color:"secondary"},on:{click:function(t){return e.refresh()}}},[e._v("\n                    Generate\n                ")])],1),e._v(" "),n("v-col",[n("v-btn",{attrs:{title:"Export to Excel",dense:"",rounded:"",color:"primary",block:"",disabled:e.lineCount<1||e.searchKeyLength>0||e.PrincipalsStore.state.isGeneratingData},on:{click:function(t){t.stopPropagation(),e.PrincipalsStore.state.confirmExportDialogOpen=!0}}},[n("v-icon",{attrs:{left:"",size:"25"}},[e._v("mdi-file-excel")]),e._v("\n                    Export\n                ")],1)],1)],1)],1),e._v(" "),n("v-dialog",{attrs:{persistent:"","max-width":"500"},model:{value:e.PrincipalsStore.state.confirmExportDialogOpen,callback:function(t){e.$set(e.PrincipalsStore.state,"confirmExportDialogOpen",t)},expression:"PrincipalsStore.state.confirmExportDialogOpen"}},[n("ConfirmExport",{key:"confirm_export_"+e.PrincipalsStore.state.selectedPrincipalCode})],1)],1)}),[],!1,null,null,null);t.default=o.exports}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[24],{
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Salesmen.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/Salesmen.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    MasterfileUpload: function MasterfileUpload() {
+      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./MasterfileUpload.vue */ "./resources/js/pages/Principals/common/MasterfileUpload.vue"));
+    }
+  },
+  data: function data() {
+    return {
+      searchKey: ''
+    };
+  },
+  computed: {
+    selectedPrincipalCode: function selectedPrincipalCode() {
+      return this.PrincipalsStore.state.selectedPrincipalCode;
+    },
+    tblHeader: function tblHeader() {
+      return this[this.selectedPrincipalCode].state.salesmenTableHeader[0]; // if(this.PrincipalsStore.state.selectedPrincipalCode == 'wyeth') {
+      //     return this.WyethStore.state.customersTableHeader;
+      // } else {
+      //     return [];
+      // }
+    },
+    updatedAt: function updatedAt() {
+      try {
+        return this.PrincipalsStore.state.salesmen[0].upload_date;
+      } catch (error) {
+        return '...';
+      }
+    } // principal_code() {
+    //     const principal = this.AppStore.state.principals.find(e => e.id == this.$route.params.principal_id);
+    //     return principal.code.toLowerCase();\
+    // },
+
+  },
+  methods: {
+    exportToExcel: function exportToExcel() {
+      this.PrincipalsStore.toExcel_simple('Salesmen', this.PrincipalsStore.state.salesmen, {
+        storeName: this.selectedPrincipalCode,
+        propertyName: 'salesmenTableHeader'
+      }, null, "".concat(this.selectedPrincipalCode, "_Salesmen"));
+    }
+  },
+  created: function created() {
+    this.PrincipalsStore.initSalesmen(this.selectedPrincipalCode);
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Salesmen.vue?vue&type=template&id=374cc966&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/Salesmen.vue?vue&type=template&id=374cc966& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-card",
+    { staticClass: "elevation-0", attrs: { outlinedx: "" } },
+    [
+      _c(
+        "v-card-title",
+        { staticClass: "pa-0 mb-2" },
+        [
+          _c(
+            "v-app-bar",
+            { attrs: { elevation: "0", colorx: "white" } },
+            [
+              _c("v-toolbar-title", [
+                _c("div", [
+                  _vm._v("\n                    Salesmen\n                ")
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("em", { staticClass: "text-caption primary--text" }, [
+                    _vm._v(
+                      "\n                        Updated at " +
+                        _vm._s(_vm.updatedAt) +
+                        "\n                    "
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "mr-2",
+                  attrs: {
+                    title: "Refresh",
+                    icon: "",
+                    dense: "",
+                    rounded: "",
+                    depressed: ""
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.PrincipalsStore.initSalesmen(
+                        _vm.selectedPrincipalCode
+                      )
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("mdi-refresh")])],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-text-field", {
+                staticClass: "mr-3",
+                staticStyle: { "max-width": "300px" },
+                attrs: {
+                  label: "Search",
+                  clearable: "",
+                  "hide-details": "",
+                  dense: "",
+                  flat: "",
+                  rounded: "",
+                  "solo-inverted": ""
+                },
+                model: {
+                  value: _vm.searchKey,
+                  callback: function($$v) {
+                    _vm.searchKey = $$v
+                  },
+                  expression: "searchKey"
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { title: "Import", icon: "", dense: "" },
+                  on: {
+                    click: function($event) {
+                      $event.stopPropagation()
+                      _vm.PrincipalsStore.state.isUploadMasterSalesmenOpen = true
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("mdi-file-upload")])],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { title: "Export to Excel", icon: "", dense: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.exportToExcel()
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("mdi-file-excel")])],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-card-text",
+        { staticClass: "mx-0 px-0" },
+        [
+          _c("v-data-table", {
+            attrs: {
+              items: _vm.PrincipalsStore.state.salesmen,
+              headers: _vm.tblHeader,
+              dense: "",
+              search: _vm.searchKey
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { "max-width": "800", persistent: "" },
+          model: {
+            value: _vm.PrincipalsStore.state.isUploadMasterSalesmenOpen,
+            callback: function($$v) {
+              _vm.$set(
+                _vm.PrincipalsStore.state,
+                "isUploadMasterSalesmenOpen",
+                $$v
+              )
+            },
+            expression: "PrincipalsStore.state.isUploadMasterSalesmenOpen"
+          }
+        },
+        [_c("MasterfileUpload", { attrs: { id: "salesmen" } })],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/Principals/common/Salesmen.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/pages/Principals/common/Salesmen.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Salesmen_vue_vue_type_template_id_374cc966___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Salesmen.vue?vue&type=template&id=374cc966& */ "./resources/js/pages/Principals/common/Salesmen.vue?vue&type=template&id=374cc966&");
+/* harmony import */ var _Salesmen_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Salesmen.vue?vue&type=script&lang=js& */ "./resources/js/pages/Principals/common/Salesmen.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Salesmen_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Salesmen_vue_vue_type_template_id_374cc966___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Salesmen_vue_vue_type_template_id_374cc966___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/Principals/common/Salesmen.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Principals/common/Salesmen.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/Salesmen.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Salesmen_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Salesmen.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Salesmen.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Salesmen_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/Principals/common/Salesmen.vue?vue&type=template&id=374cc966&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/Salesmen.vue?vue&type=template&id=374cc966& ***!
+  \******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Salesmen_vue_vue_type_template_id_374cc966___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Salesmen.vue?vue&type=template&id=374cc966& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Salesmen.vue?vue&type=template&id=374cc966&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Salesmen_vue_vue_type_template_id_374cc966___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Salesmen_vue_vue_type_template_id_374cc966___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ })
+
+}]);
+//# sourceMappingURL=24.js.map

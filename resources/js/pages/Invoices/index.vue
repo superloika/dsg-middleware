@@ -124,15 +124,59 @@
 
                     <v-spacer></v-spacer>
 
+                    <!-- DATEPICKER -->
+                    <v-text-field
+                        v-model="dateRangeText"
+                        label="Upload Date"
+                        hide-details
+                        readonly
+                        dense
+                        outlined
+                        rounded
+                        @click.stop="datePickerShown=true"
+                        stylex="max-width:500px;min-width:250px;"
+                        class="mr-3"
+                    ></v-text-field>
+
+                    <v-dialog
+                        ref="datePicker"
+                        v-model="datePickerShown"
+                        :return-value.sync="uploadDateRange"
+                        width="290px"
+                    >
+                        <v-date-picker
+                            v-model="uploadDateRange"
+                            scrollable range
+                        >
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                text
+                                color="primary"
+                                @click="datePickerShown = false"
+                            >
+                                Cancel
+                            </v-btn>
+                            <v-btn
+                                text
+                                color="primary"
+                                @click="
+                                    $refs.datePicker.save(uploadDateRange);
+                                    onPageChange();
+                                "
+                            >
+                                Ok
+                            </v-btn>
+                        </v-date-picker>
+                    </v-dialog>
+                    <!-- /DATEPICKER -->
+
                     <v-combobox
                         :items="AppStore.state.principals"
-                        v-model="principalCodeFilter"
+                        v-model="principal"
                         label="Principal"
                         item-text="name"
-                        item-value="code"
-                        :return-object="false"
                         class="mr-3"
-                        style="max-width:250px;"
+                        stylex="max-width:250px;"
                         outlined
                         rounded
                         hide-details
@@ -142,7 +186,7 @@
                         <template v-slot:prepend-item>
                             <v-list-item
                                 link
-                                @click="principalCodeFilter = 'others'"
+                                @click="principal={}"
                             >
                                 <v-list-item-content>
                                     <v-list-item-title link>
@@ -161,6 +205,14 @@
                                 <v-chip small>
                                     {{ item.vendor_code }}
                                 </v-chip>
+                                {{ item.name }}
+                            </div>
+                        </template>
+                        <template v-slot:selection = "{ item }">
+                            <div
+                                :class="item.proj_status==1?'primary--text':'warning--text'"
+                                class="text-caption"
+                            >
                                 {{ item.name }}
                             </div>
                         </template>
@@ -215,7 +267,6 @@
             item-key="id"
             v-model="InvoicesStore.state.selectedInvoices"
             hide-default-footer
-            disable-pagination
             disable-sort
             show-select
             class="elevation-1"
@@ -227,8 +278,16 @@
                         :length="InvoicesStore.state.invoices.last_page"
                         @input="onPageChange()"
                         total-visible="10"
+
                     >
                     </v-pagination>
+                    <!-- <v-pagination
+                        v-model="InvoicesStore.state.invoices.current_page"
+                        @input="onPageChange()"
+                        :length="10"
+                    >
+                    </v-pagination> -->
+                    <!-- <v-btn @click="">next</v-btn> -->
                 </v-container>
             </template>
 
@@ -255,14 +314,14 @@
                     {{ item.created_at.substring(0, 10) }}
                 </div>
             </template>
-            <template v-slot:[`item.principals_name`]="{ item }">
+            <!-- <template v-slot:[`item.principals_name`]="{ item }">
                 <div v-if="item.principals_name != null">
                     {{ item.principals_name }}
                 </div>
                 <div v-else>
                     <v-icon>mdi-help-circle-outline</v-icon>
                 </div>
-            </template>
+            </template> -->
 
             <!-- expanded -->
             <!-- <template v-slot:expanded-item="{ item }">
@@ -313,9 +372,10 @@ export default {
     data() {
         return {
             searchKey: "",
+            principal: {},
             principalCodeFilter: "",
 
-            tblPageRowCounts: [10, 20, 30, 50, 100, 500, 1000, 5000],
+            tblPageRowCounts: [10, 20, 30, 50, 100, 500, 1000],
             tblPageRowCount: 10,
 
             groupByColumns: [
@@ -330,6 +390,12 @@ export default {
             selectedGroup: '',
 
             expanded: [],
+
+            uploadDateRange: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+                .toISOString()
+                .substr(0, 10)],
+            datePickerShown: false,
+
         };
     },
 
@@ -351,13 +417,15 @@ export default {
                 this.searchKey,
                 this.principalCodeFilter,
                 this.tblPageRowCount,
-                this.selectedGroup
+                this.selectedGroup,
+                this.uploadDateRange
             );
             this.InvoicesStore.initInvoicesTotalAmount(
                 this.searchKey,
                 this.principalCodeFilter,
                 this.tblPageRowCount,
-                this.selectedGroup
+                this.selectedGroup,
+                this.uploadDateRange
             );
 
             // console.log(this.AppStore.state.principals);
@@ -373,6 +441,14 @@ export default {
         groups() {
             return [{group_name:'All',group_code:''}, ...this.InvoicesStore.state.groups];
         },
+
+        // principalCodeFilter() {
+        //     return this.principal.vendor_code;
+        // },
+
+        dateRangeText() {
+            return this.uploadDateRange.join(' ~ ');
+        },
     },
 
     watch: {
@@ -382,6 +458,12 @@ export default {
             }
             this.onPageChange();
         }, 500),
+
+        'principal.vendor_code': {
+            handler(newV, oldV) {
+                this.principalCodeFilter = newV;
+            }
+        },
 
         principalCodeFilter: debounce(function() {
             if (this.principalCodeFilter == null) this.principalCodeFilter = "";
@@ -420,7 +502,7 @@ export default {
     created() {
         this.InvoicesStore.state.invoiceStatus = '';
         this.InvoicesStore.initInvoices();
-        this.InvoicesStore.initInvoicesTotalAmount();
+        // this.InvoicesStore.initInvoicesTotalAmount();
         this.InvoicesStore.initGroups();
     },
 

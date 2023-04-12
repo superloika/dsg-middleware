@@ -56,6 +56,7 @@ class TemprincipalsController extends Controller
             // ************************* /MISC INITS *************************************
 
             // **************** PENDING INVOICES **************************
+            // dd($request->posting_date_range);
             $pendingInvoices = InvoicesController::getPendingInvoices(
                 $request->principal_code, $request->posting_date_range, $request->status
             );

@@ -32,6 +32,23 @@ class InvoicesController extends Controller
         // dd($vendor_codes);
         // *************************************************
 
+        // posting date range
+        $dates = explode(',', request()->upload_date_range);
+        sort($dates);
+        $dateFrom = '';
+        $dateTo = '';
+        if(count($dates) > 1) {
+            $dateFrom = $dates[0];
+            $dateTo = $dates[1];
+        } else if(count($dates) == 1) {
+            $dateFrom = $dates[0];
+            $dateTo = $dates[0];
+        }
+        $dateFrom = new Carbon($dateFrom);
+        $dateTo = new Carbon($dateTo);
+        // dd($dateFrom. '-----'. $dateTo);
+        // /posting date range
+
         $row_count = request()->row_count ?? 10;
         $search_key = request()->search_key ?? '';
         $principal_code = request()->principal_code ?? '';
@@ -87,15 +104,26 @@ class InvoicesController extends Controller
             // ->where(function($query) use ($principal_code) {
 
             // })
+
+            // ->when($principal_code != '', function($query) use($principal_code) {
+            //     if($principal_code != '') {
+            //         if($principal_code=='others') {
+            //             $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code', null);
+            //         } else {
+            //             $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.code', $principal_code);
+            //         }
+            //     }
+            // })
             ->when($principal_code != '', function($query) use($principal_code) {
                 if($principal_code != '') {
                     if($principal_code=='others') {
-                        $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code', null);
+                        $query->where(PrincipalsUtil::$TBL_INVOICES.'.vendor_code', null);
                     } else {
-                        $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.code', $principal_code);
+                        $query->where(PrincipalsUtil::$TBL_INVOICES.'.vendor_code', $principal_code);
                     }
                 }
             })
+
             // ->where(
             //     PrincipalsUtil::$TBL_INVOICES. '.vendor_code','like', '%'.$vendor_code. '%'
             // )
@@ -107,18 +135,42 @@ class InvoicesController extends Controller
                 PrincipalsUtil::$TBL_INVOICES. '.group','like', '%'.$terminal. '%'
             )
 
-            ->leftJoin('users', 'users.id', PrincipalsUtil::$TBL_INVOICES. '.uploaded_by')
-            ->leftJoin(
-                PrincipalsUtil::$TBL_PRINCIPALS,
-                PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
-                PrincipalsUtil::$TBL_INVOICES.'.vendor_code'
+            // ->whereBetween(
+            //     DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
+            //     [$dateFrom, $dateTo]
+            // )
+            ->whereBetween(
+                PrincipalsUtil::$TBL_INVOICES. ".created_at",
+                [$dateFrom->subDay(), $dateTo->addDay()]
             )
+            // ->whereBetween(
+            //     PrincipalsUtil::$TBL_INVOICES. ".created_at",
+            //     [$dateFrom->subDay(), $dateTo->addDay()]
+            // )
+            // ->whereDate(PrincipalsUtil::$TBL_INVOICES. ".created_at",'>=',$dateFrom)
+            // ->whereDate(PrincipalsUtil::$TBL_INVOICES. ".created_at",'<=',$dateTo)
+
+
+            // ->leftJoin('users', 'users.id', PrincipalsUtil::$TBL_INVOICES. '.uploaded_by')
+
+            // ->leftJoin(
+            //     PrincipalsUtil::$TBL_PRINCIPALS,
+            //     PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
+            //     PrincipalsUtil::$TBL_INVOICES.'.vendor_code'
+            // )
 
             // ->join(
             //     PrincipalsUtil::$TBL_INVOICES_H,
             //     PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
             //     PrincipalsUtil::$TBL_INVOICES.'.doc_no'
             // )
+
+            // testing ra ni
+            // ->where(
+            //     DB::raw('DATE('.PrincipalsUtil::$TBL_INVOICES.'.created_at)'),
+            //     Carbon::now()->format('Y-m-d')
+            // )
+
             ->join(
                 PrincipalsUtil::$TBL_INVOICES_H,
                 function($join) {
@@ -136,11 +188,13 @@ class InvoicesController extends Controller
 
             ->select(
                 PrincipalsUtil::$TBL_INVOICES. '.*',
+                PrincipalsUtil::$TBL_INVOICES. '.id as lineID',
                 // 'users.name AS user_fullname',
-                'users.username',
-                PrincipalsUtil::$TBL_PRINCIPALS.'.name AS principals_name',
+                // 'users.username',
+                // PrincipalsUtil::$TBL_PRINCIPALS.'.name AS principals_name',
                 // PrincipalsUtil::$TBL_PRINCIPALS.'.code',
                 // PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
+                PrincipalsUtil::$TBL_INVOICES_H. '.id as headID',
                 PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
                 PrincipalsUtil::$TBL_INVOICES_H. '.sm_code',
                 PrincipalsUtil::$TBL_INVOICES_H. '.posting_date',
@@ -153,6 +207,8 @@ class InvoicesController extends Controller
             // $invoices = $result->orderBy(PrincipalsUtil::$TBL_INVOICES_H. '.posting_date','DESC')
             //     ->paginate($row_count);
             $invoices = $result->latest()->paginate($row_count);
+            // $invoices = $result->orderBy('id')->cursorPaginate($row_count);
+            // $invoices = $result->simplePaginate($row_count);
 
         return response()->json([
             'sum' => $sum,
@@ -161,6 +217,22 @@ class InvoicesController extends Controller
     }
 
     function grandTotal() {
+        // posting date range
+        $dates = explode(',', request()->upload_date_range);
+        sort($dates);
+        $dateFrom = '';
+        $dateTo = '';
+        if(count($dates) > 1) {
+            $dateFrom = $dates[0];
+            $dateTo = $dates[1];
+        } else if(count($dates) == 1) {
+            $dateFrom = $dates[0];
+            $dateTo = $dates[0];
+        }
+        $dateFrom = new Carbon($dateFrom);
+        $dateTo = new Carbon($dateTo);
+        // /posting date range
+
         $row_count = request()->row_count ?? 10;
         $search_key = request()->search_key ?? '';
         $principal_code = request()->principal_code ?? '';
@@ -206,12 +278,22 @@ class InvoicesController extends Controller
 
                     ->orWhere('batch_number','like', '%'.$search_key. '%');
             })
+
+            // ->when($principal_code != '', function($query) use($principal_code) {
+            //     if($principal_code != '') {
+            //         if($principal_code=='others') {
+            //             $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code', null);
+            //         } else {
+            //             $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.code', $principal_code);
+            //         }
+            //     }
+            // })
             ->when($principal_code != '', function($query) use($principal_code) {
                 if($principal_code != '') {
                     if($principal_code=='others') {
-                        $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code', null);
+                        $query->where(PrincipalsUtil::$TBL_INVOICES.'.vendor_code', null);
                     } else {
-                        $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.code', $principal_code);
+                        $query->where(PrincipalsUtil::$TBL_INVOICES.'.vendor_code', $principal_code);
                     }
                 }
             })
@@ -222,12 +304,18 @@ class InvoicesController extends Controller
             ->where(
                 PrincipalsUtil::$TBL_INVOICES. '.group','like', '%'.$terminal. '%'
             )
-
-            ->leftJoin(
-                PrincipalsUtil::$TBL_PRINCIPALS,
-                PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
-                PrincipalsUtil::$TBL_INVOICES.'.vendor_code'
+            ->whereBetween(
+                PrincipalsUtil::$TBL_INVOICES. ".created_at",
+                [$dateFrom->subDay(), $dateTo->addDay()]
             )
+            // ->whereDate(PrincipalsUtil::$TBL_INVOICES. ".created_at",'>=',$dateFrom)
+            // ->whereDate(PrincipalsUtil::$TBL_INVOICES. ".created_at",'<=',$dateTo)
+
+            // ->leftJoin(
+            //     PrincipalsUtil::$TBL_PRINCIPALS,
+            //     PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
+            //     PrincipalsUtil::$TBL_INVOICES.'.vendor_code'
+            // )
 
             // ->join(
             //     PrincipalsUtil::$TBL_INVOICES_H,
@@ -363,7 +451,7 @@ class InvoicesController extends Controller
                                 $customer_code =    trim(str_replace('"','',$cols[1]));
                                 $doc_no =           trim(str_replace('"','',$cols[2]));
                                 $item_code =        trim(str_replace('"','',$cols[5]));
-                                $shipment_date =     trim(str_replace('"','',$cols[6]));
+                                $shipment_date =    trim(str_replace('"','',$cols[6]));
                                 $item_description = trim(str_replace('"','',$cols[7]));
                                 $uom =              trim(str_replace('"','',$cols[8]));
                                 $quantity =         trim(str_replace('"','',$cols[9]));
@@ -852,7 +940,7 @@ class InvoicesController extends Controller
                 ->where('vendor_code', $vendor_code)
                 ->whereBetween(
                     DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H.".posting_date, '%m/%d/%Y')"),
-                    [$dateFrom, $dateTo])
+                    [$dateFrom->subDay(), $dateTo->addDay()])
                 ->orderBy(PrincipalsUtil::$TBL_INVOICES_H.'.posting_date')
                 ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.customer_code')
                 ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.doc_no')
@@ -890,6 +978,7 @@ class InvoicesController extends Controller
         }
         $dateFrom = new Carbon($dateFrom);
         $dateTo = new Carbon($dateTo);
+        // /posting date range
 
         // ,
         //
@@ -918,7 +1007,7 @@ class InvoicesController extends Controller
         )
         ->whereBetween(
             DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
-            [$dateFrom, $dateTo]
+            [$dateFrom->subDay(), $dateTo->addDay()]
         )
         ->where(PrincipalsUtil::$TBL_INVOICES.'.status','like', "%$status%")
 

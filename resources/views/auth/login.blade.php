@@ -34,11 +34,16 @@
         .v - text - field--outlined fieldset {
             color: red!important;
         }
+
+        #v-appx {
+            background: rgb(112,255,0);
+            background: radial-gradient(circle, rgba(112,255,0,1) 11%, rgba(39,255,0,1) 59%, rgba(0,219,58,1) 100%);
+        }
     </style>
 </head>
 <body>
     <div id="app">
-        <v-app>
+        <v-app id="v-app">
             <v-main>
                 <v-container fluid class="fluid fill-height">
                     <v-layout align-center justify-center>
