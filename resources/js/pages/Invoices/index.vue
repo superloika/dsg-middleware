@@ -502,7 +502,7 @@ export default {
     created() {
         this.InvoicesStore.state.invoiceStatus = '';
         this.InvoicesStore.initInvoices();
-        // this.InvoicesStore.initInvoicesTotalAmount();
+        this.InvoicesStore.initInvoicesTotalAmount();
         this.InvoicesStore.initGroups();
     },
 
