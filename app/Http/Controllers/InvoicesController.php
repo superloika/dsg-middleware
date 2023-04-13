@@ -306,7 +306,8 @@ class InvoicesController extends Controller
             )
             ->whereBetween(
                 PrincipalsUtil::$TBL_INVOICES. ".created_at",
-                [$dateFrom->format('Y-m-d'), $dateTo->format('Y-m-d')]
+                [$dateFrom->format('Y-m-d'),
+                DB::raw("DATE($dateTo)")]
             )
             // ->whereDate(PrincipalsUtil::$TBL_INVOICES. ".created_at",'>=',$dateFrom)
             // ->whereDate(PrincipalsUtil::$TBL_INVOICES. ".created_at",'<=',$dateTo)
