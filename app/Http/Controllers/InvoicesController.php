@@ -141,7 +141,7 @@ class InvoicesController extends Controller
             // )
             ->whereBetween(
                 PrincipalsUtil::$TBL_INVOICES. ".created_at",
-                [$dateFrom->subDay(), $dateTo->addDay()]
+                [$dateFrom, $dateTo]
             )
             // ->whereBetween(
             //     PrincipalsUtil::$TBL_INVOICES. ".created_at",
@@ -306,7 +306,7 @@ class InvoicesController extends Controller
             )
             ->whereBetween(
                 PrincipalsUtil::$TBL_INVOICES. ".created_at",
-                [$dateFrom->subDay(), $dateTo->addDay()]
+                [$dateFrom, $dateTo]
             )
             // ->whereDate(PrincipalsUtil::$TBL_INVOICES. ".created_at",'>=',$dateFrom)
             // ->whereDate(PrincipalsUtil::$TBL_INVOICES. ".created_at",'<=',$dateTo)
@@ -940,7 +940,7 @@ class InvoicesController extends Controller
                 ->where('vendor_code', $vendor_code)
                 ->whereBetween(
                     DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H.".posting_date, '%m/%d/%Y')"),
-                    [$dateFrom->subDay(), $dateTo->addDay()])
+                    [$dateFrom, $dateTo])
                 ->orderBy(PrincipalsUtil::$TBL_INVOICES_H.'.posting_date')
                 ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.customer_code')
                 ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.doc_no')
@@ -1007,7 +1007,7 @@ class InvoicesController extends Controller
         )
         ->whereBetween(
             DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
-            [$dateFrom->subDay(), $dateTo->addDay()]
+            [$dateFrom, $dateTo]
         )
         ->where(PrincipalsUtil::$TBL_INVOICES.'.status','like', "%$status%")
 
