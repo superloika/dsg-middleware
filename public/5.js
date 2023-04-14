@@ -296,6 +296,8 @@ var map = {
 	"./kalbe_international.js": "./resources/js/stores.custom/principals/kalbe_international.js",
 	"./kareila_management": "./resources/js/stores.custom/principals/kareila_management.js",
 	"./kareila_management.js": "./resources/js/stores.custom/principals/kareila_management.js",
+	"./kimberly": "./resources/js/stores.custom/principals/kimberly.js",
+	"./kimberly.js": "./resources/js/stores.custom/principals/kimberly.js",
 	"./loraines_mktg": "./resources/js/stores.custom/principals/loraines_mktg.js",
 	"./loraines_mktg.js": "./resources/js/stores.custom/principals/loraines_mktg.js",
 	"./magnolia_inc": "./resources/js/stores.custom/principals/magnolia_inc.js",
@@ -4181,6 +4183,86 @@ var actions = {};
 /*!*********************************************************************!*\
   !*** ./resources/js/stores.custom/principals/kareila_management.js ***!
   \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/kimberly.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/kimberly.js ***!
+  \***********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
