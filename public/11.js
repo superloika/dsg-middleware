@@ -127,7 +127,7 @@ __webpack_require__.r(__webpack_exports__);
     //     return Object.keys(this.uploadResponse).length === 0;
     // },
     keywordsColor: function keywordsColor() {
-      return 'accent';
+      return 'secondary';
     }
   },
   methods: {

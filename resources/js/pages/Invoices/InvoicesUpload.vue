@@ -118,7 +118,7 @@ export default {
         // },
 
         keywordsColor() {
-            return 'accent';
+            return 'secondary';
         }
     },
 

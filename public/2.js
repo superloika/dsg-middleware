@@ -201,6 +201,7 @@ var render = function() {
       _c(
         "v-card-text",
         [
+          _vm.uploadResponse.ufiles != undefined &&
           _vm.uploadResponse.ufiles.length
             ? _c(
                 "div",
