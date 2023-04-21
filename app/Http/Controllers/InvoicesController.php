@@ -378,6 +378,9 @@ class InvoicesController extends Controller
 
             $filenames = "";
 
+            // unknown files (unmatched group prefix on filename)
+            $ufiles = [];
+
             $fileCount = 0;
             foreach($request->file('files') as $file) {
                 $origFilename = $file->getClientOriginalName();
@@ -395,7 +398,8 @@ class InvoicesController extends Controller
 
                 // if $group is still 'NA', do not accept the file
                 if($group=='NA') {
-                    break;
+                    $ufiles[] = $origFilename;
+                    continue;
                 }
 
                 $fileCount += 1;
@@ -583,18 +587,22 @@ class InvoicesController extends Controller
 
 
 
-            if($fileCount>0) {
-                $res['success'] = true;
-                $res['message'] = 'Successful';
-            }
+            // if($fileCount>0) {
+            //     $res['success'] = true;
+            //     $res['message'] = 'Successful';
+            // }
             // else {
             //     $res['success'] = false;
             //     $res['message'] = "Unable to read the file(s).
             //         No group keyword found in the filename(s)";
             // }
 
+            $res['success'] = true;
+            $res['message'] = 'Successful';
+
             $res['batch_number'] = $batchNumber;
             $res['summary'] = $summary;
+            $res['ufiles'] = $ufiles;
 
             // write upload log
             self::logInvoicesUpload(

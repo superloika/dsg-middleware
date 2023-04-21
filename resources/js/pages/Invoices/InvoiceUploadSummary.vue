@@ -16,6 +16,17 @@
 
         <v-card-text>
 
+            <div v-if="uploadResponse.ufiles.length" class="mb-3">
+                <v-sheet elevation="1" class="pa-4 error--text">
+                    <h4>{{ uploadResponse.ufiles.length }} unknown file/s</h4>
+                    <h6>Unmatched group prefix in filename</h6>
+                    <v-divider></v-divider>
+                    <div v-for="(uf, i) in uploadResponse.ufiles" :key="i">
+                        {{ uf }}
+                    </div>
+                </v-sheet>
+            </div>
+
             <v-expansion-panels focusable>
                 <v-expansion-panel
                     v-for="(summary, index) in uploadResponse.summary"

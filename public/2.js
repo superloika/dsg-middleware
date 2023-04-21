@@ -143,6 +143,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['uploadResponse'],
   mounted: function mounted() {
@@ -190,6 +201,46 @@ var render = function() {
       _c(
         "v-card-text",
         [
+          _vm.uploadResponse.ufiles.length
+            ? _c(
+                "div",
+                { staticClass: "mb-3" },
+                [
+                  _c(
+                    "v-sheet",
+                    {
+                      staticClass: "pa-4 error--text",
+                      attrs: { elevation: "1" }
+                    },
+                    [
+                      _c("h4", [
+                        _vm._v(
+                          _vm._s(_vm.uploadResponse.ufiles.length) +
+                            " unknown file/s"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("h6", [_vm._v("Unmatched group prefix in filename")]),
+                      _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
+                      _vm._l(_vm.uploadResponse.ufiles, function(uf, i) {
+                        return _c("div", { key: i }, [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(uf) +
+                              "\n                "
+                          )
+                        ])
+                      })
+                    ],
+                    2
+                  )
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "v-expansion-panels",
             { attrs: { focusable: "" } },
