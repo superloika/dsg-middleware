@@ -140,7 +140,7 @@ class InvoicesController extends Controller
             //     [$dateFrom, $dateTo]
             // )
             ->whereBetween(
-                PrincipalsUtil::$TBL_INVOICES. ".created_at",
+                DB::raw('DATE('. PrincipalsUtil::$TBL_INVOICES. ".created_at". ')'),
                 [$dateFrom->startOfDay(), $dateTo->endOfDay()]
             )
             // ->whereBetween(
