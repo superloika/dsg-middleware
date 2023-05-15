@@ -89,8 +89,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     console.log(this.selectedPrincipalCode + ' component mounted'); // br test
-
-    Vue.prototype[this.selectedPrincipalCode].brLogin();
+    // Vue.prototype[this.selectedPrincipalCode].brLogin();
   },
   beforeDestroy: function beforeDestroy() {
     if (this.PrincipalsStore != null) {
