@@ -88,7 +88,9 @@ __webpack_require__.r(__webpack_exports__);
     this.PrincipalsStore.initSettings();
   },
   mounted: function mounted() {
-    console.log(this.selectedPrincipalCode + ' component mounted');
+    console.log(this.selectedPrincipalCode + ' component mounted'); // br test
+
+    Vue.prototype[this.selectedPrincipalCode].brLogin();
   },
   beforeDestroy: function beforeDestroy() {
     if (this.PrincipalsStore != null) {
@@ -354,6 +356,8 @@ var map = {
 	"./sunpride_foods.js": "./resources/js/stores.custom/principals/sunpride_foods.js",
 	"./suychicken_corp": "./resources/js/stores.custom/principals/suychicken_corp.js",
 	"./suychicken_corp.js": "./resources/js/stores.custom/principals/suychicken_corp.js",
+	"./suyen_corp": "./resources/js/stores.custom/principals/suyen_corp.js",
+	"./suyen_corp.js": "./resources/js/stores.custom/principals/suyen_corp.js",
 	"./symply_g": "./resources/js/stores.custom/principals/symply_g.js",
 	"./symply_g.js": "./resources/js/stores.custom/principals/symply_g.js",
 	"./tekson": "./resources/js/stores.custom/principals/tekson.js",
@@ -6875,6 +6879,86 @@ var actions = {};
 
 /***/ }),
 
+/***/ "./resources/js/stores.custom/principals/suyen_corp.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/suyen_corp.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (M/D/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state // ...actions
+
+});
+
+/***/ }),
+
 /***/ "./resources/js/stores.custom/principals/symply_g.js":
 /*!***********************************************************!*\
   !*** ./resources/js/stores.custom/principals/symply_g.js ***!
@@ -7224,10 +7308,24 @@ var actions = {};
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
   // templated data table header
   generatedDataTableHeader: [[{
     text: "Invoice #",
@@ -7285,13 +7383,46 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Source Group',
     value: 'group_code'
-  }]]
+  }]],
+  // BeatRoute ************************************************************************
+  brToken: null
 });
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
+var actions = {
+  brLogin: function brLogin() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var url;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              url = 'https://sandbox.beatroute.io/distributor/user/login';
+              _context.next = 3;
+              return fetch(url, {
+                method: 'POST',
+                body: JSON.stringify({
+                  username: "leonardodistributors_api@br.gmail.com",
+                  password: "demo@4321",
+                  device: "Windows"
+                })
+              }).then(function (res) {
+                return res.json();
+              }).then(function (res) {
+                console.log(res.data);
+                state.brToken = res.data.data.token;
+              });
 
-});
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
+  state: state
+}, actions));
 
 /***/ }),
 

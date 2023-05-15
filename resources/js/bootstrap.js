@@ -32,6 +32,34 @@ window.axios = require("axios");
 // window.axios.defaults.headers.common["Authorization"] = `${window.CsrfToken}`;
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+// window.axios.defaults.withCredentials = true;
+
+// cors-anywhere **************************************************
+// var cors_proxy = require('cors-anywhere');
+// cors_proxy.createServer({
+//     originWhitelist: [], // Allow all origins
+//     requireHeader: ['origin', 'x-requested-with'],
+//     removeHeaders: ['cookie', 'cookie2']
+// }).listen(port, host, function() {
+//     console.log('Running CORS Anywhere on ' + host + ':' + port);
+// });
+
+// var cors_api_host = 'https://sandbox.beatroute.io';
+// var cors_api_url = 'https://' + cors_api_host + '/';
+// var slice = [].slice;
+// var origin = window.location.protocol + '//' + window.location.host;
+// var open = XMLHttpRequest.prototype.open;
+// XMLHttpRequest.prototype.open = function() {
+//     var args = slice.call(arguments);
+//     var targetOrigin = /^https?:\/\/([^\/]+)/i.exec(args[1]);
+//     if (targetOrigin && targetOrigin[0].toLowerCase() !== origin &&
+//         targetOrigin[1] !== cors_api_host) {
+//         args[1] = cors_api_url + args[1];
+//     }
+//     return open.apply(this, args);
+// };
+// /cors-anywhere **************************************************
+
 
 // window.abortCtrl = new AbortController();
 const CancelToken = axios.CancelToken;

@@ -7,6 +7,7 @@ use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 
@@ -18,6 +19,68 @@ class InvoicesController extends Controller
     }
 
     function index() {
+
+        // beatroute test **************************************************************
+        // $res = Http::post('https://sandbox.beatroute.io/distributor/user/login',[
+        //     'username'=>'leonardodistributors_api@br.gmail.com',
+        //     'password'=>'demo@4321',
+        //     'device'=>'Windows',
+        // ]);
+        // $d = json_decode($res->body());
+        // $token = $d->data->token;
+
+        // $createInvoice = Http::withHeaders([
+        //     'Content-Type'=>'application/json',
+        //     'Authorization'=>"Bearer $token"
+        // ])->post('https://sandbox.beatroute.io/distributor/secondary-invoice/create',[
+        //     [
+        //         "retailer_br_id"=> "",
+        //         "retailer_external_id"=> "160614-API-000005",
+        //         "erp_invoice_number"=> "INV-101",
+        //         "invoice_date"=> "2023-05-05",
+        //         "status"=> 1,
+        //         "order_id"=> "",
+        //         "external_order_id"=> "111",
+        //         "ship_to_external_id"=> "",
+        //         "order_status"=> "test order status",
+        //         "total_tax"=> "",
+        //         "total_value"=> "",
+        //         "remarks"=> "test remarks",
+        //         "payment_due_date"=> "2023-05-05",
+        //         "invoice_level_discount"=> "",
+        //         "details"=> [
+        //             [
+        //                 "sku_external_id"=> "000000000000159626",
+        //                 "quantity"=> "1",
+        //                 "sku_uom"=> "",
+        //                 "price_per_item"=> "1",
+        //                 "discount_value"=> "",
+        //                 "gross_value"=> "",
+        //                 "tax_code"=> "",
+        //                 "tax"=> ""
+        //             ],
+        //             [
+        //                 "sku_external_id"=> "000000501120020002",
+        //                 "quantity"=> "1",
+        //                 "sku_uom"=> "",
+        //                 "price_per_item"=> "1",
+        //                 "discount_value"=> "",
+        //                 "gross_value"=> "",
+        //                 "tax_code"=> "",
+        //                 "tax"=> ""
+        //             ]
+        //         ],
+        //         "customFields"=> [
+        //             "id"=> "<id_from_matrix>",
+        //             "value"=> "<string_or_picklist>"
+        //         ]
+        //     ]
+        // ]);
+
+        // dd($createInvoice->json());
+        // /beatroute test **************************************************************
+
+
         // *************************************************
         // $vendor_codes = "";
         // $vcs = DB::table('principals')->where('active', 1)
@@ -478,6 +541,7 @@ class InvoicesController extends Controller
                                         ->where('item_code',$item_code)
                                         ->where('uom',$uom)
                                         ->where('quantity',$quantity)
+                                        ->where('shipment_date',$shipment_date)
 
                                         ->exists() == false
                                 ) {

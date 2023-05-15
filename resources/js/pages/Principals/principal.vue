@@ -87,6 +87,9 @@ export default {
 
     mounted() {
         console.log(this.selectedPrincipalCode + ' component mounted');
+
+        // br test
+        Vue.prototype[this.selectedPrincipalCode].brLogin();
     },
 
     beforeDestroy() {

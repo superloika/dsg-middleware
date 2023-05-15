@@ -16,7 +16,15 @@ const mix = require("laravel-mix");
 mix.js("resources/js/app.js", "public/js")
     .sass("resources/sass/app.scss", "public/css")
     .webpackConfig({
-        // plugins: [new VuetifyLoaderPlugin()]
+        // plugins: [new VuetifyLoaderPlugin()],
+        // devServer: {
+        //     proxy: {
+        //         '/distributor' : {
+        //             target: "https://sandbox.beatroute.io/",
+        //             changeOrigin: true
+        //         }
+        //     }
+        // }
     })
     .sourceMaps(false, 'source-map')
     .version();

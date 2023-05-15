@@ -82,7 +82,37 @@
                                 {{ summary.row_count }}
                             </v-chip> -->
 
-                            <v-chip small class="px-2 ma-1"
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="font-weight-bold pr-4">Headers Read</td>
+                                        <td>{{ summary.headers_count }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold pr-4">Headers Existing</td>
+                                        <td>{{ summary.headers_count_existing }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold pr-4">Headers Uploaded</td>
+                                        <td>{{ summary.headers_count_uploaded }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="font-weight-bold pr-4">Lines Read</td>
+                                        <td>{{ summary.lines_count }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold pr-4">Lines Existing</td>
+                                        <td>{{ summary.lines_count_existing }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold pr-4">Lines Uploaded</td>
+                                        <td>{{ summary.lines_count_uploaded }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- <v-chip small class="px-2 ma-1"
                                 title="Total number of headers being read as valid invoice data header"
                                 :color="
                                     summary.headers_count < 1 ? 'error' : 'default'
@@ -106,7 +136,6 @@
                                 {{ summary.headers_count_uploaded }}
                             </v-chip>
 
-                            <!-- <br> -->
 
                             <v-chip small class="px-2 ma-1"
                                 title="Total number of lines being read as valid invoice data"
@@ -130,7 +159,7 @@
                             >
                                 Lines Uploaded:
                                 {{ summary.lines_count_uploaded }}
-                            </v-chip>
+                            </v-chip> -->
 
                             <!-- <br> -->
 

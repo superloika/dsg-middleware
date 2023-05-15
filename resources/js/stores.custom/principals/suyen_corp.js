@@ -32,33 +32,13 @@ const state = Vue.observable({
         ]
     ],
 
-    // BeatRoute ************************************************************************
-    brToken: null,
-
 });
 
 
 const actions = {
-    async brLogin() {
-        const url = 'https://sandbox.beatroute.io/distributor/user/login';
-        await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify({
-                username: "leonardodistributors_api@br.gmail.com",
-                password: "demo@4321",
-                device: "Windows"
-            }),
-        }).then(res=>res.json())
-        .then(res => {
-            console.log(res.data);
-            state.brToken = res.data.data.token;
-        })
-        ;
-
-    }
 };
 
 export default {
     state,
-    ...actions
+    // ...actions
 };

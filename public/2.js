@@ -154,6 +154,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['uploadResponse'],
   mounted: function mounted() {
@@ -346,131 +375,67 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("v-expansion-panel-content", { staticClass: "pa-0" }, [
-                    _c(
-                      "div",
-                      { staticClass: "px-0 pt-3" },
-                      [
-                        _c(
-                          "v-chip",
-                          {
-                            staticClass: "px-2 ma-1",
-                            attrs: {
-                              small: "",
-                              title:
-                                "Total number of headers being read as valid invoice data header",
-                              color:
-                                summary.headers_count < 1 ? "error" : "default"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            Headers Read:\n                            " +
-                                _vm._s(summary.headers_count) +
-                                "\n                        "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-chip",
-                          {
-                            staticClass: "px-2 ma-1",
-                            attrs: {
-                              color: "default",
-                              small: "",
-                              title:
-                                "Total number of headers already exist in the database"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            Headers Existing:\n                            " +
-                                _vm._s(summary.headers_count_existing) +
-                                "\n                        "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-chip",
-                          {
-                            staticClass: "px-2 ma-1",
-                            attrs: {
-                              color: "default",
-                              small: "",
-                              title: "Total number of headers uploaded"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            Headers Uploaded:\n                            " +
-                                _vm._s(summary.headers_count_uploaded) +
-                                "\n                        "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-chip",
-                          {
-                            staticClass: "px-2 ma-1",
-                            attrs: {
-                              small: "",
-                              title:
-                                "Total number of lines being read as valid invoice data",
-                              color:
-                                summary.lines_count < 1 ? "error" : "default"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            Lines Read:\n                            " +
-                                _vm._s(summary.lines_count) +
-                                "\n                        "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-chip",
-                          {
-                            staticClass: "px-2 ma-1",
-                            attrs: {
-                              small: "",
-                              title:
-                                "Total number of lines already exist in the database"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            Lines Existing:\n                            " +
-                                _vm._s(summary.lines_count_existing) +
-                                "\n                        "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-chip",
-                          {
-                            staticClass: "px-2 ma-1",
-                            attrs: {
-                              color: "default",
-                              small: "",
-                              title: "Total number of lines uploaded"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            Lines Uploaded:\n                            " +
-                                _vm._s(summary.lines_count_uploaded) +
-                                "\n                        "
-                            )
-                          ]
-                        )
-                      ],
-                      1
-                    )
+                    _c("div", { staticClass: "px-0 pt-3" }, [
+                      _c("table", { staticClass: "table" }, [
+                        _c("tbody", [
+                          _c("tr", [
+                            _c("td", { staticClass: "font-weight-bold pr-4" }, [
+                              _vm._v("Headers Read")
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(summary.headers_count))])
+                          ]),
+                          _vm._v(" "),
+                          _c("tr", [
+                            _c("td", { staticClass: "font-weight-bold pr-4" }, [
+                              _vm._v("Headers Existing")
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(summary.headers_count_existing))
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("tr", [
+                            _c("td", { staticClass: "font-weight-bold pr-4" }, [
+                              _vm._v("Headers Uploaded")
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(summary.headers_count_uploaded))
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("tr", [
+                            _c("td", { staticClass: "font-weight-bold pr-4" }, [
+                              _vm._v("Lines Read")
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(summary.lines_count))])
+                          ]),
+                          _vm._v(" "),
+                          _c("tr", [
+                            _c("td", { staticClass: "font-weight-bold pr-4" }, [
+                              _vm._v("Lines Existing")
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(summary.lines_count_existing))
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("tr", [
+                            _c("td", { staticClass: "font-weight-bold pr-4" }, [
+                              _vm._v("Lines Uploaded")
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(summary.lines_count_uploaded))
+                            ])
+                          ])
+                        ])
+                      ])
+                    ])
                   ])
                 ],
                 1
