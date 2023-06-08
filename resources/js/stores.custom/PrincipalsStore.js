@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import InvoicesStore from './InvoicesStore';
+// import InvoicesStore from './InvoicesStore';
 // import AppStore from '../AppStore';
 let AppStore = Vue.prototype.AppStore;
 // let InvoicesStore = Vue.prototype.InvoicesStore;

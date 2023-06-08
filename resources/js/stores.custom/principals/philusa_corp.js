@@ -8,7 +8,7 @@ const state = Vue.observable({
             {text:"Invoice #", value: "invoice_no"},
             {text:"Customer Code", value: "customer_code"},
             {text:"Customer Name", value: "customer_name"},
-            {text:"Invoice Date (M/D/Y)", value: "invoice_date"},
+            {text:"Invoice Date (d/m/Y)", value: "invoice_date"},
             {text:"Item Code (NAV)", value: "alturas_item_code"},
             {text:"Item Code (Supplier)", value: "item_code"},
             {text:"Item Name (NAV)", value: "item_description"},

@@ -88,8 +88,63 @@ export default {
     mounted() {
         console.log(this.selectedPrincipalCode + ' component mounted');
 
-        // br test
-        // Vue.prototype[this.selectedPrincipalCode].brLogin();
+        // br test ****************************************************
+        // this.BrStore.refresh();
+        const data = [
+            {
+                "retailer_br_id": "5499574",
+                "erp_invoice_number": "INV-103",
+                "invoice_date": "2023-06-02",
+                // "total_value": "-1",
+                "details": [
+                    // {
+                    //     "sku_external_id": "000000000000159626",
+                    //     "quantity": "2",
+                    //     "sku_uom": "",
+                    //     "price_per_item": "1",
+                    //     "discount_value": "",
+                    //     "gross_value": "",
+                    // },
+                    // {
+                    //     "sku_external_id": "000000501120020002",
+                    //     // "sku_external_id": "000000000000159626",
+                    //     "quantity": "3",
+                    //     "sku_uom": "",
+                    //     "price_per_item": "1",
+                    //     "discount_value": "",
+                    //     "gross_value": "",
+                    // },
+                    // {
+                    //     "sku_external_id": "000005011200361519",
+                    //     "quantity": "2",
+                    //     "sku_uom": "",
+                    //     "price_per_item": "1",
+                    //     "discount_value": "",
+                    //     "gross_value": "",
+                    // },
+                    {
+                        "sku_external_id": "000005011151165925",
+                        "quantity": "-1",
+                        "sku_uom": "SCK",
+                        "price_per_item": "1",
+                        "discount_value": "",
+                        "gross_value": "",
+                    },
+
+                ],
+                "customFields": [
+                    // {
+                    //     "id": "629",
+                    //     "value": "Jessa Alas"
+                    // },
+                    // {
+                    //     "id": "638",
+                    //     "value": "Trade Return Bad"
+                    // },
+                ]
+            },
+        ];
+        // this.BrStore.invoiceCreate(data);
     },
 
     beforeDestroy() {

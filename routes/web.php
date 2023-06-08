@@ -232,6 +232,8 @@ Route::prefix('principals')->group(function(){
 
         ['TemprincipalsController', 'suyen_corp'],
         ['TemprincipalsController', 'moondish'],
+
+        ['TemprincipalsController', 'candy_castle_foods'],
     ];
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';
@@ -298,6 +300,14 @@ Route::prefix('devchat')->group(function () {
     Route::post('/send-message', "DevChatController@sendMessage");
 });
 
+
+// ====================================================================================
+// ================= BeatRoute ========================================================
+// ====================================================================================
+Route::prefix('br')->group(function () {
+    Route::post('/refresh', "BRController@refresh");
+    Route::post('/invoiceCreate', "BRController@invoiceCreate");
+});
 
 
 /**
