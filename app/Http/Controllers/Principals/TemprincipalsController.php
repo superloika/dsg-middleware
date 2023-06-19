@@ -79,7 +79,7 @@ class TemprincipalsController extends Controller
                     $doc_no = trim($pendingInvoice->doc_no);
                     $customer_code = trim($pendingInvoice->customer_code);
                     $posting_date = trim($pendingInvoice->posting_date);
-                    $posting_date = (new Carbon($posting_date))->format('d/m/Y');
+                    $posting_date = (new Carbon($posting_date))->format('m/d/Y');
                     $item_code = trim($pendingInvoice->item_code);
                     $quantity = trim($pendingInvoice->quantity);
                     $price = trim($pendingInvoice->price);

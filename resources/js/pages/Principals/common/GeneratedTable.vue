@@ -135,6 +135,15 @@
             </v-chip>
             <span v-else>{{ item.sm_code }}</span>
         </template>
+
+        <template v-slot:[`item.invoice_date`]="{ item }">
+            <div>
+                {{
+                    withDmyFormats.indexOf(PrincipalsStore.state.selectedPrincipalCode) == -1 ?
+                    item.invoice_date : AppStore.dmyDateFormat(item.invoice_date)
+                }}
+            </div>
+        </template>
     </v-data-table>
 </div>
 </template>
@@ -142,6 +151,12 @@
 <script>
 export default {
     props: ['items','template_variation_index','tab_caption','allow_export'],
+
+    data() {
+        return {
+            withDmyFormats: ['del_monte_ph'],
+        }
+    },
 
     computed: {
         tableHeader() {
@@ -173,7 +188,7 @@ export default {
             } catch (error) {
                 return '';
             }
-        }
+        },
     },
 
     mounted() {

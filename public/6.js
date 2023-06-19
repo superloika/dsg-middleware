@@ -150,8 +150,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['items', 'template_variation_index', 'tab_caption', 'allow_export'],
+  data: function data() {
+    return {
+      withDmyFormats: ['del_monte_ph']
+    };
+  },
   computed: {
     tableHeader: function tableHeader() {
       // alert(this.template_variation_index);
@@ -526,6 +540,27 @@ var render = function() {
                         ]
                       )
                     : _c("span", [_vm._v(_vm._s(item.sm_code))])
+                ]
+              }
+            },
+            {
+              key: "item.invoice_date",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _c("div", [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(
+                          _vm.withDmyFormats.indexOf(
+                            _vm.PrincipalsStore.state.selectedPrincipalCode
+                          ) == -1
+                            ? item.invoice_date
+                            : _vm.AppStore.dmyDateFormat(item.invoice_date)
+                        ) +
+                        "\n            "
+                    )
+                  ])
                 ]
               }
             }
