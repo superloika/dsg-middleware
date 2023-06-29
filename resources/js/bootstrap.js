@@ -82,7 +82,7 @@ window.Echo = new Echo({
     // forceTLS: true,
     forceTLS: false,
     wsHost: window.location.hostname,
-    wsPort: 6002,
+    wsPort: 6001,
     disableStats: true,
 });
 
