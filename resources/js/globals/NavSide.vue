@@ -75,7 +75,7 @@
 
             <v-divider class="mt-2 mb-2"></v-divider>
 
-            <v-list-item link to="/devchat">
+            <v-list-item link to="/devchat" disabled>
                 <v-list-item-icon class="mr-2">
                     <v-icon>mdi-information</v-icon>
                 </v-list-item-icon>
