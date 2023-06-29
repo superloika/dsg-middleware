@@ -96,16 +96,21 @@ export default {
 
             if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
                 return this.principals.filter(
-                    principal =>
-                        searchRegex.test(principal.name) ||
-                        !this.principalsSearchKey
+                    principal => {
+                        return searchRegex.test(principal.name)
+                            || !this.principalsSearchKey
+                            || searchRegex.test(principal.vendor_code);
+                    }
+
                 );
             } else {
                 return this.principals.filter(
-                    principal =>
-                        (searchRegex.test(principal.name) ||
-                        !this.principalsSearchKey) &&
-                        this.AppStore.isInUserPrincipalIDs(principal.id)
+                    principal => {
+                        return (searchRegex.test(principal.name)
+                            || !this.principalsSearchKey
+                            || searchRegex.test(principal.vendor_code))
+                            && this.AppStore.isInUserPrincipalIDs(principal.id);
+                    }
                 );
             }
         },

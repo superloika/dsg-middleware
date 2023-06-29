@@ -88,7 +88,6 @@ Route::prefix('master')->group(function(){
 });
 
 
-
 // INVOICES
 Route::prefix('invoices')->group(function(){
     // Route::get("/grandtotal", "InvoicesController@invoicesGrandTotal");
@@ -237,6 +236,8 @@ Route::prefix('principals')->group(function(){
 
         ['TemprincipalsController', 'swedish_match'],
         ['TemprincipalsController', 'procter_gamble'],
+
+        ['TemprincipalsController', 'regent_food_corp'],
     ];
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';

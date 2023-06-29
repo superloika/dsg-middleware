@@ -26,6 +26,7 @@ import ManageAccounts from "./pages/ManageAccounts";
 
 // DEVCHAT
 // import DevChat from "./pages/DevChat.vue";
+import DevChat from "./pages/Principals/common/DevChat";
 
 // ERROR PAGES
 import ErrorPage404 from "./pages/ErrorPages/ErrorPage404";
@@ -131,13 +132,13 @@ const router = new VueRouter({
 
 
         // DEVCHAT ================================================
-        // {
-        //     path: "/devchat",
-        //     component: DevChat,
-        //     meta: {
-        //         name: "DevChat"
-        //     }
-        // },
+        {
+            path: "/devchat",
+            component: DevChat,
+            meta: {
+                name: "DevChat"
+            }
+        },
 
 
         // ==========================================================================

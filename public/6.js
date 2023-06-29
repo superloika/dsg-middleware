@@ -190,8 +190,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     console.log("GeneratedTable component mounted", this.PrincipalsStore.state.selectedPrincipalCode);
-    console.log('TEMPLATE VARSSSSSSSSSSSSSSSSSSSSSSSS', this.template_variation_index);
-    console.log('ITEEEEEEMMMMMSSSSSS', this.items); // alert(this.template_variation_index);
+    console.log('TEMPLATE VARIATION INDEX:', this.template_variation_index);
+    console.log('TABLE ITEMS:', this.items); // alert(this.template_variation_index);
   }
 });
 

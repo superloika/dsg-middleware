@@ -57,7 +57,7 @@ export default {
                 // {
                 //     title: 'DevChat (TEST)',
                 //     icon: 'mdi-message',
-                //     component: () => import("../common/DevChat.vue"),
+                //     component: () => import("./common/DevChat.vue"),
                 // },
             ]
         },
@@ -66,6 +66,7 @@ export default {
             return this.PrincipalsStore.state.selectedPrincipalCode;
         }
     },
+
 
     methods: {
 
@@ -144,6 +145,43 @@ export default {
                 ]
             },
         ];
+
+        var raw = JSON.stringify([
+            {
+                "retailer_br_id": "5321913",
+                "retailer_external_id": "",
+                "erp_invoice_number": "CDC-S4819309",
+                "invoice_date": "2023-05-29",
+                "status": 1,
+                "order_id": "",
+                "external_order_id": "",
+                "ship_to_external_id": "",
+                "order_status": "",
+                "total_tax": "",
+                "total_value": "",
+                "remarks": "",
+                "payment_due_date": "",
+                "invoice_level_discount": "",
+                "details": [
+                    {
+                        "sku_external_id": "000005013180259503",
+                        "quantity": "2",
+                        "sku_uom": "CS",
+                        "price_per_item": "988.8000",
+                        "discount_value": "",
+                        "gross_value": "",
+                        "tax_code": "",
+                        "tax": ""
+                    },
+                ],
+                "customFields": [
+                    {
+                        "id": "629",
+                        "value": "Jessa Alas"
+                    }
+                ]
+            }
+        ]);
         // this.BrStore.invoiceCreate(data);
     },
 

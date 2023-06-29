@@ -69,7 +69,7 @@
                 <v-chip v-else-if="item.user_type=='uploader'" small color="secondary">
                     {{ item.user_type }}
                 </v-chip>
-                <v-chip v-else-if="item.user_type=='admin'" small color="accent">
+                <v-chip v-else-if="item.user_type=='admin'" small color="primary">
                     {{ item.user_type }}
                 </v-chip>
                 <v-chip v-else-if="item.user_type=='super_admin'" small color="info">

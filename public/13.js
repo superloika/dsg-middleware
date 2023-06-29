@@ -114,11 +114,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
         return this.principals.filter(function (principal) {
-          return searchRegex.test(principal.name) || !_this.principalsSearchKey;
+          return searchRegex.test(principal.name) || !_this.principalsSearchKey || searchRegex.test(principal.vendor_code);
         });
       } else {
         return this.principals.filter(function (principal) {
-          return (searchRegex.test(principal.name) || !_this.principalsSearchKey) && _this.AppStore.isInUserPrincipalIDs(principal.id);
+          return (searchRegex.test(principal.name) || !_this.principalsSearchKey || searchRegex.test(principal.vendor_code)) && _this.AppStore.isInUserPrincipalIDs(principal.id);
         });
       }
     }

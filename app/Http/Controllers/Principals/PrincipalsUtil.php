@@ -312,17 +312,19 @@ class PrincipalsUtil extends Controller
                     PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
                     PrincipalsUtil::$TBL_INVOICES.'.doc_no'
                 )
-                ->leftJoin(
-                    $this::$TBL_GENERAL_CUSTOMERS,
-                    $this::$TBL_INVOICES. '.customer_code',
-                    '=',
-                    $this::$TBL_GENERAL_CUSTOMERS. '.customer_code'
-                )
+                // ->leftJoin(
+                //     $this::$TBL_GENERAL_CUSTOMERS,
+                //     $this::$TBL_INVOICES. '.customer_code',
+                //     '=',
+                //     $this::$TBL_GENERAL_CUSTOMERS. '.customer_code'
+                // )
                 ->select(
                     $this::$TBL_INVOICES. '.*',
                     $this::$TBL_INVOICES_H. '.posting_date',
-                    $this::$TBL_GENERAL_CUSTOMERS. '.name as customer_name',
-                    $this::$TBL_GENERAL_CUSTOMERS. '.customer_code',
+                    $this::$TBL_INVOICES_H. '.customer_name',
+                    $this::$TBL_INVOICES_H. '.customer_code',
+                    // $this::$TBL_GENERAL_CUSTOMERS. '.name as customer_name',
+                    // $this::$TBL_GENERAL_CUSTOMERS. '.customer_code',
                 )
 
                 ->where($this::$TBL_INVOICES. '.vendor_code', $vendor_code)

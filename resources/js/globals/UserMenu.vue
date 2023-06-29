@@ -2,8 +2,22 @@
     <div>
         <v-menu v-model="menu" :close-on-content-click="true" offset-y>
             <template v-slot:activator="{ on, attrs }">
+                <!-- <v-badge
+                    color="error"
+                    overlap dot
+                    :valuex="DevChatStore.state.unreadMsgCount"
+                    :contentx="DevChatStore.state.unreadMsgCount"
+                >
+                    <v-btn icon v-bind="attrs" v-on="on">
+                        <v-avatar color="accent" size="25">
+                            <span class="white--text text-h6">
+                                {{ userInitial }}
+                            </span>
+                        </v-avatar>
+                    </v-btn>
+                </v-badge> -->
                 <v-btn icon v-bind="attrs" v-on="on">
-                    <v-avatar color="accent" size="25">
+                    <v-avatar color="accent" size="30">
                         <span class="white--text text-h6">
                             {{ userInitial }}
                         </span>
@@ -52,6 +66,16 @@
                         >
                             Manage Accounts
                         </v-list-item>
+                        <!-- <v-list-item
+                            link
+                            to="/devchat"
+                        >
+                            Dev Chat
+                            <v-spacer></v-spacer>
+                            <v-chip color="error" small v-if="DevChatStore.state.unreadMsgCount">
+                                {{ DevChatStore.state.unreadMsgCount }}
+                            </v-chip>
+                        </v-list-item> -->
                     </v-list-item-group>
                 </v-list>
 

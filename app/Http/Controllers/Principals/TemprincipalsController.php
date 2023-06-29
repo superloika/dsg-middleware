@@ -212,20 +212,17 @@ class TemprincipalsController extends Controller
                             }
                         } else {
                             // group output_template_variations
-                            if($salesman_notfound==1) {
-                                // ---------------------------------------------------------------------------
-                                if (
-                                    !isset($res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'])
-                                ) {
-                                    $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'],
-                                    $arrGenerated
-                                );
-                                // ---------------------------------------------------------------------------
-                            } else {
-                                // ---------------------------------------------------------------------------
+                            // if($salesman_notfound==1) {
+                            //     if (
+                            //         !isset($res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'])
+                            //     ) {
+                            //         $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'] = [];
+                            //     }
+                            //     array_push(
+                            //         $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'],
+                            //         $arrGenerated
+                            //     );
+                            // } else {
                                 if (
                                     !isset($res['output_template_variations'][$tvc_index]['output_template'][$$group_by])
                                 ) {
@@ -235,8 +232,7 @@ class TemprincipalsController extends Controller
                                     $res['output_template_variations'][$tvc_index]['output_template'][$$group_by],
                                     $arrGenerated
                                 );
-                                // ---------------------------------------------------------------------------
-                            }
+                            // }
 
                         }
 

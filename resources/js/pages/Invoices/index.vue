@@ -182,6 +182,7 @@
                         hide-details
                         dense
                         clearable
+                        overflow
                     >
                         <template v-slot:prepend-item>
                             <v-list-item
@@ -202,10 +203,7 @@
                                 :class="item.proj_status==1?'primary--text':'warning--text'"
                                 class="text-caption"
                             >
-                                <v-chip small>
-                                    {{ item.vendor_code }}
-                                </v-chip>
-                                {{ item.name }}
+                                ({{ item.vendor_code }}) {{ item.name }}
                             </div>
                         </template>
                         <template v-slot:selection = "{ item }">

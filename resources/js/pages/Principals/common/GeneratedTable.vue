@@ -43,11 +43,11 @@
                         v-on="on"
                         :color="
                             item.missing_customer_name==
-                                'CUSTOMER_NOT_FOUND'?'error':'warning'
+                                'CUSTOMER_NOT_FOUND' ? 'error' : 'warning'
                         "
                         small
                         outlined
-                        title="Unmapped"
+                        title = "Unmapped"
                     >
                         <!-- @click="AppStore.copyToClipboard(item.customer_code)" -->
                         <div :id="item.customer_code">
@@ -195,8 +195,8 @@ export default {
         console.log(
             "GeneratedTable component mounted", this.PrincipalsStore.state.selectedPrincipalCode
         );
-        console.log('TEMPLATE VARSSSSSSSSSSSSSSSSSSSSSSSS', this.template_variation_index);
-        console.log('ITEEEEEEMMMMMSSSSSS', this.items);
+        console.log('TEMPLATE VARIATION INDEX:', this.template_variation_index);
+        console.log('TABLE ITEMS:', this.items);
         // alert(this.template_variation_index);
     }
 };

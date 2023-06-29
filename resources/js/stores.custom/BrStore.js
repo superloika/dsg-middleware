@@ -33,6 +33,11 @@ const actions = {
         } finally {
         }
     },
+    preparePayload(generatedData) {
+        // let buff = _.groupBy(items, e => e.invoice_no);
+        // return buff;
+        console.log('GENERATED DATA:',generatedData);
+    }
 }
 
 

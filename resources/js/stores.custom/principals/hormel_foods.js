@@ -29,6 +29,7 @@ const state = Vue.observable({
             {text: 'Item Code', value: 'item_code'},
             {text: 'Customer Code', value: 'customer_code'},
             {text: 'Source Group', value: 'group_code'},
+            {text: 'Invoice #', value: 'doc_no'},
         ]
     ],
 

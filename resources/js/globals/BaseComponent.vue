@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-system-bar app
-            height="37"
+            height="45"
             lightx
             dark
             colorx="grey lighten-3"
@@ -136,6 +136,20 @@ export default {
 
     mounted() {
         console.log('BaseComponent mounted');
+
+        try {
+            // DevChat
+            Echo.join(this.DevChatStore.state.groupChannel)
+                .listen("MessageSent", event => {
+                    this.DevChatStore.state.messages.unshift(event.message);
+                    if(event.message.user_id != AuthUser.id) {
+                        this.DevChatStore.state.unreadMsgCount += 1;
+                    }
+                })
+                ;
+        } catch (error) {
+            console.error(error);
+        }
     }
 };
 </script>

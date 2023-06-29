@@ -17,6 +17,10 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
+Broadcast::channel('dev_group_chat', function ($user) {
+    return $user;
+});
+
 Broadcast::channel('mead_johnson', function ($user) {
     return $user;
 });

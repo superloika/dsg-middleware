@@ -75,6 +75,23 @@
 
             <v-divider class="mt-2 mb-2"></v-divider>
 
+            <v-list-item link to="/devchat">
+                <v-list-item-icon class="mr-2">
+                    <v-icon>mdi-information</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Dev Chat
+                        <!-- <v-spacer></v-spacer> -->
+                        <v-chip color="error" x-small v-if="DevChatStore.state.unreadMsgCount"
+                            class="px-2"
+                        >
+                            {{ DevChatStore.state.unreadMsgCount }}
+                        </v-chip>
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
             <v-list-item link to="/about">
                 <v-list-item-icon class="mr-2">
                     <v-icon>mdi-information</v-icon>

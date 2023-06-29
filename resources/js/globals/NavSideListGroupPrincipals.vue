@@ -51,7 +51,7 @@
                         link
                         :to="`/principals/${principal.code}`"
                         color="primary"
-                        :title="principal.name"
+                        :titlex="principal.name"
                         v-bind="attrs"
                         v-on="on"
                     >
@@ -102,14 +102,17 @@ export default {
                 return this.AppStore.state.principals.filter(
                     principal =>
                         searchRegex.test(principal.name) ||
-                        !this.principalsSearchKey
+                        !this.principalsSearchKey || searchRegex.test(principal.vendor_code)
                 );
             } else {
                 return this.AppStore.state.principals.filter(
                     principal =>
-                        (searchRegex.test(principal.name) ||
-                        !this.principalsSearchKey) &&
-                        this.AppStore.isInUserPrincipalIDs(principal.id)
+                        (
+                            searchRegex.test(principal.name)
+                            || !this.principalsSearchKey
+                            || searchRegex.test(principal.vendor_code)
+                        )
+                        && this.AppStore.isInUserPrincipalIDs(principal.id)
                 );
             }
         },

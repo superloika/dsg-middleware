@@ -70,7 +70,7 @@ __webpack_require__.r(__webpack_exports__);
       } // {
       //     title: 'DevChat (TEST)',
       //     icon: 'mdi-message',
-      //     component: () => import("../common/DevChat.vue"),
+      //     component: () => import("./common/DevChat.vue"),
       // },
       ];
     },
@@ -138,7 +138,37 @@ __webpack_require__.r(__webpack_exports__);
         //     "value": "Trade Return Bad"
         // },
       ]
-    }]; // this.BrStore.invoiceCreate(data);
+    }];
+    var raw = JSON.stringify([{
+      "retailer_br_id": "5321913",
+      "retailer_external_id": "",
+      "erp_invoice_number": "CDC-S4819309",
+      "invoice_date": "2023-05-29",
+      "status": 1,
+      "order_id": "",
+      "external_order_id": "",
+      "ship_to_external_id": "",
+      "order_status": "",
+      "total_tax": "",
+      "total_value": "",
+      "remarks": "",
+      "payment_due_date": "",
+      "invoice_level_discount": "",
+      "details": [{
+        "sku_external_id": "000005013180259503",
+        "quantity": "2",
+        "sku_uom": "CS",
+        "price_per_item": "988.8000",
+        "discount_value": "",
+        "gross_value": "",
+        "tax_code": "",
+        "tax": ""
+      }],
+      "customFields": [{
+        "id": "629",
+        "value": "Jessa Alas"
+      }]
+    }]); // this.BrStore.invoiceCreate(data);
   },
   beforeDestroy: function beforeDestroy() {
     if (this.PrincipalsStore != null) {
@@ -392,6 +422,8 @@ var map = {
 	"./quanta_paper.js": "./resources/js/stores.custom/principals/quanta_paper.js",
 	"./reckitt": "./resources/js/stores.custom/principals/reckitt.js",
 	"./reckitt.js": "./resources/js/stores.custom/principals/reckitt.js",
+	"./regent_food_corp": "./resources/js/stores.custom/principals/regent_food_corp.js",
+	"./regent_food_corp.js": "./resources/js/stores.custom/principals/regent_food_corp.js",
 	"./rfm": "./resources/js/stores.custom/principals/rfm.js",
 	"./rfm.js": "./resources/js/stores.custom/principals/rfm.js",
 	"./sc_johnson": "./resources/js/stores.custom/principals/sc_johnson.js",
@@ -3635,6 +3667,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Source Group',
     value: 'group_code'
+  }, {
+    text: 'Invoice #',
+    value: 'doc_no'
   }]]
 });
 var actions = {};
@@ -6392,6 +6427,94 @@ var actions = {};
   state: state // ...actions
 
 });
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/regent_food_corp.js":
+/*!*******************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/regent_food_corp.js ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (m/d/y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }, {
+    text: 'Invoice #',
+    value: 'doc_no'
+  }]]
+});
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
+  state: state
+}, actions));
 
 /***/ }),
 

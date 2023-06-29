@@ -116,6 +116,19 @@
                         Export
                     </v-btn>
                 </v-col>
+
+                <!-- <v-col>
+                    <v-btn
+                        title=""
+                        dense
+                        rounded
+                        color=""
+                        blockx
+                        @click.stop="BrStore.preparePayload(PrincipalsStore.state.currentGeneratedData)"
+                    >
+                        Upload
+                    </v-btn>
+                </v-col> -->
             </v-row>
         </v-card-text>
 
