@@ -139,17 +139,38 @@ export default {
 
         try {
             // DevChat
+            this.DevChatStore.fetchOnlineUsers();
+            this.DevChatStore.userOnline(this.AuthUser);
+
             Echo.join(this.DevChatStore.state.groupChannel)
+                .joining((user)=>{
+                    console.log('Joining:', user);
+                    this.DevChatStore.userOnline(user);
+                })
+                .leaving((user)=>{
+                    console.log('Leaving:', user);
+                    this.DevChatStore.userOffline(user);
+                })
                 .listen("MessageSent", event => {
                     this.DevChatStore.state.messages.unshift(event.message);
                     if(event.message.user_id != AuthUser.id) {
                         this.DevChatStore.state.unreadMsgCount += 1;
                     }
                 })
+                .listen("UserOnline", event => {
+                    this.DevChatStore.fetchOnlineUsers();
+                })
+                .listen("UserOffline", event => {
+                    this.DevChatStore.fetchOnlineUsers();
+                })
                 ;
         } catch (error) {
             console.error(error);
         }
+    },
+
+    beforeDestroy() {
+        this.DevChatStore.userOffline(this.AuthUser);
     }
 };
 </script>

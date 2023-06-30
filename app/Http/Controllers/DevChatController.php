@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\MessageSent;
+use App\Events\UserOffline;
+use App\Events\UserOnline;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -36,4 +38,38 @@ class DevChatController extends Controller
 
         return ['status' => 'Message Sent!'];
     }
+
+    public function userOnline(Request $request) {
+        DB::table('users')
+        ->where('id',$request->user_id)
+        ->update([
+            'isOnline' => 1,
+        ])
+        ;
+
+        event(new UserOnline($request->channel));
+
+        return ['status' => 'User online'];
+    }
+
+    public function userOffline(Request $request) {
+        DB::table('users')
+        ->where('id',$request->user_id)
+        ->update([
+            'isOnline' => 0,
+        ])
+        ;
+
+        event(new UserOffline($request->channel));
+
+        return ['status' => 'User offline'];
+    }
+
+    public function fetchOnlineUsers(Request $request) {
+        $res = DB::table('users')
+            ->where('isOnline', 1)
+            ->get();
+        return response()->json($res);
+    }
+
 }

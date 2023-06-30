@@ -302,6 +302,9 @@ Route::prefix('misc-utils')->group(function () {
 Route::prefix('devchat')->group(function () {
     Route::get('/fetch-messages', "DevChatController@fetchMessages");
     Route::post('/send-message', "DevChatController@sendMessage");
+    Route::get('/fetchOnlineUsers', "DevChatController@fetchOnlineUsers");
+    Route::post('/userOnline', "DevChatController@userOnline");
+    Route::post('/userOffline', "DevChatController@userOffline");
 });
 
 
