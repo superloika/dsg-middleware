@@ -67,10 +67,11 @@
                         <v-card-text>
                             <div>
                                 <div v-for="(u,i) in onlineUsers" :key="i" class="primary--text d-flex">
-                                    <v-icon color="primary">mdi-account</v-icon>
-                                    <div class="">
-                                        {{ u.name }}
-                                        <v-chip color="primary" x-small>{{ u.username }}</v-chip>
+                                    <div class="mb-2">
+                                        <v-chip color="primary" small>
+                                            <v-icon left>mdi-account</v-icon>
+                                            {{ u.name }} ({{ u.username }})
+                                        </v-chip>
                                     </div>
                                 </div>
                             </div>
