@@ -97,6 +97,7 @@ Route::prefix('invoices')->group(function(){
     Route::post("/reset", "InvoicesController@resetInvoices");
     Route::post("/sync-textfiles", "InvoicesController@syncTextfiles");
     Route::post("/set-invoices-complete", "InvoicesController@setInvoicesComplete");
+    Route::post("/setInvoicesUploaded", "InvoicesController@setInvoicesUploaded");
     // Route::post("/extract", "InvoicesController@extract");
     Route::post("/extract-raw-invoices-to-excel", "InvoicesController@extractRawInvoicesToExcel");
     Route::get("/groups", "InvoicesController@groups");
@@ -162,6 +163,7 @@ Route::prefix('principals')->group(function(){
         // ['OthersController', 'others'],
         // ['OthersNIController', 'others_ni'],
 
+        // ============================================================
         ['TemprincipalsController', 'gspi'],
         ['TemprincipalsController', 'alaska_milk'],
         ['TemprincipalsController', 'wyeth_ph'],
@@ -216,9 +218,7 @@ Route::prefix('principals')->group(function(){
         ['TemprincipalsController', 'tridharma'],
         ['TemprincipalsController', 'tekson'],
         // ['TemprincipalsController', 'apollo'],
-        ['TemprincipalsController', 'magnolia_inc'],
-        ['TemprincipalsController', 'the_purefoods_hormel'],
-        ['TemprincipalsController', 'hormel_foods'],
+
         ['TemprincipalsController', 'reckitt'],
         // ['TemprincipalsController', 'a_tung_chingco'],
         ['TemprincipalsController', 'sc_johnson'],
@@ -238,6 +238,16 @@ Route::prefix('principals')->group(function(){
         ['TemprincipalsController', 'procter_gamble'],
 
         ['TemprincipalsController', 'regent_food_corp'],
+        // ============================================================
+
+        // sa purefoods ni yawa!
+        ['TemprincipalsController', 'magnolia_inc'],
+        ['TemprincipalsController', 'the_purefoods_hormel'],
+        ['TemprincipalsController', 'hormel_foods'],
+        // ------------------------------------------------------------
+        // ['MagnoliaIncController', 'magnolia_inc'],
+        // ['MagnoliaIncController', 'the_purefoods_hormel'],
+        // ['MagnoliaIncController', 'hormel_foods'],
     ];
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';
@@ -284,6 +294,7 @@ Route::prefix('principals')->group(function(){
 
     // Pendings
     // Route::post("/pendings", "Principals\PrincipalsUtil@getPendingGendataAndInvoices");
+
 });
 
 
@@ -316,6 +327,12 @@ Route::prefix('br')->group(function () {
     Route::post('/invoiceCreate', "BRController@invoiceCreate");
 });
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMP XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Route::get("/ppfb/resetInvoicesToPending", "Principals\MagnoliaIncController@resetInvoicesToPending");
+
+// restore archived
+Route::get("/restoreLines", "InvoicesController@restoreLines");
+// Route::get("/restoreHeaders", "InvoicesController@restoreHeaders");
 
 /**
  *
