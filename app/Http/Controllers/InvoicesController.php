@@ -1105,9 +1105,8 @@ class InvoicesController extends Controller
         $dateTo = new Carbon($dtTo);
 
         set_time_limit(0);
-        $memory_limit = ini_get('memory_limit');
-
-        ini_set('memory_limit', 0);
+        // $memory_limit = ini_get('memory_limit');
+        // ini_set('memory_limit', 0);
 
         // headers XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         $res = DB::table('invoices_headers_20230315')
@@ -1180,7 +1179,7 @@ class InvoicesController extends Controller
             }
         }
         // dd($res);
-        ini_set('memory_limit', $memory_limit);
+        // ini_set('memory_limit', $memory_limit);
         $res = null;
         return response()->json("Done $dtFrom - $dtTo");
     }
