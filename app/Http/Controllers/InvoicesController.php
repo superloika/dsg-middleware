@@ -759,7 +759,6 @@ class InvoicesController extends Controller
                             'status' => 'completed',
                             'updated_at' => $dateToday
                         ]);
-
                 }
             }
 
@@ -769,6 +768,50 @@ class InvoicesController extends Controller
                 'message' => 'Successful',
             ];
             return response()->json($response);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $response['success'] = false;
+            $response['message'] = $th->getMessage();
+            return response()->json($response, 500);
+        }
+    }
+
+
+    /**
+     * Change invoice's status to 'uploaded'
+     * NOTE: This happens when the user uploaded the data to BeatRoute
+     */
+    public function setInvoicesUploaded(Request $request)
+    {
+        set_time_limit(0);
+        $dateToday = Carbon::now()->format('Y-m-d H:i:s');
+
+        $batch = $request->batch ?? [];
+
+        try {
+            if(count($batch)) {
+                DB::beginTransaction();
+                foreach($batch as $item) {
+                    // split external_id and extract vendor_code and actual internal invoice number
+                    $external_id_parts = explode("-",$item['external_id'], 2);
+                    if(count($external_id_parts)) {
+                        $vendor_code = trim($external_id_parts[0]);
+                        $doc_no = trim($external_id_parts[1]);
+                    }
+                    if($item['success']) {
+                        DB::table(PrincipalsUtil::$TBL_INVOICES)->where('doc_no', $doc_no)
+                            ->where('vendor_code', $vendor_code)
+                            ->update(['status' => PrincipalsUtil::$STATUS_UPLOADED]);
+                    }
+                }
+                DB::commit();
+                $response = [
+                    'success' => true,
+                    'message' => 'Successful',
+                    'batch' => $batch
+                ];
+                return response()->json($response);
+            }
         } catch (\Throwable $th) {
             DB::rollBack();
             $response['success'] = false;
@@ -1048,5 +1091,104 @@ class InvoicesController extends Controller
     public function uploadLogs() {
         $res = DB::table(PrincipalsUtil::$TBL_INVOICES_UPLOG)->limit(20)->latest()->get();
         return response()->json($res);
+    }
+
+
+    // temp
+    public function restoreLines() {
+        $dtFrom = request()->dtFrom ?? '';
+        $dtTo = request()->dtTo ?? '';
+        if($dtFrom == '' || $dtTo == '') {
+            dd('No date filters');
+        }
+        $dateFrom = new Carbon($dtFrom);
+        $dateTo = new Carbon($dtTo);
+
+        set_time_limit(0);
+        $memory_limit = ini_get('memory_limit');
+
+        ini_set('memory_limit', 0);
+
+        // headers XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        $res = DB::table('invoices_headers_20230315')
+            ->whereBetween(
+                DB::raw("STR_TO_DATE(posting_date, '%m/%d/%Y')"),
+                [$dateFrom, $dateTo]
+            )
+            ->get();
+        foreach($res as $h) {
+            if (
+                DB::table(PrincipalsUtil::$TBL_INVOICES_H)
+                    ->where('doc_no', $h->doc_no)
+                    ->where('customer_code', $h->customer_code)
+                    ->exists() == false
+            ) {
+                DB::table(PrincipalsUtil::$TBL_INVOICES_H)
+                    ->insert([
+                        'doc_no' => $h->doc_no,
+                        'customer_code' => $h->customer_code,
+                        'customer_name' => $h->customer_name,
+                        'u1' => $h->u1,
+                        'u2' => $h->u2,
+                        'shipment_date' => $h->shipment_date,
+                        'posting_date' => $h->posting_date,
+                        'sm_code' => $h->sm_code,
+                    ]);
+            }
+        }
+
+        // lines XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        $res = DB::table('invoices_lines_20230315')
+            ->whereBetween(
+                DB::raw("STR_TO_DATE(shipment_date, '%m/%d/%Y')"),
+                [$dateFrom, $dateTo]
+            )
+            ->get();
+        foreach($res as $i) {
+            if (
+                DB::table(PrincipalsUtil::$TBL_INVOICES)
+                    ->where('vendor_code',$i->vendor_code)
+                    ->where('customer_code',$i->customer_code)
+                    ->where('doc_no',$i->doc_no)
+                    ->where('item_code',$i->item_code)
+                    ->where('uom',$i->uom)
+                    ->where('quantity',$i->quantity)
+                    ->where('shipment_date',$i->shipment_date)
+
+                    ->exists() == false
+            ) {
+                DB::table(PrincipalsUtil::$TBL_INVOICES)
+                    ->insert([
+                        'status' => 'completed',
+                        'uploaded_by' => 50,
+                        'filename' => $i->filename,
+                        'group' => $i->group,
+                        'batch_number' => $i->batch_number,
+                        'vendor_code' => $i->vendor_code,
+                        'customer_code' => $i->customer_code,
+                        'doc_no' => $i->doc_no,
+                        'shipment_date' => $i->shipment_date,
+                        'item_code' => $i->item_code,
+                        'item_description' => $i->item_description,
+                        'uom' => $i->uom,
+                        'quantity' => $i->quantity,
+                        'price' => $i->price,
+                        'amount' => $i->amount,
+                        'qty_per_uom' => $i->qty_per_uom,
+                        'uom_code' => $i->uom_code,
+                    ]);
+            }
+        }
+        // dd($res);
+        ini_set('memory_limit', $memory_limit);
+        $res = null;
+        return response()->json("Done $dtFrom - $dtTo");
+    }
+
+    public function restoreHeaders() {
+        $dateFrom = new Carbon('2023-01-11');
+        $dateTo = new Carbon('2023-01-31');
+
+        return response()->json("Done");
     }
 }
