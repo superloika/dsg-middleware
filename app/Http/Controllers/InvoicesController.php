@@ -420,9 +420,9 @@ class InvoicesController extends Controller
                     $content = Storage::get("$testFilesPath/$fileName");
                     $rows = explode(PHP_EOL, utf8_encode($content));
 
+                    // invoice lines
                     $invoices = [];
-
-                    // headers
+                    // invoice headers
                     $invoices_h = [];
 
                     $summaryItem['row_count'] = count($rows);
@@ -447,8 +447,9 @@ class InvoicesController extends Controller
                             // $cols = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $row);
                             $cols = explode('|', $row);
 
+                            // invoice lines ****************************************
                             if (
-                                count($cols) == 14
+                                (count($cols) == 14 || count($cols) == 15)
                                 && $cols[0][0] != '#'
                                 && trim(str_replace('"','',$cols[0])) != 'Credit Memo'
                             ) {
@@ -514,28 +515,28 @@ class InvoicesController extends Controller
                                 }
                             // -------------------------------------------------------
 
-                            // if row is a HEADER type -------------------------------
+                            // invoice headers ****************************************
                             } else if (
                                 count($cols) == 8
                                 && $cols[0][0] != '#'
                             ) {
                                 $summaryItem['headers_count'] += 1;
 
-                                $doc_no = trim(str_replace('"','',$cols[0]));
-                                $customer_code = trim(str_replace('"','',$cols[1]));
-                                $customer_name = trim(str_replace('"','',$cols[2]));
-                                $u1 = trim(str_replace('"','',$cols[3]));
-                                $u2 = trim(str_replace('"','',$cols[4]));
-                                $posting_date = trim(str_replace('"','',$cols[5]));
-                                $shipment_date = trim(str_replace('"','',$cols[6]));
-                                $sm_code = trim(str_replace('"','',$cols[7]));
+                                $doc_no =           trim(str_replace('"','',$cols[0]));
+                                $customer_code =    trim(str_replace('"','',$cols[1]));
+                                $customer_name =    trim(str_replace('"','',$cols[2]));
+                                $u1 =               trim(str_replace('"','',$cols[3]));
+                                $u2 =               trim(str_replace('"','',$cols[4]));
+                                $posting_date =     trim(str_replace('"','',$cols[5]));
+                                $shipment_date =    trim(str_replace('"','',$cols[6]));
+                                $sm_code =          trim(str_replace('"','',$cols[7]));
+
                                 if (
                                     DB::table(PrincipalsUtil::$TBL_INVOICES_H)
                                         ->where('doc_no', $doc_no)
                                         ->where('customer_code', $customer_code)
                                         ->exists() == false
                                 ) {
-
                                     $summaryItem['headers_count_uploaded'] += 1;
 
                                     $invoices_h[] = [
@@ -560,13 +561,15 @@ class InvoicesController extends Controller
                                 }
                             }
                         }
+
+                        // save invoice lines
                         $chunks = array_chunk($invoices, 500);
                         foreach($chunks as $chunk) {
                             DB::table(PrincipalsUtil::$TBL_INVOICES)
                                 ->insert($chunk);
                         }
 
-                        // also save HEADERS
+                        // save invoice headers
                         $chunks = array_chunk($invoices_h, 500);
                         foreach($chunks as $chunk) {
                             DB::table(PrincipalsUtil::$TBL_INVOICES_H)
@@ -620,6 +623,8 @@ class InvoicesController extends Controller
         }
     }
 
+
+
     public function deleteInvoices(Request $request) {
         $selectedInvoices = $request->selectedInvoices ?? [];
 
@@ -655,6 +660,7 @@ class InvoicesController extends Controller
             return response()->json($res, 500);
         }
     }
+
 
 
     public function resetInvoices(Request $request) {
@@ -1037,44 +1043,44 @@ class InvoicesController extends Controller
         //
 
         return DB::table(PrincipalsUtil::$TBL_INVOICES)
-        ->join(
-            PrincipalsUtil::$TBL_INVOICES_H,
-            function($join) {
-                $join->on(
-                    PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
-                    PrincipalsUtil::$TBL_INVOICES.'.doc_no'
-                )
-                ->on(
-                    PrincipalsUtil::$TBL_INVOICES_H.'.customer_code',
-                    PrincipalsUtil::$TBL_INVOICES.'.customer_code'
-                )
-                ;
-            }
-        )
-        ->where(
-            'vendor_code',
-            DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                ->where('code', $principal_code)
-                ->select('vendor_code')
-                ->first()->vendor_code ?? 'NA'
-        )
-        ->whereBetween(
-            DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
-            [$dateFrom, $dateTo]
-        )
-        ->where(PrincipalsUtil::$TBL_INVOICES.'.status','like', "%$status%")
-
-        ->select([
-            PrincipalsUtil::$TBL_INVOICES.'.*',
-            PrincipalsUtil::$TBL_INVOICES_H.'.customer_name',
-            PrincipalsUtil::$TBL_INVOICES_H.'.sm_code',
-            PrincipalsUtil::$TBL_INVOICES_H.'.posting_date'
-        ])
-
-        ->orderBy(PrincipalsUtil::$TBL_INVOICES_H.'.posting_date')
-        ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.customer_code')
-        ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.doc_no')
-        ->get();
+            ->join(
+                PrincipalsUtil::$TBL_INVOICES_H,
+                function($join) {
+                    $join->on(
+                        PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
+                        PrincipalsUtil::$TBL_INVOICES.'.doc_no'
+                    )
+                    ->on(
+                        PrincipalsUtil::$TBL_INVOICES_H.'.customer_code',
+                        PrincipalsUtil::$TBL_INVOICES.'.customer_code'
+                    )
+                    ;
+                }
+            )
+            ->where(
+                'vendor_code',
+                DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+                    ->where('code', $principal_code)
+                    ->select('vendor_code')
+                    ->first()->vendor_code ?? 'NA'
+            )
+            ->whereBetween(
+                DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
+                [$dateFrom, $dateTo]
+            )
+            ->when($status != '' && $status != 'all', function($q) use($status) {
+                $q->where(PrincipalsUtil::$TBL_INVOICES.'.status','like', "%$status%");
+            })
+            ->select([
+                PrincipalsUtil::$TBL_INVOICES.'.*',
+                PrincipalsUtil::$TBL_INVOICES_H.'.customer_name',
+                PrincipalsUtil::$TBL_INVOICES_H.'.sm_code',
+                PrincipalsUtil::$TBL_INVOICES_H.'.posting_date'
+            ])
+            ->orderBy(PrincipalsUtil::$TBL_INVOICES_H.'.posting_date')
+            ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.customer_code')
+            ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.doc_no')
+            ->get();
     }
 
 
@@ -1182,12 +1188,5 @@ class InvoicesController extends Controller
         // ini_set('memory_limit', $memory_limit);
         $res = null;
         return response()->json("Done $dtFrom - $dtTo");
-    }
-
-    public function restoreHeaders() {
-        $dateFrom = new Carbon('2023-01-11');
-        $dateTo = new Carbon('2023-01-31');
-
-        return response()->json("Done");
     }
 }
