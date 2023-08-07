@@ -38,7 +38,11 @@
                     :hint="setting.hint"
                     persistent-hint
                     inset
-                    v-model="PrincipalsStore.state.settings.find(e => e.name==setting.name).value"
+                    v-model="
+                        parPrincipalsStore.state.settings.find(
+                            e => e.name==setting.name
+                        ).value
+                    "
                 >
 
                 </v-switch>

@@ -9,8 +9,15 @@ use Illuminate\Support\Facades\Http;
 class BRController extends Controller
 {
     private $configs = null;
+
     public function __construct() {
-        $this->configs = DB::table('br_config')->get()->first();
+        $this->middleware('auth');
+
+        $this->configs = DB::table('br_config')
+            ->where('bu', request()->bu)
+            // ->where('env', 'production')
+            ->where('env', 'local')
+            ->get()->first();
     }
 
 
@@ -23,11 +30,15 @@ class BRController extends Controller
         ]);
         $d = json_decode($res->body());
         if($d->success) {
-            return response()->json(['success'=>true]);
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'BeatRoute login credentials refreshed'
+                ]
+            );
         } else {
-            $this->login();
+            return response()->json($this->login());
         }
-        return response()->json($d);
     }
 
 
@@ -42,107 +53,36 @@ class BRController extends Controller
             ]);
             $d = json_decode($res->body());
             if($d->success) {
-                DB::table('br_config')->update([
-                    'api_token'=>$d->data->token
-                ]);
-                $this->configs = DB::table('br_config')->get()->first();
-                // return response()->json(['success'=>true]);
+                DB::table('br_config')
+                    ->where('bu', request()->bu)
+                    // ->where('env', 'production')
+                    ->where('env', 'local')
+                    ->update([
+                        'api_token'=>$d->data->token
+                    ]);
+                return ['success' => true, 'message' => 'Logged in to BeatRoute'];
             } else {
-                // return response()->json($d);
+                return $d;
             }
         } catch (\Throwable $th) {
-            //throw $th;
-            return response()->json($th->getMessage(), 500);
+            return $d;
         }
 
     }
 
 
     public function invoiceCreate() {
-        // beatroute test **************************************************************
-        // [
-        //     "retailer_br_id"=> "",
-        //     "retailer_external_id"=> "160614-API-000007",
-        //     "erp_invoice_number"=> "INV-101",
-        //     "invoice_date"=> "2023-06-02",
-        //     "status"=> 1,
-        //     "order_id"=> "",
-        //     "external_order_id"=> "",
-        //     "ship_to_external_id"=> "",
-        //     "order_status"=> "",
-        //     "total_tax"=> "",
-        //     "total_value"=> "",
-        //     "remarks"=> "",
-        //     "payment_due_date"=> "",
-        //     "invoice_level_discount"=> "",
-        //     "details"=> [
-        //         [
-        //             "sku_external_id"=> "000000000000159626",
-        //             "quantity"=> "2",
-        //             "sku_uom"=> "",
-        //             "price_per_item"=> "1",
-        //             "discount_value"=> "",
-        //             "gross_value"=> "",
-        //             "tax_code"=> "",
-        //             "tax"=> ""
-        //         ],
-        //         [
-        //             "sku_external_id"=> "000000501120020002",
-        //             "quantity"=> "1",
-        //             "sku_uom"=> "",
-        //             "price_per_item"=> "1",
-        //             "discount_value"=> "",
-        //             "gross_value"=> "",
-        //             "tax_code"=> "",
-        //             "tax"=> ""
-        //         ]
-        //     ],
-        //     "customFields"=> [
-        //         [
-        //             "id"=> "629",
-        //             "value"=> "Test DSP"
-        //         ]
-        //     ]
-        // ]
-        $data = request()->data;
-        // dd($data);
-        $res = Http::withHeaders([
-            'Content-Type'=>'application/json',
-            'Authorization'=>"Bearer ". $this->configs->api_token
-        // ])->post($this->configs->api_url_invoice_create,[
-        //     [
-        //         "retailer_external_id"=> "160614-API-000007",
-        //         "erp_invoice_number"=> "INV-101",
-        //         "invoice_date"=> "2023-06-02",
-        //         "details"=> [
-        //             [
-        //                 "sku_external_id"=> "000000000000159626",
-        //                 "quantity"=> "10",
-        //                 "sku_uom"=> "",
-        //                 "price_per_item"=> "1",
-        //                 "discount_value"=> "",
-        //                 "gross_value"=> "",
-        //             ],
-        //             [
-        //                 "sku_external_id"=> "000000501120020002",
-        //                 "quantity"=> "20",
-        //                 "sku_uom"=> "",
-        //                 "price_per_item"=> "1",
-        //                 "discount_value"=> "",
-        //                 "gross_value"=> "",
-        //             ]
-        //         ],
-        //         "customFields"=> [
-        //             [
-        //                 "id"=> "629",
-        //                 "value"=> "Test DSP"
-        //             ]
-        //         ]
-        //     ]
-        // ]);
-        ])->post($this->configs->api_url_invoice_create, $data);
-        return response()->json($res->json());
-        // dd($createInvoice->json());
-        // /beatroute test **************************************************************
+        try {
+            //code...
+            $data = request()->data;
+            $res = Http::withHeaders([
+                'Content-Type'=>'application/json',
+                'Authorization'=>"Bearer ". $this->configs->api_token
+            ])->post($this->configs->api_url_invoice_create, $data);
+            return response()->json($res->json());
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json(['success' => false,'message' => $th->getMessage()]);
+        }
     }
 }

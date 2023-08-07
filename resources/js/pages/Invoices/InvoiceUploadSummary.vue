@@ -81,36 +81,82 @@
                                 Row Count:
                                 {{ summary.row_count }}
                             </v-chip> -->
+                            <v-row>
+                                <v-col>
+                                    <div class="caption">
+                                        Invoice
+                                    </div>
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td class="caption font-weight-bold pr-4">Headers Read</td>
+                                                <td>{{ summary.headers_count }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="caption font-weight-bold pr-4">Headers Existing</td>
+                                                <td>{{ summary.headers_count_existing }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="caption font-weight-bold pr-4">Headers Uploaded</td>
+                                                <td>{{ summary.headers_count_uploaded }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><v-divider></v-divider></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="caption font-weight-bold pr-4">Lines Read</td>
+                                                <td>{{ summary.lines_count }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="caption font-weight-bold pr-4">Lines Existing</td>
+                                                <td>{{ summary.lines_count_existing }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="caption font-weight-bold pr-4">Lines Uploaded</td>
+                                                <td>{{ summary.lines_count_uploaded }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </v-col>
 
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td class="font-weight-bold pr-4">Headers Read</td>
-                                        <td>{{ summary.headers_count }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-weight-bold pr-4">Headers Existing</td>
-                                        <td>{{ summary.headers_count_existing }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-weight-bold pr-4">Headers Uploaded</td>
-                                        <td>{{ summary.headers_count_uploaded }}</td>
-                                    </tr>
+                                <v-col>
+                                    <div class="caption">
+                                        Return (CM)
+                                    </div>
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td class="caption font-weight-bold pr-4">Headers Read</td>
+                                                <td>{{ summary.cm_headers_count }}</td>
+                                            </tr>
+                                            <!-- <tr>
+                                                <td class="caption font-weight-bold pr-4">Headers Existing</td>
+                                                <td>{{ summary.cm_headers_count_existing }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="caption font-weight-bold pr-4">Headers Uploaded</td>
+                                                <td>{{ summary.cm_headers_count_uploaded }}</td>
+                                            </tr> -->
+                                            <tr>
+                                                <td colspan="2"><v-divider></v-divider></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="caption font-weight-bold pr-4">Lines Read</td>
+                                                <td>{{ summary.cm_lines_count }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="caption font-weight-bold pr-4">Lines Existing</td>
+                                                <td>{{ summary.cm_lines_count_existing }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="caption font-weight-bold pr-4">Lines Uploaded</td>
+                                                <td>{{ summary.cm_lines_count_uploaded }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </v-col>
+                            </v-row>
 
-                                    <tr>
-                                        <td class="font-weight-bold pr-4">Lines Read</td>
-                                        <td>{{ summary.lines_count }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-weight-bold pr-4">Lines Existing</td>
-                                        <td>{{ summary.lines_count_existing }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-weight-bold pr-4">Lines Uploaded</td>
-                                        <td>{{ summary.lines_count_uploaded }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
 
                             <!-- <v-chip small class="px-2 ma-1"
                                 title="Total number of headers being read as valid invoice data header"
@@ -181,3 +227,5 @@ export default {
     }
 };
 </script>
+
+

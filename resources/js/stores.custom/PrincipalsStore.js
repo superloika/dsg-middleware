@@ -2,6 +2,7 @@ import Vue from 'vue';
 // import InvoicesStore from './InvoicesStore';
 // import AppStore from '../AppStore';
 let AppStore = Vue.prototype.AppStore;
+// let BrStore = Vue.prototype.BrStore;
 // let InvoicesStore = Vue.prototype.InvoicesStore;
 // import axios from 'axios';
 

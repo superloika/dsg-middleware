@@ -34,33 +34,6 @@ window.axios = require("axios");
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 // window.axios.defaults.withCredentials = true;
 
-// cors-anywhere **************************************************
-// var cors_proxy = require('cors-anywhere');
-// cors_proxy.createServer({
-//     originWhitelist: [], // Allow all origins
-//     requireHeader: ['origin', 'x-requested-with'],
-//     removeHeaders: ['cookie', 'cookie2']
-// }).listen(port, host, function() {
-//     console.log('Running CORS Anywhere on ' + host + ':' + port);
-// });
-
-// var cors_api_host = 'https://sandbox.beatroute.io';
-// var cors_api_url = 'https://' + cors_api_host + '/';
-// var slice = [].slice;
-// var origin = window.location.protocol + '//' + window.location.host;
-// var open = XMLHttpRequest.prototype.open;
-// XMLHttpRequest.prototype.open = function() {
-//     var args = slice.call(arguments);
-//     var targetOrigin = /^https?:\/\/([^\/]+)/i.exec(args[1]);
-//     if (targetOrigin && targetOrigin[0].toLowerCase() !== origin &&
-//         targetOrigin[1] !== cors_api_host) {
-//         args[1] = cors_api_url + args[1];
-//     }
-//     return open.apply(this, args);
-// };
-// /cors-anywhere **************************************************
-
-
 // window.abortCtrl = new AbortController();
 const CancelToken = axios.CancelToken;
 window.cancelTokenSource = CancelToken.source();
@@ -84,13 +57,14 @@ window.Echo = new Echo({
     wsHost: window.location.hostname,
     wsPort: 6001,
     disableStats: true,
+    enabledTransports: ['ws', 'wss'],
 });
 
 
 // check if user session has expired or user is unauthorized
 window.axios.interceptors.response.use(
     function(response) {
-        console.log('****************** Axios RESPONSE *******************');
+        console.log(`%c___________________ Axios RESPONSE ___________________`, 'color:#bada55;');
         console.log(response);
         // if(window.AuthUser===null) {
         //     let url = new URL(window.location.href);
@@ -98,11 +72,12 @@ window.axios.interceptors.response.use(
         //         window.location.href = `/logout`;
         //     }
         // }
+        console.log(`%c______________________________________________________`, 'color:#bada55;');
         return response;
     },
 
     function(error) {
-        console.info('===================== INTERCEPTOR =====================');
+        console.info(`%c===================== INTERCEPTOR =====================`, 'color:red;');
         if (
             error.response.status === 401
             || error.response.status === 419
@@ -123,7 +98,7 @@ window.axios.interceptors.response.use(
 
         console.info('INTERCEPTOR - AUTH USER:', window.AuthUser);
         console.error('INTERCEPTOR:', error);
-        console.info('===================== INTERCEPTOR =====================');
+        console.info(`%c=======================================================`, 'color:red;');
         return Promise.reject(error);
     }
 );

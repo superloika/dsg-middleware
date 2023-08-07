@@ -57,17 +57,21 @@ const state = Vue.observable({
     invoices_upload_logs: [],
     invoiceStatuses: [
         {
-            status: "All",
-            value: ""
+            status: "Pending",
+            value: "pending"
         },
         {
             status: "Completed",
             value: "completed"
         },
         {
-            status: "Pending",
-            value: "pending"
-        }
+            status: "Uploaded",
+            value: "uploaded"
+        },
+        {
+            status: "All",
+            value: "all"
+        },
     ],
     invoiceStatus: "",
 })
@@ -210,6 +214,29 @@ const actions = {
             PrincipalsStore.initCurrentGeneratedData(null, state.invoiceStatus);
         } catch (error) {
             console.log("setInvoicesComplete():", error);
+        }
+    },
+
+
+    /**
+     * set invoices' status to 'uploaded'
+     */
+     async setInvoicesUploaded(batch) {
+        try {
+            const url =
+                AppStore.state.siteUrl +
+                "invoices/setInvoicesUploaded"
+                ;
+
+            const payload = {
+                batch: batch
+            };
+
+            const res = await axios.post(url, payload);
+
+            return res.data;
+        } catch (error) {
+            console.log("setInvoicesUploaded():", error);
         }
     },
 

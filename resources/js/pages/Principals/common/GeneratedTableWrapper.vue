@@ -1,6 +1,7 @@
 <template>
 <v-sheet>
-    <v-tabs v-model="tab_template_variation"
+    <v-tabs
+        v-model="tab_template_variation"
         :height="generatedData.length > 1 ? 25 : 0"
     >
         <v-tab

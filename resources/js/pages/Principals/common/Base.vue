@@ -4,15 +4,15 @@
     <v-app-bar elevation="0" app dense>
         <v-toolbar-title class="primary--text">
             <!-- <v-icon>mdi-store</v-icon> -->
-            <h5 style="padding:0;">
+            <span class="font-weight-bold text-subtitle-2" :title="principalName">
                 {{ principalName }}
-                <v-chip x-small title="Vendor Code">
-                    {{ vendorCode }}
-                </v-chip>
-                <v-chip x-small title="Middleware Code">
-                    {{ PrincipalsStore.state.selectedPrincipalCode }}
-                </v-chip>
-            </h5>
+            </span>
+            <v-chip x-small title="Vendor Code">
+                {{ vendorCode }}
+            </v-chip>
+            <v-chip x-small title="Middleware Code">
+                {{ PrincipalsStore.state.selectedPrincipalCode }}
+            </v-chip>
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
@@ -81,7 +81,7 @@ export default {
     },
 
     mounted() {
-        console.log('PrincipalBase component mounted');
+        console.log('Principal Base component mounted');
         console.log(this.selectedPrincipalCode);
     },
 };

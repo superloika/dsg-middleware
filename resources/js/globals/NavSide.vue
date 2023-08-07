@@ -83,8 +83,12 @@
                     <v-list-item-title>
                         Dev Chat
                         <!-- <v-spacer></v-spacer> -->
+                        <v-chip color="success" x-small v-if="DevChatStore.state.onlineUsers.length"
+                            class="px-2 ml-1"
+                        >
+                        </v-chip>
                         <v-chip color="error" x-small v-if="DevChatStore.state.unreadMsgCount"
-                            class="px-2"
+                            class="px-1 ml-1"
                         >
                             {{ DevChatStore.state.unreadMsgCount }}
                         </v-chip>

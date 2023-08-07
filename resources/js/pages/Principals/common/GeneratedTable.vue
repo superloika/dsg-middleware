@@ -60,6 +60,33 @@
             <span v-else>{{ item.customer_code }}</span>
         </template>
 
+        <template v-slot:[`item.alturas_customer_code`]="{ item }">
+            <v-tooltip
+                v-if="item.customer_notfound==1"
+                right
+            >
+                <template v-slot:activator="{ on, attrs }">
+                    <v-chip
+                        v-bind="attrs"
+                        v-on="on"
+                        :color="
+                            item.missing_customer_name==
+                                'CUSTOMER_NOT_FOUND' ? 'error' : 'warning'
+                        "
+                        small
+                        outlined
+                        title = "Unmapped"
+                    >
+                        <div :id="item.alturas_customer_code">
+                            {{ item.alturas_customer_code }}
+                        </div>
+                    </v-chip>
+                </template>
+                <span>{{ item.missing_customer_name }}</span>
+            </v-tooltip>
+            <span v-else>{{ item.alturas_customer_code }}</span>
+        </template>
+
         <!-- <template v-slot:[`item.route_code`]="{ item }">
             <v-chip
                 v-if="item.route_code=='N/A'"
@@ -101,7 +128,9 @@
                 </template>
                 <span>{{ item.missing_item_name }}</span>
             </v-tooltip>
-            <span v-else>{{ item.item_code }}</span>
+            <span v-else>
+                {{ item.item_code }}
+            </span>
         </template>
 
         <template v-slot:[`item.sales_agent_id`]="{ item }">
@@ -144,6 +173,38 @@
                 }}
             </div>
         </template>
+
+        <template v-slot:[`item.price`]="{ item }">
+            <div class="text-right">
+                {{ item.price }}
+            </div>
+        </template>
+
+        <template v-slot:[`item.price_supplier`]="{ item }">
+            <div class="text-right">
+                {{ item.price_supplier }}
+            </div>
+        </template>
+
+        <template v-slot:[`item.amount`]="{ item }">
+            <div class="text-right">
+                {{ item.amount }}
+            </div>
+        </template>
+
+        <template v-slot:[`item.amount_supplier`]="{ item }">
+            <div class="text-right">
+                {{ item.amount_supplier }}
+            </div>
+        </template>
+
+        <!-- <template v-slot:[`item.uom_supplier`]="{ item }">
+            <div>
+                <v-text-field style="width:80px"
+                    v-model="item.uom_supplier" outlined hide-details dense
+                ></v-text-field>
+            </div>
+        </template> -->
     </v-data-table>
 </div>
 </template>
@@ -184,7 +245,9 @@ export default {
 
         itemRowStyle: function(item) {
             try {
-                return item.status=='completed' ? 'completed-invoice' : '';
+                return item.status=='completed' ? 'completed-invoice'
+                    : item.status=='uploaded' ? 'uploaded-invoice'
+                    : '';
             } catch (error) {
                 return '';
             }
@@ -205,7 +268,9 @@ export default {
 <style>
     .completed-invoice {
         color: #009e15;
-        /* color: #ffffff; */
+    }
+    .uploaded-invoice {
+        color: #006bd6;
     }
 </style>
 

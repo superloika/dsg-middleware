@@ -23,8 +23,13 @@ export default {
         tabs() {
             return [
                 {
-                    title: 'Templated Data',
-                    icon: 'mdi-table',
+                    title: 'Templated Data (Sales Invoices)',
+                    icon: 'mdi-receipt',
+                    component: () => import("./common/Generated.vue"),
+                },
+                {
+                    title: 'Return Invoices',
+                    icon: 'mdi-cash-refund',
                     component: () => import("./common/Generated.vue"),
                 },
                 // {
@@ -54,11 +59,6 @@ export default {
                     icon: 'mdi-tune',
                     component: () => import("./common/Settings.vue"),
                 },
-                // {
-                //     title: 'DevChat (TEST)',
-                //     icon: 'mdi-message',
-                //     component: () => import("./common/DevChat.vue"),
-                // },
             ]
         },
 
@@ -80,6 +80,11 @@ export default {
             Vue.prototype[this.selectedPrincipalCode] =
                 require(`../../stores.custom/principals/${this.selectedPrincipalCode}`)
                 .default;
+
+            // refresh BeatRoute token
+            if(this[this.selectedPrincipalCode].state.bu != undefined) {
+                this.BrStore.refresh(this[this.selectedPrincipalCode].state.bu);
+            }
         }
 
         // Initialize settings
@@ -88,101 +93,6 @@ export default {
 
     mounted() {
         console.log(this.selectedPrincipalCode + ' component mounted');
-
-        // br test ****************************************************
-        // this.BrStore.refresh();
-        const data = [
-            {
-                "retailer_br_id": "5499574",
-                "erp_invoice_number": "INV-103",
-                "invoice_date": "2023-06-02",
-                // "total_value": "-1",
-                "details": [
-                    // {
-                    //     "sku_external_id": "000000000000159626",
-                    //     "quantity": "2",
-                    //     "sku_uom": "",
-                    //     "price_per_item": "1",
-                    //     "discount_value": "",
-                    //     "gross_value": "",
-                    // },
-                    // {
-                    //     "sku_external_id": "000000501120020002",
-                    //     // "sku_external_id": "000000000000159626",
-                    //     "quantity": "3",
-                    //     "sku_uom": "",
-                    //     "price_per_item": "1",
-                    //     "discount_value": "",
-                    //     "gross_value": "",
-                    // },
-                    // {
-                    //     "sku_external_id": "000005011200361519",
-                    //     "quantity": "2",
-                    //     "sku_uom": "",
-                    //     "price_per_item": "1",
-                    //     "discount_value": "",
-                    //     "gross_value": "",
-                    // },
-                    {
-                        "sku_external_id": "000005011151165925",
-                        "quantity": "-1",
-                        "sku_uom": "SCK",
-                        "price_per_item": "1",
-                        "discount_value": "",
-                        "gross_value": "",
-                    },
-
-                ],
-                "customFields": [
-                    // {
-                    //     "id": "629",
-                    //     "value": "Jessa Alas"
-                    // },
-                    // {
-                    //     "id": "638",
-                    //     "value": "Trade Return Bad"
-                    // },
-                ]
-            },
-        ];
-
-        var raw = JSON.stringify([
-            {
-                "retailer_br_id": "5321913",
-                "retailer_external_id": "",
-                "erp_invoice_number": "CDC-S4819309",
-                "invoice_date": "2023-05-29",
-                "status": 1,
-                "order_id": "",
-                "external_order_id": "",
-                "ship_to_external_id": "",
-                "order_status": "",
-                "total_tax": "",
-                "total_value": "",
-                "remarks": "",
-                "payment_due_date": "",
-                "invoice_level_discount": "",
-                "details": [
-                    {
-                        "sku_external_id": "000005013180259503",
-                        "quantity": "2",
-                        "sku_uom": "CS",
-                        "price_per_item": "988.8000",
-                        "discount_value": "",
-                        "gross_value": "",
-                        "tax_code": "",
-                        "tax": ""
-                    },
-                ],
-                "customFields": [
-                    {
-                        "id": "629",
-                        "value": "Jessa Alas"
-                    }
-                ]
-            }
-        ]);
-        // this.BrStore.invoiceCreate(data);
     },
 
     beforeDestroy() {

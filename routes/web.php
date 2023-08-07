@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -241,13 +242,13 @@ Route::prefix('principals')->group(function(){
         // ============================================================
 
         // sa purefoods ni yawa!
-        ['TemprincipalsController', 'magnolia_inc'],
-        ['TemprincipalsController', 'the_purefoods_hormel'],
-        ['TemprincipalsController', 'hormel_foods'],
+        // ['TemprincipalsController', 'magnolia_inc'],
+        // ['TemprincipalsController', 'the_purefoods_hormel'],
+        // ['TemprincipalsController', 'hormel_foods'],
         // ------------------------------------------------------------
-        // ['MagnoliaIncController', 'magnolia_inc'],
-        // ['MagnoliaIncController', 'the_purefoods_hormel'],
-        // ['MagnoliaIncController', 'hormel_foods'],
+        ['MagnoliaIncController', 'magnolia_inc'],
+        ['MagnoliaIncController', 'the_purefoods_hormel'],
+        ['MagnoliaIncController', 'hormel_foods'],
     ];
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';
@@ -270,6 +271,7 @@ Route::prefix('principals')->group(function(){
             // Route::post("/set-invoices-complete", $ctrl. "setInvoicesComplete");
             // Route::post("/invoices/import", $ctrl. "importInvoices");
             // Route::post("/invoices/save", $ctrl. "saveInvoices");
+            Route::get("/generateReturns", $ctrl. "generateReturns");
         });
     }
 
@@ -313,9 +315,9 @@ Route::prefix('misc-utils')->group(function () {
 Route::prefix('devchat')->group(function () {
     Route::get('/fetch-messages', "DevChatController@fetchMessages");
     Route::post('/send-message', "DevChatController@sendMessage");
-    Route::get('/fetchOnlineUsers', "DevChatController@fetchOnlineUsers");
-    Route::post('/userOnline', "DevChatController@userOnline");
-    Route::post('/userOffline', "DevChatController@userOffline");
+    // Route::get('/fetchOnlineUsers', "DevChatController@fetchOnlineUsers");
+    // Route::post('/userOnline', "DevChatController@userOnline");
+    // Route::post('/userOffline', "DevChatController@userOffline");
 });
 
 
@@ -331,8 +333,7 @@ Route::prefix('br')->group(function () {
 Route::get("/ppfb/resetInvoicesToPending", "Principals\MagnoliaIncController@resetInvoicesToPending");
 
 // restore archived
-Route::get("/restoreLines", "InvoicesController@restoreLines");
-// Route::get("/restoreHeaders", "InvoicesController@restoreHeaders");
+// Route::get("/restoreLines", "InvoicesController@restoreLines");
 
 /**
  *

@@ -129,7 +129,6 @@
 
 <script>
 import {debounce} from 'lodash';
-import AppStore from '../../../stores.custom/AppStore';
 
 export default {
     components: {

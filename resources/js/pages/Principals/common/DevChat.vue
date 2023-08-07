@@ -68,7 +68,10 @@
                             <div>
                                 <div v-for="(u,i) in onlineUsers" :key="i" class="primary--text d-flex">
                                     <div class="mb-2">
-                                        <v-chip color="primary" small>
+                                        <v-chip
+                                            :color="u.id==AuthUser.id ? 'info' : 'primary'"
+                                            small
+                                        >
                                             <v-icon left>mdi-account</v-icon>
                                             {{ u.name }} ({{ u.username }})
                                         </v-chip>

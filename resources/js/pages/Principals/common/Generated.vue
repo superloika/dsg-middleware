@@ -4,7 +4,7 @@
             <v-card-title class="pa-0">
                 <v-app-bar elevation="0" colorx="white" appx>
                     <v-toolbar-title>
-                        <div>
+                        <div class="text-subtitle-2 font-weight-bold">
                             Templated Data
                         </div>
                         <div v-if="lineCount > 0">
@@ -102,7 +102,6 @@
 </template>
 
 <script>
-import PrincipalsStore from '../../../stores.custom/PrincipalsStore';
 
 export default {
     components: {
@@ -118,13 +117,13 @@ export default {
 
 
     computed: {
-        principalsStore() {
-            return PrincipalsStore;
-        },
+        // principalsStore() {
+        //     return this.PrincipalsStore;
+        // },
 
         generatedData() {
             // return this.PrincipalsStore.state.currentGeneratedData;
-            return PrincipalsStore.state.currentGeneratedData;
+            return this.PrincipalsStore.state.currentGeneratedData;
         },
 
         // overall
@@ -158,7 +157,7 @@ export default {
         },
 
         selectedPrincipalCode() {
-            return PrincipalsStore.state.selectedPrincipalCode;
+            return this.PrincipalsStore.state.selectedPrincipalCode;
         },
 
         searchKeyLength() {

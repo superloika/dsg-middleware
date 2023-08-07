@@ -86,7 +86,7 @@
 
     <v-dialog
         v-model="InvoicesStore.state.isUploadSummaryShown"
-        max-width="550px"
+        max-width="600px"
     >
         <InvoiceUploadSummary :uploadResponse="uploadResponse"></InvoiceUploadSummary>
     </v-dialog>
@@ -130,18 +130,18 @@ export default {
 
             const config = {
                 headers: {'content-type': 'multipart/form-data'},
-                onUploadProgress: progressEvent => {
-                    let progressPercentage = progressEvent.loaded / vm.file.size * 100;
-                    let statusText = 'Uploading...';
-                    if(progressPercentage < 100) {
-                        statusText = 'Uploading... ' + progressPercentage.toFixed(0) + '%';
-                    } else if(progressPercentage == 100) {
-                        statusText = 'File uploaded';
-                    } else if(progressPercentage > 100){
-                        statusText = 'Saving...';
-                    }
-                    this.AppStore.state.overlay.msg = statusText;
-                }
+                // onUploadProgress: progressEvent => {
+                //     let progressPercentage = progressEvent.loaded / vm.file.size * 100;
+                //     let statusText = 'Uploading...';
+                //     if(progressPercentage < 100) {
+                //         statusText = 'Uploading... ' + progressPercentage.toFixed(0) + '%';
+                //     } else if(progressPercentage == 100) {
+                //         statusText = 'File uploaded';
+                //     } else if(progressPercentage > 100){
+                //         statusText = 'Saving...';
+                //     }
+                //     this.AppStore.state.overlay.msg = statusText;
+                // }
             }
 
             let formData = new FormData();

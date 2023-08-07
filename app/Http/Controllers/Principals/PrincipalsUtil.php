@@ -13,11 +13,16 @@ class PrincipalsUtil extends Controller
 
     public static $STATUS_COMPLETED = 'completed';
     public static $STATUS_PENDING = 'pending';
+    public static $STATUS_UPLOADED = 'uploaded';
 
     public static $TBL_GENERATED = 'generated_data';
     // public static $TBL_INVOICES = 'uploaded_invoices';
     public static $TBL_INVOICES_H = 'invoices_headers';
     public static $TBL_INVOICES = 'invoices_lines';
+
+    // credit memos
+    // public static $TBL_CM_H = 'cm_headers';
+    public static $TBL_CM = 'cm_lines';
 
     public static $TBL_PRINCIPALS_CUSTOMERS = 'principals_customers';
     public static $TBL_PRINCIPALS_ITEMS = 'principals_items';

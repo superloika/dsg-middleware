@@ -183,6 +183,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['uploadResponse'],
   mounted: function mounted() {
@@ -375,67 +421,222 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("v-expansion-panel-content", { staticClass: "pa-0" }, [
-                    _c("div", { staticClass: "px-0 pt-3" }, [
-                      _c("table", { staticClass: "table" }, [
-                        _c("tbody", [
-                          _c("tr", [
-                            _c("td", { staticClass: "font-weight-bold pr-4" }, [
-                              _vm._v("Headers Read")
+                    _c(
+                      "div",
+                      { staticClass: "px-0 pt-3" },
+                      [
+                        _c(
+                          "v-row",
+                          [
+                            _c("v-col", [
+                              _c("div", { staticClass: "caption" }, [
+                                _vm._v(
+                                  "\n                                    Invoice\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("table", { staticClass: "table" }, [
+                                _c("tbody", [
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Headers Read")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(summary.headers_count))
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Headers Existing")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(summary.headers_count_existing)
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Headers Uploaded")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(summary.headers_count_uploaded)
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      { attrs: { colspan: "2" } },
+                                      [_c("v-divider")],
+                                      1
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Lines Read")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(summary.lines_count))
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Lines Existing")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(summary.lines_count_existing)
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Lines Uploaded")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(summary.lines_count_uploaded)
+                                      )
+                                    ])
+                                  ])
+                                ])
+                              ])
                             ]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(summary.headers_count))])
-                          ]),
-                          _vm._v(" "),
-                          _c("tr", [
-                            _c("td", { staticClass: "font-weight-bold pr-4" }, [
-                              _vm._v("Headers Existing")
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(_vm._s(summary.headers_count_existing))
+                            _c("v-col", [
+                              _c("div", { staticClass: "caption" }, [
+                                _vm._v(
+                                  "\n                                    Return (CM)\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("table", { staticClass: "table" }, [
+                                _c("tbody", [
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Headers Read")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(summary.cm_headers_count))
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      { attrs: { colspan: "2" } },
+                                      [_c("v-divider")],
+                                      1
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Lines Read")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(summary.cm_lines_count))
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Lines Existing")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(summary.cm_lines_count_existing)
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Lines Uploaded")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(summary.cm_lines_count_uploaded)
+                                      )
+                                    ])
+                                  ])
+                                ])
+                              ])
                             ])
-                          ]),
-                          _vm._v(" "),
-                          _c("tr", [
-                            _c("td", { staticClass: "font-weight-bold pr-4" }, [
-                              _vm._v("Headers Uploaded")
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(_vm._s(summary.headers_count_uploaded))
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("tr", [
-                            _c("td", { staticClass: "font-weight-bold pr-4" }, [
-                              _vm._v("Lines Read")
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(summary.lines_count))])
-                          ]),
-                          _vm._v(" "),
-                          _c("tr", [
-                            _c("td", { staticClass: "font-weight-bold pr-4" }, [
-                              _vm._v("Lines Existing")
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(_vm._s(summary.lines_count_existing))
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("tr", [
-                            _c("td", { staticClass: "font-weight-bold pr-4" }, [
-                              _vm._v("Lines Uploaded")
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(_vm._s(summary.lines_count_uploaded))
-                            ])
-                          ])
-                        ])
-                      ])
-                    ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
                   ])
                 ],
                 1

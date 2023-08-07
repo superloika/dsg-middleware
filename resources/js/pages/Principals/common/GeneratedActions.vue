@@ -1,8 +1,40 @@
 <template>
-    <v-card>
+    <v-card max-width="300">
         <v-card-text>
             <v-row>
-                <v-col>
+                <v-col cols="12">
+                    <v-select
+                        :items="InvoicesStore.state.invoiceStatuses"
+                        v-model="InvoicesStore.state.invoiceStatus"
+                        label="Status"
+                        item-text="status"
+                        item-value="value"
+                        style="max-width:500px;min-width:200px;"
+                        outlined
+                        rounded
+                        hide-details
+                        dense
+                    ></v-select>
+                </v-col>
+
+                <v-col cols="12">
+                    <v-select
+                        :items="selPrincipalStore.state.generatedDataHistoryFilters[0]"
+                        v-model="PrincipalsStore.state.selectedGroupBy"
+                        label="Group By"
+                        item-text="text"
+                        item-value="value"
+                        style="max-width:500px;min-width:200px;"
+                        outlined
+                        rounded
+                        hide-details
+                        dense
+                        :disabled="PrincipalsStore.state.isGeneratingData"
+                    >
+                    </v-select>
+                </v-col>
+
+                <v-col cols="12">
                     <v-text-field
                         v-model="dateRangeText"
                         label="Posting Date"
@@ -39,6 +71,7 @@
                                 color="primary"
                                 @click="
                                     $refs.datePicker.save(PrincipalsStore.state.posting_date_range);
+                                    refresh();
                                 "
                             >
                                 Ok
@@ -48,54 +81,22 @@
                     <!-- /DATEPICKER -->
                 </v-col>
 
-                <v-col>
-                    <v-select
-                        :items="selPrincipalStore.state.generatedDataHistoryFilters[0]"
-                        v-model="PrincipalsStore.state.selectedGroupBy"
-                        label="Group By"
-                        item-text="text"
-                        item-value="value"
-                        style="max-width:500px;min-width:200px;"
-                        outlined
-                        rounded
-                        hide-details
-                        dense
-                        :disabled="PrincipalsStore.state.isGeneratingData"
-                    >
-                    </v-select>
-                </v-col>
-
-                <v-col>
-                    <v-select
-                        :items="InvoicesStore.state.invoiceStatuses"
-                        v-model="InvoicesStore.state.invoiceStatus"
-                        label="Status"
-                        item-text="status"
-                        item-value="value"
-                        style="max-width:180px;"
-                        outlined
-                        rounded
-                        hide-details
-                        dense
-                    ></v-select>
-                </v-col>
-
-                <v-col>
-                    <!-- reload -->
+                <!-- <v-col cols="12">
                     <v-btn
                         title="Generate Templated"
+                        class=""
                         dense
                         rounded
+                        block
                         @click="refresh()"
                         :loading="PrincipalsStore.state.isGeneratingData"
-                        color="secondary"
+                        color="primary"
                     >
-                        <!-- <v-icon>mdi-tray-arrow-down</v-icon> -->
                         Generate
                     </v-btn>
-                </v-col>
+                </v-col> -->
 
-                <v-col>
+                <v-col cols="12">
                     <!-- ********************* EXPORT ************************ -->
                     <v-btn
                         title="Export to Excel"
@@ -106,29 +107,33 @@
                         @click.stop="
                             PrincipalsStore.state.confirmExportDialogOpen = true
                         "
+                        :disabled="disableExportBtn"
+                    >
+                        <!-- <v-icon left size="25">mdi-file-excel</v-icon> -->
+                        Export to Excel
+                    </v-btn>
+                </v-col>
+
+                <v-col cols="12">
+                    <v-btn
+                        v-if="beatrouteUploading"
+                        title=""
+                        dense
+                        rounded
+                        color="primary"
+                        block
+                        @click.stop="prepareBatches"
                         :disabled="
                             lineCount < 1
                             || searchKeyLength > 0
                             || PrincipalsStore.state.isGeneratingData
+                            || warningsCount > 0
+                            || InvoicesStore.state.invoiceStatus != 'completed'
                         "
                     >
-                        <v-icon left size="25">mdi-file-excel</v-icon>
-                        Export
+                        BeatRoute Upload
                     </v-btn>
                 </v-col>
-
-                <!-- <v-col>
-                    <v-btn
-                        title=""
-                        dense
-                        rounded
-                        color=""
-                        blockx
-                        @click.stop="BrStore.preparePayload(PrincipalsStore.state.currentGeneratedData)"
-                    >
-                        Upload
-                    </v-btn>
-                </v-col> -->
             </v-row>
         </v-card-text>
 
@@ -170,22 +175,39 @@
         </v-dialog>
         <!-- ********************* /EXPORT ************************ -->
 
+        <!-- BR upload dialog -->
+        <v-dialog
+            persistent
+            v-model="BrStore.state.brUploadDialogOpen"
+            max-width="100%"
+            scrollable
+            fullscreen
+        >
+            <BRUpload
+                :key="
+                    'br_upload_' +
+                        PrincipalsStore.state.selectedPrincipalCode
+                "
+            >
+            </BRUpload>
+        </v-dialog>
+        <!-- ********************* /BR upload ************************ -->
+
         <!-- ***************************************************************** -->
         <!-- ********************* /DIALOGS ********************************** -->
         <!-- ***************************************************************** -->
     </v-card>
 </template>
 
-<script>
-import InvoicesStore from '../../../stores.custom/InvoicesStore';
-import PrincipalsStore from '../../../stores.custom/PrincipalsStore';
 
+<script>
 export default {
     props: ['lineCount','warningsCount'],
 
     components: {
         MissingInMaster: () => import("./MissingInMaster.vue"),
         ConfirmExport: () => import("./ConfirmExport.vue"),
+        BRUpload: () => import("./BRUpload.vue"),
     },
 
     data() {
@@ -199,25 +221,63 @@ export default {
 
     computed: {
         generatedData() {
-            return PrincipalsStore.state.currentGeneratedData;
+            return this.PrincipalsStore.state.currentGeneratedData;
         },
 
         selectedPrincipalCode() {
-            return PrincipalsStore.state.selectedPrincipalCode;
+            return this.PrincipalsStore.state.selectedPrincipalCode;
         },
 
         searchKeyLength() {
             try {
-                return PrincipalsStore.state.currentGeneratedDataSearchKey.length;
+                return this.PrincipalsStore.state.currentGeneratedDataSearchKey.length;
             } catch (error) {
                 return 0;
             }
         },
         selPrincipalStore() {
-            return this[PrincipalsStore.state.selectedPrincipalCode];
+            return this[this.PrincipalsStore.state.selectedPrincipalCode];
         },
         dateRangeText() {
-            return PrincipalsStore.state.posting_date_range.join(' ~ ');
+            return this.PrincipalsStore.state.posting_date_range.join(' ~ ');
+        },
+        invoiceStatus() {
+            return this.InvoicesStore.state.invoiceStatus;
+        },
+        selectedGroupBy() {
+            return this.PrincipalsStore.state.selectedGroupBy;
+        },
+        disableExportBtn() {
+            if(
+                this.selPrincipalStore.state.strict_export != undefined
+                && this.selPrincipalStore.state.strict_export == true
+            ) {
+                return this.lineCount < 1
+                    || this.searchKeyLength > 0
+                    || this.PrincipalsStore.state.isGeneratingData
+                    || (this.warningsCount > 0 && this.invoiceStatus == 'pending')
+                    || this.invoiceStatus == ''
+                    ;
+            } else {
+                return this.lineCount < 1
+                    || this.searchKeyLength > 0
+                    || this.PrincipalsStore.state.isGeneratingData
+                    || this.invoiceStatus == ''
+                    ;
+            }
+        },
+        beatrouteUploading() {
+            return this.selPrincipalStore.state.beatroute_uploading != undefined
+                && this.selPrincipalStore.state.beatroute_uploading == true;
+        }
+    },
+
+    watch: {
+        invoiceStatus() {
+            this.refresh();
+        },
+        selectedGroupBy() {
+            this.refresh();
         },
     },
 
@@ -281,13 +341,36 @@ export default {
         },
 
         refresh() {
-            PrincipalsStore.initCurrentGeneratedData(null,InvoicesStore.state.invoiceStatus);
-            PrincipalsStore.state.currentGeneratedDataSearchKey = '';
+            this.PrincipalsStore.initCurrentGeneratedData(
+                null,this.InvoicesStore.state.invoiceStatus
+            );
+            this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
         },
+
+        // prepareBatches() {
+
+        //     this.BrStore.prepareBatches(
+        //         this.PrincipalsStore.state.currentGeneratedData
+        //     );
+        // },
+
+        prepareBatches() {
+            const vm = this;
+            vm.AppStore.overlay(true, 'Preparing batches...');
+
+            vm.BrStore.preparePayload(
+                vm.PrincipalsStore.state.currentGeneratedData
+            )
+            .then(batches => {
+                vm.BrStore.state.currentGeneratedBatches = batches;
+                vm.AppStore.overlay(false);
+                vm.BrStore.state.brUploadDialogOpen = true;
+            });
+        }
     },
 
     created() {
-        InvoicesStore.state.invoiceStatus='pending';
+        // this.InvoicesStore.state.invoiceStatus='pending';
     },
 
     mounted() {

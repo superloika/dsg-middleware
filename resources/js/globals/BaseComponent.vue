@@ -97,9 +97,9 @@
         <v-overlay
             :value="AppStore.state.overlay.show"
             z-index="999999"
-            opacity="0.2"
+            opacity="0.5"
         >
-            <v-chip>
+            <v-chip color="primary darken-1">
                 <v-progress-circular
                     :value="64"
                     indeterminate
@@ -109,8 +109,6 @@
                 {{ AppStore.state.overlay.msg }}
             </v-chip>
         </v-overlay>
-
-
     </v-app>
 </template>
 
@@ -138,32 +136,48 @@ export default {
         console.log('BaseComponent mounted');
 
         try {
-            // DevChat
-            this.DevChatStore.fetchOnlineUsers();
-            this.DevChatStore.userOnline(this.AuthUser);
-
+            //DevChat channel
             Echo.join(this.DevChatStore.state.groupChannel)
-                .joining((user)=>{
-                    console.log('Joining:', user);
-                    this.DevChatStore.userOnline(user);
-                })
-                .leaving((user)=>{
-                    console.log('Leaving:', user);
-                    this.DevChatStore.userOffline(user);
-                })
-                .listen("MessageSent", event => {
-                    this.DevChatStore.state.messages.unshift(event.message);
-                    if(event.message.user_id != AuthUser.id) {
-                        this.DevChatStore.state.unreadMsgCount += 1;
-                    }
-                })
-                .listen("UserOnline", event => {
-                    this.DevChatStore.fetchOnlineUsers();
-                })
-                .listen("UserOffline", event => {
-                    this.DevChatStore.fetchOnlineUsers();
-                })
-                ;
+            .here(users => {
+                console.log('Currently heeeeeeerrreeee:', users);
+                this.DevChatStore.state.onlineUsers = JSON.parse(JSON.stringify(users));
+            })
+            .joining((user) => {
+                console.log('Joining:', user);
+                this.DevChatStore.state.onlineUsers.unshift(user);
+                console.log('Current online:', this.DevChatStore.state.onlineUsers);
+            })
+            .leaving((user) => {
+                console.log('Leaving:', user);
+                const prevOL = JSON.parse(
+                    JSON.stringify(this.DevChatStore.state.onlineUsers)
+                );
+                this.DevChatStore.state.onlineUsers = [];
+                this.DevChatStore.state.onlineUsers = prevOL.filter(e => e.id != user.id);
+                console.log('Current online:', this.DevChatStore.state.onlineUsers);
+            })
+            .listen("MessageSent", event => {
+                this.DevChatStore.state.messages.unshift(event.message);
+                if(event.message.user_id != AuthUser.id) {
+                    this.DevChatStore.state.unreadMsgCount += 1;
+                }
+            })
+            ;
+
+            // invoices channel
+            Echo.private(`App.User.${AuthUser.id}`)
+            .listen("UploadInvoice", event => {
+                this.AppStore.state.overlay.msg = event.message;
+            })
+            .listen("GenerateTemplated", event => {
+                this.AppStore.state.overlay.msg = event.message;
+            })
+            ;
+
+
+            // refresh BR
+            // this.BrStore.refresh('ppfb');
+
         } catch (error) {
             console.error(error);
         }
