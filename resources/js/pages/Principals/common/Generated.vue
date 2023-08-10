@@ -68,18 +68,18 @@
                     <div v-if="PrincipalsStore.state.isGeneratingData"
                         class="d-flex justify-center mt-12 pt-6"
                     >
-                        <v-progress-circular
+                        <!-- <v-progress-circular
                             :size="60"
                             :width="5"
                             color="accent"
                             indeterminate
-                        ></v-progress-circular>
+                        ></v-progress-circular> -->
                     </div>
                     <div v-else>
                         <div
                             v-if="
                                 generatedData.length < 1
-                                || generatedData[0].output_template.length < 1
+                                || lineCount < 1
                             "
                             class="d-flex justify-center mt-12 pt-6"
                         >
@@ -129,30 +129,27 @@ export default {
         // overall
         lineCount() {
             let count = 0;
-            // this.generatedData.forEach(e => {
-            //     count += e.output_template[1].length;
-            // });
-            if(this.generatedData.length > 0) {
-                this.generatedData[0].output_template.forEach(e => {
-                    count += e[1].length;
+            this.generatedData.forEach(e => {
+                e.output_template.forEach(ot => {
+                    count += ot[1].length;
                 });
-            }
+            });
             return count;
         },
 
         // overall
         warningsCount() {
             let count = 0;
-            if(this.generatedData.length > 0) {
-                this.generatedData[0].output_template.forEach(e => {
-                    const nf = e[1].filter(line => {
+            this.generatedData.forEach(e => {
+                e.output_template.forEach(ot => {
+                    const nf = ot[1].filter(line => {
                         return line.customer_notfound == 1
                             || line.item_notfound == 1
                             || line.salesman_notfound == 1;
                     });
                     count += nf.length;
                 });
-            }
+            });
             return count;
         },
 

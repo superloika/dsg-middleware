@@ -52,7 +52,7 @@ __webpack_require__.r(__webpack_exports__);
       return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./Customers.vue */ "./resources/js/pages/Principals/common/Customers.vue"));
     },
     Salesmen: function Salesmen() {
-      return __webpack_require__.e(/*! import() */ 25).then(__webpack_require__.bind(null, /*! ./Salesmen.vue */ "./resources/js/pages/Principals/common/Salesmen.vue"));
+      return __webpack_require__.e(/*! import() */ 24).then(__webpack_require__.bind(null, /*! ./Salesmen.vue */ "./resources/js/pages/Principals/common/Salesmen.vue"));
     }
   },
   data: function data() {

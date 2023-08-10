@@ -136,31 +136,25 @@ __webpack_require__.r(__webpack_exports__);
     },
     // overall
     lineCount: function lineCount() {
-      var count = 0; // this.generatedData.forEach(e => {
-      //     count += e.output_template[1].length;
-      // });
-
-      if (this.generatedData.length > 0) {
-        this.generatedData[0].output_template.forEach(function (e) {
-          count += e[1].length;
+      var count = 0;
+      this.generatedData.forEach(function (e) {
+        e.output_template.forEach(function (ot) {
+          count += ot[1].length;
         });
-      }
-
+      });
       return count;
     },
     // overall
     warningsCount: function warningsCount() {
       var count = 0;
-
-      if (this.generatedData.length > 0) {
-        this.generatedData[0].output_template.forEach(function (e) {
-          var nf = e[1].filter(function (line) {
+      this.generatedData.forEach(function (e) {
+        e.output_template.forEach(function (ot) {
+          var nf = ot[1].filter(function (line) {
             return line.customer_notfound == 1 || line.item_notfound == 1 || line.salesman_notfound == 1;
           });
           count += nf.length;
         });
-      }
-
+      });
       return count;
     },
     selectedPrincipalCode: function selectedPrincipalCode() {
@@ -418,26 +412,11 @@ var render = function() {
           _c("v-card-text", { staticClass: "mx-0 px-0" }, [
             _c("div", {}, [
               _vm.PrincipalsStore.state.isGeneratingData
-                ? _c(
-                    "div",
-                    { staticClass: "d-flex justify-center mt-12 pt-6" },
-                    [
-                      _c("v-progress-circular", {
-                        attrs: {
-                          size: 60,
-                          width: 5,
-                          color: "accent",
-                          indeterminate: ""
-                        }
-                      })
-                    ],
-                    1
-                  )
+                ? _c("div", { staticClass: "d-flex justify-center mt-12 pt-6" })
                 : _c(
                     "div",
                     [
-                      _vm.generatedData.length < 1 ||
-                      _vm.generatedData[0].output_template.length < 1
+                      _vm.generatedData.length < 1 || _vm.lineCount < 1
                         ? _c(
                             "div",
                             { staticClass: "d-flex justify-center mt-12 pt-6" },

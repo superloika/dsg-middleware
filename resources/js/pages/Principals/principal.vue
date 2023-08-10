@@ -23,15 +23,15 @@ export default {
         tabs() {
             return [
                 {
-                    title: 'Templated Data (Sales Invoices)',
+                    title: 'Templated Data (Sales Invoices, Returns)',
                     icon: 'mdi-receipt',
                     component: () => import("./common/Generated.vue"),
                 },
-                {
-                    title: 'Return Invoices',
-                    icon: 'mdi-cash-refund',
-                    component: () => import("./common/Generated.vue"),
-                },
+                // {
+                //     title: 'Return Invoices',
+                //     icon: 'mdi-cash-refund',
+                //     component: () => import("./common/Generated.vue"),
+                // },
                 // {
                 //     title: 'Templated Data History',
                 //     icon: 'mdi-timetable',

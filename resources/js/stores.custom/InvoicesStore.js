@@ -178,27 +178,27 @@ const actions = {
                     propertyName: 'generatedDataTableHeader'
                 }
             );
-
-            console.log('XXXXXXXXXXXXXXXXXXXXXXXXXX', config);
+            console.log('HEADER AND FORMAT', config);
 
             // config.forEach(e=>{
             for(let i=0;i<config.length;i++) {
                 // export templated data to Excel
-                console.log('GENDATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
-                    PrincipalsStore.state.currentGeneratedData[i].output_template
-                );
+                const output_template = PrincipalsStore.state.currentGeneratedData[i].output_template;
+                console.log('GENERATED DATA (output_template)', output_template);
                 // return;
 
-                PrincipalsStore.exportToExcel(
-                    config[i].header,
-                    PrincipalsStore.generatedDataSubset(
-                        // this.AppStore.flattenGendata(this.generatedData),
-                        PrincipalsStore.state.currentGeneratedData[i].output_template,
-                        config[i].format
-                    ),
-                    null,
-                    PrincipalsStore.state.selectedPrincipalCode + '_templated_' + (i+1)
-                );
+                if(output_template.length) {
+                    PrincipalsStore.exportToExcel(
+                        config[i].header,
+                        PrincipalsStore.generatedDataSubset(
+                            // this.AppStore.flattenGendata(this.generatedData),
+                            output_template,
+                            config[i].format
+                        ),
+                        null,
+                        PrincipalsStore.state.selectedPrincipalCode + '_templated_' + (i+1)
+                    );
+                }
             };
 
             PrincipalsStore.state.isExportingTemplatedData = false;

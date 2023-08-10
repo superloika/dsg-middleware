@@ -2,13 +2,17 @@
 <v-sheet>
     <v-tabs
         v-model="tab_template_variation"
-        :height="generatedData.length > 1 ? 25 : 0"
+        :height="generatedData.length > 1 ? 30 : 0"
     >
         <v-tab
             v-for="(templatedData, index) in generatedData"
             :key="index" class="px-3 text-caption"
         >
             {{ templatedData.name }}
+
+            <v-chip color="primary" x-small class="ml-1 text-captionx px-1">
+                {{ lineCount(templatedData.output_template) }}
+            </v-chip>
         </v-tab>
     </v-tabs>
 
@@ -18,12 +22,12 @@
             :key="template_variation_tabitem_index"
         >
             <v-sheet>
-                <v-tabs v-model="tab" height="35" show-arrow>
+                <v-tabs v-model="templatedData.tab" height="30" show-arrow>
                     <v-tab
                         v-for="(data, index) in templatedData.output_template"
-                        :key="index" class="px-3 text-caption"
+                        :key="index" class="px-2 text-captionx"
                     >
-                        <h3>{{ data[0] }}</h3>
+                        <h5>{{ data[0] }}</h5>
                         <v-chip color="warning" x-small class="ml-1 text-captionx px-1"
                             v-if="warningsCount(data[1]) > 0"
                         >
@@ -31,7 +35,7 @@
                         </v-chip>
                     </v-tab>
                 </v-tabs>
-                <v-tabs-items v-model="tab">
+                <v-tabs-items v-model="templatedData.tab">
                     <v-tab-item
                         v-for="(data, index) in templatedData.output_template"
                         :key="index"
@@ -61,7 +65,6 @@ export default {
 
     data() {
         return {
-            tab: null,
             tab_template_variation: null,
         }
     },
@@ -104,6 +107,13 @@ export default {
             });
             return test.length;
         },
+        lineCount(output_template = []) {
+            let count = 0;
+            output_template.forEach(e => {
+                count += e[1].length;
+            })
+            return count;
+        }
     },
 
     watch: {

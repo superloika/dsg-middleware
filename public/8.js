@@ -65,12 +65,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["generatedData", "allow_export"],
   // props: ["allow_export"],
   data: function data() {
     return {
-      tab: null,
       tab_template_variation: null
     };
   },
@@ -109,6 +112,14 @@ __webpack_require__.r(__webpack_exports__);
         return e.customer_notfound == 1 || e.item_notfound == 1 || e.salesman_notfound == 1;
       });
       return test.length;
+    },
+    lineCount: function lineCount() {
+      var output_template = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      var count = 0;
+      output_template.forEach(function (e) {
+        count += e[1].length;
+      });
+      return count;
     }
   },
   watch: {
@@ -195,7 +206,7 @@ var render = function() {
       _c(
         "v-tabs",
         {
-          attrs: { height: _vm.generatedData.length > 1 ? 25 : 0 },
+          attrs: { height: _vm.generatedData.length > 1 ? 30 : 0 },
           model: {
             value: _vm.tab_template_variation,
             callback: function($$v) {
@@ -205,9 +216,32 @@ var render = function() {
           }
         },
         _vm._l(_vm.generatedData, function(templatedData, index) {
-          return _c("v-tab", { key: index, staticClass: "px-3 text-caption" }, [
-            _vm._v("\n            " + _vm._s(templatedData.name) + "\n        ")
-          ])
+          return _c(
+            "v-tab",
+            { key: index, staticClass: "px-3 text-caption" },
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(templatedData.name) +
+                  "\n\n            "
+              ),
+              _c(
+                "v-chip",
+                {
+                  staticClass: "ml-1 text-captionx px-1",
+                  attrs: { color: "primary", "x-small": "" }
+                },
+                [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.lineCount(templatedData.output_template)) +
+                      "\n            "
+                  )
+                ]
+              )
+            ],
+            1
+          )
         }),
         1
       ),
@@ -237,13 +271,13 @@ var render = function() {
                   _c(
                     "v-tabs",
                     {
-                      attrs: { height: "35", "show-arrow": "" },
+                      attrs: { height: "30", "show-arrow": "" },
                       model: {
-                        value: _vm.tab,
+                        value: templatedData.tab,
                         callback: function($$v) {
-                          _vm.tab = $$v
+                          _vm.$set(templatedData, "tab", $$v)
                         },
-                        expression: "tab"
+                        expression: "templatedData.tab"
                       }
                     },
                     _vm._l(templatedData.output_template, function(
@@ -252,9 +286,9 @@ var render = function() {
                     ) {
                       return _c(
                         "v-tab",
-                        { key: index, staticClass: "px-3 text-caption" },
+                        { key: index, staticClass: "px-2 text-captionx" },
                         [
-                          _c("h3", [_vm._v(_vm._s(data[0]))]),
+                          _c("h5", [_vm._v(_vm._s(data[0]))]),
                           _vm._v(" "),
                           _vm.warningsCount(data[1]) > 0
                             ? _c(
@@ -283,11 +317,11 @@ var render = function() {
                     "v-tabs-items",
                     {
                       model: {
-                        value: _vm.tab,
+                        value: templatedData.tab,
                         callback: function($$v) {
-                          _vm.tab = $$v
+                          _vm.$set(templatedData, "tab", $$v)
                         },
-                        expression: "tab"
+                        expression: "templatedData.tab"
                       }
                     },
                     _vm._l(templatedData.output_template, function(

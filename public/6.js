@@ -32,18 +32,17 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     tabs: function tabs() {
       return [{
-        title: 'Templated Data (Sales Invoices)',
+        title: 'Templated Data (Sales Invoices, Returns)',
         icon: 'mdi-receipt',
         component: function component() {
           return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./common/Generated.vue */ "./resources/js/pages/Principals/common/Generated.vue"));
         }
-      }, {
-        title: 'Return Invoices',
-        icon: 'mdi-cash-refund',
-        component: function component() {
-          return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./common/Generated.vue */ "./resources/js/pages/Principals/common/Generated.vue"));
-        }
       }, // {
+      //     title: 'Return Invoices',
+      //     icon: 'mdi-cash-refund',
+      //     component: () => import("./common/Generated.vue"),
+      // },
+      // {
       //     title: 'Templated Data History',
       //     icon: 'mdi-timetable',
       //     component: () => import("./common/GeneratedHistory.vue"),
@@ -53,7 +52,7 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'mdi-file-check',
         // component: () => import("../common/TransAndInvoices.vue"),
         component: function component() {
-          return Promise.all(/*! import() */[__webpack_require__.e(28), __webpack_require__.e(27)]).then(__webpack_require__.bind(null, /*! ./common/Transactions.vue */ "./resources/js/pages/Principals/common/Transactions.vue"));
+          return Promise.all(/*! import() */[__webpack_require__.e(27), __webpack_require__.e(26)]).then(__webpack_require__.bind(null, /*! ./common/Transactions.vue */ "./resources/js/pages/Principals/common/Transactions.vue"));
         }
       }, // {
       //     title: 'Stats',
@@ -71,7 +70,7 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Settings',
         icon: 'mdi-tune',
         component: function component() {
-          return __webpack_require__.e(/*! import() */ 26).then(__webpack_require__.bind(null, /*! ./common/Settings.vue */ "./resources/js/pages/Principals/common/Settings.vue"));
+          return __webpack_require__.e(/*! import() */ 25).then(__webpack_require__.bind(null, /*! ./common/Settings.vue */ "./resources/js/pages/Principals/common/Settings.vue"));
         }
       }];
     },
@@ -4587,7 +4586,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Return Invoice #",
     value: "invoice_no"
   }, {
-    text: "Return External Invoice #",
+    text: "External Return Invoice #",
     value: "invoice_number"
   }, {
     text: "Customer Code (NAV)",
@@ -4634,12 +4633,13 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Group",
     value: "group"
+  }, // additional return stuff
+  {
+    text: "Return Indicator",
+    value: "return_indicator"
   }, {
     text: "Invoice Reference #",
     value: "invoice_doc_no"
-  }, {
-    text: "Return Indicator",
-    value: "return_indicator"
   }]],
   // ***********************************************************************************
   generatedDataHistoryFilters: [[{

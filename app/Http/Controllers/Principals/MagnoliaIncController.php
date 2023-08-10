@@ -483,6 +483,10 @@ class MagnoliaIncController extends Controller
             // ************************* /MISC INITS *************************************
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE 1 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             if(1) {
@@ -490,16 +494,16 @@ class MagnoliaIncController extends Controller
                 $pendingInvoices = InvoicesController::getPendingInvoices(
                     $request->principal_code, $request->posting_date_range, $request->status
                 );
+                $pendingInvoicesCount = $pendingInvoices->count();
                 // dd($pendingInvoices[0]);
-                $res['line_count'] = $pendingInvoices->count();
+                $res['line_count'] += $pendingInvoicesCount;
                 // **************** /PENDING INVOICES ****************************************
 
                 // Loop through each line of the file content
                 $loopCounter = 0;
                 foreach ($pendingInvoices as $pendingInvoice) {
                     $loopCounter++;
-
-                    $progressPercent = round(($loopCounter / $res['line_count']) * 100);
+                    $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
                     GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
 
                     $doc_no =               trim($pendingInvoice->doc_no);
@@ -527,13 +531,13 @@ class MagnoliaIncController extends Controller
                         ->where('item_code', $item_code)
                         ->first();
 
-                    // price and uom mapping (supplier) ********************
-                    $uom_supplier = $pendingInvoice->qty_per_uom > 1 ?
-                        $item->uom : $item->conversion_uom;
-                    $price_supplier = $pendingInvoice->qty_per_uom > 1 ?
-                        ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
-                    $price_supplier = doubleval($price_supplier);
-                    $amount_supplier = round($price_supplier * $quantity, 4);
+                    // // price and uom mapping (supplier) ********************
+                    // $uom_supplier = $pendingInvoice->qty_per_uom > 1 ?
+                    //     $item->uom : $item->conversion_uom;
+                    // $price_supplier = $pendingInvoice->qty_per_uom > 1 ?
+                    //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
+                    // $price_supplier = doubleval($price_supplier);
+                    // $amount_supplier = round($price_supplier * $quantity, 4);
 
                     // ************************* MISC INITS **************************
                     $item_notfound = 0;
@@ -545,6 +549,9 @@ class MagnoliaIncController extends Controller
                     $item_description_supplier = 'NA';
                     $customer_code_supplier = 'NA';
                     // $sm_code = 'NA';
+                    $uom_supplier = 'NA';
+                    $price_supplier = 0;
+                    $amount_supplier = 0;
 
                     // check item *******************************
                     if ($item == null) {
@@ -553,6 +560,14 @@ class MagnoliaIncController extends Controller
                     } else {
                         $item_code_supplier = "00000". $item->item_code_supplier;
                         $item_description_supplier = $item->description_supplier;
+
+                        // price and uom mapping (supplier) ********************
+                        $uom_supplier = $pendingInvoice->qty_per_uom > 1 ?
+                            $item->uom : $item->conversion_uom;
+                        $price_supplier = $pendingInvoice->qty_per_uom > 1 ?
+                            ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
+                        $price_supplier = doubleval($price_supplier);
+                        $amount_supplier = round($price_supplier * $quantity, 4);
                     }
                     // check customer ***************************
                     if ($customer == null) {
@@ -662,7 +677,9 @@ class MagnoliaIncController extends Controller
                 $returns = InvoicesController::getReturns(
                     $request->principal_code, $request->posting_date_range, $request->status
                 );
+                $returnsCount = $returns->count();
                 // dd($returns[0]);
+                $res['line_count'] += $returnsCount;
                 // **************** /RETURNS ************************************************
 
                 // Loop through each line of the file content
@@ -670,15 +687,15 @@ class MagnoliaIncController extends Controller
                 foreach ($returns as $return) {
                     $loopCounter++;
 
-                    $progressPercent = round(($loopCounter / $res['line_count']) * 100);
+                    $progressPercent = round(($loopCounter / $returnsCount) * 100);
                     GenerateTemplated::dispatch("Generating returns ($progressPercent%)");
 
-                    $doc_no =               trim($return->doc_no);
+                    $doc_no =               $return->doc_no;
                     // $customer_code       = trim($return->customer_code);
                     $customer_code =        '101798'; // for BR test (Espana Store External ID)
-                    $shipment_date =         trim($return->shipment_date);
-                    $shipment_date =         (new Carbon($shipment_date))->format('m/d/Y');
-                    $item_code =            trim($return->item_code) . '';
+                    $shipment_date =        $return->shipment_date;
+                    $shipment_date =        (new Carbon($shipment_date))->format('m/d/Y');
+                    $item_code =            $return->item_code . '';
                     $quantity =             $return->quantity;
                     $price =                $return->price;
                     $amount =               $return->amount;
@@ -689,6 +706,9 @@ class MagnoliaIncController extends Controller
                     $invoice_quantity =     $return->invoice_quantity;
                     $invoice_doc_no =       $return->invoice_doc_no;
                     $return_indicator =     $return->return_indicator;
+                    $vendor_code =          $return->vendor_code;
+                    $sm_code =              $return->sm_code;
+                    $remarks =              $return->remarks;
 
                     //********************************************************************
                     $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
@@ -717,6 +737,9 @@ class MagnoliaIncController extends Controller
                     $item_code_supplier = 'NA';
                     $item_description_supplier = 'NA';
                     $customer_code_supplier = 'NA';
+                    $uom_supplier = 'NA';
+                    $price_supplier = 0;
+                    $amount_supplier = 0;
 
                     // check item *******************************
                     if ($item == null) {
@@ -776,14 +799,21 @@ class MagnoliaIncController extends Controller
                         'group' =>                  $group_code,
                         'status' =>                 $return->status,
                         // other BR payload props
-                        'cf_dsp_name_id' =>         $br_config->cf_dsp_name,
-                        'cf_dsp_name_value' =>      $settings['DSP_'. $group_code],
-                        'invoice_number' =>         trim($return->vendor_code). '-'. $doc_no,
-                        'discount_percentage' =>    $discount_percentage,
+                        'cf_dsp_name_id' =>                     $br_config->cf_dsp_name,
+                        'cf_dsp_name_value' =>                  $settings['DSP_'. $group_code],
+                        'cf_return_indicator_id' =>             $br_config->cf_return_indicator,
+                        'cf_return_indicator_value' =>          $return_indicator,
+                        'cf_return_invoice_reference_id' =>     $br_config->cf_return_invoice_reference,
+                        'cf_return_invoice_reference_value' =>  $vendor_code. '-'. $invoice_doc_no,
+                        'invoice_number' =>                     $vendor_code. '-'. $doc_no,
+                        'discount_percentage' =>                $discount_percentage,
+                        'remarks' =>                            $remarks,
                         // order orig details
                         'invoice_quantity' =>       $invoice_quantity,
                         'invoice_doc_no' =>         $invoice_doc_no,
                         'return_indicator' =>       $return_indicator,
+                        'vendor_code' =>            $vendor_code,
+                        'sm_code' =>                $sm_code,
                     ];
 
                     if ($chunk_line_count > 0) {
@@ -840,6 +870,10 @@ class MagnoliaIncController extends Controller
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE 2 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
             // $fileCount++;
 
@@ -854,12 +888,22 @@ class MagnoliaIncController extends Controller
 
     // temporary
     public function resetInvoicesToPending() {
-        $res = DB::table('invoices_lines')
+        $dateFrom = new Carbon('2023-07-01');
+        $dateTo = new Carbon('2023-07-31');
+
+        $inv = DB::table('invoices_lines')
             ->whereIn('vendor_code',['S3030','S4135','S3564'])
+            // ->whereBetween(
+            //     DB::raw("STR_TO_DATE(invoices_lines.shipment_date, '%m/%d/%Y')"),
+            //     [$dateFrom, $dateTo]
+            // )
             ->update([
                 'status' => 'pending'
             ]);
-        return response()->json($res);
+
+        $response['invoice_lines_reverted'] = $inv;
+
+        return response()->json($response);
     }
 
 }

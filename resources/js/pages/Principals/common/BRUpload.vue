@@ -34,7 +34,7 @@
 
             </v-row> -->
             <v-row>
-                <v-col cols="12" md="3">
+                <v-col cols="12" md="2">
                     <v-tabs v-model="tab" vertical grow>
                         <v-tab
                             v-for="(b,i) in batches"
@@ -58,7 +58,7 @@
                     </v-tabs>
                 </v-col>
 
-                <v-col cols="12" md="9">
+                <v-col cols="12" md="10">
                     <v-tabs-items v-model="tab">
                         <v-tab-item
                             v-for="(b,batchIndex) in batches"
@@ -80,7 +80,7 @@
                                                     : ''
                                                 "
                                             >
-                                                {{ i+1 }}. Invoice {{ invoice.erp_invoice_number }}
+                                                {{ i+1 }}. {{ invoice.isReturn ? 'Return Invoice': 'Invoice' }} {{ invoice.erp_invoice_number }}
                                                 (<em>{{ invoice.details.length }} item/s</em>)
 
                                                 <span v-if="invoice.upload_status.success==false"
@@ -100,11 +100,20 @@
                                         </v-expansion-panel-header>
                                         <v-expansion-panel-content class="pt-4">
                                             <div class="d-flex pb-4">
-                                                <div class="pr-4">
-                                                    Invoice #: <b>{{ invoice.erp_invoice_number }}</b>
+                                                <div class="pr-6 ">
+                                                    {{ invoice.isReturn ? 'Return Invoice': 'Invoice' }} #: <br><b>{{ invoice.erp_invoice_number }}</b>
                                                 </div>
-                                                <div class="pr-4">Customer: <b>{{ invoice.customer_name }}</b></div>
-                                                <div class="pr-4">Amount: <b>{{ invoice.total_value.toFixed(4) }}</b></div>
+                                                <div class="pr-6 ">Customer: <br><b>{{ invoice.customer_name }}</b></div>
+                                                <div class="pr-6 ">Amount: <br><b>{{ invoice.total_value.toFixed(4) }}</b></div>
+                                                <div v-if="invoice.isReturn" class="pr-6 ">
+                                                    Return Indicator: <br><b>{{ invoice.customFields[1].value }}</b>
+                                                </div>
+                                                <div v-if="invoice.isReturn" class="pr-6 ">
+                                                    Return Invoice Reference: <br><b>{{ invoice.customFields[2].value }}</b>
+                                                </div>
+                                                <div v-if="invoice.isReturn" class="pr-6 ">
+                                                    Remarks: <br><b>{{ invoice.remarks }}</b>
+                                                </div>
                                             </div>
                                             <div>
                                                 <v-data-table
@@ -149,6 +158,7 @@ export default {
             tab: null,
             uploadAttempts: 0,
             batchUploadStates: [],
+            batches: [],
         }
     },
 
@@ -185,9 +195,9 @@ export default {
                 },
             ];
         },
-        batches() {
-            return this.BrStore.state.currentGeneratedBatches;
-        },
+        // batches() {
+        //     return this.BrStore.state.currentGeneratedBatches;
+        // },
         stillUploading() {
             return this.batchUploadStates.find(e => e == 'uploading') != undefined;
         },
@@ -237,10 +247,6 @@ export default {
             }
         },
 
-        rePrepare() {
-
-        },
-
         cancel() {
             if(confirm('Are you sure you want to close this window?')) {
                 // regenerate templated data if upload states has been modified
@@ -255,21 +261,31 @@ export default {
                 this.uploadAttempts = 0;
                 this.BrStore.state.brUploadDialogOpen = false;
             }
+        },
+
+        prepareBatches() {
+            const vm = this;
+            vm.AppStore.overlay(true, 'Preparing batches...');
+            vm.BrStore.preparePayload(
+                vm.PrincipalsStore.state.currentGeneratedData
+            )
+            .then(batches => {
+                // vm.BrStore.state.currentGeneratedBatches = [];
+                // vm.BrStore.state.currentGeneratedBatches = batches;
+                this.batches = [];
+                this.batches = batches;
+                vm.AppStore.overlay(false);
+                console.log('BATCHES:', this.batches);
+            });
         }
     },
 
     created() {
-
+        this.prepareBatches();
     },
 
     mounted() {
         console.log("BRUpload component mounted");
-        console.log('BATCHES:', this.batches);
-
-        // populate batches states
-        // for(let i=0; i < this.batches.length; i++) {
-        //     Vue.set(this.batchUploadStates, i, 'Ready for upload');
-        // }
     },
 };
 </script>

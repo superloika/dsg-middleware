@@ -5,10 +5,10 @@ import AppStore from './AppStore';
 const state = Vue.observable({
     // token: null,
     brUploadDialogOpen: false,
-    currentGeneratedBatches: [],
+    // currentGeneratedBatches: [],
     return_indicators: [
-        'Outright / Devuelto Good',
-        'Outright / Devuelto Bad',
+        'Outright/Devuelto Good',
+        'Outright/Devuelto Bad',
         'Trade Return Good',
         'Trade Return Bad'
     ],
@@ -66,6 +66,7 @@ const actions = {
             e.output_template.forEach(e => {
                 e[1].forEach(e => {
                     if(e.status=='completed') {
+                        const isReturn = e.return_indicator != undefined;
 
                         // invoice level properties
                         if(!objInvoices[e.invoice_number]){
@@ -79,25 +80,49 @@ const actions = {
                         objInvoices[e.invoice_number].erp_invoice_number = e.invoice_number;
                         objInvoices[e.invoice_number].invoice_date = AppStore.state.strDateToday[0];
                         objInvoices[e.invoice_number].total_value = 0.0000;
+                        objInvoices[e.invoice_number].isReturn = isReturn;
+                        if(isReturn) {
+                            objInvoices[e.invoice_number].remarks = e.remarks;
+                        }
 
                         // invoice custom fields properties
                         if(!objInvoices[e.invoice_number].customFields) {
                             objInvoices[e.invoice_number].customFields = [];
                         }
-                        objInvoices[e.invoice_number].customFields = [
-                            {
-                                id: e.cf_dsp_name_id,
-                                value: e.cf_dsp_name_value
-                            }
-                        ];
+                        if(isReturn) {
+                            objInvoices[e.invoice_number].customFields = [
+                                {
+                                    id: e.cf_dsp_name_id,
+                                    value: e.cf_dsp_name_value
+                                },
+                                {
+                                    id: e.cf_return_indicator_id,
+                                    value: e.cf_return_indicator_value
+                                },
+                                {
+                                    id: e.cf_return_invoice_reference_id,
+                                    value: e.cf_return_invoice_reference_value
+                                },
+                            ];
+                        } else {
+                            objInvoices[e.invoice_number].customFields = [
+                                {
+                                    id: e.cf_dsp_name_id,
+                                    value: e.cf_dsp_name_value
+                                }
+                            ];
+                        }
 
                         // invoice items properties
                         if(!objInvoices[e.invoice_number].details) {
                             objInvoices[e.invoice_number].details = [];
                         }
-
+                        //check if returned item
+                        if(isReturn) {
+                            e.quantity = -Math.abs(e.quantity);
+                            e.amount_supplier = -Math.abs(e.amount_supplier);
+                        }
                         const discount_value = (e.quantity * e.price_supplier) * e.discount_percentage / 100;
-                        console.log('discount_value', discount_value);
                         objInvoices[e.invoice_number].details.unshift({
                             item_name: e.description_supplier,
                             sku_external_id: e.item_code,

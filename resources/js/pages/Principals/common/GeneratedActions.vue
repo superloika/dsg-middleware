@@ -122,7 +122,7 @@
                         rounded
                         color="primary"
                         block
-                        @click.stop="prepareBatches"
+                        @click.stop="showBRUploadDialog"
                         :disabled="
                             lineCount < 1
                             || searchKeyLength > 0
@@ -186,7 +186,8 @@
             <BRUpload
                 :key="
                     'br_upload_' +
-                        PrincipalsStore.state.selectedPrincipalCode
+                        PrincipalsStore.state.selectedPrincipalCode +
+                    '_' + currentTimestamp
                 "
             >
             </BRUpload>
@@ -205,7 +206,7 @@ export default {
     props: ['lineCount','warningsCount'],
 
     components: {
-        MissingInMaster: () => import("./MissingInMaster.vue"),
+        // MissingInMaster: () => import("./MissingInMaster.vue"),
         ConfirmExport: () => import("./ConfirmExport.vue"),
         BRUpload: () => import("./BRUpload.vue"),
     },
@@ -216,6 +217,7 @@ export default {
             dlgMissingItems: null,
             dlgMissingSalesmen: null,
             datePickerShown: false,
+            currentTimestamp: '',
         };
     },
 
@@ -347,25 +349,9 @@ export default {
             this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
         },
 
-        // prepareBatches() {
-
-        //     this.BrStore.prepareBatches(
-        //         this.PrincipalsStore.state.currentGeneratedData
-        //     );
-        // },
-
-        prepareBatches() {
-            const vm = this;
-            vm.AppStore.overlay(true, 'Preparing batches...');
-
-            vm.BrStore.preparePayload(
-                vm.PrincipalsStore.state.currentGeneratedData
-            )
-            .then(batches => {
-                vm.BrStore.state.currentGeneratedBatches = batches;
-                vm.AppStore.overlay(false);
-                vm.BrStore.state.brUploadDialogOpen = true;
-            });
+        showBRUploadDialog() {
+            this.currentTimestamp = Date.now();
+            this.BrStore.state.brUploadDialogOpen = true;
         }
     },
 

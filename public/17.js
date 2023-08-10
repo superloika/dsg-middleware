@@ -153,12 +153,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       tab: null,
       uploadAttempts: 0,
-      batchUploadStates: []
+      batchUploadStates: [],
+      batches: []
     };
   },
   computed: {
@@ -186,9 +196,9 @@ __webpack_require__.r(__webpack_exports__);
         value: 'gross_value'
       }];
     },
-    batches: function batches() {
-      return this.BrStore.state.currentGeneratedBatches;
-    },
+    // batches() {
+    //     return this.BrStore.state.currentGeneratedBatches;
+    // },
     stillUploading: function stillUploading() {
       return this.batchUploadStates.find(function (e) {
         return e == 'uploading';
@@ -246,7 +256,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     },
-    rePrepare: function rePrepare() {},
     cancel: function cancel() {
       if (confirm('Are you sure you want to close this window?')) {
         // regenerate templated data if upload states has been modified
@@ -259,15 +268,27 @@ __webpack_require__.r(__webpack_exports__);
         this.uploadAttempts = 0;
         this.BrStore.state.brUploadDialogOpen = false;
       }
+    },
+    prepareBatches: function prepareBatches() {
+      var _this2 = this;
+
+      var vm = this;
+      vm.AppStore.overlay(true, 'Preparing batches...');
+      vm.BrStore.preparePayload(vm.PrincipalsStore.state.currentGeneratedData).then(function (batches) {
+        // vm.BrStore.state.currentGeneratedBatches = [];
+        // vm.BrStore.state.currentGeneratedBatches = batches;
+        _this2.batches = [];
+        _this2.batches = batches;
+        vm.AppStore.overlay(false);
+        console.log('BATCHES:', _this2.batches);
+      });
     }
   },
-  created: function created() {},
+  created: function created() {
+    this.prepareBatches();
+  },
   mounted: function mounted() {
     console.log("BRUpload component mounted");
-    console.log('BATCHES:', this.batches); // populate batches states
-    // for(let i=0; i < this.batches.length; i++) {
-    //     Vue.set(this.batchUploadStates, i, 'Ready for upload');
-    // }
   }
 });
 
@@ -367,7 +388,7 @@ var render = function() {
             [
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "3" } },
+                { attrs: { cols: "12", md: "2" } },
                 [
                   _c(
                     "v-tabs",
@@ -428,7 +449,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "9" } },
+                { attrs: { cols: "12", md: "10" } },
                 [
                   _c(
                     "v-tabs-items",
@@ -477,7 +498,13 @@ var render = function() {
                                             _vm._v(
                                               "\n                                            " +
                                                 _vm._s(i + 1) +
-                                                ". Invoice " +
+                                                ". " +
+                                                _vm._s(
+                                                  invoice.isReturn
+                                                    ? "Return Invoice"
+                                                    : "Invoice"
+                                                ) +
+                                                " " +
                                                 _vm._s(
                                                   invoice.erp_invoice_number
                                                 ) +
@@ -552,11 +579,18 @@ var render = function() {
                                             [
                                               _c(
                                                 "div",
-                                                { staticClass: "pr-4" },
+                                                { staticClass: "pr-6 " },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                Invoice #: "
+                                                    "\n                                                " +
+                                                      _vm._s(
+                                                        invoice.isReturn
+                                                          ? "Return Invoice"
+                                                          : "Invoice"
+                                                      ) +
+                                                      " #: "
                                                   ),
+                                                  _c("br"),
                                                   _c("b", [
                                                     _vm._v(
                                                       _vm._s(
@@ -569,9 +603,10 @@ var render = function() {
                                               _vm._v(" "),
                                               _c(
                                                 "div",
-                                                { staticClass: "pr-4" },
+                                                { staticClass: "pr-6 " },
                                                 [
                                                   _vm._v("Customer: "),
+                                                  _c("br"),
                                                   _c("b", [
                                                     _vm._v(
                                                       _vm._s(
@@ -584,9 +619,10 @@ var render = function() {
                                               _vm._v(" "),
                                               _c(
                                                 "div",
-                                                { staticClass: "pr-4" },
+                                                { staticClass: "pr-6 " },
                                                 [
                                                   _vm._v("Amount: "),
+                                                  _c("br"),
                                                   _c("b", [
                                                     _vm._v(
                                                       _vm._s(
@@ -597,7 +633,71 @@ var render = function() {
                                                     )
                                                   ])
                                                 ]
-                                              )
+                                              ),
+                                              _vm._v(" "),
+                                              invoice.isReturn
+                                                ? _c(
+                                                    "div",
+                                                    { staticClass: "pr-6 " },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                Return Indicator: "
+                                                      ),
+                                                      _c("br"),
+                                                      _c("b", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            invoice
+                                                              .customFields[1]
+                                                              .value
+                                                          )
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              invoice.isReturn
+                                                ? _c(
+                                                    "div",
+                                                    { staticClass: "pr-6 " },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                Return Invoice Reference: "
+                                                      ),
+                                                      _c("br"),
+                                                      _c("b", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            invoice
+                                                              .customFields[2]
+                                                              .value
+                                                          )
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              invoice.isReturn
+                                                ? _c(
+                                                    "div",
+                                                    { staticClass: "pr-6 " },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                Remarks: "
+                                                      ),
+                                                      _c("br"),
+                                                      _c("b", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            invoice.remarks
+                                                          )
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                : _vm._e()
                                             ]
                                           ),
                                           _vm._v(" "),

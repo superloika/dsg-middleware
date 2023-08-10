@@ -52,7 +52,7 @@ const state = Vue.observable({
         ],
         [
             {text:"Return Invoice #",           value: "invoice_no"},
-            {text:"Return External Invoice #",         value: "invoice_number"},
+            {text:"External Return Invoice #",  value: "invoice_number"},
             {text:"Customer Code (NAV)",        value: "alturas_customer_code"},
             {text:"Customer Code (Supplier)",   value: "customer_code"},
             {text:"Customer Name",              value: "customer_name"},
@@ -70,8 +70,9 @@ const state = Vue.observable({
             {text:"Amount",                     value: "amount_supplier"},
             {text:"Salesman",                   value: "sm_code"},
             {text:"Group",                      value: "group"},
-            {text:"Invoice Reference #",        value: "invoice_doc_no"},
+            // additional return stuff
             {text:"Return Indicator",           value: "return_indicator"},
+            {text:"Invoice Reference #",        value: "invoice_doc_no"},
         ],
     ],
 

@@ -211,12 +211,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['lineCount', 'warningsCount'],
   components: {
-    MissingInMaster: function MissingInMaster() {
-      return __webpack_require__.e(/*! import() */ 24).then(__webpack_require__.bind(null, /*! ./MissingInMaster.vue */ "./resources/js/pages/Principals/common/MissingInMaster.vue"));
-    },
+    // MissingInMaster: () => import("./MissingInMaster.vue"),
     ConfirmExport: function ConfirmExport() {
       return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ./ConfirmExport.vue */ "./resources/js/pages/Principals/common/ConfirmExport.vue"));
     },
@@ -229,7 +228,8 @@ __webpack_require__.r(__webpack_exports__);
       dlgMissingCustomers: null,
       dlgMissingItems: null,
       dlgMissingSalesmen: null,
-      datePickerShown: false
+      datePickerShown: false,
+      currentTimestamp: ''
     };
   },
   computed: {
@@ -338,19 +338,9 @@ __webpack_require__.r(__webpack_exports__);
       this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus);
       this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
     },
-    // prepareBatches() {
-    //     this.BrStore.prepareBatches(
-    //         this.PrincipalsStore.state.currentGeneratedData
-    //     );
-    // },
-    prepareBatches: function prepareBatches() {
-      var vm = this;
-      vm.AppStore.overlay(true, 'Preparing batches...');
-      vm.BrStore.preparePayload(vm.PrincipalsStore.state.currentGeneratedData).then(function (batches) {
-        vm.BrStore.state.currentGeneratedBatches = batches;
-        vm.AppStore.overlay(false);
-        vm.BrStore.state.brUploadDialogOpen = true;
-      });
+    showBRUploadDialog: function showBRUploadDialog() {
+      this.currentTimestamp = Date.now();
+      this.BrStore.state.brUploadDialogOpen = true;
     }
   },
   created: function created() {// this.InvoicesStore.state.invoiceStatus='pending';
@@ -637,7 +627,10 @@ var render = function() {
                           on: {
                             click: function($event) {
                               $event.stopPropagation()
-                              return _vm.prepareBatches.apply(null, arguments)
+                              return _vm.showBRUploadDialog.apply(
+                                null,
+                                arguments
+                              )
                             }
                           }
                         },
@@ -703,7 +696,11 @@ var render = function() {
         },
         [
           _c("BRUpload", {
-            key: "br_upload_" + _vm.PrincipalsStore.state.selectedPrincipalCode
+            key:
+              "br_upload_" +
+              _vm.PrincipalsStore.state.selectedPrincipalCode +
+              "_" +
+              _vm.currentTimestamp
           })
         ],
         1
