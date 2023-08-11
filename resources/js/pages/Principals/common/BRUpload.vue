@@ -186,7 +186,7 @@ export default {
                     value: 'quantity'
                 },
                 {
-                    text: 'Discount',
+                    text: 'Discount Amount',
                     value: 'discount_value'
                 },
                 {

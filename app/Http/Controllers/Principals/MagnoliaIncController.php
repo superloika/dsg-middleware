@@ -139,19 +139,26 @@ class MagnoliaIncController extends Controller
                         $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                         if (count($arrFileContentLine) > 1) {
+                            // get column data **********************************************************
                             $item_code_supplier = trim(str_replace('"', '', $arrFileContentLine[0]));
                             $description_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
                             $item_code = trim(str_replace('"', '', $arrFileContentLine[2]));
+
                             $conversion_qty = trim(str_replace('"', '', $arrFileContentLine[5]));
                             $conversion_qty = intval($conversion_qty);
+
                             $uom_price = trim(str_replace('"', '', $arrFileContentLine[6]));
                             $uom_price = str_replace(',', '', $uom_price);
                             $uom_price = floatval($uom_price);
-                            $conversion_uom_price = trim(str_replace('"', '', $arrFileContentLine[7]));
+
+                            $uom = trim(str_replace('"', '', $arrFileContentLine[7]));
+
+                            $conversion_uom_price = trim(str_replace('"', '', $arrFileContentLine[8]));
                             $conversion_uom_price = str_replace(',', '', $conversion_uom_price);
                             $conversion_uom_price = floatval($conversion_uom_price);
-                            $uom = trim(str_replace('"', '', $arrFileContentLine[8]));
+
                             $conversion_uom = trim(str_replace('"', '', $arrFileContentLine[9]));
+                            // /get column data **********************************************************
 
                             if(
                                 ($item_code_supplier!='' || $item_code_supplier!='#N/A')
@@ -558,7 +565,13 @@ class MagnoliaIncController extends Controller
                         $item_notfound = 1;
                         $missing_item_name = $item_description;
                     } else {
-                        $item_code_supplier = "00000". $item->item_code_supplier;
+                        // $item_code_supplier = "00000". $item->item_code_supplier;
+                        $item_code_supplier = str_pad(
+                            $item->item_code_supplier,
+                            18,
+                            "0",
+                            STR_PAD_LEFT
+                        );
                         $item_description_supplier = $item->description_supplier;
 
                         // price and uom mapping (supplier) ********************
@@ -746,7 +759,13 @@ class MagnoliaIncController extends Controller
                         $item_notfound = 1;
                         $missing_item_name = $item_description;
                     } else {
-                        $item_code_supplier = "00000". $item->item_code_supplier;
+                        // $item_code_supplier = "00000". $item->item_code_supplier;
+                        $item_code_supplier = str_pad(
+                            $item->item_code_supplier,
+                            18,
+                            "0",
+                            STR_PAD_LEFT
+                        );
                         $item_description_supplier = $item->description_supplier;
 
                         // price and uom mapping (supplier) ********************

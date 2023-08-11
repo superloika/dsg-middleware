@@ -55,13 +55,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsEditProfile: function AccountsEditProfile() {
-      return __webpack_require__.e(/*! import() */ 16).then(__webpack_require__.bind(null, /*! ./AccountsEditProfile.vue */ "./resources/js/pages/ManageAccounts/AccountsEditProfile.vue"));
+      return __webpack_require__.e(/*! import() */ 15).then(__webpack_require__.bind(null, /*! ./AccountsEditProfile.vue */ "./resources/js/pages/ManageAccounts/AccountsEditProfile.vue"));
     },
     AccountsEditPassword: function AccountsEditPassword() {
-      return __webpack_require__.e(/*! import() */ 15).then(__webpack_require__.bind(null, /*! ./AccountsEditPassword.vue */ "./resources/js/pages/ManageAccounts/AccountsEditPassword.vue"));
+      return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! ./AccountsEditPassword.vue */ "./resources/js/pages/ManageAccounts/AccountsEditPassword.vue"));
     },
     AccountsEditDesignatedPrincipal: function AccountsEditDesignatedPrincipal() {
-      return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! ./AccountsEditDesignatedPrincipal.vue */ "./resources/js/pages/ManageAccounts/AccountsEditDesignatedPrincipal.vue"));
+      return __webpack_require__.e(/*! import() */ 13).then(__webpack_require__.bind(null, /*! ./AccountsEditDesignatedPrincipal.vue */ "./resources/js/pages/ManageAccounts/AccountsEditDesignatedPrincipal.vue"));
     }
   },
   data: function data() {
