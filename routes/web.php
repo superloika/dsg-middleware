@@ -99,6 +99,7 @@ Route::prefix('invoices')->group(function(){
     Route::post("/sync-textfiles", "InvoicesController@syncTextfiles");
     Route::post("/set-invoices-complete", "InvoicesController@setInvoicesComplete");
     Route::post("/setInvoicesUploaded", "InvoicesController@setInvoicesUploaded");
+    Route::post("/setInvoicesCancelled", "InvoicesController@setInvoicesCancelled");
     // Route::post("/extract", "InvoicesController@extract");
     Route::post("/extract-raw-invoices-to-excel", "InvoicesController@extractRawInvoicesToExcel");
     Route::get("/groups", "InvoicesController@groups");

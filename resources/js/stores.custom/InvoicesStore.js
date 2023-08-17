@@ -241,6 +241,29 @@ const actions = {
     },
 
 
+    /**
+     * set invoices' status from 'uploaded' back to 'completed'
+     */
+     async setInvoicesCancelled(batch) {
+        try {
+            const url =
+                AppStore.state.siteUrl +
+                "invoices/setInvoicesCancelled"
+                ;
+
+            const payload = {
+                batch: batch
+            };
+
+            const res = await axios.post(url, payload);
+
+            return res.data;
+        } catch (error) {
+            console.log("setInvoicesCancelled():", error);
+        }
+    },
+
+
     async extractRawInvoicesToExcel(principal_code, posting_date) {
         try {
             const res = await axios.post(

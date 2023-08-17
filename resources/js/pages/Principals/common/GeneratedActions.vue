@@ -123,13 +123,7 @@
                         color="primary"
                         block
                         @click.stop="showBRUploadDialog"
-                        :disabled="
-                            lineCount < 1
-                            || searchKeyLength > 0
-                            || PrincipalsStore.state.isGeneratingData
-                            || warningsCount > 0
-                            || InvoicesStore.state.invoiceStatus != 'completed'
-                        "
+                        :disabled="disableBRUploadButton"
                     >
                         BeatRoute Upload
                     </v-btn>
@@ -189,6 +183,7 @@
                         PrincipalsStore.state.selectedPrincipalCode +
                     '_' + currentTimestamp
                 "
+
             >
             </BRUpload>
         </v-dialog>
@@ -203,7 +198,7 @@
 
 <script>
 export default {
-    props: ['lineCount','warningsCount'],
+    props: ['lineCount', 'warningsCount'],
 
     components: {
         // MissingInMaster: () => import("./MissingInMaster.vue"),
@@ -271,6 +266,14 @@ export default {
         beatrouteUploading() {
             return this.selPrincipalStore.state.beatroute_uploading != undefined
                 && this.selPrincipalStore.state.beatroute_uploading == true;
+        },
+        disableBRUploadButton() {
+            return this.lineCount < 1
+                || this.searchKeyLength > 0
+                || this.PrincipalsStore.state.isGeneratingData
+                || this.warningsCount > 0
+                || this.InvoicesStore.state.invoiceStatus != 'completed' && this.InvoicesStore.state.invoiceStatus != 'uploaded'
+                ;
         }
     },
 

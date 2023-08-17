@@ -4547,7 +4547,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Name",
     value: "customer_name"
   }, {
-    text: "NAV Invoice Date (m/d/y)",
+    text: "Invoice Date (Y-m-d) (NAV)",
     value: "invoice_date"
   }, {
     text: "Item Code (NAV)",
@@ -4555,10 +4555,8 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Item Code (Supplier)",
     value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
+  }, // {text:"Item Name (NAV)",            value: "item_description"},
+  {
     text: "Item Name (Supplier)",
     value: "description_supplier"
   }, // {text:"UOM",                     value: "uom"},
@@ -4576,6 +4574,12 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   {
     text: "Amount",
     value: "amount_supplier"
+  }, {
+    text: "Line Discount %",
+    value: "discount_percentage"
+  }, {
+    text: "Discount Amount",
+    value: "discount_amount"
   }, {
     text: "Salesman",
     value: "sm_code"
@@ -4598,7 +4602,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Name",
     value: "customer_name"
   }, {
-    text: "NAV Invoice Date (m/d/y)",
+    text: "Return Invoice Date (Y-m-d) (NAV)",
     value: "invoice_date"
   }, {
     text: "Item Code (NAV)",
@@ -4606,10 +4610,8 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Item Code (Supplier)",
     value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
+  }, // {text:"Item Name (NAV)",            value: "item_description"},
+  {
     text: "Item Name (Supplier)",
     value: "description_supplier"
   }, // {text:"UOM",                     value: "uom"},
@@ -4628,6 +4630,12 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Amount",
     value: "amount_supplier"
   }, {
+    text: "Line Discount %",
+    value: "discount_percentage"
+  }, {
+    text: "Discount Amount",
+    value: "discount_amount"
+  }, {
     text: "Salesman",
     value: "sm_code"
   }, {
@@ -4638,6 +4646,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Return Indicator",
     value: "return_indicator"
   }, {
+    text: "Return Reason",
+    value: "remarks"
+  }, {
     text: "Invoice Reference #",
     value: "invoice_doc_no"
   }]],
@@ -4645,6 +4656,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   generatedDataHistoryFilters: [[{
     text: 'System Date',
     value: 'system_date'
+  }, {
+    text: 'Posting Date',
+    value: 'posting_date'
   }, {
     text: 'Item Code',
     value: 'item_code'

@@ -13,24 +13,33 @@
             <v-btn
                 title="Export table to CSV file (Comma Delimited)"
                 color="default"
-                class=""
+                class="mr-2"
                 x-small
                 rounded
                 @click="exportToCsv()"
-            >
+                >
                 Export {{ tab_caption }} to CSV
             </v-btn>
+            <v-text-field
+                v-model="PrincipalsStore.state.currentGeneratedDataSearchKey"
+                dense solo solo-inverted rounded hide-details flat
+                style="max-width: 200px;"
+                placeholder="Search here"
+            >
+
+            </v-text-field>
         </div>
     </v-sheet>
 
     <v-data-table
-        densex
+        dense
         :items="items"
         :headers="tableHeader"
         :items-per-page="10"
         :search="PrincipalsStore.state.currentGeneratedDataSearchKey"
         disable-sort
         :item-class="itemRowStyle"
+
     >
         <template v-slot:[`item.customer_code`]="{ item }">
             <v-tooltip
@@ -195,6 +204,12 @@
         <template v-slot:[`item.amount_supplier`]="{ item }">
             <div class="text-right">
                 {{ item.amount_supplier }}
+            </div>
+        </template>
+
+        <template v-slot:[`item.discount_amount`]="{ item }">
+            <div class="text-right">
+                {{ item.discount_amount }}
             </div>
         </template>
 

@@ -185,6 +185,10 @@ export default {
                 value: ""
             },
             {
+                status: "Uploaded",
+                value: "uploaded"
+            },
+            {
                 status: "Completed",
                 value: "completed"
             },

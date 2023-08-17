@@ -517,7 +517,7 @@ class MagnoliaIncController extends Controller
                     // $customer_code       = trim($pendingInvoice->customer_code);
                     $customer_code =        '101798'; // for BR test (Espana Store External ID)
                     $posting_date =         trim($pendingInvoice->posting_date);
-                    $posting_date =         (new Carbon($posting_date))->format('m/d/Y');
+                    $posting_date =         (new Carbon($posting_date))->format('Y-m-d');
                     $item_code =            trim($pendingInvoice->item_code) . '';
                     $quantity =             $pendingInvoice->quantity;
                     $price =                $pendingInvoice->price;
@@ -527,6 +527,7 @@ class MagnoliaIncController extends Controller
                     $group_code =           $pendingInvoice->group;
                     $sm_code =              $pendingInvoice->sm_code;
                     $discount_percentage =  $pendingInvoice->discount_percentage ?? 0;
+                    $discount_amount =      $amount * $discount_percentage / 100;
 
                     //********************************************************************
                     $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
@@ -577,10 +578,13 @@ class MagnoliaIncController extends Controller
                         // price and uom mapping (supplier) ********************
                         $uom_supplier = $pendingInvoice->qty_per_uom > 1 ?
                             $item->uom : $item->conversion_uom;
-                        $price_supplier = $pendingInvoice->qty_per_uom > 1 ?
-                            ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
-                        $price_supplier = doubleval($price_supplier);
+                        // map to supplier price
+                        // $price_supplier = $pendingInvoice->qty_per_uom > 1 ?
+                        //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
+                        // map to orig price temporarily
+                        $price_supplier = $price;
                         $amount_supplier = round($price_supplier * $quantity, 4);
+                        $discount_amount = $amount_supplier * $discount_percentage / 100;
                     }
                     // check customer ***************************
                     if ($customer == null) {
@@ -629,6 +633,7 @@ class MagnoliaIncController extends Controller
                         'cf_dsp_name_value' =>      $settings['DSP_'. $group_code],
                         'invoice_number' =>         trim($pendingInvoice->vendor_code). '-'. $doc_no,
                         'discount_percentage' =>    $discount_percentage,
+                        'discount_amount' =>        $discount_amount,
                     ];
 
                     if ($chunk_line_count > 0) {
@@ -707,7 +712,7 @@ class MagnoliaIncController extends Controller
                     // $customer_code       = trim($return->customer_code);
                     $customer_code =        '101798'; // for BR test (Espana Store External ID)
                     $shipment_date =        $return->shipment_date;
-                    $shipment_date =        (new Carbon($shipment_date))->format('m/d/Y');
+                    $posting_date =        (new Carbon($shipment_date))->format('Y-m-d');
                     $item_code =            $return->item_code . '';
                     $quantity =             $return->quantity;
                     $price =                $return->price;
@@ -722,6 +727,13 @@ class MagnoliaIncController extends Controller
                     $vendor_code =          $return->vendor_code;
                     $sm_code =              $return->sm_code;
                     $remarks =              $return->remarks;
+                    $discount_amount =      $amount * $discount_percentage / 100;
+
+                    /**
+                     * return quantity vs actual sales invoice quantity
+                     * skip returned items with greater quantity than the actual sales quantity
+                     */
+                    // if($quantity > $invoice_quantity) continue;
 
                     //********************************************************************
                     $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
@@ -771,10 +783,13 @@ class MagnoliaIncController extends Controller
                         // price and uom mapping (supplier) ********************
                         $uom_supplier = $return->qty_per_uom > 1 ?
                             $item->uom : $item->conversion_uom;
-                        $price_supplier = $return->qty_per_uom > 1 ?
-                            ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
-                        $price_supplier = doubleval($price_supplier);
+                        // map to supplier price
+                        // $price_supplier = $return->qty_per_uom > 1 ?
+                        //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
+                        // map to orig price temporarily
+                        $price_supplier = $price;
                         $amount_supplier = round($price_supplier * $quantity, 4);
+                        $discount_amount = $amount_supplier * $discount_percentage / 100;
                     }
                     // check customer ***************************
                     if ($customer == null) {
@@ -803,7 +818,7 @@ class MagnoliaIncController extends Controller
                         'salesman_notfound' =>      $salesman_notfound,
                         // principal specific
                         'invoice_no' =>             $doc_no,
-                        'invoice_date' =>           $shipment_date,
+                        'invoice_date' =>           $posting_date,
                         'quantity' =>               $quantity,
                         'price' =>                  $price,
                         'price_supplier' =>         $price_supplier ?? 0,
@@ -826,6 +841,7 @@ class MagnoliaIncController extends Controller
                         'cf_return_invoice_reference_value' =>  $vendor_code. '-'. $invoice_doc_no,
                         'invoice_number' =>                     $vendor_code. '-'. $doc_no,
                         'discount_percentage' =>                $discount_percentage,
+                        'discount_amount' =>                    $discount_amount,
                         'remarks' =>                            $remarks,
                         // order orig details
                         'invoice_quantity' =>       $invoice_quantity,
@@ -916,8 +932,15 @@ class MagnoliaIncController extends Controller
             //     DB::raw("STR_TO_DATE(invoices_lines.shipment_date, '%m/%d/%Y')"),
             //     [$dateFrom, $dateTo]
             // )
+            ->leftJoin('cm_lines',function($q){
+                $q->on('cm_lines.invoice_doc_no','invoices_lines.doc_no')
+                ->on('cm_lines.item_code','invoices_lines.item_code')
+                ->on('cm_lines.uom','invoices_lines.uom')
+                ;
+            })
             ->update([
-                'status' => 'pending'
+                'cm_lines.status' => 'pending',
+                'invoices_lines.status' => 'pending',
             ]);
 
         $response['invoice_lines_reverted'] = $inv;

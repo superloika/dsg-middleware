@@ -341,7 +341,7 @@ var render = function() {
                         "offset-y": "",
                         bottom: "",
                         "z-index": "999",
-                        transition: "scroll-x-reverse-transition"
+                        transition: "scroll-y-reverse-transition"
                       },
                       scopedSlots: _vm._u([
                         {

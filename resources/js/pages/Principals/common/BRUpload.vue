@@ -4,18 +4,15 @@
             <v-toolbar-title>
                 <v-icon color="primary">mdi-cloud-upload</v-icon>
                 BeatRoute Upload
+                {{ this.InvoicesStore.state.invoiceStatus=='uploaded' ? '(Cancellation)' : '' }}
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn
-                color="primary"
+                :color="this.InvoicesStore.state.invoiceStatus=='completed' ? 'primary' : 'error'"
                 rounded dense depressed
                 @click="upload"
                 class="ml-2"
-                :disabled="
-                    !batches.length
-                    || stillUploading
-                    || !enableReupload && uploadAttempts > 0
-                "
+                :disabled="disableUploadBtn"
             >
                 {{ enableReupload ? 'Reupload failed batch(es)' : 'Upload' }}
             </v-btn>
@@ -29,50 +26,51 @@
             </v-btn>
         </v-toolbar>
 
+        <v-toolbar elevation="0" dense>
+            <v-tabs v-model="tab" verticalx growx>
+                <v-tab
+                    v-for="(b,i) in batches"
+                    :key="i"
+                >
+                    <div class="px-2 font-weight-bold text-left text-caption">
+                        Batch {{ i+1 }}/{{ batches.length }}
+                        <v-progress-circular
+                            v-if="batchUploadStates[i]=='uploading'"
+                            indeterminate dark
+                            :size="20"
+                        ></v-progress-circular>
+                        <v-icon color="success" v-else-if="batchUploadStates[i]=='success'">
+                            mdi-check-circle
+                        </v-icon>
+                        <v-icon color="error" v-else-if="batchUploadStates[i]=='failed'">
+                            mdi-alert
+                        </v-icon>
+                    </div>
+                </v-tab>
+            </v-tabs>
+        </v-toolbar>
+
         <v-card-text class="pt-2">
-            <!-- <v-row>
-
-            </v-row> -->
             <v-row>
-                <v-col cols="12" md="2">
-                    <v-tabs v-model="tab" vertical grow>
-                        <v-tab
-                            v-for="(b,i) in batches"
-                            :key="i"
-                        >
-                            <div class="px-2 font-weight-bold text-left">
-                                Batch {{ i+1 }} of {{ batches.length }}
-                                <v-progress-circular
-                                    v-if="batchUploadStates[i]=='uploading'"
-                                    indeterminate dark
-                                    :size="20"
-                                ></v-progress-circular>
-                                <v-icon color="success" v-else-if="batchUploadStates[i]=='success'">
-                                    mdi-check-circle
-                                </v-icon>
-                                <v-icon color="error" v-else-if="batchUploadStates[i]=='failed'">
-                                    mdi-alert
-                                </v-icon>
-                            </div>
-                        </v-tab>
-                    </v-tabs>
-                </v-col>
-
-                <v-col cols="12" md="10">
+                <v-col cols="12" md="12">
                     <v-tabs-items v-model="tab">
                         <v-tab-item
                             v-for="(b,batchIndex) in batches"
-                            :key="batchIndex"
+                            :key="b[0].erp_invoice_number + b[0].invoice_date"
                         >
+                            <v-container fluid>
+                                <v-btn @click="selectAll(batchIndex, true)">Select All</v-btn>
+                                <v-btn @click="selectAll(batchIndex, false)">Deselect All</v-btn>
+                            </v-container>
                             <v-container fluid>
                                 <v-expansion-panels focusable multiple>
                                     <v-expansion-panel
                                         v-for="(invoice,i) in b"
-                                        :key="i"
+                                        :key="invoice.erp_invoice_number"
                                     >
                                         <v-expansion-panel-header>
                                             <div
-                                                class="text-caption font-weight-boldx"
+                                                class="text-caption font-weight-boldx d-flex"
                                                 :class="invoice.upload_status.success == true ?
                                                     'primary--text'
                                                     : invoice.upload_status.success == false ?
@@ -80,6 +78,14 @@
                                                     : ''
                                                 "
                                             >
+                                                <v-checkbox dense hide-details
+                                                    class="pa-0 ma-0"
+                                                    color="secondary"
+                                                    v-model="invoice.included"
+                                                    title="Check to include, uncheck to exclude"
+                                                    :disabled="disableUploadBtn"
+                                                ></v-checkbox>
+
                                                 {{ i+1 }}. {{ invoice.isReturn ? 'Return Invoice': 'Invoice' }} {{ invoice.erp_invoice_number }}
                                                 (<em>{{ invoice.details.length }} item/s</em>)
 
@@ -103,8 +109,10 @@
                                                 <div class="pr-6 ">
                                                     {{ invoice.isReturn ? 'Return Invoice': 'Invoice' }} #: <br><b>{{ invoice.erp_invoice_number }}</b>
                                                 </div>
+                                                <div class="pr-6 ">Invoice Date: <br><b>{{ invoice.invoice_date }}</b></div>
                                                 <div class="pr-6 ">Customer: <br><b>{{ invoice.customer_name }}</b></div>
                                                 <div class="pr-6 ">Amount: <br><b>{{ invoice.total_value.toFixed(4) }}</b></div>
+                                                <div class="pr-6 ">DSP: <br><b>{{ invoice.customFields[0].value }}</b></div>
                                                 <div v-if="invoice.isReturn" class="pr-6 ">
                                                     Return Indicator: <br><b>{{ invoice.customFields[1].value }}</b>
                                                 </div>
@@ -206,39 +214,70 @@ export default {
         },
         bussinessUnit() {
             return this[this.PrincipalsStore.state.selectedPrincipalCode].state.bu;
+        },
+        disableUploadBtn() {
+            return !this.batches.length
+                    || this.stillUploading
+                    || !this.enableReupload && this.uploadAttempts > 0;
         }
     },
 
     methods: {
+        // set status to '0' for cancel/archive
         upload() {
             if(this.batches) {
                 const confMsg = this.enableReupload ?
                     'This action will reupload the failed batch(es) to the BeatRoute backend' :
                     'This action will upload the invoices to the BeatRoute backend';
+
                 if(confirm(confMsg)) {
                     this.uploadAttempts++;
                     for(let i=0; i < this.batches.length; i++) {
-                        if(this.batchUploadStates[i] == undefined || this.batchUploadStates[i] == 'failed') {
+                        const batch = this.batches[i].filter(e => e.included);
+                        const batchLen = batch.length;
+
+                        if((this.batchUploadStates[i] == undefined || this.batchUploadStates[i] == 'failed') && batchLen) {
                             Vue.set(this.batchUploadStates,i,'uploading');
-                            const batch = this.batches[i];
+
                             this.BrStore.invoiceCreate(this.bussinessUnit, batch)
                                 .then(res => {
                                     if(res.success) {
-                                        // set status as 'uploaded'
-                                        this.InvoicesStore.setInvoicesUploaded(res.data)
-                                            .then(response => {
-                                                if(response.success) {
-                                                    Vue.set(this.batchUploadStates,i,'success');
-                                                    const batchLen = batch.length;
-                                                    for(let j=0; j < batchLen; j++) {
-                                                        batch[j].upload_status = response.batch[j];
+                                        if(this.InvoicesStore.state.invoiceStatus=='completed') {
+                                            // set status as 'uploaded'
+                                            this.InvoicesStore.setInvoicesUploaded(res.data)
+                                                .then(response => {
+                                                    if(response.success) {
+                                                        Vue.set(this.batchUploadStates,i,'success');
+                                                        for(let j=0; j < batchLen; j++) {
+                                                            batch[j].upload_status = response.batch[j];
+                                                        }
+                                                    } else {
+                                                        Vue.set(this.batchUploadStates,i,'failed');
                                                     }
-                                                } else {
-                                                    Vue.set(this.batchUploadStates,i,'failed');
-                                                }
-                                            });
+                                                });
+                                        } else if (this.InvoicesStore.state.invoiceStatus=='uploaded') {
+                                            // set status from 'uploaded' back to 'completed''
+                                            this.InvoicesStore.setInvoicesCancelled(res.data)
+                                                .then(response => {
+                                                    if(response.success) {
+                                                        Vue.set(this.batchUploadStates,i,'success');
+                                                        for(let j=0; j < batchLen; j++) {
+                                                            batch[j].upload_status = response.batch[j];
+                                                        }
+                                                    } else {
+                                                        Vue.set(this.batchUploadStates,i,'failed');
+                                                    }
+                                                });
+                                        }
                                     } else {
                                         Vue.set(this.batchUploadStates,i,'failed');
+                                        try {
+                                            for(let j=0; j < batchLen; j++) {
+                                                batch[j].upload_status = res.data[j];
+                                            }
+                                        } catch (error) {
+                                            console.log('ERRRRR1111111111111111111',error);
+                                        }
                                     }
                                 });
                         }
@@ -277,6 +316,14 @@ export default {
                 vm.AppStore.overlay(false);
                 console.log('BATCHES:', this.batches);
             });
+        },
+
+        selectAll(batchIndex, included=true) {
+            if(this.batches) {
+                this.batches[batchIndex].forEach(e => {
+                    e.included = included;
+                });
+            }
         }
     },
 

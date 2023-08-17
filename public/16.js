@@ -162,6 +162,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -211,9 +219,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     bussinessUnit: function bussinessUnit() {
       return this[this.PrincipalsStore.state.selectedPrincipalCode].state.bu;
+    },
+    disableUploadBtn: function disableUploadBtn() {
+      return !this.batches.length || this.stillUploading || !this.enableReupload && this.uploadAttempts > 0;
     }
   },
   methods: {
+    // set status to '0' for cancel/archive
     upload: function upload() {
       var _this = this;
 
@@ -224,27 +236,54 @@ __webpack_require__.r(__webpack_exports__);
           this.uploadAttempts++;
 
           var _loop = function _loop(i) {
-            if (_this.batchUploadStates[i] == undefined || _this.batchUploadStates[i] == 'failed') {
+            var batch = _this.batches[i].filter(function (e) {
+              return e.included;
+            });
+
+            var batchLen = batch.length;
+
+            if ((_this.batchUploadStates[i] == undefined || _this.batchUploadStates[i] == 'failed') && batchLen) {
               Vue.set(_this.batchUploadStates, i, 'uploading');
-              var batch = _this.batches[i];
 
               _this.BrStore.invoiceCreate(_this.bussinessUnit, batch).then(function (res) {
                 if (res.success) {
-                  // set status as 'uploaded'
-                  _this.InvoicesStore.setInvoicesUploaded(res.data).then(function (response) {
-                    if (response.success) {
-                      Vue.set(_this.batchUploadStates, i, 'success');
-                      var batchLen = batch.length;
+                  if (_this.InvoicesStore.state.invoiceStatus == 'completed') {
+                    // set status as 'uploaded'
+                    _this.InvoicesStore.setInvoicesUploaded(res.data).then(function (response) {
+                      if (response.success) {
+                        Vue.set(_this.batchUploadStates, i, 'success');
 
-                      for (var j = 0; j < batchLen; j++) {
-                        batch[j].upload_status = response.batch[j];
+                        for (var j = 0; j < batchLen; j++) {
+                          batch[j].upload_status = response.batch[j];
+                        }
+                      } else {
+                        Vue.set(_this.batchUploadStates, i, 'failed');
                       }
-                    } else {
-                      Vue.set(_this.batchUploadStates, i, 'failed');
-                    }
-                  });
+                    });
+                  } else if (_this.InvoicesStore.state.invoiceStatus == 'uploaded') {
+                    // set status from 'uploaded' back to 'completed''
+                    _this.InvoicesStore.setInvoicesCancelled(res.data).then(function (response) {
+                      if (response.success) {
+                        Vue.set(_this.batchUploadStates, i, 'success');
+
+                        for (var j = 0; j < batchLen; j++) {
+                          batch[j].upload_status = response.batch[j];
+                        }
+                      } else {
+                        Vue.set(_this.batchUploadStates, i, 'failed');
+                      }
+                    });
+                  }
                 } else {
                   Vue.set(_this.batchUploadStates, i, 'failed');
+
+                  try {
+                    for (var j = 0; j < batchLen; j++) {
+                      batch[j].upload_status = res.data[j];
+                    }
+                  } catch (error) {
+                    console.log('ERRRRR1111111111111111111', error);
+                  }
                 }
               });
             }
@@ -282,6 +321,15 @@ __webpack_require__.r(__webpack_exports__);
         vm.AppStore.overlay(false);
         console.log('BATCHES:', _this2.batches);
       });
+    },
+    selectAll: function selectAll(batchIndex) {
+      var included = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      if (this.batches) {
+        this.batches[batchIndex].forEach(function (e) {
+          e.included = included;
+        });
+      }
     }
   },
   created: function created() {
@@ -322,7 +370,15 @@ var render = function() {
               _c("v-icon", { attrs: { color: "primary" } }, [
                 _vm._v("mdi-cloud-upload")
               ]),
-              _vm._v("\n            BeatRoute Upload\n        ")
+              _vm._v(
+                "\n            BeatRoute Upload\n            " +
+                  _vm._s(
+                    this.InvoicesStore.state.invoiceStatus == "uploaded"
+                      ? "(Cancellation)"
+                      : ""
+                  ) +
+                  "\n        "
+              )
             ],
             1
           ),
@@ -334,14 +390,14 @@ var render = function() {
             {
               staticClass: "ml-2",
               attrs: {
-                color: "primary",
+                color:
+                  this.InvoicesStore.state.invoiceStatus == "completed"
+                    ? "primary"
+                    : "error",
                 rounded: "",
                 dense: "",
                 depressed: "",
-                disabled:
-                  !_vm.batches.length ||
-                  _vm.stillUploading ||
-                  (!_vm.enableReupload && _vm.uploadAttempts > 0)
+                disabled: _vm.disableUploadBtn
               },
               on: { click: _vm.upload }
             },
@@ -380,6 +436,65 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
+        "v-toolbar",
+        { attrs: { elevation: "0", dense: "" } },
+        [
+          _c(
+            "v-tabs",
+            {
+              attrs: { verticalx: "", growx: "" },
+              model: {
+                value: _vm.tab,
+                callback: function($$v) {
+                  _vm.tab = $$v
+                },
+                expression: "tab"
+              }
+            },
+            _vm._l(_vm.batches, function(b, i) {
+              return _c("v-tab", { key: i }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "px-2 font-weight-bold text-left text-caption"
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Batch " +
+                        _vm._s(i + 1) +
+                        "/" +
+                        _vm._s(_vm.batches.length) +
+                        "\n                    "
+                    ),
+                    _vm.batchUploadStates[i] == "uploading"
+                      ? _c("v-progress-circular", {
+                          attrs: { indeterminate: "", dark: "", size: 20 }
+                        })
+                      : _vm.batchUploadStates[i] == "success"
+                      ? _c("v-icon", { attrs: { color: "success" } }, [
+                          _vm._v(
+                            "\n                        mdi-check-circle\n                    "
+                          )
+                        ])
+                      : _vm.batchUploadStates[i] == "failed"
+                      ? _c("v-icon", { attrs: { color: "error" } }, [
+                          _vm._v(
+                            "\n                        mdi-alert\n                    "
+                          )
+                        ])
+                      : _vm._e()
+                  ],
+                  1
+                )
+              ])
+            }),
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "v-card-text",
         { staticClass: "pt-2" },
         [
@@ -388,68 +503,7 @@ var render = function() {
             [
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "2" } },
-                [
-                  _c(
-                    "v-tabs",
-                    {
-                      attrs: { vertical: "", grow: "" },
-                      model: {
-                        value: _vm.tab,
-                        callback: function($$v) {
-                          _vm.tab = $$v
-                        },
-                        expression: "tab"
-                      }
-                    },
-                    _vm._l(_vm.batches, function(b, i) {
-                      return _c("v-tab", { key: i }, [
-                        _c(
-                          "div",
-                          { staticClass: "px-2 font-weight-bold text-left" },
-                          [
-                            _vm._v(
-                              "\n                            Batch " +
-                                _vm._s(i + 1) +
-                                " of " +
-                                _vm._s(_vm.batches.length) +
-                                "\n                            "
-                            ),
-                            _vm.batchUploadStates[i] == "uploading"
-                              ? _c("v-progress-circular", {
-                                  attrs: {
-                                    indeterminate: "",
-                                    dark: "",
-                                    size: 20
-                                  }
-                                })
-                              : _vm.batchUploadStates[i] == "success"
-                              ? _c("v-icon", { attrs: { color: "success" } }, [
-                                  _vm._v(
-                                    "\n                                mdi-check-circle\n                            "
-                                  )
-                                ])
-                              : _vm.batchUploadStates[i] == "failed"
-                              ? _c("v-icon", { attrs: { color: "error" } }, [
-                                  _vm._v(
-                                    "\n                                mdi-alert\n                            "
-                                  )
-                                ])
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ])
-                    }),
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "12", md: "10" } },
+                { attrs: { cols: "12", md: "12" } },
                 [
                   _c(
                     "v-tabs-items",
@@ -465,8 +519,39 @@ var render = function() {
                     _vm._l(_vm.batches, function(b, batchIndex) {
                       return _c(
                         "v-tab-item",
-                        { key: batchIndex },
+                        { key: b[0].erp_invoice_number + b[0].invoice_date },
                         [
+                          _c(
+                            "v-container",
+                            { attrs: { fluid: "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.selectAll(batchIndex, true)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Select All")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.selectAll(batchIndex, false)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Deselect All")]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
                           _c(
                             "v-container",
                             { attrs: { fluid: "" } },
@@ -477,14 +562,14 @@ var render = function() {
                                 _vm._l(b, function(invoice, i) {
                                   return _c(
                                     "v-expansion-panel",
-                                    { key: i },
+                                    { key: invoice.erp_invoice_number },
                                     [
                                       _c("v-expansion-panel-header", [
                                         _c(
                                           "div",
                                           {
                                             staticClass:
-                                              "text-caption font-weight-boldx",
+                                              "text-caption font-weight-boldx d-flex",
                                             class:
                                               invoice.upload_status.success ==
                                               true
@@ -495,8 +580,30 @@ var render = function() {
                                                 : ""
                                           },
                                           [
+                                            _c("v-checkbox", {
+                                              staticClass: "pa-0 ma-0",
+                                              attrs: {
+                                                dense: "",
+                                                "hide-details": "",
+                                                color: "secondary",
+                                                title:
+                                                  "Check to include, uncheck to exclude",
+                                                disabled: _vm.disableUploadBtn
+                                              },
+                                              model: {
+                                                value: invoice.included,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    invoice,
+                                                    "included",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "invoice.included"
+                                              }
+                                            }),
                                             _vm._v(
-                                              "\n                                            " +
+                                              "\n\n                                            " +
                                                 _vm._s(i + 1) +
                                                 ". " +
                                                 _vm._s(
@@ -565,7 +672,8 @@ var render = function() {
                                                   ]
                                                 )
                                               : _vm._e()
-                                          ]
+                                          ],
+                                          1
                                         )
                                       ]),
                                       _vm._v(" "),
@@ -605,6 +713,22 @@ var render = function() {
                                                 "div",
                                                 { staticClass: "pr-6 " },
                                                 [
+                                                  _vm._v("Invoice Date: "),
+                                                  _c("br"),
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        invoice.invoice_date
+                                                      )
+                                                    )
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "pr-6 " },
+                                                [
                                                   _vm._v("Customer: "),
                                                   _c("br"),
                                                   _c("b", [
@@ -629,6 +753,23 @@ var render = function() {
                                                         invoice.total_value.toFixed(
                                                           4
                                                         )
+                                                      )
+                                                    )
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "pr-6 " },
+                                                [
+                                                  _vm._v("DSP: "),
+                                                  _c("br"),
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        invoice.customFields[0]
+                                                          .value
                                                       )
                                                     )
                                                   ])

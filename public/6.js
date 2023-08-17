@@ -220,6 +220,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['items', 'template_variation_index', 'tab_caption', 'allow_export'],
   data: function data() {
@@ -359,6 +374,7 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
+                      staticClass: "mr-2",
                       attrs: {
                         title: "Export table to CSV file (Comma Delimited)",
                         color: "default",
@@ -378,7 +394,33 @@ var render = function() {
                           " to CSV\n            "
                       )
                     ]
-                  )
+                  ),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    staticStyle: { "max-width": "200px" },
+                    attrs: {
+                      dense: "",
+                      solo: "",
+                      "solo-inverted": "",
+                      rounded: "",
+                      "hide-details": "",
+                      flat: "",
+                      placeholder: "Search here"
+                    },
+                    model: {
+                      value:
+                        _vm.PrincipalsStore.state.currentGeneratedDataSearchKey,
+                      callback: function($$v) {
+                        _vm.$set(
+                          _vm.PrincipalsStore.state,
+                          "currentGeneratedDataSearchKey",
+                          $$v
+                        )
+                      },
+                      expression:
+                        "PrincipalsStore.state.currentGeneratedDataSearchKey"
+                    }
+                  })
                 ],
                 1
               )
@@ -388,7 +430,7 @@ var render = function() {
       _vm._v(" "),
       _c("v-data-table", {
         attrs: {
-          densex: "",
+          dense: "",
           items: _vm.items,
           headers: _vm.tableHeader,
           "items-per-page": 10,
@@ -764,6 +806,21 @@ var render = function() {
                     _vm._v(
                       "\n                " +
                         _vm._s(item.amount_supplier) +
+                        "\n            "
+                    )
+                  ])
+                ]
+              }
+            },
+            {
+              key: "item.discount_amount",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _c("div", { staticClass: "text-right" }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(item.discount_amount) +
                         "\n            "
                     )
                   ])

@@ -207,11 +207,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['lineCount', 'warningsCount'],
   components: {
@@ -267,6 +262,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     beatrouteUploading: function beatrouteUploading() {
       return this.selPrincipalStore.state.beatroute_uploading != undefined && this.selPrincipalStore.state.beatroute_uploading == true;
+    },
+    disableBRUploadButton: function disableBRUploadButton() {
+      return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData || this.warningsCount > 0 || this.InvoicesStore.state.invoiceStatus != 'completed' && this.InvoicesStore.state.invoiceStatus != 'uploaded';
     }
   },
   watch: {
@@ -616,13 +614,7 @@ var render = function() {
                             rounded: "",
                             color: "primary",
                             block: "",
-                            disabled:
-                              _vm.lineCount < 1 ||
-                              _vm.searchKeyLength > 0 ||
-                              _vm.PrincipalsStore.state.isGeneratingData ||
-                              _vm.warningsCount > 0 ||
-                              _vm.InvoicesStore.state.invoiceStatus !=
-                                "completed"
+                            disabled: _vm.disableBRUploadButton
                           },
                           on: {
                             click: function($event) {

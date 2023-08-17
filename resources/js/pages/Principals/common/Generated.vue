@@ -39,7 +39,7 @@
                         offset-y
                         bottom
                         z-index="999"
-                        transition="scroll-x-reverse-transition"
+                        transition="scroll-y-reverse-transition"
                     >
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn v-bind="attrs" v-on="on"

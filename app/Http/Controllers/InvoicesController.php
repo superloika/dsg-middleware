@@ -691,9 +691,11 @@ class InvoicesController extends Controller
                                 $invoice_doc_no =   trim(str_replace('"','',$cols[8]));
                                 $payment_term =     trim(str_replace('"','',$cols[9]));
                                 $payment_term =     strtolower(str_replace(' ','',$payment_term));
+                                $payment_term =     $payment_term=='' ? 'cod' : $payment_term;
                                 $return_indicator =
                                     $ret_indicator->where('payment_term',$payment_term)
-                                        ->first()->return_indicator ?? 'NA';
+                                        ->first()->return_indicator ?? '';
+                                $return_indicator = $return_indicator=='' ? 'Outright/Devuelto Bad' : $return_indicator;
 
                                 $summaryItem['cm_headers_count'] += 1;
 
@@ -1056,6 +1058,78 @@ class InvoicesController extends Controller
     }
 
 
+    /**
+     * Change invoice's status from 'uploaded' back to ''
+     * NOTE: This happens when the user uploaded an invoice cancellation
+     */
+    public function setInvoicesCancelled(Request $request)
+    {
+        set_time_limit(0);
+        $dateToday = Carbon::now()->format('Y-m-d H:i:s');
+
+        $batch = $request->batch ?? [];
+
+        try {
+            if(count($batch)) {
+                DB::beginTransaction();
+                foreach($batch as $item) {
+                    // split external_id and extract vendor_code and actual internal invoice number
+                    $external_id_parts = explode("-",$item['external_id'], 2);
+                    if(count($external_id_parts)) {
+                        $vendor_code = trim($external_id_parts[0]);
+                        $doc_no = trim($external_id_parts[1]);
+                    }
+                    if($item['success']) {
+                        // $isReturn = $item['isReturn'];
+
+                        // if($isReturn) {
+                            DB::table(PrincipalsUtil::$TBL_CM)
+                                ->join(
+                                    PrincipalsUtil::$TBL_INVOICES,
+                                    function($q) {
+                                        $q->on(
+                                            PrincipalsUtil::$TBL_INVOICES . '.doc_no',
+                                            PrincipalsUtil::$TBL_CM . '.invoice_doc_no'
+                                        )
+                                        ->on(
+                                            PrincipalsUtil::$TBL_INVOICES . '.item_code',
+                                            PrincipalsUtil::$TBL_CM . '.item_code'
+                                        )
+                                        ->on(
+                                            PrincipalsUtil::$TBL_INVOICES . '.uom',
+                                            PrincipalsUtil::$TBL_CM . '.uom'
+                                        )
+                                        ;
+                                    }
+                                )
+                                ->where(PrincipalsUtil::$TBL_INVOICES . '.vendor_code', $vendor_code)
+                                ->update([
+                                    PrincipalsUtil::$TBL_CM . '.status' => PrincipalsUtil::$STATUS_COMPLETED
+                                ]);
+                        // } else {
+                            DB::table(PrincipalsUtil::$TBL_INVOICES)->where('doc_no', $doc_no)
+                                ->where('vendor_code', $vendor_code)
+                                ->update(['status' => PrincipalsUtil::$STATUS_COMPLETED]);
+                        // }
+                    }
+                }
+                DB::commit();
+                $response = [
+                    'success' => true,
+                    'message' => 'Successful',
+                    'batch' => $batch
+                ];
+                return response()->json($response);
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $response['success'] = false;
+            $response['message'] = $th->getMessage();
+            return response()->json($response, 500);
+        }
+    }
+
+
 
     /**
      * Export to textfile
@@ -1385,6 +1459,7 @@ class InvoicesController extends Controller
             ->when($status != '' && $status != 'all', function($q) use($status) {
                 $q->where(PrincipalsUtil::$TBL_CM.'.status','like', "%$status%");
             })
+            ->whereRaw(PrincipalsUtil::$TBL_CM . '.quantity <= ' .PrincipalsUtil::$TBL_INVOICES.'.quantity')
             ->select([
                 PrincipalsUtil::$TBL_CM.'.*',
                 PrincipalsUtil::$TBL_INVOICES.'.vendor_code',

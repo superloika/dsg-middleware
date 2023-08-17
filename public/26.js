@@ -199,6 +199,9 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
         status: "All",
         value: ""
       }, {
+        status: "Uploaded",
+        value: "uploaded"
+      }, {
         status: "Completed",
         value: "completed"
       }, {

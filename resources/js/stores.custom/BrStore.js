@@ -43,16 +43,18 @@ const actions = {
 
     async invoiceCreate(bu, data = []) {
         try {
-            const url = `${AppStore.state.siteUrl}br/invoiceCreate`;
-            const response = await axios.post(url,
-                {
-                    data: data,
-                    bu: bu,
-                }
-            );
-            console.log(response.data);
-            console.log(state.token);
-            return response.data;
+            if(data) {
+                const url = `${AppStore.state.siteUrl}br/invoiceCreate`;
+                const response = await axios.post(url,
+                    {
+                        data: data,
+                        bu: bu,
+                    }
+                );
+                console.log(response.data);
+                console.log(state.token);
+                return response.data;
+            }
         } catch (error) {
             console.log('invoiceCreate() - ERROR:', error);
         }
@@ -65,7 +67,7 @@ const actions = {
         generatedData.forEach(e => {
             e.output_template.forEach(e => {
                 e[1].forEach(e => {
-                    if(e.status=='completed') {
+                    if(e.status=='completed' || e.status=='uploaded') {
                         const isReturn = e.return_indicator != undefined;
 
                         // invoice level properties
@@ -78,11 +80,16 @@ const actions = {
                         objInvoices[e.invoice_number].customer_name = e.customer_name;
                         objInvoices[e.invoice_number].retailer_br_id = e.customer_code;
                         objInvoices[e.invoice_number].erp_invoice_number = e.invoice_number;
-                        objInvoices[e.invoice_number].invoice_date = AppStore.state.strDateToday[0];
+                        objInvoices[e.invoice_number].invoice_date = e.invoice_date //AppStore.state.strDateToday[0];
                         objInvoices[e.invoice_number].total_value = 0.0000;
                         objInvoices[e.invoice_number].isReturn = isReturn;
+                        objInvoices[e.invoice_number].included = true;
+
                         if(isReturn) {
                             objInvoices[e.invoice_number].remarks = e.remarks;
+                        }
+                        if(e.status=='uploaded') {
+                            objInvoices[e.invoice_number].status = 0;
                         }
 
                         // invoice custom fields properties
