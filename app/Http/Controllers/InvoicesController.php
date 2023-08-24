@@ -227,6 +227,42 @@ class InvoicesController extends Controller
         ]);
     }
 
+    function lookup() {
+        $search_key = request()->search_key ?? '';
+
+        $result = DB::table(PrincipalsUtil::$TBL_INVOICES)
+            ->when($search_key != '', function($q) use($search_key) {
+                $q->where(function($query) use ($search_key){
+                    $query->where(PrincipalsUtil::$TBL_INVOICES.'.doc_no',$search_key);
+                });
+            })
+            ->join(
+                PrincipalsUtil::$TBL_INVOICES_H,
+                function($join) {
+                    $join->on(
+                        PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
+                        PrincipalsUtil::$TBL_INVOICES.'.doc_no'
+                    )
+                    ->on(
+                        PrincipalsUtil::$TBL_INVOICES_H.'.customer_code',
+                        PrincipalsUtil::$TBL_INVOICES.'.customer_code'
+                    )
+                    ;
+                }
+            )
+            ->select(
+                PrincipalsUtil::$TBL_INVOICES. '.*',
+                PrincipalsUtil::$TBL_INVOICES. '.id as lineID',
+                PrincipalsUtil::$TBL_INVOICES_H. '.id as headID',
+                PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
+                PrincipalsUtil::$TBL_INVOICES_H. '.sm_code',
+                PrincipalsUtil::$TBL_INVOICES_H. '.posting_date',
+            )
+            ->cursor();
+
+        return response()->json($result);
+    }
+
     function grandTotal() {
         // posting date range
         $dates = explode(',', request()->upload_date_range);
@@ -707,6 +743,7 @@ class InvoicesController extends Controller
                                             'invoice_doc_no' => $invoice_doc_no,
                                             'return_indicator' => $return_indicator,
                                             'payment_term' => $payment_term,
+                                            'shipment_date' => $posting_date,
                                         ])
                                 ) {
                                     $summaryItem['cm_headers_count_uploaded'] += 1;
@@ -719,8 +756,8 @@ class InvoicesController extends Controller
                         // save invoice lines
                         $chunks = array_chunk($invoices, 500);
                         $chunkCount = 1;
+                        UploadInvoice::dispatch("Saving invoices (lines) (Chunk $chunkCount)");
                         foreach($chunks as $chunk) {
-                            UploadInvoice::dispatch("Saving invoices (lines) (Chunk $chunkCount)");
                             DB::table(PrincipalsUtil::$TBL_INVOICES)
                                 ->insert($chunk);
                             $chunkCount++;
@@ -729,8 +766,8 @@ class InvoicesController extends Controller
                         // save invoice headers
                         $chunks = array_chunk($invoices_h, 500);
                         $chunkCount = 1;
+                        UploadInvoice::dispatch("Saving invoices (headers) (Chunk $chunkCount)");
                         foreach($chunks as $chunk) {
-                            UploadInvoice::dispatch("Saving invoices (headers) (Chunk $chunkCount)");
                             DB::table(PrincipalsUtil::$TBL_INVOICES_H)
                                 ->insert($chunk);
                             $chunkCount++;
@@ -740,8 +777,8 @@ class InvoicesController extends Controller
                         //     ->where('created_at','<>',$dateTimeToday)->delete();
 
                         // update cm remarks
+                        UploadInvoice::dispatch("Updating CM remarks (lines)");
                         foreach($cmRemarks as $r) {
-                            UploadInvoice::dispatch("Updating CM remarks (lines)");
                             DB::table(PrincipalsUtil::$TBL_CM)
                                 ->where('doc_no', $r[0])
                                 ->update([
@@ -1003,42 +1040,47 @@ class InvoicesController extends Controller
                 foreach($batch as $item) {
                     // split external_id and extract vendor_code and actual internal invoice number
                     $external_id_parts = explode("-",$item['external_id'], 2);
+
                     if(count($external_id_parts)) {
                         $vendor_code = trim($external_id_parts[0]);
                         $doc_no = trim($external_id_parts[1]);
-                    }
-                    if($item['success']) {
-                        // $isReturn = $item['isReturn'];
 
-                        // if($isReturn) {
-                            DB::table(PrincipalsUtil::$TBL_CM)
-                                ->join(
-                                    PrincipalsUtil::$TBL_INVOICES,
-                                    function($q) {
-                                        $q->on(
-                                            PrincipalsUtil::$TBL_INVOICES . '.doc_no',
-                                            PrincipalsUtil::$TBL_CM . '.invoice_doc_no'
-                                        )
-                                        ->on(
-                                            PrincipalsUtil::$TBL_INVOICES . '.item_code',
-                                            PrincipalsUtil::$TBL_CM . '.item_code'
-                                        )
-                                        ->on(
-                                            PrincipalsUtil::$TBL_INVOICES . '.uom',
-                                            PrincipalsUtil::$TBL_CM . '.uom'
-                                        )
-                                        ;
-                                    }
-                                )
-                                ->where(PrincipalsUtil::$TBL_INVOICES . '.vendor_code', $vendor_code)
-                                ->update([
-                                    PrincipalsUtil::$TBL_CM . '.status' => PrincipalsUtil::$STATUS_UPLOADED
-                                ]);
-                        // } else {
-                            DB::table(PrincipalsUtil::$TBL_INVOICES)->where('doc_no', $doc_no)
-                                ->where('vendor_code', $vendor_code)
-                                ->update(['status' => PrincipalsUtil::$STATUS_UPLOADED]);
-                        // }
+                        if($item['success']) {
+                            // $isReturn = $item['isReturn'];
+
+                            // if($isReturn) {
+                                DB::table(PrincipalsUtil::$TBL_CM)
+                                    ->join(
+                                        PrincipalsUtil::$TBL_INVOICES,
+                                        function($q) {
+                                            $q->on(
+                                                PrincipalsUtil::$TBL_INVOICES . '.doc_no',
+                                                PrincipalsUtil::$TBL_CM . '.invoice_doc_no'
+                                            )
+                                            ->on(
+                                                PrincipalsUtil::$TBL_INVOICES . '.item_code',
+                                                PrincipalsUtil::$TBL_CM . '.item_code'
+                                            )
+                                            ->on(
+                                                PrincipalsUtil::$TBL_INVOICES . '.uom',
+                                                PrincipalsUtil::$TBL_CM . '.uom'
+                                            )
+                                            ;
+                                        }
+                                    )
+                                    ->where(PrincipalsUtil::$TBL_CM . '.doc_no', $doc_no)
+                                    ->where(PrincipalsUtil::$TBL_INVOICES . '.vendor_code', $vendor_code)
+                                    ->update([
+                                        PrincipalsUtil::$TBL_CM . '.status' => PrincipalsUtil::$STATUS_UPLOADED
+                                    ]);
+
+                            // } else {
+                                DB::table(PrincipalsUtil::$TBL_INVOICES)
+                                    ->where('doc_no', $doc_no)
+                                    ->where('vendor_code', $vendor_code)
+                                    ->update(['status' => PrincipalsUtil::$STATUS_UPLOADED]);
+                            // }
+                        }
                     }
                 }
                 DB::commit();
@@ -1102,12 +1144,14 @@ class InvoicesController extends Controller
                                         ;
                                     }
                                 )
+                                ->where(PrincipalsUtil::$TBL_CM . '.doc_no', $doc_no)
                                 ->where(PrincipalsUtil::$TBL_INVOICES . '.vendor_code', $vendor_code)
                                 ->update([
                                     PrincipalsUtil::$TBL_CM . '.status' => PrincipalsUtil::$STATUS_COMPLETED
                                 ]);
                         // } else {
-                            DB::table(PrincipalsUtil::$TBL_INVOICES)->where('doc_no', $doc_no)
+                            DB::table(PrincipalsUtil::$TBL_INVOICES)
+                                ->where('doc_no', $doc_no)
                                 ->where('vendor_code', $vendor_code)
                                 ->update(['status' => PrincipalsUtil::$STATUS_COMPLETED]);
                         // }
@@ -1386,7 +1430,8 @@ class InvoicesController extends Controller
             ->orderBy(PrincipalsUtil::$TBL_INVOICES_H.'.posting_date')
             ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.customer_code')
             ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.doc_no')
-            ->get();
+            // ->get();
+            ->cursor();
     }
 
     public static function getReturns($principal_code, $posting_date_range, $status='') {
@@ -1465,11 +1510,13 @@ class InvoicesController extends Controller
                 PrincipalsUtil::$TBL_INVOICES.'.vendor_code',
                 PrincipalsUtil::$TBL_INVOICES.'.quantity as invoice_quantity',
                 PrincipalsUtil::$TBL_INVOICES_H.'.sm_code',
+                PrincipalsUtil::$TBL_INVOICES_H.'.customer_name',
             ])
             ->orderBy(PrincipalsUtil::$TBL_CM.'.shipment_date')
             ->orderBy(PrincipalsUtil::$TBL_CM.'.customer_code')
             ->orderBy(PrincipalsUtil::$TBL_CM.'.doc_no')
-            ->get();
+            // ->get();
+            ->cursor();
     }
 
 

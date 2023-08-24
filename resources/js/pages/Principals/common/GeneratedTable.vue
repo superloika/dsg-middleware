@@ -39,7 +39,6 @@
         :search="PrincipalsStore.state.currentGeneratedDataSearchKey"
         disable-sort
         :item-class="itemRowStyle"
-
     >
         <template v-slot:[`item.customer_code`]="{ item }">
             <v-tooltip

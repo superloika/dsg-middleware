@@ -412,14 +412,14 @@ var render = function() {
           _c("v-card-text", { staticClass: "mx-0 px-0" }, [
             _c("div", {}, [
               _vm.PrincipalsStore.state.isGeneratingData
-                ? _c("div", { staticClass: "d-flex justify-center mt-12 pt-6" })
+                ? _c("div", { staticClass: "d-flex justify-center pt-6" })
                 : _c(
                     "div",
                     [
                       _vm.generatedData.length < 1 || _vm.lineCount < 1
                         ? _c(
                             "div",
-                            { staticClass: "d-flex justify-center mt-12 pt-6" },
+                            { staticClass: "d-flex justify-center pt-6" },
                             [
                               _c(
                                 "v-chip",

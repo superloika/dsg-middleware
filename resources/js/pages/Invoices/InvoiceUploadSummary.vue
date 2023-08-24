@@ -36,40 +36,42 @@
                         <span class="text-caption">{{ summary.file_name }}</span>
                         <template v-slot:actions>
                             <v-chip x-small title="Number of uploaded item invoices">
-                                {{ summary.lines_count_uploaded }}
+                                {{ summary.lines_count_uploaded + summary.cm_lines_count_uploaded }}
                             </v-chip>
 
-                            <v-icon v-if="
-                                    summary.lines_count == 0 || summary.headers_count==0
-                                "
-                                color="error" small
-                            >
-                                mdi-alert-circle
-                            </v-icon>
+                            <!-- <div>
+                                <v-icon v-if="
+                                        summary.lines_count == 0 || summary.headers_count==0
+                                    "
+                                    color="error" small
+                                >
+                                    mdi-alert-circle
+                                </v-icon>
 
-                            <v-icon v-else-if="
-                                    summary.lines_count > 0 && summary.lines_count_uploaded == 0
-                                "
-                                color="warning" small
-                            >
-                                mdi-alert-circle
-                            </v-icon>
+                                <v-icon v-else-if="
+                                        summary.lines_count > 0 && summary.lines_count_uploaded == 0
+                                    "
+                                    color="warning" small
+                                >
+                                    mdi-alert-circle
+                                </v-icon>
 
-                            <v-icon v-else-if="
-                                    summary.lines_count_uploaded > 0 && summary.lines_count_existing > 0
-                                "
-                                color="warning" small
-                            >
-                                mdi-check
-                            </v-icon>
+                                <v-icon v-else-if="
+                                        summary.lines_count_uploaded > 0 && summary.lines_count_existing > 0
+                                    "
+                                    color="warning" small
+                                >
+                                    mdi-check
+                                </v-icon>
 
-                            <v-icon v-else-if="
-                                    summary.lines_count == summary.lines_count_uploaded
-                                "
-                                color="success" small
-                            >
-                                mdi-check
-                            </v-icon>
+                                <v-icon v-else-if="
+                                        summary.lines_count == summary.lines_count_uploaded
+                                    "
+                                    color="success" small
+                                >
+                                    mdi-check
+                                </v-icon>
+                            </div> -->
                         </template>
                     </v-expansion-panel-header>
 

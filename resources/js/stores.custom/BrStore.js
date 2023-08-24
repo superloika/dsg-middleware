@@ -81,7 +81,7 @@ const actions = {
                         objInvoices[e.invoice_number].retailer_br_id = e.customer_code;
                         objInvoices[e.invoice_number].erp_invoice_number = e.invoice_number;
                         objInvoices[e.invoice_number].invoice_date = e.invoice_date //AppStore.state.strDateToday[0];
-                        objInvoices[e.invoice_number].total_value = 0.0000;
+                        objInvoices[e.invoice_number].total_value = 0;
                         objInvoices[e.invoice_number].isReturn = isReturn;
                         objInvoices[e.invoice_number].included = true;
 
@@ -124,20 +124,31 @@ const actions = {
                         if(!objInvoices[e.invoice_number].details) {
                             objInvoices[e.invoice_number].details = [];
                         }
+                        let temp_qty = e.quantity;
+                        let temp_amount_supplier = e.amount_supplier;
                         //check if returned item
+                        // if(isReturn) {
+                        //     e.quantity = -Math.abs(e.quantity);
+                        //     e.amount_supplier = -Math.abs(e.amount_supplier);
+                        // }
                         if(isReturn) {
-                            e.quantity = -Math.abs(e.quantity);
-                            e.amount_supplier = -Math.abs(e.amount_supplier);
+                            temp_qty = -Math.abs(temp_qty);
+                            temp_amount_supplier = -Math.abs(temp_amount_supplier);
                         }
-                        const discount_value = (e.quantity * e.price_supplier) * e.discount_percentage / 100;
+                        const discount_value = (temp_qty * e.price_supplier) * e.discount_percentage / 100;
                         objInvoices[e.invoice_number].details.unshift({
                             item_name: e.description_supplier,
                             sku_external_id: e.item_code,
-                            quantity: e.quantity,
+                            quantity: temp_qty,
                             sku_uom: e.uom_supplier,
                             price_per_item: e.price_supplier,
+                            discount_percentage: e.discount_percentage,
                             discount_value: discount_value,
-                            gross_value:  e.amount_supplier - discount_value,
+                            gross_value:  temp_amount_supplier - discount_value,
+                            // kaloy stuff
+                            // kaning gross_amount kay wapay deduction sa discount
+                            // wala pay sure haha
+                            // gross_amount:  e.amount_supplier,
                         });
                     }
                 });

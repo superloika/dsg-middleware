@@ -170,6 +170,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -196,6 +212,9 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         text: 'Quantity',
         value: 'quantity'
+      }, {
+        text: 'Discount %',
+        value: 'discount_percentage'
       }, {
         text: 'Discount Amount',
         value: 'discount_value'
@@ -240,6 +259,7 @@ __webpack_require__.r(__webpack_exports__);
               return e.included;
             });
 
+            console.log('BATCH ' + i, batch);
             var batchLen = batch.length;
 
             if ((_this.batchUploadStates[i] == undefined || _this.batchUploadStates[i] == 'failed') && batchLen) {
@@ -298,7 +318,7 @@ __webpack_require__.r(__webpack_exports__);
     cancel: function cancel() {
       if (confirm('Are you sure you want to close this window?')) {
         // regenerate templated data if upload states has been modified
-        if (this.batchUploadStates[0]) {
+        if (this.batchUploadStates[0] || this.uploadAttempts > 0) {
           this.batchUploadStates = [];
           this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus);
         }
@@ -329,6 +349,12 @@ __webpack_require__.r(__webpack_exports__);
         this.batches[batchIndex].forEach(function (e) {
           e.included = included;
         });
+      }
+    },
+    // display invoices in currently selected batch
+    checkdata: function checkdata(batchIndex) {
+      if (this.batches) {
+        console.log('BATCH:', this.batches[batchIndex]);
       }
     }
   },
@@ -528,25 +554,47 @@ var render = function() {
                               _c(
                                 "v-btn",
                                 {
+                                  attrs: {
+                                    small: "",
+                                    rounded: "",
+                                    depressed: "",
+                                    color: "primary",
+                                    disabled: _vm.disableUploadBtn
+                                  },
                                   on: {
                                     click: function($event) {
                                       return _vm.selectAll(batchIndex, true)
                                     }
                                   }
                                 },
-                                [_vm._v("Select All")]
+                                [
+                                  _vm._v(
+                                    "\n                                Select All\n                            "
+                                  )
+                                ]
                               ),
                               _vm._v(" "),
                               _c(
                                 "v-btn",
                                 {
+                                  attrs: {
+                                    small: "",
+                                    rounded: "",
+                                    depressed: "",
+                                    color: "primary",
+                                    disabled: _vm.disableUploadBtn
+                                  },
                                   on: {
                                     click: function($event) {
                                       return _vm.selectAll(batchIndex, false)
                                     }
                                   }
                                 },
-                                [_vm._v("Deselect All")]
+                                [
+                                  _vm._v(
+                                    "\n                                Deselect All\n                            "
+                                  )
+                                ]
                               )
                             ],
                             1
@@ -562,7 +610,9 @@ var render = function() {
                                 _vm._l(b, function(invoice, i) {
                                   return _c(
                                     "v-expansion-panel",
-                                    { key: invoice.erp_invoice_number },
+                                    {
+                                      key: "xpnsn-" + invoice.erp_invoice_number
+                                    },
                                     [
                                       _c("v-expansion-panel-header", [
                                         _c(
@@ -581,6 +631,9 @@ var render = function() {
                                           },
                                           [
                                             _c("v-checkbox", {
+                                              key:
+                                                "chkbx-" +
+                                                invoice.erp_invoice_number,
                                               staticClass: "pa-0 ma-0",
                                               attrs: {
                                                 dense: "",
@@ -751,7 +804,7 @@ var render = function() {
                                                     _vm._v(
                                                       _vm._s(
                                                         invoice.total_value.toFixed(
-                                                          4
+                                                          6
                                                         )
                                                       )
                                                     )
@@ -895,7 +948,7 @@ var render = function() {
                                                                 "\n                                                        " +
                                                                   _vm._s(
                                                                     item.discount_value.toFixed(
-                                                                      4
+                                                                      6
                                                                     )
                                                                   ) +
                                                                   "\n                                                    "
@@ -921,7 +974,7 @@ var render = function() {
                                                                 "\n                                                        " +
                                                                   _vm._s(
                                                                     item.gross_value.toFixed(
-                                                                      4
+                                                                      6
                                                                     )
                                                                   ) +
                                                                   "\n                                                    "

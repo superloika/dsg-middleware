@@ -429,67 +429,16 @@ webpackContext.id = "./resources/js/stores.custom/principals sync recursive ^\\.
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -509,120 +458,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _century_canning__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./century_canning */ "./resources/js/stores.custom/principals/century_canning.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // customersTableHeader: [
-  //     [
-  //         { text: "Customer Code", value: "customer_code" },
-  //         { text: "Principal Customer Code", value: "customer_code_supplier" },
-  //     ],
-  // ],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, // {text:"Description", value:"description"},
-  {
-    text: "Supplier Item Code",
-    value: "item_code_supplier"
-  }, {
-    text: "Supplier Item Description",
-    value: "description_supplier"
-  } // {text:"CASE", value:"case"},
-  // {text:"PCS", value:"conversion_qty"},
-  ]],
-  salesmenTableHeader: [[{
-    text: "Group Code",
-    value: "group_code"
-  }, {
-    text: "Salesman Code - NOAH",
-    value: "sm_code_supplier"
-  }, {
-    text: "Location Code - NOAH",
-    value: "location_code_supplier"
-  }]],
-  // templated data table header(s)
-  generatedDataTableHeader: [[{
-    text: "Distributor ID",
-    value: "distributor_id"
-  }, {
-    text: "Salesman",
-    value: "sales_agent_id"
-  }, {
-    text: "Docno",
-    value: "doc_no"
-  }, {
-    text: "Location",
-    value: "location"
-  }, {
-    text: "Ordered Date",
-    value: "order_date"
-  }, {
-    text: "Request Delivery Date",
-    value: "request_delivery_date"
-  }, {
-    text: "Payment Term",
-    value: "payment_term_code"
-  }, {
-    text: "Account Code",
-    value: "customer_code"
-  }, {
-    text: "Product Code",
-    value: "item_code"
-  }, {
-    text: "Bulk Qty",
-    value: "bulk_qty"
-  }, {
-    text: "Loose Qty",
-    value: "loose_qty"
-  }, {
-    text: "System Date",
-    value: "system_date"
-  }, {
-    text: "User",
-    value: "default_user"
-  }] // [
-  //     {text:"Distributor ID", value: "distributor_id"},
-  //     {text:"Sales Agent ID", value: "sales_agent_id"},
-  //     {text:"Invoice No (Doc No)", value: "doc_no"},
-  //     {text:"Location", value: "location"},
-  //     {text:"Invoice Date", value: "invoice_date"},
-  //     {text:"Payment Term Code", value: "payment_term_code"},
-  //     {text:"Customer No", value: "customer_code"},
-  //     {text:"Product Code", value: "item_code"},
-  //     {text:"Bulk Qty", value: "bulk_qty"},
-  //     {text:"Loose Qty", value: "loose_qty"},
-  //     {text:"System Date", value: "system_date"},
-  //     {text:"Default User", value: "default_user"},
-  //     {text:"Invoice No", value: "invoice_no"},
-  //     {text:"Expiry Date", value: "expiry_date"},
-  // ],
-  ],
-  generatedDataHistoryFilters: [[{
-    text: 'Order Date',
-    value: 'order_date'
-  }, {
-    text: 'Invoice #',
-    value: 'doc_no'
-  }, {
-    text: 'Product Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Salesman',
-    value: 'sm_code_supplier'
-  }, {
-    text: 'Location',
-    value: 'location'
-  }, {
-    text: 'Invoice Posting Date',
-    value: 'posting_date'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _century_canning__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -642,67 +487,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -844,67 +638,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -924,67 +667,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -1004,67 +696,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -1084,90 +725,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mondelez__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mondelez */ "./resources/js/stores.custom/principals/mondelez.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // customersTableHeader: [
-  //     [
-  //         { text: "Customer Code", value: "customer_code" },
-  //         { text: "Customer Code (Supplier)", value: "customer_code_supplier" },
-  //         { text: "Name", value: "customer_name" },
-  //     ],
-  // ],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Nav)",
-    value: "description"
-  }]],
-  // salesmenTableHeader: [
-  //     [
-  //         {text:"Group Code", value:"group_code"},
-  //         {text:"Salesman Name", value:"sm_name"},
-  //     ]
-  // ],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _mondelez__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -1187,6 +754,7 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -1194,69 +762,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }, {
-    text: 'Invoice #',
-    value: 'doc_no'
-  }]]
-});
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
   state: state
@@ -1275,67 +782,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -1426,7 +882,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "User",
     value: "default_user"
-  }] // [
+  }], // [
   //     {text:"Distributor ID", value: "distributor_id"},
   //     {text:"Sales Agent ID", value: "sales_agent_id"},
   //     {text:"Invoice No (Doc No)", value: "doc_no"},
@@ -1442,7 +898,68 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   //     {text:"Invoice No", value: "invoice_no"},
   //     {text:"Expiry Date", value: "expiry_date"},
   // ],
-  ],
+  [{
+    text: "Return Invoice #",
+    value: "invoice_no"
+  }, // {text:"External Return Invoice #",  value: "invoice_number"},
+  {
+    text: "Customer Code (NAV)",
+    value: "alturas_customer_code"
+  }, // {text:"Customer Code (Supplier)",   value: "customer_code"},
+  {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Return Invoice Date (m/d/Y) (NAV)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, // {text:"Item Name (Supplier)",       value: "description_supplier"},
+  {
+    text: "UOM",
+    value: "uom"
+  }, // {text:"UOM",                        value: "uom_supplier"},
+  {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, // {text:"Price",                      value: "price_supplier"},
+  {
+    text: "Amount",
+    value: "amount"
+  }, // {text:"Amount",                     value: "amount_supplier"},
+  {
+    text: "Line Discount %",
+    value: "discount_percentage"
+  }, {
+    text: "Discount Amount",
+    value: "discount_amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }, // additional return stuff
+  {
+    text: "Return Indicator",
+    value: "return_indicator"
+  }, {
+    text: "Return Reason",
+    value: "remarks"
+  }, {
+    text: "Invoice Reference #",
+    value: "invoice_doc_no"
+  }]],
   generatedDataHistoryFilters: [[{
     text: 'Order Date',
     value: 'order_date'
@@ -1488,67 +1005,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -1713,67 +1179,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -1793,120 +1208,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _century_canning__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./century_canning */ "./resources/js/stores.custom/principals/century_canning.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // customersTableHeader: [
-  //     [
-  //         { text: "Customer Code", value: "customer_code" },
-  //         { text: "Principal Customer Code", value: "customer_code_supplier" },
-  //     ],
-  // ],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, // {text:"Description", value:"description"},
-  {
-    text: "Supplier Item Code",
-    value: "item_code_supplier"
-  }, {
-    text: "Supplier Item Description",
-    value: "description_supplier"
-  } // {text:"CASE", value:"case"},
-  // {text:"PCS", value:"conversion_qty"},
-  ]],
-  salesmenTableHeader: [[{
-    text: "Group Code",
-    value: "group_code"
-  }, {
-    text: "Salesman Code - NOAH",
-    value: "sm_code_supplier"
-  }, {
-    text: "Location Code - NOAH",
-    value: "location_code_supplier"
-  }]],
-  // templated data table header(s)
-  generatedDataTableHeader: [[{
-    text: "Distributor ID",
-    value: "distributor_id"
-  }, {
-    text: "Salesman",
-    value: "sales_agent_id"
-  }, {
-    text: "Docno",
-    value: "doc_no"
-  }, {
-    text: "Location",
-    value: "location"
-  }, {
-    text: "Ordered Date",
-    value: "order_date"
-  }, {
-    text: "Request Delivery Date",
-    value: "request_delivery_date"
-  }, {
-    text: "Payment Term",
-    value: "payment_term_code"
-  }, {
-    text: "Account Code",
-    value: "customer_code"
-  }, {
-    text: "Product Code",
-    value: "item_code"
-  }, {
-    text: "Bulk Qty",
-    value: "bulk_qty"
-  }, {
-    text: "Loose Qty",
-    value: "loose_qty"
-  }, {
-    text: "System Date",
-    value: "system_date"
-  }, {
-    text: "User",
-    value: "default_user"
-  }] // [
-  //     {text:"Distributor ID", value: "distributor_id"},
-  //     {text:"Sales Agent ID", value: "sales_agent_id"},
-  //     {text:"Invoice No (Doc No)", value: "doc_no"},
-  //     {text:"Location", value: "location"},
-  //     {text:"Invoice Date", value: "invoice_date"},
-  //     {text:"Payment Term Code", value: "payment_term_code"},
-  //     {text:"Customer No", value: "customer_code"},
-  //     {text:"Product Code", value: "item_code"},
-  //     {text:"Bulk Qty", value: "bulk_qty"},
-  //     {text:"Loose Qty", value: "loose_qty"},
-  //     {text:"System Date", value: "system_date"},
-  //     {text:"Default User", value: "default_user"},
-  //     {text:"Invoice No", value: "invoice_no"},
-  //     {text:"Expiry Date", value: "expiry_date"},
-  // ],
-  ],
-  generatedDataHistoryFilters: [[{
-    text: 'Order Date',
-    value: 'order_date'
-  }, {
-    text: 'Invoice #',
-    value: 'doc_no'
-  }, {
-    text: 'Product Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Salesman',
-    value: 'sm_code_supplier'
-  }, {
-    text: 'Location',
-    value: 'location'
-  }, {
-    text: 'Invoice Posting Date',
-    value: 'posting_date'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _century_canning__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -1926,67 +1237,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -2006,67 +1266,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (d/m/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -2086,67 +1295,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -2166,67 +1324,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -2246,67 +1353,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -2326,67 +1382,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -2406,67 +1411,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -2486,67 +1440,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -2566,67 +1469,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -2646,67 +1498,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -2726,84 +1527,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _foodsphere_inc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./foodsphere_inc */ "./resources/js/stores.custom/principals/foodsphere_inc.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // customersTableHeader: [
-  //     [
-  //         { text: "Customer Code", value: "customer_code" },
-  //         { text: "Customer Code (Supplier)", value: "customer_code_supplier" },
-  //         { text: "Name", value: "customer_name" },
-  //     ],
-  // ],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (M/D/Y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _foodsphere_inc__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -2853,7 +1586,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Name",
     value: "customer_name"
   }, {
-    text: "Invoice Date (M/D/Y)",
+    text: "Invoice Date (m/d/Y)",
     value: "invoice_date"
   }, {
     text: "Item Code (NAV)",
@@ -2864,10 +1597,8 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Item Name (NAV)",
     value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
+  }, // {text:"Item Name (Supplier)", value: "description_supplier"},
+  {
     text: "UOM",
     value: "uom"
   }, {
@@ -2885,6 +1616,67 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Group",
     value: "group"
+  }], [{
+    text: "Return Invoice #",
+    value: "invoice_no"
+  }, // {text:"External Return Invoice #",  value: "invoice_number"},
+  {
+    text: "Customer Code (NAV)",
+    value: "alturas_customer_code"
+  }, // {text:"Customer Code (Supplier)",   value: "customer_code"},
+  {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Return Invoice Date (m/d/Y) (NAV)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, // {text:"Item Name (Supplier)",       value: "description_supplier"},
+  {
+    text: "UOM",
+    value: "uom"
+  }, // {text:"UOM",                        value: "uom_supplier"},
+  {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, // {text:"Price",                      value: "price_supplier"},
+  {
+    text: "Amount",
+    value: "amount"
+  }, // {text:"Amount",                     value: "amount_supplier"},
+  {
+    text: "Line Discount %",
+    value: "discount_percentage"
+  }, {
+    text: "Discount Amount",
+    value: "discount_amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }, // additional return stuff
+  {
+    text: "Return Indicator",
+    value: "return_indicator"
+  }, {
+    text: "Return Reason",
+    value: "remarks"
+  }, {
+    text: "Invoice Reference #",
+    value: "invoice_doc_no"
   }]],
   // ***********************************************************************************
   generatedDataHistoryFilters: [[{
@@ -2896,6 +1688,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Customer Code',
     value: 'customer_code'
+  }, {
+    text: 'Invoice #',
+    value: 'doc_no'
   }, {
     text: 'Source Group',
     value: 'group_code'
@@ -2920,67 +1715,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -3000,67 +1744,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -3198,8 +1891,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Customer Name",
     value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
+  }, // {text:"Invoice Date (m/d/y)", value: "invoice_date"},
+  {
+    text: "Invoice Date (m/d/Y)",
     value: "invoice_date"
   }, {
     text: "Item Code (NAV)",
@@ -3231,7 +1925,80 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Group",
     value: "group"
-  }]],
+  }], [{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, // {text:"Invoice Date (m/d/y)", value: "invoice_date"},
+  {
+    text: "Invoice Date (m/d/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }, {
+    text: "Invoice Reference #",
+    value: "invoice_doc_no"
+  }] // [
+  //     {text:"Return Invoice #",           value: "invoice_no"},
+  //     // {text:"External Return Invoice #",  value: "invoice_number"},
+  //     {text:"Customer Code (NAV)",        value: "alturas_customer_code"},
+  //     // {text:"Customer Code (Supplier)",   value: "customer_code"},
+  //     {text:"Customer Name",              value: "customer_name"},
+  //     {text:"Return Invoice Date (m/d/Y) (NAV)",   value: "invoice_date"},
+  //     {text:"Item Code (NAV)",            value: "alturas_item_code"},
+  //     // {text:"Item Code (Supplier)",       value: "item_code"},
+  //     {text:"Item Name (NAV)",            value: "item_description"},
+  //     // {text:"Item Name (Supplier)",       value: "description_supplier"},
+  //     // {text:"UOM",                     value: "uom"},
+  //     {text:"UOM",                        value: "uom_supplier"},
+  //     {text:"Quantity",                   value: "quantity"},
+  //     // {text:"Price",                   value: "price"},
+  //     {text:"Price",                      value: "price_supplier"},
+  //     // {text:"Amount",                  value: "amount"},
+  //     {text:"Amount",                     value: "amount_supplier"},
+  //     {text:"Line Discount %",            value: "discount_percentage"},
+  //     {text:"Discount Amount",            value: "discount_amount"},
+  //     {text:"Salesman",                   value: "sm_code"},
+  //     {text:"Group",                      value: "group"},
+  //     // additional return stuff
+  //     {text:"Return Indicator",           value: "return_indicator"},
+  //     {text:"Return Reason",              value: "remarks"},
+  //     {text:"Invoice Reference #",        value: "invoice_doc_no"},
+  // ],
+  ],
   // ***********************************************************************************
   generatedDataHistoryFilters: [[{
     text: 'System Date',
@@ -3242,6 +2009,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Customer Code',
     value: 'customer_code'
+  }, {
+    text: 'Invoice #',
+    value: 'doc_no'
   }, {
     text: 'Source Group',
     value: 'group_code'
@@ -3452,67 +2222,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -3560,67 +2279,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -3640,67 +2308,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -3720,67 +2337,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -3800,67 +2366,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -4002,67 +2517,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -4082,67 +2546,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -4162,67 +2575,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -4242,67 +2604,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -4322,67 +2633,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -4402,67 +2662,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -4691,67 +2900,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -4771,67 +2929,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -4882,6 +2989,67 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Supplier Item Description",
     value: "description_supplier"
+  }], [{
+    text: "Return Invoice #",
+    value: "invoice_no"
+  }, // {text:"External Return Invoice #",  value: "invoice_number"},
+  {
+    text: "Customer Code (NAV)",
+    value: "alturas_customer_code"
+  }, // {text:"Customer Code (Supplier)",   value: "customer_code"},
+  {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Return Invoice Date (Y-m-d) (NAV)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, // {text:"Item Name (Supplier)",       value: "description_supplier"},
+  {
+    text: "UOM",
+    value: "uom"
+  }, // {text:"UOM",                        value: "uom_supplier"},
+  {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, // {text:"Price",                      value: "price_supplier"},
+  {
+    text: "Amount",
+    value: "amount"
+  }, // {text:"Amount",                     value: "amount_supplier"},
+  {
+    text: "Line Discount %",
+    value: "discount_percentage"
+  }, {
+    text: "Discount Amount",
+    value: "discount_amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }, // additional return stuff
+  {
+    text: "Return Indicator",
+    value: "return_indicator"
+  }, {
+    text: "Return Reason",
+    value: "remarks"
+  }, {
+    text: "Invoice Reference #",
+    value: "invoice_doc_no"
   }]],
   salesmenTableHeader: [[{
     text: "Salesman Name",
@@ -4992,67 +3160,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -5211,7 +3328,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Name",
     value: "customer_name"
   }, {
-    text: "Invoice Date (M/D/Y)",
+    text: "Invoice Date (m/d/Y)",
     value: "invoice_date"
   }, {
     text: "Item Code (NAV)",
@@ -5222,10 +3339,8 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Item Name (NAV)",
     value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
+  }, // {text:"Item Name (Supplier)", value: "description_supplier"},
+  {
     text: "UOM",
     value: "uom"
   }, {
@@ -5243,6 +3358,67 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Group",
     value: "group"
+  }], [{
+    text: "Return Invoice #",
+    value: "invoice_no"
+  }, // {text:"External Return Invoice #",  value: "invoice_number"},
+  {
+    text: "Customer Code (NAV)",
+    value: "alturas_customer_code"
+  }, // {text:"Customer Code (Supplier)",   value: "customer_code"},
+  {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Return Invoice Date (m/d/Y) (NAV)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, // {text:"Item Name (Supplier)",       value: "description_supplier"},
+  {
+    text: "UOM",
+    value: "uom"
+  }, // {text:"UOM",                        value: "uom_supplier"},
+  {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, // {text:"Price",                      value: "price_supplier"},
+  {
+    text: "Amount",
+    value: "amount"
+  }, // {text:"Amount",                     value: "amount_supplier"},
+  {
+    text: "Line Discount %",
+    value: "discount_percentage"
+  }, {
+    text: "Discount Amount",
+    value: "discount_amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }, // additional return stuff
+  {
+    text: "Return Indicator",
+    value: "return_indicator"
+  }, {
+    text: "Return Reason",
+    value: "remarks"
+  }, {
+    text: "Invoice Reference #",
+    value: "invoice_doc_no"
   }]],
   // ***********************************************************************************
   generatedDataHistoryFilters: [[{
@@ -5254,6 +3430,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Customer Code',
     value: 'customer_code'
+  }, {
+    text: 'Invoice #',
+    value: 'doc_no'
   }, {
     text: 'Source Group',
     value: 'group_code'
@@ -5278,67 +3457,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -5358,67 +3486,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -5658,120 +3735,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _century_canning__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./century_canning */ "./resources/js/stores.custom/principals/century_canning.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // customersTableHeader: [
-  //     [
-  //         { text: "Customer Code", value: "customer_code" },
-  //         { text: "Principal Customer Code", value: "customer_code_supplier" },
-  //     ],
-  // ],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, // {text:"Description", value:"description"},
-  {
-    text: "Supplier Item Code",
-    value: "item_code_supplier"
-  }, {
-    text: "Supplier Item Description",
-    value: "description_supplier"
-  } // {text:"CASE", value:"case"},
-  // {text:"PCS", value:"conversion_qty"},
-  ]],
-  salesmenTableHeader: [[{
-    text: "Group Code",
-    value: "group_code"
-  }, {
-    text: "Salesman Code - NOAH",
-    value: "sm_code_supplier"
-  }, {
-    text: "Location Code - NOAH",
-    value: "location_code_supplier"
-  }]],
-  // templated data table header(s)
-  generatedDataTableHeader: [[{
-    text: "Distributor ID",
-    value: "distributor_id"
-  }, {
-    text: "Salesman",
-    value: "sales_agent_id"
-  }, {
-    text: "Docno",
-    value: "doc_no"
-  }, {
-    text: "Location",
-    value: "location"
-  }, {
-    text: "Ordered Date",
-    value: "order_date"
-  }, {
-    text: "Request Delivery Date",
-    value: "request_delivery_date"
-  }, {
-    text: "Payment Term",
-    value: "payment_term_code"
-  }, {
-    text: "Account Code",
-    value: "customer_code"
-  }, {
-    text: "Product Code",
-    value: "item_code"
-  }, {
-    text: "Bulk Qty",
-    value: "bulk_qty"
-  }, {
-    text: "Loose Qty",
-    value: "loose_qty"
-  }, {
-    text: "System Date",
-    value: "system_date"
-  }, {
-    text: "User",
-    value: "default_user"
-  }] // [
-  //     {text:"Distributor ID", value: "distributor_id"},
-  //     {text:"Sales Agent ID", value: "sales_agent_id"},
-  //     {text:"Invoice No (Doc No)", value: "doc_no"},
-  //     {text:"Location", value: "location"},
-  //     {text:"Invoice Date", value: "invoice_date"},
-  //     {text:"Payment Term Code", value: "payment_term_code"},
-  //     {text:"Customer No", value: "customer_code"},
-  //     {text:"Product Code", value: "item_code"},
-  //     {text:"Bulk Qty", value: "bulk_qty"},
-  //     {text:"Loose Qty", value: "loose_qty"},
-  //     {text:"System Date", value: "system_date"},
-  //     {text:"Default User", value: "default_user"},
-  //     {text:"Invoice No", value: "invoice_no"},
-  //     {text:"Expiry Date", value: "expiry_date"},
-  // ],
-  ],
-  generatedDataHistoryFilters: [[{
-    text: 'Order Date',
-    value: 'order_date'
-  }, {
-    text: 'Invoice #',
-    value: 'doc_no'
-  }, {
-    text: 'Product Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Salesman',
-    value: 'sm_code_supplier'
-  }, {
-    text: 'Location',
-    value: 'location'
-  }, {
-    text: 'Invoice Posting Date',
-    value: 'posting_date'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _century_canning__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -5791,67 +3764,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -5871,67 +3793,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -5951,67 +3822,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -6031,67 +3851,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -6111,67 +3880,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -6191,6 +3909,7 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -6198,69 +3917,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }, {
-    text: 'Invoice #',
-    value: 'doc_no'
-  }]]
-});
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
   state: state
@@ -6279,67 +3937,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -6359,67 +3966,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -6439,6 +3995,7 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -6446,69 +4003,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }, {
-    text: 'Invoice #',
-    value: 'doc_no'
-  }]]
-});
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
   state: state
@@ -6630,67 +4126,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -6710,67 +4155,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -6790,120 +4184,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _century_canning__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./century_canning */ "./resources/js/stores.custom/principals/century_canning.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // customersTableHeader: [
-  //     [
-  //         { text: "Customer Code", value: "customer_code" },
-  //         { text: "Principal Customer Code", value: "customer_code_supplier" },
-  //     ],
-  // ],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, // {text:"Description", value:"description"},
-  {
-    text: "Supplier Item Code",
-    value: "item_code_supplier"
-  }, {
-    text: "Supplier Item Description",
-    value: "description_supplier"
-  } // {text:"CASE", value:"case"},
-  // {text:"PCS", value:"conversion_qty"},
-  ]],
-  salesmenTableHeader: [[{
-    text: "Group Code",
-    value: "group_code"
-  }, {
-    text: "Salesman Code - NOAH",
-    value: "sm_code_supplier"
-  }, {
-    text: "Location Code - NOAH",
-    value: "location_code_supplier"
-  }]],
-  // templated data table header(s)
-  generatedDataTableHeader: [[{
-    text: "Distributor ID",
-    value: "distributor_id"
-  }, {
-    text: "Salesman",
-    value: "sales_agent_id"
-  }, {
-    text: "Docno",
-    value: "doc_no"
-  }, {
-    text: "Location",
-    value: "location"
-  }, {
-    text: "Ordered Date",
-    value: "order_date"
-  }, {
-    text: "Request Delivery Date",
-    value: "request_delivery_date"
-  }, {
-    text: "Payment Term",
-    value: "payment_term_code"
-  }, {
-    text: "Account Code",
-    value: "customer_code"
-  }, {
-    text: "Product Code",
-    value: "item_code"
-  }, {
-    text: "Bulk Qty",
-    value: "bulk_qty"
-  }, {
-    text: "Loose Qty",
-    value: "loose_qty"
-  }, {
-    text: "System Date",
-    value: "system_date"
-  }, {
-    text: "User",
-    value: "default_user"
-  }] // [
-  //     {text:"Distributor ID", value: "distributor_id"},
-  //     {text:"Sales Agent ID", value: "sales_agent_id"},
-  //     {text:"Invoice No (Doc No)", value: "doc_no"},
-  //     {text:"Location", value: "location"},
-  //     {text:"Invoice Date", value: "invoice_date"},
-  //     {text:"Payment Term Code", value: "payment_term_code"},
-  //     {text:"Customer No", value: "customer_code"},
-  //     {text:"Product Code", value: "item_code"},
-  //     {text:"Bulk Qty", value: "bulk_qty"},
-  //     {text:"Loose Qty", value: "loose_qty"},
-  //     {text:"System Date", value: "system_date"},
-  //     {text:"Default User", value: "default_user"},
-  //     {text:"Invoice No", value: "invoice_no"},
-  //     {text:"Expiry Date", value: "expiry_date"},
-  // ],
-  ],
-  generatedDataHistoryFilters: [[{
-    text: 'Order Date',
-    value: 'order_date'
-  }, {
-    text: 'Invoice #',
-    value: 'doc_no'
-  }, {
-    text: 'Product Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Salesman',
-    value: 'sm_code_supplier'
-  }, {
-    text: 'Location',
-    value: 'location'
-  }, {
-    text: 'Invoice Posting Date',
-    value: 'posting_date'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _century_canning__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -6923,67 +4213,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -7003,67 +4242,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -7083,67 +4271,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -7163,67 +4300,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -7243,67 +4329,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -7323,67 +4358,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -7403,6 +4387,7 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -7410,69 +4395,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }, {
-    text: 'Invoice #',
-    value: 'doc_no'
-  }]]
-});
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
   state: state
@@ -7491,67 +4415,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -7571,67 +4444,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -7751,67 +4573,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -7860,67 +4631,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -7940,67 +4660,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -8020,67 +4689,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -8100,67 +4718,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -8180,67 +4747,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -8260,67 +4776,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -8340,67 +4805,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (m/d/y)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, {
-    text: "Amount",
-    value: "amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }]]
-});
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions

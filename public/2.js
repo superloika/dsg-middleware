@@ -229,6 +229,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['uploadResponse'],
   mounted: function mounted() {
@@ -347,63 +349,14 @@ var render = function() {
                                   [
                                     _vm._v(
                                       "\n                            " +
-                                        _vm._s(summary.lines_count_uploaded) +
+                                        _vm._s(
+                                          summary.lines_count_uploaded +
+                                            summary.cm_lines_count_uploaded
+                                        ) +
                                         "\n                        "
                                     )
                                   ]
-                                ),
-                                _vm._v(" "),
-                                summary.lines_count == 0 ||
-                                summary.headers_count == 0
-                                  ? _c(
-                                      "v-icon",
-                                      { attrs: { color: "error", small: "" } },
-                                      [
-                                        _vm._v(
-                                          "\n                            mdi-alert-circle\n                        "
-                                        )
-                                      ]
-                                    )
-                                  : summary.lines_count > 0 &&
-                                    summary.lines_count_uploaded == 0
-                                  ? _c(
-                                      "v-icon",
-                                      {
-                                        attrs: { color: "warning", small: "" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                            mdi-alert-circle\n                        "
-                                        )
-                                      ]
-                                    )
-                                  : summary.lines_count_uploaded > 0 &&
-                                    summary.lines_count_existing > 0
-                                  ? _c(
-                                      "v-icon",
-                                      {
-                                        attrs: { color: "warning", small: "" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                            mdi-check\n                        "
-                                        )
-                                      ]
-                                    )
-                                  : summary.lines_count ==
-                                    summary.lines_count_uploaded
-                                  ? _c(
-                                      "v-icon",
-                                      {
-                                        attrs: { color: "success", small: "" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                            mdi-check\n                        "
-                                        )
-                                      ]
-                                    )
-                                  : _vm._e()
+                                )
                               ]
                             },
                             proxy: true

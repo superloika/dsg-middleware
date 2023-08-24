@@ -55,18 +55,33 @@
                 <v-col cols="12" md="12">
                     <v-tabs-items v-model="tab">
                         <v-tab-item
-                            v-for="(b,batchIndex) in batches"
+                            v-for="(b, batchIndex) in batches"
                             :key="b[0].erp_invoice_number + b[0].invoice_date"
                         >
                             <v-container fluid>
-                                <v-btn @click="selectAll(batchIndex, true)">Select All</v-btn>
-                                <v-btn @click="selectAll(batchIndex, false)">Deselect All</v-btn>
+                                <v-btn
+                                    @click="selectAll(batchIndex, true)"
+                                    small rounded depressed
+                                    color="primary"
+                                    :disabled="disableUploadBtn"
+                                >
+                                    Select All
+                                </v-btn>
+                                <v-btn
+                                    @click="selectAll(batchIndex, false)"
+                                    small rounded depressed
+                                    color="primary"
+                                    :disabled="disableUploadBtn"
+                                >
+                                    Deselect All
+                                </v-btn>
+                                <!-- <v-btn @click="checkdata(batchIndex)">chkdt</v-btn> -->
                             </v-container>
                             <v-container fluid>
                                 <v-expansion-panels focusable multiple>
                                     <v-expansion-panel
-                                        v-for="(invoice,i) in b"
-                                        :key="invoice.erp_invoice_number"
+                                        v-for="(invoice, i) in b"
+                                        :key="'xpnsn-' + invoice.erp_invoice_number"
                                     >
                                         <v-expansion-panel-header>
                                             <div
@@ -84,6 +99,7 @@
                                                     v-model="invoice.included"
                                                     title="Check to include, uncheck to exclude"
                                                     :disabled="disableUploadBtn"
+                                                    :key = "'chkbx-' + invoice.erp_invoice_number"
                                                 ></v-checkbox>
 
                                                 {{ i+1 }}. {{ invoice.isReturn ? 'Return Invoice': 'Invoice' }} {{ invoice.erp_invoice_number }}
@@ -111,7 +127,7 @@
                                                 </div>
                                                 <div class="pr-6 ">Invoice Date: <br><b>{{ invoice.invoice_date }}</b></div>
                                                 <div class="pr-6 ">Customer: <br><b>{{ invoice.customer_name }}</b></div>
-                                                <div class="pr-6 ">Amount: <br><b>{{ invoice.total_value.toFixed(4) }}</b></div>
+                                                <div class="pr-6 ">Amount: <br><b>{{ invoice.total_value.toFixed(6) }}</b></div>
                                                 <div class="pr-6 ">DSP: <br><b>{{ invoice.customFields[0].value }}</b></div>
                                                 <div v-if="invoice.isReturn" class="pr-6 ">
                                                     Return Indicator: <br><b>{{ invoice.customFields[1].value }}</b>
@@ -136,12 +152,12 @@
                                                     </template>
                                                     <template v-slot:[`item.discount_value`] = "{item}">
                                                         <div class="text-right">
-                                                            {{ item.discount_value.toFixed(4) }}
+                                                            {{ item.discount_value.toFixed(6) }}
                                                         </div>
                                                     </template>
                                                     <template v-slot:[`item.gross_value`] = "{item}">
                                                         <div class="text-right">
-                                                            {{ item.gross_value.toFixed(4) }}
+                                                            {{ item.gross_value.toFixed(6) }}
                                                         </div>
                                                     </template>
                                                 </v-data-table>
@@ -194,6 +210,10 @@ export default {
                     value: 'quantity'
                 },
                 {
+                    text: 'Discount %',
+                    value: 'discount_percentage'
+                },
+                {
                     text: 'Discount Amount',
                     value: 'discount_value'
                 },
@@ -234,6 +254,7 @@ export default {
                     this.uploadAttempts++;
                     for(let i=0; i < this.batches.length; i++) {
                         const batch = this.batches[i].filter(e => e.included);
+                        console.log('BATCH ' + i, batch);
                         const batchLen = batch.length;
 
                         if((this.batchUploadStates[i] == undefined || this.batchUploadStates[i] == 'failed') && batchLen) {
@@ -289,7 +310,7 @@ export default {
         cancel() {
             if(confirm('Are you sure you want to close this window?')) {
                 // regenerate templated data if upload states has been modified
-                if(this.batchUploadStates[0]) {
+                if(this.batchUploadStates[0] || this.uploadAttempts > 0) {
                     this.batchUploadStates = [];
                     this.PrincipalsStore.initCurrentGeneratedData(
                         null,this.InvoicesStore.state.invoiceStatus
@@ -323,6 +344,13 @@ export default {
                 this.batches[batchIndex].forEach(e => {
                     e.included = included;
                 });
+            }
+        },
+
+        // display invoices in currently selected batch
+        checkdata(batchIndex) {
+            if(this.batches) {
+                console.log('BATCH:', this.batches[batchIndex]);
             }
         }
     },

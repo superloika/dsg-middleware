@@ -66,7 +66,7 @@
             <v-card-text class="mx-0 px-0">
                 <div class="">
                     <div v-if="PrincipalsStore.state.isGeneratingData"
-                        class="d-flex justify-center mt-12 pt-6"
+                        class="d-flex justify-center pt-6"
                     >
                         <!-- <v-progress-circular
                             :size="60"
@@ -81,7 +81,7 @@
                                 generatedData.length < 1
                                 || lineCount < 1
                             "
-                            class="d-flex justify-center mt-12 pt-6"
+                            class="d-flex justify-center pt-6"
                         >
                             <v-chip color="accent" small>
                                 No available data to display

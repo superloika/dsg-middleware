@@ -24,15 +24,17 @@
                 Howdy, {{ AuthUser.name }}!
             </span>
 
+            <InvoiceLookup></InvoiceLookup>
+
             <UserMenu></UserMenu>
 
             <v-progress-linear
                 :indeterminate="AppStore.state.showTopLoading"
                 :active="AppStore.state.showTopLoading"
+                color="white"
                 absolute
                 bottom
                 stream
-                color="white"
             ></v-progress-linear>
         </v-system-bar>
 

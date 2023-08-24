@@ -457,8 +457,8 @@ class MagnoliaIncController extends Controller
             }
 
             // $template_variation_count = 1;
-            $template_variation_count = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                ->where('code', $this->PRINCIPAL_CODE)->pluck('template_variation_count')->first() ?? 1;
+            // $template_variation_count = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+            //     ->where('code', $this->PRINCIPAL_CODE)->pluck('template_variation_count')->first() ?? 1;
 
             $res['success'] = true;
             $res['message'] = 'Success';
@@ -475,7 +475,7 @@ class MagnoliaIncController extends Controller
             ];
 
             $dateToday = Carbon::now();
-            $system_date = $dateToday->format('Y/m/d');
+            $system_date = $dateToday->format('Y-m-d');
             $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
             $br_config = DB::table('br_config')->get()->first();
             // ***************************************************************************
@@ -487,6 +487,13 @@ class MagnoliaIncController extends Controller
 
             $pageLineCount = 1;
             $pageNum = 1;
+
+            $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->get();
+            $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->get();
             // ************************* /MISC INITS *************************************
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -530,12 +537,10 @@ class MagnoliaIncController extends Controller
                     $discount_amount =      $amount * $discount_percentage / 100;
 
                     //********************************************************************
-                    $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                    $customer = $principal_customers
                         ->where('customer_code', $customer_code)
                         ->first();
-                    $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                    $item = $principal_items
                         ->where('item_code', $item_code)
                         ->first();
 
@@ -583,7 +588,7 @@ class MagnoliaIncController extends Controller
                         //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
                         // map to orig price temporarily
                         $price_supplier = $price;
-                        $amount_supplier = round($price_supplier * $quantity, 4);
+                        $amount_supplier = $price_supplier * $quantity;
                         $discount_amount = $amount_supplier * $discount_percentage / 100;
                     }
                     // check customer ***************************
@@ -704,7 +709,6 @@ class MagnoliaIncController extends Controller
                 $loopCounter = 0;
                 foreach ($returns as $return) {
                     $loopCounter++;
-
                     $progressPercent = round(($loopCounter / $returnsCount) * 100);
                     GenerateTemplated::dispatch("Generating returns ($progressPercent%)");
 
@@ -736,12 +740,18 @@ class MagnoliaIncController extends Controller
                     // if($quantity > $invoice_quantity) continue;
 
                     //********************************************************************
-                    $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                    // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                    //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                    //     ->where('customer_code', $customer_code)
+                    //     ->first();
+                    // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                    //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                    //     ->where('item_code', $item_code)
+                    //     ->first();
+                    $customer = $principal_customers
                         ->where('customer_code', $customer_code)
                         ->first();
-                    $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                    $item = $principal_items
                         ->where('item_code', $item_code)
                         ->first();
 
@@ -788,7 +798,7 @@ class MagnoliaIncController extends Controller
                         //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
                         // map to orig price temporarily
                         $price_supplier = $price;
-                        $amount_supplier = round($price_supplier * $quantity, 4);
+                        $amount_supplier = $price_supplier * $quantity;
                         $discount_amount = $amount_supplier * $discount_percentage / 100;
                     }
                     // check customer ***************************

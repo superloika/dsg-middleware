@@ -44,7 +44,7 @@
             <v-tooltip
                 right
                 v-for="(principal, i) in filteredPrincipals"
-                :key="i"
+                :key="principal.id"
             >
                 <template v-slot:activator="{ on, attrs }">
                     <v-list-item

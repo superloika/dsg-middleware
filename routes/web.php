@@ -31,7 +31,6 @@ Route::get('/logout', 'Auth\LogoutController@logout')->name('logout2');
 Route::get('/flush-session', 'Auth\LogoutController@flushSession')->name('flushSession');
 
 
-
 // ================= WA NI LABOT, TEST RA NI ====================================================================
 // TEST routes
 Route::prefix('test')->group(function () {
@@ -93,6 +92,7 @@ Route::prefix('master')->group(function(){
 Route::prefix('invoices')->group(function(){
     // Route::get("/grandtotal", "InvoicesController@invoicesGrandTotal");
     Route::get('/all', 'InvoicesController@index');
+    Route::get('/lookup', 'InvoicesController@lookup');
     Route::post('/upload', 'InvoicesController@upload');
     Route::post("/delete", "InvoicesController@deleteInvoices");
     Route::post("/reset", "InvoicesController@resetInvoices");
@@ -122,19 +122,27 @@ Route::prefix('principals')->group(function(){
 
         // ['GspiController', 'gspi'],
 
+        // Foodsphere, Food Fab
         ['FoodsphereIncController', 'foodsphere_inc'],
-        ['FoodFabricatorsController', 'food_fabricators'],
+        // ['FoodFabricatorsController', 'food_fabricators'],
+        ['FoodsphereIncController', 'food_fabricators'],
 
         // ['SmfiSmisFrozenController', 'smfi_smis_frozen'],
 
         ['MondelezController', 'mondelez'],
-        ['CadburyAdamsController', 'cadbury_adams'],
+        // ['CadburyAdamsController', 'cadbury_adams'],
+        ['MondelezController', 'cadbury_adams'],
 
+        // century
         ['CenturyCanningController', 'century_canning'],
-        ['ColumbusSeafoodsController', 'columbus_seafoods'],
-        ['PacificMeatController', 'pacific_meat'],
-        ['SnowMountainDairyController', 'snow_mountain_dairy'],
-        ['ATungChingcoController', 'a_tung_chingco'],
+        // ['ColumbusSeafoodsController', 'columbus_seafoods'],
+        // ['PacificMeatController', 'pacific_meat'],
+        // ['SnowMountainDairyController', 'snow_mountain_dairy'],
+        // ['ATungChingcoController', 'a_tung_chingco'],
+        ['CenturyCanningController', 'columbus_seafoods'],
+        ['CenturyCanningController', 'pacific_meat'],
+        ['CenturyCanningController', 'snow_mountain_dairy'],
+        ['CenturyCanningController', 'a_tung_chingco'],
 
         ['JnjController', 'jnj'],
         ['ApolloController', 'apollo'],

@@ -30,6 +30,7 @@
                                 :value="old_username"
                                 requiredx
                                 densex
+                                rounded
                             ></v-text-field>
 
                             <v-text-field
@@ -38,15 +39,23 @@
                                 name="password"
                                 requiredx
                                 densex
+                                rounded
                                 :type="showPassword ? 'text' : 'password'"
                                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                                 @click:append="showPassword = !showPassword"
                                 autocomplete="false"
                             ></v-text-field>
-                            <v-btn @click.stop="isLogging=true" color="primary" block
-                                type="submit" :loading="isLogging">Login</v-btn>
-                            <!-- <div class="float-right">
-                            </div> -->
+
+                            <v-btn
+                                @click.stop="isLogging=true"
+                                color="primary"
+                                type="submit"
+                                :loading="isLogging"
+                                rounded
+                                block
+                            >
+                                Login
+                            </v-btn>
                         </v-col>
                     </v-row>
                 </form>
