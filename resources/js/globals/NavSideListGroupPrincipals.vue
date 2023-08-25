@@ -101,8 +101,10 @@ export default {
             if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
                 return this.AppStore.state.principals.filter(
                     principal =>
-                        searchRegex.test(principal.name) ||
-                        !this.principalsSearchKey || searchRegex.test(principal.vendor_code)
+                        searchRegex.test(principal.name)
+                        || !this.principalsSearchKey
+                        || searchRegex.test(principal.vendor_code)
+                        || searchRegex.test(principal.search_key)
                 );
             } else {
                 return this.AppStore.state.principals.filter(
@@ -111,6 +113,7 @@ export default {
                             searchRegex.test(principal.name)
                             || !this.principalsSearchKey
                             || searchRegex.test(principal.vendor_code)
+                            || searchRegex.test(principal.search_key)
                         )
                         && this.AppStore.isInUserPrincipalIDs(principal.id)
                 );

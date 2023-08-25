@@ -7,7 +7,10 @@
                 {{ this.InvoicesStore.state.invoiceStatus=='uploaded' ? '(Cancellation)' : '' }}
             </v-toolbar-title>
             <v-spacer></v-spacer>
+
+            <InvoiceLookup></InvoiceLookup>
             <v-btn
+
                 :color="this.InvoicesStore.state.invoiceStatus=='completed' ? 'primary' : 'error'"
                 rounded dense depressed
                 @click="upload"
@@ -16,13 +19,14 @@
             >
                 {{ enableReupload ? 'Reupload failed batch(es)' : 'Upload' }}
             </v-btn>
+
             <v-btn
                 @click.stop="cancel"
-                rounded dense depressed
-                class="ml-2"
+                icon
+                class="ml-2 error--text"
                 :disabled="stillUploading"
             >
-                Close
+                <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-toolbar>
 
@@ -86,9 +90,10 @@
                                         <v-expansion-panel-header>
                                             <div
                                                 class="text-caption font-weight-boldx d-flex"
-                                                :class="invoice.upload_status.success == true ?
+                                                :class="
+                                                    invoice.upload_status.success==true ?
                                                     'primary--text'
-                                                    : invoice.upload_status.success == false ?
+                                                    : invoice.upload_status.success==false || invoice.with_errors.length ?
                                                     'error--text'
                                                     : ''
                                                 "
@@ -98,7 +103,7 @@
                                                     color="secondary"
                                                     v-model="invoice.included"
                                                     title="Check to include, uncheck to exclude"
-                                                    :disabled="disableUploadBtn"
+                                                    :disabled="disableUploadBtn || invoice.with_errors.length > 0"
                                                     :key = "'chkbx-' + invoice.erp_invoice_number"
                                                 ></v-checkbox>
 
@@ -120,7 +125,20 @@
                                                 </span>
                                             </div>
                                         </v-expansion-panel-header>
+
                                         <v-expansion-panel-content class="pt-4">
+                                            <div v-if="invoice.with_errors.length" class="p-2 mb-4">
+                                                <div v-for="(err, i) in invoice.with_errors" :key="i"
+                                                    class="mb-1"
+                                                >
+                                                    <div class="error--text">
+                                                        <v-chip color="error" x-small>
+                                                            Error
+                                                        </v-chip>
+                                                        {{ err }}
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="d-flex pb-4">
                                                 <div class="pr-6 ">
                                                     {{ invoice.isReturn ? 'Return Invoice': 'Invoice' }} #: <br><b>{{ invoice.erp_invoice_number }}</b>
@@ -253,6 +271,7 @@ export default {
                 if(confirm(confMsg)) {
                     this.uploadAttempts++;
                     for(let i=0; i < this.batches.length; i++) {
+                        // refilter prepared payload, unchecked(included==false) are not uploaded
                         const batch = this.batches[i].filter(e => e.included);
                         console.log('BATCH ' + i, batch);
                         const batchLen = batch.length;
@@ -330,8 +349,6 @@ export default {
                 vm.PrincipalsStore.state.currentGeneratedData
             )
             .then(batches => {
-                // vm.BrStore.state.currentGeneratedBatches = [];
-                // vm.BrStore.state.currentGeneratedBatches = batches;
                 this.batches = [];
                 this.batches = batches;
                 vm.AppStore.overlay(false);
@@ -342,7 +359,10 @@ export default {
         selectAll(batchIndex, included=true) {
             if(this.batches) {
                 this.batches[batchIndex].forEach(e => {
-                    e.included = included;
+                    // mo gana ra if walay error ang invoice
+                    if(e.with_errors.length == 0) {
+                        e.included = included;
+                    }
                 });
             }
         },

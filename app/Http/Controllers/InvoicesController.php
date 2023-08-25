@@ -1504,7 +1504,9 @@ class InvoicesController extends Controller
             ->when($status != '' && $status != 'all', function($q) use($status) {
                 $q->where(PrincipalsUtil::$TBL_CM.'.status','like', "%$status%");
             })
-            ->whereRaw(PrincipalsUtil::$TBL_CM . '.quantity <= ' .PrincipalsUtil::$TBL_INVOICES.'.quantity')
+
+            // ->whereRaw(PrincipalsUtil::$TBL_CM . '.quantity <= ' .PrincipalsUtil::$TBL_INVOICES.'.quantity')
+
             ->select([
                 PrincipalsUtil::$TBL_CM.'.*',
                 PrincipalsUtil::$TBL_INVOICES.'.vendor_code',

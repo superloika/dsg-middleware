@@ -527,8 +527,8 @@ class MagnoliaIncController extends Controller
                     $posting_date =         (new Carbon($posting_date))->format('Y-m-d');
                     $item_code =            trim($pendingInvoice->item_code) . '';
                     $quantity =             $pendingInvoice->quantity;
-                    $price =                $pendingInvoice->price;
-                    $amount =               $pendingInvoice->amount;
+                    $price =                doubleval($pendingInvoice->price);
+                    $amount =               doubleval($pendingInvoice->amount);
                     $uom =                  $pendingInvoice->uom;
                     $item_description =     $pendingInvoice->item_description;
                     $group_code =           $pendingInvoice->group;
@@ -588,8 +588,8 @@ class MagnoliaIncController extends Controller
                         //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
                         // map to orig price temporarily
                         $price_supplier = $price;
-                        $amount_supplier = $price_supplier * $quantity;
-                        $discount_amount = $amount_supplier * $discount_percentage / 100;
+                        $amount_supplier = round(($price_supplier * $quantity) , 6);
+                        $discount_amount = round(($amount_supplier * $discount_percentage / 100) , 6);
                     }
                     // check customer ***************************
                     if ($customer == null) {
@@ -701,7 +701,7 @@ class MagnoliaIncController extends Controller
                     $request->principal_code, $request->posting_date_range, $request->status
                 );
                 $returnsCount = $returns->count();
-                // dd($returns[0]);
+                // dd($returnsCount);
                 $res['line_count'] += $returnsCount;
                 // **************** /RETURNS ************************************************
 
@@ -719,8 +719,8 @@ class MagnoliaIncController extends Controller
                     $posting_date =        (new Carbon($shipment_date))->format('Y-m-d');
                     $item_code =            $return->item_code . '';
                     $quantity =             $return->quantity;
-                    $price =                $return->price;
-                    $amount =               $return->amount;
+                    $price =                doubleval($return->price);
+                    $amount =               doubleval($return->amount);
                     $uom =                  $return->uom;
                     $item_description =     $return->item_description;
                     $group_code =           $return->group;
@@ -798,8 +798,8 @@ class MagnoliaIncController extends Controller
                         //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
                         // map to orig price temporarily
                         $price_supplier = $price;
-                        $amount_supplier = $price_supplier * $quantity;
-                        $discount_amount = $amount_supplier * $discount_percentage / 100;
+                        $amount_supplier = round(($price_supplier * $quantity) ,6);
+                        $discount_amount = round(($amount_supplier * $discount_percentage / 100) ,6);
                     }
                     // check customer ***************************
                     if ($customer == null) {

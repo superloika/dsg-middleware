@@ -42,8 +42,11 @@ const actions = {
     },
 
     async invoiceCreate(bu, data = []) {
+        // console.log(data.filter(e => e.with_errors.length == 0));
+        // return;
         try {
-            if(data) {
+            if(data.length) {
+                // data = data.filter(e => !e.with_errors.length);
                 const url = `${AppStore.state.siteUrl}br/invoiceCreate`;
                 const response = await axios.post(url,
                     {
@@ -80,7 +83,7 @@ const actions = {
                         objInvoices[e.invoice_number].customer_name = e.customer_name;
                         objInvoices[e.invoice_number].retailer_br_id = e.customer_code;
                         objInvoices[e.invoice_number].erp_invoice_number = e.invoice_number;
-                        objInvoices[e.invoice_number].invoice_date = e.invoice_date //AppStore.state.strDateToday[0];
+                        objInvoices[e.invoice_number].invoice_date = e.invoice_date;
                         objInvoices[e.invoice_number].total_value = 0;
                         objInvoices[e.invoice_number].isReturn = isReturn;
                         objInvoices[e.invoice_number].included = true;
@@ -120,6 +123,11 @@ const actions = {
                             ];
                         }
 
+                        // invoice initial errors
+                        if(!objInvoices[e.invoice_number].with_errors) {
+                            objInvoices[e.invoice_number].with_errors = [];
+                        }
+
                         // invoice items properties
                         if(!objInvoices[e.invoice_number].details) {
                             objInvoices[e.invoice_number].details = [];
@@ -134,8 +142,45 @@ const actions = {
                         if(isReturn) {
                             temp_qty = -Math.abs(temp_qty);
                             temp_amount_supplier = -Math.abs(temp_amount_supplier);
+
+                            // kung mas daghan pa ang gi return
+                            if(e.quantity > e.invoice_quantity) {
+                                objInvoices[e.invoice_number].with_errors.unshift(
+                                    'Return quantity greater than the actual sales quantity'
+                                    + ' // Item Code: '
+                                    + e.item_code
+                                );
+                            }
+
+                            // if empty ang return indicator
+                            if(e.return_indicator == '') {
+                                objInvoices[e.invoice_number].with_errors.unshift(
+                                    'Return indicator is not specified'
+                                );
+                            }
+
+                            // if empty ang return reason
+                            if(e.remarks == '') {
+                                objInvoices[e.invoice_number].with_errors.unshift(
+                                    'Return reason is not specified'
+                                );
+                            }
                         }
-                        const discount_value = (temp_qty * e.price_supplier) * e.discount_percentage / 100;
+
+                        let discount_value = (temp_qty * e.price_supplier) * e.discount_percentage / 100;
+                        // discount_value = discount_value < 1 ? 0 : discount_value;
+
+                        // kung mas bigger ang discount value kesa sa total amount sa item
+                        if(
+                            Math.abs(discount_value) > (e.quantity * e.price_supplier)
+                        ) {
+                            objInvoices[e.invoice_number].with_errors.unshift(
+                                'Discount value is greater than the item total amount'
+                                +  ' // Item Code: '
+                                + e.item_code
+                            );
+                        }
+
                         objInvoices[e.invoice_number].details.unshift({
                             item_name: e.description_supplier,
                             sku_external_id: e.item_code,
@@ -156,11 +201,16 @@ const actions = {
         });
 
         // calc total_value (invoice level)
+        // label invoice with error as not included in the upload
         let invoices = Object.values(objInvoices);
         invoices.forEach(e => {
             e.details.forEach(i => {
                 objInvoices[e.erp_invoice_number].total_value += i.gross_value;
             });
+            if(e.with_errors.length > 0) {
+                e.included = false;
+                e.with_errors = _.uniqBy(e.with_errors);
+            }
         });
 
         console.log('with total_value:', objInvoices);

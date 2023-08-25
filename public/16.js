@@ -186,6 +186,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -255,6 +273,7 @@ __webpack_require__.r(__webpack_exports__);
           this.uploadAttempts++;
 
           var _loop = function _loop(i) {
+            // refilter prepared payload, unchecked(included==false) are not uploaded
             var batch = _this.batches[i].filter(function (e) {
               return e.included;
             });
@@ -334,8 +353,6 @@ __webpack_require__.r(__webpack_exports__);
       var vm = this;
       vm.AppStore.overlay(true, 'Preparing batches...');
       vm.BrStore.preparePayload(vm.PrincipalsStore.state.currentGeneratedData).then(function (batches) {
-        // vm.BrStore.state.currentGeneratedBatches = [];
-        // vm.BrStore.state.currentGeneratedBatches = batches;
         _this2.batches = [];
         _this2.batches = batches;
         vm.AppStore.overlay(false);
@@ -347,7 +364,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.batches) {
         this.batches[batchIndex].forEach(function (e) {
-          e.included = included;
+          // mo gana ra if walay error ang invoice
+          if (e.with_errors.length == 0) {
+            e.included = included;
+          }
         });
       }
     },
@@ -411,6 +431,8 @@ var render = function() {
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
+          _c("InvoiceLookup"),
+          _vm._v(" "),
           _c(
             "v-btn",
             {
@@ -441,13 +463,8 @@ var render = function() {
           _c(
             "v-btn",
             {
-              staticClass: "ml-2",
-              attrs: {
-                rounded: "",
-                dense: "",
-                depressed: "",
-                disabled: _vm.stillUploading
-              },
+              staticClass: "ml-2 error--text",
+              attrs: { icon: "", disabled: _vm.stillUploading },
               on: {
                 click: function($event) {
                   $event.stopPropagation()
@@ -455,7 +472,8 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n            Close\n        ")]
+            [_c("v-icon", [_vm._v("mdi-close")])],
+            1
           )
         ],
         1
@@ -625,7 +643,8 @@ var render = function() {
                                               true
                                                 ? "primary--text"
                                                 : invoice.upload_status
-                                                    .success == false
+                                                    .success == false ||
+                                                  invoice.with_errors.length
                                                 ? "error--text"
                                                 : ""
                                           },
@@ -641,7 +660,9 @@ var render = function() {
                                                 color: "secondary",
                                                 title:
                                                   "Check to include, uncheck to exclude",
-                                                disabled: _vm.disableUploadBtn
+                                                disabled:
+                                                  _vm.disableUploadBtn ||
+                                                  invoice.with_errors.length > 0
                                               },
                                               model: {
                                                 value: invoice.included,
@@ -734,6 +755,58 @@ var render = function() {
                                         "v-expansion-panel-content",
                                         { staticClass: "pt-4" },
                                         [
+                                          invoice.with_errors.length
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "p-2 mb-4" },
+                                                _vm._l(
+                                                  invoice.with_errors,
+                                                  function(err, i) {
+                                                    return _c(
+                                                      "div",
+                                                      {
+                                                        key: i,
+                                                        staticClass: "mb-1"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "error--text"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-chip",
+                                                              {
+                                                                attrs: {
+                                                                  color:
+                                                                    "error",
+                                                                  "x-small": ""
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "\n                                                        Error\n                                                    "
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(
+                                                              "\n                                                    " +
+                                                                _vm._s(err) +
+                                                                "\n                                                "
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ]
+                                                    )
+                                                  }
+                                                ),
+                                                0
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
                                           _c(
                                             "div",
                                             { staticClass: "d-flex pb-4" },
