@@ -204,6 +204,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -431,20 +436,17 @@ var render = function() {
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
-          _c("InvoiceLookup"),
-          _vm._v(" "),
           _c(
             "v-btn",
             {
-              staticClass: "ml-2",
               attrs: {
+                rounded: "",
+                dense: "",
+                depressed: "",
                 color:
                   this.InvoicesStore.state.invoiceStatus == "completed"
                     ? "primary"
                     : "error",
-                rounded: "",
-                dense: "",
-                depressed: "",
                 disabled: _vm.disableUploadBtn
               },
               on: { click: _vm.upload }
@@ -460,10 +462,11 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
+          _c("div", { staticClass: "ml-3" }, [_c("InvoiceLookup")], 1),
+          _vm._v(" "),
           _c(
             "v-btn",
             {
-              staticClass: "ml-2 error--text",
               attrs: { icon: "", disabled: _vm.stillUploading },
               on: {
                 click: function($event) {
@@ -639,11 +642,15 @@ var render = function() {
                                             staticClass:
                                               "text-caption font-weight-boldx d-flex",
                                             class:
+                                              invoice.upload_status !=
+                                                undefined &&
                                               invoice.upload_status.success ==
-                                              true
+                                                true
                                                 ? "primary--text"
-                                                : invoice.upload_status
-                                                    .success == false ||
+                                                : (invoice.upload_status !=
+                                                    undefined &&
+                                                    invoice.upload_status
+                                                      .success == false) ||
                                                   invoice.with_errors.length
                                                 ? "error--text"
                                                 : ""
@@ -700,8 +707,10 @@ var render = function() {
                                             _vm._v(
                                               ")\n\n                                            "
                                             ),
+                                            invoice.upload_status !=
+                                              undefined &&
                                             invoice.upload_status.success ==
-                                            false
+                                              false
                                               ? _c(
                                                   "span",
                                                   {
@@ -726,8 +735,10 @@ var render = function() {
                                                 )
                                               : _vm._e(),
                                             _vm._v(" "),
+                                            invoice.upload_status !=
+                                              undefined &&
                                             invoice.upload_status.success ==
-                                            true
+                                              true
                                               ? _c(
                                                   "span",
                                                   {

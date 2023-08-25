@@ -11,7 +11,7 @@
 
                 <v-spacer></v-spacer>
 
-                <v-btn color="error" text @click="dialog = false" icon>
+                <v-btn text @click="dialog = false" icon>
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
             </v-card-title>
@@ -93,6 +93,7 @@ export default {
                 { text: "Quantity", value: "quantity" },
                 { text: "Price", value: "price" },
                 { text: "Amount", value: "amount" },
+                { text: "Discount %", value: "discount_percentage" },
                 { text: "Quantity/UOM", value: "qty_per_uom" },
                 { text: "UOM Code", value: "uom_code" },
                 { text: "Salesman Code", value: "sm_code" },

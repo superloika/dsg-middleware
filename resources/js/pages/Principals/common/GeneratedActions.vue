@@ -60,14 +60,13 @@
                         >
                             <v-spacer></v-spacer>
                             <v-btn
-                                text
-                                color="primary"
+                                text dense depressed rounded
                                 @click="datePickerShown = false"
                             >
                                 Cancel
                             </v-btn>
                             <v-btn
-                                text
+                                dense depressed rounded
                                 color="primary"
                                 @click="
                                     $refs.datePicker.save(PrincipalsStore.state.posting_date_range);

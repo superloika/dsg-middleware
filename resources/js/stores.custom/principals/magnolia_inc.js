@@ -48,7 +48,7 @@ const state = Vue.observable({
             // {text:"Amount",                  value: "amount"},
             {text:"Amount",                     value: "amount_supplier"},
             {text:"Line Discount %",            value: "discount_percentage"},
-            {text:"Discount Amount",            value: "discount_amount"},
+            {text:"Discount Amount",            value: "discount_value"},
             {text:"Salesman",                   value: "sm_code"},
             {text:"Group",                      value: "group"}
         ],
@@ -71,7 +71,7 @@ const state = Vue.observable({
             // {text:"Amount",                  value: "amount"},
             {text:"Amount",                     value: "amount_supplier"},
             {text:"Line Discount %",            value: "discount_percentage"},
-            {text:"Discount Amount",            value: "discount_amount"},
+            {text:"Discount Amount",            value: "discount_value"},
             {text:"Salesman",                   value: "sm_code"},
             {text:"Group",                      value: "group"},
             // additional return stuff

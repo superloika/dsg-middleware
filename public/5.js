@@ -2788,7 +2788,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "discount_percentage"
   }, {
     text: "Discount Amount",
-    value: "discount_amount"
+    value: "discount_value"
   }, {
     text: "Salesman",
     value: "sm_code"
@@ -2843,7 +2843,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: "discount_percentage"
   }, {
     text: "Discount Amount",
-    value: "discount_amount"
+    value: "discount_value"
   }, {
     text: "Salesman",
     value: "sm_code"
@@ -2989,67 +2989,6 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Supplier Item Description",
     value: "description_supplier"
-  }], [{
-    text: "Return Invoice #",
-    value: "invoice_no"
-  }, // {text:"External Return Invoice #",  value: "invoice_number"},
-  {
-    text: "Customer Code (NAV)",
-    value: "alturas_customer_code"
-  }, // {text:"Customer Code (Supplier)",   value: "customer_code"},
-  {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Return Invoice Date (Y-m-d) (NAV)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, {
-    text: "Item Name (NAV)",
-    value: "item_description"
-  }, // {text:"Item Name (Supplier)",       value: "description_supplier"},
-  {
-    text: "UOM",
-    value: "uom"
-  }, // {text:"UOM",                        value: "uom_supplier"},
-  {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Price",
-    value: "price"
-  }, // {text:"Price",                      value: "price_supplier"},
-  {
-    text: "Amount",
-    value: "amount"
-  }, // {text:"Amount",                     value: "amount_supplier"},
-  {
-    text: "Line Discount %",
-    value: "discount_percentage"
-  }, {
-    text: "Discount Amount",
-    value: "discount_amount"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }, // additional return stuff
-  {
-    text: "Return Indicator",
-    value: "return_indicator"
-  }, {
-    text: "Return Reason",
-    value: "remarks"
-  }, {
-    text: "Invoice Reference #",
-    value: "invoice_doc_no"
   }]],
   salesmenTableHeader: [[{
     text: "Salesman Name",
@@ -3060,6 +2999,33 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }]],
   // templated data table header
   generatedDataTableHeader: [[{
+    text: "Order Date (Date) (YYYY/MM/DD)",
+    value: "order_date"
+  }, {
+    text: "Customer Code (nv20)",
+    value: "customer_code"
+  }, {
+    text: "Route Code (nv20)",
+    value: "route_code"
+  }, {
+    text: "Product Category Code (nv20)",
+    value: "product_category_code"
+  }, {
+    text: "Ship To (nv40)",
+    value: "ship_to"
+  }, {
+    text: "Order Number (nv20)",
+    value: "order_no"
+  }, {
+    text: "Remarks (nv50)",
+    value: "remarks"
+  }, {
+    text: "Product Code (nv20)",
+    value: "item_code"
+  }, {
+    text: "Quantity (numeric 25,4)",
+    value: "quantity"
+  }], [{
     text: "Order Date (Date) (YYYY/MM/DD)",
     value: "order_date"
   }, {
@@ -3328,7 +3294,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Name",
     value: "customer_name"
   }, {
-    text: "Invoice Date (m/d/Y)",
+    text: "Invoice Date (d/m/Y)",
     value: "invoice_date"
   }, {
     text: "Item Code (NAV)",

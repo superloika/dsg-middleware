@@ -3,7 +3,7 @@
         <v-card-title>Confirm Export</v-card-title>
         <v-card-text class="text-subtitle-1">
             <div>
-                Export templated data to Excel?
+                Export templated data as Excel file?
             </div>
         </v-card-text>
         <v-card-actions>
@@ -17,19 +17,20 @@
             <v-spacer></v-spacer>
 
             <v-btn
+
+                @click="PrincipalsStore.state.confirmExportDialogOpen = false"
+                :disabled="PrincipalsStore.state.isExportingTemplatedData"
+                text dense rounded
+            >
+                Cancel
+            </v-btn>
+            <v-btn
                 @click="InvoicesStore.setInvoicesComplete()"
                 color="primary"
                 :loading="PrincipalsStore.state.isExportingTemplatedData"
-                text
+                dense rounded
             >
                 Proceed
-            </v-btn>
-            <v-btn
-                @click="PrincipalsStore.state.confirmExportDialogOpen = false"
-                :disabled="PrincipalsStore.state.isExportingTemplatedData"
-                text
-            >
-                Cancel
             </v-btn>
         </v-card-actions>
     </v-card>

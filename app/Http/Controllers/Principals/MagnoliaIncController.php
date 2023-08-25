@@ -534,7 +534,7 @@ class MagnoliaIncController extends Controller
                     $group_code =           $pendingInvoice->group;
                     $sm_code =              $pendingInvoice->sm_code;
                     $discount_percentage =  $pendingInvoice->discount_percentage ?? 0;
-                    $discount_amount =      $amount * $discount_percentage / 100;
+                    // $discount_value =      $amount * $discount_percentage / 100;
 
                     //********************************************************************
                     $customer = $principal_customers
@@ -588,8 +588,11 @@ class MagnoliaIncController extends Controller
                         //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
                         // map to orig price temporarily
                         $price_supplier = $price;
-                        $amount_supplier = round(($price_supplier * $quantity) , 6);
-                        $discount_amount = round(($amount_supplier * $discount_percentage / 100) , 6);
+                        $amount_supplier = $price_supplier * $quantity;
+                        $discount_value = $amount_supplier * $discount_percentage / 100;
+                        $amount_supplier = $amount_supplier - $discount_value;
+                        $discount_value = round($discount_value, 6);
+                        $amount_supplier = round($amount_supplier, 6);
                     }
                     // check customer ***************************
                     if ($customer == null) {
@@ -638,7 +641,7 @@ class MagnoliaIncController extends Controller
                         'cf_dsp_name_value' =>      $settings['DSP_'. $group_code],
                         'invoice_number' =>         trim($pendingInvoice->vendor_code). '-'. $doc_no,
                         'discount_percentage' =>    $discount_percentage,
-                        'discount_amount' =>        $discount_amount,
+                        'discount_value' =>        $discount_value,
                     ];
 
                     if ($chunk_line_count > 0) {
@@ -731,7 +734,7 @@ class MagnoliaIncController extends Controller
                     $vendor_code =          $return->vendor_code;
                     $sm_code =              $return->sm_code;
                     $remarks =              $return->remarks;
-                    $discount_amount =      $amount * $discount_percentage / 100;
+                    // $discount_value =      $amount * $discount_percentage / 100;
 
                     /**
                      * return quantity vs actual sales invoice quantity
@@ -798,8 +801,11 @@ class MagnoliaIncController extends Controller
                         //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
                         // map to orig price temporarily
                         $price_supplier = $price;
-                        $amount_supplier = round(($price_supplier * $quantity) ,6);
-                        $discount_amount = round(($amount_supplier * $discount_percentage / 100) ,6);
+                        $amount_supplier = $price_supplier * $quantity;
+                        $discount_value = $amount_supplier * $discount_percentage / 100;
+                        $amount_supplier = $amount_supplier - $discount_value;
+                        $discount_value = round($discount_value, 6);
+                        $amount_supplier = round($amount_supplier, 6);
                     }
                     // check customer ***************************
                     if ($customer == null) {
@@ -851,7 +857,7 @@ class MagnoliaIncController extends Controller
                         'cf_return_invoice_reference_value' =>  $vendor_code. '-'. $invoice_doc_no,
                         'invoice_number' =>                     $vendor_code. '-'. $doc_no,
                         'discount_percentage' =>                $discount_percentage,
-                        'discount_amount' =>                    $discount_amount,
+                        'discount_value' =>                     $discount_value,
                         'remarks' =>                            $remarks,
                         // order orig details
                         'invoice_quantity' =>       $invoice_quantity,

@@ -132,8 +132,10 @@ const actions = {
                         if(!objInvoices[e.invoice_number].details) {
                             objInvoices[e.invoice_number].details = [];
                         }
+
                         let temp_qty = e.quantity;
                         let temp_amount_supplier = e.amount_supplier;
+                        let temp_discount_value = e.discount_value;
                         //check if returned item
                         // if(isReturn) {
                         //     e.quantity = -Math.abs(e.quantity);
@@ -142,6 +144,7 @@ const actions = {
                         if(isReturn) {
                             temp_qty = -Math.abs(temp_qty);
                             temp_amount_supplier = -Math.abs(temp_amount_supplier);
+                            temp_discount_value = -Math.abs(temp_discount_value);
 
                             // kung mas daghan pa ang gi return
                             if(e.quantity > e.invoice_quantity) {
@@ -167,12 +170,13 @@ const actions = {
                             }
                         }
 
-                        let discount_value = (temp_qty * e.price_supplier) * e.discount_percentage / 100;
+                        // let discount_value = (temp_qty * e.price_supplier) * e.discount_percentage / 100;
                         // discount_value = discount_value < 1 ? 0 : discount_value;
 
                         // kung mas bigger ang discount value kesa sa total amount sa item
                         if(
-                            Math.abs(discount_value) > (e.quantity * e.price_supplier)
+                            // Math.abs(discount_value) > (e.quantity * e.price_supplier)
+                            Math.abs(temp_discount_value) > (e.quantity * e.price_supplier)
                         ) {
                             objInvoices[e.invoice_number].with_errors.unshift(
                                 'Discount value is greater than the item total amount'
@@ -188,8 +192,8 @@ const actions = {
                             sku_uom: e.uom_supplier,
                             price_per_item: e.price_supplier,
                             discount_percentage: e.discount_percentage,
-                            discount_value: discount_value,
-                            gross_value:  temp_amount_supplier - discount_value,
+                            discount_value: temp_discount_value,
+                            gross_value:  temp_amount_supplier,
                             // kaloy stuff
                             // kaning gross_amount kay wapay deduction sa discount
                             // wala pay sure haha

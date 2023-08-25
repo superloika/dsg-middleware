@@ -731,7 +731,7 @@ class InvoicesController extends Controller
                                 $return_indicator =
                                     $ret_indicator->where('payment_term',$payment_term)
                                         ->first()->return_indicator ?? '';
-                                $return_indicator = $return_indicator=='' ? 'Outright/Devuelto Bad' : $return_indicator;
+                                $return_indicator = $return_indicator=='' ? 'Outright / Devuelto Bad' : $return_indicator;
 
                                 $summaryItem['cm_headers_count'] += 1;
 

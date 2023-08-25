@@ -46,6 +46,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -79,7 +80,7 @@ var render = function() {
       _vm._v(" "),
       _c("v-card-text", { staticClass: "text-subtitle-1" }, [
         _c("div", [
-          _vm._v("\n            Export templated data to Excel?\n        ")
+          _vm._v("\n            Export templated data as Excel file?\n        ")
         ])
       ]),
       _vm._v(" "),
@@ -92,25 +93,10 @@ var render = function() {
             "v-btn",
             {
               attrs: {
-                color: "primary",
-                loading: _vm.PrincipalsStore.state.isExportingTemplatedData,
-                text: ""
-              },
-              on: {
-                click: function($event) {
-                  return _vm.InvoicesStore.setInvoicesComplete()
-                }
-              }
-            },
-            [_vm._v("\n            Proceed\n        ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: {
                 disabled: _vm.PrincipalsStore.state.isExportingTemplatedData,
-                text: ""
+                text: "",
+                dense: "",
+                rounded: ""
               },
               on: {
                 click: function($event) {
@@ -119,6 +105,24 @@ var render = function() {
               }
             },
             [_vm._v("\n            Cancel\n        ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: {
+                color: "primary",
+                loading: _vm.PrincipalsStore.state.isExportingTemplatedData,
+                dense: "",
+                rounded: ""
+              },
+              on: {
+                click: function($event) {
+                  return _vm.InvoicesStore.setInvoicesComplete()
+                }
+              }
+            },
+            [_vm._v("\n            Proceed\n        ")]
           )
         ],
         1

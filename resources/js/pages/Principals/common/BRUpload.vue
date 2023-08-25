@@ -4,26 +4,31 @@
             <v-toolbar-title>
                 <v-icon color="primary">mdi-cloud-upload</v-icon>
                 BeatRoute Upload
-                {{ this.InvoicesStore.state.invoiceStatus=='uploaded' ? '(Cancellation)' : '' }}
+                {{
+                    this.InvoicesStore.state.invoiceStatus=='uploaded' ?
+                    '(Cancellation)' : ''
+                }}
             </v-toolbar-title>
+
             <v-spacer></v-spacer>
 
-            <InvoiceLookup></InvoiceLookup>
             <v-btn
-
-                :color="this.InvoicesStore.state.invoiceStatus=='completed' ? 'primary' : 'error'"
                 rounded dense depressed
+                :color="
+                    this.InvoicesStore.state.invoiceStatus=='completed' ?
+                    'primary' : 'error'
+                "
                 @click="upload"
-                class="ml-2"
                 :disabled="disableUploadBtn"
             >
                 {{ enableReupload ? 'Reupload failed batch(es)' : 'Upload' }}
             </v-btn>
 
+            <div class="ml-3"><InvoiceLookup></InvoiceLookup></div>
+
             <v-btn
-                @click.stop="cancel"
                 icon
-                class="ml-2 error--text"
+                @click.stop="cancel"
                 :disabled="stillUploading"
             >
                 <v-icon>mdi-close</v-icon>
@@ -91,9 +96,9 @@
                                             <div
                                                 class="text-caption font-weight-boldx d-flex"
                                                 :class="
-                                                    invoice.upload_status.success==true ?
+                                                    (invoice.upload_status!=undefined && invoice.upload_status.success==true) ?
                                                     'primary--text'
-                                                    : invoice.upload_status.success==false || invoice.with_errors.length ?
+                                                    : (invoice.upload_status!=undefined && invoice.upload_status.success==false) || invoice.with_errors.length ?
                                                     'error--text'
                                                     : ''
                                                 "
@@ -110,7 +115,7 @@
                                                 {{ i+1 }}. {{ invoice.isReturn ? 'Return Invoice': 'Invoice' }} {{ invoice.erp_invoice_number }}
                                                 (<em>{{ invoice.details.length }} item/s</em>)
 
-                                                <span v-if="invoice.upload_status.success==false"
+                                                <span v-if="(invoice.upload_status!=undefined && invoice.upload_status.success==false)"
                                                     class="font-weight-bold"
                                                 >
                                                     | Error:
@@ -118,7 +123,7 @@
                                                     ({{ invoice.upload_status.value }})
                                                 </span>
 
-                                                <span v-if="invoice.upload_status.success==true"
+                                                <span v-if="(invoice.upload_status!=undefined && invoice.upload_status.success==true)"
                                                     class="font-weight-bold"
                                                 >
                                                     | {{ invoice.upload_status.message }}

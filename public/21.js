@@ -206,7 +206,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['lineCount', 'warningsCount'],
   components: {
@@ -525,7 +524,12 @@ var render = function() {
                           _c(
                             "v-btn",
                             {
-                              attrs: { text: "", color: "primary" },
+                              attrs: {
+                                text: "",
+                                dense: "",
+                                depressed: "",
+                                rounded: ""
+                              },
                               on: {
                                 click: function($event) {
                                   _vm.datePickerShown = false
@@ -542,7 +546,12 @@ var render = function() {
                           _c(
                             "v-btn",
                             {
-                              attrs: { text: "", color: "primary" },
+                              attrs: {
+                                dense: "",
+                                depressed: "",
+                                rounded: "",
+                                color: "primary"
+                              },
                               on: {
                                 click: function($event) {
                                   _vm.$refs.datePicker.save(
