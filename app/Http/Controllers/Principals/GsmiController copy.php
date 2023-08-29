@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Principals;
 
-use App\Events\GenerateTemplated;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\InvoicesController;
 use Carbon\Carbon;
@@ -306,22 +305,17 @@ class GsmiController extends Controller
                 $group_by = 'system_date';
             }
 
+            $template_variation_count = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+                ->select('template_variation_count')
+                ->where('code', $this->PRINCIPAL_CODE)
+                ->first()->template_variation_count;
+
             $res['success'] = true;
             $res['message'] = 'Success';
             $res['line_count'] = 0;
-            $res['output_template_variations'] = [
-                [
-                    'name' => 'Sales Invoices',
-                    'output_template' => [],
-                ],
-                [
-                    'name' => 'Returns',
-                    'output_template' => [],
-                ],
-            ];
+            $res['output_template_variations'] = [];
 
             $dateToday = Carbon::now();
-            $system_date = $dateToday->format('Y-m-d');
             $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
             // ***************************************************************************
 
@@ -331,67 +325,75 @@ class GsmiController extends Controller
             $breakFilesIteration = false;
             // ************************* /MISC INITS *************************************
 
+            // **************** PENDING INVOICES **************************
+            $pendingInvoices = InvoicesController::getPendingInvoices(
+                $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
+            );
 
-            // **************************** TEMPLATE(S) ***************************************
-            if(1){
-                // TEMPLATE 1 ===========================================================
-                if (1) {
-                    $pageLineCount = 1;
-                    $pageNum = 1;
+            $res['line_count'] = $pendingInvoices->count();
+            // **************** /PENDING INVOICES **************************
 
-                    // **************** PENDING INVOICES ************************************
-                    $pendingInvoices = InvoicesController::getPendingInvoices(
-                        $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
-                    );
-                    $pendingInvoicesCount = $pendingInvoices->count();
-                    $res['line_count'] += $pendingInvoicesCount;
-                    // **************** /PENDING INVOICES ************************************
+            // **************************** TEMPLATE(S) ****************************
+            $pageLineCount = 1;
+            $pageNum = 1;
 
-                    // Loop through each line of the file content
-                    $loopCounter = 0;
-                    foreach ($pendingInvoices as $pendingInvoice) {
-                        $loopCounter++;
-                        $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
-                        GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
+            for ($tvc_index = 0; $tvc_index < $template_variation_count; $tvc_index++) {
+                array_push($res['output_template_variations'], [
+                    'name' => 'Template ' . ($tvc_index + 1),
+                    'output_template' => [],
+                ]);
 
-                        $doc_no = $pendingInvoice->doc_no;
-                        $customer_code = $pendingInvoice->customer_code;
-                        $posting_date = $pendingInvoice->posting_date;
-                        $item_code = $pendingInvoice->item_code;
-                        $quantity = intval($pendingInvoice->quantity);
-                        $price = doubleval($pendingInvoice->price);
-                        $amount = doubleval($pendingInvoice->amount);
-                        $uom = $pendingInvoice->uom;
-                        $item_description = $pendingInvoice->item_description;
-                        $group_code = $pendingInvoice->group;
-                        $sm_code = $pendingInvoice->sm_code;
-                        $status = $pendingInvoice->status;
+                // Loop through each line of the file content
+                foreach ($pendingInvoices as $pendingInvoice) {
+                    $doc_no = trim($pendingInvoice->doc_no);
+                    $customer_code = trim($pendingInvoice->customer_code);
+                    $posting_date = trim($pendingInvoice->posting_date);
+                    $item_code = trim($pendingInvoice->item_code);
+                    $quantity = trim($pendingInvoice->quantity);
+                    $price = trim($pendingInvoice->price);
+                    $amount = trim($pendingInvoice->amount);
+                    $uom = trim($pendingInvoice->uom);
+                    $item_description = trim($pendingInvoice->item_description);
+                    $group_code = trim($pendingInvoice->group);
+                    $sm_code = trim($pendingInvoice->sm_code);
 
-                        //********************************************************************
-                        $nav_customer_name = $pendingInvoice->customer_name;
-                        if($nav_customer_name==null || $nav_customer_name=='') {
-                            $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                ->where('customer_code', $customer_code)
-                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        }
-                        // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     ->where('item_code', $item_code)
-                        //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-
-                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                            ->where('principal_code', $this->PRINCIPAL_CODE)
+                    //********************************************************************
+                    $nav_customer_name = trim($pendingInvoice->customer_name);
+                    if($nav_customer_name==null || $nav_customer_name=='') {
+                        $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
                             ->where('customer_code', $customer_code)
-                            ->first();
+                            ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    }
+                    // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                    //     ->where('customer_code', $customer_code)
+                    //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                    //     ->where('item_code', $item_code)
+                    //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
 
-                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                            ->where('principal_code', $this->PRINCIPAL_CODE)
-                            ->where('item_code', $item_code)
-                            ->first();
-                        //********************************************************************
+                    $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                        ->where('customer_code', $customer_code)
+                        ->first();
 
+                    $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                        ->where('item_code', $item_code)
+                        ->first();
+                    //********************************************************************
+
+                    // quantity_conversion
+                    // $bulk_qty = 0;
+                    // $loose_qty = 0;
+                    // if($item != null) {
+                    //     $quo = $quantity/$item->conversion_qty;
+                    //     $mod = $quantity%$item->conversion_qty;
+                    //     $bulk_qty = intval($quo);
+                    //     $loose_qty = $mod;
+                    // }
+
+                    // ******************** TEMPLATE 1 **************************
+                    if ($tvc_index == 0) {
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
                         $customer_notfound = 0;
@@ -418,157 +420,7 @@ class GsmiController extends Controller
                         } else {
                         }
 
-                        $item_code_supplier = $item->item_code_supplier ?? $item_code;
-                        $customer_code_supplier = $customer->customer_code_supplier ?? $customer_code;
-                        // ************************* /MISC INITS **************************
-
-                        // Generated data line structure
-                        $arrGenerated = [
-                            //commons
-                            'customer_code' => $customer_code_supplier,
-                            'alturas_customer_code' => $customer_code,
-                            'item_code' => $item_code_supplier,
-                            'alturas_item_code' => $item_code,
-                            'doc_no' => $doc_no,
-                            'missing_customer_name' => $missing_customer_name,
-                            'missing_item_name' => $missing_item_name,
-                            'customer_notfound' => $customer_notfound,
-                            'item_notfound' => $item_notfound,
-                            'salesman_notfound' => 0,
-                            'invoice_no' => $doc_no,
-                            'invoice_date' => $posting_date,
-                            'quantity' => $quantity,
-                            'price' => $price,
-                            'amount' => $amount,
-                            'uom' => $uom,
-                            'item_description' => $item_description,
-                            'description_supplier' => $item->description_supplier ?? 'NA',
-                            'customer_name' => $customer->customer_name ?? $nav_customer_name,
-                            'sm_name' => $sm_name,
-                            'system_date' => $system_date,
-                            'group' => $group_code,
-                            'status' => $status
-                        ];
-
-                        if ($chunk_line_count > 0) {
-                            if (
-                                !isset($res['output_template_variations'][0]['output_template']["Page " . $pageNum])
-                            ) {
-                                $res['output_template_variations'][0]['output_template']["Page " . $pageNum] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][0]['output_template']["Page " . $pageNum],
-                                $arrGenerated
-                            );
-
-                            $pageLineCount += 1;
-                            if ($pageLineCount > $chunk_line_count) {
-                                $pageNum += 1;
-                                $pageLineCount = 1;
-                            }
-                        } else {
-                            // group output_template_variations
-                            if (
-                                !isset($res['output_template_variations'][0]['output_template'][$$group_by])
-                            ) {
-                                $res['output_template_variations'][0]['output_template'][$$group_by] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][0]['output_template'][$$group_by],
-                                $arrGenerated
-                            );
-
-                        }
-
-                    }
-                }
-                // /TEMPLATE 1 ===========================================================
-                // TEMPLATE 2 ===========================================================
-                if (2) {
-                    $pageLineCount = 1;
-                    $pageNum = 1;
-
-                    // **************** PENDING INVOICES ************************************
-                    $returns = InvoicesController::getReturns(
-                        $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
-                    );
-                    $returnsCount = $returns->count();
-                    $res['line_count'] += $returnsCount;
-                    // **************** /PENDING INVOICES ************************************
-
-                    // Loop through each line of the file content
-                    $loopCounter = 0;
-                    foreach ($returns as $return) {
-                        $loopCounter++;
-                        $progressPercent = round(($loopCounter / $returnsCount) * 100);
-                        GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
-
-                        $doc_no = $return->doc_no;
-                        $customer_code = $return->customer_code;
-                        $posting_date = $return->posting_date;
-                        $item_code = $return->item_code;
-                        $quantity = intval($return->quantity);
-                        $price = doubleval($return->price);
-                        $amount = doubleval($return->amount);
-                        $uom = $return->uom;
-                        $item_description = $return->item_description;
-                        $group_code = $return->group;
-                        $sm_code = $return->sm_code;
-                        $status = $return->status;
-                        $invoice_doc_no = $return->invoice_doc_no;
-                        $return_indicator = $return->return_indicator;
-                        $remarks = $return->remarks;
-
-                        //********************************************************************
-                        $nav_customer_name = $return->customer_name;
-                        if($nav_customer_name==null || $nav_customer_name=='') {
-                            $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                ->where('customer_code', $customer_code)
-                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        }
-                        // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     ->where('item_code', $item_code)
-                        //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-
-                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                            ->where('principal_code', $this->PRINCIPAL_CODE)
-                            ->where('customer_code', $customer_code)
-                            ->first();
-
-                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                            ->where('principal_code', $this->PRINCIPAL_CODE)
-                            ->where('item_code', $item_code)
-                            ->first();
-                        //********************************************************************
-
-                        // ************************* MISC INITS **************************
-                        $item_notfound = 0;
-                        $customer_notfound = 0;
-                        $salesman_notfound = 0;
-                        $missing_customer_name = '';
-                        $missing_item_name = '';
-                        $sm_name = $customer->salesman_name ?? 'NA';
-
-                        if ($item == null) {
-                            $item_notfound = 1;
-                            // $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                            //     ->where('item_code', $item_code)
-                            //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-                            $missing_item_name = $item_description;
-                        } else {
-                        }
-
-                        if ($customer == null) {
-                            $customer_notfound = 1;
-                            $missing_customer_name = $nav_customer_name;
-                            // $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                            //     ->where('customer_code', $customer_code)
-                            //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        } else {
-                        }
+                        $system_date = $dateToday->format('Y/m/d');
 
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
                         $customer_code_supplier = $customer->customer_code_supplier ?? $customer_code;
@@ -589,30 +441,27 @@ class GsmiController extends Controller
                             'salesman_notfound' => 0,
                             'invoice_no' => $doc_no,
                             'invoice_date' => $posting_date,
-                            'quantity' => $quantity,
-                            'price' => $price,
-                            'amount' => $amount,
+                            'quantity' => intval($quantity),
+                            'price' => doubleval($price),
+                            'amount' => doubleval($amount),
                             'uom' => $uom,
                             'item_description' => $item_description,
                             'description_supplier' => $item->description_supplier ?? 'NA',
                             'customer_name' => $customer->customer_name ?? $nav_customer_name,
                             'sm_name' => $sm_name,
                             'system_date' => $system_date,
-                            'group' => $group_code,
-                            'status' => $status,
-                            'invoice_doc_no' => $invoice_doc_no,
-                            'return_indicator' => $return_indicator,
-                            'remarks' => $remarks,
+                            'group' => $pendingInvoice->group,
+                            'status' => $pendingInvoice->status
                         ];
 
                         if ($chunk_line_count > 0) {
                             if (
-                                !isset($res['output_template_variations'][1]['output_template']["Page " . $pageNum])
+                                !isset($res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum])
                             ) {
-                                $res['output_template_variations'][1]['output_template']["Page " . $pageNum] = [];
+                                $res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum] = [];
                             }
                             array_push(
-                                $res['output_template_variations'][1]['output_template']["Page " . $pageNum],
+                                $res['output_template_variations'][$tvc_index]['output_template']["Page " . $pageNum],
                                 $arrGenerated
                             );
 
@@ -623,23 +472,58 @@ class GsmiController extends Controller
                             }
                         } else {
                             // group output_template_variations
-                            if (
-                                !isset($res['output_template_variations'][1]['output_template'][$$group_by])
-                            ) {
-                                $res['output_template_variations'][1]['output_template'][$$group_by] = [];
+                            if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
+                                // ---------------------------------------------------------------------------
+                                if (
+                                    !isset($res['output_template_variations'][$tvc_index]['output_template']['Unmapped'])
+                                ) {
+                                    $res['output_template_variations'][$tvc_index]['output_template']['Unmapped'] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations'][$tvc_index]['output_template']['Unmapped'],
+                                    $arrGenerated
+                                );
+                                // ---------------------------------------------------------------------------
+                            } else {
+                                // if($sm_code==null||$sm_code=='') {
+                                //     // ---------------------------------------------------------------------------
+                                //     if (
+                                //         !isset($res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'])
+                                //     ) {
+                                //         $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'] = [];
+                                //     }
+                                //     array_push(
+                                //         $res['output_template_variations'][$tvc_index]['output_template']['NO_SM_CODE'],
+                                //         $arrGenerated
+                                //     );
+                                //     // ---------------------------------------------------------------------------
+                                // } else {
+                                    // ---------------------------------------------------------------------------
+                                    if (
+                                        !isset($res['output_template_variations'][$tvc_index]['output_template'][$$group_by])
+                                    ) {
+                                        $res['output_template_variations'][$tvc_index]['output_template'][$$group_by] = [];
+                                    }
+                                    array_push(
+                                        $res['output_template_variations'][$tvc_index]['output_template'][$$group_by],
+                                        $arrGenerated
+                                    );
+                                    // ---------------------------------------------------------------------------
+                                // }
                             }
-                            array_push(
-                                $res['output_template_variations'][1]['output_template'][$$group_by],
-                                $arrGenerated
-                            );
 
                         }
 
                     }
                 }
-                // /TEMPLATE 2 ===========================================================
+
+                // reset this guys to 1
+                $pageLineCount = 1;
+                $pageNum = 1;
             }
             // ********************************** /TEMPLATES **********************************
+
+            // $fileCount++;
 
             return response()->json($res);
 

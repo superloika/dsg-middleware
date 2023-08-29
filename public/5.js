@@ -1690,7 +1690,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Name",
     value: "customer_name"
   }, {
-    text: "Invoice Date (M/D/Y)",
+    text: "Invoice Date (m/d/Y)",
     value: "invoice_date"
   }, {
     text: "Item Code (NAV)",
@@ -1722,6 +1722,54 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Group",
     value: "group"
+  }], [{
+    text: "CM #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (m/d/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_name"
+  }, {
+    text: "Group",
+    value: "group"
+  }, {
+    text: "Invoice Reference #",
+    value: "invoice_doc_no"
+  }, {
+    text: "Remarks",
+    value: "remarks"
   }]],
   // ***********************************************************************************
   generatedDataHistoryFilters: [[{
@@ -3110,7 +3158,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Name",
     value: "customer_name"
   }, {
-    text: "Invoice Date (M/D/Y)",
+    text: "Invoice Date (m/d/Y)",
     value: "invoice_date"
   }, {
     text: "Item Code (NAV)",
@@ -3142,6 +3190,54 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Group",
     value: "group"
+  }], [{
+    text: "CM #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (m/d/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }, {
+    text: "Invoice Reference #",
+    value: "invoice_doc_no"
+  }, {
+    text: "Remarks",
+    value: "remarks"
   }]],
   // ***********************************************************************************
   generatedDataHistoryFilters: [[{
@@ -3933,7 +4029,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Name",
     value: "customer_name"
   }, {
-    text: "Invoice Date (M/D/Y)",
+    text: "Invoice Date (m/d/Y)",
     value: "invoice_date"
   }, {
     text: "Item Code (NAV)",
@@ -3965,6 +4061,54 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Group",
     value: "group"
+  }], [{
+    text: "CM #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (m/d/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }, {
+    text: "Invoice Reference #",
+    value: "invoice_doc_no"
+  }, {
+    text: "Remarks",
+    value: "remarks"
   }]],
   // ***********************************************************************************
   generatedDataHistoryFilters: [[{
