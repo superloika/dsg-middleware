@@ -565,7 +565,7 @@ class FoodsphereIncController extends Controller
             ];
 
             $dateToday = Carbon::now();
-            $system_date = $dateToday->format('m/d/Y');
+            $system_date = $dateToday->format('Y-m-d');
             $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
             // ***************************************************************************
 
@@ -582,7 +582,7 @@ class FoodsphereIncController extends Controller
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             if (1) {
-                // ******************************** TEMPLATE 1 ***********************************
+                // ******************************** TEMPLATE 1 ************************************
                 if(1) {
                     $pageLineCount = 1;
                     $pageNum = 1;
@@ -787,7 +787,7 @@ class FoodsphereIncController extends Controller
                 }
                 // ******************************** /TEMPLATE 1 ***********************************
 
-                // ***************************** TEMPLATE 2 *****************************
+                // ***************************** TEMPLATE 2 ***************************************
                 if(2) {
                     $pageLineCount = 1;
                     $pageNum = 1;
@@ -799,64 +799,70 @@ class FoodsphereIncController extends Controller
                     $returnsCount = $returns->count();
                     // dd($returns[0]);
                     $res['line_count'] += $returnsCount;
-                    // **************** /RETURNS ************************************************
+                    // **************** /RETURNS ***********************************************
 
                     // Loop through each line of the file content
                     $loopCounter = 0;
                     foreach ($returns as $return) {
                         $loopCounter++;
                         $progressPercent = round(($loopCounter / $returnsCount) * 100);
-                        GenerateTemplated::dispatch("Generating returns ($progressPercent%)");
+                        GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
 
-                        $doc_no =               $return->doc_no;
-                        $customer_code =        $return->customer_code;
-                        $shipment_date =        $return->shipment_date;
-                        $posting_date =         (new Carbon($shipment_date))->format('m/d/Y');
-                        $item_code =            $return->item_code . '';
-                        $quantity =             intval($return->quantity);
-                        $price =                doubleval($return->price);
-                        $amount =               doubleval($return->amount);
-                        $uom =                  $return->uom;
-                        $item_description =     $return->item_description;
-                        $group_code =           $return->group;
-                        $discount_percentage =  $return->discount_percentage ?? 0;
-                        $discount_percentage =  intval($discount_percentage);
-                        $invoice_quantity =     intval($return->invoice_quantity);
-                        $invoice_doc_no =       $return->invoice_doc_no;
-                        $return_indicator =     $return->return_indicator;
-                        $vendor_code =          $return->vendor_code;
-                        $sm_code =              $return->sm_code;
-                        $remarks =              $return->remarks;
-                        $discount_amount =      $amount * $discount_percentage / 100;
-                        $nav_customer_name =    $return->customer_name;
-
-                        /**
-                         * return quantity vs actual sales invoice quantity
-                         * skip returned items with greater quantity than the actual sales quantity
-                         */
-                        // if($quantity > $invoice_quantity) continue;
+                        $doc_no =           $return->doc_no;
+                        $customer_code =    $return->customer_code;
+                        $posting_date =     (new Carbon($return->shipment_date))->format('m/d/Y');
+                        $item_code =        $return->item_code;
+                        $quantity =         intval($return->quantity);
+                        $price =            doubleval($return->price);
+                        $amount =           doubleval($return->amount);
+                        $uom =              $return->uom;
+                        $item_description = $return->item_description;
+                        $sm_code =          $return->sm_code;
+                        $group_code =       $return->group;
+                        $status =           $return->status;
+                        $return_indicator = $return->return_indicator;
+                        $invoice_doc_no =   $return->invoice_doc_no;
+                        $remarks =          $return->remarks;
 
                         //********************************************************************
+                        $nav_customer_name = trim($return->customer_name);
+                        if($nav_customer_name==null || $nav_customer_name=='') {
+                            $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                                ->where('customer_code', $customer_code)
+                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                        }
+                        // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                        //     ->where('customer_code', $customer_code)
+                        //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                        // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                        //     ->where('item_code', $item_code)
+                        //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
+
                         // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
                         //     ->where('principal_code', $this->PRINCIPAL_CODE)
                         //     ->where('customer_code', $customer_code)
                         //     ->first();
 
                         // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
                         //     ->where('item_code', $item_code)
                         //     ->first();
-
-                        //test
                         $item = $principal_items->where('item_code', $item_code)->first();
 
-                        // // price and uom mapping (supplier) ********************
-                        // $uom_supplier = $return->qty_per_uom > 1 ?
-                        //     $item->uom : $item->conversion_uom;
-                        // $price_supplier = $return->qty_per_uom > 1 ?
-                        //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
-                        // $price_supplier = doubleval($price_supplier);
-                        // $amount_supplier = round($price_supplier * $quantity, 4);
+                        // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                        //     ->where('group_code', $group_code)
+                        //     ->first();
+                        //********************************************************************
+
+                        // quantity_conversion
+                        // $bulk_qty = 0;
+                        // $loose_qty = 0;
+                        // if($item != null) {
+                        //     $quo = $quantity/$item->conversion_qty;
+                        //     $mod = $quantity%$item->conversion_qty;
+                        //     $bulk_qty = intval($quo);
+                        //     $loose_qty = $mod;
+                        // }
 
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
@@ -864,91 +870,76 @@ class FoodsphereIncController extends Controller
                         $salesman_notfound = 0;
                         $missing_customer_name = '';
                         $missing_item_name = '';
-                        // $item_code_supplier = 'NA';
-                        // $item_description_supplier = 'NA';
-                        // $customer_code_supplier = 'NA';
-                        // $uom_supplier = 'NA';
-                        // $price_supplier = 0;
-                        // $amount_supplier = 0;
 
-                        // check item ***************************************
                         if ($item == null) {
                             $item_notfound = 1;
+                            // $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                            //     ->where('item_code', $item_code)
+                            //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
                             $missing_item_name = $item_description;
-                            $item_code_supplier = $item_code;
                         } else {
-                            $item_code_supplier = $item->item_code_supplier;
+
                         }
 
-                        // check customer ***********************************
-                        // ...
+                        // if ($customer == null) {
+                        //     $customer_notfound = 1;
+                        //     $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                        //         ->where('customer_code', $customer_code)
+                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                        // } else {
+                        // }
 
+                        // if ($salesman == null) {
+                        //     // $salesman_notfound = 1;
+                        // }
+
+                        $item_code_supplier = $item->item_code_supplier ?? $item_code;
+                        $customer_code_supplier = $customer_code;
                         // ************************* /MISC INITS **************************
 
                         // Generated data line structure
                         $arrGenerated = [
                             //commons
-                            'customer_code' =>          $customer_code,
-                            'alturas_customer_code' =>  $customer_code,
-                            'item_code' =>              $item_code_supplier,
-                            'alturas_item_code' =>      $item_code,
-                            'doc_no' =>                 $doc_no,
-                            'missing_customer_name' =>  $missing_customer_name,
-                            'missing_item_name' =>      $missing_item_name,
-                            'customer_notfound' =>      $customer_notfound,
-                            'item_notfound' =>          $item_notfound,
-                            'salesman_notfound' =>      $salesman_notfound,
+                            'customer_code' => $customer_code_supplier,
+                            'alturas_customer_code' => $customer_code,
+                            'item_code' => $item_code_supplier,
+                            'alturas_item_code' => $item_code,
+                            'doc_no' => $doc_no,
+                            'missing_customer_name' => $missing_customer_name,
+                            'missing_item_name' => $missing_item_name,
+                            'customer_notfound' => $customer_notfound,
+                            'item_notfound' => $item_notfound,
+                            'salesman_notfound' => $salesman_notfound,
                             // principal specific
-                            'invoice_no' =>             $doc_no,
-                            'invoice_date' =>           $posting_date,
-                            'quantity' =>               $quantity,
-                            'price' =>                  $price,
-                            'price_supplier' =>         $price ?? 0,
-                            'amount' =>                 $amount,
-                            'amount_supplier' =>        $amount ?? 0,
-                            'uom' =>                    $uom,
-                            'uom_supplier' =>           $uom ?? 'NA',
-                            'item_description' =>       $item_description,
-                            'description_supplier' =>   $item_description,
-                            'customer_name' =>          $nav_customer_name,
-                            'system_date' =>            $system_date,
-                            'group' =>                  $group_code,
-                            'status' =>                 $return->status,
-                            // other BR payload props
-                            // 'cf_dsp_name_id' =>                     $br_config->cf_dsp_name,
-                            // 'cf_dsp_name_value' =>                  $settings['DSP_'. $group_code],
-                            // 'cf_return_indicator_id' =>             $br_config->cf_return_indicator,
-                            // 'cf_return_indicator_value' =>          $return_indicator,
-                            // 'cf_return_invoice_reference_id' =>     $br_config->cf_return_invoice_reference,
-                            // 'cf_return_invoice_reference_value' =>  $invoice_doc_no,
-                            'invoice_number' =>         $doc_no,
-                            'discount_percentage' =>    $discount_percentage,
-                            'discount_amount' =>        $discount_amount,
-                            'remarks' =>                $remarks,
-                            // order orig details
-                            'invoice_quantity' =>       $invoice_quantity,
-                            'invoice_doc_no' =>         $invoice_doc_no,
-                            'return_indicator' =>       $return_indicator,
-                            'vendor_code' =>            $vendor_code,
-                            'sm_code' =>                $sm_code,
+                            'invoice_no' => $doc_no,
+                            'invoice_date' => $posting_date,
+                            'quantity' => $quantity,
+                            // 'bulk_qty' => $bulk_qty,
+                            // 'loose_qty' => $loose_qty,
+                            'price' => $price,
+                            'amount' => $amount,
+                            'uom' => $uom,
+                            'item_description' => $item_description,
+                            'description_supplier' => $item->description_supplier ?? 'N/A',
+                            // 'customer_name' => $nav_customer_name,
+                            'customer_name' => $nav_customer_name ?? 'N/A',
+                            'sm_code' => $sm_code ?? 'N/A',
+                            'system_date' => $system_date,
+                            'group' => $group_code,
+                            'status' => $status,
+                            'return_indicator' => $return_indicator,
+                            'remarks' => $remarks,
+                            'invoice_doc_no' => $invoice_doc_no,
                         ];
 
                         if ($chunk_line_count > 0) {
                             if (
-                                !isset(
-                                    $res[
-                                        'output_template_variations'
-                                    ][1]['output_template']["Page " . $pageNum]
-                                )
+                                !isset($res['output_template_variations'][1]['output_template']["Page " . $pageNum])
                             ) {
-                                $res[
-                                    'output_template_variations'
-                                ][1]['output_template']["Page " . $pageNum] = [];
+                                $res['output_template_variations'][1]['output_template']["Page " . $pageNum] = [];
                             }
                             array_push(
-                                $res[
-                                    'output_template_variations'
-                                ][1]['output_template']["Page " . $pageNum],
+                                $res['output_template_variations'][1]['output_template']["Page " . $pageNum],
                                 $arrGenerated
                             );
 
@@ -959,31 +950,51 @@ class FoodsphereIncController extends Controller
                             }
                         } else {
                             // group output_template_variations
-                            if (
-                                !isset(
-                                    $res[
-                                        'output_template_variations'
-                                    ][1]['output_template'][$$group_by]
-                                )
-                            ) {
-                                $res[
-                                    'output_template_variations'
-                                ][1]['output_template'][$$group_by] = [];
+                            if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
+                                // ---------------------------------------------------------------------------
+                                if (
+                                    !isset($res['output_template_variations'][1]['output_template']['Unmapped'])
+                                ) {
+                                    $res['output_template_variations'][1]['output_template']['Unmapped'] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations'][1]['output_template']['Unmapped'],
+                                    $arrGenerated
+                                );
+                                // ---------------------------------------------------------------------------
+                            } else {
+                                // if($sm_code==null||$sm_code=='') {
+                                //     // ---------------------------------------------------------------------------
+                                //     if (
+                                //         !isset($res['output_template_variations'][1]['output_template']['NO_SM_CODE'])
+                                //     ) {
+                                //         $res['output_template_variations'][1]['output_template']['NO_SM_CODE'] = [];
+                                //     }
+                                //     array_push(
+                                //         $res['output_template_variations'][1]['output_template']['NO_SM_CODE'],
+                                //         $arrGenerated
+                                //     );
+                                //     // ---------------------------------------------------------------------------
+                                // } else {
+                                    // ---------------------------------------------------------------------------
+                                    if (
+                                        !isset($res['output_template_variations'][1]['output_template'][$$group_by])
+                                    ) {
+                                        $res['output_template_variations'][1]['output_template'][$$group_by] = [];
+                                    }
+                                    array_push(
+                                        $res['output_template_variations'][1]['output_template'][$$group_by],
+                                        $arrGenerated
+                                    );
+                                    // ---------------------------------------------------------------------------
+                                // }
                             }
-                            array_push(
-                                $res[
-                                    'output_template_variations'
-                                ][1]['output_template'][$$group_by],
-                                $arrGenerated
-                            );
                         }
-                    } // /loop invoices
+                    }
                 }
-                // ***************************** /TEMPLATE 2 *****************************
+                // ***************************** /TEMPLATE 2 *************************************
             }
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-            // $fileCount++;
 
             return response()->json($res);
 

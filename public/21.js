@@ -206,6 +206,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['lineCount', 'warningsCount'],
   components: {
@@ -332,8 +336,10 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     refresh: function refresh() {
-      this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus);
-      this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
+      if (this.invoiceStatus != '') {
+        this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus);
+        this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
+      }
     },
     showBRUploadDialog: function showBRUploadDialog() {
       this.currentTimestamp = Date.now();
@@ -374,69 +380,6 @@ var render = function() {
           _c(
             "v-row",
             [
-              _c(
-                "v-col",
-                { attrs: { cols: "12" } },
-                [
-                  _c("v-select", {
-                    staticStyle: { "max-width": "500px", "min-width": "200px" },
-                    attrs: {
-                      items: _vm.InvoicesStore.state.invoiceStatuses,
-                      label: "Status",
-                      "item-text": "status",
-                      "item-value": "value",
-                      outlined: "",
-                      rounded: "",
-                      "hide-details": "",
-                      dense: ""
-                    },
-                    model: {
-                      value: _vm.InvoicesStore.state.invoiceStatus,
-                      callback: function($$v) {
-                        _vm.$set(_vm.InvoicesStore.state, "invoiceStatus", $$v)
-                      },
-                      expression: "InvoicesStore.state.invoiceStatus"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "12" } },
-                [
-                  _c("v-select", {
-                    staticStyle: { "max-width": "500px", "min-width": "200px" },
-                    attrs: {
-                      items:
-                        _vm.selPrincipalStore.state
-                          .generatedDataHistoryFilters[0],
-                      label: "Group By",
-                      "item-text": "text",
-                      "item-value": "value",
-                      outlined: "",
-                      rounded: "",
-                      "hide-details": "",
-                      dense: "",
-                      disabled: _vm.PrincipalsStore.state.isGeneratingData
-                    },
-                    model: {
-                      value: _vm.PrincipalsStore.state.selectedGroupBy,
-                      callback: function($$v) {
-                        _vm.$set(
-                          _vm.PrincipalsStore.state,
-                          "selectedGroupBy",
-                          $$v
-                        )
-                      },
-                      expression: "PrincipalsStore.state.selectedGroupBy"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
               _c(
                 "v-col",
                 { attrs: { cols: "12" } },
@@ -573,6 +516,69 @@ var render = function() {
                     ],
                     1
                   )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "12" } },
+                [
+                  _c("v-select", {
+                    staticStyle: { "max-width": "500px", "min-width": "200px" },
+                    attrs: {
+                      items:
+                        _vm.selPrincipalStore.state
+                          .generatedDataHistoryFilters[0],
+                      label: "Group By",
+                      "item-text": "text",
+                      "item-value": "value",
+                      outlined: "",
+                      rounded: "",
+                      "hide-details": "",
+                      dense: "",
+                      disabled: _vm.PrincipalsStore.state.isGeneratingData
+                    },
+                    model: {
+                      value: _vm.PrincipalsStore.state.selectedGroupBy,
+                      callback: function($$v) {
+                        _vm.$set(
+                          _vm.PrincipalsStore.state,
+                          "selectedGroupBy",
+                          $$v
+                        )
+                      },
+                      expression: "PrincipalsStore.state.selectedGroupBy"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "12" } },
+                [
+                  _c("v-select", {
+                    staticStyle: { "max-width": "500px", "min-width": "200px" },
+                    attrs: {
+                      items: _vm.InvoicesStore.state.invoiceStatuses,
+                      label: "Status",
+                      "item-text": "status",
+                      "item-value": "value",
+                      outlined: "",
+                      rounded: "",
+                      "hide-details": "",
+                      dense: ""
+                    },
+                    model: {
+                      value: _vm.InvoicesStore.state.invoiceStatus,
+                      callback: function($$v) {
+                        _vm.$set(_vm.InvoicesStore.state, "invoiceStatus", $$v)
+                      },
+                      expression: "InvoicesStore.state.invoiceStatus"
+                    }
+                  })
                 ],
                 1
               ),

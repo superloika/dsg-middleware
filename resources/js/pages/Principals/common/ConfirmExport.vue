@@ -6,7 +6,7 @@
                 Export templated data as Excel file?
             </div>
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions class="py-4">
             <!-- <v-checkbox
                 label="Include Completed Invoices"
                 :disabled="PrincipalsStore.state.isExportingTemplatedData"

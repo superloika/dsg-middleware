@@ -22,7 +22,7 @@ const state = Vue.observable({
             {text:"Group", value: "group"}
         ],
         [
-            {text:"Invoice #", value: "invoice_no"},
+            {text:"CM #", value: "invoice_no"},
             {text:"Customer Code", value: "customer_code"},
             {text:"Customer Name", value: "customer_name"},
             // {text:"Invoice Date (m/d/y)", value: "invoice_date"},
@@ -38,6 +38,7 @@ const state = Vue.observable({
             {text:"Salesman", value: "sm_code"},
             {text:"Group", value: "group"},
             {text:"Invoice Reference #", value: "invoice_doc_no"},
+            {text:"Remarks", value: "remarks"},
         ],
         // [
         //     {text:"Return Invoice #",           value: "invoice_no"},

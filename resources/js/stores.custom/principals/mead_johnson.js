@@ -41,17 +41,17 @@ const state = Vue.observable({
             {text:"Product Code (nv20)",            value: "item_code"},
             {text:"Quantity (numeric 25,4)",        value: "quantity"},
         ],
-        [
-            {text:"Order Date (Date) (YYYY/MM/DD)", value: "order_date"},
-            {text:"Customer Code (nv20)",           value: "customer_code"},
-            {text:"Route Code (nv20)",              value: "route_code"},
-            {text:"Product Category Code (nv20)",   value: "product_category_code"},
-            {text:"Ship To (nv40)",                 value: "ship_to"},
-            {text:"Order Number (nv20)",            value: "order_no"},
-            {text:"Remarks (nv50)",                 value: "remarks"},
-            {text:"Product Code (nv20)",            value: "item_code"},
-            {text:"Quantity (numeric 25,4)",        value: "quantity"},
-        ],
+        // [
+        //     {text:"Order Date (Date) (YYYY/MM/DD)", value: "order_date"},
+        //     {text:"Customer Code (nv20)",           value: "customer_code"},
+        //     {text:"Route Code (nv20)",              value: "route_code"},
+        //     {text:"Product Category Code (nv20)",   value: "product_category_code"},
+        //     {text:"Ship To (nv40)",                 value: "ship_to"},
+        //     {text:"Order Number (nv20)",            value: "order_no"},
+        //     {text:"Remarks (nv50)",                 value: "remarks"},
+        //     {text:"Product Code (nv20)",            value: "item_code"},
+        //     {text:"Quantity (numeric 25,4)",        value: "quantity"},
+        // ],
     ],
 
 

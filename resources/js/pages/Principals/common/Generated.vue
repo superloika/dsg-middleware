@@ -38,7 +38,7 @@
                         :close-on-content-click="false"
                         offset-y
                         bottom
-                        z-index="999"
+                        z-indexx="999"
                         transition="scroll-y-reverse-transition"
                     >
                         <template v-slot:activator="{ on, attrs }">
@@ -47,10 +47,10 @@
                                 color="primary"
                                 title="More Options"
                             >
-                                <v-icon>
+                                <!-- <v-icon>
                                     mdi-dots-horizontal-circle
-                                </v-icon>
-                                More
+                                </v-icon> -->
+                                Options
                             </v-btn>
                         </template>
 

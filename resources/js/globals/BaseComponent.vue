@@ -2,9 +2,7 @@
     <v-app>
         <v-system-bar app
             height="45"
-            lightx
             dark
-            colorx="grey lighten-3"
             color="primary"
         >
             <v-btn
@@ -13,14 +11,14 @@
             >&#9776;</v-btn>
 
             <v-toolbar-title class="ml-1">
-                <a href="/" style="text-decoration:none;" class="white--text">
+                <a href="/" style="text-decoration:none;" class=" white--text">
                     {{ AppStore.state.AppName }}
                 </a>
             </v-toolbar-title>
 
             <v-spacer></v-spacer>
 
-            <span class="text-caption white--text mr-3 overflow-auto">
+            <span class="text-caption mr-3 overflow-auto white--text">
                 Howdy, {{ AuthUser.name }}!
             </span>
 

@@ -145,7 +145,8 @@ Route::prefix('principals')->group(function(){
         ['CenturyCanningController', 'a_tung_chingco'],
 
         ['JnjController', 'jnj'],
-        ['ApolloController', 'apollo'],
+        // ['ApolloController', 'apollo'],
+        ['JnjController', 'apollo'],
 
         ['RfmController', 'rfm'],
 

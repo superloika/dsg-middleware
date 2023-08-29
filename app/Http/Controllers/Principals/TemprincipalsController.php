@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Storage;
 
 class TemprincipalsController extends Controller
 {
-    private $PRINCIPAL_CODE = 'temprincipals';
-
     /**
      * Create a new controller instance.
      *
@@ -57,8 +55,9 @@ class TemprincipalsController extends Controller
             ];
 
             $dateToday = Carbon::now();
-            $system_date = $dateToday->format('m/d/Y');
-            $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
+            $system_date = $dateToday->format('Y-m-d');
+            $settings = PrincipalsUtil::getSettings($request->principal_code);
+            dd($settings);
             // ***************************************************************************
 
             // ************************* MISC INITS **************************************
@@ -285,8 +284,10 @@ class TemprincipalsController extends Controller
                         $item_description = $return->item_description;
                         $sm_code = $return->sm_code;
                         $group_code = $return->group;
-                        $invoice_doc_no = $return->invoice_doc_no; // reference #
                         $status = $return->status;
+                        $invoice_doc_no = $return->invoice_doc_no; // reference #
+                        $return_indicator = $return->return_indicator;
+                        $remarks = $return->remarks;
 
                         //********************************************************************
                         $nav_customer_name = $return->customer_name;
@@ -386,8 +387,10 @@ class TemprincipalsController extends Controller
                             'sm_code' => $sm_code ?? 'NA',
                             'system_date' => $system_date,
                             'group' => $group_code,
+                            'status' => $status,
+                            'return_indicator' => $return_indicator,
+                            'remarks' => $remarks,
                             'invoice_doc_no' => $invoice_doc_no,
-                            'status' => $status
                         ];
 
                         if ($chunk_line_count > 0) {

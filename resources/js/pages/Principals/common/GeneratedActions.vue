@@ -2,38 +2,8 @@
     <v-card max-width="300">
         <v-card-text>
             <v-row>
-                <v-col cols="12">
-                    <v-select
-                        :items="InvoicesStore.state.invoiceStatuses"
-                        v-model="InvoicesStore.state.invoiceStatus"
-                        label="Status"
-                        item-text="status"
-                        item-value="value"
-                        style="max-width:500px;min-width:200px;"
-                        outlined
-                        rounded
-                        hide-details
-                        dense
-                    ></v-select>
-                </v-col>
 
-                <v-col cols="12">
-                    <v-select
-                        :items="selPrincipalStore.state.generatedDataHistoryFilters[0]"
-                        v-model="PrincipalsStore.state.selectedGroupBy"
-                        label="Group By"
-                        item-text="text"
-                        item-value="value"
-                        style="max-width:500px;min-width:200px;"
-                        outlined
-                        rounded
-                        hide-details
-                        dense
-                        :disabled="PrincipalsStore.state.isGeneratingData"
-                    >
-                    </v-select>
-                </v-col>
-
+                <!-- posting date -->
                 <v-col cols="12">
                     <v-text-field
                         v-model="dateRangeText"
@@ -78,6 +48,40 @@
                         </v-date-picker>
                     </v-dialog>
                     <!-- /DATEPICKER -->
+                </v-col>
+
+                <!-- status -->
+                <v-col cols="12">
+                    <v-select
+                        :items="selPrincipalStore.state.generatedDataHistoryFilters[0]"
+                        v-model="PrincipalsStore.state.selectedGroupBy"
+                        label="Group By"
+                        item-text="text"
+                        item-value="value"
+                        style="max-width:500px;min-width:200px;"
+                        outlined
+                        rounded
+                        hide-details
+                        dense
+                        :disabled="PrincipalsStore.state.isGeneratingData"
+                    >
+                    </v-select>
+                </v-col>
+
+                <!-- group by -->
+                <v-col cols="12">
+                    <v-select
+                        :items="InvoicesStore.state.invoiceStatuses"
+                        v-model="InvoicesStore.state.invoiceStatus"
+                        label="Status"
+                        item-text="status"
+                        item-value="value"
+                        style="max-width:500px;min-width:200px;"
+                        outlined
+                        rounded
+                        hide-details
+                        dense
+                    ></v-select>
                 </v-col>
 
                 <!-- <v-col cols="12">
@@ -345,10 +349,13 @@ export default {
         },
 
         refresh() {
-            this.PrincipalsStore.initCurrentGeneratedData(
-                null,this.InvoicesStore.state.invoiceStatus
-            );
-            this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
+            if(this.invoiceStatus != '') {
+                this.PrincipalsStore.initCurrentGeneratedData(
+                    null,this.InvoicesStore.state.invoiceStatus
+                );
+                this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
+            }
+
         },
 
         showBRUploadDialog() {

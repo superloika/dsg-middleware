@@ -340,7 +340,7 @@ var render = function() {
                         "close-on-content-click": false,
                         "offset-y": "",
                         bottom: "",
-                        "z-index": "999",
+                        "z-indexx": "999",
                         transition: "scroll-y-reverse-transition"
                       },
                       scopedSlots: _vm._u([
@@ -368,16 +368,10 @@ var render = function() {
                                   on
                                 ),
                                 [
-                                  _c("v-icon", [
-                                    _vm._v(
-                                      "\n                                mdi-dots-horizontal-circle\n                            "
-                                    )
-                                  ]),
                                   _vm._v(
-                                    "\n                            More\n                        "
+                                    "\n                            Options\n                        "
                                   )
-                                ],
-                                1
+                                ]
                               )
                             ]
                           }

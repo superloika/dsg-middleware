@@ -86,6 +86,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-card-actions",
+        { staticClass: "py-4" },
         [
           _c("v-spacer"),
           _vm._v(" "),
