@@ -337,7 +337,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     refresh: function refresh() {
       if (this.invoiceStatus != '') {
-        this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus);
+        var _this$selPrincipalSto;
+
+        this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus, (_this$selPrincipalSto = this.selPrincipalStore.state.posting_date_format) !== null && _this$selPrincipalSto !== void 0 ? _this$selPrincipalSto : 'm/d/Y');
         this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
       }
     },

@@ -77,6 +77,8 @@ const state = Vue.observable({
         ]
     ],
 
+    // misc
+    posting_date_format: '',
 });
 
 

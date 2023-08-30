@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
-class MagnoliaIncController extends Controller
+class PurefoodsController extends Controller
 {
     private $PRINCIPAL_CODE = 'NA';
 
@@ -29,7 +29,7 @@ class MagnoliaIncController extends Controller
         try {
             $this->PRINCIPAL_CODE = explode("/",Route::current()->getAction()['prefix'])[1] ?? 'NA';
         } catch (\Throwable $th) {
-            //throw $th;
+            dd($th->getMessage());
         }
         // dd($this->PRINCIPAL_CODE);
     }
@@ -494,6 +494,8 @@ class MagnoliaIncController extends Controller
             $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                 ->where('principal_code', $this->PRINCIPAL_CODE)
                 ->get();
+
+            $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS *************************************
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -524,7 +526,7 @@ class MagnoliaIncController extends Controller
                     // $customer_code       = trim($pendingInvoice->customer_code);
                     $customer_code =        '101798'; // for BR test (Espana Store External ID)
                     $posting_date =         trim($pendingInvoice->posting_date);
-                    $posting_date =         (new Carbon($posting_date))->format('Y-m-d');
+                    $posting_date =         (new Carbon($posting_date))->format($postingDateFormat);
                     $item_code =            trim($pendingInvoice->item_code) . '';
                     $quantity =             $pendingInvoice->quantity;
                     $price =                doubleval($pendingInvoice->price);
@@ -719,7 +721,7 @@ class MagnoliaIncController extends Controller
                     // $customer_code       = trim($return->customer_code);
                     $customer_code =        '101798'; // for BR test (Espana Store External ID)
                     $shipment_date =        $return->shipment_date;
-                    $posting_date =        (new Carbon($shipment_date))->format('Y-m-d');
+                    $posting_date =        (new Carbon($shipment_date))->format($postingDateFormat);
                     $item_code =            $return->item_code . '';
                     $quantity =             $return->quantity;
                     $price =                doubleval($return->price);

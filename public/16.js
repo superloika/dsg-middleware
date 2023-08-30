@@ -264,6 +264,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     disableUploadBtn: function disableUploadBtn() {
       return !this.batches.length || this.stillUploading || !this.enableReupload && this.uploadAttempts > 0;
+    },
+    selPrincipalStore: function selPrincipalStore() {
+      return this[this.PrincipalsStore.state.selectedPrincipalCode];
     }
   },
   methods: {
@@ -343,8 +346,10 @@ __webpack_require__.r(__webpack_exports__);
       if (confirm('Are you sure you want to close this window?')) {
         // regenerate templated data if upload states has been modified
         if (this.batchUploadStates[0] || this.uploadAttempts > 0) {
+          var _this$selPrincipalSto;
+
           this.batchUploadStates = [];
-          this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus);
+          this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus, (_this$selPrincipalSto = this.selPrincipalStore.state.posting_date_format) !== null && _this$selPrincipalSto !== void 0 ? _this$selPrincipalSto : 'm/d/Y');
         }
 
         this.tab = null;

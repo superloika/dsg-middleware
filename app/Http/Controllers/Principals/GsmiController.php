@@ -329,6 +329,8 @@ class GsmiController extends Controller
             $filesTotalLineCount = 0;
             $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
             $breakFilesIteration = false;
+
+            $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS *************************************
 
 

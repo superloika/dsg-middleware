@@ -278,8 +278,6 @@ var map = {
 	"./gsmi.js": "./resources/js/stores.custom/principals/gsmi.js",
 	"./gspi": "./resources/js/stores.custom/principals/gspi.js",
 	"./gspi.js": "./resources/js/stores.custom/principals/gspi.js",
-	"./gspi1": "./resources/js/stores.custom/principals/gspi1.js",
-	"./gspi1.js": "./resources/js/stores.custom/principals/gspi1.js",
 	"./gymboree_marketing": "./resources/js/stores.custom/principals/gymboree_marketing.js",
 	"./gymboree_marketing.js": "./resources/js/stores.custom/principals/gymboree_marketing.js",
 	"./hormel_foods": "./resources/js/stores.custom/principals/hormel_foods.js",
@@ -1389,16 +1387,122 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, // {text:"Invoice Date (d/m/Y)", value: "invoice_date"},
+  {
+    text: "Invoice Date (d/m/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }], [{
+    text: "CM #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, // {text:"Invoice Date (d/m/Y)", value: "invoice_date"},
+  {
+    text: "Invoice Date (d/m/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }, {
+    text: "Invoice Reference #",
+    value: "invoice_doc_no"
+  }, {
+    text: "Remarks",
+    value: "remarks"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Invoice #',
+    value: 'doc_no'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]],
+  // misc
+  posting_date_format: 'd/m/Y'
+});
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -1575,7 +1679,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Source Group',
     value: 'group_code'
-  }]]
+  }]],
+  // misc
+  posting_date_format: 'm/d/Y'
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1787,7 +1893,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Source Group',
     value: 'group_code'
-  }]]
+  }]],
+  //misc
+  posting_date_format: 'm/d/Y'
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1903,34 +2011,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Remarks",
     value: "remarks"
-  }] // [
-  //     {text:"Return Invoice #",           value: "invoice_no"},
-  //     // {text:"External Return Invoice #",  value: "invoice_number"},
-  //     {text:"Customer Code (NAV)",        value: "alturas_customer_code"},
-  //     // {text:"Customer Code (Supplier)",   value: "customer_code"},
-  //     {text:"Customer Name",              value: "customer_name"},
-  //     {text:"Return Invoice Date (m/d/Y) (NAV)",   value: "invoice_date"},
-  //     {text:"Item Code (NAV)",            value: "alturas_item_code"},
-  //     // {text:"Item Code (Supplier)",       value: "item_code"},
-  //     {text:"Item Name (NAV)",            value: "item_description"},
-  //     // {text:"Item Name (Supplier)",       value: "description_supplier"},
-  //     // {text:"UOM",                     value: "uom"},
-  //     {text:"UOM",                        value: "uom_supplier"},
-  //     {text:"Quantity",                   value: "quantity"},
-  //     // {text:"Price",                   value: "price"},
-  //     {text:"Price",                      value: "price_supplier"},
-  //     // {text:"Amount",                  value: "amount"},
-  //     {text:"Amount",                     value: "amount_supplier"},
-  //     {text:"Line Discount %",            value: "discount_percentage"},
-  //     {text:"Discount Amount",            value: "discount_amount"},
-  //     {text:"Salesman",                   value: "sm_code"},
-  //     {text:"Group",                      value: "group"},
-  //     // additional return stuff
-  //     {text:"Return Indicator",           value: "return_indicator"},
-  //     {text:"Return Reason",              value: "remarks"},
-  //     {text:"Invoice Reference #",        value: "invoice_doc_no"},
-  // ],
-  ],
+  }]],
   // ***********************************************************************************
   generatedDataHistoryFilters: [[{
     text: 'System Date',
@@ -1947,193 +2028,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Source Group',
     value: 'group_code'
-  }]]
-});
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
-});
-
-/***/ }),
-
-/***/ "./resources/js/stores.custom/principals/gspi1.js":
-/*!********************************************************!*\
-  !*** ./resources/js/stores.custom/principals/gspi1.js ***!
-  \********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  customersTableHeader: [[{
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Name",
-    value: "customer_name"
-  }, {
-    text: "Barangay",
-    value: "address_1"
-  }, {
-    text: "Town",
-    value: "address_2"
-  }, {
-    text: "Province",
-    value: "address_3"
   }]],
-  itemsTableHeader: [[{
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code_supplier"
-  }, {
-    text: "Description (Supplier)",
-    value: "description_supplier"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "Price in PCS",
-    value: "conversion_uom_price"
-  }, {
-    text: "Price in CASE",
-    value: "uom_price"
-  }]],
-  salesmenTableHeader: [[{
-    text: "Salesman Code",
-    value: "sm_code"
-  }, {
-    text: "Salesman Contact",
-    value: "sm_contact_no"
-  }, {
-    text: "Division",
-    value: "division"
-  }, {
-    text: "Salesman Name",
-    value: "sm_name"
-  }, {
-    text: "Supervisor Contact",
-    value: "supervisor_contact_no"
-  }, {
-    text: "Supervisor",
-    value: "supervisor_name"
-  }]],
-  // templated data table header(s)
-  generatedDataTableHeader: [[{
-    text: "InvoiceDate",
-    value: "invoice_date"
-  }, {
-    text: "ItemNo",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description_supplier"
-  }, {
-    text: "SalesQty",
-    value: "quantity"
-  }, {
-    text: "SalesPrice",
-    value: "price"
-  }, {
-    text: "SalesAmount",
-    value: "amount"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Currency",
-    value: "currency"
-  }, {
-    text: "CustomerNo",
-    value: "customer_code"
-  }, {
-    text: "CustomerName",
-    value: "customer_name"
-  }, {
-    text: "CustomerAddress",
-    value: "address_1"
-  }, {
-    text: "CustomerCity",
-    value: "address_2"
-  }, {
-    text: "CustomerProvince",
-    value: "address_3"
-  }, {
-    text: "SalesmanNo",
-    value: "sm_code"
-  }, {
-    text: "SalesManName",
-    value: "sm_name"
-  }, {
-    text: "SalesmanPhoneNumber",
-    value: "sm_contact_no"
-  }, {
-    text: "SupervisorNo",
-    value: "supervisor_contact_no"
-  }, {
-    text: "SupervisorName",
-    value: "supervisor_name"
-  }, {
-    text: "InvoiceNo",
-    value: "invoice_no"
-  }]],
-  // transactions table header
-  transactionsTableHeader: [[{
-    text: "Upload Date",
-    value: "updated_at"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Account Name",
-    value: "customer_name"
-  }, {
-    text: "Sales Invoice",
-    value: "doc_no"
-  }, {
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Description",
-    value: "description"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, {
-    text: "Amount",
-    value: "u3"
-  }]],
-  // ************************* Templated Data History *******************************
-  // custom cols (Templated Data History)
-  generatedDataDBTableColumns: [// common
-  'id', 'generated_at', 'uploaded_by', 'doc_no', // principal template
-  "invoice_date", "item_code", "description_supplier", "quantity", "price", "amount", "uom", "currency", "customer_code", "customer_name", "address_1", "address_2", "address_3", "sm_code", "sm_name", "sm_contact_no", "supervisor_contact_no", "supervisor_name", "invoice_no"],
-  generatedDataHistoryFilters: [[{
-    text: 'Invoice Posting Date',
-    value: 'invoice_date'
-  }, {
-    text: 'Document #',
-    value: 'doc_no'
-  }, {
-    text: 'Product Code',
-    value: 'item_code'
-  }, {
-    text: 'Account Code',
-    value: 'customer_code'
-  }, {
-    text: 'Salesman',
-    value: 'sm_code'
-  }]] // ************************* /Templated Data History *******************************
-
+  // misc
+  posting_date_format: 'm/d/Y'
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2154,16 +2051,122 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, // {text:"Invoice Date (d/m/Y)", value: "invoice_date"},
+  {
+    text: "Invoice Date (d/m/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }], [{
+    text: "CM #",
+    value: "invoice_no"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, // {text:"Invoice Date (d/m/Y)", value: "invoice_date"},
+  {
+    text: "Invoice Date (d/m/Y)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, {
+    text: "Price",
+    value: "price"
+  }, {
+    text: "Amount",
+    value: "amount"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }, {
+    text: "Invoice Reference #",
+    value: "invoice_doc_no"
+  }, {
+    text: "Remarks",
+    value: "remarks"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Invoice #',
+    value: 'doc_no'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }]],
+  // misc
+  posting_date_format: 'd/m/Y'
+});
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: state // ...actions
@@ -2183,7 +2186,7 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _magnolia_inc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./magnolia_inc */ "./resources/js/stores.custom/principals/magnolia_inc.js");
+/* harmony import */ var _the_purefoods_hormel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./the_purefoods_hormel */ "./resources/js/stores.custom/principals/the_purefoods_hormel.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2192,7 +2195,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _magnolia_inc__WEBPACK_IMPORTED_MODULE_1__["default"].state));
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _the_purefoods_hormel__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
   state: state
@@ -2479,7 +2482,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Source Group',
     value: 'group_code'
-  }]]
+  }]],
+  // misc
+  posting_date_format: ''
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2674,197 +2679,16 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _the_purefoods_hormel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./the_purefoods_hormel */ "./resources/js/stores.custom/principals/the_purefoods_hormel.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
- // import AppStore from '../AppStore';
 
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  strict_export: true,
-  beatroute_uploading: true,
-  bu: 'ppfb',
-  // principal masterfiles
-  itemsTableHeader: [[{
-    text: "Material Code",
-    value: "item_code_supplier"
-  }, {
-    text: "Item Code",
-    value: "item_code"
-  }, {
-    text: "Supplier Item Description",
-    value: "description_supplier"
-  }, {
-    text: "PCS/CASE",
-    value: "conversion_qty"
-  }, {
-    text: "CASE Price",
-    value: "uom_price"
-  }, {
-    text: "PCS Price",
-    value: "conversion_uom_price"
-  }, {
-    text: "UOM",
-    value: "uom"
-  }, {
-    text: "Conversion UOM",
-    value: "conversion_uom"
-  }]],
-  customersTableHeader: [[{
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
-    text: "Customer Code",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }]],
-  // templated data table header
-  generatedDataTableHeader: [[{
-    text: "Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "External Invoice #",
-    value: "invoice_number"
-  }, {
-    text: "Customer Code (NAV)",
-    value: "alturas_customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Invoice Date (Y-m-d) (NAV)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, // {text:"Item Name (NAV)",            value: "item_description"},
-  {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, // {text:"UOM",                     value: "uom"},
-  {
-    text: "UOM",
-    value: "uom_supplier"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, // {text:"Price",                   value: "price"},
-  {
-    text: "Price",
-    value: "price_supplier"
-  }, // {text:"Amount",                  value: "amount"},
-  {
-    text: "Amount",
-    value: "amount_supplier"
-  }, {
-    text: "Line Discount %",
-    value: "discount_percentage"
-  }, {
-    text: "Discount Amount",
-    value: "discount_value"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }], [{
-    text: "Return Invoice #",
-    value: "invoice_no"
-  }, {
-    text: "External Return Invoice #",
-    value: "invoice_number"
-  }, {
-    text: "Customer Code (NAV)",
-    value: "alturas_customer_code"
-  }, {
-    text: "Customer Code (Supplier)",
-    value: "customer_code"
-  }, {
-    text: "Customer Name",
-    value: "customer_name"
-  }, {
-    text: "Return Invoice Date (Y-m-d) (NAV)",
-    value: "invoice_date"
-  }, {
-    text: "Item Code (NAV)",
-    value: "alturas_item_code"
-  }, {
-    text: "Item Code (Supplier)",
-    value: "item_code"
-  }, // {text:"Item Name (NAV)",            value: "item_description"},
-  {
-    text: "Item Name (Supplier)",
-    value: "description_supplier"
-  }, // {text:"UOM",                     value: "uom"},
-  {
-    text: "UOM",
-    value: "uom_supplier"
-  }, {
-    text: "Quantity",
-    value: "quantity"
-  }, // {text:"Price",                   value: "price"},
-  {
-    text: "Price",
-    value: "price_supplier"
-  }, // {text:"Amount",                  value: "amount"},
-  {
-    text: "Amount",
-    value: "amount_supplier"
-  }, {
-    text: "Line Discount %",
-    value: "discount_percentage"
-  }, {
-    text: "Discount Amount",
-    value: "discount_value"
-  }, {
-    text: "Salesman",
-    value: "sm_code"
-  }, {
-    text: "Group",
-    value: "group"
-  }, // additional return stuff
-  {
-    text: "Return Indicator",
-    value: "return_indicator"
-  }, {
-    text: "Return Reason",
-    value: "remarks"
-  }, {
-    text: "Invoice Reference #",
-    value: "invoice_doc_no"
-  }]],
-  // ***********************************************************************************
-  generatedDataHistoryFilters: [[{
-    text: 'System Date',
-    value: 'system_date'
-  }, {
-    text: 'Posting Date',
-    value: 'posting_date'
-  }, {
-    text: 'Item Code',
-    value: 'item_code'
-  }, {
-    text: 'Customer Code',
-    value: 'customer_code'
-  }, {
-    text: 'Source Group',
-    value: 'group_code'
-  }, {
-    text: 'Invoice #',
-    value: 'doc_no'
-  }]]
-});
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _the_purefoods_hormel__WEBPACK_IMPORTED_MODULE_1__["default"].state));
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
   state: state
@@ -3071,8 +2895,10 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Source Group',
     value: 'group_code'
-  }]] // ************************* /Templated Data History *******************************
-
+  }]],
+  // ************************* /Templated Data History *******************************
+  // misc
+  posting_date_format: 'Y/m/d'
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3252,7 +3078,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Source Group',
     value: 'group_code'
-  }]]
+  }]],
+  // misc
+  posting_date_format: 'm/d/Y'
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3406,7 +3234,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: 'Source Group',
     value: 'group_code'
-  }]]
+  }]],
+  // misc
+  posting_date_format: 'd/m/Y'
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4620,21 +4450,203 @@ var actions = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _magnolia_inc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./magnolia_inc */ "./resources/js/stores.custom/principals/magnolia_inc.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+ // import AppStore from '../AppStore';
 
-
-var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _magnolia_inc__WEBPACK_IMPORTED_MODULE_1__["default"].state));
-var actions = {};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  state: state // ...actions
-
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
+  strict_export: true,
+  beatroute_uploading: true,
+  bu: 'ppfb',
+  // principal masterfiles
+  itemsTableHeader: [[{
+    text: "Material Code",
+    value: "item_code_supplier"
+  }, {
+    text: "Item Code",
+    value: "item_code"
+  }, {
+    text: "Supplier Item Description",
+    value: "description_supplier"
+  }, {
+    text: "PCS/CASE",
+    value: "conversion_qty"
+  }, {
+    text: "CASE Price",
+    value: "uom_price"
+  }, {
+    text: "PCS Price",
+    value: "conversion_uom_price"
+  }, {
+    text: "UOM",
+    value: "uom"
+  }, {
+    text: "Conversion UOM",
+    value: "conversion_uom"
+  }]],
+  customersTableHeader: [[{
+    text: "Customer Code (Supplier)",
+    value: "customer_code_supplier"
+  }, {
+    text: "Customer Code",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }]],
+  // templated data table header
+  generatedDataTableHeader: [[{
+    text: "Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "External Invoice #",
+    value: "invoice_number"
+  }, {
+    text: "Customer Code (NAV)",
+    value: "alturas_customer_code"
+  }, {
+    text: "Customer Code (Supplier)",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Invoice Date (Y-m-d) (NAV)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, // {text:"Item Name (NAV)",            value: "item_description"},
+  {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, // {text:"UOM",                     value: "uom"},
+  {
+    text: "UOM",
+    value: "uom_supplier"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, // {text:"Price",                   value: "price"},
+  {
+    text: "Price",
+    value: "price_supplier"
+  }, // {text:"Amount",                  value: "amount"},
+  {
+    text: "Amount",
+    value: "amount_supplier"
+  }, {
+    text: "Line Discount %",
+    value: "discount_percentage"
+  }, {
+    text: "Discount Amount",
+    value: "discount_value"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }], [{
+    text: "Return Invoice #",
+    value: "invoice_no"
+  }, {
+    text: "External Return Invoice #",
+    value: "invoice_number"
+  }, {
+    text: "Customer Code (NAV)",
+    value: "alturas_customer_code"
+  }, {
+    text: "Customer Code (Supplier)",
+    value: "customer_code"
+  }, {
+    text: "Customer Name",
+    value: "customer_name"
+  }, {
+    text: "Return Invoice Date (Y-m-d) (NAV)",
+    value: "invoice_date"
+  }, {
+    text: "Item Code (NAV)",
+    value: "alturas_item_code"
+  }, {
+    text: "Item Code (Supplier)",
+    value: "item_code"
+  }, // {text:"Item Name (NAV)",            value: "item_description"},
+  {
+    text: "Item Name (Supplier)",
+    value: "description_supplier"
+  }, // {text:"UOM",                     value: "uom"},
+  {
+    text: "UOM",
+    value: "uom_supplier"
+  }, {
+    text: "Quantity",
+    value: "quantity"
+  }, // {text:"Price",                   value: "price"},
+  {
+    text: "Price",
+    value: "price_supplier"
+  }, // {text:"Amount",                  value: "amount"},
+  {
+    text: "Amount",
+    value: "amount_supplier"
+  }, {
+    text: "Line Discount %",
+    value: "discount_percentage"
+  }, {
+    text: "Discount Amount",
+    value: "discount_value"
+  }, {
+    text: "Salesman",
+    value: "sm_code"
+  }, {
+    text: "Group",
+    value: "group"
+  }, // additional return stuff
+  {
+    text: "Return Indicator",
+    value: "return_indicator"
+  }, {
+    text: "Return Reason",
+    value: "remarks"
+  }, {
+    text: "Invoice Reference #",
+    value: "invoice_doc_no"
+  }]],
+  // ***********************************************************************************
+  generatedDataHistoryFilters: [[{
+    text: 'System Date',
+    value: 'system_date'
+  }, {
+    text: 'Posting Date',
+    value: 'posting_date'
+  }, {
+    text: 'Item Code',
+    value: 'item_code'
+  }, {
+    text: 'Customer Code',
+    value: 'customer_code'
+  }, {
+    text: 'Source Group',
+    value: 'group_code'
+  }, {
+    text: 'Invoice #',
+    value: 'doc_no'
+  }]],
+  // misc
+  posting_date_format: 'Y-m-d'
 });
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
+  state: state
+}, actions));
 
 /***/ }),
 

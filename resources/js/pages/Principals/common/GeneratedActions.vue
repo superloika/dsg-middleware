@@ -351,7 +351,9 @@ export default {
         refresh() {
             if(this.invoiceStatus != '') {
                 this.PrincipalsStore.initCurrentGeneratedData(
-                    null,this.InvoicesStore.state.invoiceStatus
+                    null,
+                    this.InvoicesStore.state.invoiceStatus,
+                    this.selPrincipalStore.state.posting_date_format ?? 'm/d/Y'
                 );
                 this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
             }

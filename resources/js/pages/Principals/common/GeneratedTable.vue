@@ -173,14 +173,14 @@
             <span v-else>{{ item.sm_code }}</span>
         </template>
 
-        <template v-slot:[`item.invoice_date`]="{ item }">
+        <!-- <template v-slot:[`item.invoice_date`]="{ item }">
             <div>
                 {{
                     withDmyFormats.indexOf(PrincipalsStore.state.selectedPrincipalCode) == -1 ?
                     item.invoice_date : AppStore.dmyDateFormat(item.invoice_date)
                 }}
             </div>
-        </template>
+        </template> -->
 
         <template v-slot:[`item.price`]="{ item }">
             <div class="text-right">
@@ -229,7 +229,7 @@ export default {
 
     data() {
         return {
-            withDmyFormats: ['del_monte_ph'],
+            // withDmyFormats: ['del_monte_ph','fonterra_brands','gymboree_marketing'],
         }
     },
 

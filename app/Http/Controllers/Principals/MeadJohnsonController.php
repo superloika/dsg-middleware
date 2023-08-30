@@ -484,6 +484,8 @@ class MeadJohnsonController extends Controller
             $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
                 ->where('principal_code', $this->PRINCIPAL_CODE)
                 ->get();
+
+            $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS *************************************
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -579,7 +581,7 @@ class MeadJohnsonController extends Controller
                             $missing_salesman_name = $customer->salesman_name;
                         }
 
-                        $order_date = $dateToday->format('Y/m/d');
+                        $order_date = $dateToday->format($postingDateFormat);
                         $order_no = 'N/A';
 
                         $order_no = $doc_no_ints. $item_code;

@@ -65,6 +65,9 @@ const state = Vue.observable({
             {text: 'Source Group', value: 'group_code'},
         ]
     ],
+
+    // misc
+    posting_date_format: 'm/d/Y',
 });
 
 

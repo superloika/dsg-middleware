@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class CenturyCanningController extends Controller
 {
-    public static $PRINCIPAL_CODE = 'century_canning';
+    private $PRINCIPAL_CODE = 'century_canning';
 
     /**
      * Create a new controller instance.
@@ -26,7 +26,7 @@ class CenturyCanningController extends Controller
         try {
             $this->PRINCIPAL_CODE = explode("/",Route::current()->getAction()['prefix'])[1] ?? 'NA';
         } catch (\Throwable $th) {
-            //throw $th;
+            dd($th->getMessage());
         }
     }
 
@@ -62,7 +62,7 @@ class CenturyCanningController extends Controller
             ])
 
             ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.principal_code',
-                self::$PRINCIPAL_CODE)
+                $this->PRINCIPAL_CODE)
             // ->get($cols);
 
             // $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
@@ -110,7 +110,7 @@ class CenturyCanningController extends Controller
             $delimiter = ',';
             $fileName = time() . '.' . $request->file->getClientOriginalName();
             $fileStoragePath =
-                "public/principals/" . self::$PRINCIPAL_CODE . "/items";
+                "public/principals/" . $this->PRINCIPAL_CODE . "/items";
             Storage::putFileAs($fileStoragePath, $request->file, $fileName);
 
             $res['success'] = true;
@@ -125,7 +125,7 @@ class CenturyCanningController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                    ->where('principal_code', self::$PRINCIPAL_CODE)->delete();
+                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
                 $fileContent = utf8_encode($fileContent);
@@ -149,7 +149,7 @@ class CenturyCanningController extends Controller
                             // $conversion_uom = 'PCS';
 
                             $arrLines[] = [
-                                'principal_code' => self::$PRINCIPAL_CODE,
+                                'principal_code' => $this->PRINCIPAL_CODE,
                                 'uploaded_by' => auth()->user()->id,
                                 'item_code' => $item_code,
                                 'item_code_supplier' => $item_code_supplier,
@@ -212,7 +212,7 @@ class CenturyCanningController extends Controller
     //         // )
     //         ->where(
     //             PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.principal_code',
-    //             self::$PRINCIPAL_CODE
+    //             $this->PRINCIPAL_CODE
     //         )
     //         // ->get();
 
@@ -231,7 +231,7 @@ class CenturyCanningController extends Controller
     //         ->paginate($row_count);
 
     //     // $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-    //     //     ->where('principal_code', self::$PRINCIPAL_CODE)
+    //     //     ->where('principal_code', $this->PRINCIPAL_CODE)
     //     //     ->get();
 
     //     return response()->json($result);
@@ -246,7 +246,7 @@ class CenturyCanningController extends Controller
     //     try {
     //         $delimiter = ',';
     //         $fileName = time() . '.' . $request->file->getClientOriginalName();
-    //         $fileStoragePath = "public/principals/" . self::$PRINCIPAL_CODE . "/customers";
+    //         $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/customers";
     //         Storage::putFileAs($fileStoragePath, $request->file, $fileName);
 
     //         DB::beginTransaction();
@@ -258,7 +258,7 @@ class CenturyCanningController extends Controller
     //             $lineCount = 1;
 
     //             DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-    //                 ->where('principal_code', self::$PRINCIPAL_CODE)->delete();
+    //                 ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
     //             $fileContentLines = explode(
     //                 PHP_EOL,
@@ -284,7 +284,7 @@ class CenturyCanningController extends Controller
     //                         $isExisting = false;
     //                         if ($isExisting == false) {
     //                             $arrLines[] = [
-    //                                 'principal_code' => self::$PRINCIPAL_CODE,
+    //                                 'principal_code' => $this->PRINCIPAL_CODE,
     //                                 'customer_code' => $customer_code,
     //                                 'customer_code_supplier' => $customer_code_supplier,
     //                                 'uploaded_by' => auth()->user()->id
@@ -328,7 +328,7 @@ class CenturyCanningController extends Controller
         set_time_limit(0);
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-            ->where('principal_code', self::$PRINCIPAL_CODE)
+            ->where('principal_code', $this->PRINCIPAL_CODE)
             ->get();
         return response()->json($result);
     }
@@ -343,7 +343,7 @@ class CenturyCanningController extends Controller
             $delimiter = ',';
             $fileName = time() . '.' . $request->file->getClientOriginalName();
             $fileStoragePath =
-                "public/principals/" . self::$PRINCIPAL_CODE . "/salesmen";
+                "public/principals/" . $this->PRINCIPAL_CODE . "/salesmen";
             Storage::putFileAs($fileStoragePath, $request->file, $fileName);
 
             DB::beginTransaction();
@@ -355,7 +355,7 @@ class CenturyCanningController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                    ->where('principal_code', self::$PRINCIPAL_CODE)->delete();
+                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
 
                 $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(
@@ -379,7 +379,7 @@ class CenturyCanningController extends Controller
                             // ====================================================================
 
                             $arrLines[] = [
-                                'principal_code' => self::$PRINCIPAL_CODE,
+                                'principal_code' => $this->PRINCIPAL_CODE,
                                 'group_code' => $group_code,
                                 'sm_code_supplier' => $sm_code_supplier,
                                 'location_code_supplier' => $location_code_supplier,
@@ -446,7 +446,7 @@ class CenturyCanningController extends Controller
 
             $dateToday = Carbon::now();
             $system_date = $dateToday->format('Y-m-d');
-            $settings = PrincipalsUtil::getSettings(self::$PRINCIPAL_CODE);
+            $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
             // ***************************************************************************
 
             // ************************* MISC INITS **************************************
@@ -458,11 +458,13 @@ class CenturyCanningController extends Controller
 
             GenerateTemplated::dispatch('Getting principal masterfile');
             $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                ->where('principal_code', self::$PRINCIPAL_CODE)
+                ->where('principal_code', $this->PRINCIPAL_CODE)
                 ->get();
             $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                ->where('principal_code', self::$PRINCIPAL_CODE)
+                ->where('principal_code', $this->PRINCIPAL_CODE)
                 ->get();
+
+            $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS *************************************
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -474,7 +476,7 @@ class CenturyCanningController extends Controller
 
                     // **************** PENDING INVOICES ************************************
                     $pendingInvoices = InvoicesController::getPendingInvoices(
-                        self::$PRINCIPAL_CODE, $request->posting_date_range, $request->status
+                        $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
                     );
                     $pendingInvoicesCount = $pendingInvoices->count();
                     $res['line_count'] += $pendingInvoicesCount;
@@ -502,15 +504,15 @@ class CenturyCanningController extends Controller
 
                         // ****************************************************************
                         // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        //     ->where('principal_code', self::$PRINCIPAL_CODE)
+                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
                         //     ->where('customer_code', $customer_code)
                         //     ->first();
                         // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        //     ->where('principal_code', self::$PRINCIPAL_CODE)
+                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
                         //     ->where('item_code', $item_code)
                         //     ->first();
                         // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                        //     ->where('principal_code', self::$PRINCIPAL_CODE)
+                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
                         //     // ->where('sm_code', $u5)
                         //     ->where('group_code', $group_code)
                         //     ->first();
@@ -718,7 +720,7 @@ class CenturyCanningController extends Controller
                     foreach ($returns as $return) {
                         $loopCounter++;
                         $progressPercent = round(($loopCounter / $returnsCount) * 100);
-                        GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
+                        GenerateTemplated::dispatch("Generating returns ($progressPercent%)");
 
                         $doc_no = $return->doc_no;
                         $customer_code = $return->customer_code;
@@ -738,15 +740,15 @@ class CenturyCanningController extends Controller
 
                         // ****************************************************************
                         // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        //     ->where('principal_code', self::$PRINCIPAL_CODE)
+                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
                         //     ->where('customer_code', $customer_code)
                         //     ->first();
                         // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        //     ->where('principal_code', self::$PRINCIPAL_CODE)
+                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
                         //     ->where('item_code', $item_code)
                         //     ->first();
                         // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                        //     ->where('principal_code', self::$PRINCIPAL_CODE)
+                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
                         //     // ->where('sm_code', $u5)
                         //     ->where('group_code', $group_code)
                         //     ->first();

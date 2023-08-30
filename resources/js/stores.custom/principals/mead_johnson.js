@@ -102,7 +102,8 @@ const state = Vue.observable({
     ],
     // ************************* /Templated Data History *******************************
 
-
+    // misc
+    posting_date_format: 'Y/m/d',
 });
 
 

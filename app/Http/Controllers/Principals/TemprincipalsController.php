@@ -57,13 +57,15 @@ class TemprincipalsController extends Controller
             $dateToday = Carbon::now();
             $system_date = $dateToday->format('Y-m-d');
             $settings = PrincipalsUtil::getSettings($request->principal_code);
-            dd($settings);
+            // dd($settings);
             // ***************************************************************************
 
             // ************************* MISC INITS **************************************
             $filesTotalLineCount = 0;
             $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
             $breakFilesIteration = false;
+
+            $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS *************************************
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -93,7 +95,7 @@ class TemprincipalsController extends Controller
                         $customer_code = $pendingInvoice->customer_code;
                         $posting_date = $pendingInvoice->posting_date;
                         // $posting_date = (new Carbon($posting_date))->format('m/d/Y';
-                        $posting_date = (new Carbon($posting_date))->format('m/d/Y');
+                        $posting_date = (new Carbon($posting_date))->format($postingDateFormat);
                         $item_code = $pendingInvoice->item_code;
                         $quantity = intval($pendingInvoice->quantity);
                         $price = doubleval($pendingInvoice->price);
@@ -275,7 +277,7 @@ class TemprincipalsController extends Controller
                         $customer_code = $return->customer_code;
                         $posting_date = $return->shipment_date;
                         // $posting_date = (new Carbon($posting_date))->format('m/d/Y';
-                        $posting_date = (new Carbon($posting_date))->format('m/d/Y');
+                        $posting_date = (new Carbon($posting_date))->format($postingDateFormat);
                         $item_code = $return->item_code;
                         $quantity = intval($return->quantity);
                         $price = doubleval($return->price);

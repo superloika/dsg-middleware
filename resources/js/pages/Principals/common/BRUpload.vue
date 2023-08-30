@@ -262,7 +262,10 @@ export default {
             return !this.batches.length
                     || this.stillUploading
                     || !this.enableReupload && this.uploadAttempts > 0;
-        }
+        },
+        selPrincipalStore() {
+            return this[this.PrincipalsStore.state.selectedPrincipalCode];
+        },
     },
 
     methods: {
@@ -337,7 +340,9 @@ export default {
                 if(this.batchUploadStates[0] || this.uploadAttempts > 0) {
                     this.batchUploadStates = [];
                     this.PrincipalsStore.initCurrentGeneratedData(
-                        null,this.InvoicesStore.state.invoiceStatus
+                        null,
+                        this.InvoicesStore.state.invoiceStatus,
+                        this.selPrincipalStore.state.posting_date_format ?? 'm/d/Y'
                     );
                 }
 
