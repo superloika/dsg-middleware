@@ -51,6 +51,7 @@ class MasterPrincipalsController extends Controller
                                 $template_variation_count = $cols[4];
                                 $proj_status = $cols[5];
                                 $active = $cols[6];
+                                $search_key = $cols[7];
 
                                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS)->insert([
                                     'id' => $id,
@@ -60,6 +61,7 @@ class MasterPrincipalsController extends Controller
                                     'template_variation_count' => $template_variation_count,
                                     'proj_status' => $proj_status,
                                     'active' => $active,
+                                    'search_key' => $search_key,
                                 ]);
                             }
                         }

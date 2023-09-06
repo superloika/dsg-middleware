@@ -522,12 +522,12 @@ class PurefoodsController extends Controller
                     $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
                     GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
 
-                    $doc_no =               trim($pendingInvoice->doc_no);
-                    // $customer_code       = trim($pendingInvoice->customer_code);
-                    $customer_code =        '101798'; // for BR test (Espana Store External ID)
-                    $posting_date =         trim($pendingInvoice->posting_date);
+                    $doc_no =               $pendingInvoice->doc_no;
+                    $customer_code       =  $pendingInvoice->customer_code;
+                    // $customer_code =        '101798'; // for BR test (Espana Store External ID)
+                    $posting_date =         $pendingInvoice->posting_date;
                     $posting_date =         (new Carbon($posting_date))->format($postingDateFormat);
-                    $item_code =            trim($pendingInvoice->item_code) . '';
+                    $item_code =            $pendingInvoice->item_code;
                     $quantity =             $pendingInvoice->quantity;
                     $price =                doubleval($pendingInvoice->price);
                     $amount =               doubleval($pendingInvoice->amount);
@@ -536,7 +536,7 @@ class PurefoodsController extends Controller
                     $group_code =           $pendingInvoice->group;
                     $sm_code =              $pendingInvoice->sm_code;
                     $discount_percentage =  $pendingInvoice->discount_percentage ?? 0;
-                    // $discount_value =      $amount * $discount_percentage / 100;
+                    $discount_value =       0;
 
                     //********************************************************************
                     $customer = $principal_customers
@@ -585,11 +585,14 @@ class PurefoodsController extends Controller
                         // price and uom mapping (supplier) ********************
                         $uom_supplier = $pendingInvoice->qty_per_uom > 1 ?
                             $item->uom : $item->conversion_uom;
+
                         // map to supplier price
-                        // $price_supplier = $pendingInvoice->qty_per_uom > 1 ?
-                        //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
+                        $price_supplier = $pendingInvoice->qty_per_uom > 1 ?
+                            ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
+
                         // map to orig price temporarily
-                        $price_supplier = $price;
+                        // $price_supplier = $price;
+
                         $amount_supplier = $price_supplier * $quantity;
                         $discount_value = $amount_supplier * $discount_percentage / 100;
                         $amount_supplier = $amount_supplier - $discount_value;
@@ -718,8 +721,8 @@ class PurefoodsController extends Controller
                     GenerateTemplated::dispatch("Generating returns ($progressPercent%)");
 
                     $doc_no =               $return->doc_no;
-                    // $customer_code       = trim($return->customer_code);
-                    $customer_code =        '101798'; // for BR test (Espana Store External ID)
+                    $customer_code       =  $return->customer_code;
+                    // $customer_code =        '101798'; // for BR test (Espana Store External ID)
                     $shipment_date =        $return->shipment_date;
                     $posting_date =        (new Carbon($shipment_date))->format($postingDateFormat);
                     $item_code =            $return->item_code . '';
@@ -736,7 +739,7 @@ class PurefoodsController extends Controller
                     $vendor_code =          $return->vendor_code;
                     $sm_code =              $return->sm_code;
                     $remarks =              $return->remarks;
-                    // $discount_value =      $amount * $discount_percentage / 100;
+                    $discount_value =       0;
 
                     /**
                      * return quantity vs actual sales invoice quantity
@@ -798,11 +801,13 @@ class PurefoodsController extends Controller
                         // price and uom mapping (supplier) ********************
                         $uom_supplier = $return->qty_per_uom > 1 ?
                             $item->uom : $item->conversion_uom;
+
                         // map to supplier price
-                        // $price_supplier = $return->qty_per_uom > 1 ?
-                        //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
+                        $price_supplier = $return->qty_per_uom > 1 ?
+                            ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
                         // map to orig price temporarily
-                        $price_supplier = $price;
+                        // $price_supplier = $price;
+
                         $amount_supplier = $price_supplier * $quantity;
                         $discount_value = $amount_supplier * $discount_percentage / 100;
                         $amount_supplier = $amount_supplier - $discount_value;

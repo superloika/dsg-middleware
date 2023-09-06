@@ -236,8 +236,12 @@ var map = {
 	"./candy_castle_foods.js": "./resources/js/stores.custom/principals/candy_castle_foods.js",
 	"./candyline_food": "./resources/js/stores.custom/principals/candyline_food.js",
 	"./candyline_food.js": "./resources/js/stores.custom/principals/candyline_food.js",
+	"./ceed": "./resources/js/stores.custom/principals/ceed.js",
+	"./ceed.js": "./resources/js/stores.custom/principals/ceed.js",
 	"./century_canning": "./resources/js/stores.custom/principals/century_canning.js",
 	"./century_canning.js": "./resources/js/stores.custom/principals/century_canning.js",
+	"./cima": "./resources/js/stores.custom/principals/cima.js",
+	"./cima.js": "./resources/js/stores.custom/principals/cima.js",
 	"./cle_ace_corp": "./resources/js/stores.custom/principals/cle_ace_corp.js",
 	"./cle_ace_corp.js": "./resources/js/stores.custom/principals/cle_ace_corp.js",
 	"./cle_ace_corp1": "./resources/js/stores.custom/principals/cle_ace_corp1.js",
@@ -304,6 +308,8 @@ var map = {
 	"./kimberly.js": "./resources/js/stores.custom/principals/kimberly.js",
 	"./loraines_mktg": "./resources/js/stores.custom/principals/loraines_mktg.js",
 	"./loraines_mktg.js": "./resources/js/stores.custom/principals/loraines_mktg.js",
+	"./magnetar": "./resources/js/stores.custom/principals/magnetar.js",
+	"./magnetar.js": "./resources/js/stores.custom/principals/magnetar.js",
 	"./magnolia_inc": "./resources/js/stores.custom/principals/magnolia_inc.js",
 	"./magnolia_inc.js": "./resources/js/stores.custom/principals/magnolia_inc.js",
 	"./makarios_ph": "./resources/js/stores.custom/principals/makarios_ph.js",
@@ -316,6 +322,8 @@ var map = {
 	"./mega_fishing.js": "./resources/js/stores.custom/principals/mega_fishing.js",
 	"./megasoft": "./resources/js/stores.custom/principals/megasoft.js",
 	"./megasoft.js": "./resources/js/stores.custom/principals/megasoft.js",
+	"./monde_nissin": "./resources/js/stores.custom/principals/monde_nissin.js",
+	"./monde_nissin.js": "./resources/js/stores.custom/principals/monde_nissin.js",
 	"./mondelez": "./resources/js/stores.custom/principals/mondelez.js",
 	"./mondelez.js": "./resources/js/stores.custom/principals/mondelez.js",
 	"./moondish": "./resources/js/stores.custom/principals/moondish.js",
@@ -332,6 +340,8 @@ var map = {
 	"./peerless.js": "./resources/js/stores.custom/principals/peerless.js",
 	"./permex_producer": "./resources/js/stores.custom/principals/permex_producer.js",
 	"./permex_producer.js": "./resources/js/stores.custom/principals/permex_producer.js",
+	"./pernod": "./resources/js/stores.custom/principals/pernod.js",
+	"./pernod.js": "./resources/js/stores.custom/principals/pernod.js",
 	"./philusa_corp": "./resources/js/stores.custom/principals/philusa_corp.js",
 	"./philusa_corp.js": "./resources/js/stores.custom/principals/philusa_corp.js",
 	"./premier_wine": "./resources/js/stores.custom/principals/premier_wine.js",
@@ -360,6 +370,8 @@ var map = {
 	"./splash_corp.js": "./resources/js/stores.custom/principals/splash_corp.js",
 	"./stay_and_shop": "./resources/js/stores.custom/principals/stay_and_shop.js",
 	"./stay_and_shop.js": "./resources/js/stores.custom/principals/stay_and_shop.js",
+	"./sucere": "./resources/js/stores.custom/principals/sucere.js",
+	"./sucere.js": "./resources/js/stores.custom/principals/sucere.js",
 	"./sunpride_foods": "./resources/js/stores.custom/principals/sunpride_foods.js",
 	"./sunpride_foods.js": "./resources/js/stores.custom/principals/sunpride_foods.js",
 	"./suychicken_corp": "./resources/js/stores.custom/principals/suychicken_corp.js",
@@ -705,6 +717,34 @@ var actions = {};
 
 /***/ }),
 
+/***/ "./resources/js/stores.custom/principals/ceed.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/stores.custom/principals/ceed.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
+  state: state
+}, actions));
+
+/***/ }),
+
 /***/ "./resources/js/stores.custom/principals/century_canning.js":
 /*!******************************************************************!*\
   !*** ./resources/js/stores.custom/principals/century_canning.js ***!
@@ -880,6 +920,34 @@ var actions = {};
   state: state // ...actions
 
 });
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/cima.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/stores.custom/principals/cima.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
+  state: state
+}, actions));
 
 /***/ }),
 
@@ -2668,6 +2736,34 @@ var actions = {};
 
 /***/ }),
 
+/***/ "./resources/js/stores.custom/principals/magnetar.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/magnetar.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
+  state: state
+}, actions));
+
+/***/ }),
+
 /***/ "./resources/js/stores.custom/principals/magnolia_inc.js":
 /*!***************************************************************!*\
   !*** ./resources/js/stores.custom/principals/magnolia_inc.js ***!
@@ -3087,6 +3183,34 @@ var actions = {};
   state: state // ...actions
 
 });
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/monde_nissin.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/stores.custom/principals/monde_nissin.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
+  state: state
+}, actions));
 
 /***/ }),
 
@@ -3608,6 +3732,34 @@ var actions = {};
   state: state // ...actions
 
 });
+
+/***/ }),
+
+/***/ "./resources/js/stores.custom/principals/pernod.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/pernod.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
+  state: state
+}, actions));
 
 /***/ }),
 
@@ -4137,6 +4289,34 @@ var actions = {};
 
 /***/ }),
 
+/***/ "./resources/js/stores.custom/principals/sucere.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/stores.custom/principals/sucere.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gspi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gspi */ "./resources/js/stores.custom/principals/gspi.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable(_objectSpread({}, _gspi__WEBPACK_IMPORTED_MODULE_1__["default"].state));
+var actions = {};
+/* harmony default export */ __webpack_exports__["default"] = (_objectSpread({
+  state: state
+}, actions));
+
+/***/ }),
+
 /***/ "./resources/js/stores.custom/principals/sunpride_foods.js":
 /*!*****************************************************************!*\
   !*** ./resources/js/stores.custom/principals/sunpride_foods.js ***!
@@ -4459,8 +4639,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  // import AppStore from '../AppStore';
 
 var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
-  strict_export: true,
-  beatroute_uploading: true,
+  // strict_export: true,
+  // beatroute_uploading: true,
   bu: 'ppfb',
   // principal masterfiles
   itemsTableHeader: [[{
@@ -4509,46 +4689,50 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Code (NAV)",
     value: "alturas_customer_code"
   }, {
-    text: "Customer Code (Supplier)",
+    text: "Customer Code",
     value: "customer_code"
   }, {
     text: "Customer Name",
     value: "customer_name"
   }, {
-    text: "Invoice Date (Y-m-d) (NAV)",
+    text: "Invoice Date (m/d/Y) (NAV)",
     value: "invoice_date"
   }, {
     text: "Item Code (NAV)",
     value: "alturas_item_code"
   }, {
-    text: "Item Code (Supplier)",
+    text: "Item Code",
     value: "item_code"
-  }, // {text:"Item Name (NAV)",            value: "item_description"},
-  {
-    text: "Item Name (Supplier)",
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name",
     value: "description_supplier"
-  }, // {text:"UOM",                     value: "uom"},
-  {
+  }, {
+    text: "UOM (NAV)",
+    value: "uom"
+  }, {
     text: "UOM",
     value: "uom_supplier"
   }, {
     text: "Quantity",
     value: "quantity"
-  }, // {text:"Price",                   value: "price"},
-  {
+  }, {
+    text: "Price (NAV)",
+    value: "price"
+  }, {
     text: "Price",
     value: "price_supplier"
-  }, // {text:"Amount",                  value: "amount"},
-  {
+  }, {
+    text: "Amount (NAV)",
+    value: "amount"
+  }, {
     text: "Amount",
     value: "amount_supplier"
-  }, {
-    text: "Line Discount %",
-    value: "discount_percentage"
-  }, {
-    text: "Discount Amount",
-    value: "discount_value"
-  }, {
+  }, // {text:"Line Discount %",            value: "discount_percentage"},
+  // {text:"Discount Amount",            value: "discount_value"},
+  {
     text: "Salesman",
     value: "sm_code"
   }, {
@@ -4564,46 +4748,50 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Code (NAV)",
     value: "alturas_customer_code"
   }, {
-    text: "Customer Code (Supplier)",
+    text: "Customer Code",
     value: "customer_code"
   }, {
     text: "Customer Name",
     value: "customer_name"
   }, {
-    text: "Return Invoice Date (Y-m-d) (NAV)",
+    text: "Return Invoice Date (m/d/Y) (NAV)",
     value: "invoice_date"
   }, {
     text: "Item Code (NAV)",
     value: "alturas_item_code"
   }, {
-    text: "Item Code (Supplier)",
+    text: "Item Code",
     value: "item_code"
-  }, // {text:"Item Name (NAV)",            value: "item_description"},
-  {
-    text: "Item Name (Supplier)",
+  }, {
+    text: "Item Name (NAV)",
+    value: "item_description"
+  }, {
+    text: "Item Name",
     value: "description_supplier"
-  }, // {text:"UOM",                     value: "uom"},
-  {
+  }, {
+    text: "UOM (NAV)",
+    value: "uom"
+  }, {
     text: "UOM",
     value: "uom_supplier"
   }, {
     text: "Quantity",
     value: "quantity"
-  }, // {text:"Price",                   value: "price"},
-  {
+  }, {
+    text: "Price (NAV)",
+    value: "price"
+  }, {
     text: "Price",
     value: "price_supplier"
-  }, // {text:"Amount",                  value: "amount"},
-  {
+  }, {
+    text: "Amount (NAV)",
+    value: "amount"
+  }, {
     text: "Amount",
     value: "amount_supplier"
-  }, {
-    text: "Line Discount %",
-    value: "discount_percentage"
-  }, {
-    text: "Discount Amount",
-    value: "discount_value"
-  }, {
+  }, // {text:"Line Discount %",            value: "discount_percentage"},
+  // {text:"Discount Amount",            value: "discount_value"},
+  {
     text: "Salesman",
     value: "sm_code"
   }, {
@@ -4641,7 +4829,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: 'doc_no'
   }]],
   // misc
-  posting_date_format: 'Y-m-d'
+  posting_date_format: 'm/d/Y'
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = (_objectSpread({

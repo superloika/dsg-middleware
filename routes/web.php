@@ -249,6 +249,13 @@ Route::prefix('principals')->group(function(){
         ['TemprincipalsController', 'procter_gamble'],
 
         ['TemprincipalsController', 'regent_food_corp'],
+
+        ['TemprincipalsController', 'monde_nissin'],
+        ['TemprincipalsController', 'ceed'],
+        ['TemprincipalsController', 'sucere'],
+        ['TemprincipalsController', 'cima'],
+        ['TemprincipalsController', 'pernod'],
+        ['TemprincipalsController', 'magnetar'],
         // ============================================================
 
         // sa purefoods ni yawa!
@@ -259,6 +266,8 @@ Route::prefix('principals')->group(function(){
         ['PurefoodsController', 'magnolia_inc'],
         ['PurefoodsController', 'the_purefoods_hormel'],
         ['PurefoodsController', 'hormel_foods'],
+
+
     ];
     foreach($principalCtrls as $principalCtrl) {
         $ctrl = "Principals\\". $principalCtrl[0]. '@';
