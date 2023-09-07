@@ -312,9 +312,12 @@ class PurefoodsController extends Controller
 
                         if (count($arrFileContentLine) > 1) {
                             // ==========================================================================
-                            $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[30]));
-                            $customer_code = trim(str_replace('"', '', $arrFileContentLine[31]));
-                            $customer_name = trim(str_replace('"', '', $arrFileContentLine[32]));
+                            // $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[30]));
+                            // $customer_code = trim(str_replace('"', '', $arrFileContentLine[31]));
+                            // $customer_name = trim(str_replace('"', '', $arrFileContentLine[32]));
+                            $customer_code = trim(str_replace('"', '', $arrFileContentLine[0]));
+                            $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
+                            $customer_name = trim(str_replace('"', '', $arrFileContentLine[2]));
                             // =========================================================================
                             $arrLines[] = [
                                 'principal_code' => $this->PRINCIPAL_CODE,

@@ -4659,21 +4659,21 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "CASE Price",
     value: "uom_price"
   }, {
-    text: "PCS Price",
-    value: "conversion_uom_price"
-  }, {
     text: "UOM",
     value: "uom"
+  }, {
+    text: "PCS Price",
+    value: "conversion_uom_price"
   }, {
     text: "Conversion UOM",
     value: "conversion_uom"
   }]],
   customersTableHeader: [[{
-    text: "Customer Code (Supplier)",
-    value: "customer_code_supplier"
-  }, {
     text: "Customer Code",
     value: "customer_code"
+  }, {
+    text: "Customer Code (Supplier)",
+    value: "customer_code_supplier"
   }, {
     text: "Customer Name",
     value: "customer_name"
