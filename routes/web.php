@@ -256,6 +256,8 @@ Route::prefix('principals')->group(function(){
         ['TemprincipalsController', 'cima'],
         ['TemprincipalsController', 'pernod'],
         ['TemprincipalsController', 'magnetar'],
+
+        ['TemprincipalsController', 'ardent'],
         // ============================================================
 
         // sa purefoods ni yawa!
