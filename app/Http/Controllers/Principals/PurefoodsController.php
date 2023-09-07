@@ -539,6 +539,13 @@ class PurefoodsController extends Controller
                     $discount_value =       0;
 
                     //********************************************************************
+                    $nav_customer_name = $pendingInvoice->customer_name;
+                    if($nav_customer_name==null || $nav_customer_name=='') {
+                        $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            ->where('customer_code', $customer_code)
+                            ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    }
+
                     $customer = $principal_customers
                         ->where('customer_code', $customer_code)
                         ->first();
@@ -636,7 +643,7 @@ class PurefoodsController extends Controller
                         'uom_supplier' =>           $uom_supplier,
                         'item_description' =>       $item_description,
                         'description_supplier' =>   $item_description_supplier,
-                        'customer_name' =>          $customer_name ?? $missing_customer_name,
+                        'customer_name' =>          $customer_name ?? $nav_customer_name,
                         'sm_code' =>                $sm_code,
                         'system_date' =>            $system_date,
                         'group' =>                  $group_code,
@@ -748,6 +755,12 @@ class PurefoodsController extends Controller
                     // if($quantity > $invoice_quantity) continue;
 
                     //********************************************************************
+                    $nav_customer_name = $pendingInvoice->customer_name;
+                    if($nav_customer_name==null || $nav_customer_name=='') {
+                        $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            ->where('customer_code', $customer_code)
+                            ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                    }
                     // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
                     //     ->where('principal_code', $this->PRINCIPAL_CODE)
                     //     ->where('customer_code', $customer_code)
@@ -851,7 +864,7 @@ class PurefoodsController extends Controller
                         'uom_supplier' =>           $uom_supplier ?? 'NA',
                         'item_description' =>       $item_description,
                         'description_supplier' =>   $item_description_supplier,
-                        'customer_name' =>          $customer_name ?? $missing_customer_name,
+                        'customer_name' =>          $customer_name ?? $nav_customer_name,
                         'system_date' =>            $system_date,
                         'group' =>                  $group_code,
                         'status' =>                 $return->status,
