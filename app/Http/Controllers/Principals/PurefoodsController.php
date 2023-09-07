@@ -615,6 +615,7 @@ class PurefoodsController extends Controller
                         $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
                             ->where('customer_code', $customer_code)
                             ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                        $customer_name = $nav_customer_name;
                     } else {
                         $customer_code_supplier = $customer->customer_code_supplier;
                         $customer_name = $customer->customer_name;
@@ -646,7 +647,7 @@ class PurefoodsController extends Controller
                         'uom_supplier' =>           $uom_supplier,
                         'item_description' =>       $item_description,
                         'description_supplier' =>   $item_description_supplier,
-                        'customer_name' =>          $customer_name ?? $nav_customer_name,
+                        'customer_name' =>          $customer_name,
                         'sm_code' =>                $sm_code,
                         'system_date' =>            $system_date,
                         'group' =>                  $group_code,
@@ -836,6 +837,7 @@ class PurefoodsController extends Controller
                         $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
                             ->where('customer_code', $customer_code)
                             ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                        $customer_name = $nav_customer_name;
                     } else {
                         $customer_code_supplier = $customer->customer_code_supplier;
                         $customer_name = $customer->customer_name;
@@ -867,7 +869,7 @@ class PurefoodsController extends Controller
                         'uom_supplier' =>           $uom_supplier ?? 'NA',
                         'item_description' =>       $item_description,
                         'description_supplier' =>   $item_description_supplier,
-                        'customer_name' =>          $customer_name ?? $nav_customer_name,
+                        'customer_name' =>          $customer_name,
                         'system_date' =>            $system_date,
                         'group' =>                  $group_code,
                         'status' =>                 $return->status,
