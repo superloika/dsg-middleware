@@ -674,7 +674,7 @@ class InvoicesController extends Controller
                                         ->where('item_code',$item_code)
                                         ->where('uom',$uom)
                                         ->where('quantity',$quantity)
-                                        ->where('shipment_date',$shipment_date)
+                                        // ->where('shipment_date',$shipment_date)
                                         ->exists() == false
                                 ) {
                                     if($quantity > 0) {
