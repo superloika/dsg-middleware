@@ -6,11 +6,28 @@ import "vuetify/dist/vuetify.min.css";
 
 Vue.use(Vuetify);
 
+const myCustomLightTheme = {
+    dark: false,
+    colors: {
+        background: '#FFFFFF',
+        surface: '#FFFFFF',
+        primary: '#6200EE',
+        'primary-darken-1': '#3700B3',
+        secondary: '#03DAC6',
+        'secondary-darken-1': '#018786',
+        error: '#B00020',
+        info: '#2196F3',
+        success: '#4CAF50',
+        warning: '#FB8C00',
+    },
+}
+
 const opts = {
     theme: {
-        light: true,
+        defaultTheme: 'myCustomLightTheme',
+        // light: true,
         // dark: true,
-        variations: false,
+        variations: true,
 
         themes: {
             light: {
@@ -18,6 +35,7 @@ const opts = {
                 info: '#2196F3',
                 success: '#4CAF50',
                 primary: '#2dba02',
+                // primary: '#038c43',
                 // primary: '#000000',
                 accent: "#7dd663",
             },
@@ -28,6 +46,7 @@ const opts = {
             //     primary: '#ff5100',
             //     accent: "#ff8e59",
             // },
+            myCustomLightTheme,
         }
     }
 };

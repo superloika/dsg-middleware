@@ -1,20 +1,17 @@
 <template>
     <div @mousedown="DevChatStore.state.unreadMsgCount=0">
         <v-row>
-            <v-col cols="8">
-                <v-container>
-                    <div>
-                        <v-textarea
-                            v-model="newMessage"
-                            @keyup.enter="sendMessage(newMessage)"
-                            roundedx
-                            outlined
-                            label="Message (press Enter to send)"
-                        ></v-textarea>
-                    </div>
-                </v-container>
+            <v-col cols="12" md="8">
+                <v-textarea
+                    solo
+                    v-model="newMessage"
+                    @keyup.enter="sendMessage(newMessage)"
+                    label="Type your message here (press Enter to send)"
+                    auto-grow
+                    rows="2"
+                ></v-textarea>
 
-                <v-sheet class="pa-4">
+                <v-card style="overflow-y: scroll;max-height: 400px;" flat>
                     <div
                         v-for="(message, i) in DevChatStore.state.messages"
                         :key="i"
@@ -55,33 +52,45 @@
                             </div>
                         </div>
                     </div>
-                </v-sheet>
+                </v-card>
             </v-col>
 
-            <v-col cols="4">
-                <v-container fluid>
-                    <v-card>
-                        <v-card-title>
-                            <div class="">Online Users</div>
-                        </v-card-title>
-                        <v-card-text>
-                            <div>
-                                <div v-for="(u,i) in onlineUsers" :key="i" class="primary--text d-flex">
-                                    <div class="mb-2">
-                                        <v-chip
-                                            :color="u.id==AuthUser.id ? 'info' : 'primary'"
-                                            small
-                                        >
-                                            <v-icon left>mdi-account</v-icon>
-                                            {{ u.name }} ({{ u.username }})
-                                        </v-chip>
-                                    </div>
-                                </div>
-                            </div>
-                        </v-card-text>
-                    </v-card>
+            <v-col cols="12" md="4">
+                <v-card>
+                    <v-card-text>
+                        <div
+                            v-for="(u) in onlineUsers"
+                            :key="u.username"
+                        >
+                            <span
+                                :class="u.id==AuthUser.id ? 'info--text' : 'primary--text'"
+                            >
+                                {{ u.name }} (<em>{{ u.username }}</em>)
+                            </span>
+                        </div>
+                    </v-card-text>
 
-                </v-container>
+                    <!-- <v-list rounded>
+                        <v-subheader>Online Users</v-subheader>
+                        <v-list-item-group>
+                            <v-list-item
+                                v-for="(u) in onlineUsers"
+                                :key="u.username"
+                                dense
+                            >
+                                <v-list-item-content>
+                                    <v-list-item-title
+                                        :class="u.id==AuthUser.id ? 'info--text' : 'primary--text'"
+                                    >
+                                    <span>
+                                        {{ u.name }} - <em>{{ u.username }}</em>
+                                    </span>
+                                    </v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list> -->
+                </v-card>
             </v-col>
         </v-row>
     </div>

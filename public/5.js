@@ -35,7 +35,7 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Templated Data (Sales Invoices, Returns)',
         icon: 'mdi-receipt',
         component: function component() {
-          return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./common/Generated.vue */ "./resources/js/pages/Principals/common/Generated.vue"));
+          return __webpack_require__.e(/*! import() */ 21).then(__webpack_require__.bind(null, /*! ./common/Generated.vue */ "./resources/js/pages/Principals/common/Generated.vue"));
         }
       }, // {
       //     title: 'Return Invoices',
@@ -52,7 +52,7 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'mdi-file-check',
         // component: () => import("../common/TransAndInvoices.vue"),
         component: function component() {
-          return Promise.all(/*! import() */[__webpack_require__.e(27), __webpack_require__.e(26)]).then(__webpack_require__.bind(null, /*! ./common/Transactions.vue */ "./resources/js/pages/Principals/common/Transactions.vue"));
+          return Promise.all(/*! import() */[__webpack_require__.e(28), __webpack_require__.e(27)]).then(__webpack_require__.bind(null, /*! ./common/Transactions.vue */ "./resources/js/pages/Principals/common/Transactions.vue"));
         }
       }, // {
       //     title: 'Stats',
@@ -64,13 +64,13 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Masterfiles',
         icon: 'mdi-folder-multiple',
         component: function component() {
-          return __webpack_require__.e(/*! import() */ 23).then(__webpack_require__.bind(null, /*! ./common/MasterFiles.vue */ "./resources/js/pages/Principals/common/MasterFiles.vue"));
+          return __webpack_require__.e(/*! import() */ 24).then(__webpack_require__.bind(null, /*! ./common/MasterFiles.vue */ "./resources/js/pages/Principals/common/MasterFiles.vue"));
         }
       }, {
         title: 'Settings',
         icon: 'mdi-tune',
         component: function component() {
-          return __webpack_require__.e(/*! import() */ 25).then(__webpack_require__.bind(null, /*! ./common/Settings.vue */ "./resources/js/pages/Principals/common/Settings.vue"));
+          return __webpack_require__.e(/*! import() */ 26).then(__webpack_require__.bind(null, /*! ./common/Settings.vue */ "./resources/js/pages/Principals/common/Settings.vue"));
         }
       }];
     },

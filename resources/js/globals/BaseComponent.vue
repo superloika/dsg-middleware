@@ -22,6 +22,8 @@
                 Howdy, {{ AuthUser.name }}!
             </span>
 
+            <DevChatWrapper></DevChatWrapper>
+
             <InvoiceLookup></InvoiceLookup>
 
             <UserMenu></UserMenu>
