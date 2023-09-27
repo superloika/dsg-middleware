@@ -1,20 +1,27 @@
 <template>
     <v-app>
         <v-system-bar app
-            height="45"
+            height="50"
             dark
             color="primary"
         >
-            <v-btn
+            <!-- <v-btn
                 @click="toggleDrawerState()"
                 icon
-            >&#9776;</v-btn>
+            >&#9776;</v-btn> -->
 
-            <v-toolbar-title class="ml-1">
-                <a href="/" style="text-decoration:none;" class=" white--text">
-                    {{ AppStore.state.AppName }}
+            <v-toolbar-title class="ml-1 mr-3">
+                <a href="/" style="text-decoration:none;"
+                    class="text-h6 white--text"
+                    :title="AppStore.state.AppName"
+                >
+                    {{ AppStore.state.AppAbbr }}
                 </a>
             </v-toolbar-title>
+
+
+            <PrincipalsSearch class="mr-2" v-if="AppStore.state.principals.length > 0">
+            </PrincipalsSearch>
 
             <v-spacer></v-spacer>
 
@@ -22,9 +29,15 @@
                 Howdy, {{ AuthUser.name }}!
             </span>
 
+            <v-btn icon color="" to="/invoices" title="Invoices">
+                <v-icon>mdi-file</v-icon>
+            </v-btn>
+
             <DevChatWrapper></DevChatWrapper>
 
             <InvoiceLookup></InvoiceLookup>
+
+            <GeneralMasterfilesWrapper></GeneralMasterfilesWrapper>
 
             <UserMenu></UserMenu>
 
@@ -45,8 +58,8 @@
         </v-system-bar> -->
 
         <!-- SIDE NAV -->
-        <v-navigation-drawer v-model="navDrawerState" app>
-            <!-- <v-list>
+        <!-- <v-navigation-drawer v-model="navDrawerState" app>
+            <v-list>
                 <v-list-item>
                     <v-list-item-content >
                         <v-list-item-title class="text-h6">
@@ -57,23 +70,20 @@
                         </v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
-            </v-list> -->
+            </v-list>
 
-            <!-- Side Navigation (Main Nav) -->
             <NavSide></NavSide>
 
-            <!-- Side Nav Footer -->
             <template v-slot:append>
                 <v-footer>
                     <v-col class="text-center pa-0">
                         <div class="text-caption" >
                             &copy; 2021-{{ new Date().getFullYear() }}
-                            <!-- <a href="https://superloika.github.io">superloika</a> -->
                         </div>
                     </v-col>
                 </v-footer>
             </template>
-        </v-navigation-drawer>
+        </v-navigation-drawer> -->
 
 
         <!-- MAIN -->
@@ -118,7 +128,7 @@
 
 export default {
     data: () => ({
-        navDrawerState: null,
+        navDrawerState: false,
     }),
 
     // computed: {
@@ -180,13 +190,15 @@ export default {
             // refresh BR
             // this.BrStore.refresh('ppfb');
 
+            this.AppStore.initPrincipals();
+
         } catch (error) {
             console.error(error);
         }
     },
 
     beforeDestroy() {
-        this.DevChatStore.userOffline(this.AuthUser);
+        // this.DevChatStore.userOffline(this.AuthUser);
     }
 };
 </script>
@@ -194,7 +206,7 @@ export default {
 <style>
     .v-toolbar__content {
         /* border-bottom: 1px solid #222222; */
-        border-bottom: 1px solid #e9e9e9;
+        /* border-bottom: 1px solid #e9e9e9; */
     }
 
     .search-field{
@@ -214,7 +226,7 @@ export default {
     > table
     > tbody
     > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
-        background-color: #000000;
+        /* background-color: #000000; */
     }
 
     div.v-tab {

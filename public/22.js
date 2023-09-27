@@ -215,10 +215,10 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     // MissingInMaster: () => import("./MissingInMaster.vue"),
     ConfirmExport: function ConfirmExport() {
-      return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! ./ConfirmExport.vue */ "./resources/js/pages/Principals/common/ConfirmExport.vue"));
+      return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ./ConfirmExport.vue */ "./resources/js/pages/Principals/common/ConfirmExport.vue"));
     },
     BRUpload: function BRUpload() {
-      return __webpack_require__.e(/*! import() */ 16).then(__webpack_require__.bind(null, /*! ./BRUpload.vue */ "./resources/js/pages/Principals/common/BRUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ./BRUpload.vue */ "./resources/js/pages/Principals/common/BRUpload.vue"));
     }
   },
   data: function data() {
@@ -267,7 +267,8 @@ __webpack_require__.r(__webpack_exports__);
       return this.selPrincipalStore.state.beatroute_uploading != undefined && this.selPrincipalStore.state.beatroute_uploading == true;
     },
     disableBRUploadButton: function disableBRUploadButton() {
-      return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData || this.warningsCount > 0 || this.InvoicesStore.state.invoiceStatus != 'completed' && this.InvoicesStore.state.invoiceStatus != 'uploaded';
+      return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData // || this.warningsCount > 0
+      || this.InvoicesStore.state.invoiceStatus != 'completed' && this.InvoicesStore.state.invoiceStatus != 'uploaded';
     }
   },
   watch: {

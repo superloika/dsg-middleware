@@ -1,9 +1,9 @@
 <template>
-<div>
-    <v-app-bar elevation="0" app>
+<v-card>
+    <v-toolbar elevation="0">
         <v-toolbar-title>
             <v-icon>mdi-cube</v-icon>
-            {{ $route.meta.name }}
+            Items Masterfile
             <v-chip color="primary" small>
                 {{ MasterItems.state.items.total }}
             </v-chip>
@@ -56,7 +56,7 @@
                 </v-pagination>
             </div>
         </template>
-    </v-app-bar>
+    </v-toolbar>
 
     <v-data-table
         :items="MasterItems.state.items.data"
@@ -73,7 +73,7 @@
     >
         <MasterUpload id="items"></MasterUpload>
     </v-dialog>
-</div>
+</v-card>
 </template>
 
 <script>

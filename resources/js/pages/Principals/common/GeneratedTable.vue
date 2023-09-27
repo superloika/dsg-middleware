@@ -1,7 +1,9 @@
 <template>
-<div>
-    <v-sheet class="px-3 pt-1 pb-2" color="grey lighten-5" v-if="allow_export">
-        <div class="d-flex justify-end">
+<v-card>
+    <v-toolbar elevation="1" v-if="allow_export">
+        <!-- <div class="d-flex justify-end"> -->
+            <v-spacer></v-spacer>
+
             <v-btn
                 title="Export table to TXT file (Tab Delimited)"
                 color="default"
@@ -9,7 +11,9 @@
                 x-small
                 rounded
                 @click="exportToCsv('txt')"
-            >Export {{ tab_caption }} to TXT</v-btn>
+            >
+                Export {{ tab_caption }} to TXT
+            </v-btn>
             <v-btn
                 title="Export table to CSV file (Comma Delimited)"
                 color="default"
@@ -17,9 +21,10 @@
                 x-small
                 rounded
                 @click="exportToCsv()"
-                >
+            >
                 Export {{ tab_caption }} to CSV
             </v-btn>
+
             <v-text-field
                 v-model="PrincipalsStore.state.currentGeneratedDataSearchKey"
                 dense solo solo-inverted rounded hide-details flat
@@ -28,8 +33,8 @@
             >
 
             </v-text-field>
-        </div>
-    </v-sheet>
+        <!-- </div> -->
+    </v-toolbar>
 
     <v-data-table
         dense
@@ -220,7 +225,7 @@
             </div>
         </template> -->
     </v-data-table>
-</div>
+</v-card>
 </template>
 
 <script>

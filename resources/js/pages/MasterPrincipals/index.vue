@@ -1,9 +1,9 @@
 <template>
-<div>
-    <v-app-bar elevation="0" app>
+<v-card>
+    <v-toolbar elevation="0">
         <v-toolbar-title>
             <v-icon>mdi-store</v-icon>
-            {{ $route.meta.name }}
+            Principals Masterfile
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
@@ -42,7 +42,7 @@
         >
             <v-icon>mdi-file-upload</v-icon>
         </v-btn>
-    </v-app-bar>
+    </v-toolbar>
 
     <v-data-table
         :items="MasterPrincipals.state.principals"
@@ -60,7 +60,7 @@
     >
         <MasterUpload id="principals"></MasterUpload>
     </v-dialog>
-</div>
+</v-card>
 </template>
 
 <script>

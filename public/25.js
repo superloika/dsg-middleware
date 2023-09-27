@@ -91,13 +91,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterfileUpload: function MasterfileUpload() {
@@ -164,128 +157,111 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { staticClass: "elevation-0", attrs: { outlinedx: "" } },
     [
       _c(
-        "v-card-title",
-        { staticClass: "pa-0 mb-2" },
+        "v-toolbar",
+        { attrs: { elevation: "1" } },
         [
+          _c("v-toolbar-title", [
+            _c("div", [_vm._v("\n                Salesmen\n            ")]),
+            _vm._v(" "),
+            _c("div", [
+              _c("em", { staticClass: "text-caption primary--text" }, [
+                _vm._v(
+                  "\n                    Updated at " +
+                    _vm._s(_vm.updatedAt) +
+                    "\n                "
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("v-spacer"),
+          _vm._v(" "),
           _c(
-            "v-app-bar",
-            { attrs: { elevation: "0", colorx: "white" } },
-            [
-              _c("v-toolbar-title", [
-                _c("div", [
-                  _vm._v("\n                    Salesmen\n                ")
-                ]),
-                _vm._v(" "),
-                _c("div", [
-                  _c("em", { staticClass: "text-caption primary--text" }, [
-                    _vm._v(
-                      "\n                        Updated at " +
-                        _vm._s(_vm.updatedAt) +
-                        "\n                    "
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("v-spacer"),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  staticClass: "mr-2",
-                  attrs: {
-                    title: "Refresh",
-                    icon: "",
-                    dense: "",
-                    rounded: "",
-                    depressed: ""
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.PrincipalsStore.initSalesmen(
-                        _vm.selectedPrincipalCode
-                      )
-                    }
-                  }
-                },
-                [_c("v-icon", [_vm._v("mdi-refresh")])],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-text-field", {
-                staticClass: "mr-3",
-                staticStyle: { "max-width": "300px" },
-                attrs: {
-                  label: "Search",
-                  clearable: "",
-                  "hide-details": "",
-                  dense: "",
-                  flat: "",
-                  rounded: "",
-                  "solo-inverted": ""
-                },
-                model: {
-                  value: _vm.searchKey,
-                  callback: function($$v) {
-                    _vm.searchKey = $$v
-                  },
-                  expression: "searchKey"
+            "v-btn",
+            {
+              staticClass: "mr-2",
+              attrs: {
+                title: "Refresh",
+                icon: "",
+                dense: "",
+                rounded: "",
+                depressed: ""
+              },
+              on: {
+                click: function($event) {
+                  return _vm.PrincipalsStore.initSalesmen(
+                    _vm.selectedPrincipalCode
+                  )
                 }
-              }),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: { title: "Import", icon: "", dense: "" },
-                  on: {
-                    click: function($event) {
-                      $event.stopPropagation()
-                      _vm.PrincipalsStore.state.isUploadMasterSalesmenOpen = true
-                    }
-                  }
-                },
-                [_c("v-icon", [_vm._v("mdi-file-upload")])],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: { title: "Export to Excel", icon: "", dense: "" },
-                  on: {
-                    click: function($event) {
-                      return _vm.exportToExcel()
-                    }
-                  }
-                },
-                [_c("v-icon", [_vm._v("mdi-file-excel")])],
-                1
-              )
-            ],
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-refresh")])],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-text-field", {
+            staticClass: "mr-3",
+            staticStyle: { "max-width": "300px" },
+            attrs: {
+              label: "Search",
+              clearable: "",
+              "hide-details": "",
+              dense: "",
+              flat: "",
+              rounded: "",
+              "solo-inverted": ""
+            },
+            model: {
+              value: _vm.searchKey,
+              callback: function($$v) {
+                _vm.searchKey = $$v
+              },
+              expression: "searchKey"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { title: "Import", icon: "", dense: "" },
+              on: {
+                click: function($event) {
+                  $event.stopPropagation()
+                  _vm.PrincipalsStore.state.isUploadMasterSalesmenOpen = true
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-file-upload")])],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { title: "Export to Excel", icon: "", dense: "" },
+              on: {
+                click: function($event) {
+                  return _vm.exportToExcel()
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-file-excel")])],
             1
           )
         ],
         1
       ),
       _vm._v(" "),
-      _c(
-        "v-card-text",
-        { staticClass: "mx-0 px-0" },
-        [
-          _c("v-data-table", {
-            attrs: {
-              items: _vm.PrincipalsStore.state.salesmen,
-              headers: _vm.tblHeader,
-              dense: "",
-              search: _vm.searchKey
-            }
-          })
-        ],
-        1
-      ),
+      _c("v-data-table", {
+        attrs: {
+          items: _vm.PrincipalsStore.state.salesmen,
+          headers: _vm.tblHeader,
+          dense: "",
+          search: _vm.searchKey
+        }
+      }),
       _vm._v(" "),
       _c(
         "v-dialog",

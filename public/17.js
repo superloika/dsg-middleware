@@ -1,14 +1,159 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[17],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Base.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/Base.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/BRUpload.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/BRUpload.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -70,43 +215,201 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['tabs'],
   data: function data() {
     return {
-      tab: null
+      tab: null,
+      uploadAttempts: 0,
+      batchUploadStates: [],
+      batches: []
     };
   },
   computed: {
-    principalName: function principalName() {
-      var _this = this;
-
-      return this.AppStore.state.principals.find(function (e) {
-        return e.code == _this.$route.params.principal_code;
-      }).name;
+    tblHeader: function tblHeader() {
+      return [{
+        text: 'Item Name',
+        value: 'item_name'
+      }, {
+        text: 'SKU External ID',
+        value: 'sku_external_id'
+      }, {
+        text: 'SKU UOM',
+        value: 'sku_uom'
+      }, {
+        text: 'Price per Item (VAT-Ex)',
+        value: 'price_per_item'
+      }, {
+        text: 'Quantity',
+        value: 'quantity'
+      }, {
+        text: 'Amount (VAT-Ex)',
+        value: 'amount_wo_discount'
+      }, {
+        text: 'Discount %',
+        value: 'discount_percentage'
+      }, {
+        text: 'Discount Amount',
+        value: 'discount_value'
+      }, {
+        text: 'Amount (VAT-Ex,Discounted)',
+        value: 'gross_value'
+      }];
     },
-    vendorCode: function vendorCode() {
-      var _this2 = this;
-
-      return this.AppStore.state.principals.find(function (e) {
-        return e.code == _this2.$route.params.principal_code;
-      }).vendor_code;
+    // batches() {
+    //     return this.BrStore.state.currentGeneratedBatches;
+    // },
+    stillUploading: function stillUploading() {
+      return this.batchUploadStates.find(function (e) {
+        return e == 'uploading';
+      }) != undefined;
     },
-    selectedPrincipalCode: function selectedPrincipalCode() {
-      return this.PrincipalsStore.state.selectedPrincipalCode;
+    enableReupload: function enableReupload() {
+      return this.batchUploadStates.find(function (e) {
+        return e == 'failed';
+      }) != undefined;
+    },
+    bussinessUnit: function bussinessUnit() {
+      return this[this.PrincipalsStore.state.selectedPrincipalCode].state.bu;
+    },
+    disableUploadBtn: function disableUploadBtn() {
+      return !this.batches.length || this.stillUploading || !this.enableReupload && this.uploadAttempts > 0;
+    },
+    selPrincipalStore: function selPrincipalStore() {
+      return this[this.PrincipalsStore.state.selectedPrincipalCode];
     }
   },
+  methods: {
+    // set status to '0' for cancel/archive
+    upload: function upload() {
+      var _this = this;
+
+      if (this.batches) {
+        var confMsg = this.enableReupload ? 'This action will reupload the failed batch(es) to the BeatRoute backend' : 'This action will upload the invoices to the BeatRoute backend';
+
+        if (confirm(confMsg)) {
+          this.uploadAttempts++;
+
+          var _loop = function _loop(i) {
+            // refilter prepared payload, unchecked(included==false) are not uploaded
+            var batch = _this.batches[i].filter(function (e) {
+              return e.included;
+            });
+
+            console.log('BATCH ' + i, batch);
+            var batchLen = batch.length;
+
+            if ((_this.batchUploadStates[i] == undefined || _this.batchUploadStates[i] == 'failed') && batchLen) {
+              Vue.set(_this.batchUploadStates, i, 'uploading');
+
+              _this.BrStore.invoiceCreate(_this.bussinessUnit, batch).then(function (res) {
+                if (res.success) {
+                  if (_this.InvoicesStore.state.invoiceStatus == 'completed') {
+                    // set status as 'uploaded'
+                    _this.InvoicesStore.setInvoicesUploaded(res.data).then(function (response) {
+                      if (response.success) {
+                        Vue.set(_this.batchUploadStates, i, 'success');
+
+                        for (var j = 0; j < batchLen; j++) {
+                          batch[j].upload_status = response.batch[j];
+                        }
+                      } else {
+                        Vue.set(_this.batchUploadStates, i, 'failed');
+                      }
+                    });
+                  } else if (_this.InvoicesStore.state.invoiceStatus == 'uploaded') {
+                    // set status from 'uploaded' back to 'completed''
+                    _this.InvoicesStore.setInvoicesCancelled(res.data).then(function (response) {
+                      if (response.success) {
+                        Vue.set(_this.batchUploadStates, i, 'success');
+
+                        for (var j = 0; j < batchLen; j++) {
+                          batch[j].upload_status = response.batch[j];
+                        }
+                      } else {
+                        Vue.set(_this.batchUploadStates, i, 'failed');
+                      }
+                    });
+                  }
+                } else {
+                  Vue.set(_this.batchUploadStates, i, 'failed');
+
+                  try {
+                    for (var j = 0; j < batchLen; j++) {
+                      batch[j].upload_status = res.data[j];
+                    }
+                  } catch (error) {
+                    console.log('ERRRRR1111111111111111111', error);
+                  }
+                }
+              });
+            }
+          };
+
+          for (var i = 0; i < this.batches.length; i++) {
+            _loop(i);
+          }
+        }
+      }
+    },
+    cancel: function cancel() {
+      if (confirm('Are you sure you want to close this window?')) {
+        // regenerate templated data if upload states has been modified
+        if (this.batchUploadStates[0] || this.uploadAttempts > 0) {
+          var _this$selPrincipalSto;
+
+          this.batchUploadStates = [];
+          this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus, (_this$selPrincipalSto = this.selPrincipalStore.state.posting_date_format) !== null && _this$selPrincipalSto !== void 0 ? _this$selPrincipalSto : 'm/d/Y');
+        }
+
+        this.tab = null;
+        this.uploadAttempts = 0;
+        this.BrStore.state.brUploadDialogOpen = false;
+      }
+    },
+    prepareBatches: function prepareBatches() {
+      var _this2 = this;
+
+      var vm = this;
+      vm.AppStore.overlay(true, 'Preparing batches...');
+      vm.BrStore.preparePayload(vm.PrincipalsStore.state.currentGeneratedData).then(function (batches) {
+        _this2.batches = [];
+        _this2.batches = batches;
+        vm.AppStore.overlay(false);
+        console.log('BATCHES:', _this2.batches);
+      });
+    },
+    selectAll: function selectAll(batchIndex) {
+      var included = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      if (this.batches) {
+        this.batches[batchIndex].forEach(function (e) {
+          // mo gana ra if walay error ang invoice
+          if (e.with_errors.length == 0) {
+            e.included = included;
+          }
+        });
+      }
+    },
+    // display invoices in currently selected batch
+    checkdata: function checkdata(batchIndex) {
+      if (this.batches) {
+        console.log('BATCH:', this.batches[batchIndex]);
+      }
+    }
+  },
+  created: function created() {
+    this.prepareBatches();
+  },
   mounted: function mounted() {
-    console.log('Principal Base component mounted');
-    console.log(this.selectedPrincipalCode);
+    console.log("BRUpload component mounted");
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Base.vue?vue&type=template&id=1a177a58&":
-/*!********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/Base.vue?vue&type=template&id=1a177a58& ***!
-  \********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/BRUpload.vue?vue&type=template&id=c07a9e58&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/BRUpload.vue?vue&type=template&id=c07a9e58& ***!
+  \************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -119,49 +422,26 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-sheet",
+    "v-card",
     [
       _c(
-        "v-app-bar",
-        { attrs: { elevation: "0", app: "", dense: "" } },
+        "v-toolbar",
+        { attrs: { elevation: "0" } },
         [
           _c(
             "v-toolbar-title",
-            { staticClass: "primary--text" },
             [
-              _c(
-                "span",
-                {
-                  staticClass: "font-weight-bold text-subtitle-2",
-                  attrs: { title: _vm.principalName }
-                },
-                [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.principalName) +
-                      "\n            "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c("v-chip", { attrs: { "x-small": "", title: "Vendor Code" } }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.vendorCode) +
-                    "\n            "
-                )
+              _c("v-icon", { attrs: { color: "primary" } }, [
+                _vm._v("mdi-cloud-upload")
               ]),
-              _vm._v(" "),
-              _c(
-                "v-chip",
-                { attrs: { "x-small": "", title: "Middleware Code" } },
-                [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.PrincipalsStore.state.selectedPrincipalCode) +
-                      "\n            "
-                  )
-                ]
+              _vm._v(
+                "\n            BeatRoute Upload\n            " +
+                  _vm._s(
+                    this.InvoicesStore.state.invoiceStatus == "uploaded"
+                      ? "(Cancellation)"
+                      : ""
+                  ) +
+                  "\n        "
               )
             ],
             1
@@ -170,38 +450,45 @@ var render = function() {
           _c("v-spacer"),
           _vm._v(" "),
           _c(
-            "v-sheet",
+            "v-btn",
+            {
+              attrs: {
+                rounded: "",
+                dense: "",
+                depressed: "",
+                color:
+                  this.InvoicesStore.state.invoiceStatus == "completed"
+                    ? "primary"
+                    : "error",
+                disabled: _vm.disableUploadBtn
+              },
+              on: { click: _vm.upload }
+            },
             [
-              _c(
-                "v-tabs",
-                {
-                  attrs: {
-                    "hide-slider": "",
-                    height: "44",
-                    "show-arrows": "",
-                    "center-active": "",
-                    "background-color": "grey lighten-4",
-                    "active-class": "primary--text"
-                  },
-                  model: {
-                    value: _vm.tab,
-                    callback: function($$v) {
-                      _vm.tab = $$v
-                    },
-                    expression: "tab"
-                  }
-                },
-                _vm._l(_vm.tabs, function(t, index) {
-                  return _c(
-                    "v-tab",
-                    { key: index, attrs: { title: t.title } },
-                    [_c("v-icon", [_vm._v(_vm._s(t.icon))])],
-                    1
-                  )
-                }),
-                1
+              _vm._v(
+                "\n            " +
+                  _vm._s(
+                    _vm.enableReupload ? "Reupload failed batch(es)" : "Upload"
+                  ) +
+                  "\n        "
               )
-            ],
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "ml-3" }, [_c("InvoiceLookup")], 1),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { icon: "", disabled: _vm.stillUploading },
+              on: {
+                click: function($event) {
+                  $event.stopPropagation()
+                  return _vm.cancel.apply(null, arguments)
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-close")])],
             1
           )
         ],
@@ -209,32 +496,645 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "v-tabs-items",
-        {
-          staticClass: "pa-0",
-          model: {
-            value: _vm.tab,
-            callback: function($$v) {
-              _vm.tab = $$v
+        "v-toolbar",
+        { attrs: { elevation: "0", dense: "" } },
+        [
+          _c(
+            "v-tabs",
+            {
+              attrs: { verticalx: "", growx: "" },
+              model: {
+                value: _vm.tab,
+                callback: function($$v) {
+                  _vm.tab = $$v
+                },
+                expression: "tab"
+              }
             },
-            expression: "tab"
-          }
-        },
-        _vm._l(_vm.tabs, function(t, index) {
-          return _c(
-            "v-tab-item",
-            { key: index, staticClass: "pa-0" },
+            _vm._l(_vm.batches, function(b, i) {
+              return _c("v-tab", { key: i }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "px-2 font-weight-bold text-left text-caption"
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Batch " +
+                        _vm._s(i + 1) +
+                        "/" +
+                        _vm._s(_vm.batches.length) +
+                        "\n                    "
+                    ),
+                    _vm.batchUploadStates[i] == "uploading"
+                      ? _c("v-progress-circular", {
+                          attrs: { indeterminate: "", dark: "", size: 20 }
+                        })
+                      : _vm.batchUploadStates[i] == "success"
+                      ? _c("v-icon", { attrs: { color: "success" } }, [
+                          _vm._v(
+                            "\n                        mdi-check-circle\n                    "
+                          )
+                        ])
+                      : _vm.batchUploadStates[i] == "failed"
+                      ? _c("v-icon", { attrs: { color: "error" } }, [
+                          _vm._v(
+                            "\n                        mdi-alert\n                    "
+                          )
+                        ])
+                      : _vm._e()
+                  ],
+                  1
+                )
+              ])
+            }),
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-card-text",
+        { staticClass: "pt-2" },
+        [
+          _c(
+            "v-row",
             [
-              _c(t.component, {
-                tag: "component",
-                attrs: {
-                  id: _vm.selectedPrincipalCode + "_tab_" + new Date().getTime()
-                }
-              })
+              _c(
+                "v-col",
+                { attrs: { cols: "12", md: "12" } },
+                [
+                  _c(
+                    "v-tabs-items",
+                    {
+                      model: {
+                        value: _vm.tab,
+                        callback: function($$v) {
+                          _vm.tab = $$v
+                        },
+                        expression: "tab"
+                      }
+                    },
+                    _vm._l(_vm.batches, function(b, batchIndex) {
+                      return _c(
+                        "v-tab-item",
+                        { key: b[0].erp_invoice_number + b[0].invoice_date },
+                        [
+                          _c(
+                            "v-container",
+                            { attrs: { fluid: "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    small: "",
+                                    rounded: "",
+                                    depressed: "",
+                                    color: "primary",
+                                    disabled: _vm.disableUploadBtn
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.selectAll(batchIndex, true)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                Select All\n                            "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    small: "",
+                                    rounded: "",
+                                    depressed: "",
+                                    color: "primary",
+                                    disabled: _vm.disableUploadBtn
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.selectAll(batchIndex, false)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                Deselect All\n                            "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
+                            { attrs: { fluid: "" } },
+                            [
+                              _c(
+                                "v-expansion-panels",
+                                { attrs: { focusable: "", multiple: "" } },
+                                _vm._l(b, function(invoice, i) {
+                                  return _c(
+                                    "v-expansion-panel",
+                                    {
+                                      key: "xpnsn-" + invoice.erp_invoice_number
+                                    },
+                                    [
+                                      _c("v-expansion-panel-header", [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "text-caption font-weight-boldx d-flex",
+                                            class:
+                                              invoice.upload_status !=
+                                                undefined &&
+                                              invoice.upload_status.success ==
+                                                true
+                                                ? "primary--text"
+                                                : (invoice.upload_status !=
+                                                    undefined &&
+                                                    invoice.upload_status
+                                                      .success == false) ||
+                                                  invoice.with_errors.length
+                                                ? "error--text"
+                                                : ""
+                                          },
+                                          [
+                                            _c("v-checkbox", {
+                                              key:
+                                                "chkbx-" +
+                                                invoice.erp_invoice_number,
+                                              staticClass: "pa-0 ma-0",
+                                              attrs: {
+                                                dense: "",
+                                                "hide-details": "",
+                                                color: "secondary",
+                                                title:
+                                                  "Check to include, uncheck to exclude",
+                                                disabled:
+                                                  _vm.disableUploadBtn ||
+                                                  invoice.with_errors.length > 0
+                                              },
+                                              model: {
+                                                value: invoice.included,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    invoice,
+                                                    "included",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "invoice.included"
+                                              }
+                                            }),
+                                            _vm._v(
+                                              "\n\n                                            " +
+                                                _vm._s(i + 1) +
+                                                ". " +
+                                                _vm._s(
+                                                  invoice.isReturn
+                                                    ? "Return Invoice"
+                                                    : "Invoice"
+                                                ) +
+                                                " " +
+                                                _vm._s(
+                                                  invoice.erp_invoice_number
+                                                ) +
+                                                "\n                                            ("
+                                            ),
+                                            _c("em", [
+                                              _vm._v(
+                                                _vm._s(invoice.details.length) +
+                                                  " item/s"
+                                              )
+                                            ]),
+                                            _vm._v(
+                                              ")\n\n                                            "
+                                            ),
+                                            invoice.upload_status !=
+                                              undefined &&
+                                            invoice.upload_status.success ==
+                                              false
+                                              ? _c(
+                                                  "span",
+                                                  {
+                                                    staticClass:
+                                                      "font-weight-bold"
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                                | Error:\n                                                " +
+                                                        _vm._s(
+                                                          invoice.upload_status
+                                                            .message
+                                                        ) +
+                                                        "\n                                                (" +
+                                                        _vm._s(
+                                                          invoice.upload_status
+                                                            .value
+                                                        ) +
+                                                        ")\n                                            "
+                                                    )
+                                                  ]
+                                                )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            invoice.upload_status !=
+                                              undefined &&
+                                            invoice.upload_status.success ==
+                                              true
+                                              ? _c(
+                                                  "span",
+                                                  {
+                                                    staticClass:
+                                                      "font-weight-bold"
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                                | " +
+                                                        _vm._s(
+                                                          invoice.upload_status
+                                                            .message
+                                                        ) +
+                                                        "\n                                            "
+                                                    )
+                                                  ]
+                                                )
+                                              : _vm._e()
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-expansion-panel-content",
+                                        { staticClass: "pt-4" },
+                                        [
+                                          invoice.with_errors.length
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "p-2 mb-4" },
+                                                _vm._l(
+                                                  invoice.with_errors,
+                                                  function(err, i) {
+                                                    return _c(
+                                                      "div",
+                                                      {
+                                                        key: i,
+                                                        staticClass: "mb-1"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "error--text"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-chip",
+                                                              {
+                                                                attrs: {
+                                                                  color:
+                                                                    "error",
+                                                                  "x-small": ""
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "\n                                                        Error\n                                                    "
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(
+                                                              "\n                                                    " +
+                                                                _vm._s(err) +
+                                                                "\n                                                "
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ]
+                                                    )
+                                                  }
+                                                ),
+                                                0
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "d-flex pb-4" },
+                                            [
+                                              _c(
+                                                "div",
+                                                { staticClass: "pr-6 " },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                " +
+                                                      _vm._s(
+                                                        invoice.isReturn
+                                                          ? "Return Invoice"
+                                                          : "Invoice"
+                                                      ) +
+                                                      " #: "
+                                                  ),
+                                                  _c("br"),
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        invoice.erp_invoice_number
+                                                      )
+                                                    )
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "pr-6 " },
+                                                [
+                                                  _vm._v("Invoice Date: "),
+                                                  _c("br"),
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        invoice.invoice_date
+                                                      )
+                                                    )
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "pr-6 " },
+                                                [
+                                                  _vm._v("Customer: "),
+                                                  _c("br"),
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        invoice.customer_name
+                                                      )
+                                                    )
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "pr-6 " },
+                                                [
+                                                  _vm._v("Amount: "),
+                                                  _c("br"),
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        invoice.total_value
+                                                      )
+                                                    )
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "pr-6 " },
+                                                [
+                                                  _vm._v("DSP: "),
+                                                  _c("br"),
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        invoice.customFields[0]
+                                                          .value
+                                                      )
+                                                    )
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              invoice.isReturn
+                                                ? _c(
+                                                    "div",
+                                                    { staticClass: "pr-6 " },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                Return Indicator: "
+                                                      ),
+                                                      _c("br"),
+                                                      _c("b", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            invoice
+                                                              .customFields[1]
+                                                              .value
+                                                          )
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              invoice.isReturn
+                                                ? _c(
+                                                    "div",
+                                                    { staticClass: "pr-6 " },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                Return Invoice Reference: "
+                                                      ),
+                                                      _c("br"),
+                                                      _c("b", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            invoice
+                                                              .customFields[2]
+                                                              .value
+                                                          )
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              invoice.isReturn
+                                                ? _c(
+                                                    "div",
+                                                    { staticClass: "pr-6 " },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                Remarks: "
+                                                      ),
+                                                      _c("br"),
+                                                      _c("b", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            invoice.remarks
+                                                          )
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                : _vm._e()
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            [
+                                              _c("v-data-table", {
+                                                attrs: {
+                                                  dense: "",
+                                                  headers: _vm.tblHeader,
+                                                  items: invoice.details
+                                                },
+                                                scopedSlots: _vm._u(
+                                                  [
+                                                    {
+                                                      key:
+                                                        "item.price_per_item",
+                                                      fn: function(ref) {
+                                                        var item = ref.item
+                                                        return [
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "text-right"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n                                                        " +
+                                                                  _vm._s(
+                                                                    item.price_per_item
+                                                                  ) +
+                                                                  "\n                                                    "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ]
+                                                      }
+                                                    },
+                                                    {
+                                                      key:
+                                                        "item.discount_value",
+                                                      fn: function(ref) {
+                                                        var item = ref.item
+                                                        return [
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "text-right"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n                                                        " +
+                                                                  _vm._s(
+                                                                    item.discount_value
+                                                                  ) +
+                                                                  "\n                                                    "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ]
+                                                      }
+                                                    },
+                                                    {
+                                                      key: "item.gross_value",
+                                                      fn: function(ref) {
+                                                        var item = ref.item
+                                                        return [
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "text-right"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n                                                        " +
+                                                                  _vm._s(
+                                                                    item.gross_value
+                                                                  ) +
+                                                                  "\n                                                    "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ]
+                                                      }
+                                                    },
+                                                    {
+                                                      key:
+                                                        "item.amount_wo_discount",
+                                                      fn: function(ref) {
+                                                        var item = ref.item
+                                                        return [
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "text-right"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n                                                        " +
+                                                                  _vm._s(
+                                                                    (
+                                                                      item.gross_value +
+                                                                      item.discount_value
+                                                                    ).toFixed(2)
+                                                                  ) +
+                                                                  "\n                                                    "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ]
+                                                      }
+                                                    }
+                                                  ],
+                                                  null,
+                                                  true
+                                                )
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                }),
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    }),
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           )
-        }),
+        ],
         1
       )
     ],
@@ -248,17 +1148,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/Base.vue":
-/*!*******************************************************!*\
-  !*** ./resources/js/pages/Principals/common/Base.vue ***!
-  \*******************************************************/
+/***/ "./resources/js/pages/Principals/common/BRUpload.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/pages/Principals/common/BRUpload.vue ***!
+  \***********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Base_vue_vue_type_template_id_1a177a58___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Base.vue?vue&type=template&id=1a177a58& */ "./resources/js/pages/Principals/common/Base.vue?vue&type=template&id=1a177a58&");
-/* harmony import */ var _Base_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Base.vue?vue&type=script&lang=js& */ "./resources/js/pages/Principals/common/Base.vue?vue&type=script&lang=js&");
+/* harmony import */ var _BRUpload_vue_vue_type_template_id_c07a9e58___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BRUpload.vue?vue&type=template&id=c07a9e58& */ "./resources/js/pages/Principals/common/BRUpload.vue?vue&type=template&id=c07a9e58&");
+/* harmony import */ var _BRUpload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BRUpload.vue?vue&type=script&lang=js& */ "./resources/js/pages/Principals/common/BRUpload.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -268,9 +1168,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Base_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Base_vue_vue_type_template_id_1a177a58___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Base_vue_vue_type_template_id_1a177a58___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _BRUpload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BRUpload_vue_vue_type_template_id_c07a9e58___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _BRUpload_vue_vue_type_template_id_c07a9e58___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -280,38 +1180,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/pages/Principals/common/Base.vue"
+component.options.__file = "resources/js/pages/Principals/common/BRUpload.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/Base.vue?vue&type=script&lang=js&":
-/*!********************************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/Base.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************/
+/***/ "./resources/js/pages/Principals/common/BRUpload.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/BRUpload.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Base_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Base.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Base.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Base_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BRUpload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./BRUpload.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/BRUpload.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BRUpload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/Base.vue?vue&type=template&id=1a177a58&":
-/*!**************************************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/Base.vue?vue&type=template&id=1a177a58& ***!
-  \**************************************************************************************/
+/***/ "./resources/js/pages/Principals/common/BRUpload.vue?vue&type=template&id=c07a9e58&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/BRUpload.vue?vue&type=template&id=c07a9e58& ***!
+  \******************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Base_vue_vue_type_template_id_1a177a58___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Base.vue?vue&type=template&id=1a177a58& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Base.vue?vue&type=template&id=1a177a58&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Base_vue_vue_type_template_id_1a177a58___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BRUpload_vue_vue_type_template_id_c07a9e58___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./BRUpload.vue?vue&type=template&id=c07a9e58& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/BRUpload.vue?vue&type=template&id=c07a9e58&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BRUpload_vue_vue_type_template_id_c07a9e58___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Base_vue_vue_type_template_id_1a177a58___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BRUpload_vue_vue_type_template_id_c07a9e58___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

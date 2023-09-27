@@ -274,7 +274,7 @@ export default {
             return this.lineCount < 1
                 || this.searchKeyLength > 0
                 || this.PrincipalsStore.state.isGeneratingData
-                || this.warningsCount > 0
+                // || this.warningsCount > 0
                 || this.InvoicesStore.state.invoiceStatus != 'completed' && this.InvoicesStore.state.invoiceStatus != 'uploaded'
                 ;
         }

@@ -19,7 +19,7 @@
                 Password
             </v-tab>
             <v-tab v-if="isEditPrincipalAssignmentShown">
-                Designated Principal
+                Assigned Principals
             </v-tab>
         </v-tabs>
         <v-card-text>

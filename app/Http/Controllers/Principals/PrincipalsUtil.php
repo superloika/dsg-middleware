@@ -17,11 +17,20 @@ class PrincipalsUtil extends Controller
 
     public static $TBL_GENERATED = 'generated_data';
     // public static $TBL_INVOICES = 'uploaded_invoices';
-    public static $TBL_INVOICES_H = 'invoices_headers';
-    public static $TBL_INVOICES = 'invoices_lines';
+
+    /**
+     * Invoices db table name (headers)
+     */
+    public static $TBL_INVOICES_H = 'invoices_headers_demo';
+    /**
+     * Invoices db table name (lines)
+     */
+    public static $TBL_INVOICES = 'invoices_lines_demo';
 
     // credit memos
-    // public static $TBL_CM_H = 'cm_headers';
+    /**
+     * Return invoices db table name (lines)
+     */
     public static $TBL_CM = 'cm_lines';
 
     public static $TBL_PRINCIPALS_CUSTOMERS = 'principals_customers';

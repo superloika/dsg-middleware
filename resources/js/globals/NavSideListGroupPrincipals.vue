@@ -1,30 +1,10 @@
 <template>
-<v-list-group no-action color="primary">
-    <template v-slot:activator>
-        <v-list-item-icon class="mr-2">
-            <v-icon>mdi-store</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-            <v-list-item-title>Principals
-                <span v-if="AppStore.isSuperAdmin()">
-                    <v-chip v-if="principalsCount > 0" x-small
-                        class="px-1"
-                        color="accent"
-                    >
-                        {{ principalsCount }}
-                    </v-chip>
-                    <v-chip v-if="principalsCountTemp > 0" x-small
-                        class="px-1"
-                        color="warning"
-                    >
-                        {{ principalsCountTemp }}
-                    </v-chip>
-                </span>
-            </v-list-item-title>
-        </v-list-item-content>
-    </template>
-    <div class="pr-3">
-        <div class="pt-2">
+<v-card>
+    <v-sheet v-if="filteredPrincipals.length < 1" class="pa-4">
+        <v-chip color="transparent">No assigned principals</v-chip>
+    </v-sheet>
+    <v-sheet v-else-if="filteredPrincipals.length > 0">
+        <div class="pt-3 pr-3">
             <v-text-field
                 v-if="filteredPrincipals.length > 5 || principalsSearchKey !== ''"
                 class="ml-5"
@@ -40,13 +20,15 @@
             >
             </v-text-field>
         </div>
-        <div class="pb-6">
+
+        <v-list rounded dense>
             <v-tooltip
                 right
                 v-for="(principal, i) in filteredPrincipals"
                 :key="principal.id"
             >
                 <template v-slot:activator="{ on, attrs }">
+
                     <v-list-item
                         link
                         :to="`/principals/${principal.code}`"
@@ -63,7 +45,7 @@
                             x-small
                             :color="
                                 principal.proj_status==0 ?
-                                'warning' : 'accent'
+                                'secondary' : 'primary'
                             "
                             class="ml-2 mr-0 pa-1"
                         >{{ i+1 }}</v-chip>
@@ -80,10 +62,9 @@
                 </template>
                 <span>{{ principal.name }}</span>
             </v-tooltip>
-
-        </div>
-    </div>
-</v-list-group>
+        </v-list>
+    </v-sheet>
+</v-card>
 </template>
 
 <script>
@@ -139,7 +120,7 @@ export default {
     },
 
     created() {
-        this.AppStore.initPrincipals();
+        // this.AppStore.initPrincipals();
     },
 
     mounted() {

@@ -1,6 +1,6 @@
 <template>
-<v-sheet>
-    <v-app-bar class="elevation-0" densex>
+<v-card>
+    <v-toolbar class="elevation-1">
         <v-toolbar-title>
             <div>
                 Transactions
@@ -125,42 +125,41 @@
         >
             <v-icon>mdi-file-pdf-box</v-icon>
         </v-btn>
-    </v-app-bar>
-    <v-sheet>
-        <v-data-table
-            :items="PrincipalsStore.state.transactions"
-            :headers="tblHeader"
-            dense
-            :search="searchKey"
-            classz="elevation-1"
-            id="transactions"
-            :loading="PrincipalsStore.state.isInitTransactions"
-            disable-sort
-        >
-            <template v-slot:[`item.updated_at`] = "{ item }">
-                <span>
-                    {{ item.updated_at.substring(0,10) }}
-                </span>
-            </template>
-            <!-- u3 = amount (haha) -->
-            <template v-slot:[`item.u3`] = "{ item }">
-                <span background-color="primary">
-                    {{ AppStore.formatAsCurrency(parseFloat(item.u3)) }}
-                </span>
-            </template>
-            <template v-slot:[`item.customer_name`] = "{ item }">
-                <span class="text-caption">
-                    {{ item.customer_name }}
-                </span>
-            </template>
-            <template v-slot:[`item.description`] = "{ item }">
-                <span class="text-caption">
-                    {{ item.description }}
-                </span>
-            </template>
-        </v-data-table>
-    </v-sheet>
-</v-sheet>
+    </v-toolbar>
+
+    <v-data-table
+        :items="PrincipalsStore.state.transactions"
+        :headers="tblHeader"
+        dense
+        :search="searchKey"
+        classz="elevation-1"
+        id="transactions"
+        :loading="PrincipalsStore.state.isInitTransactions"
+        disable-sort
+    >
+        <template v-slot:[`item.updated_at`] = "{ item }">
+            <span>
+                {{ item.updated_at.substring(0,10) }}
+            </span>
+        </template>
+        <!-- u3 = amount (haha) -->
+        <template v-slot:[`item.u3`] = "{ item }">
+            <span background-color="primary">
+                {{ AppStore.formatAsCurrency(parseFloat(item.u3)) }}
+            </span>
+        </template>
+        <template v-slot:[`item.customer_name`] = "{ item }">
+            <span class="text-caption">
+                {{ item.customer_name }}
+            </span>
+        </template>
+        <template v-slot:[`item.description`] = "{ item }">
+            <span class="text-caption">
+                {{ item.description }}
+            </span>
+        </template>
+    </v-data-table>
+</v-card>
 </template>
 
 

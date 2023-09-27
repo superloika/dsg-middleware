@@ -540,6 +540,8 @@ class PurefoodsController extends Controller
                     $sm_code =              $pendingInvoice->sm_code;
                     $discount_percentage =  $pendingInvoice->discount_percentage ?? 0;
                     $discount_value =       0;
+                    $vat_percentage =       intval($pendingInvoice->vat_percentage ?? 0);
+                    $vat_value =            0;
 
                     //********************************************************************
                     $nav_customer_name = $pendingInvoice->customer_name;
@@ -596,18 +598,27 @@ class PurefoodsController extends Controller
                         $uom_supplier = $pendingInvoice->qty_per_uom > 1 ?
                             $item->uom : $item->conversion_uom;
 
+                        // *********** PRICEHACKS RIGHT FUCKIN HERE **********************
                         // map to supplier price
-                        $price_supplier = $pendingInvoice->qty_per_uom > 1 ?
-                            ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
+                        // $price_supplier = $pendingInvoice->qty_per_uom > 1 ?
+                        //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
 
                         // map to orig price temporarily
-                        // $price_supplier = $price;
+                        $price_supplier = $price;
+
+                        // reverse percentage to get the vat-ex price
+                        if($vat_percentage > 0) {
+                            $price_supplier = $price / (1 + ($vat_percentage / 100));
+                        }
+                        // *********** /PRICEHACKS RIGHT FUCKIN HERE **********************
 
                         $amount_supplier = $price_supplier * $quantity;
                         $discount_value = $amount_supplier * $discount_percentage / 100;
                         $amount_supplier = $amount_supplier - $discount_value;
-                        $discount_value = round($discount_value, 6);
-                        $amount_supplier = round($amount_supplier, 6);
+
+                        $discount_value = round($discount_value, 2);
+                        $amount_supplier = round($amount_supplier, 2);
+                        $price_supplier = round($price_supplier, 2);
                     }
                     // check customer ***************************
                     if ($customer == null) {
@@ -657,7 +668,9 @@ class PurefoodsController extends Controller
                         'cf_dsp_name_value' =>      $settings['DSP_'. $group_code],
                         'invoice_number' =>         trim($pendingInvoice->vendor_code). '-'. $doc_no,
                         'discount_percentage' =>    $discount_percentage,
-                        'discount_value' =>        $discount_value,
+                        'discount_value' =>         $discount_value,
+                        'vat_percentage' =>         $vat_percentage,
+                        'vat_value' =>              $vat_value,
                     ];
 
                     if ($chunk_line_count > 0) {
@@ -751,6 +764,8 @@ class PurefoodsController extends Controller
                     $sm_code =              $return->sm_code;
                     $remarks =              $return->remarks;
                     $discount_value =       0;
+                    $vat_percentage =       intval($return->vat_percentage ?? 0);
+                    $vat_value =            0;
 
                     /**
                      * return quantity vs actual sales invoice quantity
@@ -819,17 +834,25 @@ class PurefoodsController extends Controller
                         $uom_supplier = $return->qty_per_uom > 1 ?
                             $item->uom : $item->conversion_uom;
 
+                        // *********** PRICEHACKS RIGHT FUCKIN HERE **********************
                         // map to supplier price
-                        $price_supplier = $return->qty_per_uom > 1 ?
-                            ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
+                        // $price_supplier = $return->qty_per_uom > 1 ?
+                        //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
                         // map to orig price temporarily
-                        // $price_supplier = $price;
+                        $price_supplier = $price;
+
+                        // reverse percentage to get the vat-ex price
+                        if($vat_percentage > 0) {
+                            $price_supplier = $price / (1 + ($vat_percentage / 100));
+                        }
+                        // *********** /PRICEHACKS RIGHT FUCKIN HERE **********************
 
                         $amount_supplier = $price_supplier * $quantity;
                         $discount_value = $amount_supplier * $discount_percentage / 100;
                         $amount_supplier = $amount_supplier - $discount_value;
-                        $discount_value = round($discount_value, 6);
-                        $amount_supplier = round($amount_supplier, 6);
+                        $discount_value = round($discount_value, 2);
+                        $amount_supplier = round($amount_supplier, 2);
+                        $price_supplier = round($price_supplier, 2);
                     }
                     // check customer ***************************
                     if ($customer == null) {
@@ -884,6 +907,8 @@ class PurefoodsController extends Controller
                         'discount_percentage' =>                $discount_percentage,
                         'discount_value' =>                     $discount_value,
                         'remarks' =>                            $remarks,
+                        'vat_percentage' =>                     $vat_percentage,
+                        'vat_value' =>                          $vat_value,
                         // order orig details
                         'invoice_quantity' =>       $invoice_quantity,
                         'invoice_doc_no' =>         $invoice_doc_no,
@@ -954,7 +979,6 @@ class PurefoodsController extends Controller
             // $fileCount++;
 
             return response()->json($res);
-
         } catch (\Throwable $th) {
             $res['success'] = false;
             $res['message'] = $th->getMessage();
@@ -967,24 +991,25 @@ class PurefoodsController extends Controller
         $dateFrom = new Carbon('2023-07-01');
         $dateTo = new Carbon('2023-07-31');
 
-        $inv = DB::table('invoices_lines')
+        $inv = DB::table(PrincipalsUtil::$TBL_INVOICES)
             ->whereIn('vendor_code',['S3030','S4135','S3564'])
-            // ->whereBetween(
-            //     DB::raw("STR_TO_DATE(invoices_lines.shipment_date, '%m/%d/%Y')"),
-            //     [$dateFrom, $dateTo]
-            // )
-            ->leftJoin('cm_lines',function($q){
-                $q->on('cm_lines.invoice_doc_no','invoices_lines.doc_no')
-                ->on('cm_lines.item_code','invoices_lines.item_code')
-                ->on('cm_lines.uom','invoices_lines.uom')
+            ->update([
+                'status' => 'pending',
+            ]);
+
+        $cm = DB::table(PrincipalsUtil::$TBL_INVOICES)
+            ->whereIn('vendor_code',['S3030','S4135','S3564'])
+            ->join('cm_lines',function($q){
+                $q->on('cm_lines.invoice_doc_no',PrincipalsUtil::$TBL_INVOICES.'.doc_no')
+                ->on('cm_lines.item_code',PrincipalsUtil::$TBL_INVOICES. '.item_code')
+                ->on('cm_lines.uom',PrincipalsUtil::$TBL_INVOICES. '.uom')
                 ;
             })
             ->update([
                 'cm_lines.status' => 'pending',
-                'invoices_lines.status' => 'pending',
             ]);
 
-        $response['invoice_lines_reverted'] = $inv;
+        $response['invoice_lines_reverted'] = $inv + $cm;
 
         return response()->json($response);
     }

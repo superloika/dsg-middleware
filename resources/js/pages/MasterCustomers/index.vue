@@ -1,9 +1,9 @@
 <template>
-<v-sheet>
-    <v-app-bar elevation="0" app>
+<v-card>
+    <v-toolbar elevation="0">
         <v-toolbar-title>
             <v-icon>mdi-account-multiple</v-icon>
-            {{ $route.meta.name }}
+            Customers Masterfile
             <v-chip color="primary" small>
                 {{ MasterCustomers.state.customers.total }}
             </v-chip>
@@ -64,7 +64,7 @@
             </div>
         </template>
 
-    </v-app-bar>
+    </v-toolbar>
 
     <v-row>
         <v-col cols="12">
@@ -79,7 +79,7 @@
             ></v-data-table>
         </v-col>
     </v-row>
-</v-sheet>
+</v-card>
 </template>
 
 <script>

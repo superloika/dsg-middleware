@@ -219,7 +219,8 @@ class InvoicesController extends Controller
             //     ->paginate($row_count);
             $invoices = $result->latest()->paginate($row_count);
             // $invoices = $result->orderBy('id')->cursorPaginate($row_count);
-            // $invoices = $result->simplePaginate($row_count);
+            // dd($row_count);
+            // $invoices = $result->simplePaginate(intval($row_count));
 
         return response()->json([
             'sum' => $sum,
@@ -526,7 +527,7 @@ class InvoicesController extends Controller
 
                             // invoice lines ****************************************
                             if (
-                                (count($cols) == 14 || count($cols) == 15)
+                                (count($cols) == 14 || count($cols) == 15 || count($cols) == 16)
                                 && $cols[0][0] != '#'
                                 && trim(str_replace('"','',$cols[0])) != 'Credit Memo'
                                 && trim(str_replace('"','',$cols[0])) != ''
@@ -548,6 +549,7 @@ class InvoicesController extends Controller
                                 $qty_per_uom =              trim(str_replace(',','',$qty_per_uom));
                                 $uom_code =                 trim(str_replace('"','',$cols[13]));
                                 $discount_percentage =      trim(str_replace('"','',$cols[14] ?? 0));
+                                $vat_percentage =           trim(str_replace('"','',$cols[15] ?? 0));
 
                                 if($quantity > 0) $summaryItem['lines_count'] += 1;
 
@@ -587,6 +589,7 @@ class InvoicesController extends Controller
                                             'qty_per_uom'=>$qty_per_uom,
                                             'uom_code'=>$uom_code,
                                             'discount_percentage'=>$discount_percentage,
+                                            'vat_percentage'=>$vat_percentage,
                                         ];
 
                                     }
@@ -663,7 +666,8 @@ class InvoicesController extends Controller
                                 $qty_per_uom =              trim(str_replace('"','',$cols[9]));
                                 $qty_per_uom =              trim(str_replace(',','',$qty_per_uom));
                                 $uom_code =                 trim(str_replace('"','',$cols[10]));
-                                $discount_percentage =      trim(str_replace('"','',$cols[11]));
+                                $discount_percentage =      trim(str_replace('"','',$cols[11] ?? 0));
+                                $vat_percentage =      trim(str_replace('"','',$cols[12] ?? 0));
 
                                 if($quantity > 0) $summaryItem['cm_lines_count'] += 1;
 
@@ -699,6 +703,7 @@ class InvoicesController extends Controller
                                             'qty_per_uom'=>$qty_per_uom,
                                             'uom_code'=>$uom_code,
                                             'discount_percentage'=>$discount_percentage,
+                                            'vat_percentage'=>$vat_percentage,
                                         ];
 
                                         DB::table(PrincipalsUtil::$TBL_CM)->insert($cm_line);

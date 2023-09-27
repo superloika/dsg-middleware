@@ -183,7 +183,6 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -393,11 +392,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-sheet",
+    "v-card",
     [
       _c(
-        "v-app-bar",
-        { staticClass: "elevation-0", attrs: { densex: "" } },
+        "v-toolbar",
+        { staticClass: "elevation-1" },
         [
           _c("v-toolbar-title", [
             _c("div", [_vm._v("\n                Transactions\n            ")]),
@@ -633,92 +632,86 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "v-sheet",
-        [
-          _c("v-data-table", {
-            attrs: {
-              items: _vm.PrincipalsStore.state.transactions,
-              headers: _vm.tblHeader,
-              dense: "",
-              search: _vm.searchKey,
-              classz: "elevation-1",
-              id: "transactions",
-              loading: _vm.PrincipalsStore.state.isInitTransactions,
-              "disable-sort": ""
+      _c("v-data-table", {
+        attrs: {
+          items: _vm.PrincipalsStore.state.transactions,
+          headers: _vm.tblHeader,
+          dense: "",
+          search: _vm.searchKey,
+          classz: "elevation-1",
+          id: "transactions",
+          loading: _vm.PrincipalsStore.state.isInitTransactions,
+          "disable-sort": ""
+        },
+        scopedSlots: _vm._u(
+          [
+            {
+              key: "item.updated_at",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _c("span", [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(item.updated_at.substring(0, 10)) +
+                        "\n            "
+                    )
+                  ])
+                ]
+              }
             },
-            scopedSlots: _vm._u(
-              [
-                {
-                  key: "item.updated_at",
-                  fn: function(ref) {
-                    var item = ref.item
-                    return [
-                      _c("span", [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(item.updated_at.substring(0, 10)) +
-                            "\n                "
-                        )
-                      ])
-                    ]
-                  }
-                },
-                {
-                  key: "item.u3",
-                  fn: function(ref) {
-                    var item = ref.item
-                    return [
-                      _c("span", { attrs: { "background-color": "primary" } }, [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(
-                              _vm.AppStore.formatAsCurrency(parseFloat(item.u3))
-                            ) +
-                            "\n                "
-                        )
-                      ])
-                    ]
-                  }
-                },
-                {
-                  key: "item.customer_name",
-                  fn: function(ref) {
-                    var item = ref.item
-                    return [
-                      _c("span", { staticClass: "text-caption" }, [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(item.customer_name) +
-                            "\n                "
-                        )
-                      ])
-                    ]
-                  }
-                },
-                {
-                  key: "item.description",
-                  fn: function(ref) {
-                    var item = ref.item
-                    return [
-                      _c("span", { staticClass: "text-caption" }, [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(item.description) +
-                            "\n                "
-                        )
-                      ])
-                    ]
-                  }
-                }
-              ],
-              null,
-              true
-            )
-          })
-        ],
-        1
-      )
+            {
+              key: "item.u3",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _c("span", { attrs: { "background-color": "primary" } }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(
+                          _vm.AppStore.formatAsCurrency(parseFloat(item.u3))
+                        ) +
+                        "\n            "
+                    )
+                  ])
+                ]
+              }
+            },
+            {
+              key: "item.customer_name",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _c("span", { staticClass: "text-caption" }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(item.customer_name) +
+                        "\n            "
+                    )
+                  ])
+                ]
+              }
+            },
+            {
+              key: "item.description",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _c("span", { staticClass: "text-caption" }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(item.description) +
+                        "\n            "
+                    )
+                  ])
+                ]
+              }
+            }
+          ],
+          null,
+          true
+        )
+      })
     ],
     1
   )

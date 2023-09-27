@@ -101,7 +101,7 @@
                             :items="filteredPrincipals"
                             item-text="name"
                             item-value="id"
-                            label="Designated Principals"
+                            label="Assigned Principals"
                             multiple
                             dense
                             outlined

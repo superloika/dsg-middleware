@@ -24,8 +24,8 @@ const myCustomLightTheme = {
 
 const opts = {
     theme: {
-        defaultTheme: 'myCustomLightTheme',
-        // light: true,
+        // defaultTheme: 'myCustomLightTheme',
+        light: true,
         // dark: true,
         variations: true,
 
@@ -35,7 +35,7 @@ const opts = {
                 info: '#2196F3',
                 success: '#4CAF50',
                 primary: '#2dba02',
-                // primary: '#038c43',
+                // primary: '#BA68C8',
                 // primary: '#000000',
                 accent: "#7dd663",
             },
@@ -46,6 +46,9 @@ const opts = {
             //     primary: '#ff5100',
             //     accent: "#ff8e59",
             // },
+            dark: {
+                primary: '#BA68C8',
+            },
             myCustomLightTheme,
         }
     }

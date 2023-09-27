@@ -106,16 +106,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     GeneratedTableWrapper: function GeneratedTableWrapper() {
-      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./GeneratedTableWrapper.vue */ "./resources/js/pages/Principals/common/GeneratedTableWrapper.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./GeneratedTableWrapper.vue */ "./resources/js/pages/Principals/common/GeneratedTableWrapper.vue"));
     },
     GeneratedActions: function GeneratedActions() {
       return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! ./GeneratedActions.vue */ "./resources/js/pages/Principals/common/GeneratedActions.vue"));
@@ -254,193 +248,160 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    {},
+    "v-card",
     [
       _c(
-        "v-card",
-        { staticClass: "elevation-0", attrs: { color: "" } },
+        "v-toolbar",
+        { attrs: { elevation: "1" } },
         [
-          _c(
-            "v-card-title",
-            { staticClass: "pa-0" },
-            [
-              _c(
-                "v-app-bar",
-                { attrs: { elevation: "0", colorx: "white", appx: "" } },
-                [
-                  _c("v-toolbar-title", [
+          _c("v-toolbar-title", [
+            _c("div", { staticClass: "text-subtitle-2 font-weight-bold" }, [
+              _vm._v("\n                Templated Data\n            ")
+            ]),
+            _vm._v(" "),
+            _vm.lineCount > 0
+              ? _c(
+                  "div",
+                  [
                     _c(
-                      "div",
-                      { staticClass: "text-subtitle-2 font-weight-bold" },
+                      "v-chip",
+                      { attrs: { "x-small": "", label: "", color: "primary" } },
                       [
-                        _vm._v(
-                          "\n                        Templated Data\n                    "
-                        )
+                        _c("h4", [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.lineCount) +
+                              " total line/s\n                    "
+                          )
+                        ])
                       ]
                     ),
                     _vm._v(" "),
-                    _vm.lineCount > 0
+                    _vm.warningsCount > 0
                       ? _c(
-                          "div",
+                          "v-chip",
+                          {
+                            attrs: {
+                              "x-small": "",
+                              label: "",
+                              color: "warning"
+                            }
+                          },
                           [
-                            _c(
-                              "v-chip",
-                              {
-                                attrs: {
-                                  "x-small": "",
-                                  label: "",
-                                  color: "primary"
-                                }
-                              },
-                              [
-                                _c("h4", [
-                                  _vm._v(
-                                    "\n                                " +
-                                      _vm._s(_vm.lineCount) +
-                                      " total line/s\n                            "
-                                  )
-                                ])
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _vm.warningsCount > 0
-                              ? _c(
-                                  "v-chip",
-                                  {
-                                    attrs: {
-                                      "x-small": "",
-                                      label: "",
-                                      color: "warning"
-                                    }
-                                  },
-                                  [
-                                    _c("h4", [
-                                      _vm._v(
-                                        "\n                                " +
-                                          _vm._s(_vm.warningsCount) +
-                                          "\n                                total warning(s) found. Keep masterfiles updated.\n                            "
-                                      )
-                                    ])
-                                  ]
-                                )
-                              : _vm._e()
-                          ],
-                          1
+                            _c("h4", [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(_vm.warningsCount) +
+                                  "\n                        total warning(s) found. Keep masterfiles updated.\n                    "
+                              )
+                            ])
+                          ]
                         )
                       : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-menu",
-                    {
-                      attrs: {
-                        "close-on-content-click": false,
-                        "offset-y": "",
-                        bottom: "",
-                        "z-indexx": "999",
-                        transition: "scroll-y-reverse-transition"
-                      },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "activator",
-                          fn: function(ref) {
-                            var on = ref.on
-                            var attrs = ref.attrs
-                            return [
-                              _c(
-                                "v-btn",
-                                _vm._g(
-                                  _vm._b(
-                                    {
-                                      attrs: {
-                                        rounded: "",
-                                        color: "primary",
-                                        title: "More Options"
-                                      }
-                                    },
-                                    "v-btn",
-                                    attrs,
-                                    false
-                                  ),
-                                  on
-                                ),
-                                [
-                                  _vm._v(
-                                    "\n                            Options\n                        "
-                                  )
-                                ]
-                              )
-                            ]
-                          }
-                        }
-                      ]),
-                      model: {
-                        value: _vm.menu,
-                        callback: function($$v) {
-                          _vm.menu = $$v
-                        },
-                        expression: "menu"
-                      }
-                    },
-                    [
-                      _vm._v(" "),
-                      _c("GeneratedActions", {
-                        attrs: {
-                          lineCount: _vm.lineCount,
-                          warningsCount: _vm.warningsCount
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
+                  ],
+                  1
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("v-spacer"),
+          _vm._v(" "),
+          _c(
+            "v-menu",
+            {
+              attrs: {
+                "close-on-content-click": false,
+                "offset-y": "",
+                bottom: "",
+                "z-indexx": "999",
+                transition: "scroll-y-reverse-transition"
+              },
+              scopedSlots: _vm._u([
+                {
+                  key: "activator",
+                  fn: function(ref) {
+                    var on = ref.on
+                    var attrs = ref.attrs
+                    return [
+                      _c(
+                        "v-btn",
+                        _vm._g(
+                          _vm._b(
+                            {
+                              attrs: {
+                                rounded: "",
+                                color: "primary",
+                                title: "More Options"
+                              }
+                            },
+                            "v-btn",
+                            attrs,
+                            false
+                          ),
+                          on
+                        ),
+                        [
+                          _vm._v(
+                            "\n                    Options\n                "
+                          )
+                        ]
+                      )
+                    ]
+                  }
+                }
+              ]),
+              model: {
+                value: _vm.menu,
+                callback: function($$v) {
+                  _vm.menu = $$v
+                },
+                expression: "menu"
+              }
+            },
+            [
+              _vm._v(" "),
+              _c("GeneratedActions", {
+                attrs: {
+                  lineCount: _vm.lineCount,
+                  warningsCount: _vm.warningsCount
+                }
+              })
             ],
             1
-          ),
-          _vm._v(" "),
-          _c("v-card-text", { staticClass: "mx-0 px-0" }, [
-            _c("div", {}, [
-              _vm.PrincipalsStore.state.isGeneratingData
-                ? _c("div", { staticClass: "d-flex justify-center pt-6" })
-                : _c(
-                    "div",
-                    [
-                      _vm.generatedData.length < 1 || _vm.lineCount < 1
-                        ? _c(
-                            "div",
-                            { staticClass: "d-flex justify-center pt-6" },
-                            [
-                              _c(
-                                "v-chip",
-                                { attrs: { color: "accent", small: "" } },
-                                [
-                                  _vm._v(
-                                    "\n                            No available data to display\n                        "
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          )
-                        : _c("GeneratedTableWrapper", {
-                            attrs: {
-                              generatedData: _vm.generatedData,
-                              allow_export: true
-                            }
-                          })
-                    ],
-                    1
-                  )
-            ])
-          ])
+          )
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("div", [
+        _vm.PrincipalsStore.state.isGeneratingData
+          ? _c("div", { staticClass: "d-flex justify-center pt-6" })
+          : _c(
+              "div",
+              [
+                _vm.generatedData.length < 1 || _vm.lineCount < 1
+                  ? _c(
+                      "div",
+                      { staticClass: "d-flex justify-center pt-6" },
+                      [
+                        _c("v-chip", { attrs: { color: "transparent" } }, [
+                          _vm._v(
+                            "\n                    No available data to display\n                "
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  : _c("GeneratedTableWrapper", {
+                      attrs: {
+                        generatedData: _vm.generatedData,
+                        allow_export: true
+                      }
+                    })
+              ],
+              1
+            )
+      ])
     ],
     1
   )

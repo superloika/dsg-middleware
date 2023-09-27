@@ -1,73 +1,14 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[12],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsAdd.vue?vue&type=script&lang=js&":
-/*!********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ManageAccounts/AccountsAdd.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Invoices/InvoicesUpload.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Invoices/InvoicesUpload.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -167,194 +108,98 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'InvoicesUpload',
+  props: ['searchKey', 'principalCodeFilter'],
+  components: {
+    InvoiceUploadSummary: function InvoiceUploadSummary() {
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./InvoiceUploadSummary.vue */ "./resources/js/pages/Invoices/InvoiceUploadSummary.vue"));
+    }
+  },
   data: function data() {
-    var _this = this;
-
     return {
-      nameRegex: /^[a-zA-Z\s]+$/,
-      usernameRegex: /^[a-zA-Z0-9]+$/,
-      frm_add: false,
-      newAccount: {
-        // name: "test user",
-        // username: "admin",
-        // password: "admin",
-        // passwordConfirm: "admin",
-        // user_type: "user",
-        name: "",
-        username: "",
-        password: "",
-        passwordConfirm: "",
-        user_type: "",
-        selected_principals: [],
-        rules: {
-          name: [function (v) {
-            return !!v || "Name is required";
-          }, function (v) {
-            return v.length >= 2 || "Name must be 2 characters or above";
-          }, function (v) {
-            return _this.nameRegex.test(v) || "Invalid name. Use alpha characters only";
-          }],
-          username: [function (v) {
-            return !!v || "Username is required";
-          }, function (v) {
-            return v.length >= 3 || "Username must be 3 characters or above";
-          }, function (v) {
-            return _this.usernameRegex.test(v) || "Invalid username";
-          }],
-          password: [function (v) {
-            return !!v || "Password is required";
-          }, function (v) {
-            return v.length >= 3 || "Password must be 3 characters or above";
-          }],
-          passwordConfirm: [function (v) {
-            return !!v || "Please confirm password";
-          }, function (v) {
-            return _this.newAccount.password === _this.newAccount.passwordConfirm || "Password did not match";
-          }],
-          user_type: [function (v) {
-            return !!v || "User type is required";
-          }]
-        }
-      },
-      savingNewUser: false,
-      errMsgs: [],
-      errMsgsShown: false,
-      principalsSearchKey: ''
+      file: null,
+      selected_group: '',
+      uploadResponse: {}
     };
   },
-  watch: {
-    'newAccount.name': function newAccountName() {
-      this.newAccount.name = this.newAccount.name.replace('  ', ' ').trim();
-    },
-    'newAccount.user_type': function newAccountUser_type() {
-      if (this.newAccount.user_type === 'super_admin') {
-        this.newAccount.selected_principals = ["*"];
-      } else if (this.newAccount.user_type === 'admin') {
-        this.newAccount.selected_principals = ["*"];
-      } else if (this.newAccount.user_type === 'uploader') {
-        this.newAccount.selected_principals = ["?"];
-      } else {
-        this.newAccount.selected_principals = [];
-      }
-    } // 'newAccount.selected_principals': function() {
-    //     console.log(this.newAccount.selected_principals);
-    // }
-
+  computed: {
+    // isNoPreviousSummary() {
+    //     return Object.keys(this.uploadResponse).length === 0;
+    // },
+    keywordsColor: function keywordsColor() {
+      return 'secondary';
+    }
   },
   methods: {
-    saveNewUser: function saveNewUser() {
-      var _this2 = this;
+    upload: function upload() {
+      var _this = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var vm, url, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                vm = _this2;
+      var vm = this;
+      this.AppStore.overlay(true);
+      var config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        } // onUploadProgress: progressEvent => {
+        //     let progressPercentage = progressEvent.loaded / vm.file.size * 100;
+        //     let statusText = 'Uploading...';
+        //     if(progressPercentage < 100) {
+        //         statusText = 'Uploading... ' + progressPercentage.toFixed(0) + '%';
+        //     } else if(progressPercentage == 100) {
+        //         statusText = 'File uploaded';
+        //     } else if(progressPercentage > 100){
+        //         statusText = 'Saving...';
+        //     }
+        //     this.AppStore.state.overlay.msg = statusText;
+        // }
 
-                if (!_this2.$refs.frm_add.validate()) {
-                  _context.next = 16;
-                  break;
-                }
+      };
+      var formData = new FormData();
 
-                url = "".concat(_this2.AppStore.state.siteUrl, "accounts");
-                _context.prev = 3;
-                _this2.savingNewUser = true;
-                _context.next = 7;
-                return axios.post(url, {
-                  name: vm.newAccount.name,
-                  username: vm.newAccount.username,
-                  password: vm.newAccount.password,
-                  user_type: vm.newAccount.user_type,
-                  selected_principals: vm.newAccount.selected_principals
-                });
+      for (var i = 0; i < this.file.length; i++) {
+        formData.append('files[' + i + ']', this.file[i]);
+      }
 
-              case 7:
-                response = _context.sent;
+      formData.append('terminal', this.selected_group);
+      var url = this.AppStore.state.siteUrl + 'invoices/upload';
+      axios.post(url, formData, config).then(function (response) {
+        var success = response.data.success;
+        var message = response.data.message;
 
-                // console.log(response.data);
-                if (response.data == true) {
-                  _this2.ManageAccounts.initUsers();
+        _this.AppStore.overlay(false);
 
-                  _this2.ManageAccounts.state.modalAddIsOpen = false;
+        _this.AppStore.toast(message);
 
-                  _this2.AppStore.toast("New account added", 2000);
-                } else if (response.data.invalidations != undefined || response.data.invalidations != null) {
-                  _this2.errMsgs = [];
-                  Object.entries(response.data.invalidations).forEach(function (field) {
-                    _this2.errMsgs.push(field[1][0]);
-                  }); // this.AppStore.toast(this.errMsgs, 3000);
+        _this.file = null;
+        _this.selected_group = '';
 
-                  _this2.errMsgsShown = true;
-                } else if (response.data.errorInfo != null || response.data.errorInfo != undefined) {
-                  _this2.AppStore.toast("An error occured", 2000);
+        _this.InvoicesStore.initInvoices(_this.searchKey, _this.principalCodeFilter);
 
-                  console.log(response.data.errorInfo);
-                }
+        _this.uploadResponse = response.data;
 
-                _context.next = 15;
-                break;
-
-              case 11:
-                _context.prev = 11;
-                _context.t0 = _context["catch"](3);
-                console.log(_context.t0);
-
-                _this2.AppStore.toast(_context.t0, 3000);
-
-              case 15:
-                _this2.savingNewUser = false;
-
-              case 16:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, null, [[3, 11]]);
-      }))();
-    }
-  },
-  computed: {
-    filteredUserTypes: function filteredUserTypes() {
-      var _this3 = this;
-
-      return this.AppStore.state.userTypes.filter(function (e) {
-        if (_this3.AppStore.isAdmin()) {
-          return e != 'super_admin' && e != 'admin';
-        } else {
-          return e;
+        if (response.data.success) {
+          _this.InvoicesStore.state.isUploadSummaryShown = true;
         }
+      })["catch"](function (error) {
+        _this.AppStore.overlay(false);
+
+        _this.AppStore.toast(error);
       });
     },
-    filteredPrincipals: function filteredPrincipals() {
-      var _this4 = this;
-
-      var searchRegex = new RegExp(this.principalsSearchKey, "i");
-
-      if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
-        return this.AppStore.state.principals.filter(function (principal) {
-          return searchRegex.test(principal.name) || !_this4.principalsSearchKey;
-        });
-      } else {
-        return this.AppStore.state.principals.filter(function (principal) {
-          return (searchRegex.test(principal.name) || !_this4.principalsSearchKey) && _this4.AppStore.isInUserPrincipalIDs(principal.id);
-        });
-      }
+    showPreviousSummary: function showPreviousSummary() {
+      this.InvoicesStore.state.isUploadSummaryShown = true;
     }
   },
-  created: function created() {},
   mounted: function mounted() {
-    console.log("ExpendituresAdd mounted.");
+    console.log('InvoicesUpload mounted.');
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsAdd.vue?vue&type=template&id=1f6d23e0&":
-/*!************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ManageAccounts/AccountsAdd.vue?vue&type=template&id=1f6d23e0& ***!
-  \************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Invoices/InvoicesUpload.vue?vue&type=template&id=79987d77&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Invoices/InvoicesUpload.vue?vue&type=template&id=79987d77& ***!
+  \*********************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -368,28 +213,130 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { outlined: "" } },
+    { staticClass: "elevation-0 transparent pa-0" },
     [
       _c(
-        "v-card-title",
+        "v-card-text",
+        {},
         [
-          _c("v-icon", [_vm._v("mdi-account-plus")]),
+          _c(
+            "v-row",
+            { staticClass: "py-0" },
+            [
+              _c(
+                "v-col",
+                {
+                  staticClass: "pb-0",
+                  attrs: { cols: "", lg: "10", md: "10", sm: "12" }
+                },
+                [
+                  _c(
+                    "v-form",
+                    { ref: "frm_upload" },
+                    [
+                      _c("v-file-input", {
+                        attrs: {
+                          "small-chips": "",
+                          "show-sizex": "",
+                          rounded: "",
+                          outlined: "",
+                          dense: "",
+                          required: "",
+                          placeholder: "Select text files to upload (invoices)",
+                          accept: ".txt",
+                          multiple: "",
+                          color: "primary",
+                          "background-color": "white"
+                        },
+                        model: {
+                          value: _vm.file,
+                          callback: function($$v) {
+                            _vm.file = $$v
+                          },
+                          expression: "file"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                {
+                  staticClass: "pb-0",
+                  attrs: { cols: "", lg: "2", md: "2", sm: "12" }
+                },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        dense: "",
+                        color: "primary",
+                        block: "",
+                        rounded: "",
+                        disabled:
+                          _vm.file == null ||
+                          _vm.file.length < 1 ||
+                          _vm.selected_group == "XXX"
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.upload()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                    Upload\n                ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("span", { staticClass: "ml-2" }, [_vm._v("Add Account")]),
-          _vm._v(" "),
-          _c("v-spacer"),
+          _c("div", { staticClass: "ma-0 pa-0" }),
           _vm._v(" "),
           _c(
-            "v-btn",
-            {
-              attrs: { icon: "" },
-              on: {
-                click: function($event) {
-                  _vm.ManageAccounts.state.modalAddIsOpen = false
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-close-box-outline")])],
+            "v-row",
+            { staticClass: "py-0" },
+            [
+              _c("v-col", [
+                _c(
+                  "small",
+                  [
+                    _c("strong", [_vm._v("Important Note:")]),
+                    _vm._v(
+                      "\n                    Filenames should include a group keyword\n                    in order for the system to identify which group the data came from.\n                    Keyword includes\n                        "
+                    ),
+                    _vm._l(_vm.InvoicesStore.state.groups, function(group, i) {
+                      return _c(
+                        "v-chip",
+                        {
+                          key: i,
+                          staticClass: "px-2 mr-1",
+                          attrs: { "x-small": "", color: _vm.keywordsColor }
+                        },
+                        [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(group.group_code) +
+                              "\n                        "
+                          )
+                        ]
+                      )
+                    }),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v('Example: "CWDG_PCS Sept 1-5.txt"\n                ')
+                  ],
+                  2
+                )
+              ])
+            ],
             1
           )
         ],
@@ -397,317 +344,21 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "v-card-text",
+        "v-dialog",
+        {
+          attrs: { "max-width": "600px" },
+          model: {
+            value: _vm.InvoicesStore.state.isUploadSummaryShown,
+            callback: function($$v) {
+              _vm.$set(_vm.InvoicesStore.state, "isUploadSummaryShown", $$v)
+            },
+            expression: "InvoicesStore.state.isUploadSummaryShown"
+          }
+        },
         [
-          _c(
-            "v-alert",
-            {
-              attrs: {
-                dense: "",
-                text: "",
-                type: "error",
-                dismissible: "",
-                transition: "scale-transition"
-              },
-              model: {
-                value: _vm.errMsgsShown,
-                callback: function($$v) {
-                  _vm.errMsgsShown = $$v
-                },
-                expression: "errMsgsShown"
-              }
-            },
-            _vm._l(_vm.errMsgs, function(errMsg, index) {
-              return _c("p", { key: index, staticClass: "ma-0 pa-0" }, [
-                _vm._v("\n                " + _vm._s(errMsg) + "\n            ")
-              ])
-            }),
-            0
-          ),
-          _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _c(
-            "v-form",
-            {
-              ref: "frm_add",
-              model: {
-                value: _vm.frm_add,
-                callback: function($$v) {
-                  _vm.frm_add = $$v
-                },
-                expression: "frm_add"
-              }
-            },
-            [
-              _c(
-                "v-row",
-                { staticClass: "pa-0" },
-                [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "pt-1 pb-1",
-                      attrs: { cols: "12", md: "4", sm: "6" }
-                    },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          outlined: "",
-                          dense: "",
-                          text: "",
-                          label: "Name *",
-                          required: "",
-                          rules: _vm.newAccount.rules.name
-                        },
-                        model: {
-                          value: _vm.newAccount.name,
-                          callback: function($$v) {
-                            _vm.$set(_vm.newAccount, "name", $$v)
-                          },
-                          expression: "newAccount.name"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "pt-1 pb-1",
-                      attrs: { cols: "12", md: "4", sm: "6" }
-                    },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          outlined: "",
-                          dense: "",
-                          text: "",
-                          label: "Username *",
-                          required: "",
-                          rules: _vm.newAccount.rules.username
-                        },
-                        model: {
-                          value: _vm.newAccount.username,
-                          callback: function($$v) {
-                            _vm.$set(_vm.newAccount, "username", $$v)
-                          },
-                          expression: "newAccount.username"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "pt-1 pb-1",
-                      attrs: { cols: "12", md: "4", sm: "6" }
-                    },
-                    [
-                      _c("v-select", {
-                        attrs: {
-                          items: _vm.filteredUserTypes,
-                          outlined: "",
-                          dense: "",
-                          text: "",
-                          label: "User Type *",
-                          required: "",
-                          rules: _vm.newAccount.rules.user_type
-                        },
-                        model: {
-                          value: _vm.newAccount.user_type,
-                          callback: function($$v) {
-                            _vm.$set(_vm.newAccount, "user_type", $$v)
-                          },
-                          expression: "newAccount.user_type"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "pt-1 pb-1",
-                      attrs: { cols: "12", md: "4", sm: "6" }
-                    },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          outlined: "",
-                          dense: "",
-                          text: "",
-                          label: "Password *",
-                          autocomplete: "false",
-                          required: "",
-                          type: "password",
-                          rules: _vm.newAccount.rules.password
-                        },
-                        model: {
-                          value: _vm.newAccount.password,
-                          callback: function($$v) {
-                            _vm.$set(_vm.newAccount, "password", $$v)
-                          },
-                          expression: "newAccount.password"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "pt-1 pb-1",
-                      attrs: { cols: "12", md: "4", sm: "6" }
-                    },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          outlined: "",
-                          dense: "",
-                          text: "",
-                          label: "Confirm Password *",
-                          autocomplete: "false",
-                          required: "",
-                          type: "password",
-                          rules: _vm.newAccount.rules.passwordConfirm
-                        },
-                        model: {
-                          value: _vm.newAccount.passwordConfirm,
-                          callback: function($$v) {
-                            _vm.$set(_vm.newAccount, "passwordConfirm", $$v)
-                          },
-                          expression: "newAccount.passwordConfirm"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _vm.newAccount.user_type != "xxx"
-                    ? _c(
-                        "v-col",
-                        {
-                          staticClass: "pt-1 pb-1",
-                          attrs: { cols: "12", md: "4", sm: "6" }
-                        },
-                        [
-                          _c("v-select", {
-                            attrs: {
-                              items: _vm.filteredPrincipals,
-                              "item-text": "name",
-                              "item-value": "id",
-                              label: "Designated Principals",
-                              multiple: "",
-                              dense: "",
-                              outlined: ""
-                            },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "prepend-item",
-                                  fn: function() {
-                                    return [
-                                      _c(
-                                        "div",
-                                        { staticClass: "mx-2 mb-0 pb-0" },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              dense: "",
-                                              rounded: "",
-                                              "solo-inverted": "",
-                                              clearable: "",
-                                              placeholder: "Search",
-                                              flat: ""
-                                            },
-                                            model: {
-                                              value: _vm.principalsSearchKey,
-                                              callback: function($$v) {
-                                                _vm.principalsSearchKey = $$v
-                                              },
-                                              expression: "principalsSearchKey"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      )
-                                    ]
-                                  },
-                                  proxy: true
-                                }
-                              ],
-                              null,
-                              false,
-                              1934076597
-                            ),
-                            model: {
-                              value: _vm.newAccount.selected_principals,
-                              callback: function($$v) {
-                                _vm.$set(
-                                  _vm.newAccount,
-                                  "selected_principals",
-                                  $$v
-                                )
-                              },
-                              expression: "newAccount.selected_principals"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e()
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-row",
-                { staticClass: "pa-0" },
-                [
-                  _c("v-col", [
-                    _c(
-                      "div",
-                      { staticClass: "float-right" },
-                      [
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: {
-                              color: "primary",
-                              dense: "",
-                              smallx: "",
-                              outlinedx: "",
-                              loading: _vm.savingNewUser,
-                              roundedx: ""
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.saveNewUser()
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            Save\n                        "
-                            )
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  ])
-                ],
-                1
-              )
-            ],
-            1
-          )
+          _c("InvoiceUploadSummary", {
+            attrs: { uploadResponse: _vm.uploadResponse }
+          })
         ],
         1
       )
@@ -722,17 +373,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/pages/ManageAccounts/AccountsAdd.vue":
-/*!***********************************************************!*\
-  !*** ./resources/js/pages/ManageAccounts/AccountsAdd.vue ***!
-  \***********************************************************/
+/***/ "./resources/js/pages/Invoices/InvoicesUpload.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/pages/Invoices/InvoicesUpload.vue ***!
+  \********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _AccountsAdd_vue_vue_type_template_id_1f6d23e0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AccountsAdd.vue?vue&type=template&id=1f6d23e0& */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue?vue&type=template&id=1f6d23e0&");
-/* harmony import */ var _AccountsAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AccountsAdd.vue?vue&type=script&lang=js& */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue?vue&type=script&lang=js&");
+/* harmony import */ var _InvoicesUpload_vue_vue_type_template_id_79987d77___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InvoicesUpload.vue?vue&type=template&id=79987d77& */ "./resources/js/pages/Invoices/InvoicesUpload.vue?vue&type=template&id=79987d77&");
+/* harmony import */ var _InvoicesUpload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InvoicesUpload.vue?vue&type=script&lang=js& */ "./resources/js/pages/Invoices/InvoicesUpload.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -742,9 +393,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _AccountsAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _AccountsAdd_vue_vue_type_template_id_1f6d23e0___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _AccountsAdd_vue_vue_type_template_id_1f6d23e0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _InvoicesUpload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _InvoicesUpload_vue_vue_type_template_id_79987d77___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _InvoicesUpload_vue_vue_type_template_id_79987d77___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -754,38 +405,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/pages/ManageAccounts/AccountsAdd.vue"
+component.options.__file = "resources/js/pages/Invoices/InvoicesUpload.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/pages/ManageAccounts/AccountsAdd.vue?vue&type=script&lang=js&":
-/*!************************************************************************************!*\
-  !*** ./resources/js/pages/ManageAccounts/AccountsAdd.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************/
+/***/ "./resources/js/pages/Invoices/InvoicesUpload.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/pages/Invoices/InvoicesUpload.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AccountsAdd.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsAdd.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoicesUpload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./InvoicesUpload.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Invoices/InvoicesUpload.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoicesUpload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/pages/ManageAccounts/AccountsAdd.vue?vue&type=template&id=1f6d23e0&":
-/*!******************************************************************************************!*\
-  !*** ./resources/js/pages/ManageAccounts/AccountsAdd.vue?vue&type=template&id=1f6d23e0& ***!
-  \******************************************************************************************/
+/***/ "./resources/js/pages/Invoices/InvoicesUpload.vue?vue&type=template&id=79987d77&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/pages/Invoices/InvoicesUpload.vue?vue&type=template&id=79987d77& ***!
+  \***************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsAdd_vue_vue_type_template_id_1f6d23e0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AccountsAdd.vue?vue&type=template&id=1f6d23e0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsAdd.vue?vue&type=template&id=1f6d23e0&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsAdd_vue_vue_type_template_id_1f6d23e0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoicesUpload_vue_vue_type_template_id_79987d77___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./InvoicesUpload.vue?vue&type=template&id=79987d77& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Invoices/InvoicesUpload.vue?vue&type=template&id=79987d77&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoicesUpload_vue_vue_type_template_id_79987d77___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsAdd_vue_vue_type_template_id_1f6d23e0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoicesUpload_vue_vue_type_template_id_79987d77___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

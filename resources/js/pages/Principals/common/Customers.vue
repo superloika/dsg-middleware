@@ -1,86 +1,83 @@
 <template>
-    <v-card class="elevation-0">
-        <v-card-title class="pa-0 mb-2">
-            <v-app-bar elevation="0">
-                <v-toolbar-title>
-                    <div>
-                        Customers
-                    </div>
-                    <div>
-                        <em class="text-caption primary--text">
-                            Updated at {{ updatedAt }}
-                        </em>
-                    </div>
-                </v-toolbar-title>
+    <v-card>
+        <v-toolbar elevation="1">
+            <v-toolbar-title>
+                <div>
+                    Customers
+                </div>
+                <div>
+                    <em class="text-caption primary--text">
+                        Updated at {{ updatedAt }}
+                    </em>
+                </div>
+            </v-toolbar-title>
 
-                <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
 
-                <v-btn
-                    title="Refresh"
-                    icon
-                    dense
-                    rounded
-                    depressed
-                    class="mr-2"
-                    @click="PrincipalsStore.initCustomers(searchKey)"
-                >
-                    <v-icon>mdi-refresh</v-icon>
-                </v-btn>
-
-                <v-text-field
-                    v-model="searchKey"
-                    label="Search"
-                    clearable
-                    hide-details
-                    dense
-                    class="mr-3"
-                    style="max-width:300px;"
-                    flat
-                    rounded
-                    solo-inverted
-                ></v-text-field>
-
-                <v-btn
-                    title="Import"
-                    icon
-                    dense
-                    @click.stop="PrincipalsStore.state.isUploadMasterCustomersOpen=true"
-                >
-                    <v-icon>mdi-file-upload</v-icon>
-                </v-btn>
-
-                <v-btn
-                    title="Export to Excel"
-                    icon
-                    dense
-                    @click="exportToExcel()"
-                >
-                    <v-icon>mdi-file-excel</v-icon>
-                </v-btn>
-            </v-app-bar>
-        </v-card-title>
-
-        <v-card-text class="mx-0 px-0">
-            <v-data-table
-                :items="PrincipalsStore.state.customers.data"
-                :headers="tblHeader"
+            <v-btn
+                title="Refresh"
+                icon
                 dense
-                :searchx="searchKey"
-                disable-pagination
-                disable-filtering
-                hide-default-footer
+                rounded
+                depressed
+                class="mr-2"
+                @click="PrincipalsStore.initCustomers(searchKey)"
             >
-            </v-data-table>
-            <v-container>
-                <v-pagination
-                    v-model="PrincipalsStore.state.customers.current_page"
-                    :length="PrincipalsStore.state.customers.last_page"
-                    @input="onPageChange()"
-                    total-visible="10"
-                >
-                </v-pagination>
-            </v-container>
-        </v-card-text>
+                <v-icon>mdi-refresh</v-icon>
+            </v-btn>
+
+            <v-text-field
+                v-model="searchKey"
+                label="Search"
+                clearable
+                hide-details
+                dense
+                class="mr-3"
+                style="max-width:300px;"
+                flat
+                rounded
+                solo-inverted
+            ></v-text-field>
+
+            <v-btn
+                title="Import"
+                icon
+                dense
+                @click.stop="PrincipalsStore.state.isUploadMasterCustomersOpen=true"
+            >
+                <v-icon>mdi-file-upload</v-icon>
+            </v-btn>
+
+            <v-btn
+                title="Export to Excel"
+                icon
+                dense
+                @click="exportToExcel()"
+            >
+                <v-icon>mdi-file-excel</v-icon>
+            </v-btn>
+        </v-toolbar>
+
+        <v-data-table
+            :items="PrincipalsStore.state.customers.data"
+            :headers="tblHeader"
+            dense
+            :searchx="searchKey"
+            disable-pagination
+            disable-filtering
+            hide-default-footer
+        >
+        </v-data-table>
+
+        <v-container>
+            <v-pagination
+                v-model="PrincipalsStore.state.customers.current_page"
+                :length="PrincipalsStore.state.customers.last_page"
+                @input="onPageChange()"
+                total-visible="10"
+            >
+            </v-pagination>
+        </v-container>
 
         <v-dialog
             v-model="PrincipalsStore.state.isUploadMasterCustomersOpen"

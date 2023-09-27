@@ -351,7 +351,9 @@ Route::prefix('br')->group(function () {
 });
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMP XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-Route::get("/ppfb/resetInvoicesToPending", "Principals\MagnoliaIncController@resetInvoicesToPending");
+Route::prefix('ppfb')->group(function () {
+    Route::get("resetInvoicesToPending", "Principals\PurefoodsController@resetInvoicesToPending");
+});
 
 // restore archived
 // Route::get("/restoreLines", "InvoicesController@restoreLines");

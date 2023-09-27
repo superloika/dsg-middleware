@@ -1,104 +1,98 @@
 <template>
-    <div class="">
-        <v-card class="elevation-0" color="">
-            <v-card-title class="pa-0">
-                <v-app-bar elevation="0" colorx="white" appx>
-                    <v-toolbar-title>
-                        <div class="text-subtitle-2 font-weight-bold">
-                            Templated Data
-                        </div>
-                        <div v-if="lineCount > 0">
-                            <v-chip
-                                x-small
-                                label
-                                color="primary"
-                            >
-                                <h4>
-                                    {{ lineCount }} total line/s
-                                </h4>
-                            </v-chip>
-                            <v-chip
-                                x-small
-                                label
-                                v-if="warningsCount > 0"
-                                color="warning"
-                            >
-                                <h4>
-                                    {{ warningsCount }}
-                                    total warning(s) found. Keep masterfiles updated.
-                                </h4>
-                            </v-chip>
-                        </div>
-                    </v-toolbar-title>
-
-                    <v-spacer></v-spacer>
-
-                    <v-menu
-                        v-model="menu"
-                        :close-on-content-click="false"
-                        offset-y
-                        bottom
-                        z-indexx="999"
-                        transition="scroll-y-reverse-transition"
-                    >
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn v-bind="attrs" v-on="on"
-                                rounded
-                                color="primary"
-                                title="More Options"
-                            >
-                                <!-- <v-icon>
-                                    mdi-dots-horizontal-circle
-                                </v-icon> -->
-                                Options
-                            </v-btn>
-                        </template>
-
-                        <GeneratedActions
-                            :lineCount="lineCount"
-                            :warningsCount="warningsCount"
-                        ></GeneratedActions>
-                    </v-menu>
-
-                </v-app-bar>
-            </v-card-title>
-
-            <v-card-text class="mx-0 px-0">
-                <div class="">
-                    <div v-if="PrincipalsStore.state.isGeneratingData"
-                        class="d-flex justify-center pt-6"
-                    >
-                        <!-- <v-progress-circular
-                            :size="60"
-                            :width="5"
-                            color="accent"
-                            indeterminate
-                        ></v-progress-circular> -->
-                    </div>
-                    <div v-else>
-                        <div
-                            v-if="
-                                generatedData.length < 1
-                                || lineCount < 1
-                            "
-                            class="d-flex justify-center pt-6"
-                        >
-                            <v-chip color="accent" small>
-                                No available data to display
-                            </v-chip>
-                        </div>
-
-                        <GeneratedTableWrapper
-                            v-else
-                            :generatedData="generatedData"
-                            :allow_export="true"
-                        >
-                        </GeneratedTableWrapper>
-                    </div>
+    <v-card>
+        <v-toolbar elevation="1">
+            <v-toolbar-title>
+                <div class="text-subtitle-2 font-weight-bold">
+                    Templated Data
                 </div>
-            </v-card-text>
-        </v-card>
-    </div>
+                <div v-if="lineCount > 0">
+                    <v-chip
+                        x-small
+                        label
+                        color="primary"
+                    >
+                        <h4>
+                            {{ lineCount }} total line/s
+                        </h4>
+                    </v-chip>
+                    <v-chip
+                        x-small
+                        label
+                        v-if="warningsCount > 0"
+                        color="warning"
+                    >
+                        <h4>
+                            {{ warningsCount }}
+                            total warning(s) found. Keep masterfiles updated.
+                        </h4>
+                    </v-chip>
+                </div>
+            </v-toolbar-title>
+
+            <v-spacer></v-spacer>
+
+            <v-menu
+                v-model="menu"
+                :close-on-content-click="false"
+                offset-y
+                bottom
+                z-indexx="999"
+                transition="scroll-y-reverse-transition"
+            >
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn v-bind="attrs" v-on="on"
+                        rounded
+                        color="primary"
+                        title="More Options"
+                    >
+                        <!-- <v-icon>
+                            mdi-dots-horizontal-circle
+                        </v-icon> -->
+                        Options
+                    </v-btn>
+                </template>
+
+                <GeneratedActions
+                    :lineCount="lineCount"
+                    :warningsCount="warningsCount"
+                ></GeneratedActions>
+            </v-menu>
+
+        </v-toolbar>
+
+        <div>
+            <div v-if="PrincipalsStore.state.isGeneratingData"
+                class="d-flex justify-center pt-6"
+            >
+                <!-- <v-progress-circular
+                    :size="60"
+                    :width="5"
+                    color="accent"
+                    indeterminate
+                ></v-progress-circular> -->
+            </div>
+            <div v-else>
+                <div
+                    v-if="
+                        generatedData.length < 1
+                        || lineCount < 1
+                    "
+                    class="d-flex justify-center pt-6"
+                >
+                    <v-chip color="transparent">
+                        No available data to display
+                    </v-chip>
+                </div>
+
+                <GeneratedTableWrapper
+                    v-else
+                    :generatedData="generatedData"
+                    :allow_export="true"
+                >
+                </GeneratedTableWrapper>
+            </div>
+        </div>
+    </v-card>
 </template>
 
 <script>

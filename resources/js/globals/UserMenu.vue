@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <!-- <div> -->
         <v-menu v-model="menu" :close-on-content-click="true" offset-y>
             <template v-slot:activator="{ on, attrs }">
                 <!-- <v-badge
@@ -17,7 +17,7 @@
                     </v-btn>
                 </v-badge> -->
                 <v-btn icon v-bind="attrs" v-on="on">
-                    <v-avatar color="accent" size="30">
+                    <v-avatar color="primary" size="30">
                         <span class="white--text text-h6">
                             {{ userInitial }}
                         </span>
@@ -119,7 +119,7 @@
                 </v-card-actions>
             </v-card>
         </v-menu>
-    </div>
+    <!-- </div> -->
 </template>
 
 <script>

@@ -1,8 +1,8 @@
 <template>
-<v-sheet>
+<v-card>
     <v-tabs
         v-model="masterfiles_tab"
-        height="40"
+        height="35"
     >
         <v-tab exact class="px-6">
             <v-icon class="mr-1">mdi-cube</v-icon>
@@ -28,7 +28,7 @@
             <Salesmen></Salesmen>
         </v-tab-item>
     </v-tabs-items>
-</v-sheet>
+</v-card>
 </template>
 
 <script>

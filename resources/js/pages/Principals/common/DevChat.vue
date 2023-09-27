@@ -1,9 +1,9 @@
 <template>
-    <div @mousedown="DevChatStore.state.unreadMsgCount=0">
+    <v-sheet @mousedown="DevChatStore.state.unreadMsgCount=0" class="pa-2 ma-0">
         <v-row>
             <v-col cols="12" md="8">
                 <v-textarea
-                    solo
+                    solo rounded
                     v-model="newMessage"
                     @keyup.enter="sendMessage(newMessage)"
                     label="Type your message here (press Enter to send)"
@@ -26,7 +26,7 @@
                         >
                             <div
                                 :class="AuthUser.username==message.username
-                                    ? 'light-blue darken-2' : 'secondary'
+                                    ? 'primary' : 'secondary'
                                 "
                                 class="rounded-lg"
                                 style="max-width:700px;"
@@ -62,9 +62,7 @@
                             v-for="(u) in onlineUsers"
                             :key="u.username"
                         >
-                            <span
-                                :class="u.id==AuthUser.id ? 'info--text' : 'primary--text'"
-                            >
+                            <span class='primary--text'>
                                 {{ u.name }} (<em>{{ u.username }}</em>)
                             </span>
                         </div>
@@ -93,7 +91,7 @@
                 </v-card>
             </v-col>
         </v-row>
-    </div>
+    </v-sheet>
 </template>
 
 <script>

@@ -5,7 +5,7 @@
 >
     <v-card-text class="">
         <v-row class="py-0">
-            <v-col class="pb-0" cols lg="9" md="9" sm="12">
+            <v-col class="pb-0" cols lg="10" md="10" sm="12">
 
                 <v-form ref="frm_upload">
                     <v-file-input
@@ -39,7 +39,7 @@
                 ></v-select>
             </v-col> -->
 
-            <v-col class="pb-0" cols lg="3" md="3" sm="12">
+            <v-col class="pb-0" cols lg="2" md="2" sm="12">
                 <v-btn
                     dense color="primary"
                     @click="upload()"

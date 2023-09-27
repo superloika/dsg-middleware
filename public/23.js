@@ -134,12 +134,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -243,139 +237,149 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { staticClass: "elevation-0", attrs: { outlinedx: "" } },
     [
       _c(
-        "v-card-title",
-        { staticClass: "pa-0 mb-2" },
+        "v-toolbar",
+        { attrs: { elevation: "1" } },
         [
+          _c("v-toolbar-title", [
+            _c("div", [_vm._v("\n                Items\n            ")]),
+            _vm._v(" "),
+            _c("div", [
+              _c("em", { staticClass: "text-caption primary--text" }, [
+                _vm._v(
+                  "\n                    Updated at " +
+                    _vm._s(_vm.updatedAt) +
+                    "\n                "
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("v-spacer"),
+          _vm._v(" "),
           _c(
-            "v-app-bar",
-            { attrs: { elevation: "0", colorx: "white" } },
-            [
-              _c("v-toolbar-title", [
-                _c("div", [
-                  _vm._v("\n                    Items\n                ")
-                ]),
-                _vm._v(" "),
-                _c("div", [
-                  _c("em", { staticClass: "text-caption primary--text" }, [
-                    _vm._v(
-                      "\n                        Updated at " +
-                        _vm._s(_vm.updatedAt) +
-                        "\n                    "
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("v-spacer"),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  staticClass: "mr-2",
-                  attrs: {
-                    title: "Refresh",
-                    icon: "",
-                    dense: "",
-                    rounded: "",
-                    depressed: ""
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.PrincipalsStore.initItems(_vm.searchKey)
-                    }
-                  }
-                },
-                [_c("v-icon", [_vm._v("mdi-refresh")])],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-text-field", {
-                staticClass: "mr-3",
-                staticStyle: { "max-width": "300px" },
-                attrs: {
-                  label: "Search",
-                  clearable: "",
-                  "hide-details": "",
-                  dense: "",
-                  flat: "",
-                  rounded: "",
-                  "solo-inverted": ""
-                },
-                model: {
-                  value: _vm.searchKey,
-                  callback: function($$v) {
-                    _vm.searchKey = $$v
-                  },
-                  expression: "searchKey"
+            "v-btn",
+            {
+              staticClass: "mr-2",
+              attrs: {
+                title: "Refresh",
+                icon: "",
+                dense: "",
+                rounded: "",
+                depressed: ""
+              },
+              on: {
+                click: function($event) {
+                  return _vm.PrincipalsStore.initItems(_vm.searchKey)
                 }
-              }),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: { title: "Import", icon: "", dense: "" },
-                  on: {
-                    click: function($event) {
-                      $event.stopPropagation()
-                      _vm.PrincipalsStore.state.isUploadMasterItemsOpen = true
-                    }
-                  }
-                },
-                [_c("v-icon", [_vm._v("mdi-file-upload")])],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: { title: "Export to Excel", icon: "", dense: "" },
-                  on: {
-                    click: function($event) {
-                      return _vm.exportToExcel()
-                    }
-                  }
-                },
-                [_c("v-icon", [_vm._v("mdi-file-excel")])],
-                1
-              )
-            ],
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-refresh")])],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-text-field", {
+            staticClass: "mr-3",
+            staticStyle: { "max-width": "300px" },
+            attrs: {
+              label: "Search",
+              clearable: "",
+              "hide-details": "",
+              dense: "",
+              flat: "",
+              rounded: "",
+              "solo-inverted": ""
+            },
+            model: {
+              value: _vm.searchKey,
+              callback: function($$v) {
+                _vm.searchKey = $$v
+              },
+              expression: "searchKey"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { title: "Import", icon: "", dense: "" },
+              on: {
+                click: function($event) {
+                  $event.stopPropagation()
+                  _vm.PrincipalsStore.state.isUploadMasterItemsOpen = true
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-file-upload")])],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { title: "Export to Excel", icon: "", dense: "" },
+              on: {
+                click: function($event) {
+                  return _vm.exportToExcel()
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-file-excel")])],
             1
           )
         ],
         1
       ),
       _vm._v(" "),
-      _c(
-        "v-card-text",
-        { staticClass: "mx-0 px-0" },
-        [
-          _c("v-data-table", {
-            attrs: {
-              items: _vm.PrincipalsStore.state.items.data,
-              headers: _vm.tblHeader,
-              dense: "",
-              "disable-pagination": "",
-              "hide-default-footer": ""
-            },
-            scopedSlots: _vm._u(
-              [
-                {
-                  key: "item.item_code",
-                  fn: function(ref) {
-                    var item = ref.item
-                    return [
-                      item.vendor_code == null || item.vendor_code == ""
-                        ? _c(
+      _c("v-data-table", {
+        attrs: {
+          items: _vm.PrincipalsStore.state.items.data,
+          headers: _vm.tblHeader,
+          dense: "",
+          "disable-pagination": "",
+          "hide-default-footer": ""
+        },
+        scopedSlots: _vm._u(
+          [
+            {
+              key: "item.item_code",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  item.vendor_code == null || item.vendor_code == ""
+                    ? _c(
+                        "v-chip",
+                        {
+                          attrs: {
+                            color: "error",
+                            outlined: "",
+                            "x-small": "",
+                            title: "Not found in General Masterfile"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(item.item_code) +
+                              "\n            "
+                          )
+                        ]
+                      )
+                    : item.vendor_code !=
+                      _vm.PrincipalsStore.getVendorCode(
+                        _vm.$route.params.principal_code
+                      )
+                    ? _c(
+                        "div",
+                        [
+                          _c(
                             "v-chip",
                             {
                               attrs: {
-                                color: "error",
+                                color: "warning",
                                 outlined: "",
-                                "x-small": "",
-                                title: "Not found in General Masterfile"
+                                "x-small": ""
                               }
                             },
                             [
@@ -385,82 +389,51 @@ var render = function() {
                                   "\n                "
                               )
                             ]
-                          )
-                        : item.vendor_code !=
-                          _vm.PrincipalsStore.getVendorCode(
-                            _vm.$route.params.principal_code
-                          )
-                        ? _c(
-                            "div",
-                            [
-                              _c(
-                                "v-chip",
-                                {
-                                  attrs: {
-                                    color: "warning",
-                                    outlined: "",
-                                    "x-small": ""
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                        " +
-                                      _vm._s(item.item_code) +
-                                      "\n                    "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("v-chip", { attrs: { "x-small": "" } }, [
-                                _vm._v(
-                                  "\n                        " +
-                                    _vm._s(item.principal_name) +
-                                    " - " +
-                                    _vm._s(item.vendor_code) +
-                                    "\n                    "
-                                )
-                              ])
-                            ],
-                            1
-                          )
-                        : _c("span", [_vm._v(_vm._s(item.item_code))])
-                    ]
-                  }
-                }
-              ],
-              null,
-              true
-            )
-          }),
-          _vm._v(" "),
-          _c(
-            "v-container",
-            [
-              _c("v-pagination", {
-                attrs: {
-                  length: _vm.PrincipalsStore.state.items.last_page,
-                  "total-visible": "10"
-                },
-                on: {
-                  input: function($event) {
-                    return _vm.onPageChange()
-                  }
-                },
-                model: {
-                  value: _vm.PrincipalsStore.state.items.current_page,
-                  callback: function($$v) {
-                    _vm.$set(
-                      _vm.PrincipalsStore.state.items,
-                      "current_page",
-                      $$v
-                    )
-                  },
-                  expression: "PrincipalsStore.state.items.current_page"
-                }
-              })
-            ],
-            1
-          )
+                          ),
+                          _vm._v(" "),
+                          _c("v-chip", { attrs: { "x-small": "" } }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.principal_name) +
+                                " - " +
+                                _vm._s(item.vendor_code) +
+                                "\n                "
+                            )
+                          ])
+                        ],
+                        1
+                      )
+                    : _c("span", [_vm._v(_vm._s(item.item_code))])
+                ]
+              }
+            }
+          ],
+          null,
+          true
+        )
+      }),
+      _vm._v(" "),
+      _c(
+        "v-container",
+        [
+          _c("v-pagination", {
+            attrs: {
+              length: _vm.PrincipalsStore.state.items.last_page,
+              "total-visible": "10"
+            },
+            on: {
+              input: function($event) {
+                return _vm.onPageChange()
+              }
+            },
+            model: {
+              value: _vm.PrincipalsStore.state.items.current_page,
+              callback: function($$v) {
+                _vm.$set(_vm.PrincipalsStore.state.items, "current_page", $$v)
+              },
+              expression: "PrincipalsStore.state.items.current_page"
+            }
+          })
         ],
         1
       ),

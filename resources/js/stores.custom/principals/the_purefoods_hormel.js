@@ -3,7 +3,7 @@ import Vue from "vue";
 
 const state = Vue.observable({
     // strict_export: true,
-    // beatroute_uploading: true,
+    beatroute_uploading: true,
     bu: 'ppfb',
 
     // principal masterfiles
@@ -44,8 +44,8 @@ const state = Vue.observable({
             {text:"UOM",                        value: "uom_supplier"},
             {text:"Quantity",                   value: "quantity"},
             {text:"Price (NAV)",                value: "price"},
+            {text:"Amount (NAV,Discounted)",    value: "amount"},
             {text:"Price",                      value: "price_supplier"},
-            {text:"Amount (NAV)",               value: "amount"},
             {text:"Amount",                     value: "amount_supplier"},
             // {text:"Line Discount %",            value: "discount_percentage"},
             // {text:"Discount Amount",            value: "discount_value"},
@@ -67,8 +67,8 @@ const state = Vue.observable({
             {text:"UOM",                        value: "uom_supplier"},
             {text:"Quantity",                   value: "quantity"},
             {text:"Price (NAV)",                value: "price"},
+            {text:"Amount (NAV,Discounted)",    value: "amount"},
             {text:"Price",                      value: "price_supplier"},
-            {text:"Amount (NAV)",               value: "amount"},
             {text:"Amount",                     value: "amount_supplier"},
             // {text:"Line Discount %",            value: "discount_percentage"},
             // {text:"Discount Amount",            value: "discount_value"},
