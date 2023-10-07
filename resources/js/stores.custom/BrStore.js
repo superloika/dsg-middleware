@@ -70,7 +70,12 @@ const actions = {
         generatedData.forEach(e => {
             e.output_template.forEach(e => {
                 e[1].forEach(e => {
-                    if(e.status=='completed' || e.status=='uploaded') {
+                    if(
+                        (e.status=='completed' || e.status=='uploaded')
+                        // && e.invoice_number != ''
+                        // && e.customer_code != ''
+                        // && e.item_code != ''
+                    ) {
                         const isReturn = e.return_indicator != undefined;
 
                         // invoice level properties
@@ -157,14 +162,14 @@ const actions = {
                             }
 
                             // if empty ang return indicator
-                            if(e.return_indicator == '') {
+                            if(e.return_indicator == '' || e.return_indicator == null) {
                                 objInvoices[e.invoice_number].with_errors.unshift(
                                     'Return indicator is not specified'
                                 );
                             }
 
                             // if empty ang return reason
-                            if(e.remarks == '') {
+                            if(e.remarks == '' || e.remarks == null) {
                                 objInvoices[e.invoice_number].with_errors.unshift(
                                     'Return reason is not specified'
                                 );
@@ -183,6 +188,13 @@ const actions = {
                                 'Discount value is greater than the item total amount'
                                 +  ' // Item Code: '
                                 + e.item_code
+                            );
+                        }
+
+                        // if empty ang DSP
+                        if(e.cf_dsp_name_value == '' || e.cf_dsp_name_value == null) {
+                            objInvoices[e.invoice_number].with_errors.unshift(
+                                'DSP is not specified'
                             );
                         }
 

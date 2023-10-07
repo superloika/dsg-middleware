@@ -46,6 +46,9 @@
         :item-class="itemRowStyle"
     >
         <template v-slot:[`item.customer_code`]="{ item }">
+            <v-icon v-if="item.customer_code==''" color="error" title="Non-uploadable - Empty BR ID">
+                mdi-alert
+            </v-icon>
             <v-tooltip
                 v-if="item.customer_notfound==1"
                 right
@@ -116,6 +119,11 @@
         </template> -->
 
         <template v-slot:[`item.item_code`]="{ item }">
+            <v-icon v-if="item.item_code==''" color="error"
+                title="Non-uploadable - Empty material code"
+            >
+                mdi-alert
+            </v-icon>
             <v-tooltip
                 v-if="item.item_notfound==1"
                 left
@@ -141,9 +149,7 @@
                 </template>
                 <span>{{ item.missing_item_name }}</span>
             </v-tooltip>
-            <span v-else>
-                {{ item.item_code }}
-            </span>
+            <span v-else>{{ item.item_code }}</span>
         </template>
 
         <template v-slot:[`item.sales_agent_id`]="{ item }">
@@ -224,6 +230,29 @@
                 ></v-text-field>
             </div>
         </template> -->
+
+        <!-- empty external doc no (invoice_number) -->
+        <template v-slot:[`item.invoice_number`]="{ item }">
+            <!-- <v-chip
+                v-if="item.invoice_number==''"
+                color="error"
+                small
+                outlined
+                title="No external document #"
+            >
+                <div>
+                    {{ item.invoice_number }}
+                </div>
+            </v-chip> -->
+            <v-icon
+                v-if="item.invoice_number==''"
+                color="error"
+                title="No external document #"
+            >
+                mdi-alert
+            </v-icon>
+            <span v-else>{{ item.invoice_number }}</span>
+        </template>
     </v-data-table>
 </v-card>
 </template>

@@ -239,6 +239,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['items', 'template_variation_index', 'tab_caption', 'allow_export'],
   data: function data() {
@@ -447,6 +476,19 @@ var render = function() {
               fn: function(ref) {
                 var item = ref.item
                 return [
+                  item.customer_code == ""
+                    ? _c(
+                        "v-icon",
+                        {
+                          attrs: {
+                            color: "error",
+                            title: "Non-uploadable - Empty BR ID"
+                          }
+                        },
+                        [_vm._v("\n                mdi-alert\n            ")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   item.customer_notfound == 1
                     ? _c(
                         "v-tooltip",
@@ -599,6 +641,19 @@ var render = function() {
               fn: function(ref) {
                 var item = ref.item
                 return [
+                  item.item_code == ""
+                    ? _c(
+                        "v-icon",
+                        {
+                          attrs: {
+                            color: "error",
+                            title: "Non-uploadable - Empty material code"
+                          }
+                        },
+                        [_vm._v("\n                mdi-alert\n            ")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   item.item_notfound == 1
                     ? _c(
                         "v-tooltip",
@@ -661,13 +716,7 @@ var render = function() {
                           _c("span", [_vm._v(_vm._s(item.missing_item_name))])
                         ]
                       )
-                    : _c("span", [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(item.item_code) +
-                            "\n            "
-                        )
-                      ])
+                    : _c("span", [_vm._v(_vm._s(item.item_code))])
                 ]
               }
             },
@@ -805,6 +854,26 @@ var render = function() {
                         "\n            "
                     )
                   ])
+                ]
+              }
+            },
+            {
+              key: "item.invoice_number",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  item.invoice_number == ""
+                    ? _c(
+                        "v-icon",
+                        {
+                          attrs: {
+                            color: "error",
+                            title: "No external document #"
+                          }
+                        },
+                        [_vm._v("\n                mdi-alert\n            ")]
+                      )
+                    : _c("span", [_vm._v(_vm._s(item.invoice_number))])
                 ]
               }
             }

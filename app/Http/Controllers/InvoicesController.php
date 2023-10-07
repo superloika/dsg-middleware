@@ -480,8 +480,8 @@ class InvoicesController extends Controller
                     // $rows = explode(PHP_EOL, utf8_encode($content));
                     // $rows = explode("\n", utf8_encode($content));
 
-                    // $rows = explode(PHP_EOL, mb_convert_encoding($content, "UTF-8"));
-                    $rows = explode("\n", mb_convert_encoding($content, "UTF-8"));
+                    $rows = explode(PHP_EOL, mb_convert_encoding($content, "UTF-8"));
+                    // $rows = explode("\n", mb_convert_encoding($content, "UTF-8"));
                     // /CONVERT ENCODING *********************************************
 
                     $totalRowCount = count($rows);
@@ -744,8 +744,8 @@ class InvoicesController extends Controller
 
                             // CM headers ****************************************
                             } else if (
-                                // $col_count == 10
-                                $col_count == 11
+                                $col_count == 10
+                                // $col_count == 11
                                 && $cols[0][0] != '#'
                                 && trim(str_replace('"','',$cols[0])) != ''
                             ) {
@@ -758,11 +758,14 @@ class InvoicesController extends Controller
                                 $payment_term =     $payment_term=='' ? 'cod' : $payment_term;
                                 $return_indicator = $ret_indicator->where('payment_term',$payment_term)->first()->return_indicator ?? '';
                                 $return_indicator = $return_indicator=='' ? 'Outright / Devuelto Bad' : $return_indicator;
-                                $ext_doc_no =       trim(str_replace('"','',($cols[10] ?? '')));
+                                // $ext_doc_no =       $invoice_doc_no;
+                                // $ext_doc_no =       trim(str_replace('"','',($cols[10] ?? '')));
                                 // $ext_doc_no =       trim(str_replace('"','',$cols[10] ?? $doc_no));
                                 // $ext_doc_no =       $ext_doc_no=='' ? $doc_no : $ext_doc_no;
+                                // $ext_doc_no =
 
                                 $summaryItem['cm_headers_count'] += 1;
+
 
                                 if (
                                     DB::table(PrincipalsUtil::$TBL_CM)
@@ -773,7 +776,7 @@ class InvoicesController extends Controller
                                             'return_indicator' => $return_indicator,
                                             'payment_term' => $payment_term,
                                             'shipment_date' => $posting_date,
-                                            'ext_doc_no' => $ext_doc_no,
+                                            // 'ext_doc_no' => $ext_doc_no,
                                         ])
                                 ) {
                                     $summaryItem['cm_headers_count_uploaded'] += 1;
@@ -1545,9 +1548,9 @@ class InvoicesController extends Controller
                 PrincipalsUtil::$TBL_INVOICES_H.'.sm_code',
                 PrincipalsUtil::$TBL_INVOICES_H.'.customer_name',
             ])
-            ->orderBy(PrincipalsUtil::$TBL_CM.'.shipment_date')
-            ->orderBy(PrincipalsUtil::$TBL_CM.'.customer_code')
-            ->orderBy(PrincipalsUtil::$TBL_CM.'.doc_no')
+            // ->orderBy(PrincipalsUtil::$TBL_CM.'.shipment_date')
+            // ->orderBy(PrincipalsUtil::$TBL_CM.'.customer_code')
+            // ->orderBy(PrincipalsUtil::$TBL_CM.'.doc_no')
             // ->get();
             ->cursor();
     }

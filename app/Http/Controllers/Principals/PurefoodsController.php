@@ -572,11 +572,11 @@ class PurefoodsController extends Controller
                     $salesman_notfound = 0;
                     $missing_customer_name = '';
                     $missing_item_name = '';
-                    $item_code_supplier = 'NA';
-                    $item_description_supplier = 'NA';
-                    $customer_code_supplier = 'NA';
+                    $item_code_supplier = '';
+                    $item_description_supplier = '';
+                    $customer_code_supplier = '';
                     // $sm_code = 'NA';
-                    $uom_supplier = 'NA';
+                    $uom_supplier = '';
                     $price_supplier = 0;
                     $amount_supplier = 0;
 
@@ -585,13 +585,14 @@ class PurefoodsController extends Controller
                         $item_notfound = 1;
                         $missing_item_name = $item_description;
                     } else {
-                        // $item_code_supplier = "00000". $item->item_code_supplier;
-                        $item_code_supplier = str_pad(
-                            $item->item_code_supplier,
-                            18,
-                            "0",
-                            STR_PAD_LEFT
-                        );
+                        if($item->item_code_supplier!='') {
+                            $item_code_supplier = str_pad(
+                                $item->item_code_supplier,
+                                18,
+                                "0",
+                                STR_PAD_LEFT
+                            );
+                        }
                         $item_description_supplier = $item->description_supplier;
 
                         // price and uom mapping (supplier) ********************
