@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-toolbar elevation="1">
+        <v-toolbar elevation="27">
             <v-toolbar-title>
                 <div class="text-subtitle-2 font-weight-bold">
                     Templated Data
@@ -49,6 +49,7 @@
                             mdi-dots-horizontal-circle
                         </v-icon> -->
                         Options
+                        <v-icon>mdi-chevron-down</v-icon>
                     </v-btn>
                 </template>
 
@@ -230,4 +231,6 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style>
+
+</style>

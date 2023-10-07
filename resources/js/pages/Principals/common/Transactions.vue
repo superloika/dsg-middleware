@@ -1,6 +1,6 @@
 <template>
 <v-card>
-    <v-toolbar class="elevation-1">
+    <v-toolbar elevation="27">
         <v-toolbar-title>
             <div>
                 Transactions

@@ -1,6 +1,6 @@
 <template>
 <v-card>
-    <v-toolbar elevation="1" v-if="allow_export">
+    <v-toolbar elevation="27" v-if="allow_export">
         <!-- <div class="d-flex justify-end"> -->
             <v-spacer></v-spacer>
 

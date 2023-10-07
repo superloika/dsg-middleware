@@ -32,7 +32,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     tabs: function tabs() {
       return [{
-        title: 'Templated Data (Sales Invoices, Returns)',
+        title: 'Invoices',
         icon: 'mdi-receipt',
         component: function component() {
           return __webpack_require__.e(/*! import() */ 21).then(__webpack_require__.bind(null, /*! ./common/Generated.vue */ "./resources/js/pages/Principals/common/Generated.vue"));
@@ -4685,16 +4685,12 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "PCS/CASE",
     value: "conversion_qty"
-  }, {
-    text: "CASE Price",
-    value: "uom_price"
-  }, {
+  }, // {text:"CASE Price",                      value:"uom_price"},
+  {
     text: "UOM",
     value: "uom"
-  }, {
-    text: "PCS Price",
-    value: "conversion_uom_price"
-  }, {
+  }, // {text:"PCS Price",                       value:"conversion_uom_price"},
+  {
     text: "Conversion UOM",
     value: "conversion_uom"
   }]],
@@ -4715,7 +4711,8 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "External Invoice #",
     value: "invoice_number"
-  }, {
+  }, // external doc no
+  {
     text: "Customer Code (NAV)",
     value: "alturas_customer_code"
   }, {
@@ -4754,14 +4751,10 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Amount (NAV,Discounted)",
     value: "amount"
-  }, {
-    text: "Price",
-    value: "price_supplier"
-  }, {
-    text: "Amount",
-    value: "amount_supplier"
-  }, // {text:"Line Discount %",            value: "discount_percentage"},
-  // {text:"Discount Amount",            value: "discount_value"},
+  }, // {text:"Price",                           value: "price_supplier"},
+  // {text:"Amount",                          value: "amount_supplier"},
+  // {text:"Line Discount %",                 value: "discount_percentage"},
+  // {text:"Discount Amount",                 value: "discount_value"},
   {
     text: "Salesman",
     value: "sm_code"
@@ -4774,7 +4767,8 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "External Return Invoice #",
     value: "invoice_number"
-  }, {
+  }, // external doc no
+  {
     text: "Customer Code (NAV)",
     value: "alturas_customer_code"
   }, {
@@ -4813,14 +4807,10 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Amount (NAV,Discounted)",
     value: "amount"
-  }, {
-    text: "Price",
-    value: "price_supplier"
-  }, {
-    text: "Amount",
-    value: "amount_supplier"
-  }, // {text:"Line Discount %",            value: "discount_percentage"},
-  // {text:"Discount Amount",            value: "discount_value"},
+  }, // {text:"Price",                           value: "price_supplier"},
+  // {text:"Amount",                          value: "amount_supplier"},
+  // {text:"Line Discount %",                 value: "discount_percentage"},
+  // {text:"Discount Amount",                 value: "discount_value"},
   {
     text: "Salesman",
     value: "sm_code"

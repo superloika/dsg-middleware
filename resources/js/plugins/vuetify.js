@@ -27,7 +27,7 @@ const opts = {
         // defaultTheme: 'myCustomLightTheme',
         light: true,
         // dark: true,
-        variations: true,
+        // variations: true,
 
         themes: {
             light: {

@@ -396,7 +396,7 @@ var render = function() {
     [
       _c(
         "v-toolbar",
-        { staticClass: "elevation-1" },
+        { attrs: { elevation: "27" } },
         [
           _c("v-toolbar-title", [
             _c("div", [_vm._v("\n                Transactions\n            ")]),

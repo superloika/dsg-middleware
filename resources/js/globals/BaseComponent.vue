@@ -15,7 +15,8 @@
                     class="text-h6 white--text"
                     :title="AppStore.state.AppName"
                 >
-                    {{ AppStore.state.AppAbbr }}
+                    <v-img src="/img/logo_l.png" max-width="40"></v-img>
+                    <!-- {{ AppStore.state.AppAbbr }} -->
                 </a>
             </v-toolbar-title>
 
@@ -204,10 +205,9 @@ export default {
 </script>
 
 <style>
-    .v-toolbar__content {
-        /* border-bottom: 1px solid #222222; */
-        /* border-bottom: 1px solid #e9e9e9; */
-    }
+    /* .v-toolbar__content {
+        border-bottom: 1px solid #e9e9e9;
+    } */
 
     .search-field{
         border: 1px solid #f1f1f1;
@@ -217,20 +217,28 @@ export default {
 
     } */
     .v-data-table__wrapper table tbody tr td.text-start{
-        /* color: #222222; */
         font-size: 12px;
     }
 
-    .theme--dark.v-data-table
+    /* .theme--dark.v-data-table
     > .v-data-table__wrapper
     > table
     > tbody
     > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
-        /* background-color: #000000; */
-    }
+        background-color: #000000;
+    } */
 
     div.v-tab {
-        padding: 0px 5px;
+        padding: 0px 10px;
     }
 
+    .theme--light.v-toolbar.elevation-27,
+    .theme--light.v-app-bar.v-toolbar.elevation-27
+    /* .theme--dark.v-toolbar.elevation-27,
+    .theme--dark.v-app-bar.v-toolbar.elevation-27 */
+    {
+        /* box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px; */
+        /* box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px; */
+        box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+    }
 </style>

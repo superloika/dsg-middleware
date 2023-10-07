@@ -1,7 +1,7 @@
 <template>
 <v-sheet>
     <!-- <v-app-bar elevation="0" app color="secondary darken-1" dense> -->
-    <v-app-bar elevation="0" app dense>
+    <v-app-bar elevation="27" app dense color="white">
         <v-toolbar-title class="primary--text">
             <!-- <v-icon>mdi-store</v-icon> -->
             <span class="font-weight-bold text-subtitle-2" :title="principalName">
@@ -21,16 +21,16 @@
             <v-tabs
                 v-model="tab"
                 hide-slider
-                height="44"
                 show-arrows
                 center-active
-                background-color="grey lighten-4"
+                background-color="transparent"
                 active-class="primary--text"
             >
                 <v-tab
                     v-for="(t, index) in tabs"
                     :key="index"
                     :title="t.title"
+
                 >
                     <v-icon>{{ t.icon }}</v-icon>
                 </v-tab>

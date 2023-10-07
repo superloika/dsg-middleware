@@ -1,5 +1,5 @@
 <template>
-<v-sheet>
+<v-card tile>
     <v-tabs
         v-model="tab_template_variation"
         :height="generatedData.length > 1 ? 30 : 0"
@@ -21,7 +21,7 @@
             v-for="(templatedData, template_variation_tabitem_index) in generatedData"
             :key="template_variation_tabitem_index"
         >
-            <v-sheet>
+            <v-card tile>
                 <v-tabs v-model="templatedData.tab" height="30" show-arrow>
                     <v-tab
                         v-for="(data, index) in templatedData.output_template"
@@ -52,10 +52,10 @@
                         </div>
                     </v-tab-item>
                 </v-tabs-items>
-            </v-sheet>
+            </v-card>
         </v-tab-item>
     </v-tabs-items>
-</v-sheet>
+</v-card>
 </template>
 
 <script>

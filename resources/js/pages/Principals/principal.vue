@@ -23,7 +23,7 @@ export default {
         tabs() {
             return [
                 {
-                    title: 'Templated Data (Sales Invoices, Returns)',
+                    title: 'Invoices',
                     icon: 'mdi-receipt',
                     component: () => import("./common/Generated.vue"),
                 },

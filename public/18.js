@@ -123,7 +123,7 @@ var render = function() {
     [
       _c(
         "v-app-bar",
-        { attrs: { elevation: "0", app: "", dense: "" } },
+        { attrs: { elevation: "27", app: "", dense: "", color: "white" } },
         [
           _c(
             "v-toolbar-title",
@@ -177,10 +177,9 @@ var render = function() {
                 {
                   attrs: {
                     "hide-slider": "",
-                    height: "44",
                     "show-arrows": "",
                     "center-active": "",
-                    "background-color": "grey lighten-4",
+                    "background-color": "transparent",
                     "active-class": "primary--text"
                   },
                   model: {

@@ -10,6 +10,11 @@
                 </div>
             </v-card-text>
         </v-card> -->
+        <v-card tile elevation="0" class="pb-2">
+            <v-card-title class="justify-center">
+                <v-img src="/img/logo.png" max-width="50"></v-img>
+            </v-card-title>
+        </v-card>
         <v-card-text class="pa-0">
             <v-alert
                 v-if="error_username" text

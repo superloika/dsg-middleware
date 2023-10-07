@@ -608,7 +608,9 @@ class PurefoodsController extends Controller
 
                         // reverse percentage to get the vat-ex price
                         if($vat_percentage > 0) {
-                            $price_supplier = $price / (1 + ($vat_percentage / 100));
+                            $price_vat_ex = $price / (1 + ($vat_percentage / 100));
+                            $vat_value = ($price_supplier - $price_vat_ex) * $quantity;
+                            $price_supplier = $price_vat_ex;
                         }
                         // *********** /PRICEHACKS RIGHT FUCKIN HERE **********************
 
@@ -616,9 +618,9 @@ class PurefoodsController extends Controller
                         $discount_value = $amount_supplier * $discount_percentage / 100;
                         $amount_supplier = $amount_supplier - $discount_value;
 
-                        $discount_value = round($discount_value, 2);
-                        $amount_supplier = round($amount_supplier, 2);
-                        $price_supplier = round($price_supplier, 2);
+                        $discount_value = round($discount_value, 5);
+                        $amount_supplier = round($amount_supplier, 5);
+                        $price_supplier = round($price_supplier, 5);
                     }
                     // check customer ***************************
                     if ($customer == null) {
@@ -666,7 +668,8 @@ class PurefoodsController extends Controller
                         // other BR payload props
                         'cf_dsp_name_id' =>         $br_config->cf_dsp_name,
                         'cf_dsp_name_value' =>      $settings['DSP_'. $group_code],
-                        'invoice_number' =>         trim($pendingInvoice->vendor_code). '-'. $doc_no,
+                        'invoice_number' =>         $pendingInvoice->ext_doc_no!='' || $pendingInvoice->ext_doc_no!=null ?
+                            $pendingInvoice->vendor_code. '-'. $pendingInvoice->ext_doc_no : '',
                         'discount_percentage' =>    $discount_percentage,
                         'discount_value' =>         $discount_value,
                         'vat_percentage' =>         $vat_percentage,
@@ -773,7 +776,7 @@ class PurefoodsController extends Controller
                      */
                     // if($quantity > $invoice_quantity) continue;
 
-                    //********************************************************************
+                    //************************************************************************
                     $nav_customer_name = $pendingInvoice->customer_name;
                     if($nav_customer_name==null || $nav_customer_name=='') {
                         $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)

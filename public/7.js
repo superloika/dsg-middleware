@@ -346,7 +346,7 @@ var render = function() {
       _vm.allow_export
         ? _c(
             "v-toolbar",
-            { attrs: { elevation: "1" } },
+            { attrs: { elevation: "27" } },
             [
               _c("v-spacer"),
               _vm._v(" "),

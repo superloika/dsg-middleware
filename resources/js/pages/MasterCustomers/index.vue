@@ -1,6 +1,6 @@
 <template>
 <v-card>
-    <v-toolbar elevation="0">
+    <v-toolbar elevation="27">
         <v-toolbar-title>
             <v-icon>mdi-account-multiple</v-icon>
             Customers Masterfile

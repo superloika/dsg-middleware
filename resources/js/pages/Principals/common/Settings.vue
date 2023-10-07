@@ -1,6 +1,6 @@
 <template>
 <v-card>
-    <v-toolbar elevation="1">
+    <v-toolbar elevation="27">
         <v-toolbar-title>Settings</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn

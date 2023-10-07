@@ -1,9 +1,12 @@
 <template>
 <v-card>
-    <v-sheet v-if="filteredPrincipals.length < 1" class="pa-4">
-        <v-chip color="transparent">No assigned principals</v-chip>
+    <v-sheet v-if="filteredPrincipals.length < 1 && (principalsSearchKey=='' || principalsSearchKey==null)"
+        class="pa-4"
+    >
+        <v-chip color="transparent">No data to display</v-chip>
     </v-sheet>
-    <v-sheet v-else-if="filteredPrincipals.length > 0">
+
+    <v-sheet v-else>
         <div class="pt-3 pr-3">
             <v-text-field
                 v-if="filteredPrincipals.length > 5 || principalsSearchKey !== ''"
@@ -77,27 +80,31 @@ export default {
 
     computed: {
         filteredPrincipals: function() {
-            const searchRegex = new RegExp(this.principalsSearchKey, "i");
+            try {
+                const searchRegex = new RegExp(this.principalsSearchKey, "i");
 
-            if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
-                return this.AppStore.state.principals.filter(
-                    principal =>
-                        searchRegex.test(principal.name)
-                        || !this.principalsSearchKey
-                        || searchRegex.test(principal.vendor_code)
-                        || searchRegex.test(principal.search_key)
-                );
-            } else {
-                return this.AppStore.state.principals.filter(
-                    principal =>
-                        (
+                if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
+                    return this.AppStore.state.principals.filter(
+                        principal =>
                             searchRegex.test(principal.name)
                             || !this.principalsSearchKey
                             || searchRegex.test(principal.vendor_code)
                             || searchRegex.test(principal.search_key)
-                        )
-                        && this.AppStore.isInUserPrincipalIDs(principal.id)
-                );
+                    );
+                } else {
+                    return this.AppStore.state.principals.filter(
+                        principal =>
+                            (
+                                searchRegex.test(principal.name)
+                                || !this.principalsSearchKey
+                                || searchRegex.test(principal.vendor_code)
+                                || searchRegex.test(principal.search_key)
+                            )
+                            && this.AppStore.isInUserPrincipalIDs(principal.id)
+                    );
+                }
+            } catch (error) {
+                return [];
             }
         },
 

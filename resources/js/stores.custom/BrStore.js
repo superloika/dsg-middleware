@@ -7,8 +7,8 @@ const state = Vue.observable({
     brUploadDialogOpen: false,
     // currentGeneratedBatches: [],
     return_indicators: [
-        'Outright/Devuelto Good',
-        'Outright/Devuelto Bad',
+        'Outright / Devuelto Good',
+        'Outright / Devuelto Bad',
         'Trade Return Good',
         'Trade Return Bad'
     ],
@@ -84,7 +84,8 @@ const actions = {
                         objInvoices[e.invoice_number].retailer_br_id = e.customer_code;
                         objInvoices[e.invoice_number].erp_invoice_number = e.invoice_number;
                         objInvoices[e.invoice_number].invoice_date = e.invoice_date;
-                        objInvoices[e.invoice_number].total_value = 0;
+                        // objInvoices[e.invoice_number].total_value = 0;
+                        objInvoices[e.invoice_number].invoice_total_amount = 0; // temp - for display
                         objInvoices[e.invoice_number].isReturn = isReturn;
                         objInvoices[e.invoice_number].included = true;
 
@@ -134,7 +135,7 @@ const actions = {
                         }
 
                         let temp_qty = e.quantity;
-                        let temp_amount_supplier = e.amount_supplier;
+                        // let temp_amount_supplier = e.amount_supplier;
                         let temp_discount_value = e.discount_value;
                         //check if returned item
                         // if(isReturn) {
@@ -143,7 +144,7 @@ const actions = {
                         // }
                         if(isReturn) {
                             temp_qty = -Math.abs(temp_qty);
-                            temp_amount_supplier = -Math.abs(temp_amount_supplier);
+                            // temp_amount_supplier = -Math.abs(temp_amount_supplier);
                             temp_discount_value = -Math.abs(temp_discount_value);
 
                             // kung mas daghan pa ang gi return
@@ -193,7 +194,8 @@ const actions = {
                             price_per_item: e.price_supplier,
                             discount_percentage: e.discount_percentage,
                             discount_value: temp_discount_value,
-                            gross_value:  temp_amount_supplier,
+                            discounted_amount: temp_qty * e.price_supplier - temp_discount_value, // temp - for display purposes
+                            // gross_value:  temp_amount_supplier,
                             // kaloy stuff
                             // kaning gross_amount kay wapay deduction sa discount
                             // wala pay sure haha
@@ -209,7 +211,7 @@ const actions = {
         let invoices = Object.values(objInvoices);
         invoices.forEach(e => {
             e.details.forEach(i => {
-                objInvoices[e.erp_invoice_number].total_value += i.gross_value;
+                objInvoices[e.erp_invoice_number].invoice_total_amount += i.discounted_amount;
             });
             if(e.with_errors.length > 0) {
                 e.included = false;

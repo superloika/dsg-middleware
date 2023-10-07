@@ -27,6 +27,8 @@ mix.js("resources/js/app.js", "public/js")
         // }
     })
     .sourceMaps(false, 'source-map')
-    .version();
+    .version()
+    // .browserSync('localhost:8004');
+    ;
 
 

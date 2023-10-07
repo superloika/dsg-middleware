@@ -150,7 +150,7 @@
                                                 </div>
                                                 <div class="pr-6 ">Invoice Date: <br><b>{{ invoice.invoice_date }}</b></div>
                                                 <div class="pr-6 ">Customer: <br><b>{{ invoice.customer_name }}</b></div>
-                                                <div class="pr-6 ">Amount: <br><b>{{ invoice.total_value }}</b></div>
+                                                <div class="pr-6 ">Amount: <br><b>{{ invoice.invoice_total_amount.toFixed(5) }}</b></div>
                                                 <div class="pr-6 ">DSP: <br><b>{{ invoice.customFields[0].value }}</b></div>
                                                 <div v-if="invoice.isReturn" class="pr-6 ">
                                                     Return Indicator: <br><b>{{ invoice.customFields[1].value }}</b>
@@ -185,7 +185,17 @@
                                                     </template>
                                                     <template v-slot:[`item.amount_wo_discount`] = "{item}">
                                                         <div class="text-right">
-                                                            {{ (item.gross_value + item.discount_value).toFixed(2) }}
+                                                            {{ (item.gross_value + item.discount_value).toFixed(5) }}
+                                                        </div>
+                                                    </template>
+                                                    <template v-slot:[`item.discounted_amount`] = "{item}">
+                                                        <div class="text-right">
+                                                            {{ (item.discounted_amount) }}
+                                                        </div>
+                                                    </template>
+                                                    <template v-slot:[`item.amount_vat_inc`] = "{item}">
+                                                        <div class="text-right">
+                                                            {{ (item.discounted_amount) }}
                                                         </div>
                                                     </template>
                                                 </v-data-table>
@@ -237,10 +247,10 @@ export default {
                     text: 'Quantity',
                     value: 'quantity'
                 },
-                {
-                    text: 'Amount (VAT-Ex)',
-                    value: 'amount_wo_discount'
-                },
+                // {
+                //     text: 'Amount',
+                //     value: 'amount_wo_discount'
+                // },
                 {
                     text: 'Discount %',
                     value: 'discount_percentage'
@@ -250,8 +260,8 @@ export default {
                     value: 'discount_value'
                 },
                 {
-                    text: 'Amount (VAT-Ex,Discounted)',
-                    value: 'gross_value'
+                    text: 'Amount (Discounted)',
+                    value: 'discounted_amount'
                 },
             ];
         },

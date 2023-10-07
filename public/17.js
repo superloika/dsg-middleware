@@ -214,6 +214,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -240,18 +250,19 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         text: 'Quantity',
         value: 'quantity'
-      }, {
-        text: 'Amount (VAT-Ex)',
-        value: 'amount_wo_discount'
-      }, {
+      }, // {
+      //     text: 'Amount',
+      //     value: 'amount_wo_discount'
+      // },
+      {
         text: 'Discount %',
         value: 'discount_percentage'
       }, {
         text: 'Discount Amount',
         value: 'discount_value'
       }, {
-        text: 'Amount (VAT-Ex,Discounted)',
-        value: 'gross_value'
+        text: 'Amount (Discounted)',
+        value: 'discounted_amount'
       }];
     },
     // batches() {
@@ -900,7 +911,9 @@ var render = function() {
                                                   _c("b", [
                                                     _vm._v(
                                                       _vm._s(
-                                                        invoice.total_value
+                                                        invoice.invoice_total_amount.toFixed(
+                                                          5
+                                                        )
                                                       )
                                                     )
                                                   ])
@@ -1094,7 +1107,57 @@ var render = function() {
                                                                     (
                                                                       item.gross_value +
                                                                       item.discount_value
-                                                                    ).toFixed(2)
+                                                                    ).toFixed(5)
+                                                                  ) +
+                                                                  "\n                                                    "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ]
+                                                      }
+                                                    },
+                                                    {
+                                                      key:
+                                                        "item.discounted_amount",
+                                                      fn: function(ref) {
+                                                        var item = ref.item
+                                                        return [
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "text-right"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n                                                        " +
+                                                                  _vm._s(
+                                                                    item.discounted_amount
+                                                                  ) +
+                                                                  "\n                                                    "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ]
+                                                      }
+                                                    },
+                                                    {
+                                                      key:
+                                                        "item.amount_vat_inc",
+                                                      fn: function(ref) {
+                                                        var item = ref.item
+                                                        return [
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "text-right"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n                                                        " +
+                                                                  _vm._s(
+                                                                    item.discounted_amount
                                                                   ) +
                                                                   "\n                                                    "
                                                               )
