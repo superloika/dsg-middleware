@@ -762,10 +762,10 @@ class InvoicesController extends Controller
                                 // $ext_doc_no =       trim(str_replace('"','',($cols[10] ?? '')));
                                 // $ext_doc_no =       trim(str_replace('"','',$cols[10] ?? $doc_no));
                                 // $ext_doc_no =       $ext_doc_no=='' ? $doc_no : $ext_doc_no;
-                                // $ext_doc_no =
+                                $ext_doc_no =       DB::table(PrincipalsUtil::$TBL_INVOICES_H)
+                                    ->where('doc_no', $invoice_doc_no)->get()->first()->ext_doc_no ?? '';
 
                                 $summaryItem['cm_headers_count'] += 1;
-
 
                                 if (
                                     DB::table(PrincipalsUtil::$TBL_CM)
@@ -776,7 +776,7 @@ class InvoicesController extends Controller
                                             'return_indicator' => $return_indicator,
                                             'payment_term' => $payment_term,
                                             'shipment_date' => $posting_date,
-                                            // 'ext_doc_no' => $ext_doc_no,
+                                            'ext_doc_no' => $ext_doc_no,
                                         ])
                                 ) {
                                     $summaryItem['cm_headers_count_uploaded'] += 1;
@@ -1072,11 +1072,12 @@ class InvoicesController extends Controller
                 DB::beginTransaction();
                 foreach($batch as $item) {
                     // split external_id and extract vendor_code and actual internal invoice number
-                    $external_id_parts = explode("-",$item['external_id'], 2);
+                    $external_id_parts = explode("-", $item['external_id']);
 
-                    if(count($external_id_parts)) {
+                    if(count($external_id_parts) > 0) {
                         $vendor_code = trim($external_id_parts[0]);
-                        $doc_no = trim($external_id_parts[1]);
+                        $doc_no = trim(implode('-', array_slice($external_id_parts, 1)));
+                        // dd($vendor_code);
 
                         if($item['success']) {
                             // $isReturn = $item['isReturn'];
@@ -1109,7 +1110,17 @@ class InvoicesController extends Controller
 
                             // } else {
                                 DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                    ->where('doc_no', $doc_no)
+                                    ->join(
+                                        PrincipalsUtil::$TBL_INVOICES_H,
+                                        function($q) {
+                                            $q->on(
+                                                PrincipalsUtil::$TBL_INVOICES . '.doc_no',
+                                                PrincipalsUtil::$TBL_INVOICES_H . '.doc_no'
+                                            )
+                                            ;
+                                        }
+                                    )
+                                    ->where('ext_doc_no', $doc_no)
                                     ->where('vendor_code', $vendor_code)
                                     ->update(['status' => PrincipalsUtil::$STATUS_UPLOADED]);
                             // }
@@ -1183,10 +1194,26 @@ class InvoicesController extends Controller
                                     PrincipalsUtil::$TBL_CM . '.status' => PrincipalsUtil::$STATUS_COMPLETED
                                 ]);
                         // } else {
+
+                            // DB::table(PrincipalsUtil::$TBL_INVOICES)
+                            //     ->where('doc_no', $doc_no)
+                            //     ->where('vendor_code', $vendor_code)
+                            //     ->update(['status' => PrincipalsUtil::$STATUS_COMPLETED]);
+
                             DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                ->where('doc_no', $doc_no)
-                                ->where('vendor_code', $vendor_code)
-                                ->update(['status' => PrincipalsUtil::$STATUS_COMPLETED]);
+                            ->join(
+                                PrincipalsUtil::$TBL_INVOICES_H,
+                                function($q) {
+                                    $q->on(
+                                        PrincipalsUtil::$TBL_INVOICES . '.doc_no',
+                                        PrincipalsUtil::$TBL_INVOICES_H . '.doc_no'
+                                    )
+                                    ;
+                                }
+                            )
+                            ->where('ext_doc_no', $doc_no)
+                            ->where('vendor_code', $vendor_code)
+                            ->update(['status' => PrincipalsUtil::$STATUS_COMPLETED]);
                         // }
                     }
                 }
@@ -1417,6 +1444,12 @@ class InvoicesController extends Controller
         }
         $dateFrom = new Carbon($dateFrom);
         $dateTo = new Carbon($dateTo);
+
+        // set dateTo to today if it is a future date
+        $dateToday = new Carbon();
+        if($dateTo->isFuture()) {
+            $dateTo = $dateToday;
+        }
         // /posting date range
 
         GenerateTemplated::dispatch("Retrieving invoices");
@@ -1483,6 +1516,12 @@ class InvoicesController extends Controller
         }
         $dateFrom = new Carbon($dateFrom);
         $dateTo = new Carbon($dateTo);
+
+        // set dateTo to today if it is a future date
+        $dateToday = new Carbon();
+        if($dateTo->isFuture()) {
+            $dateTo = $dateToday;
+        }
         // /posting date range
 
         GenerateTemplated::dispatch("Retrieving returns");

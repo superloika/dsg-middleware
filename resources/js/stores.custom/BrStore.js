@@ -72,9 +72,9 @@ const actions = {
                 e[1].forEach(e => {
                     if(
                         (e.status=='completed' || e.status=='uploaded')
-                        // && e.invoice_number != ''
-                        // && e.customer_code != ''
-                        // && e.item_code != ''
+                        && e.invoice_number != ''
+                        && e.customer_code != ''
+                        && e.item_code != ''
                     ) {
                         const isReturn = e.return_indicator != undefined;
 
@@ -174,6 +174,13 @@ const actions = {
                                     'Return reason is not specified'
                                 );
                             }
+
+                            // if empty ang invoice reference
+                            if(e.cf_return_invoice_reference_value == '' || e.cf_return_invoice_reference_value == null) {
+                                objInvoices[e.invoice_number].with_errors.unshift(
+                                    'Reference invoice not specified'
+                                );
+                            }
                         }
 
                         // let discount_value = (temp_qty * e.price_supplier) * e.discount_percentage / 100;
@@ -197,6 +204,13 @@ const actions = {
                                 'DSP is not specified'
                             );
                         }
+
+                        // // if empty ang DSP
+                        // if(e.cf_dsp_name_value == '' || e.cf_dsp_name_value == null) {
+                        //     objInvoices[e.invoice_number].with_errors.unshift(
+                        //         'DSP is not specified'
+                        //     );
+                        // }
 
                         objInvoices[e.invoice_number].details.unshift({
                             item_name: e.description_supplier,

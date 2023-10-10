@@ -4704,6 +4704,16 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     text: "Customer Name",
     value: "customer_name"
   }]],
+  salesmenTableHeader: [[{
+    text: "Group",
+    value: "division"
+  }, {
+    text: "SM Code",
+    value: "sm_code"
+  }, {
+    text: "SM Name",
+    value: "sm_name"
+  }]],
   // templated data table header
   generatedDataTableHeader: [[{
     text: "Invoice #",
@@ -4756,8 +4766,11 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   // {text:"Line Discount %",                 value: "discount_percentage"},
   // {text:"Discount Amount",                 value: "discount_value"},
   {
-    text: "Salesman",
+    text: "SM Code",
     value: "sm_code"
+  }, {
+    text: "SM Name",
+    value: "sm_name"
   }, {
     text: "Group",
     value: "group"
@@ -4812,8 +4825,11 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   // {text:"Line Discount %",                 value: "discount_percentage"},
   // {text:"Discount Amount",                 value: "discount_value"},
   {
-    text: "Salesman",
+    text: "SM Code",
     value: "sm_code"
+  }, {
+    text: "SM Name",
+    value: "sm_name"
   }, {
     text: "Group",
     value: "group"
@@ -4827,7 +4843,8 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   }, {
     text: "Invoice Reference #",
     value: "invoice_doc_no"
-  }]],
+  } // {text:"Invoice Reference # (Ext Doc No.)",  value: "ext_doc_no"},
+  ]],
   // ***********************************************************************************
   generatedDataHistoryFilters: [[{
     text: 'System Date',
@@ -4849,7 +4866,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
     value: 'doc_no'
   }]],
   // misc
-  posting_date_format: 'm/d/Y'
+  posting_date_format: 'Y-m-d'
 });
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = (_objectSpread({

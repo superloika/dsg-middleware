@@ -26,6 +26,13 @@ const state = Vue.observable({
             { text: "Customer Name",                    value: "customer_name" },
         ],
     ],
+    salesmenTableHeader: [
+        [
+            { text: "Group",                            value: "division" },
+            { text: "SM Code",                          value: "sm_code" },
+            { text: "SM Name",                          value: "sm_name" },
+        ],
+    ],
 
     // templated data table header
     generatedDataTableHeader: [
@@ -49,7 +56,8 @@ const state = Vue.observable({
             // {text:"Amount",                          value: "amount_supplier"},
             // {text:"Line Discount %",                 value: "discount_percentage"},
             // {text:"Discount Amount",                 value: "discount_value"},
-            {text:"Salesman",                           value: "sm_code"},
+            {text:"SM Code",                            value: "sm_code"},
+            {text:"SM Name",                            value: "sm_name"},
             {text:"Group",                              value: "group"}
         ],
         [
@@ -72,12 +80,14 @@ const state = Vue.observable({
             // {text:"Amount",                          value: "amount_supplier"},
             // {text:"Line Discount %",                 value: "discount_percentage"},
             // {text:"Discount Amount",                 value: "discount_value"},
-            {text:"Salesman",                           value: "sm_code"},
+            {text:"SM Code",                            value: "sm_code"},
+            {text:"SM Name",                            value: "sm_name"},
             {text:"Group",                              value: "group"},
             // additional return stuff
             {text:"Return Indicator",                   value: "return_indicator"},
             {text:"Return Reason",                      value: "remarks"},
             {text:"Invoice Reference #",                value: "invoice_doc_no"},
+            // {text:"Invoice Reference # (Ext Doc No.)",  value: "ext_doc_no"},
         ],
     ],
 
@@ -94,7 +104,7 @@ const state = Vue.observable({
     ],
 
     // misc
-    posting_date_format: 'm/d/Y',
+    posting_date_format: 'Y-m-d',
 
 });
 

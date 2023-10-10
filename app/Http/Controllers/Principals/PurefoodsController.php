@@ -404,17 +404,21 @@ class PurefoodsController extends Controller
                         $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
                         if (count($arrFileContentLine) > 1) {
-                            // ==========================================================================
-                            $sm_name = trim(str_replace('"', '', $arrFileContentLine[0]));
-                            $route_code = trim(str_replace('"', '', $arrFileContentLine[1]));
-                            // =========================================================================
+                            if($arrFileContentLine[0] != '' && $arrFileContentLine[0] != null ) {
+                                // ==========================================================================
+                                $division = trim(str_replace('"', '', $arrFileContentLine[0])); // group code (e.g. WDG)
+                                $sm_code = trim(str_replace('"', '', $arrFileContentLine[1]));
+                                $sm_name = trim(str_replace('"', '', $arrFileContentLine[2]));
+                                // =========================================================================
 
-                            $arrLines[] = [
-                                'principal_code' => $this->PRINCIPAL_CODE,
-                                'sm_name' => $sm_name,
-                                'route_code' => $route_code,
-                                'uploaded_by' => auth()->user()->id
-                            ];
+                                $arrLines[] = [
+                                    'principal_code' => $this->PRINCIPAL_CODE,
+                                    'division' => $division,
+                                    'sm_code' => $sm_code,
+                                    'sm_name' => $sm_name,
+                                    'uploaded_by' => auth()->user()->id
+                                ];
+                            }
                         }
                     }
                     $lineCount++;
@@ -497,6 +501,10 @@ class PurefoodsController extends Controller
             $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                 ->where('principal_code', $this->PRINCIPAL_CODE)
                 ->get();
+            $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->get();
+            // dd($principal_salesmen);
 
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS *************************************
@@ -557,6 +565,12 @@ class PurefoodsController extends Controller
                     $item = $principal_items
                         ->where('item_code', $item_code)
                         ->first();
+                    $salesman = $principal_salesmen
+                        ->filter(function($sm) use (&$group_code) {
+                            return false !== strpos($group_code, $sm->division, 0);
+                        })
+                        ->where('sm_code', $sm_code)
+                        ->first();
 
                     // // price and uom mapping (supplier) ********************
                     // $uom_supplier = $pendingInvoice->qty_per_uom > 1 ?
@@ -576,6 +590,7 @@ class PurefoodsController extends Controller
                     $item_description_supplier = '';
                     $customer_code_supplier = '';
                     // $sm_code = 'NA';
+                    $sm_name = '';
                     $uom_supplier = '';
                     $price_supplier = 0;
                     $amount_supplier = 0;
@@ -634,6 +649,13 @@ class PurefoodsController extends Controller
                         $customer_code_supplier = $customer->customer_code_supplier;
                         $customer_name = $customer->customer_name;
                     }
+
+                    // check salesman
+                    if($salesman == null) {
+                        $salesman_notfound = 1;
+                    } else {
+                        $sm_name = $salesman->sm_name ?? '';
+                    }
                     // ************************* /MISC INITS **************************
 
                     // Generated data line structure
@@ -663,12 +685,14 @@ class PurefoodsController extends Controller
                         'description_supplier' =>   $item_description_supplier,
                         'customer_name' =>          $customer_name,
                         'sm_code' =>                $sm_code,
+                        'sm_name' =>                $sm_name,
                         'system_date' =>            $system_date,
                         'group' =>                  $group_code,
                         'status' =>                 $pendingInvoice->status,
                         // other BR payload props
                         'cf_dsp_name_id' =>         $br_config->cf_dsp_name,
-                        'cf_dsp_name_value' =>      $settings['DSP_'. $group_code],
+                        // 'cf_dsp_name_value' =>      $settings['DSP_'. $group_code],
+                        'cf_dsp_name_value' =>      $sm_name,
                         'invoice_number' =>         $pendingInvoice->ext_doc_no!='' || $pendingInvoice->ext_doc_no!=null ?
                             $pendingInvoice->vendor_code. '-'. $pendingInvoice->ext_doc_no : '',
                         'discount_percentage' =>    $discount_percentage,
@@ -770,6 +794,8 @@ class PurefoodsController extends Controller
                     $discount_value =       0;
                     $vat_percentage =       intval($return->vat_percentage ?? 0);
                     $vat_value =            0;
+                    $ext_doc_no =           $return->ext_doc_no;
+                    // dd($ext_doc_no);
 
                     /**
                      * return quantity vs actual sales invoice quantity
@@ -778,7 +804,7 @@ class PurefoodsController extends Controller
                     // if($quantity > $invoice_quantity) continue;
 
                     //************************************************************************
-                    $nav_customer_name = $pendingInvoice->customer_name;
+                    $nav_customer_name = $return->customer_name;
                     if($nav_customer_name==null || $nav_customer_name=='') {
                         $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
                             ->where('customer_code', $customer_code)
@@ -798,6 +824,12 @@ class PurefoodsController extends Controller
                     $item = $principal_items
                         ->where('item_code', $item_code)
                         ->first();
+                    $salesman = $principal_salesmen
+                        ->filter(function($sm) use (&$group_code) {
+                            return false !== strpos($group_code, $sm->division, 0);
+                        })
+                        ->where('sm_code', $sm_code)
+                        ->first();
 
                     // // price and uom mapping (supplier) ********************
                     // $uom_supplier = $return->qty_per_uom > 1 ?
@@ -811,6 +843,7 @@ class PurefoodsController extends Controller
                     $item_notfound = 0;
                     $customer_notfound = 0;
                     $salesman_notfound = 0;
+                    $sm_name = '';
                     $missing_customer_name = '';
                     $missing_item_name = '';
                     $item_code_supplier = 'NA';
@@ -854,9 +887,9 @@ class PurefoodsController extends Controller
                         $amount_supplier = $price_supplier * $quantity;
                         $discount_value = $amount_supplier * $discount_percentage / 100;
                         $amount_supplier = $amount_supplier - $discount_value;
-                        $discount_value = round($discount_value, 2);
-                        $amount_supplier = round($amount_supplier, 2);
-                        $price_supplier = round($price_supplier, 2);
+                        $discount_value = round($discount_value, 5);
+                        $amount_supplier = round($amount_supplier, 5);
+                        $price_supplier = round($price_supplier, 5);
                     }
                     // check customer ***************************
                     if ($customer == null) {
@@ -868,6 +901,12 @@ class PurefoodsController extends Controller
                     } else {
                         $customer_code_supplier = $customer->customer_code_supplier;
                         $customer_name = $customer->customer_name;
+                    }
+                    // check salesman
+                    if($salesman == null) {
+                        $salesman_notfound = 1;
+                    } else {
+                        $sm_name = $salesman->sm_name ?? '';
                     }
                     // ************************* /MISC INITS **************************
 
@@ -902,11 +941,14 @@ class PurefoodsController extends Controller
                         'status' =>                 $return->status,
                         // other BR payload props
                         'cf_dsp_name_id' =>                     $br_config->cf_dsp_name,
-                        'cf_dsp_name_value' =>                  $settings['DSP_'. $group_code],
+                        // 'cf_dsp_name_value' =>                  $settings['DSP_'. $group_code],
+                        'cf_dsp_name_value' =>                  $sm_name,
                         'cf_return_indicator_id' =>             $br_config->cf_return_indicator,
                         'cf_return_indicator_value' =>          $return_indicator,
                         'cf_return_invoice_reference_id' =>     $br_config->cf_return_invoice_reference,
-                        'cf_return_invoice_reference_value' =>  $vendor_code. '-'. $invoice_doc_no,
+                        // 'cf_return_invoice_reference_value' =>  $vendor_code. '-'. $invoice_doc_no,
+                        'cf_return_invoice_reference_value' =>  ($ext_doc_no!=''&&$ext_doc_no!=null) ?
+                            $vendor_code. '-'. $ext_doc_no : '',
                         'invoice_number' =>                     $vendor_code. '-'. $doc_no,
                         'discount_percentage' =>                $discount_percentage,
                         'discount_value' =>                     $discount_value,
@@ -919,6 +961,7 @@ class PurefoodsController extends Controller
                         'return_indicator' =>       $return_indicator,
                         'vendor_code' =>            $vendor_code,
                         'sm_code' =>                $sm_code,
+                        'sm_name' =>                $sm_name,
                     ];
 
                     if ($chunk_line_count > 0) {
@@ -995,12 +1038,14 @@ class PurefoodsController extends Controller
         $dateFrom = new Carbon('2023-07-01');
         $dateTo = new Carbon('2023-07-31');
 
+        // sales invoices
         $inv = DB::table(PrincipalsUtil::$TBL_INVOICES)
             ->whereIn('vendor_code',['S3030','S4135','S3564'])
             ->update([
-                'status' => 'pending',
+                'status' => 'completed',
             ]);
 
+        // returns
         $cm = DB::table(PrincipalsUtil::$TBL_INVOICES)
             ->whereIn('vendor_code',['S3030','S4135','S3564'])
             ->join('cm_lines',function($q){
@@ -1010,7 +1055,7 @@ class PurefoodsController extends Controller
                 ;
             })
             ->update([
-                'cm_lines.status' => 'pending',
+                'cm_lines.status' => 'completed',
             ]);
 
         $response['invoice_lines_reverted'] = $inv + $cm;
