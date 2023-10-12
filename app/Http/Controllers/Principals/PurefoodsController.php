@@ -846,10 +846,10 @@ class PurefoodsController extends Controller
                     $sm_name = '';
                     $missing_customer_name = '';
                     $missing_item_name = '';
-                    $item_code_supplier = 'NA';
-                    $item_description_supplier = 'NA';
-                    $customer_code_supplier = 'NA';
-                    $uom_supplier = 'NA';
+                    $item_code_supplier = '';
+                    $item_description_supplier = '';
+                    $customer_code_supplier = '';
+                    $uom_supplier = '';
                     $price_supplier = 0;
                     $amount_supplier = 0;
 
@@ -932,7 +932,7 @@ class PurefoodsController extends Controller
                         'amount' =>                 $amount,
                         'amount_supplier' =>        $amount_supplier ?? 0,
                         'uom' =>                    $uom,
-                        'uom_supplier' =>           $uom_supplier ?? 'NA',
+                        'uom_supplier' =>           $uom_supplier ?? '',
                         'item_description' =>       $item_description,
                         'description_supplier' =>   $item_description_supplier,
                         'customer_name' =>          $customer_name,

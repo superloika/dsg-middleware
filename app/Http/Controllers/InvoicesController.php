@@ -229,37 +229,43 @@ class InvoicesController extends Controller
     }
 
     function lookup() {
-        $search_key = request()->search_key ?? '';
+        $search_key = trim(request()->search_key ?? '');
 
-        $result = DB::table(PrincipalsUtil::$TBL_INVOICES)
-            ->when($search_key != '', function($q) use($search_key) {
-                $q->where(function($query) use ($search_key){
-                    $query->where(PrincipalsUtil::$TBL_INVOICES.'.doc_no',$search_key);
-                });
-            })
-            ->join(
-                PrincipalsUtil::$TBL_INVOICES_H,
-                function($join) {
-                    $join->on(
-                        PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
-                        PrincipalsUtil::$TBL_INVOICES.'.doc_no'
-                    )
-                    ->on(
-                        PrincipalsUtil::$TBL_INVOICES_H.'.customer_code',
-                        PrincipalsUtil::$TBL_INVOICES.'.customer_code'
-                    )
-                    ;
-                }
-            )
-            ->select(
-                PrincipalsUtil::$TBL_INVOICES. '.*',
-                PrincipalsUtil::$TBL_INVOICES. '.id as lineID',
-                PrincipalsUtil::$TBL_INVOICES_H. '.id as headID',
-                PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
-                PrincipalsUtil::$TBL_INVOICES_H. '.sm_code',
-                PrincipalsUtil::$TBL_INVOICES_H. '.posting_date',
-            )
-            ->cursor();
+        // dd($search_key);
+        $result = null;
+
+        if($search_key != '') {
+            $result = DB::table(PrincipalsUtil::$TBL_INVOICES)
+                ->where(function($query) use ($search_key) {
+                    $query->where(PrincipalsUtil::$TBL_INVOICES.'.doc_no',$search_key)
+                        ->orWhere(PrincipalsUtil::$TBL_INVOICES_H.'.ext_doc_no', $search_key)
+                        ;
+                })
+                ->join(
+                    PrincipalsUtil::$TBL_INVOICES_H,
+                    function($join) {
+                        $join->on(
+                            PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
+                            PrincipalsUtil::$TBL_INVOICES.'.doc_no'
+                        )
+                        ->on(
+                            PrincipalsUtil::$TBL_INVOICES_H.'.customer_code',
+                            PrincipalsUtil::$TBL_INVOICES.'.customer_code'
+                        )
+                        ;
+                    }
+                )
+                ->select(
+                    PrincipalsUtil::$TBL_INVOICES. '.*',
+                    PrincipalsUtil::$TBL_INVOICES. '.id as lineID',
+                    PrincipalsUtil::$TBL_INVOICES_H. '.id as headID',
+                    PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
+                    PrincipalsUtil::$TBL_INVOICES_H. '.sm_code',
+                    PrincipalsUtil::$TBL_INVOICES_H. '.posting_date',
+                    PrincipalsUtil::$TBL_INVOICES_H. '.ext_doc_no',
+                )
+                ->cursor();
+        }
 
         return response()->json($result);
     }

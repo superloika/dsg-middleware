@@ -1,10 +1,6 @@
 <template>
     <v-app>
-        <v-system-bar app
-            height="50"
-            dark
-            color="primary"
-        >
+        <v-system-bar app height="50" dark color="grey lighten-5">
             <!-- <v-btn
                 @click="toggleDrawerState()"
                 icon
@@ -15,11 +11,10 @@
                     class="text-h6 white--text"
                     :title="AppStore.state.AppName"
                 >
-                    <v-img src="/img/logo_l.png" max-width="40"></v-img>
+                    <v-img src="/img/logo.png" max-width="40"></v-img>
                     <!-- {{ AppStore.state.AppAbbr }} -->
                 </a>
             </v-toolbar-title>
-
 
             <PrincipalsSearch class="mr-2" v-if="AppStore.state.principals.length > 0">
             </PrincipalsSearch>
@@ -34,11 +29,19 @@
                 <v-icon>mdi-file</v-icon>
             </v-btn>
 
+            <span class="px-1"></span>
+
             <DevChatWrapper></DevChatWrapper>
+
+            <span class="px-1"></span>
 
             <InvoiceLookup></InvoiceLookup>
 
+            <span class="px-1"></span>
+
             <GeneralMasterfilesWrapper></GeneralMasterfilesWrapper>
+
+            <span class="px-1"></span>
 
             <UserMenu></UserMenu>
 

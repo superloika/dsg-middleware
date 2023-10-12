@@ -11,6 +11,7 @@ const state = Vue.observable({
         { text: "Vendor Code", value: "vendor_code" },
         { text: "Middleware Code", value: "code" },
         { text: "Template Variation Count", value: "template_variation_count" },
+        { text: "Main Vendor", value: "main_vendor_code" },
     ],
 })
 

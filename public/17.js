@@ -1055,7 +1055,9 @@ var render = function() {
                                                               _vm._v(
                                                                 "\n                                                        " +
                                                                   _vm._s(
-                                                                    item.discount_value
+                                                                    Math.abs(
+                                                                      item.discount_value
+                                                                    )
                                                                   ) +
                                                                   "\n                                                    "
                                                               )
@@ -1080,34 +1082,6 @@ var render = function() {
                                                                 "\n                                                        " +
                                                                   _vm._s(
                                                                     item.gross_value
-                                                                  ) +
-                                                                  "\n                                                    "
-                                                              )
-                                                            ]
-                                                          )
-                                                        ]
-                                                      }
-                                                    },
-                                                    {
-                                                      key:
-                                                        "item.amount_wo_discount",
-                                                      fn: function(ref) {
-                                                        var item = ref.item
-                                                        return [
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "text-right"
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "\n                                                        " +
-                                                                  _vm._s(
-                                                                    (
-                                                                      item.gross_value +
-                                                                      item.discount_value
-                                                                    ).toFixed(5)
                                                                   ) +
                                                                   "\n                                                    "
                                                               )

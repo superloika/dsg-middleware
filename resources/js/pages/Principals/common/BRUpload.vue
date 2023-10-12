@@ -175,7 +175,7 @@
                                                     </template>
                                                     <template v-slot:[`item.discount_value`] = "{item}">
                                                         <div class="text-right">
-                                                            {{ item.discount_value }}
+                                                            {{ Math.abs(item.discount_value) }}
                                                         </div>
                                                     </template>
                                                     <template v-slot:[`item.gross_value`] = "{item}">
@@ -183,11 +183,11 @@
                                                             {{ item.gross_value }}
                                                         </div>
                                                     </template>
-                                                    <template v-slot:[`item.amount_wo_discount`] = "{item}">
+                                                    <!-- <template v-slot:[`item.amount_wo_discount`] = "{item}">
                                                         <div class="text-right">
                                                             {{ (item.gross_value + item.discount_value).toFixed(5) }}
                                                         </div>
-                                                    </template>
+                                                    </template> -->
                                                     <template v-slot:[`item.discounted_amount`] = "{item}">
                                                         <div class="text-right">
                                                             {{ (item.discounted_amount) }}

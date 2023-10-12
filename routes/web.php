@@ -92,7 +92,7 @@ Route::prefix('master')->group(function(){
 Route::prefix('invoices')->group(function(){
     // Route::get("/grandtotal", "InvoicesController@invoicesGrandTotal");
     Route::get('/all', 'InvoicesController@index');
-    Route::get('/lookup', 'InvoicesController@lookup');
+    Route::post('/lookup', 'InvoicesController@lookup');
     Route::post('/upload', 'InvoicesController@upload');
     Route::post("/delete", "InvoicesController@deleteInvoices");
     Route::post("/reset", "InvoicesController@resetInvoices");

@@ -2,7 +2,7 @@
     <v-dialog v-model="dialog" fullscreen>
         <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on" title="Sales Invoice Quick Lookup">
-                <v-icon>mdi-text-box-search</v-icon>
+                <v-icon color="primary">mdi-text-box-search</v-icon>
             </v-btn>
         </template>
         <v-card>
@@ -19,7 +19,7 @@
             <v-card-text>
                 <v-container fluid>
                     <v-row>
-                        <v-col md="4">
+                        <v-col md="4" sm="12">
                             <v-text-field
                                 label="Invoice #"
                                 v-model="searchKey"
@@ -27,17 +27,7 @@
                             >
                             </v-text-field>
                         </v-col>
-                        <v-col md="2">
-                            <v-btn color="primary" rounded block @click="search"
-                                :disabled="searchKey==null || searchKey==''"
-                            >
-                                Search
-                            </v-btn>
-                        </v-col>
-                        <v-col md="4">
-
-                        </v-col>
-                        <v-col md="2">
+                        <v-col md="2" sm="12">
                             <v-text-field
                                 label="Search items"
                                 v-model="searchTable"
@@ -108,13 +98,13 @@ export default {
             try {
                 if(this.searchKey==null) this.searchKey = '';
 
-                const url = `${this.AppStore.state.siteUrl}invoices/lookup`
-                    + `?search_key=${this.searchKey}`
-                    ;
+                const url = `${this.AppStore.state.siteUrl}invoices/lookup`;
 
                 this.isRetrieving = false;
 
-                const response = await axios.get(url);
+                const response = await axios.post(url, {
+                    search_key: this.searchKey
+                });
                 this.items = [];
                 this.items = response.data;
             } catch (error) {
@@ -123,6 +113,16 @@ export default {
                 this.isRetrieving = false;
             }
         },
+    },
+
+    watch: {
+        searchKey(nv, cv) {
+            if(nv=='' || nv==null) {
+
+            } else {
+                this.search();
+            }
+        }
     }
 }
 </script>
