@@ -81,23 +81,19 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       return this.AppStore.state.principals.find(function (e) {
-        return e.code == _this.$route.params.principal_code;
-      }).name;
+        return e[0] == _this.$route.params.main_vendor_code;
+      })[0];
     },
-    vendorCode: function vendorCode() {
-      var _this2 = this;
-
-      return this.AppStore.state.principals.find(function (e) {
-        return e.code == _this2.$route.params.principal_code;
-      }).vendor_code;
-    },
+    // vendorCode() {
+    //     return this.AppStore.state.principals
+    //         .find(e=>e.code==this.$route.params.principal_code).vendor_code;
+    // },
     selectedPrincipalCode: function selectedPrincipalCode() {
       return this.PrincipalsStore.state.selectedPrincipalCode;
     }
   },
   mounted: function mounted() {
     console.log('Principal Base component mounted');
-    console.log(this.selectedPrincipalCode);
   }
 });
 
@@ -125,47 +121,22 @@ var render = function() {
         "v-app-bar",
         { attrs: { elevation: "27", app: "", dense: "", color: "white" } },
         [
-          _c(
-            "v-toolbar-title",
-            { staticClass: "primary--text" },
-            [
-              _c(
-                "span",
-                {
-                  staticClass: "font-weight-bold text-subtitle-2",
-                  attrs: { title: _vm.principalName }
-                },
-                [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.principalName) +
-                      "\n            "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c("v-chip", { attrs: { "x-small": "", title: "Vendor Code" } }, [
+          _c("v-toolbar-title", { staticClass: "primary--text" }, [
+            _c(
+              "span",
+              {
+                staticClass: "font-weight-bold text-subtitle-2",
+                attrs: { title: _vm.principalName }
+              },
+              [
                 _vm._v(
                   "\n                " +
-                    _vm._s(_vm.vendorCode) +
+                    _vm._s(_vm.principalName) +
                     "\n            "
                 )
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-chip",
-                { attrs: { "x-small": "", title: "Middleware Code" } },
-                [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.PrincipalsStore.state.selectedPrincipalCode) +
-                      "\n            "
-                  )
-                ]
-              )
-            ],
-            1
-          ),
+              ]
+            )
+          ]),
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),

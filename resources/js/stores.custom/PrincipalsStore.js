@@ -8,7 +8,11 @@ let AppStore = Vue.prototype.AppStore;
 
 
 let state = Vue.observable({
+    // current selected principal main vendor code
     selectedPrincipalCode: '',
+
+    // principal-specific configurations (e.g. table headers, posting date format, etc)
+    configs: {},
 
     // masterfiles
     isUploadMasterCustomersOpen: false,
@@ -69,6 +73,8 @@ const actions = {
         // this.initCurrentGeneratedData();
 
         this.initSalesmen();
+
+        this.initConfigs();
     },
 
     cleanup() {
@@ -111,6 +117,9 @@ const actions = {
             [new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
             .toISOString()
             .substr(0, 10)];
+
+        state.configs = null;
+
     },
 
     /**
@@ -536,24 +545,9 @@ const actions = {
      * Returns an object containing the arrays of headers
      * and its content column format/sequence
      */
-    getHeaderAndFormat(headerFormatSource) {
-        // return {
-        //     header: Vue.prototype[state.selectedPrincipalCode]
-        //         .state[property].map(e=>{
-        //             return e.text;
-        //         }),
-        //     format: Vue.prototype[state.selectedPrincipalCode]
-        //         .state[property].map(e=>{
-        //             return e.value;
-        //         }),
-        // }
+    getHeaderAndFormat() {
         let tempArray = [];
-
-        // Vue.prototype.InvoicesStore.state[property].forEach(el=>{
-        Vue.prototype
-            [headerFormatSource.storeName]
-            .state
-            [headerFormatSource.propertyName]
+        state.configs.generatedDataTableHeader
             .forEach(el=>{
                 const tempObj = {
                     header: el.map(e=>{
@@ -585,6 +579,22 @@ const actions = {
     getVendorCode(principal_code) {
         return AppStore.state.principals
             .find(e=>e.code==principal_code).vendor_code;
+    },
+
+    async initConfigs() {
+        try {
+            const url = encodeURI(
+                AppStore.state.siteUrl + 'principals/' +
+                state.selectedPrincipalCode + '/configs'
+            );
+            let result = await axios.get(url);
+            state.configs = {};
+            state.configs = result.data;
+            // AppStore.state.showTopLoading = false;
+
+        } catch (error) {
+            console.error('PrincipalsStore.initConfigs() - ERROR:', error);
+        }
     },
 
 };

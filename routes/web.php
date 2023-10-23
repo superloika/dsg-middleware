@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Principals\PrincipalsUtil;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -116,165 +117,12 @@ Route::prefix('invoices')->group(function(){
  */
 // Route::group(['prefix' => 'principals'], function(){
 Route::prefix('principals')->group(function(){
-    $principalCtrls = [
-        ['MeadJohnsonController', 'mead_johnson'],
-        // ['ReckittController', 'reckitt'],
+    $mainPrincipals = PrincipalsUtil::principalRoutes();
 
-        // ['GspiController', 'gspi'],
+    foreach($mainPrincipals as $mainPrincipal) {
+        $ctrl = "Principals\\". $mainPrincipal->controller. '@';
 
-        // Foodsphere, Food Fab
-        ['FoodsphereIncController', 'foodsphere_inc'],
-        // ['FoodFabricatorsController', 'food_fabricators'],
-        ['FoodsphereIncController', 'food_fabricators'],
-
-        // ['SmfiSmisFrozenController', 'smfi_smis_frozen'],
-
-        ['MondelezController', 'mondelez'],
-        // ['CadburyAdamsController', 'cadbury_adams'],
-        ['MondelezController', 'cadbury_adams'],
-
-        // century
-        ['CenturyCanningController', 'century_canning'],
-        // ['ColumbusSeafoodsController', 'columbus_seafoods'],
-        // ['PacificMeatController', 'pacific_meat'],
-        // ['SnowMountainDairyController', 'snow_mountain_dairy'],
-        // ['ATungChingcoController', 'a_tung_chingco'],
-        ['CenturyCanningController', 'columbus_seafoods'],
-        ['CenturyCanningController', 'pacific_meat'],
-        ['CenturyCanningController', 'snow_mountain_dairy'],
-        ['CenturyCanningController', 'a_tung_chingco'],
-
-        ['JnjController', 'jnj'],
-        // ['ApolloController', 'apollo'],
-        ['JnjController', 'apollo'],
-
-        ['RfmController', 'rfm'],
-
-        ['MegasoftController', 'megasoft'],
-
-        ['GsmiController', 'gsmi'],
-
-        // working on...
-        // ['CleAceCorpController', 'cle_ace_corp'],
-
-        // temp
-        // ['AlaskaController', 'alaska'],
-        // ['WyethController', 'wyeth'],
-        // ['DelMonteController', 'del_monte'],
-        // ['EcossentialsController', 'ecossentials'],
-        // ['PeerlessController', 'peerless'],
-        // ['SplashController', 'splash'],
-        // ['GreenCrossController', 'green_cross'],
-        // ['PurefoodsController', 'purefoods'],
-        // ['JsuController', 'jsu'],
-        // ['CleAceController', 'cle_ace'],
-        // ['DoleController', 'dole'],
-        // ['BeviController', 'bevi'],
-
-        // ['OthersController', 'others'],
-        // ['OthersNIController', 'others_ni'],
-
-        // ============================================================
-        ['TemprincipalsController', 'gspi'],
-        ['TemprincipalsController', 'alaska_milk'],
-        ['TemprincipalsController', 'wyeth_ph'],
-        ['TemprincipalsController', 'del_monte_ph'],
-        ['TemprincipalsController', 'ecossentials'],
-        ['TemprincipalsController', 'peerless'],
-        ['TemprincipalsController', 'splash_corp'],
-        ['TemprincipalsController', 'green_cross'],
-        ['TemprincipalsController', 'jsu'],
-        ['TemprincipalsController', 'cle_ace_corp'],
-        ['TemprincipalsController', 'dole_ph'],
-        ['TemprincipalsController', 'bevi_asia_pacific'],
-        ['TemprincipalsController', 'colgate_palmolive'],
-        ['TemprincipalsController', 'wellmade_manufacturing'],
-        ['TemprincipalsController', 'southern_unicoast'],
-        ['TemprincipalsController', '3m_ph'],
-        ['TemprincipalsController', 'sunpride_foods'],
-        ['TemprincipalsController', 'diamond_instant'],
-        ['TemprincipalsController', 'suychicken_corp'],
-        ['TemprincipalsController', 'quanta_paper'],
-        ['TemprincipalsController', 'philusa_corp'],
-        ['TemprincipalsController', 'first_pgmc'],
-        ['TemprincipalsController', 'stay_and_shop'],
-        ['TemprincipalsController', 'makarios_ph'],
-        ['TemprincipalsController', 'marketventure_dist'],
-        ['TemprincipalsController', 'fonterra_brands'],
-        ['TemprincipalsController', 'benby_enterprises'],
-        ['TemprincipalsController', 'symply_g'],
-        ['TemprincipalsController', 'permex_producer'],
-        ['TemprincipalsController', 'uni_soft'],
-        ['TemprincipalsController', 'scpg_asia'],
-        ['TemprincipalsController', 'mega_fishing'],
-        ['TemprincipalsController', 'goldshine_pharma'],
-        ['TemprincipalsController', 'kalbe_international'],
-        ['TemprincipalsController', 'uni_president'],
-        ['TemprincipalsController', 'diageo_ph'],
-        ['TemprincipalsController', 'kareila_management'],
-        ['TemprincipalsController', 'wrigley_ph'],
-        ['TemprincipalsController', 'gymboree_marketing'],
-        ['TemprincipalsController', 'ipi_chemical'],
-        ['TemprincipalsController', 'ipi_food'],
-        ['TemprincipalsController', 'ipi_soap'],
-        ['TemprincipalsController', 'ipi'],
-        ['TemprincipalsController', 'enerlife'],
-        ['TemprincipalsController', 'arla_foods'],
-        ['TemprincipalsController', 'tentay_foods'],
-        ['TemprincipalsController', 'jordan_toothbrush'],
-        ['TemprincipalsController', 'premier_wine'],
-        ['TemprincipalsController', 'candyline_food'],
-        ['TemprincipalsController', 'cosmetique_asia'],
-        ['TemprincipalsController', 'nutri_asia'],
-        ['TemprincipalsController', 'tridharma'],
-        ['TemprincipalsController', 'tekson'],
-        // ['TemprincipalsController', 'apollo'],
-
-        ['TemprincipalsController', 'reckitt'],
-        // ['TemprincipalsController', 'a_tung_chingco'],
-        ['TemprincipalsController', 'sc_johnson'],
-        ['TemprincipalsController', 'urc'],
-        ['TemprincipalsController', 'loraines_mktg'],
-        ['TemprincipalsController', 'emperador_distillers'],
-
-        ['TemprincipalsController', 'prifood_corp'],
-        ['TemprincipalsController', 'kimberly'],
-
-        ['TemprincipalsController', 'suyen_corp'],
-        ['TemprincipalsController', 'moondish'],
-
-        ['TemprincipalsController', 'candy_castle_foods'],
-
-        ['TemprincipalsController', 'swedish_match'],
-        ['TemprincipalsController', 'procter_gamble'],
-
-        ['TemprincipalsController', 'regent_food_corp'],
-
-        ['TemprincipalsController', 'monde_nissin'],
-        ['TemprincipalsController', 'ceed'],
-        ['TemprincipalsController', 'sucere'],
-        ['TemprincipalsController', 'cima'],
-        ['TemprincipalsController', 'pernod'],
-        ['TemprincipalsController', 'magnetar'],
-
-        ['TemprincipalsController', 'ardent'],
-        // ============================================================
-
-        // sa purefoods ni yawa!
-        // ['TemprincipalsController', 'magnolia_inc'],
-        // ['TemprincipalsController', 'the_purefoods_hormel'],
-        // ['TemprincipalsController', 'hormel_foods'],
-        // ------------------------------------------------------------
-        ['PurefoodsController', 'magnolia_inc'],
-        ['PurefoodsController', 'the_purefoods_hormel'],
-        ['PurefoodsController', 'hormel_foods'],
-
-
-    ];
-    foreach($principalCtrls as $principalCtrl) {
-        $ctrl = "Principals\\". $principalCtrl[0]. '@';
-
-        Route::prefix($principalCtrl[1])->group(function() use ($ctrl){
+        Route::prefix($mainPrincipal->vendor_code)->group(function() use ($ctrl){
             // Items
             Route::get("/items", $ctrl. "items");
             Route::post("/items/upload", $ctrl. "uploadMasterItems");
@@ -289,10 +137,10 @@ Route::prefix('principals')->group(function(){
 
             // Invoices (import & save)
             Route::get("/generate-templated-data", $ctrl. "generateTemplatedData");
-            // Route::post("/set-invoices-complete", $ctrl. "setInvoicesComplete");
-            // Route::post("/invoices/import", $ctrl. "importInvoices");
-            // Route::post("/invoices/save", $ctrl. "saveInvoices");
             Route::get("/generateReturns", $ctrl. "generateReturns");
+
+            Route::get("/configs", $ctrl. "configs");
+
         });
     }
 

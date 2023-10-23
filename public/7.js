@@ -259,15 +259,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['items', 'template_variation_index', 'tab_caption', 'allow_export'],
   data: function data() {
@@ -277,7 +268,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     tableHeader: function tableHeader() {
       // alert(this.template_variation_index);
-      return this[this.PrincipalsStore.state.selectedPrincipalCode].state.generatedDataTableHeader[this.template_variation_index];
+      // return this[this.PrincipalsStore.state.selectedPrincipalCode]
+      //     .state.generatedDataTableHeader[this.template_variation_index];
+      return this.PrincipalsStore.state.configs.generatedDataTableHeader[this.template_variation_index];
     }
   },
   methods: {

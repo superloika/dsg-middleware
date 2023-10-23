@@ -123,7 +123,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.PrincipalsStore.state.selectedPrincipalCode;
     },
     tblHeader: function tblHeader() {
-      return this[this.selectedPrincipalCode].state.customersTableHeader[0]; // if(this.PrincipalsStore.state.selectedPrincipalCode == 'wyeth') {
+      return this.PrincipalsStore.state.configs.customersTableHeader[0]; // if(this.PrincipalsStore.state.selectedPrincipalCode == 'wyeth') {
       //     return this.WyethStore.state.customersTableHeader;
       // } else {
       //     return [];

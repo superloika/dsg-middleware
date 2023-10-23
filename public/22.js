@@ -208,8 +208,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['lineCount', 'warningsCount'],
   components: {
@@ -244,9 +242,6 @@ __webpack_require__.r(__webpack_exports__);
         return 0;
       }
     },
-    selPrincipalStore: function selPrincipalStore() {
-      return this[this.PrincipalsStore.state.selectedPrincipalCode];
-    },
     dateRangeText: function dateRangeText() {
       return this.PrincipalsStore.state.posting_date_range.join(' ~ ');
     },
@@ -257,14 +252,14 @@ __webpack_require__.r(__webpack_exports__);
       return this.PrincipalsStore.state.selectedGroupBy;
     },
     disableExportBtn: function disableExportBtn() {
-      if (this.selPrincipalStore.state.strict_export != undefined && this.selPrincipalStore.state.strict_export == true) {
+      if (this.PrincipalsStore.state.configs.strict_export != undefined && this.PrincipalsStore.state.configs.strict_export == true) {
         return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData || this.warningsCount > 0 && this.invoiceStatus == 'pending' || this.invoiceStatus == '';
       } else {
         return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData || this.invoiceStatus == '';
       }
     },
     beatrouteUploading: function beatrouteUploading() {
-      return this.selPrincipalStore.state.beatroute_uploading != undefined && this.selPrincipalStore.state.beatroute_uploading == true;
+      return this.PrincipalsStore.state.configs.beatroute_uploading != undefined && this.PrincipalsStore.state.configs.beatroute_uploading == true;
     },
     disableBRUploadButton: function disableBRUploadButton() {
       return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData // || this.warningsCount > 0
@@ -338,9 +333,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     refresh: function refresh() {
       if (this.invoiceStatus != '') {
-        var _this$selPrincipalSto;
+        var _this$PrincipalsStore;
 
-        this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus, (_this$selPrincipalSto = this.selPrincipalStore.state.posting_date_format) !== null && _this$selPrincipalSto !== void 0 ? _this$selPrincipalSto : 'm/d/Y');
+        this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus, (_this$PrincipalsStore = this.PrincipalsStore.state.configs.posting_date_format) !== null && _this$PrincipalsStore !== void 0 ? _this$PrincipalsStore : 'm/d/Y');
         this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
       }
     },
@@ -531,7 +526,7 @@ var render = function() {
                     staticStyle: { "max-width": "500px", "min-width": "200px" },
                     attrs: {
                       items:
-                        _vm.selPrincipalStore.state
+                        _vm.PrincipalsStore.state.configs
                           .generatedDataHistoryFilters[0],
                       label: "Group By",
                       "item-text": "text",
@@ -679,9 +674,7 @@ var render = function() {
         },
         [
           _c("ConfirmExport", {
-            key:
-              "confirm_export_" +
-              _vm.PrincipalsStore.state.selectedPrincipalCode
+            key: "confirm_export_" + _vm.selectedPrincipalCode
           })
         ],
         1
@@ -708,7 +701,7 @@ var render = function() {
           _c("BRUpload", {
             key:
               "br_upload_" +
-              _vm.PrincipalsStore.state.selectedPrincipalCode +
+              _vm.selectedPrincipalCode +
               "_" +
               _vm.currentTimestamp
           })

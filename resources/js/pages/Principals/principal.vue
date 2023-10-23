@@ -4,7 +4,6 @@
             :tabs="tabs"
             :key="`${selectedPrincipalCode}_tabs_${new Date().getTime()}`"
         ></Base>
-        <!-- <v-btn @click="test()">Test</v-btn> -->
     </div>
 </template>
 
@@ -27,28 +26,11 @@ export default {
                     icon: 'mdi-receipt',
                     component: () => import("./common/Generated.vue"),
                 },
-                // {
-                //     title: 'Return Invoices',
-                //     icon: 'mdi-cash-refund',
-                //     component: () => import("./common/Generated.vue"),
-                // },
-                // {
-                //     title: 'Templated Data History',
-                //     icon: 'mdi-timetable',
-                //     component: () => import("./common/GeneratedHistory.vue"),
-                // },
                 {
                     title: 'Transactions',
                     icon: 'mdi-file-check',
-                    // component: () => import("../common/TransAndInvoices.vue"),
                     component: () => import("./common/Transactions.vue"),
                 },
-                // {
-                //     title: 'Stats',
-                //     icon: 'mdi-chart-line',
-                //     // component: () => import("../common/TransAndInvoices.vue"),
-                //     component: () => import("./common/Stats.vue"),
-                // },
                 {
                     title: 'Masterfiles',
                     icon: 'mdi-folder-multiple',
@@ -73,22 +55,12 @@ export default {
     },
 
     created() {
-        if(
-            this[this.selectedPrincipalCode] == null ||
-            this[this.selectedPrincipalCode] == undefined
-        ) {
-            Vue.prototype[this.selectedPrincipalCode] =
-                require(`../../stores.custom/principals/${this.selectedPrincipalCode}`)
-                .default;
-
-            // refresh BeatRoute token
-            if(this[this.selectedPrincipalCode].state.bu != undefined) {
-                this.BrStore.refresh(this[this.selectedPrincipalCode].state.bu);
-            }
-        }
-
         // Initialize settings
         this.PrincipalsStore.initSettings();
+        this.PrincipalsStore.initConfigs();
+
+        this.BrStore.refresh('ppfb');
+
     },
 
     mounted() {
@@ -99,9 +71,6 @@ export default {
         if(this.PrincipalsStore != null) {
             this.PrincipalsStore.cleanup();
         }
-
-        this[this.selectedPrincipalCode] = null;
-        Vue.prototype[this.selectedPrincipalCode] = null;
     },
 
 

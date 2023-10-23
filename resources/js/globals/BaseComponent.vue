@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-system-bar app height="50" dark color="grey lighten-5">
+        <v-system-bar app height="50" dark colorx="grey lighten-5" color="white">
             <!-- <v-btn
                 @click="toggleDrawerState()"
                 icon
@@ -16,17 +16,22 @@
                 </a>
             </v-toolbar-title>
 
-            <PrincipalsSearch class="mr-2" v-if="AppStore.state.principals.length > 0">
+            <!-- <PrincipalsSearch class="mr-2" v-if="AppStore.state.principals.length > 0" caption="Principals">
+                <NavSideListGroupPrincipals></NavSideListGroupPrincipals>
+            </PrincipalsSearch> -->
+
+            <PrincipalsSearch class="mr-2" caption="Principals">
+                <MainPrincipals></MainPrincipals>
             </PrincipalsSearch>
 
             <v-spacer></v-spacer>
 
-            <span class="text-caption mr-3 overflow-auto white--text">
+            <span class="text-caption mr-3 overflow-auto primary--text">
                 Howdy, {{ AuthUser.name }}!
             </span>
 
-            <v-btn icon color="" to="/invoices" title="Invoices">
-                <v-icon>mdi-file</v-icon>
+            <v-btn icon to="/invoices" title="Invoices">
+                <v-icon color="primary">mdi-file</v-icon>
             </v-btn>
 
             <span class="px-1"></span>
@@ -92,12 +97,11 @@
 
         <!-- MAIN -->
         <v-main>
-            <v-container class="pa-0" fluid>
+            <v-card elevation="0">
                 <!-- <keep-alive> -->
                     <router-view></router-view>
                 <!-- </keep-alive> -->
-            </v-container>
-
+            </v-card>
         </v-main>
 
         <!-- MISC -->

@@ -1435,7 +1435,7 @@ class InvoicesController extends Controller
     }
 
 
-    public static function getPendingInvoices($principal_code, $posting_date_range, $status='') {
+    public static function getPendingInvoices($main_vendor_code, $posting_date_range, $status='') {
         // posting date range
         $dates = explode(',', $posting_date_range);
         sort($dates);
@@ -1458,6 +1458,9 @@ class InvoicesController extends Controller
         }
         // /posting date range
 
+        $vendor_codes = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+            ->where('main_vendor_code', $main_vendor_code)->pluck('vendor_code')->toArray();
+
         GenerateTemplated::dispatch("Retrieving invoices");
 
         return DB::table(PrincipalsUtil::$TBL_INVOICES)
@@ -1475,13 +1478,7 @@ class InvoicesController extends Controller
                     ;
                 }
             )
-            ->where(
-                'vendor_code',
-                DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                    ->where('code', $principal_code)
-                    ->select('vendor_code')
-                    ->first()->vendor_code ?? 'NA'
-            )
+            ->whereIn('vendor_code', $vendor_codes)
             ->whereBetween(
                 DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
                 [$dateFrom, $dateTo]
@@ -1507,7 +1504,7 @@ class InvoicesController extends Controller
             ->cursor();
     }
 
-    public static function getReturns($principal_code, $posting_date_range, $status='') {
+    public static function getReturns($main_vendor_code, $posting_date_range, $status='') {
         // posting date range
         $dates = explode(',', $posting_date_range);
         sort($dates);
@@ -1532,11 +1529,8 @@ class InvoicesController extends Controller
 
         GenerateTemplated::dispatch("Retrieving returns");
 
-        $vendor_code = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-            ->where('code', $principal_code)
-            ->select('vendor_code')
-            ->first()->vendor_code ?? 'NA'
-        ;
+        $vendor_codes = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+            ->where('main_vendor_code', $main_vendor_code)->pluck('vendor_code')->toArray();
 
         return DB::table(PrincipalsUtil::$TBL_CM)
             ->join(
@@ -1575,7 +1569,7 @@ class InvoicesController extends Controller
                     ;
                 }
             )
-            ->where('vendor_code', $vendor_code)
+            ->whereIn('vendor_code', $vendor_codes)
             ->whereBetween(
                 DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_CM . ".shipment_date, '%m/%d/%Y')"),
                 [$dateFrom, $dateTo]

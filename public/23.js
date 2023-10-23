@@ -151,7 +151,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.PrincipalsStore.state.selectedPrincipalCode;
     },
     tblHeader: function tblHeader() {
-      return this[this.selectedPrincipalCode].state.itemsTableHeader[0];
+      return this.PrincipalsStore.state.configs.itemsTableHeader[0];
     },
     // principal_code() {
     //     const principal = this.AppStore.state.principals.find(e => e.id == this.$route.params.principal_id);
@@ -166,24 +166,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    // exportToExcel() {
-    //     const data = [
-    //         [
-    //             'Items',
-    //             this.PrincipalsStore.state.items
-    //         ]
-    //     ];
-    //     const config = this.PrincipalsStore.getHeaderAndFormat('itemsTableHeader');
-    //     this.PrincipalsStore.exportToExcel(
-    //         config[0].header,
-    //         this.PrincipalsStore.generatedDataSubset(
-    //             data,
-    //             config[0].format
-    //         ),
-    //         null,
-    //         `${this.selectedPrincipalCode}_Items`
-    //     );
-    // },
     exportToExcel: function exportToExcel() {
       var _this = this;
 

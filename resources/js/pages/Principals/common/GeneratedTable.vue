@@ -184,15 +184,6 @@
             <span v-else>{{ item.sm_code }}</span>
         </template>
 
-        <!-- <template v-slot:[`item.invoice_date`]="{ item }">
-            <div>
-                {{
-                    withDmyFormats.indexOf(PrincipalsStore.state.selectedPrincipalCode) == -1 ?
-                    item.invoice_date : AppStore.dmyDateFormat(item.invoice_date)
-                }}
-            </div>
-        </template> -->
-
         <template v-slot:[`item.price`]="{ item }">
             <div class="text-right">
                 {{ item.price }}
@@ -270,8 +261,9 @@ export default {
     computed: {
         tableHeader() {
             // alert(this.template_variation_index);
-            return this[this.PrincipalsStore.state.selectedPrincipalCode]
-                .state.generatedDataTableHeader[this.template_variation_index];
+            // return this[this.PrincipalsStore.state.selectedPrincipalCode]
+            //     .state.generatedDataTableHeader[this.template_variation_index];
+            return this.PrincipalsStore.state.configs.generatedDataTableHeader[this.template_variation_index];
         }
     },
 

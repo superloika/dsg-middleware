@@ -5,7 +5,7 @@ import VueRouter from "vue-router";
 // OTHER PAGES
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
-import ExpendituresPage from "./pages/ExpendituresPage";
+// import ExpendituresPage from "./pages/ExpendituresPage";
 // import TestPage from "./pages/TestPage";
 
 // PRINCIPAL
@@ -15,10 +15,10 @@ import Principals from "./pages/Principals";
 import Invoices from "./pages/Invoices";
 
 // MASTERFILES
-import MasterCustomers from "./pages/MasterCustomers";
-import MasterProducts from "./pages/MasterProducts";
-import MasterItems from "./pages/MasterItems";
-import MasterPrincipals from "./pages/MasterPrincipals";
+// import MasterCustomers from "./pages/MasterCustomers";
+// import MasterProducts from "./pages/MasterProducts";
+// import MasterItems from "./pages/MasterItems";
+// import MasterPrincipals from "./pages/MasterPrincipals";
 
 // ACCOUNT
 import AccountPage from "./pages/AccountPage";
@@ -53,15 +53,22 @@ const router = new VueRouter({
                 name: "AboutPage"
             }
         },
+        // {
+        //     path: "/expenditures",
+        //     component: ExpendituresPage,
+        //     meta: {
+        //         name: "ExpendituresPage"
+        //     }
+        // },
+        // {
+        //     path: "/principals/:principal_code",
+        //     component: Principals,
+        //     meta: {
+        //         name: "Principals"
+        //     },
+        // },
         {
-            path: "/expenditures",
-            component: ExpendituresPage,
-            meta: {
-                name: "ExpendituresPage"
-            }
-        },
-        {
-            path: "/principals/:principal_code",
+            path: "/principals/:main_vendor_code",
             component: Principals,
             meta: {
                 name: "Principals"
@@ -84,34 +91,34 @@ const router = new VueRouter({
 
 
         // MASTERFILES =========================================
-        {
-            path: "/master/customers",
-            component: MasterCustomers,
-            meta: {
-                name: "Customers Masterfile"
-            }
-        },
-        {
-            path: "/master/products",
-            component: MasterProducts,
-            meta: {
-                name: "Products Masterfile"
-            }
-        },
-        {
-            path: "/master/items",
-            component: MasterItems,
-            meta: {
-                name: "Items Masterfile"
-            }
-        },
-        {
-            path: "/master/principals",
-            component: MasterPrincipals,
-            meta: {
-                name: "Principals Masterfile"
-            }
-        },
+        // {
+        //     path: "/master/customers",
+        //     component: MasterCustomers,
+        //     meta: {
+        //         name: "Customers Masterfile"
+        //     }
+        // },
+        // {
+        //     path: "/master/products",
+        //     component: MasterProducts,
+        //     meta: {
+        //         name: "Products Masterfile"
+        //     }
+        // },
+        // {
+        //     path: "/master/items",
+        //     component: MasterItems,
+        //     meta: {
+        //         name: "Items Masterfile"
+        //     }
+        // },
+        // {
+        //     path: "/master/principals",
+        //     component: MasterPrincipals,
+        //     meta: {
+        //         name: "Principals Masterfile"
+        //     }
+        // },
 
 
         // ACCOUNT =============================================

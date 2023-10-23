@@ -125,7 +125,7 @@ export default {
 
             // const rawJson = '{"summary":' + rawData + '}';
             const decoded = JSON.parse(rawData);
-            console.log(decoded);
+            // console.log(decoded);
             return decoded;
         }
     },

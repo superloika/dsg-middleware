@@ -21,11 +21,11 @@ class PrincipalsUtil extends Controller
     /**
      * Invoices db table name (headers)
      */
-    public static $TBL_INVOICES_H = 'invoices_headers_demo';
+    public static $TBL_INVOICES_H = 'invoices_headers';
     /**
      * Invoices db table name (lines)
      */
-    public static $TBL_INVOICES = 'invoices_lines_demo';
+    public static $TBL_INVOICES = 'invoices_lines';
 
     // credit memos
     /**
@@ -69,7 +69,7 @@ class PrincipalsUtil extends Controller
      */
     public static function getSettings($principalCode) {
         $settings = DB::table(self::$TBL_SETTINGS)
-            ->where('principal_code', $principalCode)
+            ->where('main_vendor_code', $principalCode)
             ->get();
         $temp = [];
         foreach($settings as $setting) {
@@ -105,8 +105,8 @@ class PrincipalsUtil extends Controller
     public function settings() {
         try {
             $res = DB::table(self::$TBL_SETTINGS)
-                ->where('principal_code', request()->principal_code)
-                ->orderBy('name')
+                ->where('main_vendor_code', request()->principal_code)
+                // ->orderBy('name')
                 ->get();
             return response()->json($res);
         } catch (\Throwable $th) {
@@ -137,7 +137,7 @@ class PrincipalsUtil extends Controller
             foreach($request->settings as $setting) {
                 extract($setting);
                 DB::table(self::$TBL_SETTINGS)
-                    ->where('principal_code', $request->principal_code)
+                    ->where('main_vendor_code', $request->principal_code)
                     ->where('id', $id)
                     ->update(['value' => $value]);
             }
@@ -258,7 +258,6 @@ class PrincipalsUtil extends Controller
 
     //         // $gendata = DB::table(request()->table_generated)
 
-
     //         for ($i=1; $i <= $template_variation_count ; $i++) {
     //             $gendata = DB::table($this::$TBL_GENERATED)
     //                 ->where('principal_code', request()->principal_code)
@@ -287,7 +286,6 @@ class PrincipalsUtil extends Controller
     //     }
 
     // }
-
 
 
     // =====================================================================
@@ -319,9 +317,13 @@ class PrincipalsUtil extends Controller
             $invoice_status = $request->invoice_status ?? '';
 
             // $vendor_code = $request->vendor_code ?? 'NA';
-            $vendor_code = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                ->where('code', request()->principal_code ?? 'NA')
-                ->first()->vendor_code ?? 'NA';
+
+            // $vendor_code = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+            //     ->where('code', request()->principal_code ?? 'NA')
+            //     ->first()->vendor_code ?? 'NA';
+            $vendor_codes = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+                ->where('main_vendor_code', request()->principal_code)
+                ->pluck('vendor_code')->toArray();
 
             $result = DB::table($this::$TBL_INVOICES)
                 ->join(
@@ -344,7 +346,8 @@ class PrincipalsUtil extends Controller
                     // $this::$TBL_GENERAL_CUSTOMERS. '.customer_code',
                 )
 
-                ->where($this::$TBL_INVOICES. '.vendor_code', $vendor_code)
+                // ->where($this::$TBL_INVOICES. '.vendor_code', $vendor_code)
+                ->whereIn($this::$TBL_INVOICES. '.vendor_code', $vendor_codes)
                 ->where($this::$TBL_INVOICES. '.status','like', "%$invoice_status%")
                 ->whereBetween(
                     DB::raw(
@@ -399,5 +402,12 @@ class PrincipalsUtil extends Controller
     //     return response()->json($response);
     // }
 
+
+    public static function principalRoutes() {
+        return DB::table(self::$TBL_PRINCIPALS)
+            ->select('vendor_code','controller')
+            // ->groupBy('main_vendor_code')
+            ->get();
+    }
 
 }

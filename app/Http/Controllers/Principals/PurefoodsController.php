@@ -28,6 +28,7 @@ class PurefoodsController extends Controller
         $this->middleware('auth');
         try {
             $this->PRINCIPAL_CODE = explode("/",Route::current()->getAction()['prefix'])[1] ?? 'NA';
+            // dd($this->PRINCIPAL_CODE);
         } catch (\Throwable $th) {
             dd($th->getMessage());
         }
@@ -69,7 +70,7 @@ class PurefoodsController extends Controller
                 // PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
             ])
 
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
             // ->get($cols);
 
             ->where(function($q) use ($search_key) {
@@ -126,7 +127,7 @@ class PurefoodsController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
                 $fileContent = utf8_encode($fileContent);
@@ -168,7 +169,7 @@ class PurefoodsController extends Controller
                                 && ($conversion_uom_price!='' || $conversion_uom_price!='#N/A')
                             ) {
                                 $arrLines[] = [
-                                    'principal_code' => $this->PRINCIPAL_CODE,
+                                    'main_vendor_code' => $this->PRINCIPAL_CODE,
                                     'item_code' => $item_code,
                                     'item_code_supplier' => $item_code_supplier,
                                     'description_supplier' => $description_supplier,
@@ -239,7 +240,7 @@ class PurefoodsController extends Controller
         //     ->get();
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
             // ->get();
 
             ->where(function($q) use ($search_key) {
@@ -295,7 +296,7 @@ class PurefoodsController extends Controller
                 $lineCount = 2;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $fileContent = mb_convert_encoding($fileContent,"UTF-8");
                 $fileContent = str_replace("\x00",'',$fileContent);
@@ -320,7 +321,7 @@ class PurefoodsController extends Controller
                             $customer_name = trim(str_replace('"', '', $arrFileContentLine[2]));
                             // =========================================================================
                             $arrLines[] = [
-                                'principal_code' => $this->PRINCIPAL_CODE,
+                                'main_vendor_code' => $this->PRINCIPAL_CODE,
                                 'customer_code_supplier' => $customer_code_supplier,
                                 'customer_code' => $customer_code,
                                 'customer_name' => $customer_name,
@@ -363,7 +364,7 @@ class PurefoodsController extends Controller
         set_time_limit(0);
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
             ->get();
         return response()->json($result);
     }
@@ -389,7 +390,7 @@ class PurefoodsController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(
@@ -412,7 +413,7 @@ class PurefoodsController extends Controller
                                 // =========================================================================
 
                                 $arrLines[] = [
-                                    'principal_code' => $this->PRINCIPAL_CODE,
+                                    'main_vendor_code' => $this->PRINCIPAL_CODE,
                                     'division' => $division,
                                     'sm_code' => $sm_code,
                                     'sm_name' => $sm_name,
@@ -488,21 +489,19 @@ class PurefoodsController extends Controller
             // ***************************************************************************
 
             // ************************* MISC INITS **************************************
-            $filesTotalLineCount = 0;
             $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
-            $breakFilesIteration = false;
 
             $pageLineCount = 1;
             $pageNum = 1;
 
             $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                 ->get();
             $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                 ->get();
             $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                 ->get();
             // dd($principal_salesmen);
 
@@ -550,6 +549,7 @@ class PurefoodsController extends Controller
                     $discount_value =       0;
                     $vat_percentage =       intval($pendingInvoice->vat_percentage ?? 0);
                     $vat_value =            0;
+                    $vendor_code =          $pendingInvoice->vendor_code;
 
                     //********************************************************************
                     $nav_customer_name = $pendingInvoice->customer_name;
@@ -671,6 +671,7 @@ class PurefoodsController extends Controller
                         'customer_notfound' =>      $customer_notfound,
                         'item_notfound' =>          $item_notfound,
                         'salesman_notfound' =>      $salesman_notfound,
+                        'vendor_code' =>            $vendor_code,
                         // principal specific
                         'invoice_no' =>             $doc_no,
                         'invoice_date' =>           $posting_date,
@@ -1061,6 +1062,118 @@ class PurefoodsController extends Controller
         $response['invoice_lines_reverted'] = $inv + $cm;
 
         return response()->json($response);
+    }
+
+
+    public function configs() {
+        $arr = [
+            "beatroute_uploading" => true,
+            "bu" => 'ppfb',
+            "posting_date_format" => 'Y-m-d',
+
+            // principal masterfiles
+            "itemsTableHeader" => [
+                [
+                    ["text" => "Material Code",                      "value" => "item_code_supplier"],
+                    ["text" => "Item Code",                          "value" => "item_code"],
+                    ["text" => "Supplier Item Description",          "value" => "description_supplier"],
+                    ["text" => "PCS/CASE",                           "value" => "conversion_qty"],
+                    // ["text" => "CASE Price",                      "value" => "uom_price"],
+                    ["text" => "UOM",                                "value" => "uom"],
+                    // ["text" => "PCS Price",                       "value" => "conversion_uom_price"],
+                    ["text" => "Conversion UOM",                     "value" => "conversion_uom"],
+                ]
+            ],
+
+            "customersTableHeader" => [
+                [
+                    ["text" => "Customer Code",                    "value" => "customer_code" ],
+                    ["text" => "Customer Code (Supplier)",         "value" => "customer_code_supplier" ],
+                    ["text" => "Customer Name",                    "value" => "customer_name" ],
+                ],
+            ],
+
+            "salesmenTableHeader" => [
+                [
+                    ["text" => "Group",                            "value" => "division" ],
+                    ["text" => "SM Code",                          "value" => "sm_code" ],
+                    ["text" => "SM Name",                          "value" => "sm_name" ],
+                ],
+            ],
+
+            // templated data table header
+            "generatedDataTableHeader" => [
+                [
+                    ["text" =>"Vendor Code",                        "value" => "vendor_code"],
+                    ["text" =>"Invoice #",                          "value" => "invoice_no"],
+                    ["text" =>"External Invoice #",                 "value" => "invoice_number"], // external doc no
+                    ["text" =>"Customer Code (NAV)",                "value" => "alturas_customer_code"],
+                    ["text" =>"Customer Code",                      "value" => "customer_code"],
+                    ["text" =>"Customer Name",                      "value" => "customer_name"],
+                    ["text" =>"Invoice Date (m/d/Y) (NAV)",         "value" => "invoice_date"],
+                    ["text" =>"Item Code (NAV)",                    "value" => "alturas_item_code"],
+                    ["text" =>"Item Code",                          "value" => "item_code"],
+                    ["text" =>"Item Name (NAV)",                    "value" => "item_description"],
+                    ["text" =>"Item Name",                          "value" => "description_supplier"],
+                    ["text" =>"UOM (NAV)",                          "value" => "uom"],
+                    ["text" =>"UOM",                                "value" => "uom_supplier"],
+                    ["text" =>"Quantity",                           "value" => "quantity"],
+                    ["text" =>"Price (NAV)",                        "value" => "price"],
+                    ["text" =>"Amount (NAV,Discounted)",            "value" => "amount"],
+                    // ["text" =>"Price",                           "value" => "price_supplier"],
+                    // ["text" =>"Amount",                          "value" => "amount_supplier"],
+                    // ["text" =>"Line Discount %",                 "value" => "discount_percentage"],
+                    // ["text" =>"Discount Amount",                 "value" => "discount_value"],
+                    ["text" =>"SM Code",                            "value" => "sm_code"],
+                    ["text" =>"SM Name",                            "value" => "sm_name"],
+                    ["text" =>"Group",                              "value" => "group"],
+                ],
+                [
+                    ["text" =>"Vendor Code",                        "value" => "vendor_code"],
+                    ["text" =>"Return Invoice #",                   "value" => "invoice_no"],
+                    ["text" =>"External Return Invoice #",          "value" => "invoice_number"], // external doc no
+                    ["text" =>"Customer Code (NAV)",                "value" => "alturas_customer_code"],
+                    ["text" =>"Customer Code",                      "value" => "customer_code"],
+                    ["text" =>"Customer Name",                      "value" => "customer_name"],
+                    ["text" =>"Return Invoice Date (m/d/Y) (NAV)",  "value" => "invoice_date"],
+                    ["text" =>"Item Code (NAV)",                    "value" => "alturas_item_code"],
+                    ["text" =>"Item Code",                          "value" => "item_code"],
+                    ["text" =>"Item Name (NAV)",                    "value" => "item_description"],
+                    ["text" =>"Item Name",                          "value" => "description_supplier"],
+                    ["text" =>"UOM (NAV)",                          "value" => "uom"],
+                    ["text" =>"UOM",                                "value" => "uom_supplier"],
+                    ["text" =>"Quantity",                           "value" => "quantity"],
+                    ["text" =>"Price (NAV)",                        "value" => "price"],
+                    ["text" =>"Amount (NAV,Discounted)",            "value" => "amount"],
+                    // ["text" =>"Price",                           "value" => "price_supplier"],
+                    // ["text" =>"Amount",                          "value" => "amount_supplier"],
+                    // ["text" =>"Line Discount %",                 "value" => "discount_percentage"],
+                    // ["text" =>"Discount Amount",                 "value" => "discount_value"],
+                    ["text" =>"SM Code",                            "value" => "sm_code"],
+                    ["text" =>"SM Name",                            "value" => "sm_name"],
+                    ["text" =>"Group",                              "value" => "group"],
+                    // additional return stuff
+                    ["text" =>"Return Indicator",                   "value" => "return_indicator"],
+                    ["text" =>"Return Reason",                      "value" => "remarks"],
+                    ["text" =>"Invoice Reference #",                "value" => "invoice_doc_no"],
+                    // ["text" =>"Invoice Reference # (Ext Doc No.)",  "value" => "ext_doc_no"],
+                ],
+            ],
+
+            // ***********************************************************************************
+            "generatedDataHistoryFilters" => [
+                [
+                    ["text" => 'System Date',   "value" => 'system_date'],
+                    ["text" => 'Posting Date',  "value" => 'posting_date'],
+                    ["text" => 'Item Code',     "value" => 'item_code'],
+                    ["text" => 'Customer Code', "value" => 'customer_code'],
+                    ["text" => 'Source Group',  "value" => 'group_code'],
+                    ["text" => 'Invoice #',     "value" => 'doc_no'],
+                ]
+            ],
+        ];
+
+        return response()->json($arr);
     }
 
 }

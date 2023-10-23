@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class CenturyCanningController extends Controller
 {
-    private $PRINCIPAL_CODE = 'century_canning';
+    private $PRINCIPAL_CODE = 'NA';
 
     /**
      * Create a new controller instance.
@@ -61,7 +61,7 @@ class CenturyCanningController extends Controller
                 PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
             ])
 
-            ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.principal_code',
+            ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.main_vendor_code',
                 $this->PRINCIPAL_CODE)
             // ->get($cols);
 
@@ -125,7 +125,7 @@ class CenturyCanningController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
                 $fileContent = utf8_encode($fileContent);
@@ -149,7 +149,7 @@ class CenturyCanningController extends Controller
                             // $conversion_uom = 'PCS';
 
                             $arrLines[] = [
-                                'principal_code' => $this->PRINCIPAL_CODE,
+                                'main_vendor_code' => $this->PRINCIPAL_CODE,
                                 'uploaded_by' => auth()->user()->id,
                                 'item_code' => $item_code,
                                 'item_code_supplier' => $item_code_supplier,
@@ -328,7 +328,7 @@ class CenturyCanningController extends Controller
         set_time_limit(0);
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
             ->get();
         return response()->json($result);
     }
@@ -355,7 +355,7 @@ class CenturyCanningController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(
@@ -379,7 +379,7 @@ class CenturyCanningController extends Controller
                             // ====================================================================
 
                             $arrLines[] = [
-                                'principal_code' => $this->PRINCIPAL_CODE,
+                                'main_vendor_code' => $this->PRINCIPAL_CODE,
                                 'group_code' => $group_code,
                                 'sm_code_supplier' => $sm_code_supplier,
                                 'location_code_supplier' => $location_code_supplier,
@@ -458,10 +458,10 @@ class CenturyCanningController extends Controller
 
             GenerateTemplated::dispatch('Getting principal masterfile');
             $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                 ->get();
             $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                 ->get();
 
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
@@ -501,6 +501,7 @@ class CenturyCanningController extends Controller
                         $sm_code = $pendingInvoice->sm_code;
                         $qty_per_uom = intval($pendingInvoice->qty_per_uom);
                         $status = $pendingInvoice->status;
+                        $vendor_code = $pendingInvoice->vendor_code;
 
                         // ****************************************************************
                         // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
@@ -626,6 +627,7 @@ class CenturyCanningController extends Controller
                             'location' => $location,
                             'sales_agent_id' => $sm_code_supplier,
                             'status' => $status,
+                            'vendor_code' => $vendor_code,
                         ];
 
                         // for chunked results
@@ -737,6 +739,7 @@ class CenturyCanningController extends Controller
                         $invoice_doc_no = $return->invoice_doc_no;
                         $return_indicator = $return->return_indicator;
                         $remarks = $return->remarks;
+                        $vendor_code = $return->vendor_code;
 
                         // ****************************************************************
                         // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
@@ -864,7 +867,8 @@ class CenturyCanningController extends Controller
                             'status' => $status,
                             'invoice_doc_no' => $invoice_doc_no,
                             'return_indicator' => $return_indicator,
-                            'remarks' => $remarks
+                            'remarks' => $remarks,
+                            'vendor_code' => $vendor_code,
                         ];
 
                         // for chunked results
@@ -949,4 +953,101 @@ class CenturyCanningController extends Controller
         }
     }
 
+
+    public function configs() {
+        $arr = [
+            // customersTableHeader: [
+            //     [
+            //         { text: "Customer Code", value: "customer_code" },
+            //         { text: "Principal Customer Code", value: "customer_code_supplier" },
+            //     ],
+            // ],
+            "itemsTableHeader" => [
+                [
+                    ["text" => "Item Code", "value" => "item_code"],
+                    // ["text" => "Description", "value" => "description"],
+                    ["text" => "Supplier Item Code", "value" => "item_code_supplier"],
+                    ["text" => "Supplier Item Description", "value" => "description_supplier"],
+                    // ["text" => "CASE", "value" => "case"],
+                    // ["text" => "PCS", "value" => "conversion_qty"],
+                ]
+            ],
+
+            "salesmenTableHeader" => [
+                [
+                    ["text" =>"Group Code", "value" =>"group_code"],
+                    ["text" =>"Salesman Code - NOAH", "value" =>"sm_code_supplier"],
+                    ["text" =>"Location Code - NOAH", "value" =>"location_code_supplier"],
+                ]
+            ],
+
+            // templated data table header(s)
+            "generatedDataTableHeader" => [
+                [
+                    ["text" =>"Distributor ID", "value" => "distributor_id"],
+                    ["text" =>"Salesman", "value" => "sales_agent_id"],
+                    ["text" =>"Docno", "value" => "doc_no"],
+                    ["text" =>"Location", "value" => "location"],
+                    ["text" =>"Ordered Date", "value" => "order_date"],
+                    ["text" =>"Request Delivery Date", "value" => "request_delivery_date"],
+                    ["text" =>"Payment Term", "value" => "payment_term_code"],
+                    ["text" =>"Account Code", "value" => "customer_code"],
+                    ["text" =>"Product Code", "value" => "item_code"],
+                    ["text" =>"Bulk Qty", "value" => "bulk_qty"],
+                    ["text" =>"Loose Qty", "value" => "loose_qty"],
+                    ["text" =>"System Date", "value" => "system_date"],
+                    ["text" =>"User", "value" => "default_user"],
+                ],
+                // [
+                //     ["text" =>"Distributor ID", "value" => "distributor_id"],
+                //     ["text" =>"Sales Agent ID", "value" => "sales_agent_id"],
+                //     ["text" =>"Invoice No (Doc No)", "value" => "doc_no"],
+                //     ["text" =>"Location", "value" => "location"],
+                //     ["text" =>"Invoice Date", "value" => "invoice_date"],
+                //     ["text" =>"Payment Term Code", "value" => "payment_term_code"],
+                //     ["text" =>"Customer No", "value" => "customer_code"],
+                //     ["text" =>"Product Code", "value" => "item_code"],
+                //     ["text" =>"Bulk Qty", "value" => "bulk_qty"],
+                //     ["text" =>"Loose Qty", "value" => "loose_qty"],
+                //     ["text" =>"System Date", "value" => "system_date"],
+                //     ["text" =>"Default User", "value" => "default_user"],
+                //     ["text" =>"Invoice No", "value" => "invoice_no"],
+                //     ["text" =>"Expiry Date", "value" => "expiry_date"],
+                // ],
+                [
+                    ["text" =>"Distributor ID", "value" => "distributor_id"],
+                    ["text" =>"Salesman", "value" => "sales_agent_id"],
+                    ["text" =>"Docno", "value" => "doc_no"],
+                    ["text" =>"Location", "value" => "location"],
+                    ["text" =>"Ordered Date", "value" => "order_date"],
+                    ["text" =>"Request Delivery Date", "value" => "request_delivery_date"],
+                    ["text" =>"Payment Term", "value" => "payment_term_code"],
+                    ["text" =>"Account Code", "value" => "customer_code"],
+                    ["text" =>"Product Code", "value" => "item_code"],
+                    ["text" =>"Bulk Qty", "value" => "bulk_qty"],
+                    ["text" =>"Loose Qty", "value" => "loose_qty"],
+                    ["text" =>"System Date", "value" => "system_date"],
+                    ["text" =>"User", "value" => "default_user"],
+                    ["text" =>"Invoice Reference #", "value" => "invoice_doc_no"],
+                    ["text" =>"Remarks", "value" => "remarks"],
+                ],
+            ],
+
+            "generatedDataHistoryFilters" => [
+                [
+                    ["text" => 'Order Date', "value" => 'order_date'],
+                    ["text" => 'Invoice #', "value" => 'doc_no'],
+                    ["text" => 'Product Code', "value" => 'item_code'],
+                    ["text" => 'Customer Code', "value" => 'customer_code'],
+                    ["text" => 'Salesman', "value" => 'sm_code_supplier'],
+                    ["text" => 'Location', "value" => 'location'],
+                    ["text" => 'Invoice Posting Date', "value" => 'posting_date'],
+                    ["text" => 'Source Group', "value" => 'group_code'],
+                    ["text" => 'Vendor Code', "value" => 'vendor_code'],
+                ]
+            ],
+        ];
+
+        return response()->json($arr);
+    }
 }

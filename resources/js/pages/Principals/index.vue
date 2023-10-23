@@ -11,20 +11,20 @@ export default {
     computed: {
         selectedPrincipal() {
             try {
-                const principal_code = this.$route.params.principal_code;
+                const main_vendor_code = this.$route.params.main_vendor_code;
                 const principal = this.AppStore.state.principals.find(
-                    e => e.code == principal_code
+                    e => e[0] == main_vendor_code
                 );
 
-                console.log('PPPPPPPPPPPPPPPPPPPPPPPPPP:', principal);
-                console.log('PPPPPPPPPPPPPPPPPPPPPPPPPP:', principal_code);
+                console.log('SELECTED PRINCIPAL:', principal);
+                console.log('SELECTED PRINCIPAL MAIN VENDOR CODE:', main_vendor_code);
 
                 if (principal != undefined) {
                     if (
                         JSON.parse(this.AuthUser.principal_ids)[0] == "*" ||
                         this.AppStore.isInUserPrincipalIDs(principal.id)
                     ) {
-                        this.PrincipalsStore.state.selectedPrincipalCode = principal.code;
+                        this.PrincipalsStore.state.selectedPrincipalCode = main_vendor_code;
                         return () => import("./principal.vue");
                     } else {
                         return () => import("../ErrorPages/ErrorPage404.vue");

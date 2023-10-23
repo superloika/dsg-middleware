@@ -1,7 +1,8 @@
 import Vue from "vue";
 // import AppStore from '../AppStore';
 
-const state = Vue.observable({
+const state = Vue.observable(
+{
     // strict_export: true,
     beatroute_uploading: true,
     bu: 'ppfb',
@@ -106,7 +107,8 @@ const state = Vue.observable({
     // misc
     posting_date_format: 'Y-m-d',
 
-});
+}
+);
 
 
 const actions = {

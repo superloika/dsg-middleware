@@ -1,6 +1,7 @@
 import Vue from "vue";
 
-const state = Vue.observable({
+const state = Vue.observable(
+{
     // customersTableHeader: [
     //     [
     //         { text: "Customer Code", value: "customer_code" },
@@ -90,7 +91,8 @@ const state = Vue.observable({
         ]
     ],
 
-});
+}
+);
 
 
 const actions = {

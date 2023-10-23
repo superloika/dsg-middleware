@@ -31,6 +31,10 @@
 
             <v-spacer></v-spacer>
 
+            <v-btn @click="configs">
+                Configs
+            </v-btn>
+
             <v-menu
                 v-model="menu"
                 :close-on-content-click="false"
@@ -148,10 +152,6 @@ export default {
             return count;
         },
 
-        selectedPrincipalCode() {
-            return this.PrincipalsStore.state.selectedPrincipalCode;
-        },
-
         searchKeyLength() {
             try {
                 return this.searchKey.length;
@@ -159,11 +159,6 @@ export default {
                 return 0;
             }
         },
-
-        myStore() {
-            return this[this.selectedPrincipalCode];
-        },
-
     },
 
     methods: {
@@ -219,10 +214,13 @@ export default {
                 return [];
             }
         },
+
+        configs() {
+            console.log(this.PrincipalsStore.state.configs);
+        }
     },
 
     created() {
-        // PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
     },
 
     mounted() {

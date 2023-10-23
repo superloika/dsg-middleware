@@ -107,6 +107,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     GeneratedTableWrapper: function GeneratedTableWrapper() {
@@ -152,18 +156,12 @@ __webpack_require__.r(__webpack_exports__);
       });
       return count;
     },
-    selectedPrincipalCode: function selectedPrincipalCode() {
-      return this.PrincipalsStore.state.selectedPrincipalCode;
-    },
     searchKeyLength: function searchKeyLength() {
       try {
         return this.searchKey.length;
       } catch (error) {
         return 0;
       }
-    },
-    myStore: function myStore() {
-      return this[this.selectedPrincipalCode];
     }
   },
   methods: {
@@ -222,10 +220,12 @@ __webpack_require__.r(__webpack_exports__);
         console.log("missingInMaster() - ERR:", error);
         return [];
       }
+    },
+    configs: function configs() {
+      console.log(this.PrincipalsStore.state.configs);
     }
   },
-  created: function created() {// PrincipalsStore.initCurrentGeneratedData(this.selectedPrincipalCode);
-  },
+  created: function created() {},
   mounted: function mounted() {
     console.log("Generated component mounted");
   }
@@ -306,6 +306,10 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("v-spacer"),
+          _vm._v(" "),
+          _c("v-btn", { on: { click: _vm.configs } }, [
+            _vm._v("\n            Configs\n        ")
+          ]),
           _vm._v(" "),
           _c(
             "v-menu",

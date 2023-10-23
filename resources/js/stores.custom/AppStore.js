@@ -63,7 +63,8 @@ const actions = {
         state.principals = [];
         try {
             let result = await axios.get(url);
-            state.principals = result.data;
+            // state.principals = result.data;
+            state.principals = Object.entries(_.groupBy(result.data, 'main_vendor_code'));
             console.log('LIST OF PRINCIPALS:', state.principals);
         } catch (error) {
             console.log("AppStore_initPrincipals() - ERROR: ", error);

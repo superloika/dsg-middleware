@@ -38,6 +38,7 @@ const state = Vue.observable({
     // transactions table header
     transactionsTableHeader: [
         [
+            {text:"Vendor Code",    value:"vendor_code"},
             // {text:"Upload Date",    value:"updated_at"},
             {text:"Invoice #",  value:"doc_no"},
             {text:"Posting Date (m/d/Y)",  value:"posting_date"},
@@ -172,12 +173,7 @@ const actions = {
             };
             await axios.post(url, payload);
 
-            const config = PrincipalsStore.getHeaderAndFormat(
-                {
-                    storeName: PrincipalsStore.state.selectedPrincipalCode,
-                    propertyName: 'generatedDataTableHeader'
-                }
-            );
+            const config = PrincipalsStore.getHeaderAndFormat();
             console.log('HEADER AND FORMAT', config);
 
             // config.forEach(e=>{
@@ -213,7 +209,7 @@ const actions = {
             // );
             PrincipalsStore.initCurrentGeneratedData(null, state.invoiceStatus);
         } catch (error) {
-            console.log("setInvoicesComplete():", error);
+            console.error("setInvoicesComplete():", error);
         }
     },
 

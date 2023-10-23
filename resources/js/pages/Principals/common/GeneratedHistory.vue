@@ -270,8 +270,7 @@ export default {
         // },
 
         exportToExcel() {
-            const config = this.PrincipalsStore
-                .getHeaderAndFormat('generatedDataTableHeader');
+            const config = this.PrincipalsStore.getHeaderAndFormat();
 
             for(let i=0;i<config.length;i++) {
                 // export templated data to Excel

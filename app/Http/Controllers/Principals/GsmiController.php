@@ -8,11 +8,12 @@ use App\Http\Controllers\InvoicesController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
 class GsmiController extends Controller
 {
-    private $PRINCIPAL_CODE = 'gsmi';
+    private $PRINCIPAL_CODE = 'NA';
 
     /**
      * Create a new controller instance.
@@ -22,6 +23,11 @@ class GsmiController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        try {
+            $this->PRINCIPAL_CODE = explode("/",Route::current()->getAction()['prefix'])[1] ?? 'NA';
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 
 
@@ -56,7 +62,7 @@ class GsmiController extends Controller
                 PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
             ])
 
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.main_vendor_code', $this->PRINCIPAL_CODE)
 
             ->where(function($q) use ($search_key) {
                 $q->where(
@@ -112,7 +118,7 @@ class GsmiController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
                 $fileContent = utf8_encode($fileContent);
@@ -138,7 +144,7 @@ class GsmiController extends Controller
                                 trim(str_replace('"', '', $arrFileContentLine[3]));
 
                             $arrLines[] = [
-                                'principal_code' => $this->PRINCIPAL_CODE,
+                                'main_vendor_code' => $this->PRINCIPAL_CODE,
                                 'uploaded_by' => auth()->user()->id,
                                 'description' => $description,
                                 'item_code' => $item_code,
@@ -183,7 +189,7 @@ class GsmiController extends Controller
         $search_key = request()->search_key ?? '';
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
 
             ->where(function($q) use ($search_key) {
                 $q->where(
@@ -224,7 +230,7 @@ class GsmiController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(
@@ -255,7 +261,7 @@ class GsmiController extends Controller
                             $isExisting = false;
                             if ($isExisting == false) {
                                 $arrLines[] = [
-                                    'principal_code' => $this->PRINCIPAL_CODE,
+                                    'main_vendor_code' => $this->PRINCIPAL_CODE,
                                     'customer_code' => $customer_code,
                                     'salesman_name' => $salesman_name,
                                     'customer_name' => $customer_name,
@@ -322,15 +328,16 @@ class GsmiController extends Controller
 
             $dateToday = Carbon::now();
             $system_date = $dateToday->format('Y-m-d');
-            $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
+            // $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
             // ***************************************************************************
 
             // ************************* MISC INITS **************************************
-            $filesTotalLineCount = 0;
-            $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
-            $breakFilesIteration = false;
-
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
+
+            $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)->get();
+            $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)->get();
             // ************************* /MISC INITS *************************************
 
 
@@ -338,9 +345,6 @@ class GsmiController extends Controller
             if(1){
                 // TEMPLATE 1 ===========================================================
                 if (1) {
-                    $pageLineCount = 1;
-                    $pageNum = 1;
-
                     // **************** PENDING INVOICES ************************************
                     $pendingInvoices = InvoicesController::getPendingInvoices(
                         $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
@@ -376,20 +380,12 @@ class GsmiController extends Controller
                                 ->where('customer_code', $customer_code)
                                 ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         }
-                        // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     ->where('item_code', $item_code)
-                        //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
 
-                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                            ->where('principal_code', $this->PRINCIPAL_CODE)
+                        $customer = $principal_customers
                             ->where('customer_code', $customer_code)
                             ->first();
 
-                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                            ->where('principal_code', $this->PRINCIPAL_CODE)
+                        $item = $principal_items
                             ->where('item_code', $item_code)
                             ->first();
                         //********************************************************************
@@ -404,9 +400,6 @@ class GsmiController extends Controller
 
                         if ($item == null) {
                             $item_notfound = 1;
-                            // $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                            //     ->where('item_code', $item_code)
-                            //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
                             $missing_item_name = $item_description;
                         } else {
                         }
@@ -414,9 +407,6 @@ class GsmiController extends Controller
                         if ($customer == null) {
                             $customer_notfound = 1;
                             $missing_customer_name = $nav_customer_name;
-                            // $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                            //     ->where('customer_code', $customer_code)
-                            //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         } else {
                         }
 
@@ -452,44 +442,21 @@ class GsmiController extends Controller
                             'status' => $status
                         ];
 
-                        if ($chunk_line_count > 0) {
-                            if (
-                                !isset($res['output_template_variations'][0]['output_template']["Page " . $pageNum])
-                            ) {
-                                $res['output_template_variations'][0]['output_template']["Page " . $pageNum] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][0]['output_template']["Page " . $pageNum],
-                                $arrGenerated
-                            );
-
-                            $pageLineCount += 1;
-                            if ($pageLineCount > $chunk_line_count) {
-                                $pageNum += 1;
-                                $pageLineCount = 1;
-                            }
-                        } else {
-                            // group output_template_variations
-                            if (
-                                !isset($res['output_template_variations'][0]['output_template'][$$group_by])
-                            ) {
-                                $res['output_template_variations'][0]['output_template'][$$group_by] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][0]['output_template'][$$group_by],
-                                $arrGenerated
-                            );
-
+                        // group output_template_variations
+                        if (
+                            !isset($res['output_template_variations'][0]['output_template'][$$group_by])
+                        ) {
+                            $res['output_template_variations'][0]['output_template'][$$group_by] = [];
                         }
-
+                        array_push(
+                            $res['output_template_variations'][0]['output_template'][$$group_by],
+                            $arrGenerated
+                        );
                     }
                 }
                 // /TEMPLATE 1 ===========================================================
                 // TEMPLATE 2 ===========================================================
                 if (2) {
-                    $pageLineCount = 1;
-                    $pageNum = 1;
-
                     // **************** PENDING INVOICES ************************************
                     $returns = InvoicesController::getReturns(
                         $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
@@ -528,20 +495,12 @@ class GsmiController extends Controller
                                 ->where('customer_code', $customer_code)
                                 ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         }
-                        // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     ->where('item_code', $item_code)
-                        //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
 
-                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                            ->where('principal_code', $this->PRINCIPAL_CODE)
+                        $customer = $principal_customers
                             ->where('customer_code', $customer_code)
                             ->first();
 
-                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                            ->where('principal_code', $this->PRINCIPAL_CODE)
+                        $item = $principal_items
                             ->where('item_code', $item_code)
                             ->first();
                         //********************************************************************
@@ -556,9 +515,6 @@ class GsmiController extends Controller
 
                         if ($item == null) {
                             $item_notfound = 1;
-                            // $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                            //     ->where('item_code', $item_code)
-                            //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
                             $missing_item_name = $item_description;
                         } else {
                         }
@@ -566,9 +522,6 @@ class GsmiController extends Controller
                         if ($customer == null) {
                             $customer_notfound = 1;
                             $missing_customer_name = $nav_customer_name;
-                            // $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                            //     ->where('customer_code', $customer_code)
-                            //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         } else {
                         }
 
@@ -607,35 +560,16 @@ class GsmiController extends Controller
                             'remarks' => $remarks,
                         ];
 
-                        if ($chunk_line_count > 0) {
-                            if (
-                                !isset($res['output_template_variations'][1]['output_template']["Page " . $pageNum])
-                            ) {
-                                $res['output_template_variations'][1]['output_template']["Page " . $pageNum] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][1]['output_template']["Page " . $pageNum],
-                                $arrGenerated
-                            );
-
-                            $pageLineCount += 1;
-                            if ($pageLineCount > $chunk_line_count) {
-                                $pageNum += 1;
-                                $pageLineCount = 1;
-                            }
-                        } else {
-                            // group output_template_variations
-                            if (
-                                !isset($res['output_template_variations'][1]['output_template'][$$group_by])
-                            ) {
-                                $res['output_template_variations'][1]['output_template'][$$group_by] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][1]['output_template'][$$group_by],
-                                $arrGenerated
-                            );
-
+                        // group output_template_variations
+                        if (
+                            !isset($res['output_template_variations'][1]['output_template'][$$group_by])
+                        ) {
+                            $res['output_template_variations'][1]['output_template'][$$group_by] = [];
                         }
+                        array_push(
+                            $res['output_template_variations'][1]['output_template'][$$group_by],
+                            $arrGenerated
+                        );
 
                     }
                 }
@@ -650,6 +584,83 @@ class GsmiController extends Controller
             $res['message'] = $th->getMessage();
             return response()->json($res, 500);
         }
+    }
+
+
+
+    public function configs() {
+        $arr = [
+            //misc
+            "posting_date_format" => 'm/d/Y',
+
+            "customersTableHeader" => [
+                [
+                    ["text" => "Customer Code", "value" => "customer_code" ],
+                    ["text" => "Salesman Name", "value" => "salesman_name" ],
+                    ["text" => "Customer Name", "value" => "customer_name" ],
+                ],
+            ],
+
+            "itemsTableHeader" => [
+                [
+                    ["text" =>"Supplier Item Code", "value" =>"item_code_supplier"],
+                    ["text" =>"Supplier Item Description", "value" =>"description_supplier"],
+                    ["text" =>"Item Code", "value" =>"item_code"],
+                    ["text" =>"Description", "value" =>"description"]
+                ]
+            ],
+
+            // templated data table header
+            "generatedDataTableHeader" => [
+                [
+                    ["text" =>"Invoice #", "value" => "invoice_no"],
+                    ["text" =>"Customer Code", "value" => "customer_code"],
+                    ["text" =>"Customer Name", "value" => "customer_name"],
+                    ["text" =>"Invoice Date (m/d/Y)", "value" => "invoice_date"],
+                    ["text" =>"Item Code (NAV)", "value" => "alturas_item_code"],
+                    ["text" =>"Item Code (Supplier)", "value" => "item_code"],
+                    ["text" =>"Item Name (NAV)", "value" => "item_description"],
+                    ["text" =>"Item Name (Supplier)", "value" => "description_supplier"],
+                    ["text" =>"UOM", "value" => "uom"],
+                    ["text" =>"Quantity", "value" => "quantity"],
+                    ["text" =>"Price", "value" => "price"],
+                    ["text" =>"Amount", "value" => "amount"],
+                    ["text" =>"Salesman", "value" => "sm_name"],
+                    ["text" =>"Group", "value" => "group"],
+                ],
+                [
+                    ["text" =>"CM #", "value" => "invoice_no"],
+                    ["text" =>"Customer Code", "value" => "customer_code"],
+                    ["text" =>"Customer Name", "value" => "customer_name"],
+                    ["text" =>"Invoice Date (m/d/Y)", "value" => "invoice_date"],
+                    ["text" =>"Item Code (NAV)", "value" => "alturas_item_code"],
+                    ["text" =>"Item Code (Supplier)", "value" => "item_code"],
+                    ["text" =>"Item Name (NAV)", "value" => "item_description"],
+                    ["text" =>"Item Name (Supplier)", "value" => "description_supplier"],
+                    ["text" =>"UOM", "value" => "uom"],
+                    ["text" =>"Quantity", "value" => "quantity"],
+                    ["text" =>"Price", "value" => "price"],
+                    ["text" =>"Amount", "value" => "amount"],
+                    ["text" =>"Salesman", "value" => "sm_name"],
+                    ["text" =>"Group", "value" => "group"],
+                    ["text" =>"Invoice Reference #", "value" => "invoice_doc_no"],
+                    ["text" =>"Remarks", "value" => "remarks"],
+                ],
+            ],
+
+            // ***********************************************************************************
+            "generatedDataHistoryFilters" => [
+                [
+                    ["text" => 'System Date', "value" => 'system_date'],
+                    ["text" => 'Salesman', "value" => 'sm_name'],
+                    ["text" => 'Invoice #', "value" => 'doc_no'],
+                    ["text" => 'Posting Date', "value" => 'posting_date'],
+                    ["text" => 'Source Group', "value" => 'group_code'],
+                ]
+            ],
+        ];
+
+        return response()->json($arr);
     }
 
 }

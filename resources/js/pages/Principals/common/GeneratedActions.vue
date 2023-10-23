@@ -53,7 +53,7 @@
                 <!-- status -->
                 <v-col cols="12">
                     <v-select
-                        :items="selPrincipalStore.state.generatedDataHistoryFilters[0]"
+                        :items="PrincipalsStore.state.configs.generatedDataHistoryFilters[0]"
                         v-model="PrincipalsStore.state.selectedGroupBy"
                         label="Group By"
                         item-text="text"
@@ -164,8 +164,7 @@
         >
             <ConfirmExport
                 :key="
-                    'confirm_export_' +
-                        PrincipalsStore.state.selectedPrincipalCode
+                    'confirm_export_' + selectedPrincipalCode
                 "
             >
             </ConfirmExport>
@@ -182,8 +181,7 @@
         >
             <BRUpload
                 :key="
-                    'br_upload_' +
-                        PrincipalsStore.state.selectedPrincipalCode +
+                    'br_upload_' + selectedPrincipalCode +
                     '_' + currentTimestamp
                 "
 
@@ -235,9 +233,6 @@ export default {
                 return 0;
             }
         },
-        selPrincipalStore() {
-            return this[this.PrincipalsStore.state.selectedPrincipalCode];
-        },
         dateRangeText() {
             return this.PrincipalsStore.state.posting_date_range.join(' ~ ');
         },
@@ -249,8 +244,8 @@ export default {
         },
         disableExportBtn() {
             if(
-                this.selPrincipalStore.state.strict_export != undefined
-                && this.selPrincipalStore.state.strict_export == true
+                this.PrincipalsStore.state.configs.strict_export != undefined
+                && this.PrincipalsStore.state.configs.strict_export == true
             ) {
                 return this.lineCount < 1
                     || this.searchKeyLength > 0
@@ -267,8 +262,8 @@ export default {
             }
         },
         beatrouteUploading() {
-            return this.selPrincipalStore.state.beatroute_uploading != undefined
-                && this.selPrincipalStore.state.beatroute_uploading == true;
+            return this.PrincipalsStore.state.configs.beatroute_uploading != undefined
+                && this.PrincipalsStore.state.configs.beatroute_uploading == true;
         },
         disableBRUploadButton() {
             return this.lineCount < 1
@@ -353,7 +348,7 @@ export default {
                 this.PrincipalsStore.initCurrentGeneratedData(
                     null,
                     this.InvoicesStore.state.invoiceStatus,
-                    this.selPrincipalStore.state.posting_date_format ?? 'm/d/Y'
+                    this.PrincipalsStore.state.configs.posting_date_format ?? 'm/d/Y'
                 );
                 this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
             }

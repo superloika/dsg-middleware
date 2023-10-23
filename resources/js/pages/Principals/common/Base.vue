@@ -7,12 +7,12 @@
             <span class="font-weight-bold text-subtitle-2" :title="principalName">
                 {{ principalName }}
             </span>
-            <v-chip x-small title="Vendor Code">
+            <!-- <v-chip x-small title="Vendor Code">
                 {{ vendorCode }}
             </v-chip>
             <v-chip x-small title="Middleware Code">
                 {{ PrincipalsStore.state.selectedPrincipalCode }}
-            </v-chip>
+            </v-chip> -->
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
@@ -69,12 +69,12 @@ export default {
     computed: {
         principalName() {
             return this.AppStore.state.principals
-                .find(e=>e.code==this.$route.params.principal_code).name;
+                .find(e => e[0] == this.$route.params.main_vendor_code)[0];
         },
-        vendorCode() {
-            return this.AppStore.state.principals
-                .find(e=>e.code==this.$route.params.principal_code).vendor_code;
-        },
+        // vendorCode() {
+        //     return this.AppStore.state.principals
+        //         .find(e=>e.code==this.$route.params.principal_code).vendor_code;
+        // },
         selectedPrincipalCode() {
             return this.PrincipalsStore.state.selectedPrincipalCode;
         },
@@ -82,7 +82,6 @@ export default {
 
     mounted() {
         console.log('Principal Base component mounted');
-        console.log(this.selectedPrincipalCode);
     },
 };
 </script>

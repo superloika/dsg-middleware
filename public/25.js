@@ -107,7 +107,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.PrincipalsStore.state.selectedPrincipalCode;
     },
     tblHeader: function tblHeader() {
-      return this[this.selectedPrincipalCode].state.salesmenTableHeader[0]; // if(this.PrincipalsStore.state.selectedPrincipalCode == 'wyeth') {
+      return this.PrincipalsStore.state.configs.salesmenTableHeader[0]; // if(this.PrincipalsStore.state.selectedPrincipalCode == 'wyeth') {
       //     return this.WyethStore.state.customersTableHeader;
       // } else {
       //     return [];

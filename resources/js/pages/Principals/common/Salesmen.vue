@@ -97,7 +97,7 @@ export default {
         },
 
         tblHeader() {
-            return this[this.selectedPrincipalCode].state.salesmenTableHeader[0];
+            return this.PrincipalsStore.state.configs.salesmenTableHeader[0];
             // if(this.PrincipalsStore.state.selectedPrincipalCode == 'wyeth') {
             //     return this.WyethStore.state.customersTableHeader;
             // } else {

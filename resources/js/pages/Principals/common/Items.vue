@@ -139,7 +139,7 @@ export default {
         },
 
         tblHeader() {
-            return this[this.selectedPrincipalCode].state.itemsTableHeader[0];
+            return this.PrincipalsStore.state.configs.itemsTableHeader[0];
         },
 
         // principal_code() {
@@ -157,26 +157,6 @@ export default {
     },
 
     methods: {
-        // exportToExcel() {
-        //     const data = [
-        //         [
-        //             'Items',
-        //             this.PrincipalsStore.state.items
-        //         ]
-        //     ];
-        //     const config = this.PrincipalsStore.getHeaderAndFormat('itemsTableHeader');
-
-        //     this.PrincipalsStore.exportToExcel(
-        //         config[0].header,
-        //         this.PrincipalsStore.generatedDataSubset(
-        //             data,
-        //             config[0].format
-        //         ),
-        //         null,
-        //         `${this.selectedPrincipalCode}_Items`
-        //     );
-        // },
-
         exportToExcel() {
             try {
                 this.PrincipalsStore.state.items.current_page = 1;

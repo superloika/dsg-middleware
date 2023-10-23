@@ -275,15 +275,12 @@ export default {
             return this.batchUploadStates.find(e => e == 'failed') != undefined;
         },
         bussinessUnit() {
-            return this[this.PrincipalsStore.state.selectedPrincipalCode].state.bu;
+            return this.PrincipalsStore.state.configs.bu;
         },
         disableUploadBtn() {
             return !this.batches.length
                     || this.stillUploading
                     || !this.enableReupload && this.uploadAttempts > 0;
-        },
-        selPrincipalStore() {
-            return this[this.PrincipalsStore.state.selectedPrincipalCode];
         },
     },
 
@@ -361,7 +358,7 @@ export default {
                     this.PrincipalsStore.initCurrentGeneratedData(
                         null,
                         this.InvoicesStore.state.invoiceStatus,
-                        this.selPrincipalStore.state.posting_date_format ?? 'm/d/Y'
+                        this.PrincipalsStore.state.configs.posting_date_format ?? 'm/d/Y'
                     );
                 }
 
