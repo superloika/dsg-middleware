@@ -31,10 +31,6 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn @click="configs">
-                Configs
-            </v-btn>
-
             <v-menu
                 v-model="menu"
                 :close-on-content-click="false"
@@ -214,10 +210,6 @@ export default {
                 return [];
             }
         },
-
-        configs() {
-            console.log(this.PrincipalsStore.state.configs);
-        }
     },
 
     created() {

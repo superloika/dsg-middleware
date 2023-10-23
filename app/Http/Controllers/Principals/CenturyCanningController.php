@@ -471,9 +471,6 @@ class CenturyCanningController extends Controller
             if(1) {
                 // ****************************** TEMPLATE 1 **********************************
                 if (1) {
-                    $pageLineCount = 1;
-                    $pageNum = 1;
-
                     // **************** PENDING INVOICES ************************************
                     $pendingInvoices = InvoicesController::getPendingInvoices(
                         $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
@@ -630,84 +627,40 @@ class CenturyCanningController extends Controller
                             'vendor_code' => $vendor_code,
                         ];
 
-                        // for chunked results
-                        if ($chunk_line_count > 0) {
+                        // group output_template_variations
+                        if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
                             if (
                                 !isset($res['output_template_variations']
-                                    [0]['output_template']["Page " . $pageNum])
+                                    [0]['output_template']['Unmapped'])
                             ) {
                                 $res['output_template_variations']
-                                    [0]['output_template']["Page " . $pageNum] = [];
+                                    [0]['output_template']['Unmapped'] = [];
                             }
                             array_push(
                                 $res['output_template_variations']
-                                    [0]['output_template']["Page " . $pageNum],
+                                    [0]['output_template']['Unmapped'],
                                 $arrGenerated
                             );
-
-                            $pageLineCount += 1;
-                            if ($pageLineCount > $chunk_line_count) {
-                                $pageNum += 1;
-                                $pageLineCount = 1;
-                            }
                         } else {
-                            // group output_template_variations
-                            if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
-                                if (
-                                    !isset($res['output_template_variations']
-                                        [0]['output_template']['Unmapped'])
-                                ) {
-                                    $res['output_template_variations']
-                                        [0]['output_template']['Unmapped'] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations']
-                                        [0]['output_template']['Unmapped'],
-                                    $arrGenerated
-                                );
-                            } else {
-                                // if($sm_code==null|$sm_code=='') {
-                                //     if (
-                                //         !isset($res['output_template_variations']
-                                //             [0]['output_template']['NO_SM_CODE'])
-                                //     ) {
-                                //         $res['output_template_variations']
-                                //             [0]['output_template']['NO_SM_CODE'] = [];
-                                //     }
-                                //     array_push(
-                                //         $res['output_template_variations']
-                                //             [0]['output_template']['NO_SM_CODE'],
-                                //         $arrGenerated
-                                //     );
-                                // } else {
-                                    if (
-                                        !isset($res['output_template_variations']
-                                            [0]['output_template'][$$group_by])
-                                    ) {
-                                        $res['output_template_variations']
-                                            [0]['output_template'][$$group_by] = [];
-                                    }
-                                    array_push(
-                                        $res['output_template_variations']
-                                            [0]['output_template'][$$group_by],
-                                        $arrGenerated
-                                    );
-                                // }
+                            if (
+                                !isset($res['output_template_variations']
+                                    [0]['output_template'][$$group_by])
+                            ) {
+                                $res['output_template_variations']
+                                    [0]['output_template'][$$group_by] = [];
                             }
+                            array_push(
+                                $res['output_template_variations']
+                                    [0]['output_template'][$$group_by],
+                                $arrGenerated
+                            );
                         }
                     }
-
-                    // reset this guys to 1
-                    $pageLineCount = 1;
-                    $pageNum = 1;
                 }
                 // ****************************** /TEMPLATE 1 **********************************
 
                 // ****************************** TEMPLATE 2 **********************************
                 if (2) {
-                    $pageLineCount = 1;
-                    $pageNum = 1;
-
                     // **************** RETURNS ************************************************
                     $returns = InvoicesController::getReturns(
                         $request->principal_code, $request->posting_date_range, $request->status
@@ -871,78 +824,39 @@ class CenturyCanningController extends Controller
                             'vendor_code' => $vendor_code,
                         ];
 
-                        // for chunked results
-                        if ($chunk_line_count > 0) {
+                        // group output_template_variations
+                        if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
                             if (
                                 !isset($res['output_template_variations']
-                                    [1]['output_template']["Page " . $pageNum])
+                                    [1]['output_template']['Unmapped'])
                             ) {
                                 $res['output_template_variations']
-                                    [1]['output_template']["Page " . $pageNum] = [];
+                                    [1]['output_template']['Unmapped'] = [];
                             }
                             array_push(
                                 $res['output_template_variations']
-                                    [1]['output_template']["Page " . $pageNum],
+                                    [1]['output_template']['Unmapped'],
                                 $arrGenerated
                             );
-
-                            $pageLineCount += 1;
-                            if ($pageLineCount > $chunk_line_count) {
-                                $pageNum += 1;
-                                $pageLineCount = 1;
-                            }
                         } else {
-                            // group output_template_variations
-                            if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
-                                if (
-                                    !isset($res['output_template_variations']
-                                        [1]['output_template']['Unmapped'])
-                                ) {
-                                    $res['output_template_variations']
-                                        [1]['output_template']['Unmapped'] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations']
-                                        [1]['output_template']['Unmapped'],
-                                    $arrGenerated
-                                );
-                            } else {
-                                // if($sm_code==null|$sm_code=='') {
-                                //     if (
-                                //         !isset($res['output_template_variations']
-                                //             [1]['output_template']['NO_SM_CODE'])
-                                //     ) {
-                                //         $res['output_template_variations']
-                                //             [1]['output_template']['NO_SM_CODE'] = [];
-                                //     }
-                                //     array_push(
-                                //         $res['output_template_variations']
-                                //             [1]['output_template']['NO_SM_CODE'],
-                                //         $arrGenerated
-                                //     );
-                                // } else {
-                                    if (
-                                        !isset($res['output_template_variations']
-                                            [1]['output_template'][$$group_by])
-                                    ) {
-                                        $res['output_template_variations']
-                                            [1]['output_template'][$$group_by] = [];
-                                    }
-                                    array_push(
-                                        $res['output_template_variations']
-                                            [1]['output_template'][$$group_by],
-                                        $arrGenerated
-                                    );
-                                // }
+                            if (
+                                !isset($res['output_template_variations']
+                                    [1]['output_template'][$$group_by])
+                            ) {
+                                $res['output_template_variations']
+                                    [1]['output_template'][$$group_by] = [];
                             }
+                            array_push(
+                                $res['output_template_variations']
+                                    [1]['output_template'][$$group_by],
+                                $arrGenerated
+                            );
                         }
                     }
                 }
                 // ****************************** /TEMPLATE 2 **********************************
             }
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-            // $fileCount++;
 
             return response()->json($res);
 

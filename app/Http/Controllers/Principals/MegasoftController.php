@@ -8,6 +8,7 @@ use App\Http\Controllers\InvoicesController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
 class MegasoftController extends Controller
@@ -22,6 +23,11 @@ class MegasoftController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        try {
+            $this->PRINCIPAL_CODE = explode("/",Route::current()->getAction()['prefix'])[1] ?? 'NA';
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 
 
@@ -55,7 +61,7 @@ class MegasoftController extends Controller
                 PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
             ])
 
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.main_vendor_code', $this->PRINCIPAL_CODE)
 
             ->where(function($q) use ($search_key) {
                 $q->where(
@@ -105,7 +111,7 @@ class MegasoftController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
                 $fileContent = utf8_encode($fileContent);
@@ -133,7 +139,7 @@ class MegasoftController extends Controller
                                 trim(str_replace('"', '', $arrFileContentLine[4]));
 
                             $arrLines[] = [
-                                'principal_code' => $this->PRINCIPAL_CODE,
+                                'main_vendor_code' => $this->PRINCIPAL_CODE,
                                 'uploaded_by' => auth()->user()->id,
                                 'item_code' => $item_code,
                                 'item_code_supplier' => $item_code_supplier,
@@ -330,22 +336,24 @@ class MegasoftController extends Controller
 
             $dateToday = Carbon::now();
             $system_date = $dateToday->format('Y-m-d');
-            $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
+            // $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
             // ***************************************************************************
 
             // ************************* MISC INITS **************************************
-            $filesTotalLineCount = 0;
-            $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
-            $breakFilesIteration = false;
-
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
+
+            $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                ->get();
+
+            $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                ->get();
             // ************************* /MISC INITS *************************************
 
             // **************************** TEMPLATE(S) ***************************************
             // TEMPLATE 1 =============================================================
             if (1) {
-                $pageLineCount = 1;
-                $pageNum = 1;
                 // **************** PENDING INVOICES ************************************
                 $pendingInvoices = InvoicesController::getPendingInvoices(
                     $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
@@ -373,6 +381,7 @@ class MegasoftController extends Controller
                     $sm_code = $pendingInvoice->sm_code;
                     $group_code = $pendingInvoice->group;
                     $status = $pendingInvoice->status;
+                    $vendor_code = $pendingInvoice->vendor_code;
 
                     //********************************************************************
                     $nav_customer_name = $pendingInvoice->customer_name;
@@ -382,21 +391,11 @@ class MegasoftController extends Controller
                             ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                     }
 
-                    // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                    //     ->where('customer_code', $customer_code)
-                    //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-
-                    // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                    //     ->where('item_code', $item_code)
-                    //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-
-                    $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                    $customer = $principal_customers
                         ->where('customer_code', $customer_code)
                         ->first();
 
-                    $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                    $item = $principal_items
                         ->where('item_code', $item_code)
                         ->first();
                     //********************************************************************
@@ -410,20 +409,9 @@ class MegasoftController extends Controller
 
                     if ($item == null) {
                         $item_notfound = 1;
-                        // $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     ->where('item_code', $item_code)
-                        //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
                         $missing_item_name = $item_description;
                     } else {
                     }
-
-                    // if ($customer == null) {
-                    //     $customer_notfound = 1;
-                    //     $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                    //         ->where('customer_code', $customer_code)
-                    //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                    // } else {
-                    // }
 
                     $item_code_supplier = $item->item_code_supplier ?? $item_code;
                     $customer_code_supplier = $customer->customer_code_supplier ?? $customer_code;
@@ -458,45 +446,25 @@ class MegasoftController extends Controller
                         'sm_code' => $sm_code ?? 'N/A',
                         'system_date' => $system_date,
                         'group' => $group_code,
-                        'status' => $status
+                        'status' => $status,
+                        'vendor_code' => $vendor_code,
                     ];
 
-                    if ($chunk_line_count > 0) {
-                        if (
-                            !isset($res['output_template_variations'][0]['output_template']["Page " . $pageNum])
-                        ) {
-                            $res['output_template_variations'][0]['output_template']["Page " . $pageNum] = [];
-                        }
-                        array_push(
-                            $res['output_template_variations'][0]['output_template']["Page " . $pageNum],
-                            $arrGenerated
-                        );
-
-                        $pageLineCount += 1;
-                        if ($pageLineCount > $chunk_line_count) {
-                            $pageNum += 1;
-                            $pageLineCount = 1;
-                        }
-                    } else {
-                        // group output_template_variations
-                        if (
-                            !isset($res['output_template_variations'][0]['output_template'][$$group_by])
-                        ) {
-                            $res['output_template_variations'][0]['output_template'][$$group_by] = [];
-                        }
-                        array_push(
-                            $res['output_template_variations'][0]['output_template'][$$group_by],
-                            $arrGenerated
-                        );
+                    // group output_template_variations
+                    if (
+                        !isset($res['output_template_variations'][0]['output_template'][$$group_by])
+                    ) {
+                        $res['output_template_variations'][0]['output_template'][$$group_by] = [];
                     }
-
+                    array_push(
+                        $res['output_template_variations'][0]['output_template'][$$group_by],
+                        $arrGenerated
+                    );
                 }
             }
             // /TEMPLATE 1 =============================================================
             // TEMPLATE 2 =============================================================
             if (2) {
-                $pageLineCount = 1;
-                $pageNum = 1;
                 // **************** PENDING INVOICES ************************************
                 $returns = InvoicesController::getReturns(
                     $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
@@ -527,6 +495,7 @@ class MegasoftController extends Controller
                     $invoice_doc_no = $return->invoice_doc_no;
                     $return_indicator = $return->return_indicator;
                     $remarks = $return->remarks;
+                    $vendor_code = $return->vendor_code;
 
                     //********************************************************************
                     $nav_customer_name = $return->customer_name;
@@ -536,21 +505,11 @@ class MegasoftController extends Controller
                             ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                     }
 
-                    // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                    //     ->where('customer_code', $customer_code)
-                    //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-
-                    // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                    //     ->where('item_code', $item_code)
-                    //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-
-                    $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                    $customer = $principal_customers
                         ->where('customer_code', $customer_code)
                         ->first();
 
-                    $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        ->where('principal_code', $this->PRINCIPAL_CODE)
+                    $item = $principal_items
                         ->where('item_code', $item_code)
                         ->first();
                     //********************************************************************
@@ -564,20 +523,9 @@ class MegasoftController extends Controller
 
                     if ($item == null) {
                         $item_notfound = 1;
-                        // $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     ->where('item_code', $item_code)
-                        //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
                         $missing_item_name = $item_description;
                     } else {
                     }
-
-                    // if ($customer == null) {
-                    //     $customer_notfound = 1;
-                    //     $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                    //         ->where('customer_code', $customer_code)
-                    //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                    // } else {
-                    // }
 
                     $item_code_supplier = $item->item_code_supplier ?? $item_code;
                     $customer_code_supplier = $customer->customer_code_supplier ?? $customer_code;
@@ -615,38 +563,20 @@ class MegasoftController extends Controller
                         'status' => $status,
                         'invoice_doc_no' => $invoice_doc_no,
                         'return_indicator' => $return_indicator,
-                        'remarks' => $remarks
+                        'remarks' => $remarks,
+                        'vendor_code' => $vendor_code,
                     ];
 
-                    if ($chunk_line_count > 0) {
-                        if (
-                            !isset($res['output_template_variations'][1]['output_template']["Page " . $pageNum])
-                        ) {
-                            $res['output_template_variations'][1]['output_template']["Page " . $pageNum] = [];
-                        }
-                        array_push(
-                            $res['output_template_variations'][1]['output_template']["Page " . $pageNum],
-                            $arrGenerated
-                        );
-
-                        $pageLineCount += 1;
-                        if ($pageLineCount > $chunk_line_count) {
-                            $pageNum += 1;
-                            $pageLineCount = 1;
-                        }
-                    } else {
-                        // group output_template_variations
-                        if (
-                            !isset($res['output_template_variations'][1]['output_template'][$$group_by])
-                        ) {
-                            $res['output_template_variations'][1]['output_template'][$$group_by] = [];
-                        }
-                        array_push(
-                            $res['output_template_variations'][1]['output_template'][$$group_by],
-                            $arrGenerated
-                        );
+                    // group output_template_variations
+                    if (
+                        !isset($res['output_template_variations'][1]['output_template'][$$group_by])
+                    ) {
+                        $res['output_template_variations'][1]['output_template'][$$group_by] = [];
                     }
-
+                    array_push(
+                        $res['output_template_variations'][1]['output_template'][$$group_by],
+                        $arrGenerated
+                    );
                 }
             }
             // /TEMPLATE 2 =============================================================
@@ -659,6 +589,82 @@ class MegasoftController extends Controller
             $res['message'] = $th->getMessage();
             return response()->json($res, 500);
         }
+    }
+
+
+    public function configs() {
+        $arr = [
+            // customersTableHeader: [
+            //     [
+            //         { text: "Customer Code", value: "customer_code" },
+            //         { text: "Customer Code (Supplier)", value: "customer_code_supplier" },
+            //         { text: "Name", value: "customer_name" },
+            //     ],
+            // ],
+            "itemsTableHeader" => [
+                [
+                    ["text" =>"Item Code", "value" =>"item_code"],
+                    ["text" =>"Item Code (Supplier)", "value" =>"item_code_supplier"],
+                    ["text" =>"Description (Supplier)", "value" =>"description_supplier"],
+                    ["text" =>"Conversion", "value" =>"conversion_qty"],
+                    ["text" =>"UOM", "value" =>"uom"],
+                ]
+            ],
+
+            // templated data table header
+            "generatedDataTableHeader" => [
+                [
+                    ["text" =>"Invoice #", "value" => "invoice_no"],
+                    ["text" =>"Customer Code", "value" => "customer_code"],
+                    ["text" =>"Customer Name", "value" => "customer_name"],
+                    ["text" =>"Invoice Date (m/d/Y)", "value" => "invoice_date"],
+                    ["text" =>"Item Code (NAV)", "value" => "alturas_item_code"],
+                    ["text" =>"Item Code (Supplier)", "value" => "item_code"],
+                    ["text" =>"Item Name (NAV)", "value" => "item_description"],
+                    ["text" =>"Item Name (Supplier)", "value" => "description_supplier"],
+                    ["text" =>"UOM", "value" => "uom"],
+                    ["text" =>"Quantity", "value" => "quantity"],
+                    ["text" =>"Price", "value" => "price"],
+                    ["text" =>"Amount", "value" => "amount"],
+                    ["text" =>"Salesman", "value" => "sm_code"],
+                    ["text" =>"Group", "value" => "group"],
+                ],
+                [
+                    ["text" =>"CM #", "value" => "invoice_no"],
+                    ["text" =>"Customer Code", "value" => "customer_code"],
+                    ["text" =>"Customer Name", "value" => "customer_name"],
+                    ["text" =>"Invoice Date (m/d/Y)", "value" => "invoice_date"],
+                    ["text" =>"Item Code (NAV)", "value" => "alturas_item_code"],
+                    ["text" =>"Item Code (Supplier)", "value" => "item_code"],
+                    ["text" =>"Item Name (NAV)", "value" => "item_description"],
+                    ["text" =>"Item Name (Supplier)", "value" => "description_supplier"],
+                    ["text" =>"UOM", "value" => "uom"],
+                    ["text" =>"Quantity", "value" => "quantity"],
+                    ["text" =>"Price", "value" => "price"],
+                    ["text" =>"Amount", "value" => "amount"],
+                    ["text" =>"Salesman", "value" => "sm_code"],
+                    ["text" =>"Group", "value" => "group"],
+                    ["text" =>"Invoice Reference #", "value" => "invoice_doc_no"],
+                    ["text" =>"Remarks", "value" => "remarks"],
+                ],
+            ],
+
+            // ***********************************************************************************
+            "generatedDataHistoryFilters" => [
+                [
+                    ["text" => 'System Date', "value" => 'system_date'],
+                    ["text" => 'Item Code', "value" => 'item_code'],
+                    ["text" => 'Customer Code', "value" => 'customer_code'],
+                    ["text" => 'Source Group', "value" => 'group_code'],
+                    ["text" => 'Vendor Code', "value" => 'vendor_code'],
+                ]
+            ],
+
+            // misc
+            "posting_date_format" => 'm/d/Y',
+        ];
+
+        return response()->json($arr);
     }
 
 }

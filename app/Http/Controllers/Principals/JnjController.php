@@ -61,7 +61,7 @@ class JnjController extends Controller
                 PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
             ])
 
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.main_vendor_code', $this->PRINCIPAL_CODE)
 
             ->where(function($q) use ($search_key) {
                 $q->where(
@@ -116,7 +116,7 @@ class JnjController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
                 $fileContent = utf8_encode($fileContent);
@@ -141,7 +141,7 @@ class JnjController extends Controller
                             // $conversion_uom = 'PCS';
 
                             $arrLines[] = [
-                                'principal_code' => $this->PRINCIPAL_CODE,
+                                'main_vendor_code' => $this->PRINCIPAL_CODE,
                                 'uploaded_by' => auth()->user()->id,
                                 'item_code' => $item_code,
                                 'description' => $description,
@@ -189,7 +189,7 @@ class JnjController extends Controller
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
 
             ->where(
-                PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.principal_code',
+                PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS . '.main_vendor_code',
                 $this->PRINCIPAL_CODE
             )
 
@@ -237,7 +237,7 @@ class JnjController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(
@@ -265,7 +265,7 @@ class JnjController extends Controller
                             $isExisting = false;
                             if ($isExisting == false) {
                                 $arrLines[] = [
-                                    'principal_code' => $this->PRINCIPAL_CODE,
+                                    'main_vendor_code' => $this->PRINCIPAL_CODE,
                                     'customer_code' => $customer_code,
                                     'customer_code_supplier' => $customer_code_supplier,
                                     'customer_name' => $customer_name,
@@ -311,7 +311,7 @@ class JnjController extends Controller
         set_time_limit(0);
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
             ->get();
         return response()->json($result);
     }
@@ -337,7 +337,7 @@ class JnjController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(
@@ -361,7 +361,7 @@ class JnjController extends Controller
                             // ====================================================================
 
                             $arrLines[] = [
-                                'principal_code' => $this->PRINCIPAL_CODE,
+                                'main_vendor_code' => $this->PRINCIPAL_CODE,
                                 'sm_name' => $sm_name,
                                 'sm_code' => $sm_code,
                                 'sm_code_supplier' => $sm_code_supplier,
@@ -652,11 +652,6 @@ class JnjController extends Controller
                 $group_by = 'system_date';
             }
 
-            // $template_variation_count = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-            //     ->select('template_variation_count')
-            //     ->where('code', $this->PRINCIPAL_CODE)
-            //     ->first()->template_variation_count;
-
             $res['success'] = true;
             $res['message'] = 'Success';
             $res['line_count'] = 0;
@@ -673,26 +668,26 @@ class JnjController extends Controller
 
             $dateToday = Carbon::now();
             $system_date = $dateToday->format('Y-m-d');
-            $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
+            // $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
             // ***************************************************************************
 
             // ************************* MISC INITS **************************************
-            $filesTotalLineCount = 0;
-            $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
-            $breakFilesIteration = false;
-
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
-            // ************************* /MISC INITS *************************************
 
+            $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                ->get();
+
+            $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                ->get();
+            // ************************* /MISC INITS *************************************
 
 
             // **************************** TEMPLATE(S) **************************************
             if(1) {
                 // ========================= TEMPLATE 1 ============================
                 if(1) {
-                    $pageLineCount = 1;
-                    $pageNum = 1;
-
                     // **************** PENDING INVOICES ************************************
                     $pendingInvoices = InvoicesController::getPendingInvoices(
                         $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
@@ -720,6 +715,7 @@ class JnjController extends Controller
                         $sm_code = $pendingInvoice->sm_code;
                         $group_code = $pendingInvoice->group;
                         $status = $pendingInvoice->status;
+                        $vendor_code = $pendingInvoice->vendor_code;
 
                         //********************************************************************
                         $nav_customer_name = $pendingInvoice->customer_name;
@@ -728,19 +724,15 @@ class JnjController extends Controller
                                 ->where('customer_code', $customer_code)
                                 ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         }
-                        // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     ->where('item_code', $item_code)
-                        //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
 
-                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                            ->where('principal_code', $this->PRINCIPAL_CODE)
+                        $customer = $principal_customers
                             ->where('customer_code', $customer_code)
                             ->first();
 
-                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                            ->where('principal_code', $this->PRINCIPAL_CODE)
+                        $item = $principal_items
                             ->where('item_code', $item_code)
                             ->first();
+
                         $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
                             ->where('principal_code', $this->PRINCIPAL_CODE)
                             ->where(function($q) use($sm_code, $group_code) {
@@ -773,14 +765,6 @@ class JnjController extends Controller
                                 ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
                         } else {
                         }
-
-                        // if ($customer == null) {
-                        //     $customer_notfound = 1;
-                        //     $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //         ->where('customer_code', $customer_code)
-                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // } else {
-                        // }
 
                         if ($salesman == null) {
                             $salesman_notfound = 1;
@@ -822,89 +806,30 @@ class JnjController extends Controller
                             'sm_code' => $sm_code,
                             'group' => $group_code,
                             'status' => $status,
+                            'vendor_code' => $vendor_code,
                         ];
 
-                        if ($chunk_line_count > 0) {
-                            if (
-                                !isset($res['output_template_variations'][0]['output_template']["Page " . $pageNum])
-                            ) {
-                                $res['output_template_variations'][0]['output_template']["Page " . $pageNum] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][0]['output_template']["Page " . $pageNum],
-                                $arrGenerated
-                            );
-
-                            $pageLineCount += 1;
-                            if ($pageLineCount > $chunk_line_count) {
-                                $pageNum += 1;
-                                $pageLineCount = 1;
-                            }
-                        } else {
-                            // group output_template_variations
-                            if (
-                                !isset($res['output_template_variations'][0]['output_template'][$$group_by])
-                            ) {
-                                $res['output_template_variations'][0]['output_template'][$$group_by] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][0]['output_template'][$$group_by],
-                                $arrGenerated
-                            );
-
-                            // if(
-                            //     $item_notfound==1
-                            //     || $customer_notfound==1
-                            //     || $salesman_notfound==1
-                            //     && ($group_code != 'STORE_CDC' || $group_code != 'STORE_UDC')
-                            // ) {
-                            //     // ---------------------------------------------------------------------------
-                            //     if (
-                            //         !isset($res['output_template_variations'][0]['output_template']['Unmapped'])
-                            //     ) {
-                            //         $res['output_template_variations'][0]['output_template']['Unmapped'] = [];
-                            //     }
-                            //     array_push(
-                            //         $res['output_template_variations'][0]['output_template']['Unmapped'],
-                            //         $arrGenerated
-                            //     );
-                            //     // ---------------------------------------------------------------------------
-                            // } else {
-                            //     // if($sm_code==null||$sm_code=='') {
-                            //     //     // ---------------------------------------------------------------------------
-                            //     //     if (
-                            //     //         !isset($res['output_template_variations'][0]['output_template']['NO_SM_CODE'])
-                            //     //     ) {
-                            //     //         $res['output_template_variations'][0]['output_template']['NO_SM_CODE'] = [];
-                            //     //     }
-                            //     //     array_push(
-                            //     //         $res['output_template_variations'][0]['output_template']['NO_SM_CODE'],
-                            //     //         $arrGenerated
-                            //     //     );
-                            //     //     // ---------------------------------------------------------------------------
-                            //     // } else {
-                            //         // ---------------------------------------------------------------------------
-
-                            //         // ---------------------------------------------------------------------------
-                            //     // }
-                            // }
-
+                        // group output_template_variations
+                        if (
+                            !isset($res['output_template_variations'][0]['output_template'][$$group_by])
+                        ) {
+                            $res['output_template_variations'][0]['output_template'][$$group_by] = [];
                         }
+                        array_push(
+                            $res['output_template_variations'][0]['output_template'][$$group_by],
+                            $arrGenerated
+                        );
                     }
                 }
                 // ========================= /TEMPLATE 1 ============================
 
                 // ========================= TEMPLATE 2 ============================
                 if(2) {
-                    $pageLineCount = 1;
-                    $pageNum = 1;
-
                     // **************** RETURNS ************************************************
                     $returns = InvoicesController::getReturns(
                         $request->principal_code, $request->posting_date_range, $request->status
                     );
                     $returnsCount = $returns->count();
-                    // dd($returns[0]);
                     $res['line_count'] += $returnsCount;
                     // **************** /RETURNS ************************************************
 
@@ -930,6 +855,7 @@ class JnjController extends Controller
                         $invoice_doc_no = $return->invoice_doc_no;
                         $return_indicator = $return->return_indicator;
                         $remarks = $return->remarks;
+                        $vendor_code = $return->vendor_code;
 
                         //********************************************************************
                         $nav_customer_name = $return->customer_name;
@@ -938,21 +864,17 @@ class JnjController extends Controller
                                 ->where('customer_code', $customer_code)
                                 ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         }
-                        // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     ->where('item_code', $item_code)
-                        //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
 
-                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                            ->where('principal_code', $this->PRINCIPAL_CODE)
+                        $customer = $principal_customers
                             ->where('customer_code', $customer_code)
                             ->first();
 
-                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                            ->where('principal_code', $this->PRINCIPAL_CODE)
+                        $item = $principal_items
                             ->where('item_code', $item_code)
                             ->first();
+
                         $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                            ->where('principal_code', $this->PRINCIPAL_CODE)
+                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                             ->where(function($q) use($sm_code, $group_code) {
                                 $q->where(function($q) use($sm_code, $group_code) {
                                     $q->where('sm_code', $sm_code)
@@ -983,14 +905,6 @@ class JnjController extends Controller
                                 ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
                         } else {
                         }
-
-                        // if ($customer == null) {
-                        //     $customer_notfound = 1;
-                        //     $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //         ->where('customer_code', $customer_code)
-                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // } else {
-                        // }
 
                         if ($salesman == null) {
                             $salesman_notfound = 1;
@@ -1035,36 +949,19 @@ class JnjController extends Controller
                             'invoice_doc_no' => $invoice_doc_no,
                             'return_indicator' => $return_indicator,
                             'remarks' => $remarks,
+                            'vendor_code' => $vendor_code,
                         ];
 
-                        if ($chunk_line_count > 0) {
-                            if (
-                                !isset($res['output_template_variations'][1]['output_template']["Page " . $pageNum])
-                            ) {
-                                $res['output_template_variations'][1]['output_template']["Page " . $pageNum] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][1]['output_template']["Page " . $pageNum],
-                                $arrGenerated
-                            );
-
-                            $pageLineCount += 1;
-                            if ($pageLineCount > $chunk_line_count) {
-                                $pageNum += 1;
-                                $pageLineCount = 1;
-                            }
-                        } else {
-                            // group output_template_variations
-                            if (
-                                !isset($res['output_template_variations'][1]['output_template'][$$group_by])
-                            ) {
-                                $res['output_template_variations'][1]['output_template'][$$group_by] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][1]['output_template'][$$group_by],
-                                $arrGenerated
-                            );
+                        // group output_template_variations
+                        if (
+                            !isset($res['output_template_variations'][1]['output_template'][$$group_by])
+                        ) {
+                            $res['output_template_variations'][1]['output_template'][$$group_by] = [];
                         }
+                        array_push(
+                            $res['output_template_variations'][1]['output_template'][$$group_by],
+                            $arrGenerated
+                        );
                     }
                 }
                 // ========================= /TEMPLATE 2 ============================
@@ -1159,6 +1056,7 @@ class JnjController extends Controller
                     ["text" => 'Item Code', "value" => 'item_code'],
                     ["text" => 'Customer Code', "value" => 'customer_code'],
                     ["text" => 'Source Group', "value" => 'group_code'],
+                    ["text" => 'Vendor Code', "value" => 'vendor_code'],
                 ]
             ],
         ];

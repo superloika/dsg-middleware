@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-system-bar app height="50" dark colorx="grey lighten-5" color="white">
+        <v-system-bar app height="50" dark colorxx="grey lighten-5" color="white">
             <!-- <v-btn
                 @click="toggleDrawerState()"
                 icon

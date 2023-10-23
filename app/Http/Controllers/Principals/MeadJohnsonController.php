@@ -10,12 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 class MeadJohnsonController extends Controller
 {
-    private $PRINCIPAL_CODE = 'mead_johnson';
+    private $PRINCIPAL_CODE = 'NA';
 
     /**
      * Create a new controller instance.
@@ -25,6 +26,11 @@ class MeadJohnsonController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        try {
+            $this->PRINCIPAL_CODE = explode("/",Route::current()->getAction()['prefix'])[1] ?? 'NA';
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 
 
@@ -62,7 +68,7 @@ class MeadJohnsonController extends Controller
                 PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
             ])
 
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.main_vendor_code', $this->PRINCIPAL_CODE)
             // ->get($cols);
 
             ->where(function($q) use ($search_key) {
@@ -119,7 +125,7 @@ class MeadJohnsonController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
                 $fileContent = utf8_encode($fileContent);
@@ -139,7 +145,7 @@ class MeadJohnsonController extends Controller
                             $description_supplier = trim(str_replace('"', '', $arrFileContentLine[3]));
 
                             $arrLines[] = [
-                                'principal_code' => $this->PRINCIPAL_CODE,
+                                'main_vendor_code' => $this->PRINCIPAL_CODE,
                                 'item_code' => $item_code,
                                 'description' => $description,
                                 'item_code_supplier' => $item_code_supplier,
@@ -205,7 +211,7 @@ class MeadJohnsonController extends Controller
         //     ->get();
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
             // ->get();
 
             ->where(function($q) use ($search_key) {
@@ -261,7 +267,7 @@ class MeadJohnsonController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
@@ -298,7 +304,7 @@ class MeadJohnsonController extends Controller
                             $isExisting = false;
                             if ($isExisting == false) {
                                 $arrLines[] = [
-                                    'principal_code' => $this->PRINCIPAL_CODE,
+                                    'main_vendor_code' => $this->PRINCIPAL_CODE,
                                     'distributor_code' => $distributor_code,
                                     'customer_code' => $customer_code,
                                     // 'customer_code_supplier' => $customer_code_supplier,
@@ -346,7 +352,7 @@ class MeadJohnsonController extends Controller
         set_time_limit(0);
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
             ->get();
         return response()->json($result);
     }
@@ -372,7 +378,7 @@ class MeadJohnsonController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(
@@ -393,7 +399,7 @@ class MeadJohnsonController extends Controller
                             // =========================================================================
 
                             $arrLines[] = [
-                                'principal_code' => $this->PRINCIPAL_CODE,
+                                'main_vendor_code' => $this->PRINCIPAL_CODE,
                                 'sm_name' => $sm_name,
                                 'route_code' => $route_code,
                                 'uploaded_by' => auth()->user()->id
@@ -442,12 +448,6 @@ class MeadJohnsonController extends Controller
                 $group_by = 'route_code';
             }
 
-            // $template_variation_count = intval($request->template_variation_count);
-            // $template_variation_count = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-            //     ->select('template_variation_count')
-            //     ->where('code', $this->PRINCIPAL_CODE)
-            //     ->first()->template_variation_count;
-
             $res['success'] = true;
             $res['message'] = 'Success';
             $res['line_count'] = 0;
@@ -468,21 +468,14 @@ class MeadJohnsonController extends Controller
             // ***************************************************************************
 
             // ************************* MISC INITS **************************************
-            $filesTotalLineCount = 0;
-            // $fileCount = 0;
-            // $latest_order_no = intval($settings['custom_order_no']) ?? 100000000;
-
-            $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
-            $breakFilesIteration = false;
-
             $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                 ->get();
             $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                 ->get();
             $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                 ->get();
 
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
@@ -492,9 +485,6 @@ class MeadJohnsonController extends Controller
             if (1) {
                 // ****************************** TEMPLATE 1 ******************************
                 if(1) {
-                    $pageLineCount = 1;
-                    $pageNum = 1;
-
                     // **************** PENDING INVOICES ************************************
                     $pendingInvoices = InvoicesController::getPendingInvoices(
                         $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
@@ -524,6 +514,7 @@ class MeadJohnsonController extends Controller
                         $uom =              $pendingInvoice->uom;
                         $group_code =       $pendingInvoice->group;
                         $sm_code =          $pendingInvoice->sm_code;
+                        $vendor_code =      $pendingInvoice->vendor_code;
 
                         // ****************************************************************
                         // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
@@ -617,77 +608,38 @@ class MeadJohnsonController extends Controller
                             'remarks' => $remarks,
                             'quantity' => $quantity,
                             // 'invoice_uploaded' => $invoice_uploaded,
-                            'status' => $pendingInvoice->status
+                            'status' => $pendingInvoice->status,
+                            'vendor_code' => $pendingInvoice->vendor_code,
                         ];
 
-                        if ($chunk_line_count > 0) {
+                        if($item_notfound==1||$customer_notfound==1||$salesman_notfound==1) {
+                            // ---------------------------------------------------------------------------
+                            if (
+                                !isset($res['output_template_variations'][0]['output_template']['Unmapped'])
+                            ) {
+                                $res['output_template_variations'][0]['output_template']['Unmapped'] = [];
+                            }
+                            array_push(
+                                $res['output_template_variations'][0]['output_template']['Unmapped'],
+                                $arrGenerated
+                            );
+                            // ---------------------------------------------------------------------------
+                        } else {
+                            // group output_template_variations
                             if (
                                 !isset($res['output_template_variations'][0]
-                                    ['output_template']["Page " . $pageNum])
+                                    ['output_template'][$$group_by])
                             ) {
                                 $res['output_template_variations'][0]
-                                    ['output_template']["Page " . $pageNum] = [];
+                                    ['output_template'][$$group_by] = [];
                             }
                             array_push(
                                 $res['output_template_variations'][0]
-                                    ['output_template']["Page " . $pageNum],
+                                    ['output_template'][$$group_by],
                                 $arrGenerated
                             );
-
-                            $pageLineCount += 1;
-                            if ($pageLineCount > $chunk_line_count) {
-                                $pageNum += 1;
-                                $pageLineCount = 1;
-                            }
-                        } else {
-                            if($item_notfound==1||$customer_notfound==1||$salesman_notfound==1) {
-                                // ---------------------------------------------------------------------------
-                                if (
-                                    !isset($res['output_template_variations'][0]['output_template']['Unmapped'])
-                                ) {
-                                    $res['output_template_variations'][0]['output_template']['Unmapped'] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations'][0]['output_template']['Unmapped'],
-                                    $arrGenerated
-                                );
-                                // ---------------------------------------------------------------------------
-                            } else {
-                                // if($sm_code==null||$sm_code=='') {
-                                //     // ---------------------------------------------------------------------------
-                                //     if (
-                                //         !isset($res['output_template_variations'][0]['output_template']['NO_SM_CODE'])
-                                //     ) {
-                                //         $res['output_template_variations'][0]['output_template']['NO_SM_CODE'] = [];
-                                //     }
-                                //     array_push(
-                                //         $res['output_template_variations'][0]['output_template']['NO_SM_CODE'],
-                                //         $arrGenerated
-                                //     );
-                                //     // ---------------------------------------------------------------------------
-                                // } else {
-                                    // group output_template_variations
-                                    if (
-                                        !isset($res['output_template_variations'][0]
-                                            ['output_template'][$$group_by])
-                                    ) {
-                                        $res['output_template_variations'][0]
-                                            ['output_template'][$$group_by] = [];
-                                    }
-                                    array_push(
-                                        $res['output_template_variations'][0]
-                                            ['output_template'][$$group_by],
-                                        $arrGenerated
-                                    );
-                                // }
-                            }
-
                         }
                     }
-
-                    // reset this guys to 1
-                    $pageLineCount = 1;
-                    $pageNum = 1;
                 }
                 // ****************************** /TEMPLATE 1 ******************************
 
@@ -884,4 +836,115 @@ class MeadJohnsonController extends Controller
         }
     }
 
+
+    public function configs() {
+        $arr = [
+
+            "customersTableHeader" => [
+                [
+                    ["text" => "Distributor",      "value" => "distributor_code" ],
+                    ["text" => "Customer Code",    "value" => "customer_code" ],
+                    ["text" => "Customer Name",    "value" => "customer_name" ],
+                    ["text" => "Outlet Type",      "value" => "outlet_type" ],
+                    ["text" => "Salesman Name",    "value" => "salesman_name" ],
+                    // ["text" => "Operation Type",   "value" => "operation_type" ],
+                ],
+            ],
+            "itemsTableHeader" => [
+                [
+                    ["text" =>"Item Code",                  "value" =>"item_code"],
+                    ["text" =>"Description",                "value" =>"description"],
+                    ["text" =>"Supplier Item Code",         "value" =>"item_code_supplier"],
+                    ["text" =>"Supplier Item Description",  "value" =>"description_supplier"],
+                ],
+            ],
+            "salesmenTableHeader" => [
+                [
+                    ["text" =>"Salesman Name",  "value" =>"sm_name"],
+                    ["text" =>"Route Code",     "value" =>"route_code"],
+                ]
+            ],
+
+
+            // templated data table header
+            "generatedDataTableHeader" => [
+                [
+                    ["text" =>"Order Date (Date) (YYYY/MM/DD)", "value" => "order_date"],
+                    ["text" =>"Customer Code (nv20)",           "value" => "customer_code"],
+                    ["text" =>"Route Code (nv20)",              "value" => "route_code"],
+                    ["text" =>"Product Category Code (nv20)",   "value" => "product_category_code"],
+                    ["text" =>"Ship To (nv40)",                 "value" => "ship_to"],
+                    ["text" =>"Order Number (nv20)",            "value" => "order_no"],
+                    ["text" =>"Remarks (nv50)",                 "value" => "remarks"],
+                    ["text" =>"Product Code (nv20)",            "value" => "item_code"],
+                    ["text" =>"Quantity (numeric 25,4)",        "value" => "quantity"],
+                ],
+                // [
+                //     ["text" =>"Order Date (Date) (YYYY/MM/DD)", "value" => "order_date"],
+                //     ["text" =>"Customer Code (nv20)",           "value" => "customer_code"],
+                //     ["text" =>"Route Code (nv20)",              "value" => "route_code"],
+                //     ["text" =>"Product Category Code (nv20)",   "value" => "product_category_code"],
+                //     ["text" =>"Ship To (nv40)",                 "value" => "ship_to"],
+                //     ["text" =>"Order Number (nv20)",            "value" => "order_no"],
+                //     ["text" =>"Remarks (nv50)",                 "value" => "remarks"],
+                //     ["text" =>"Product Code (nv20)",            "value" => "item_code"],
+                //     ["text" =>"Quantity (numeric 25,4)",        "value" => "quantity"],
+                // ],
+            ],
+
+
+            // transactions table header
+            // transactionsTableHeader: [
+            //     [
+            //         ["text" =>"Upload Date",    "value" =>"updated_at"],
+            //         ["text" =>"Customer Code",  "value" =>"customer_code"],
+            //         ["text" =>"Account Name",   "value" =>"customer_name"],
+            //         ["text" =>"Sales Invoice",  "value" =>"doc_no"],
+            //         ["text" =>"Item Code",      "value" =>"item_code"],
+            //         ["text" =>"Description",    "value" =>"description"],
+            //         ["text" =>"UOM",            "value" =>"uom"],
+            //         ["text" =>"Quantity",       "value" =>"quantity"],
+            //         ["text" =>"Amount",         "value" =>"u3"],
+            //     ]
+            // ],
+
+
+            // ************************* Templated Data History *******************************
+            // custom cols (Templated Data History)
+            // generatedDataDBTableColumns: [
+            //     // common
+            //     'id',
+            //     'generated_at',
+            //     'uploaded_by',
+            //     'doc_no',
+            //     // principal template
+            //     'order_date',
+            //     'customer_code',
+            //     'route_code',
+            //     'product_category_code',
+            //     'ship_to',
+            //     'order_no',
+            //     'remarks',
+            //     'item_code',
+            //     'quantity'
+            // ],
+            "generatedDataHistoryFilters" => [
+                [
+                    ["text" => 'Route Code',    "value" => 'route_code'],
+                    ["text" => 'Order Date',    "value" => 'order_date'],
+                    ["text" => 'Item Code',     "value" => 'item_code'],
+                    ["text" => 'Customer Code', "value" => 'customer_code'],
+                    ["text" => 'Invoice #', "value" => 'doc_no'],
+                    ["text" => 'Source Group', "value" => 'group_code'],
+                    ["text" => 'Vendor Code', "value" => 'vendor_code'],
+                ]
+            ],
+            // ************************* /Templated Data History *******************************
+
+            // misc
+            "posting_date_format" => 'Y/m/d',
+        ];
+
+        return response()->json($arr);
+    }
 }

@@ -695,57 +695,31 @@ class PurefoodsController extends Controller
                         // 'cf_dsp_name_value' =>      $settings['DSP_'. $group_code],
                         'cf_dsp_name_value' =>      $sm_name,
                         'invoice_number' =>         $pendingInvoice->ext_doc_no!='' || $pendingInvoice->ext_doc_no!=null ?
-                            $pendingInvoice->vendor_code. '-'. $pendingInvoice->ext_doc_no : '',
+                                                        $vendor_code. '-'. $pendingInvoice->ext_doc_no : '',
                         'discount_percentage' =>    $discount_percentage,
                         'discount_value' =>         $discount_value,
                         'vat_percentage' =>         $vat_percentage,
                         'vat_value' =>              $vat_value,
                     ];
 
-                    if ($chunk_line_count > 0) {
-                        if (
-                            !isset(
-                                $res[
-                                    'output_template_variations'
-                                ][0]['output_template']["Page " . $pageNum]
-                            )
-                        ) {
+                    // group output_template_variations
+                    if (
+                        !isset(
                             $res[
                                 'output_template_variations'
-                            ][0]['output_template']["Page " . $pageNum] = [];
-                        }
-                        array_push(
-                            $res[
-                                'output_template_variations'
-                            ][0]['output_template']["Page " . $pageNum],
-                            $arrGenerated
-                        );
-
-                        $pageLineCount += 1;
-                        if ($pageLineCount > $chunk_line_count) {
-                            $pageNum += 1;
-                            $pageLineCount = 1;
-                        }
-                    } else {
-                        // group output_template_variations
-                        if (
-                            !isset(
-                                $res[
-                                    'output_template_variations'
-                                ][0]['output_template'][$$group_by]
-                            )
-                        ) {
-                            $res[
-                                'output_template_variations'
-                            ][0]['output_template'][$$group_by] = [];
-                        }
-                        array_push(
-                            $res[
-                                'output_template_variations'
-                            ][0]['output_template'][$$group_by],
-                            $arrGenerated
-                        );
+                            ][0]['output_template'][$$group_by]
+                        )
+                    ) {
+                        $res[
+                            'output_template_variations'
+                        ][0]['output_template'][$$group_by] = [];
                     }
+                    array_push(
+                        $res[
+                            'output_template_variations'
+                        ][0]['output_template'][$$group_by],
+                        $arrGenerated
+                    );
                 } // /loop invoices
 
                 // reset this guys to 1
@@ -1169,6 +1143,7 @@ class PurefoodsController extends Controller
                     ["text" => 'Customer Code', "value" => 'customer_code'],
                     ["text" => 'Source Group',  "value" => 'group_code'],
                     ["text" => 'Invoice #',     "value" => 'doc_no'],
+                    ["text" => 'Vendor Code',   "value" => 'vendor_code'],
                 ]
             ],
         ];

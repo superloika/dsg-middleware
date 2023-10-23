@@ -371,6 +371,7 @@ class FoodsphereIncController extends Controller
                         $item_description = $pendingInvoice->item_description;
                         $sm_code =          $pendingInvoice->sm_code;
                         $group_code =       $pendingInvoice->group;
+                        $vendor_code =      $pendingInvoice->vendor_code;
 
                         //********************************************************************
                         $nav_customer_name = trim($pendingInvoice->customer_name);
@@ -429,6 +430,7 @@ class FoodsphereIncController extends Controller
                             'system_date' => $system_date,
                             'group' => $pendingInvoice->group,
                             'status' => $pendingInvoice->status,
+                            'vendor_code' => $pendingInvoice->vendor_code,
                         ];
 
                         // group output_template_variations
@@ -493,6 +495,7 @@ class FoodsphereIncController extends Controller
                         $return_indicator = $return->return_indicator;
                         $invoice_doc_no =   $return->invoice_doc_no;
                         $remarks =          $return->remarks;
+                        $vendor_code =          $return->vendor_code;
 
                         //********************************************************************
                         $nav_customer_name = trim($return->customer_name);
@@ -555,6 +558,7 @@ class FoodsphereIncController extends Controller
                             'return_indicator' => $return_indicator,
                             'remarks' => $remarks,
                             'invoice_doc_no' => $invoice_doc_no,
+                            'vendor_code' => $vendor_code,
                         ];
 
                         // group output_template_variations
@@ -663,6 +667,7 @@ class FoodsphereIncController extends Controller
                     ["text" => 'Customer Code', "value" => 'customer_code'],
                     ["text" => 'Invoice #', "value" => 'doc_no'],
                     ["text" => 'Source Group', "value" => 'group_code'],
+                    ["text" => 'Vendor Code', "value" => 'vendor_code'],
                 ]
             ],
         ];

@@ -10,6 +10,7 @@ let AppStore = Vue.prototype.AppStore;
 let state = Vue.observable({
     // current selected principal main vendor code
     selectedPrincipalCode: '',
+    selectedPrincipal: [],
 
     // principal-specific configurations (e.g. table headers, posting date format, etc)
     configs: {},
@@ -118,8 +119,7 @@ const actions = {
             .toISOString()
             .substr(0, 10)];
 
-        state.configs = null;
-
+        state.configs = {};
     },
 
     /**

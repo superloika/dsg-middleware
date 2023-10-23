@@ -55,7 +55,7 @@ class TemprincipalsController extends Controller
 
             $dateToday = Carbon::now();
             $system_date = $dateToday->format('Y-m-d');
-            $settings = PrincipalsUtil::getSettings($request->principal_code);
+            // $settings = PrincipalsUtil::getSettings($request->principal_code);
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS **************************************************
 
@@ -91,6 +91,7 @@ class TemprincipalsController extends Controller
                         $item_description = $pendingInvoice->item_description;
                         $sm_code = $pendingInvoice->sm_code;
                         $group_code = $pendingInvoice->group;
+                        $vendor_code = $pendingInvoice->vendor_code;
 
                         //********************************************************************
                         $nav_customer_name = $pendingInvoice->customer_name;
@@ -99,35 +100,7 @@ class TemprincipalsController extends Controller
                                 ->where('customer_code', $customer_code)
                                 ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         }
-
-                        // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     ->where('item_code', $item_code)
-                        //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-
-                        // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first();
-
-                        // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('item_code', $item_code)
-                        //     ->first();
-                        // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('group_code', $group_code)
-                        //     ->first();
                         //********************************************************************
-
-                        // quantity_conversion
-                        // $bulk_qty = 0;
-                        // $loose_qty = 0;
-                        // if($item != null) {
-                        //     $quo = $quantity/$item->conversion_qty;
-                        //     $mod = $quantity%$item->conversion_qty;
-                        //     $bulk_qty = intval($quo);
-                        //     $loose_qty = $mod;
-                        // }
 
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
@@ -135,27 +108,6 @@ class TemprincipalsController extends Controller
                         $salesman_notfound = 0;
                         $missing_customer_name = '';
                         $missing_item_name = '';
-
-                        // if ($item == null) {
-                        //     $item_notfound = 1;
-                        //     // $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     //     ->where('item_code', $item_code)
-                        //     //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-                        //     $missing_item_name = $item_description;
-                        // } else {
-                        // }
-
-                        // if ($customer == null) {
-                        //     $customer_notfound = 1;
-                        //     $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //         ->where('customer_code', $customer_code)
-                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // } else {
-                        // }
-
-                        // if ($sm_code == null || $sm_code == '') {
-                        //     $salesman_notfound = 1;
-                        // }
 
                         $item_code_supplier = $item_code ?? 'NA';
                         $customer_code_supplier = $customer_code ?? 'NA';
@@ -190,7 +142,8 @@ class TemprincipalsController extends Controller
                             'sm_code' => $sm_code ?? 'NA',
                             'system_date' => $system_date,
                             'group' => $pendingInvoice->group,
-                            'status' => $pendingInvoice->status
+                            'status' => $pendingInvoice->status,
+                            'vendor_code' => $vendor_code,
                         ];
 
                         if (
@@ -240,6 +193,7 @@ class TemprincipalsController extends Controller
                         $invoice_doc_no = $return->invoice_doc_no; // reference #
                         $return_indicator = $return->return_indicator;
                         $remarks = $return->remarks;
+                        $vendor_code = $return->vendor_code;
 
                         //********************************************************************
                         $nav_customer_name = $return->customer_name;
@@ -248,35 +202,7 @@ class TemprincipalsController extends Controller
                                 ->where('customer_code', $customer_code)
                                 ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         }
-
-                        // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     ->where('item_code', $item_code)
-                        //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-
-                        // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first();
-
-                        // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('item_code', $item_code)
-                        //     ->first();
-                        // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('group_code', $group_code)
-                        //     ->first();
                         //********************************************************************
-
-                        // quantity_conversion
-                        // $bulk_qty = 0;
-                        // $loose_qty = 0;
-                        // if($item != null) {
-                        //     $quo = $quantity/$item->conversion_qty;
-                        //     $mod = $quantity%$item->conversion_qty;
-                        //     $bulk_qty = intval($quo);
-                        //     $loose_qty = $mod;
-                        // }
 
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
@@ -284,27 +210,6 @@ class TemprincipalsController extends Controller
                         $salesman_notfound = 0;
                         $missing_customer_name = '';
                         $missing_item_name = '';
-
-                        // if ($item == null) {
-                        //     $item_notfound = 1;
-                        //     // $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     //     ->where('item_code', $item_code)
-                        //     //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-                        //     $missing_item_name = $item_description;
-                        // } else {
-                        // }
-
-                        // if ($customer == null) {
-                        //     $customer_notfound = 1;
-                        //     $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //         ->where('customer_code', $customer_code)
-                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // } else {
-                        // }
-
-                        // if ($sm_code == null || $sm_code == '') {
-                        //     $salesman_notfound = 1;
-                        // }
 
                         $item_code_supplier = $item_code ?? 'NA';
                         $customer_code_supplier = $customer_code ?? 'NA';
@@ -343,6 +248,7 @@ class TemprincipalsController extends Controller
                             'return_indicator' => $return_indicator,
                             'remarks' => $remarks,
                             'invoice_doc_no' => $invoice_doc_no,
+                            'vendor_code' => $vendor_code,
                         ];
 
                         if (
@@ -418,6 +324,7 @@ class TemprincipalsController extends Controller
                     ["text" => 'Customer Code', "value" => 'customer_code'],
                     ["text" => 'Invoice #', "value" => 'doc_no'],
                     ["text" => 'Source Group', "value" => 'group_code'],
+                    ["text" => 'Vendor Code', "value" => 'vendor_code'],
                 ]
             ],
 

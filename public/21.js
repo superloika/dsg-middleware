@@ -107,10 +107,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     GeneratedTableWrapper: function GeneratedTableWrapper() {
@@ -220,9 +216,6 @@ __webpack_require__.r(__webpack_exports__);
         console.log("missingInMaster() - ERR:", error);
         return [];
       }
-    },
-    configs: function configs() {
-      console.log(this.PrincipalsStore.state.configs);
     }
   },
   created: function created() {},
@@ -306,10 +299,6 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("v-spacer"),
-          _vm._v(" "),
-          _c("v-btn", { on: { click: _vm.configs } }, [
-            _vm._v("\n            Configs\n        ")
-          ]),
           _vm._v(" "),
           _c(
             "v-menu",

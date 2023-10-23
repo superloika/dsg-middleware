@@ -372,6 +372,7 @@ class GsmiController extends Controller
                         $group_code = $pendingInvoice->group;
                         $sm_code = $pendingInvoice->sm_code;
                         $status = $pendingInvoice->status;
+                        $vendor_code = $pendingInvoice->vendor_code;
 
                         //********************************************************************
                         $nav_customer_name = $pendingInvoice->customer_name;
@@ -439,7 +440,8 @@ class GsmiController extends Controller
                             'sm_name' => $sm_name,
                             'system_date' => $system_date,
                             'group' => $group_code,
-                            'status' => $status
+                            'status' => $status,
+                            'vendor_code' => $vendor_code,
                         ];
 
                         // group output_template_variations
@@ -487,6 +489,7 @@ class GsmiController extends Controller
                         $invoice_doc_no = $return->invoice_doc_no;
                         $return_indicator = $return->return_indicator;
                         $remarks = $return->remarks;
+                        $vendor_code = $return->vendor_code;
 
                         //********************************************************************
                         $nav_customer_name = $return->customer_name;
@@ -558,6 +561,7 @@ class GsmiController extends Controller
                             'invoice_doc_no' => $invoice_doc_no,
                             'return_indicator' => $return_indicator,
                             'remarks' => $remarks,
+                            'vendor_code' => $vendor_code,
                         ];
 
                         // group output_template_variations
@@ -656,6 +660,7 @@ class GsmiController extends Controller
                     ["text" => 'Invoice #', "value" => 'doc_no'],
                     ["text" => 'Posting Date', "value" => 'posting_date'],
                     ["text" => 'Source Group', "value" => 'group_code'],
+                    ["text" => 'Vendor Code', "value" => 'vendor_code'],
                 ]
             ],
         ];

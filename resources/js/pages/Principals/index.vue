@@ -25,6 +25,7 @@ export default {
                         this.AppStore.isInUserPrincipalIDs(principal.id)
                     ) {
                         this.PrincipalsStore.state.selectedPrincipalCode = main_vendor_code;
+                        this.PrincipalsStore.state.selectedPrincipal = principal;
                         return () => import("./principal.vue");
                     } else {
                         return () => import("../ErrorPages/ErrorPage404.vue");

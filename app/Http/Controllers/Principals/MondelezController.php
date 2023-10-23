@@ -26,7 +26,7 @@ class MondelezController extends Controller
         try {
             $this->PRINCIPAL_CODE = explode("/",Route::current()->getAction()['prefix'])[1] ?? 'NA';
         } catch (\Throwable $th) {
-            //throw $th;
+            dd($th->getMessage());
         }
     }
 
@@ -61,7 +61,7 @@ class MondelezController extends Controller
                 PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
             ])
 
-            ->where('principal_code', $this->PRINCIPAL_CODE)
+            ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.main_vendor_code', $this->PRINCIPAL_CODE)
 
             ->where(function($q) use ($search_key) {
                 $q->where(
@@ -111,7 +111,7 @@ class MondelezController extends Controller
                 $lineCount = 1;
 
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                    ->where('principal_code', $this->PRINCIPAL_CODE)->delete();
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $arrLines = [];
                 $fileContent = utf8_encode($fileContent);
@@ -137,7 +137,7 @@ class MondelezController extends Controller
 
                             // if(strtolower($delisted_status) != 'delisted') {
                                 $arrLines[] = [
-                                    'principal_code' => $this->PRINCIPAL_CODE,
+                                    'main_vendor_code' => $this->PRINCIPAL_CODE,
                                     'uploaded_by' => auth()->user()->id,
                                     'item_code' => $item_code,
                                     'item_code_supplier' => $item_code_supplier,
@@ -655,23 +655,14 @@ class MondelezController extends Controller
 
             $dateToday = Carbon::now();
             $system_date = $dateToday->format('Y-m-d');
-            $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
+            // $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
             // ***************************************************************************
 
             // ************************* MISC INITS **************************************
-            $filesTotalLineCount = 0;
-            $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
-            $breakFilesIteration = false;
-
             //get principal item masterfile
             $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                ->where('principal_code', $this->PRINCIPAL_CODE)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                 ->get();
-
-            //get principal customer masterfile
-            // $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-            //     ->where('principal_code', $this->PRINCIPAL_CODE)
-            //     ->get();
 
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS *************************************
@@ -709,43 +700,19 @@ class MondelezController extends Controller
                         $sm_code = $pendingInvoice->sm_code;
                         $group_code = $pendingInvoice->group;
                         $nav_customer_name = $pendingInvoice->customer_name;
+                        $vendor_code = $pendingInvoice->vendor_code;
 
                         //********************************************************************
-                        // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         if($nav_customer_name==null || $nav_customer_name=='') {
                             $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
                                 ->where('customer_code', $customer_code)
                                 ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         }
-                        // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     ->where('item_code', $item_code)
-                        //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-
-                        // $customer = $principal_customers
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first();
 
                         $item = $principal_items
                             ->where('item_code', $item_code)
                             ->first();
-                        // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('group_code', $group_code)
-                        //     ->first();
                         //********************************************************************
-
-                        // quantity_conversion
-                        // $bulk_qty = 0;
-                        // $loose_qty = 0;
-                        // if($item != null) {
-                        //     $quo = $quantity/$item->conversion_qty;
-                        //     $mod = $quantity%$item->conversion_qty;
-                        //     $bulk_qty = intval($quo);
-                        //     $loose_qty = $mod;
-                        // }
-
                         // ******************** TEMPLATE 1 **************************
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
@@ -759,18 +726,6 @@ class MondelezController extends Controller
                             $missing_item_name = $item_description;
                         } else {
                         }
-
-                        // if ($customer == null) {
-                        //     $customer_notfound = 1;
-                        //     $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //         ->where('customer_code', $customer_code)
-                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // } else {
-                        // }
-
-                        // if ($salesman == null) {
-                        //     $salesman_notfound = 1;
-                        // }
 
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
                         // ************************* /MISC INITS **************************
@@ -804,81 +759,41 @@ class MondelezController extends Controller
                             'sm_code' => $sm_code ?? 'N/A',
                             'system_date' => $system_date,
                             'group' => $pendingInvoice->group,
-                            'status' => $pendingInvoice->status
+                            'status' => $pendingInvoice->status,
+                            'vendor_code' => $pendingInvoice->vendor_code,
                         ];
 
-                        if ($chunk_line_count > 0) {
+                        // group output_template_variations
+                        if($item_notfound==1 || $customer_notfound==1||$salesman_notfound==1) {
+                            // ---------------------------------------------------------------------------
                             if (
-                                !isset($res['output_template_variations'][0]['output_template']["Page " . $pageNum])
+                                !isset($res['output_template_variations'][0]['output_template']['Unmapped'])
                             ) {
-                                $res['output_template_variations'][0]['output_template']["Page " . $pageNum] = [];
+                                $res['output_template_variations'][0]['output_template']['Unmapped'] = [];
                             }
                             array_push(
-                                $res['output_template_variations'][0]['output_template']["Page " . $pageNum],
+                                $res['output_template_variations'][0]['output_template']['Unmapped'],
                                 $arrGenerated
                             );
-
-                            $pageLineCount += 1;
-                            if ($pageLineCount > $chunk_line_count) {
-                                $pageNum += 1;
-                                $pageLineCount = 1;
-                            }
+                            // ---------------------------------------------------------------------------
                         } else {
-                            // group output_template_variations
-                            if($item_notfound==1 || $customer_notfound==1||$salesman_notfound==1) {
-                                // ---------------------------------------------------------------------------
-                                if (
-                                    !isset($res['output_template_variations'][0]['output_template']['Unmapped'])
-                                ) {
-                                    $res['output_template_variations'][0]['output_template']['Unmapped'] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations'][0]['output_template']['Unmapped'],
-                                    $arrGenerated
-                                );
-                                // ---------------------------------------------------------------------------
-                            } else {
-                                // if($sm_code==null|$sm_code=='') {
-                                //     // ---------------------------------------------------------------------------
-                                //     if (
-                                //         !isset($res['output_template_variations'][0]['output_template']['NO_SM_CODE'])
-                                //     ) {
-                                //         $res['output_template_variations'][0]['output_template']['NO_SM_CODE'] = [];
-                                //     }
-                                //     array_push(
-                                //         $res['output_template_variations'][0]['output_template']['NO_SM_CODE'],
-                                //         $arrGenerated
-                                //     );
-                                //     // ---------------------------------------------------------------------------
-                                // } else {
-                                    // ---------------------------------------------------------------------------
-                                    if (
-                                        !isset($res['output_template_variations'][0]['output_template'][$$group_by])
-                                    ) {
-                                        $res['output_template_variations'][0]['output_template'][$$group_by] = [];
-                                    }
-                                    array_push(
-                                        $res['output_template_variations'][0]['output_template'][$$group_by],
-                                        $arrGenerated
-                                    );
-                                    // ---------------------------------------------------------------------------
-                                // }
+                            if (
+                                !isset($res['output_template_variations'][0]['output_template'][$$group_by])
+                            ) {
+                                $res['output_template_variations'][0]['output_template'][$$group_by] = [];
                             }
-
+                            array_push(
+                                $res['output_template_variations'][0]['output_template'][$$group_by],
+                                $arrGenerated
+                            );
                         }
                     }
-
-                    // reset this guys to 1
-                    $pageLineCount = 1;
-                    $pageNum = 1;
                 }
                 // *************************** /TEMPLATE 1 ***********************************
 
                 // *************************** TEMPLATE 2 ***********************************
 
                 if(2) {
-                    $pageLineCount = 1;
-                    $pageNum = 1;
                     // **************** RETURNS ************************************************
                     $returns = InvoicesController::getReturns(
                         $request->principal_code, $request->posting_date_range, $request->status
@@ -911,42 +826,18 @@ class MondelezController extends Controller
                         $invoice_doc_no = $return->invoice_doc_no;
                         $return_indicator = $return->return_indicator;
                         $remarks = $return->remarks;
+                        $vendor_code = $return->vendor_code;
 
                         //********************************************************************
-                        // $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         if($nav_customer_name==null || $nav_customer_name=='') {
                             $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
                                 ->where('customer_code', $customer_code)
                                 ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                         }
-                        // $nav_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                        //     ->where('item_code', $item_code)
-                        //     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-
-                        // $customer = $principal_customers
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first();
 
                         $item = $principal_items
                             ->where('item_code', $item_code)
                             ->first();
-                        // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('group_code', $group_code)
-                        //     ->first();
-                        //********************************************************************
-
-                        // quantity_conversion
-                        // $bulk_qty = 0;
-                        // $loose_qty = 0;
-                        // if($item != null) {
-                        //     $quo = $quantity/$item->conversion_qty;
-                        //     $mod = $quantity%$item->conversion_qty;
-                        //     $bulk_qty = intval($quo);
-                        //     $loose_qty = $mod;
-                        // }
 
                         // ******************** TEMPLATE 1 **************************
                         // ************************* MISC INITS **************************
@@ -961,18 +852,6 @@ class MondelezController extends Controller
                             $missing_item_name = $item_description;
                         } else {
                         }
-
-                        // if ($customer == null) {
-                        //     $customer_notfound = 1;
-                        //     $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //         ->where('customer_code', $customer_code)
-                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // } else {
-                        // }
-
-                        // if ($salesman == null) {
-                        //     $salesman_notfound = 1;
-                        // }
 
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
                         // ************************* /MISC INITS **************************
@@ -1010,66 +889,32 @@ class MondelezController extends Controller
                             'invoice_doc_no' => $invoice_doc_no,
                             'return_indicator' => $return_indicator,
                             'remarks' => $remarks,
+                            'vendor_code' => $vendor_code,
                         ];
 
-                        if ($chunk_line_count > 0) {
+                        // group output_template_variations
+                        if($item_notfound==1 || $customer_notfound==1||$salesman_notfound==1) {
+                            // ---------------------------------------------------------------------------
                             if (
-                                !isset($res['output_template_variations'][1]['output_template']["Page " . $pageNum])
+                                !isset($res['output_template_variations'][1]['output_template']['Unmapped'])
                             ) {
-                                $res['output_template_variations'][1]['output_template']["Page " . $pageNum] = [];
+                                $res['output_template_variations'][1]['output_template']['Unmapped'] = [];
                             }
                             array_push(
-                                $res['output_template_variations'][1]['output_template']["Page " . $pageNum],
+                                $res['output_template_variations'][1]['output_template']['Unmapped'],
                                 $arrGenerated
                             );
-
-                            $pageLineCount += 1;
-                            if ($pageLineCount > $chunk_line_count) {
-                                $pageNum += 1;
-                                $pageLineCount = 1;
-                            }
+                            // ---------------------------------------------------------------------------
                         } else {
-                            // group output_template_variations
-                            if($item_notfound==1 || $customer_notfound==1||$salesman_notfound==1) {
-                                // ---------------------------------------------------------------------------
-                                if (
-                                    !isset($res['output_template_variations'][1]['output_template']['Unmapped'])
-                                ) {
-                                    $res['output_template_variations'][1]['output_template']['Unmapped'] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations'][1]['output_template']['Unmapped'],
-                                    $arrGenerated
-                                );
-                                // ---------------------------------------------------------------------------
-                            } else {
-                                // if($sm_code==null|$sm_code=='') {
-                                //     // ---------------------------------------------------------------------------
-                                //     if (
-                                //         !isset($res['output_template_variations'][1]['output_template']['NO_SM_CODE'])
-                                //     ) {
-                                //         $res['output_template_variations'][1]['output_template']['NO_SM_CODE'] = [];
-                                //     }
-                                //     array_push(
-                                //         $res['output_template_variations'][1]['output_template']['NO_SM_CODE'],
-                                //         $arrGenerated
-                                //     );
-                                //     // ---------------------------------------------------------------------------
-                                // } else {
-                                    // ---------------------------------------------------------------------------
-                                    if (
-                                        !isset($res['output_template_variations'][1]['output_template'][$$group_by])
-                                    ) {
-                                        $res['output_template_variations'][1]['output_template'][$$group_by] = [];
-                                    }
-                                    array_push(
-                                        $res['output_template_variations'][1]['output_template'][$$group_by],
-                                        $arrGenerated
-                                    );
-                                    // ---------------------------------------------------------------------------
-                                // }
+                            if (
+                                !isset($res['output_template_variations'][1]['output_template'][$$group_by])
+                            ) {
+                                $res['output_template_variations'][1]['output_template'][$$group_by] = [];
                             }
-
+                            array_push(
+                                $res['output_template_variations'][1]['output_template'][$$group_by],
+                                $arrGenerated
+                            );
                         }
                     }
                 }
@@ -1087,6 +932,88 @@ class MondelezController extends Controller
             $res['message'] = $th->getMessage();
             return response()->json($res, 500);
         }
+    }
+
+
+    public function configs() {
+        $arr = [
+            // customersTableHeader: [
+            //     [
+            //         { text: "Customer Code", value: "customer_code" },
+            //         { text: "Customer Code (Supplier)", value: "customer_code_supplier" },
+            //         { text: "Name", value: "customer_name" },
+            //     ],
+            // ],
+            "itemsTableHeader" => [
+                [
+                    ["text" => "Item Code", "value" =>"item_code"],
+                    ["text" => "Item Code (Supplier)", "value" =>"item_code_supplier"],
+                    ["text" => "Description (Nav)", "value" =>"description"],
+                ]
+            ],
+            // salesmenTableHeader: [
+            //     [
+            //         ["text" => "Group Code", "value" =>"group_code"],
+            //         ["text" => "Salesman Name", "value" =>"sm_name"],
+            //     ]
+            // ],
+
+            // templated data table header
+            "generatedDataTableHeader" => [
+                [
+                    ["text" => "Invoice #", "value" => "invoice_no"],
+                    ["text" => "Customer Code", "value" => "customer_code"],
+                    ["text" => "Customer Name", "value" => "customer_name"],
+                    ["text" => "Invoice Date (d/m/Y)", "value" => "invoice_date"],
+                    ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],
+                    ["text" => "Item Code (Supplier)", "value" => "item_code"],
+                    ["text" => "Item Name (NAV)", "value" => "item_description"],
+                    ["text" => "Item Name (Supplier)", "value" => "description_supplier"],
+                    ["text" => "UOM", "value" => "uom"],
+                    ["text" => "Quantity", "value" => "quantity"],
+                    ["text" => "Price", "value" => "price"],
+                    ["text" => "Amount", "value" => "amount"],
+                    ["text" => "Salesman", "value" => "sm_code"],
+                    ["text" => "Group", "value" => "group"],
+                ],
+                [
+                    ["text" => "CM #", "value" => "invoice_no"],
+                    ["text" => "Customer Code", "value" => "customer_code"],
+                    ["text" => "Customer Name", "value" => "customer_name"],
+                    ["text" => "Invoice Date (d/m/Y)", "value" => "invoice_date"],
+                    ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],
+                    ["text" => "Item Code (Supplier)", "value" => "item_code"],
+                    ["text" => "Item Name (NAV)", "value" => "item_description"],
+                    ["text" => "Item Name (Supplier)", "value" => "description_supplier"],
+                    ["text" => "UOM", "value" => "uom"],
+                    ["text" => "Quantity", "value" => "quantity"],
+                    ["text" => "Price", "value" => "price"],
+                    ["text" => "Amount", "value" => "amount"],
+                    ["text" => "Salesman", "value" => "sm_code"],
+                    ["text" => "Group", "value" => "group"],
+                    ["text" => "Invoice Reference #", "value" => "invoice_doc_no"],
+                    ["text" => "Remarks", "value" => "remarks"],
+                ],
+            ],
+
+            // ***********************************************************************************
+            "generatedDataHistoryFilters" => [
+                [
+                    ["text" =>  'System Date', "value" => 'system_date'],
+                    ["text" =>  'Item Code', "value" => 'item_code'],
+                    ["text" =>  'Customer Code', "value" => 'customer_code'],
+                    ["text" =>  'Invoice #', "value" => 'doc_no'],
+                    ["text" =>  'Source Group', "value" => 'group_code'],
+                    ["text" =>  'Vendor Code', "value" => 'vendor_code'],
+                ]
+            ],
+
+            // misc
+            "posting_date_format" => 'd/m/Y',
+
+        ];
+
+        return response()->json($arr);
     }
 
 }

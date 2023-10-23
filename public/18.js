@@ -69,6 +69,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['tabs'],
   data: function data() {
@@ -77,19 +78,25 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
-    principalName: function principalName() {
-      var _this = this;
+    selectedPrincipal: function selectedPrincipal() {
+      var _this$PrincipalsStore,
+          _this = this;
 
-      return this.AppStore.state.principals.find(function (e) {
-        return e[0] == _this.$route.params.main_vendor_code;
-      })[0];
-    },
-    // vendorCode() {
-    //     return this.AppStore.state.principals
-    //         .find(e=>e.code==this.$route.params.principal_code).vendor_code;
-    // },
-    selectedPrincipalCode: function selectedPrincipalCode() {
-      return this.PrincipalsStore.state.selectedPrincipalCode;
+      // let p = this.AppStore.state.principals
+      //     .find(e => e[0] == this.$route.params.main_vendor_code)[1]
+      //     .find(e => e.vendor_code == this.$route.params.main_vendor_code)
+      //     ?? {name:'NA', vendor_code:'NA'}
+      //     ;
+      var p = (_this$PrincipalsStore = this.PrincipalsStore.state.selectedPrincipal[1].find(function (e) {
+        return e.vendor_code == _this.$route.params.main_vendor_code;
+      })) !== null && _this$PrincipalsStore !== void 0 ? _this$PrincipalsStore : {
+        name: 'NA',
+        vendor_code: 'NA'
+      };
+      return {
+        name: p.name,
+        vendor_code: p.vendor_code
+      };
     }
   },
   mounted: function mounted() {
@@ -121,22 +128,47 @@ var render = function() {
         "v-app-bar",
         { attrs: { elevation: "27", app: "", dense: "", color: "white" } },
         [
-          _c("v-toolbar-title", { staticClass: "primary--text" }, [
-            _c(
-              "span",
-              {
-                staticClass: "font-weight-bold text-subtitle-2",
-                attrs: { title: _vm.principalName }
-              },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.principalName) +
-                    "\n            "
+          _c(
+            "v-toolbar-title",
+            { staticClass: "primary--text" },
+            [
+              _c(
+                "span",
+                {
+                  staticClass: "font-weight-bold text-subtitle-2",
+                  attrs: { title: _vm.selectedPrincipal.name }
+                },
+                [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.selectedPrincipal.name) +
+                      "\n            "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.PrincipalsStore.state.selectedPrincipal[1], function(
+                p
+              ) {
+                return _c(
+                  "v-chip",
+                  {
+                    key: p.vendor_code,
+                    staticClass: "mr-1",
+                    attrs: { "x-small": "", title: p.name }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(p.vendor_code) +
+                        "\n            "
+                    )
+                  ]
                 )
-              ]
-            )
-          ]),
+              })
+            ],
+            2
+          ),
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
@@ -198,7 +230,10 @@ var render = function() {
               _c(t.component, {
                 tag: "component",
                 attrs: {
-                  id: _vm.selectedPrincipalCode + "_tab_" + new Date().getTime()
+                  id:
+                    _vm.selectedPrincipal.vendor_code +
+                    "_tab_" +
+                    new Date().getTime()
                 }
               })
             ],
