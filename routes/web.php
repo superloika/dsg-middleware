@@ -122,7 +122,7 @@ Route::prefix('principals')->group(function(){
     foreach($mainPrincipals as $mainPrincipal) {
         $ctrl = "Principals\\". $mainPrincipal->controller. '@';
 
-        Route::prefix($mainPrincipal->vendor_code)->group(function() use ($ctrl){
+        Route::prefix($mainPrincipal->main_vendor_code)->group(function() use ($ctrl){
             // Items
             Route::get("/items", $ctrl. "items");
             Route::post("/items/upload", $ctrl. "uploadMasterItems");
@@ -201,6 +201,7 @@ Route::prefix('br')->group(function () {
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMP XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 Route::prefix('ppfb')->group(function () {
     Route::get("resetInvoicesToPending", "Principals\PurefoodsController@resetInvoicesToPending");
+    Route::get("principalRoutes", "PrincipalsUtil@principalRoutes");
 });
 
 // restore archived

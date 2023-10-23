@@ -201,9 +201,21 @@ class PrincipalsUtil extends Controller
 
 
     public static function principalRoutes() {
-        return DB::table(self::$TBL_PRINCIPALS)
-            ->select('vendor_code','controller')
+        config()->set('database.connections.mysql.strict', false);
+        DB::reconnect();
+        
+        $res = DB::table(self::$TBL_PRINCIPALS)
+            ->select(
+                'main_vendor_code',
+                'controller'
+            )
+            ->groupBy('main_vendor_code')
             ->get();
+
+        config()->set('database.connections.mysql.strict', true);
+        DB::reconnect();
+
+        return $res;
     }
 
 }
