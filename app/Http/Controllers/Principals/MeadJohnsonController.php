@@ -612,6 +612,7 @@ class MeadJohnsonController extends Controller
                             'vendor_code' => $pendingInvoice->vendor_code,
                         ];
 
+                        // ========================== PUSH IN THE OUTPUT ARRAY ===============================
                         if($item_notfound==1||$customer_notfound==1||$salesman_notfound==1) {
                             // ---------------------------------------------------------------------------
                             if (
@@ -639,6 +640,7 @@ class MeadJohnsonController extends Controller
                                 $arrGenerated
                             );
                         }
+                        // ========================== /PUSH IN THE OUTPUT ARRAY ===============================
                     }
                 }
                 // ****************************** /TEMPLATE 1 ******************************
@@ -839,6 +841,8 @@ class MeadJohnsonController extends Controller
 
     public function configs() {
         $arr = [
+            // misc
+            "posting_date_format" => 'Y/m/d',
 
             "customersTableHeader" => [
                 [
@@ -892,42 +896,6 @@ class MeadJohnsonController extends Controller
                 // ],
             ],
 
-
-            // transactions table header
-            // transactionsTableHeader: [
-            //     [
-            //         ["text" =>"Upload Date",    "value" =>"updated_at"],
-            //         ["text" =>"Customer Code",  "value" =>"customer_code"],
-            //         ["text" =>"Account Name",   "value" =>"customer_name"],
-            //         ["text" =>"Sales Invoice",  "value" =>"doc_no"],
-            //         ["text" =>"Item Code",      "value" =>"item_code"],
-            //         ["text" =>"Description",    "value" =>"description"],
-            //         ["text" =>"UOM",            "value" =>"uom"],
-            //         ["text" =>"Quantity",       "value" =>"quantity"],
-            //         ["text" =>"Amount",         "value" =>"u3"],
-            //     ]
-            // ],
-
-
-            // ************************* Templated Data History *******************************
-            // custom cols (Templated Data History)
-            // generatedDataDBTableColumns: [
-            //     // common
-            //     'id',
-            //     'generated_at',
-            //     'uploaded_by',
-            //     'doc_no',
-            //     // principal template
-            //     'order_date',
-            //     'customer_code',
-            //     'route_code',
-            //     'product_category_code',
-            //     'ship_to',
-            //     'order_no',
-            //     'remarks',
-            //     'item_code',
-            //     'quantity'
-            // ],
             "generatedDataHistoryFilters" => [
                 [
                     ["text" => 'Route Code',    "value" => 'route_code'],
@@ -940,9 +908,6 @@ class MeadJohnsonController extends Controller
                 ]
             ],
             // ************************* /Templated Data History *******************************
-
-            // misc
-            "posting_date_format" => 'Y/m/d',
         ];
 
         return response()->json($arr);

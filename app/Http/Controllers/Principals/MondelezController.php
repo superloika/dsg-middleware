@@ -641,7 +641,6 @@ class MondelezController extends Controller
             $res['success'] = true;
             $res['message'] = 'Success';
             $res['line_count'] = 0;
-            // $res['output_template_variations'] = [];
             $res['output_template_variations'] = [
                 [
                     'name' => 'Sales Invoices',
@@ -671,8 +670,6 @@ class MondelezController extends Controller
             if (1) {
                 // *************************** TEMPLATE 1 ***********************************
                 if(1) {
-                    $pageLineCount = 1;
-                    $pageNum = 1;
                     // **************** PENDING INVOICES ************************************
                     $pendingInvoices = InvoicesController::getPendingInvoices(
                         $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status

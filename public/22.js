@@ -263,7 +263,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     disableBRUploadButton: function disableBRUploadButton() {
       return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData // || this.warningsCount > 0
-      || this.InvoicesStore.state.invoiceStatus != 'completed' && this.InvoicesStore.state.invoiceStatus != 'uploaded';
+      || this.InvoicesStore.state.invoiceStatus != 'completed' && this.InvoicesStore.state.invoiceStatus != 'pending';
     }
   },
   watch: {

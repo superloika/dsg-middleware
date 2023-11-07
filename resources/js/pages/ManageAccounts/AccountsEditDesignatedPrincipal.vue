@@ -1,7 +1,6 @@
 <template>
     <v-container>
         <!-- <v-alert
-            dense
             text
             type="error"
             dismissible
@@ -26,23 +25,33 @@
                     cols="12"
                 >
                     <v-select
-                        v-model="account.selected_principals"
+                        multiple outlined clearable
+                        v-model="account.main_vendor_codes"
                         :items="filteredPrincipals"
-                        item-text="name"
-                        item-value="id"
+                        item-text="caption"
+                        item-value="main_vendor_code"
                         label="Assigned Principals"
-                        multiple
-                        dense
-                        outlined
-                        clearable
                     >
                         <template v-slot:prepend-item>
                             <div class="mx-2 mb-0 pb-0">
-                                <v-text-field dense rounded solo-inverted clearable
-                                    placeholder="Search" flat
+                                <v-text-field
+                                    clearable solo-inverted rounded flat
+                                    placeholder="Search"
                                     v-model="principalsSearchKey"
-                                >
-                                </v-text-field>
+                                ></v-text-field>
+                            </div>
+                        </template>
+                        <template v-slot:item = "{ item }">
+                            <div class="py-2">
+                                <div v-for="(c, index) in item.caption" :key="index">
+                                    <small class="text-caption ma-1">{{ c }}</small>
+                                    <br>
+                                </div>
+                            </div>
+                        </template>
+                        <template v-slot:selection = "{ item }">
+                            <div v-for="(c, index) in item.caption" :key="index">
+                                <v-chip color="primary" x-small>{{ c }}</v-chip>
                             </div>
                         </template>
                     </v-select>
@@ -50,15 +59,13 @@
             </v-row>
 
             <v-row class="pt-0 pb-0" background-color="red">
-                <v-col class="pt-0 pb-0" background-color="red">
+                <v-col class="pt-0 pb-2" background-color="red">
                     <v-btn
                         color="primary"
                         @click="updatePrincipal()"
                         :loading="updatingPrincipal"
                         class="float-lg-right float-md-right float-sm-right"
-                        outlinedx
-                        smallx
-                        roundedx
+                        rounded
                     >
                         Update
                     </v-btn>
@@ -76,7 +83,7 @@ export default {
             account: {
                 id: this.ManageAccounts.state.toEdit.id,
                 user_type: this.ManageAccounts.state.toEdit.user_type,
-                selected_principals: this.ManageAccounts.state.toEdit.principal_ids,
+                main_vendor_codes: this.ManageAccounts.state.toEdit.main_vendor_codes,
             },
             updatingPrincipal: false,
             errMsgs: [],
@@ -87,35 +94,59 @@ export default {
     },
 
     computed: {
+        // principals() {
+        //     return this.AppStore.state.principals;
+        // },
+
         principals() {
-            return this.AppStore.state.principals;
+            return this.AppStore.state.principals.map(e => {
+                return {
+                    main_vendor_code: e[0],
+                    caption: e[1].map(el => `${el.vendor_code} - ${el.name}`),
+                }
+            });
         },
 
-        filteredPrincipals() {
-            const searchRegex = new RegExp(this.principalsSearchKey, "i");
+        // filteredPrincipals() {
+        //     const searchRegex = new RegExp(this.principalsSearchKey, "i");
 
-            if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
-                return this.principals.filter(
-                    principal => {
-                        return searchRegex.test(principal.name)
-                            || !this.principalsSearchKey
-                            || searchRegex.test(principal.vendor_code);
-                    }
+        //     if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
+        //         return this.principals.filter(
+        //             principal => {
+        //                 return searchRegex.test(principal.name)
+        //                     || !this.principalsSearchKey
+        //                     || searchRegex.test(principal.vendor_code);
+        //             }
 
-                );
-            } else {
-                return this.principals.filter(
-                    principal => {
-                        return (searchRegex.test(principal.name)
-                            || !this.principalsSearchKey
-                            || searchRegex.test(principal.vendor_code))
-                            && this.AppStore.isInUserPrincipalIDs(principal.id);
-                    }
-                );
+        //         );
+        //     } else {
+        //         return this.principals.filter(
+        //             principal => {
+        //                 return (searchRegex.test(principal.name)
+        //                     || !this.principalsSearchKey
+        //                     || searchRegex.test(principal.vendor_code))
+        //                     && this.AppStore.isInUserPrincipalIDs(principal.id);
+        //             }
+        //         );
+        //     }
+        // },
+        filteredPrincipals: function() {
+            try {
+                const searchRegex = new RegExp(this.principalsSearchKey, "i");
+                return this.principals.filter(p => searchRegex.test(p.caption));
+            } catch (error) {
+                console.error(error);
+                return [];
             }
         },
 
 
+    },
+
+    watch: {
+        principalsSearchKey() {
+            if(this.principalsSearchKey==null) this.principalsSearchKey = '';
+        }
     },
 
     methods: {
@@ -127,7 +158,7 @@ export default {
                 let payload = {
                     _method: "PATCH",
                     id: vm.account.id,
-                    selected_principals: vm.account.selected_principals,
+                    main_vendor_codes: vm.account.main_vendor_codes,
                 }
 
                 try {

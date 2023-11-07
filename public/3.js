@@ -106,7 +106,7 @@ var render = function() {
         [
           _c("span", [
             _vm._v(
-              "Edit Account: " +
+              "Edit Account - " +
                 _vm._s(_vm.ManageAccounts.state.toEdit.name) +
                 " (" +
                 _vm._s(_vm.ManageAccounts.state.toEdit.username) +

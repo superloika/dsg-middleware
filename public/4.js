@@ -113,12 +113,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       users: [],
       // messages: [],
-      newMessage: ""
+      newMessage: "",
+      sending: false
     };
   },
   computed: {
@@ -139,12 +156,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                _this.sending = true;
+                _context.next = 3;
                 return axios.get("/devchat/fetch-messages?channel=".concat(_this.channel)).then(function (response) {
                   _this.DevChatStore.state.messages = response.data;
+                  _this.sending = false;
                 });
 
-              case 2:
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -165,20 +184,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   message: message,
                   channel: _this2.channel
                 };
-                _context2.next = 3;
+                _this2.sending = true;
+                _context2.next = 4;
                 return axios.post("/devchat/send-message", payload).then(function (response) {
                   _this2.newMessage = "";
                   console.log(response.data);
+                  _this2.sending = false;
                 });
 
-              case 3:
+              case 4:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
       }))();
-    }
+    } // onKeyup(event) {
+    //     console.log(event.key);
+    //     if(event.key == '@') {
+    //         alert('test');
+    //     }
+    // },
+
   },
   watch: {// subscribedUsers() {
     //     console.log(this.subscribedUsers);
@@ -228,33 +255,64 @@ var render = function() {
             "v-col",
             { attrs: { cols: "12", md: "8" } },
             [
-              _c("v-textarea", {
-                attrs: {
-                  solo: "",
-                  rounded: "",
-                  label: "Type your message here (press Enter to send)",
-                  "auto-grow": "",
-                  rows: "2"
-                },
-                on: {
-                  keyup: function($event) {
-                    if (
-                      !$event.type.indexOf("key") &&
-                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                    ) {
-                      return null
+              _c(
+                "v-sheet",
+                { staticClass: "pb-4" },
+                [
+                  _c("v-textarea", {
+                    staticClass: "pb-2",
+                    attrs: {
+                      solo: "",
+                      "auto-grow": "",
+                      "hide-details": "",
+                      label: "Type your message here",
+                      rows: "1"
+                    },
+                    model: {
+                      value: _vm.newMessage,
+                      callback: function($$v) {
+                        _vm.newMessage = $$v
+                      },
+                      expression: "newMessage"
                     }
-                    return _vm.sendMessage(_vm.newMessage)
-                  }
-                },
-                model: {
-                  value: _vm.newMessage,
-                  callback: function($$v) {
-                    _vm.newMessage = $$v
-                  },
-                  expression: "newMessage"
-                }
-              }),
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "d-flex justify-end" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            rounded: "",
+                            depressed: "",
+                            "hide-details": "",
+                            color: "primary",
+                            loading: _vm.sending,
+                            disabled:
+                              _vm.newMessage == "" || _vm.newMessage == null
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.sendMessage(_vm.newMessage)
+                            }
+                          }
+                        },
+                        [
+                          _c("v-icon", [_vm._v("mdi-send")]),
+                          _vm._v(
+                            "\n                        Send\n                    "
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
               _vm._v(" "),
               _c(
                 "v-card",
@@ -322,13 +380,13 @@ var render = function() {
                                   )
                                 ]),
                                 _vm._v(" "),
-                                _c("div", { staticClass: "caption" }, [
-                                  _vm._v(
-                                    "\n                                    " +
-                                      _vm._s(message.message) +
-                                      "\n                                "
-                                  )
-                                ]),
+                                _c("div", {
+                                  staticClass: "caption",
+                                  staticStyle: { "white-space": "pre-line" },
+                                  domProps: {
+                                    innerHTML: _vm._s(message.message)
+                                  }
+                                }),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "mt-2" }, [
                                   _c("em", { staticClass: "caption" }, [

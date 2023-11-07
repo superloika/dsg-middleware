@@ -149,23 +149,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _this = this;
@@ -185,7 +168,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         password: "",
         passwordConfirm: "",
         user_type: "",
-        selected_principals: [],
+        main_vendor_codes: null,
         rules: {
           name: [function (v) {
             return !!v || "Name is required";
@@ -228,16 +211,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     'newAccount.user_type': function newAccountUser_type() {
       if (this.newAccount.user_type === 'super_admin') {
-        this.newAccount.selected_principals = ["*"];
+        this.newAccount.main_vendor_codes = ["*"];
       } else if (this.newAccount.user_type === 'admin') {
-        this.newAccount.selected_principals = ["*"];
-      } else if (this.newAccount.user_type === 'uploader') {
-        this.newAccount.selected_principals = ["?"];
+        this.newAccount.main_vendor_codes = ["*"];
       } else {
-        this.newAccount.selected_principals = [];
+        this.newAccount.main_vendor_codes = null;
       }
-    } // 'newAccount.selected_principals': function() {
-    //     console.log(this.newAccount.selected_principals);
+    } // 'newAccount.main_vendor_codes': function() {
+    //     console.log(this.newAccount.main_vendor_codes);
     // }
 
   },
@@ -267,7 +248,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   username: vm.newAccount.username,
                   password: vm.newAccount.password,
                   user_type: vm.newAccount.user_type,
-                  selected_principals: vm.newAccount.selected_principals
+                  main_vendor_codes: vm.newAccount.main_vendor_codes
                 });
 
               case 7:
@@ -403,7 +384,6 @@ var render = function() {
             "v-alert",
             {
               attrs: {
-                dense: "",
                 text: "",
                 type: "error",
                 dismissible: "",
@@ -446,15 +426,11 @@ var render = function() {
                 [
                   _c(
                     "v-col",
-                    {
-                      staticClass: "pt-1 pb-1",
-                      attrs: { cols: "12", md: "4", sm: "6" }
-                    },
+                    { staticClass: "pt-1 pb-1", attrs: { cols: "12" } },
                     [
                       _c("v-text-field", {
                         attrs: {
                           outlined: "",
-                          dense: "",
                           text: "",
                           label: "Name *",
                           required: "",
@@ -474,15 +450,11 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    {
-                      staticClass: "pt-1 pb-1",
-                      attrs: { cols: "12", md: "4", sm: "6" }
-                    },
+                    { staticClass: "pt-1 pb-1", attrs: { cols: "12" } },
                     [
                       _c("v-text-field", {
                         attrs: {
                           outlined: "",
-                          dense: "",
                           text: "",
                           label: "Username *",
                           required: "",
@@ -502,16 +474,12 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    {
-                      staticClass: "pt-1 pb-1",
-                      attrs: { cols: "12", md: "4", sm: "6" }
-                    },
+                    { staticClass: "pt-1 pb-1", attrs: { cols: "12" } },
                     [
                       _c("v-select", {
                         attrs: {
                           items: _vm.filteredUserTypes,
                           outlined: "",
-                          dense: "",
                           text: "",
                           label: "User Type *",
                           required: "",
@@ -531,15 +499,11 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    {
-                      staticClass: "pt-1 pb-1",
-                      attrs: { cols: "12", md: "4", sm: "6" }
-                    },
+                    { staticClass: "pt-1 pb-1", attrs: { cols: "12" } },
                     [
                       _c("v-text-field", {
                         attrs: {
                           outlined: "",
-                          dense: "",
                           text: "",
                           label: "Password *",
                           autocomplete: "false",
@@ -561,15 +525,11 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    {
-                      staticClass: "pt-1 pb-1",
-                      attrs: { cols: "12", md: "4", sm: "6" }
-                    },
+                    { staticClass: "pt-1 pb-1", attrs: { cols: "12" } },
                     [
                       _c("v-text-field", {
                         attrs: {
                           outlined: "",
-                          dense: "",
                           text: "",
                           label: "Confirm Password *",
                           autocomplete: "false",
@@ -587,81 +547,7 @@ var render = function() {
                       })
                     ],
                     1
-                  ),
-                  _vm._v(" "),
-                  _vm.newAccount.user_type != "xxx"
-                    ? _c(
-                        "v-col",
-                        {
-                          staticClass: "pt-1 pb-1",
-                          attrs: { cols: "12", md: "4", sm: "6" }
-                        },
-                        [
-                          _c("v-select", {
-                            attrs: {
-                              items: _vm.filteredPrincipals,
-                              "item-text": "name",
-                              "item-value": "id",
-                              label: "Assigned Principals",
-                              multiple: "",
-                              dense: "",
-                              outlined: ""
-                            },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "prepend-item",
-                                  fn: function() {
-                                    return [
-                                      _c(
-                                        "div",
-                                        { staticClass: "mx-2 mb-0 pb-0" },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              dense: "",
-                                              rounded: "",
-                                              "solo-inverted": "",
-                                              clearable: "",
-                                              placeholder: "Search",
-                                              flat: ""
-                                            },
-                                            model: {
-                                              value: _vm.principalsSearchKey,
-                                              callback: function($$v) {
-                                                _vm.principalsSearchKey = $$v
-                                              },
-                                              expression: "principalsSearchKey"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      )
-                                    ]
-                                  },
-                                  proxy: true
-                                }
-                              ],
-                              null,
-                              false,
-                              1934076597
-                            ),
-                            model: {
-                              value: _vm.newAccount.selected_principals,
-                              callback: function($$v) {
-                                _vm.$set(
-                                  _vm.newAccount,
-                                  "selected_principals",
-                                  $$v
-                                )
-                              },
-                              expression: "newAccount.selected_principals"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    : _vm._e()
+                  )
                 ],
                 1
               ),
@@ -679,12 +565,9 @@ var render = function() {
                           "v-btn",
                           {
                             attrs: {
-                              color: "primary",
-                              dense: "",
-                              smallx: "",
-                              outlinedx: "",
+                              rounded: "",
                               loading: _vm.savingNewUser,
-                              roundedx: ""
+                              color: "primary"
                             },
                             on: {
                               click: function($event) {

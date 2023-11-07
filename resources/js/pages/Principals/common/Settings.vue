@@ -19,45 +19,50 @@
     <!-- <v-card-text> -->
         <!-- <v-row v-if="PrincipalsStore.state.settings.length > 0"> -->
             <!-- <v-col cols="12" lg="3" md="4" sm="6" -->
-            <br>
-            <v-container fluid
-                v-for="(setting, index) in PrincipalsStore.state.settings"
-                :key="index"
-            >
-                <v-text-field
-                    v-if="setting.type=='number' || setting.type=='text'"
-                    v-model="setting.value"
-                    :label="setting.description" outlined
-                    :hint="setting.hint"
-                    persistent-hint
-                    :type="setting.type"
+            <v-container fluid>
+                <v-card
+                    v-for="(setting, index) in PrincipalsStore.state.settings"
+                    :key="index"
+                    class="ma-8"
                 >
-                </v-text-field>
-                <v-switch
-                    v-if="setting.type=='toggle'"
-                    :label="setting.description"
-                    :hint="setting.hint"
-                    persistent-hint
-                    inset
-                    v-model="
-                        parPrincipalsStore.state.settings.find(
-                            e => e.name==setting.name
-                        ).value
-                    "
-                >
+                    <v-card-text>
+                        <v-text-field
+                            v-if="setting.type=='number' || setting.type=='text'"
+                            v-model="setting.value"
+                            :label="setting.description" outlined
+                            :hint="setting.hint"
+                            persistent-hint
+                            :type="setting.type"
+                        >
+                        </v-text-field>
+                        <v-switch
+                            v-if="setting.type=='toggle'"
+                            :label="setting.description"
+                            :hint="setting.hint"
+                            persistent-hint
+                            inset
+                            v-model="
+                                parPrincipalsStore.state.settings.find(
+                                    e => e.name==setting.name
+                                ).value
+                            "
+                        >
 
-                </v-switch>
-                <v-textarea
-                    v-if="setting.type=='json'"
-                    v-model="setting.value"
-                    :label="setting.description"
-                    :value="setting.value"
-                    :hint="setting.hint"
-                    persistent-hint
-                    outlined
-                    color="warning"
-                    auto-grow
-                ></v-textarea>
+                        </v-switch>
+                        <v-textarea
+                            v-if="setting.type=='json'"
+                            v-model="setting.value"
+                            :label="setting.description"
+                            :value="setting.value"
+                            :hint="setting.hint"
+                            persistent-hint
+                            outlined
+                            color="warning"
+                            auto-grow
+                        ></v-textarea>
+
+                    </v-card-text>
+                </v-card>
             </v-container>
         <!-- </v-row> -->
     <!-- </v-card-text> -->

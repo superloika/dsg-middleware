@@ -1,6 +1,11 @@
 <template>
     <v-app>
-        <v-system-bar app height="50" dark colorxx="grey lighten-5" color="white">
+        <v-system-bar app height="60" dark
+            style="
+                background: rgb(237,255,230);
+                background: radial-gradient(circle, rgba(237,255,230,1) 0%, rgba(255,255,255,1) 100%);
+            "
+        >
             <!-- <v-btn
                 @click="toggleDrawerState()"
                 icon
@@ -26,9 +31,9 @@
 
             <v-spacer></v-spacer>
 
-            <span class="text-caption mr-3 overflow-auto primary--text">
+            <!-- <span class="text-caption mr-3 overflow-auto primary--text">
                 Howdy, {{ AuthUser.name }}!
-            </span>
+            </span> -->
 
             <v-btn icon to="/invoices" title="Invoices">
                 <v-icon color="primary">mdi-file</v-icon>

@@ -20,16 +20,20 @@ export default {
                 console.log('SELECTED PRINCIPAL MAIN VENDOR CODE:', main_vendor_code);
 
                 if (principal != undefined) {
-                    if (
-                        JSON.parse(this.AuthUser.principal_ids)[0] == "*" ||
-                        this.AppStore.isInUserPrincipalIDs(principal.id)
-                    ) {
-                        this.PrincipalsStore.state.selectedPrincipalCode = main_vendor_code;
-                        this.PrincipalsStore.state.selectedPrincipal = principal;
-                        return () => import("./principal.vue");
-                    } else {
-                        return () => import("../ErrorPages/ErrorPage404.vue");
-                    }
+                    // if (
+                    //     JSON.parse(this.AuthUser.principal_ids)[0] == "*" ||
+                    //     this.AppStore.isInUserPrincipalIDs(principal.id)
+                    // ) {
+                    //     this.PrincipalsStore.state.selectedPrincipalCode = main_vendor_code;
+                    //     this.PrincipalsStore.state.selectedPrincipal = principal;
+                    //     return () => import("./principal.vue");
+                    // } else {
+                    //     return () => import("../ErrorPages/ErrorPage404.vue");
+                    // }
+
+                    this.PrincipalsStore.state.selectedPrincipalCode = main_vendor_code;
+                    this.PrincipalsStore.state.selectedPrincipal = principal;
+                    return () => import("./principal.vue");
                 }
             } catch (error) {
                 console.error("Principals_selectedPrincipal() - ERROR: ", error);

@@ -203,7 +203,7 @@ class PrincipalsUtil extends Controller
     public static function principalRoutes() {
         config()->set('database.connections.mysql.strict', false);
         DB::reconnect();
-        
+
         $res = DB::table(self::$TBL_PRINCIPALS)
             ->select(
                 'main_vendor_code',

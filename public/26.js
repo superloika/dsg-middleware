@@ -75,6 +75,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -140,87 +145,98 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _vm._l(_vm.PrincipalsStore.state.settings, function(setting, index) {
-        return _c(
-          "v-container",
-          { key: index, attrs: { fluid: "" } },
-          [
-            setting.type == "number" || setting.type == "text"
-              ? _c("v-text-field", {
-                  attrs: {
-                    label: setting.description,
-                    outlined: "",
-                    hint: setting.hint,
-                    "persistent-hint": "",
-                    type: setting.type
-                  },
-                  model: {
-                    value: setting.value,
-                    callback: function($$v) {
-                      _vm.$set(setting, "value", $$v)
-                    },
-                    expression: "setting.value"
-                  }
-                })
-              : _vm._e(),
-            _vm._v(" "),
-            setting.type == "toggle"
-              ? _c("v-switch", {
-                  attrs: {
-                    label: setting.description,
-                    hint: setting.hint,
-                    "persistent-hint": "",
-                    inset: ""
-                  },
-                  model: {
-                    value: _vm.parPrincipalsStore.state.settings.find(function(
-                      e
-                    ) {
-                      return e.name == setting.name
-                    }).value,
-                    callback: function($$v) {
-                      _vm.$set(
-                        _vm.parPrincipalsStore.state.settings.find(function(e) {
-                          return e.name == setting.name
-                        }),
-                        "value",
-                        $$v
-                      )
-                    },
-                    expression:
-                      "\n                        parPrincipalsStore.state.settings.find(\n                            e => e.name==setting.name\n                        ).value\n                    "
-                  }
-                })
-              : _vm._e(),
-            _vm._v(" "),
-            setting.type == "json"
-              ? _c("v-textarea", {
-                  attrs: {
-                    label: setting.description,
-                    value: setting.value,
-                    hint: setting.hint,
-                    "persistent-hint": "",
-                    outlined: "",
-                    color: "warning",
-                    "auto-grow": ""
-                  },
-                  model: {
-                    value: setting.value,
-                    callback: function($$v) {
-                      _vm.$set(setting, "value", $$v)
-                    },
-                    expression: "setting.value"
-                  }
-                })
-              : _vm._e()
-          ],
-          1
-        )
-      })
+      _c(
+        "v-container",
+        { attrs: { fluid: "" } },
+        _vm._l(_vm.PrincipalsStore.state.settings, function(setting, index) {
+          return _c(
+            "v-card",
+            { key: index, staticClass: "ma-8" },
+            [
+              _c(
+                "v-card-text",
+                [
+                  setting.type == "number" || setting.type == "text"
+                    ? _c("v-text-field", {
+                        attrs: {
+                          label: setting.description,
+                          outlined: "",
+                          hint: setting.hint,
+                          "persistent-hint": "",
+                          type: setting.type
+                        },
+                        model: {
+                          value: setting.value,
+                          callback: function($$v) {
+                            _vm.$set(setting, "value", $$v)
+                          },
+                          expression: "setting.value"
+                        }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  setting.type == "toggle"
+                    ? _c("v-switch", {
+                        attrs: {
+                          label: setting.description,
+                          hint: setting.hint,
+                          "persistent-hint": "",
+                          inset: ""
+                        },
+                        model: {
+                          value: _vm.parPrincipalsStore.state.settings.find(
+                            function(e) {
+                              return e.name == setting.name
+                            }
+                          ).value,
+                          callback: function($$v) {
+                            _vm.$set(
+                              _vm.parPrincipalsStore.state.settings.find(
+                                function(e) {
+                                  return e.name == setting.name
+                                }
+                              ),
+                              "value",
+                              $$v
+                            )
+                          },
+                          expression:
+                            "\n                                parPrincipalsStore.state.settings.find(\n                                    e => e.name==setting.name\n                                ).value\n                            "
+                        }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  setting.type == "json"
+                    ? _c("v-textarea", {
+                        attrs: {
+                          label: setting.description,
+                          value: setting.value,
+                          hint: setting.hint,
+                          "persistent-hint": "",
+                          outlined: "",
+                          color: "warning",
+                          "auto-grow": ""
+                        },
+                        model: {
+                          value: setting.value,
+                          callback: function($$v) {
+                            _vm.$set(setting, "value", $$v)
+                          },
+                          expression: "setting.value"
+                        }
+                      })
+                    : _vm._e()
+                ],
+                1
+              )
+            ],
+            1
+          )
+        }),
+        1
+      )
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []

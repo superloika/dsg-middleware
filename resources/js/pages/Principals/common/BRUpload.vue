@@ -15,8 +15,11 @@
             <v-btn
                 rounded dense depressed
                 :color="
-                    this.InvoicesStore.state.invoiceStatus=='completed' ?
-                    'primary' : 'error'
+                    (
+                        this.InvoicesStore.state.invoiceStatus=='completed' ||
+                        this.InvoicesStore.state.invoiceStatus=='pending'
+                    )
+                    ? 'primary' : 'error'
                 "
                 @click="upload"
                 :disabled="disableUploadBtn"
@@ -34,6 +37,10 @@
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-toolbar>
+
+        <v-card-text v-if="batches.length < 1" class="d-flex justify-center">
+            <div>No available data to display</div>
+        </v-card-text>
 
         <v-toolbar elevation="0" dense>
             <v-tabs v-model="tab" verticalx growx>
@@ -86,6 +93,7 @@
                                 </v-btn>
                                 <!-- <v-btn @click="checkdata(batchIndex)">chkdt</v-btn> -->
                             </v-container>
+
                             <v-container fluid>
                                 <v-expansion-panels focusable multiple>
                                     <v-expansion-panel
@@ -279,8 +287,8 @@ export default {
         },
         disableUploadBtn() {
             return !this.batches.length
-                    || this.stillUploading
-                    || !this.enableReupload && this.uploadAttempts > 0;
+                || this.stillUploading
+                || !this.enableReupload && this.uploadAttempts > 0;
         },
     },
 
@@ -306,7 +314,10 @@ export default {
                             this.BrStore.invoiceCreate(this.bussinessUnit, batch)
                                 .then(res => {
                                     if(res.success) {
-                                        if(this.InvoicesStore.state.invoiceStatus=='completed') {
+                                        if (
+                                            this.InvoicesStore.state.invoiceStatus=='completed' ||
+                                            this.InvoicesStore.state.invoiceStatus=='pending'
+                                        ) {
                                             // set status as 'uploaded'
                                             this.InvoicesStore.setInvoicesUploaded(res.data)
                                                 .then(response => {

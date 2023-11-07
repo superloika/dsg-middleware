@@ -576,11 +576,9 @@ const actions = {
         }
     },
 
-    getVendorCode(principal_code) {
-        return AppStore.state.principals
-            .find(e=>e.code==principal_code).vendor_code;
-    },
-
+    /**
+     * Get principal-specific configs (e.g. table headers for templated data, items, customers etc.)
+     */
     async initConfigs() {
         try {
             const url = encodeURI(

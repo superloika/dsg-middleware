@@ -18,7 +18,7 @@ const state = Vue.observable({
         // old_password_hashed: null,
         user_type: null,
         email: null,
-        principal_ids: null,
+        main_vendor_codes: null,
     }
 });
 
@@ -51,7 +51,7 @@ const actions = {
         // state.toEdit.old_password_hashed = account.password;
         state.toEdit.user_type = account.user_type;
         state.toEdit.email = account.email;
-        state.toEdit.principal_ids = JSON.parse(account.principal_ids);
+        state.toEdit.main_vendor_codes = JSON.parse(account.main_vendor_codes);
     },
 
 

@@ -59,15 +59,6 @@ const app = new Vue({
     router,
     el: "#app",
 
-    data() {
-        return {
-        };
-    },
-
-    created() {
-
-    },
-
     mounted() {
         console.log(`%cApp mounted!`,
             'background:#222; color:#bada55; font-size:16px;');

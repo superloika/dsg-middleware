@@ -1,7 +1,6 @@
 <template>
     <v-container>
         <!-- <v-alert
-            dense
             text
             type="error"
             dismissible
@@ -22,10 +21,9 @@
 
         <v-form v-model="frm_edit_profile" ref="frm_edit_profile">
             <v-row>
-                <v-col cols="12" md="4" sm="6">
+                <v-col md="12">
                     <v-text-field
                         outlined
-                        dense
                         text
                         label="Name *"
                         required
@@ -36,10 +34,9 @@
                     ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" md="4" sm="6">
+                <v-col md="12">
                     <v-text-field
                         outlined
-                        dense
                         text
                         label="Username *"
                         required
@@ -52,11 +49,10 @@
 
 
 
-                <v-col cols="12" md="4" sm="6">
+                <v-col md="12">
                     <v-select
                         :items="filteredUserTypes"
                         outlined
-                        dense
                         text
                         label="User Type"
                         required
@@ -71,15 +67,13 @@
             </v-row>
 
             <v-row class="pt-0 pb-0" background-color="red">
-                <v-col class="pt-0 pb-0" background-color="red">
+                <v-col class="pt-0 pb-2" background-color="red">
                     <v-btn
                         color="primary"
                         @click="updateProfile()"
                         :loading="updatingProfile"
                         class="float-lg-right float-md-right float-sm-right"
-                        outlinedx
-                        smallx
-                        roundedx
+                        rounded
                     >
                         Update Profile
                     </v-btn>

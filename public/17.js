@@ -224,6 +224,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -310,7 +318,7 @@ __webpack_require__.r(__webpack_exports__);
 
               _this.BrStore.invoiceCreate(_this.bussinessUnit, batch).then(function (res) {
                 if (res.success) {
-                  if (_this.InvoicesStore.state.invoiceStatus == 'completed') {
+                  if (_this.InvoicesStore.state.invoiceStatus == 'completed' || _this.InvoicesStore.state.invoiceStatus == 'pending') {
                     // set status as 'uploaded'
                     _this.InvoicesStore.setInvoicesUploaded(res.data).then(function (response) {
                       if (response.success) {
@@ -465,7 +473,8 @@ var render = function() {
                 dense: "",
                 depressed: "",
                 color:
-                  this.InvoicesStore.state.invoiceStatus == "completed"
+                  this.InvoicesStore.state.invoiceStatus == "completed" ||
+                  this.InvoicesStore.state.invoiceStatus == "pending"
                     ? "primary"
                     : "error",
                 disabled: _vm.disableUploadBtn
@@ -502,6 +511,12 @@ var render = function() {
         ],
         1
       ),
+      _vm._v(" "),
+      _vm.batches.length < 1
+        ? _c("v-card-text", { staticClass: "d-flex justify-center" }, [
+            _c("div", [_vm._v("No available data to display")])
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "v-toolbar",

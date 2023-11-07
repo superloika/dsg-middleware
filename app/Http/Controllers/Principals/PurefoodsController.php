@@ -70,7 +70,7 @@ class PurefoodsController extends Controller
                 // PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
             ])
 
-            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+            ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.main_vendor_code', $this->PRINCIPAL_CODE)
             // ->get($cols);
 
             ->where(function($q) use ($search_key) {
@@ -464,10 +464,6 @@ class PurefoodsController extends Controller
                 $group_by = 'system_date';
             }
 
-            // $template_variation_count = 1;
-            // $template_variation_count = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-            //     ->where('code', $this->PRINCIPAL_CODE)->pluck('template_variation_count')->first() ?? 1;
-
             $res['success'] = true;
             $res['message'] = 'Success';
             $res['line_count'] = 0;
@@ -695,7 +691,8 @@ class PurefoodsController extends Controller
                         // 'cf_dsp_name_value' =>      $settings['DSP_'. $group_code],
                         'cf_dsp_name_value' =>      $sm_name,
                         'invoice_number' =>         $pendingInvoice->ext_doc_no!='' || $pendingInvoice->ext_doc_no!=null ?
-                                                        $vendor_code. '-'. $pendingInvoice->ext_doc_no : '',
+                                                        // $vendor_code. '-'. $pendingInvoice->ext_doc_no : '',
+                                                        $pendingInvoice->ext_doc_no : '',
                         'discount_percentage' =>    $discount_percentage,
                         'discount_value' =>         $discount_value,
                         'vat_percentage' =>         $vat_percentage,
@@ -721,11 +718,6 @@ class PurefoodsController extends Controller
                         $arrGenerated
                     );
                 } // /loop invoices
-
-                // reset this guys to 1
-                $pageLineCount = 1;
-                $pageNum = 1;
-
             }
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE 1 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -922,9 +914,9 @@ class PurefoodsController extends Controller
                         'cf_return_indicator_value' =>          $return_indicator,
                         'cf_return_invoice_reference_id' =>     $br_config->cf_return_invoice_reference,
                         // 'cf_return_invoice_reference_value' =>  $vendor_code. '-'. $invoice_doc_no,
-                        'cf_return_invoice_reference_value' =>  ($ext_doc_no!=''&&$ext_doc_no!=null) ?
-                            $vendor_code. '-'. $ext_doc_no : '',
-                        'invoice_number' =>                     $vendor_code. '-'. $doc_no,
+                        'cf_return_invoice_reference_value' =>  ($ext_doc_no!=''&&$ext_doc_no!=null) ? $ext_doc_no : '',
+                                                                    // $vendor_code. '-'. $ext_doc_no : '',
+                        'invoice_number' =>                     $doc_no,
                         'discount_percentage' =>                $discount_percentage,
                         'discount_value' =>                     $discount_value,
                         'remarks' =>                            $remarks,
@@ -939,56 +931,25 @@ class PurefoodsController extends Controller
                         'sm_name' =>                $sm_name,
                     ];
 
-                    if ($chunk_line_count > 0) {
-                        if (
-                            !isset(
-                                $res[
-                                    'output_template_variations'
-                                ][1]['output_template']["Page " . $pageNum]
-                            )
-                        ) {
+                    // group output_template_variations
+                    if (
+                        !isset(
                             $res[
                                 'output_template_variations'
-                            ][1]['output_template']["Page " . $pageNum] = [];
-                        }
-                        array_push(
-                            $res[
-                                'output_template_variations'
-                            ][1]['output_template']["Page " . $pageNum],
-                            $arrGenerated
-                        );
-
-                        $pageLineCount += 1;
-                        if ($pageLineCount > $chunk_line_count) {
-                            $pageNum += 1;
-                            $pageLineCount = 1;
-                        }
-                    } else {
-                        // group output_template_variations
-                        if (
-                            !isset(
-                                $res[
-                                    'output_template_variations'
-                                ][1]['output_template'][$$group_by]
-                            )
-                        ) {
-                            $res[
-                                'output_template_variations'
-                            ][1]['output_template'][$$group_by] = [];
-                        }
-                        array_push(
-                            $res[
-                                'output_template_variations'
-                            ][1]['output_template'][$$group_by],
-                            $arrGenerated
-                        );
+                            ][1]['output_template'][$$group_by]
+                        )
+                    ) {
+                        $res[
+                            'output_template_variations'
+                        ][1]['output_template'][$$group_by] = [];
                     }
+                    array_push(
+                        $res[
+                            'output_template_variations'
+                        ][1]['output_template'][$$group_by],
+                        $arrGenerated
+                    );
                 } // /loop invoices
-
-                // reset this guys to 1
-                $pageLineCount = 1;
-                $pageNum = 1;
-
             }
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE 2 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -998,9 +959,8 @@ class PurefoodsController extends Controller
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-            // $fileCount++;
-
             return response()->json($res);
+
         } catch (\Throwable $th) {
             $res['success'] = false;
             $res['message'] = $th->getMessage();

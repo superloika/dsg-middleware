@@ -10,7 +10,6 @@
         </v-card-title>
         <v-card-text>
             <v-alert
-                dense
                 text
                 type="error"
                 dismissible
@@ -27,10 +26,9 @@
 
             <v-form v-model="frm_add" ref="frm_add">
                 <v-row class="pa-0">
-                    <v-col cols="12" md="4" sm="6" class="pt-1 pb-1">
+                    <v-col cols="12" class="pt-1 pb-1">
                         <v-text-field
                             outlined
-                            dense
                             text
                             label="Name *"
                             required
@@ -39,10 +37,9 @@
                         ></v-text-field>
                     </v-col>
 
-                    <v-col cols="12" md="4" sm="6" class="pt-1 pb-1">
+                    <v-col cols="12" class="pt-1 pb-1">
                         <v-text-field
                             outlined
-                            dense
                             text
                             label="Username *"
                             required
@@ -51,11 +48,10 @@
                         ></v-text-field>
                     </v-col>
 
-                    <v-col cols="12" md="4" sm="6" class="pt-1 pb-1">
+                    <v-col cols="12" class="pt-1 pb-1">
                         <v-select
                             :items="filteredUserTypes"
                             outlined
-                            dense
                             text
                             label="User Type *"
                             required
@@ -65,10 +61,9 @@
                         </v-select>
                     </v-col>
 
-                    <v-col cols="12" md="4" sm="6" class="pt-1 pb-1">
+                    <v-col cols="12" class="pt-1 pb-1">
                         <v-text-field
                             outlined
-                            dense
                             text
                             label="Password *"
                             autocomplete="false"
@@ -79,10 +74,9 @@
                         ></v-text-field>
                     </v-col>
 
-                    <v-col cols="12" md="4" sm="6" class="pt-1 pb-1">
+                    <v-col cols="12" class="pt-1 pb-1">
                         <v-text-field
                             outlined
-                            dense
                             text
                             label="Confirm Password *"
                             autocomplete="false"
@@ -93,22 +87,20 @@
                         ></v-text-field>
                     </v-col>
 
-                    <v-col cols="12" md="4" sm="6" class="pt-1 pb-1"
+                    <!-- <v-col cols="12" class="pt-1 pb-1"
                         v-if="newAccount.user_type != 'xxx'"
                     >
                         <v-select
-                            v-model="newAccount.selected_principals"
+                            v-model="newAccount.main_vendor_codes"
                             :items="filteredPrincipals"
                             item-text="name"
                             item-value="id"
                             label="Assigned Principals"
                             multiple
-                            dense
                             outlined
                         >
                             <template v-slot:prepend-item>
                                 <div class="mx-2 mb-0 pb-0">
-                                    <v-text-field dense rounded solo-inverted clearable
                                         placeholder="Search" flat
                                         v-model="principalsSearchKey"
                                     >
@@ -116,22 +108,13 @@
                                 </div>
                             </template>
                         </v-select>
-                    </v-col>
+                    </v-col> -->
                 </v-row>
 
                 <v-row class="pa-0">
                     <v-col>
                         <div class="float-right">
-                            <v-btn
-                                class=""
-                                color="primary"
-                                dense
-                                smallx
-                                outlinedx
-                                @click="saveNewUser()"
-                                :loading="savingNewUser"
-                                roundedx
-                            >
+                            <v-btn rounded @click="saveNewUser()" :loading="savingNewUser" color="primary">
                                 Save
                             </v-btn>
                         </div>
@@ -166,7 +149,7 @@ export default {
                 password: "",
                 passwordConfirm: "",
                 user_type: "",
-                selected_principals: [],
+                main_vendor_codes: null,
 
                 rules: {
                     name: [
@@ -214,18 +197,16 @@ export default {
 
         'newAccount.user_type': function() {
             if (this.newAccount.user_type === 'super_admin') {
-                this.newAccount.selected_principals = ["*"];
+                this.newAccount.main_vendor_codes = ["*"];
             } else if (this.newAccount.user_type === 'admin') {
-                this.newAccount.selected_principals = ["*"];
-            } else if (this.newAccount.user_type === 'uploader') {
-                this.newAccount.selected_principals = ["?"];
+                this.newAccount.main_vendor_codes = ["*"];
             } else {
-                this.newAccount.selected_principals = [];
+                this.newAccount.main_vendor_codes = null;
             }
         },
 
-        // 'newAccount.selected_principals': function() {
-        //     console.log(this.newAccount.selected_principals);
+        // 'newAccount.main_vendor_codes': function() {
+        //     console.log(this.newAccount.main_vendor_codes);
         // }
     },
 
@@ -241,7 +222,7 @@ export default {
                         username: vm.newAccount.username,
                         password: vm.newAccount.password,
                         user_type: vm.newAccount.user_type,
-                        selected_principals: vm.newAccount.selected_principals,
+                        main_vendor_codes: vm.newAccount.main_vendor_codes,
                     });
                     // console.log(response.data);
                     if (response.data == true) {

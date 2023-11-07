@@ -116,24 +116,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -347,43 +329,6 @@ var render = function() {
                               "\n            "
                           )
                         ]
-                      )
-                    : item.vendor_code !=
-                      _vm.PrincipalsStore.getVendorCode(
-                        _vm.$route.params.principal_code
-                      )
-                    ? _c(
-                        "div",
-                        [
-                          _c(
-                            "v-chip",
-                            {
-                              attrs: {
-                                color: "warning",
-                                outlined: "",
-                                "x-small": ""
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                    " +
-                                  _vm._s(item.item_code) +
-                                  "\n                "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("v-chip", { attrs: { "x-small": "" } }, [
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(item.principal_name) +
-                                " - " +
-                                _vm._s(item.vendor_code) +
-                                "\n                "
-                            )
-                          ])
-                        ],
-                        1
                       )
                     : _c("span", [_vm._v(_vm._s(item.item_code))])
                 ]

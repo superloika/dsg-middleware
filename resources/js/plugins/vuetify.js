@@ -35,7 +35,7 @@ const opts = {
                 info: '#2196F3',
                 success: '#4CAF50',
                 primary: '#2dba02',
-                // primary: '#BA68C8',
+                // primary: '#FFFF00',
                 // primary: '#000000',
                 accent: "#7dd663",
             },

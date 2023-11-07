@@ -270,7 +270,8 @@ export default {
                 || this.searchKeyLength > 0
                 || this.PrincipalsStore.state.isGeneratingData
                 // || this.warningsCount > 0
-                || this.InvoicesStore.state.invoiceStatus != 'completed' && this.InvoicesStore.state.invoiceStatus != 'uploaded'
+                || this.InvoicesStore.state.invoiceStatus != 'completed'
+                && this.InvoicesStore.state.invoiceStatus != 'pending'
                 ;
         }
     },

@@ -11,12 +11,23 @@ class MasterPrincipalsController extends Controller
 {
     public function index(Request $request)
     {
-        $res = DB::table('principals')
+        $main_vendor_codes = json_decode($request->main_vendor_codes ?? '[]');
+
+        // dd($main_vendor_codes);
+
+        $res = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
             // ->where('active', 1)
             ->where('active', 1)
             // ->orderBy('proj_status', 'DESC')
             // ->orderBy('code')
             // ->orderBy('name')
+            ->when(
+                count($main_vendor_codes) > 0 && $main_vendor_codes[0]!='*',
+                function($q) use($main_vendor_codes) {
+                    $q->whereIn('main_vendor_code', $main_vendor_codes)
+                    ;
+                }
+            )
             ->get();
 
         return response()->json($res);

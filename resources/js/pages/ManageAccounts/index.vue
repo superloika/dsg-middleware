@@ -81,7 +81,7 @@
         <!-- Dialogs (Modals)-->
         <v-dialog
             v-model="ManageAccounts.state.modalAddIsOpen"
-            max-width="800"
+            max-width="500"
             persistent
         >
             <AccountsAdd
@@ -90,7 +90,7 @@
         </v-dialog>
         <v-dialog
             v-model="ManageAccounts.state.modalEditIsOpen"
-            max-width="800"
+            max-width="500"
             persistent
         >
             <AccountsEdit

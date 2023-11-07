@@ -71,15 +71,15 @@ const actions = {
             e.output_template.forEach(e => {
                 e[1].forEach(e => {
                     if(
-                        (e.status=='completed' || e.status=='uploaded')
-                        && e.invoice_number != ''
-                        && e.customer_code != ''
-                        && e.item_code != ''
+                        (e.status=='completed' || e.status=='pending')
+                        // && e.invoice_number != ''
+                        // && e.customer_code != ''
+                        // && e.item_code != ''
                     ) {
                         const isReturn = e.return_indicator != undefined;
 
                         // invoice level properties
-                        if(!objInvoices[e.invoice_number]){
+                        if (!objInvoices[e.invoice_number]) {
                             objInvoices[e.invoice_number] = {};
                         }
 
@@ -129,11 +129,6 @@ const actions = {
                             ];
                         }
 
-                        // invoice initial errors
-                        if(!objInvoices[e.invoice_number].with_errors) {
-                            objInvoices[e.invoice_number].with_errors = [];
-                        }
-
                         // invoice items properties
                         if(!objInvoices[e.invoice_number].details) {
                             objInvoices[e.invoice_number].details = [];
@@ -147,6 +142,13 @@ const actions = {
                         //     e.quantity = -Math.abs(e.quantity);
                         //     e.amount_supplier = -Math.abs(e.amount_supplier);
                         // }
+
+                        // ======================= misc validations =======================
+                        // invoice initial errors
+                        if(!objInvoices[e.invoice_number].with_errors) {
+                            objInvoices[e.invoice_number].with_errors = [];
+                        }
+
                         if(isReturn) {
                             temp_qty = -Math.abs(temp_qty);
                             // temp_amount_supplier = -Math.abs(temp_amount_supplier);
@@ -205,15 +207,39 @@ const actions = {
                             );
                         }
 
-                        // // if empty ang DSP
-                        // if(e.cf_dsp_name_value == '' || e.cf_dsp_name_value == null) {
-                        //     objInvoices[e.invoice_number].with_errors.unshift(
-                        //         'DSP is not specified'
-                        //     );
-                        // }
+                        // if empty ang external invoice #
+                        if(e.invoice_number == '' || e.invoice_number == null) {
+                            objInvoices[e.invoice_number].with_errors.unshift(
+                                'Empty invoice number (external)'
+                            );
+                        }
+
+                        // if empty ang item_code(sku_external_id) #
+                        if(e.item_code == '' || e.item_code == null) {
+                            objInvoices[e.invoice_number].with_errors.unshift(
+                                'Empty item code (sku_external_id)'
+                            );
+                        }
+
+                        // if empty ang uom_supplier (sku_uom) #
+                        if(e.uom_supplier == '' || e.uom_supplier == null) {
+                            objInvoices[e.invoice_number].with_errors.unshift(
+                                'Empty uom (sku_uom)'
+                            );
+                        }
+
+                        // if empty ang customer_code(retailer_br_id) #
+                        if(e.customer_code == '' || e.customer_code == null) {
+                            objInvoices[e.invoice_number].with_errors.unshift(
+                                'Empty customer code (retailer_br_id)'
+                            );
+                        }
+                        // ======================= /misc validations =======================
 
                         objInvoices[e.invoice_number].details.unshift({
-                            item_name: e.description_supplier,
+                            item_name: e.description_supplier=='' || e.description_supplier==null
+                                ? e.item_description : e.description_supplier,
+                            // item_name: e.item_description,
                             sku_external_id: e.item_code,
                             quantity: temp_qty,
                             sku_uom: e.uom_supplier,

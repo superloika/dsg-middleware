@@ -2,14 +2,27 @@
     <v-sheet @mousedown="DevChatStore.state.unreadMsgCount=0" class="pa-2 ma-0">
         <v-row>
             <v-col cols="12" md="8">
-                <v-textarea
-                    solo rounded
-                    v-model="newMessage"
-                    @keyup.enter="sendMessage(newMessage)"
-                    label="Type your message here (press Enter to send)"
-                    auto-grow
-                    rows="2"
-                ></v-textarea>
+                <v-sheet class="pb-4">
+                    <v-textarea
+                        solo auto-grow hide-details
+                        v-model="newMessage"
+                        label="Type your message here"
+                        rows="1"
+                        class="pb-2"
+                    ></v-textarea>
+                    <div class="d-flex justify-end">
+                        <v-btn
+                            rounded depressed hide-details
+                            color="primary"
+                            @click="sendMessage(newMessage)"
+                            :loading="sending"
+                            :disabled="newMessage=='' || newMessage==null"
+                        >
+                            <v-icon>mdi-send</v-icon>
+                            Send
+                        </v-btn>
+                    </div>
+                </v-sheet>
 
                 <v-card style="overflow-y: scroll;max-height: 400px;" flat>
                     <div
@@ -40,8 +53,11 @@
                                             {{ message.name }}
                                         </div>
                                     </div>
-                                    <div class="caption">
-                                        {{ message.message }}
+                                    <div
+                                        class="caption"
+                                        style="white-space: pre-line"
+                                        v-html="message.message"
+                                    >
                                     </div>
                                     <div class="mt-2">
                                         <em class="caption">
@@ -101,6 +117,7 @@ export default {
             users: [],
             // messages: [],
             newMessage: "",
+            sending: false,
         };
     },
 
@@ -116,8 +133,10 @@ export default {
 
     methods: {
         async fetchMessages() {
+            this.sending = true;
             await axios.get(`/devchat/fetch-messages?channel=${this.channel}`).then(response => {
                 this.DevChatStore.state.messages = response.data;
+                this.sending = false;
             });
         },
 
@@ -126,11 +145,21 @@ export default {
                 message: message,
                 channel: this.channel,
             };
+            this.sending = true;
             await axios.post("/devchat/send-message", payload).then(response => {
                 this.newMessage = "";
                 console.log(response.data);
+                this.sending = false;
             });
-        }
+        },
+
+        // onKeyup(event) {
+        //     console.log(event.key);
+        //     if(event.key == '@') {
+        //         alert('test');
+        //     }
+        // },
+
     },
 
     watch: {

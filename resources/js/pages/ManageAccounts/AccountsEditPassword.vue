@@ -1,7 +1,6 @@
 <template>
     <v-container>
         <!-- <v-alert
-            dense
             text
             type="error"
             dismissible
@@ -22,10 +21,9 @@
 
         <v-form v-model="frmEditPw" ref="form">
             <v-row>
-                <v-col cols="12" md="4" sm="6">
+                <v-col cols="12">
                     <v-text-field
                         outlined
-                        dense
                         text
                         label="Old Password *"
                         required
@@ -37,10 +35,9 @@
                     ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" md="4" sm="6">
+                <v-col cols="12">
                     <v-text-field
                         outlined
-                        dense
                         text
                         label="New Password *"
                         required
@@ -52,10 +49,9 @@
                     ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" md="4" sm="6">
+                <v-col cols="12">
                     <v-text-field
                         outlined
-                        dense
                         text
                         label="Confirm Password *"
                         autocomplete="false"
@@ -68,15 +64,13 @@
             </v-row>
 
             <v-row class="pt-0 pb-0" background-color="red">
-                <v-col class="pt-0 pb-0" background-color="red">
+                <v-col class="pt-0 pb-2" background-color="red">
                     <v-btn
                         color="primary"
                         @click="updatePassword()"
                         :loading="updatingPassword"
                         class="float-lg-right float-md-right float-sm-right"
-                        outlinedx
-                        smallx
-                        roundedx
+                        rounded
                     >
                         Update Password
                     </v-btn>

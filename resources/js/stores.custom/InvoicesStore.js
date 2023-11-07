@@ -217,7 +217,7 @@ const actions = {
     /**
      * set invoices' status to 'uploaded'
      */
-     async setInvoicesUploaded(batch) {
+    async setInvoicesUploaded(batch) {
         try {
             const url =
                 AppStore.state.siteUrl +

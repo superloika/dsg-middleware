@@ -75,24 +75,6 @@
                     {{ item.item_code }}
                 </v-chip>
 
-                <div
-                    v-else-if="
-                        item.vendor_code!=
-                        PrincipalsStore.getVendorCode($route.params.principal_code)
-                    "
-                >
-                    <v-chip
-                        color="warning"
-                        outlined
-                        x-small
-                    >
-                        {{ item.item_code }}
-                    </v-chip>
-                    <v-chip x-small>
-                        {{ item.principal_name }} - {{ item.vendor_code }}
-                    </v-chip>
-                </div>
-
                 <span v-else>{{ item.item_code }}</span>
             </template>
         </v-data-table>

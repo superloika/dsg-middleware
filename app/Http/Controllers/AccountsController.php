@@ -25,7 +25,7 @@ class AccountsController extends Controller
         $currentUserID = auth()->user()->id;
         $users = DB::table('users')
             ->where('id','<>',$currentUserID)
-            ->select('id', 'name', 'username', 'password', 'email', 'user_type', 'principal_ids')
+            // ->select('id', 'name', 'username', 'password', 'email', 'user_type', 'main_vendor_codes')
             ->get();
         return response()->json($users);
     }
@@ -39,7 +39,7 @@ class AccountsController extends Controller
             'email' => ['max:255', 'unique:users', 'email'],
             'password' => ['required', 'string', 'min:3'],
             'user_type' => ['required', 'string', 'max:255'],
-            'selected_principals' => ['required'],
+            // 'main_vendor_codes' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -49,15 +49,21 @@ class AccountsController extends Controller
             return response()->json($invalidations);
         } else {
             try {
+                $arr = [
+                    'name' => $request->name,
+                    'username' => $request->username,
+                    'password' => Hash::make($request->password),
+                    'email' => $request->email ?? null,
+                    'user_type' => $request->user_type,
+                ];
+
+                $main_vendor_codes = json_encode($request->main_vendor_codes);
+                if($main_vendor_codes != 'null') {
+                    $arr['main_vendor_codes'] = $main_vendor_codes;
+                }
+
                 $result = DB::table('users')
-                    ->insert([
-                        'name' => $request->name,
-                        'username' => $request->username,
-                        'password' => Hash::make($request->password),
-                        'email' => $request->email ?? null,
-                        'user_type' => $request->user_type,
-                        'principal_ids' => json_encode($request->selected_principals),
-                    ]);
+                    ->insert($arr);
                 return response()->json($result);
             } catch (QueryException $e) {
                 //throw $th;
@@ -138,7 +144,7 @@ class AccountsController extends Controller
     {
         // dd($request);
         $validator = Validator::make($request->all(), [
-            'selected_principals' => 'required',
+            'main_vendor_codes' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -151,7 +157,7 @@ class AccountsController extends Controller
                 $result = DB::table('users')
                     ->where('id', $request->id)
                     ->update([
-                        'principal_ids' => json_encode($request->selected_principals),
+                        'main_vendor_codes' => json_encode($request->main_vendor_codes),
                     ]);
                 return response()->json($result);
             } catch (QueryException $e) {

@@ -87,6 +87,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -94,7 +101,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       account: {
         id: this.ManageAccounts.state.toEdit.id,
         user_type: this.ManageAccounts.state.toEdit.user_type,
-        selected_principals: this.ManageAccounts.state.toEdit.principal_ids
+        main_vendor_codes: this.ManageAccounts.state.toEdit.main_vendor_codes
       },
       updatingPrincipal: false,
       errMsgs: [],
@@ -104,28 +111,60 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   computed: {
+    // principals() {
+    //     return this.AppStore.state.principals;
+    // },
     principals: function principals() {
-      return this.AppStore.state.principals;
+      return this.AppStore.state.principals.map(function (e) {
+        return {
+          main_vendor_code: e[0],
+          caption: e[1].map(function (el) {
+            return "".concat(el.vendor_code, " - ").concat(el.name);
+          })
+        };
+      });
     },
+    // filteredPrincipals() {
+    //     const searchRegex = new RegExp(this.principalsSearchKey, "i");
+    //     if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
+    //         return this.principals.filter(
+    //             principal => {
+    //                 return searchRegex.test(principal.name)
+    //                     || !this.principalsSearchKey
+    //                     || searchRegex.test(principal.vendor_code);
+    //             }
+    //         );
+    //     } else {
+    //         return this.principals.filter(
+    //             principal => {
+    //                 return (searchRegex.test(principal.name)
+    //                     || !this.principalsSearchKey
+    //                     || searchRegex.test(principal.vendor_code))
+    //                     && this.AppStore.isInUserPrincipalIDs(principal.id);
+    //             }
+    //         );
+    //     }
+    // },
     filteredPrincipals: function filteredPrincipals() {
-      var _this = this;
-
-      var searchRegex = new RegExp(this.principalsSearchKey, "i");
-
-      if (JSON.parse(this.AuthUser.principal_ids)[0] === "*") {
-        return this.principals.filter(function (principal) {
-          return searchRegex.test(principal.name) || !_this.principalsSearchKey || searchRegex.test(principal.vendor_code);
+      try {
+        var searchRegex = new RegExp(this.principalsSearchKey, "i");
+        return this.principals.filter(function (p) {
+          return searchRegex.test(p.caption);
         });
-      } else {
-        return this.principals.filter(function (principal) {
-          return (searchRegex.test(principal.name) || !_this.principalsSearchKey || searchRegex.test(principal.vendor_code)) && _this.AppStore.isInUserPrincipalIDs(principal.id);
-        });
+      } catch (error) {
+        console.error(error);
+        return [];
       }
+    }
+  },
+  watch: {
+    principalsSearchKey: function principalsSearchKey() {
+      if (this.principalsSearchKey == null) this.principalsSearchKey = '';
     }
   },
   methods: {
     updatePrincipal: function updatePrincipal() {
-      var _this2 = this;
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var vm, url, payload, response;
@@ -133,21 +172,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                vm = _this2;
+                vm = _this;
 
-                if (!_this2.$refs.frm_edit_principal.validate()) {
+                if (!_this.$refs.frm_edit_principal.validate()) {
                   _context.next = 17;
                   break;
                 }
 
-                url = "".concat(_this2.AppStore.state.siteUrl, "accounts/update-principal-assignment");
+                url = "".concat(_this.AppStore.state.siteUrl, "accounts/update-principal-assignment");
                 payload = {
                   _method: "PATCH",
                   id: vm.account.id,
-                  selected_principals: vm.account.selected_principals
+                  main_vendor_codes: vm.account.main_vendor_codes
                 };
                 _context.prev = 4;
-                _this2.updatingPrincipal = true;
+                _this.updatingPrincipal = true;
                 _context.next = 8;
                 return axios.post(url, payload);
 
@@ -155,7 +194,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context.sent;
 
                 if (response.data == true) {
-                  if (_this2.$route.meta.name === 'Account') {
+                  if (_this.$route.meta.name === 'Account') {
                     location.reload();
                   } // temp
                   // this.ManageAccounts.state.toEdit.name = vm.account.name;
@@ -167,21 +206,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   //     vm.account.user_type;
 
 
-                  _this2.ManageAccounts.initUsers(); // this.ManageAccounts.state.modalEditIsOpen = false;
+                  _this.ManageAccounts.initUsers(); // this.ManageAccounts.state.modalEditIsOpen = false;
 
 
-                  _this2.AppStore.toast("Account updated", 2000);
+                  _this.AppStore.toast("Account updated", 2000);
                 } else if (response.data.invalidations != undefined || response.data.invalidations != null) {
-                  _this2.errMsgs = [];
-                  _this2.errorMsgs = {};
-                  _this2.errorMsgs = response.data.invalidations;
+                  _this.errMsgs = [];
+                  _this.errorMsgs = {};
+                  _this.errorMsgs = response.data.invalidations;
                   Object.entries(response.data.invalidations).forEach(function (field) {
-                    _this2.errMsgs.push(field[1][0]);
+                    _this.errMsgs.push(field[1][0]);
                   }); // this.AppStore.toast(this.errMsgs, 3000);
 
-                  _this2.errMsgsShown = true;
+                  _this.errMsgsShown = true;
                 } else if (response.data.errorInfo != null || response.data.errorInfo != undefined) {
-                  _this2.AppStore.toast("An error occured", 2000);
+                  _this.AppStore.toast("An error occured", 2000);
 
                   console.log(response.data.errorInfo);
                 }
@@ -194,10 +233,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.t0 = _context["catch"](4);
                 console.log(_context.t0);
 
-                _this2.AppStore.toast(_context.t0, 3000);
+                _this.AppStore.toast(_context.t0, 3000);
 
               case 16:
-                _this2.updatingPrincipal = false;
+                _this.updatingPrincipal = false;
 
               case 17:
               case "end":
@@ -255,14 +294,13 @@ var render = function() {
                 [
                   _c("v-select", {
                     attrs: {
-                      items: _vm.filteredPrincipals,
-                      "item-text": "name",
-                      "item-value": "id",
-                      label: "Assigned Principals",
                       multiple: "",
-                      dense: "",
                       outlined: "",
-                      clearable: ""
+                      clearable: "",
+                      items: _vm.filteredPrincipals,
+                      "item-text": "caption",
+                      "item-value": "main_vendor_code",
+                      label: "Assigned Principals"
                     },
                     scopedSlots: _vm._u([
                       {
@@ -275,12 +313,11 @@ var render = function() {
                               [
                                 _c("v-text-field", {
                                   attrs: {
-                                    dense: "",
-                                    rounded: "",
-                                    "solo-inverted": "",
                                     clearable: "",
-                                    placeholder: "Search",
-                                    flat: ""
+                                    "solo-inverted": "",
+                                    rounded: "",
+                                    flat: "",
+                                    placeholder: "Search"
                                   },
                                   model: {
                                     value: _vm.principalsSearchKey,
@@ -296,14 +333,60 @@ var render = function() {
                           ]
                         },
                         proxy: true
+                      },
+                      {
+                        key: "item",
+                        fn: function(ref) {
+                          var item = ref.item
+                          return [
+                            _c(
+                              "div",
+                              { staticClass: "py-2" },
+                              _vm._l(item.caption, function(c, index) {
+                                return _c("div", { key: index }, [
+                                  _c(
+                                    "small",
+                                    { staticClass: "text-caption ma-1" },
+                                    [_vm._v(_vm._s(c))]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("br")
+                                ])
+                              }),
+                              0
+                            )
+                          ]
+                        }
+                      },
+                      {
+                        key: "selection",
+                        fn: function(ref) {
+                          var item = ref.item
+                          return _vm._l(item.caption, function(c, index) {
+                            return _c(
+                              "div",
+                              { key: index },
+                              [
+                                _c(
+                                  "v-chip",
+                                  {
+                                    attrs: { color: "primary", "x-small": "" }
+                                  },
+                                  [_vm._v(_vm._s(c))]
+                                )
+                              ],
+                              1
+                            )
+                          })
+                        }
                       }
                     ]),
                     model: {
-                      value: _vm.account.selected_principals,
+                      value: _vm.account.main_vendor_codes,
                       callback: function($$v) {
-                        _vm.$set(_vm.account, "selected_principals", $$v)
+                        _vm.$set(_vm.account, "main_vendor_codes", $$v)
                       },
-                      expression: "account.selected_principals"
+                      expression: "account.main_vendor_codes"
                     }
                   })
                 ],
@@ -320,7 +403,7 @@ var render = function() {
               _c(
                 "v-col",
                 {
-                  staticClass: "pt-0 pb-0",
+                  staticClass: "pt-0 pb-2",
                   attrs: { "background-color": "red" }
                 },
                 [
@@ -332,9 +415,7 @@ var render = function() {
                       attrs: {
                         color: "primary",
                         loading: _vm.updatingPrincipal,
-                        outlinedx: "",
-                        smallx: "",
-                        roundedx: ""
+                        rounded: ""
                       },
                       on: {
                         click: function($event) {

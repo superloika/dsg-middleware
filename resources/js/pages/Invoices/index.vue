@@ -124,6 +124,40 @@
 
                     <v-spacer></v-spacer>
 
+                    <v-combobox
+                        :items="principals"
+                        v-model="principal"
+                        label="Principal"
+                        item-text="caption"
+                        class="mr-3"
+                        stylex="max-width:500x;"
+                        outlined
+                        rounded
+                        hide-details
+                        dense
+                        clearable
+                        overflow
+                    >
+                        <template v-slot:item = "{ item }">
+                            <div>
+                                <v-icon>
+                                    mdi-store
+                                </v-icon>
+                                <small
+                                    v-for="(c,index) in item.caption" :key="index"
+                                    class="text-caption ma-1"
+                                >
+                                    {{ c }},
+                                </small>
+                            </div>
+                        </template>
+                        <template v-slot:selection = "{ item }">
+                            <v-chip v-for="(c,index) in item.caption2" :key="index"
+                                color="primary" small
+                            >{{ c }}</v-chip>
+                        </template>
+                    </v-combobox>
+
                     <!-- DATEPICKER -->
                     <v-text-field
                         v-model="dateRangeText"
@@ -134,7 +168,7 @@
                         outlined
                         rounded
                         @click.stop="datePickerShown=true"
-                        stylex="max-width:500px;min-width:250px;"
+                        stylex="max-width:250px;min-width:250px;"
                         class="mr-3"
                     ></v-text-field>
 
@@ -170,52 +204,6 @@
                     </v-dialog>
                     <!-- /DATEPICKER -->
 
-                    <v-combobox
-                        :items="AppStore.state.principals"
-                        v-model="principal"
-                        label="Principal"
-                        item-text="name"
-                        class="mr-3"
-                        stylex="max-width:250px;"
-                        outlined
-                        rounded
-                        hide-details
-                        dense
-                        clearable
-                        overflow
-                    >
-                        <template v-slot:prepend-item>
-                            <v-list-item
-                                link
-                                @click="principal={}"
-                            >
-                                <v-list-item-content>
-                                    <v-list-item-title link>
-                                        <div class="warning--text">
-                                            Others
-                                        </div>
-                                    </v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>
-                        </template>
-                        <template v-slot:item = "{ item }">
-                            <div
-                                :class="item.proj_status==1?'primary--text':'warning--text'"
-                                class="text-caption"
-                            >
-                                ({{ item.vendor_code }}) {{ item.name }}
-                            </div>
-                        </template>
-                        <template v-slot:selection = "{ item }">
-                            <div
-                                :class="item.proj_status==1?'primary--text':'warning--text'"
-                                class="text-caption"
-                            >
-                                {{ item.name }}
-                            </div>
-                        </template>
-                    </v-combobox>
-
                     <v-select
                         rounded
                         outlined
@@ -249,7 +237,7 @@
         </v-app-bar>
 
         <!-- Invoice upload component -->
-        <v-sheet class="ma-2 rounded-lg white"
+        <v-sheet class="ma-4 rounded-lg white"
             v-if="AppStore.isSuperAdmin() || AppStore.isAdmin() || AppStore.isUploader()"
             elevation="1"
         >
@@ -259,15 +247,12 @@
             ></InvoicesUpload>
         </v-sheet>
 
-        <v-data-table
+        <v-data-table hide-default-footer disable-sort show-select
+            item-key="id" class="elevation-1"
             :items="InvoicesStore.state.invoices.data"
             :headers="InvoicesStore.state.tableHeader"
-            item-key="id"
             v-model="InvoicesStore.state.selectedInvoices"
-            hide-default-footer
-            disable-sort
-            show-select
-            class="elevation-1"
+            :loading="InvoicesStore.state.isLoadingInvoices"
         >
             <template v-slot:footer>
                 <v-container>
@@ -352,7 +337,8 @@
 
         <v-dialog
             v-model="InvoicesStore.state.isExtractInvoicesShown"
-            max-width="700px">
+            max-width="900px"
+        >
             <ExtractInvoices></ExtractInvoices>
         </v-dialog>
     </div>
@@ -447,6 +433,16 @@ export default {
         dateRangeText() {
             return this.uploadDateRange.join(' ~ ');
         },
+
+        principals() {
+            return this.AppStore.state.principals.map(e => {
+                return {
+                    main_vendor_code: e[0],
+                    caption: e[1].map(el => `${el.vendor_code} - ${el.name}`),
+                    caption2: e[1].map(el => `${el.vendor_code}`),
+                }
+            });
+        },
     },
 
     watch: {
@@ -457,7 +453,7 @@ export default {
             this.onPageChange();
         }, 500),
 
-        'principal.vendor_code': {
+        'principal.main_vendor_code': {
             handler(newV, oldV) {
                 this.principalCodeFilter = newV;
             }

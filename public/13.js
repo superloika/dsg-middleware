@@ -99,12 +99,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _this = this;
@@ -262,12 +256,11 @@ var render = function() {
             [
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "4", sm: "6" } },
+                { attrs: { cols: "12" } },
                 [
                   _c("v-text-field", {
                     attrs: {
                       outlined: "",
-                      dense: "",
                       text: "",
                       label: "Old Password *",
                       required: "",
@@ -294,12 +287,11 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "4", sm: "6" } },
+                { attrs: { cols: "12" } },
                 [
                   _c("v-text-field", {
                     attrs: {
                       outlined: "",
-                      dense: "",
                       text: "",
                       label: "New Password *",
                       required: "",
@@ -325,12 +317,11 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "4", sm: "6" } },
+                { attrs: { cols: "12" } },
                 [
                   _c("v-text-field", {
                     attrs: {
                       outlined: "",
-                      dense: "",
                       text: "",
                       label: "Confirm Password *",
                       autocomplete: "false",
@@ -360,7 +351,7 @@ var render = function() {
               _c(
                 "v-col",
                 {
-                  staticClass: "pt-0 pb-0",
+                  staticClass: "pt-0 pb-2",
                   attrs: { "background-color": "red" }
                 },
                 [
@@ -372,9 +363,7 @@ var render = function() {
                       attrs: {
                         color: "primary",
                         loading: _vm.updatingPassword,
-                        outlinedx: "",
-                        smallx: "",
-                        roundedx: ""
+                        rounded: ""
                       },
                       on: {
                         click: function($event) {

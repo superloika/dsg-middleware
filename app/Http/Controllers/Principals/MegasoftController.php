@@ -594,6 +594,9 @@ class MegasoftController extends Controller
 
     public function configs() {
         $arr = [
+            // misc
+            "posting_date_format" => 'm/d/Y',
+
             // customersTableHeader: [
             //     [
             //         { text: "Customer Code", value: "customer_code" },
@@ -659,9 +662,6 @@ class MegasoftController extends Controller
                     ["text" => 'Vendor Code', "value" => 'vendor_code'],
                 ]
             ],
-
-            // misc
-            "posting_date_format" => 'm/d/Y',
         ];
 
         return response()->json($arr);
