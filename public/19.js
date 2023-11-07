@@ -94,10 +94,10 @@ var render = function() {
             "v-btn",
             {
               attrs: {
-                disabled: _vm.PrincipalsStore.state.isExportingTemplatedData,
                 text: "",
                 dense: "",
-                rounded: ""
+                rounded: "",
+                disabled: _vm.PrincipalsStore.state.isExportingTemplatedData
               },
               on: {
                 click: function($event) {
@@ -112,10 +112,10 @@ var render = function() {
             "v-btn",
             {
               attrs: {
-                color: "primary",
-                loading: _vm.PrincipalsStore.state.isExportingTemplatedData,
                 dense: "",
-                rounded: ""
+                rounded: "",
+                color: "primary",
+                loading: _vm.PrincipalsStore.state.isExportingTemplatedData
               },
               on: {
                 click: function($event) {

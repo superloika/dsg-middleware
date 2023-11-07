@@ -38,6 +38,7 @@
                                     clearable solo-inverted rounded flat
                                     placeholder="Search"
                                     v-model="principalsSearchKey"
+                                    @blur="principalsSearchKey = ''"
                                 ></v-text-field>
                             </div>
                         </template>

@@ -977,7 +977,7 @@ class PurefoodsController extends Controller
         $inv = DB::table(PrincipalsUtil::$TBL_INVOICES)
             ->whereIn('vendor_code',['S3030','S4135','S3564'])
             ->update([
-                'status' => 'completed',
+                'status' => 'pending',
             ]);
 
         // returns
@@ -990,7 +990,7 @@ class PurefoodsController extends Controller
                 ;
             })
             ->update([
-                'cm_lines.status' => 'completed',
+                'cm_lines.status' => 'pending',
             ]);
 
         $response['invoice_lines_reverted'] = $inv + $cm;

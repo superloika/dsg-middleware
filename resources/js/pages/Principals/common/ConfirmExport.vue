@@ -17,18 +17,18 @@
             <v-spacer></v-spacer>
 
             <v-btn
-
-                @click="PrincipalsStore.state.confirmExportDialogOpen = false"
-                :disabled="PrincipalsStore.state.isExportingTemplatedData"
                 text dense rounded
+                :disabled="PrincipalsStore.state.isExportingTemplatedData"
+                @click="PrincipalsStore.state.confirmExportDialogOpen = false"
             >
                 Cancel
             </v-btn>
+
             <v-btn
-                @click="InvoicesStore.setInvoicesComplete()"
-                color="primary"
-                :loading="PrincipalsStore.state.isExportingTemplatedData"
                 dense rounded
+                color="primary"
+                @click="InvoicesStore.setInvoicesComplete()"
+                :loading="PrincipalsStore.state.isExportingTemplatedData"
             >
                 Proceed
             </v-btn>

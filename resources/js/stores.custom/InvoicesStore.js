@@ -207,7 +207,10 @@ const actions = {
             //     this.selectedPrincipalCode,
             //     AppStore.state.strDateToday
             // );
-            PrincipalsStore.initCurrentGeneratedData(null, state.invoiceStatus);
+
+            if(state.invoiceStatus!='completed' && state.invoiceStatus!='uploaded') {
+                PrincipalsStore.initCurrentGeneratedData(null, state.invoiceStatus);
+            }
         } catch (error) {
             console.error("setInvoicesComplete():", error);
         }
