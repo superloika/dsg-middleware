@@ -746,13 +746,13 @@ class PurefoodsController extends Controller
                     $item_description =     $return->item_description;
                     $group_code =           $return->group;
                     $discount_percentage =  $return->discount_percentage ?? 0;
-                    $discount_value =       0;
                     $invoice_quantity =     $return->invoice_quantity;
                     $invoice_doc_no =       $return->invoice_doc_no;
                     $return_indicator =     $return->return_indicator;
                     $vendor_code =          $return->vendor_code;
                     $sm_code =              $return->sm_code;
                     $remarks =              $return->remarks;
+                    $discount_value =       0;
                     $vat_percentage =       intval($return->vat_percentage ?? 0);
                     $vat_value =            0;
                     $ext_doc_no =           $return->ext_doc_no;
@@ -793,6 +793,14 @@ class PurefoodsController extends Controller
                         ->where('sm_code', $sm_code)
                         ->first();
 
+                    // // price and uom mapping (supplier) ********************
+                    // $uom_supplier = $return->qty_per_uom > 1 ?
+                    //     $item->uom : $item->conversion_uom;
+                    // $price_supplier = $return->qty_per_uom > 1 ?
+                    //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
+                    // $price_supplier = doubleval($price_supplier);
+                    // $amount_supplier = round($price_supplier * $quantity, 4);
+
                     // ************************* MISC INITS **************************
                     $item_notfound = 0;
                     $customer_notfound = 0;
@@ -827,18 +835,20 @@ class PurefoodsController extends Controller
 
                         // *********** PRICEHACKS RIGHT FUCKIN HERE ************************
                         // map to supplier price
+                        // $price_supplier = $return->qty_per_uom > 1 ?
+                        //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
+
+
+                        // map to supplier price
                         $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
                         // map to orig price temporarily
                         // $price_supplier = $price;
 
                         // reverse percentage to get the vat-ex price
                         if($vat_percentage > 0) {
-                            // $price_vat_ex = $price / (1 + ($vat_percentage / 100));
-                            $price_vat_ex = $price_supplier / (1 + ($vat_percentage / 100));
-                            $vat_value = ($price_supplier - $price_vat_ex) * $quantity;
-                            $price_supplier = $price_vat_ex;
+                            $price_supplier = $price_supplier / (1 + ($vat_percentage / 100));
                         }
-                        // *********** /PRICEHACKS RIGHT FUCKIN HERE **********************
+                        // *********** /PRICEHACKS RIGHT FUCKIN HERE ***********************
 
                         $amount_supplier = $price_supplier * $quantity;
                         $discount_value = $amount_supplier * $discount_percentage / 100;
