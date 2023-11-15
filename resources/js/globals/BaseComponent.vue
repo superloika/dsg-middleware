@@ -1,11 +1,10 @@
 <template>
     <v-app>
-        <v-system-bar app height="60" dark
-            style="
+        <!-- style="
                 background: rgb(237,255,230);
                 background: radial-gradient(circle, rgba(237,255,230,1) 0%, rgba(255,255,255,1) 100%);
-            "
-        >
+            " -->
+        <v-system-bar app height="70" dark color="white">
             <!-- <v-btn
                 @click="toggleDrawerState()"
                 icon

@@ -97,7 +97,7 @@
                             <v-container fluid>
                                 <v-expansion-panels focusable multiple>
                                     <v-expansion-panel
-                                        v-for="(invoice, i) in b"
+                                        v-for="(invoice, invoiceIndex) in b"
                                         :key="'xpnsn-' + invoice.erp_invoice_number"
                                     >
                                         <v-expansion-panel-header>
@@ -120,7 +120,7 @@
                                                     :key = "'chkbx-' + invoice.erp_invoice_number"
                                                 ></v-checkbox>
 
-                                                {{ i+1 }}. {{ invoice.isReturn ? 'Return Invoice': 'Invoice' }} {{ invoice.erp_invoice_number }}
+                                                {{ invoiceIndex + 1 }}. {{ invoice.isReturn ? 'CM #:': 'Invoice #:' }} {{ invoice.erp_invoice_number }}
                                                 (<em>{{ invoice.details.length }} item/s</em>)
 
                                                 <span v-if="(invoice.upload_status!=undefined && invoice.upload_status.success==false)"
@@ -152,23 +152,95 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="d-flex pb-4">
-                                                <div class="pr-6 ">
-                                                    {{ invoice.isReturn ? 'Return Invoice': 'Invoice' }} #: <br><b>{{ invoice.erp_invoice_number }}</b>
-                                                </div>
-                                                <div class="pr-6 ">Invoice Date: <br><b>{{ invoice.invoice_date }}</b></div>
-                                                <div class="pr-6 ">Customer: <br><b>{{ invoice.customer_name }}</b></div>
-                                                <div class="pr-6 ">Amount: <br><b>{{ invoice.invoice_total_amount.toFixed(5) }}</b></div>
-                                                <div class="pr-6 ">DSP: <br><b>{{ invoice.customFields[0].value }}</b></div>
-                                                <div v-if="invoice.isReturn" class="pr-6 ">
-                                                    Return Indicator: <br><b>{{ invoice.customFields[1].value }}</b>
-                                                </div>
-                                                <div v-if="invoice.isReturn" class="pr-6 ">
-                                                    Return Invoice Reference: <br><b>{{ invoice.customFields[2].value }}</b>
-                                                </div>
-                                                <div v-if="invoice.isReturn" class="pr-6 ">
-                                                    Remarks: <br><b>{{ invoice.remarks }}</b>
-                                                </div>
+                                            <div class="pb-4">
+                                                <table class="invoice-detail">
+                                                    <tr>
+                                                        <th>{{ invoice.isReturn ? 'CM': 'Invoice' }} #</th>
+                                                        <th>Invoice Date</th>
+                                                        <th>Customer</th>
+                                                        <th>Amount</th>
+                                                        <th>DSP</th>
+                                                        <th v-if="invoice.isReturn">Return Indicator</th>
+                                                        <th v-if="invoice.isReturn">Return Invoice Reference</th>
+                                                        <th v-if="invoice.isReturn">Remarks</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{ invoice.erp_invoice_number }}</td>
+                                                        <td>{{ invoice.invoice_date }}</td>
+                                                        <td>{{ invoice.customer_name }}</td>
+                                                        <td>{{ invoice.invoice_total_amount.toFixed(5) }}</td>
+                                                        <td>{{ invoice.customFields[0].value }}</td>
+                                                        <td v-if="invoice.isReturn">
+                                                            {{ invoice.customFields[1].value }}
+                                                            <v-menu offset-y>
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                    <v-btn
+                                                                        small rounded color="warning"
+                                                                        v-bind="attrs"
+                                                                        v-on="on"
+                                                                        v-if="
+                                                                            (invoice.customFields[1].value == ''
+                                                                            || invoice.customFields[1].value == null
+                                                                            || invoice.customFields[1].value == 'not_specified')
+                                                                            && !disableUploadBtn
+                                                                        "
+                                                                    >
+                                                                        Override
+                                                                    </v-btn>
+                                                                </template>
+                                                                <v-list>
+                                                                    <v-list-item
+                                                                        v-for="(reason, index) in BrStore.state.return_indicators"
+                                                                        :key="index"
+                                                                        @click="overrideInvoiceProperty(
+                                                                            batchIndex,
+                                                                            invoiceIndex,
+                                                                            'return_indicator_empty',
+                                                                            reason
+                                                                        )"
+                                                                    >
+                                                                    <v-list-item-title>{{ reason }}</v-list-item-title>
+                                                                    </v-list-item>
+                                                                </v-list>
+                                                            </v-menu>
+                                                        </td>
+                                                        <td v-if="invoice.isReturn">{{ invoice.customFields[2].value }}</td>
+                                                        <td v-if="invoice.isReturn">
+                                                            {{ invoice.remarks }}
+                                                            <v-menu offset-y>
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                    <v-btn
+                                                                        small rounded color="warning"
+                                                                        v-bind="attrs"
+                                                                        v-on="on"
+                                                                        v-if="
+                                                                            (invoice.remarks == ''
+                                                                            || invoice.remarks == null
+                                                                            || invoice.remarks == 'not_specified')
+                                                                            && !disableUploadBtn
+                                                                        "
+                                                                    >
+                                                                        Override
+                                                                    </v-btn>
+                                                                </template>
+                                                                <v-list>
+                                                                    <v-list-item
+                                                                        v-for="(reason, index) in BrStore.state.return_reasons"
+                                                                        :key="index"
+                                                                        @click="overrideInvoiceProperty(
+                                                                            batchIndex,
+                                                                            invoiceIndex,
+                                                                            'return_reason_empty',
+                                                                            reason
+                                                                        )"
+                                                                    >
+                                                                    <v-list-item-title>{{ reason }}</v-list-item-title>
+                                                                    </v-list-item>
+                                                                </v-list>
+                                                            </v-menu>
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </div>
                                             <div>
                                                 <v-data-table
@@ -409,6 +481,29 @@ export default {
             if(this.batches) {
                 console.log('BATCH:', this.batches[batchIndex]);
             }
+        },
+
+        overrideInvoiceProperty(
+            batchIndex,
+            invoiceIndex,
+            errorCode,
+            overrideValue
+        ) {
+            if(confirm(`Override with "${overrideValue}"?`)) {
+                if(errorCode == 'return_indicator_empty') {
+                    this.batches[batchIndex][invoiceIndex].customFields[1].value = overrideValue;
+                } else if (errorCode == 'return_reason_empty') {
+                    this.batches[batchIndex][invoiceIndex].remarks = overrideValue;
+                }
+
+                this.batches[batchIndex][invoiceIndex].with_errors =
+                    this.batches[batchIndex][invoiceIndex].with_errors
+                    .filter(e => e.search(errorCode) == -1 );
+
+                if(this.batches[batchIndex][invoiceIndex].with_errors.length < 1) {
+                    this.batches[batchIndex][invoiceIndex].included = true;
+                }
+            }
         }
     },
 
@@ -421,3 +516,22 @@ export default {
     },
 };
 </script>
+
+
+<style scoped>
+table.invoice-detail {
+    font-size: smaller;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table.invoice-detail td, table.invoice-detail th {
+    border: 1px solid #f3f3f3;
+    text-align: left;
+    padding: 4px;
+}
+
+table.invoice-detail tr th {
+    background-color: #f3f3f3;
+}
+</style>

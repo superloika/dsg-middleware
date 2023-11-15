@@ -110,7 +110,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     GeneratedTableWrapper: function GeneratedTableWrapper() {
-      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./GeneratedTableWrapper.vue */ "./resources/js/pages/Principals/common/GeneratedTableWrapper.vue"));
+      return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./GeneratedTableWrapper.vue */ "./resources/js/pages/Principals/common/GeneratedTableWrapper.vue"));
     },
     GeneratedActions: function GeneratedActions() {
       return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! ./GeneratedActions.vue */ "./resources/js/pages/Principals/common/GeneratedActions.vue"));

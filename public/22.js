@@ -208,6 +208,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['lineCount', 'warningsCount'],
   components: {
@@ -216,7 +227,7 @@ __webpack_require__.r(__webpack_exports__);
       return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ./ConfirmExport.vue */ "./resources/js/pages/Principals/common/ConfirmExport.vue"));
     },
     BRUpload: function BRUpload() {
-      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ./BRUpload.vue */ "./resources/js/pages/Principals/common/BRUpload.vue"));
+      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./BRUpload.vue */ "./resources/js/pages/Principals/common/BRUpload.vue"));
     }
   },
   data: function data() {
@@ -378,6 +389,30 @@ var render = function() {
           _c(
             "v-row",
             [
+              _vm.invoiceStatus != "" && _vm.invoiceStatus != null
+                ? _c("v-col", { attrs: { cols: "12" } }, [
+                    _c(
+                      "div",
+                      { staticClass: "d-flex justify-center" },
+                      [
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: {
+                              icon: "",
+                              title: "Regenerate based on current filter"
+                            },
+                            on: { click: _vm.refresh }
+                          },
+                          [_c("v-icon", [_vm._v("mdi-refresh")])],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
               _c(
                 "v-col",
                 { attrs: { cols: "12" } },

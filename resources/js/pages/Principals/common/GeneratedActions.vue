@@ -3,6 +3,17 @@
         <v-card-text>
             <v-row>
 
+                <!-- refresh -->
+                <v-col cols="12" v-if="invoiceStatus != '' && invoiceStatus != null">
+                    <div class="d-flex justify-center">
+                        <v-btn
+                            icon
+                            title="Regenerate based on current filter"
+                            @click="refresh"
+                        ><v-icon>mdi-refresh</v-icon></v-btn>
+                    </div>
+                </v-col>
+
                 <!-- posting date -->
                 <v-col cols="12">
                     <v-text-field

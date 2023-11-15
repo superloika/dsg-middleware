@@ -560,6 +560,7 @@ class PurefoodsController extends Controller
                         ->first();
                     $item = $principal_items
                         ->where('item_code', $item_code)
+                        //last resort
                         ->first();
                     $salesman = $principal_salesmen
                         ->filter(function($sm) use (&$group_code) {
@@ -612,11 +613,11 @@ class PurefoodsController extends Controller
 
                         // *********** PRICEHACKS RIGHT FUCKIN HERE **********************
                         // map to supplier price
-                        // $price_supplier = $pendingInvoice->qty_per_uom > 1 ?
-                        //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
+                        $price_supplier = $pendingInvoice->qty_per_uom > 1 ?
+                            ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
 
                         // map to orig price temporarily
-                        $price_supplier = $price;
+                        // $price_supplier = $price;
 
                         // reverse percentage to get the vat-ex price
                         if($vat_percentage > 0) {
@@ -838,10 +839,11 @@ class PurefoodsController extends Controller
                         $uom_supplier = $return->qty_per_uom > 1 ?
                             $item->uom : $item->conversion_uom;
 
-                        // *********** PRICEHACKS RIGHT FUCKIN HERE **********************
+                        // *********** PRICEHACKS RIGHT FUCKIN HERE ************************
                         // map to supplier price
                         // $price_supplier = $return->qty_per_uom > 1 ?
                         //     ($item->uom_price ?? 0) : ($item->conversion_uom_price ?? 0);
+
                         // map to orig price temporarily
                         $price_supplier = $price;
 
@@ -849,7 +851,7 @@ class PurefoodsController extends Controller
                         if($vat_percentage > 0) {
                             $price_supplier = $price / (1 + ($vat_percentage / 100));
                         }
-                        // *********** /PRICEHACKS RIGHT FUCKIN HERE **********************
+                        // *********** /PRICEHACKS RIGHT FUCKIN HERE ***********************
 
                         $amount_supplier = $price_supplier * $quantity;
                         $discount_value = $amount_supplier * $discount_percentage / 100;
@@ -1012,9 +1014,9 @@ class PurefoodsController extends Controller
                     ["text" => "Item Code",                          "value" => "item_code"],
                     ["text" => "Supplier Item Description",          "value" => "description_supplier"],
                     ["text" => "PCS/CASE",                           "value" => "conversion_qty"],
-                    // ["text" => "CASE Price",                      "value" => "uom_price"],
+                    ["text" => "CASE Price",                        "value" => "uom_price"],
                     ["text" => "UOM",                                "value" => "uom"],
-                    // ["text" => "PCS Price",                       "value" => "conversion_uom_price"],
+                    ["text" => "PCS Price",                         "value" => "conversion_uom_price"],
                     ["text" => "Conversion UOM",                     "value" => "conversion_uom"],
                 ]
             ],
@@ -1054,8 +1056,8 @@ class PurefoodsController extends Controller
                     ["text" =>"Quantity",                           "value" => "quantity"],
                     ["text" =>"Price (NAV)",                        "value" => "price"],
                     ["text" =>"Amount (NAV,Discounted)",            "value" => "amount"],
-                    // ["text" =>"Price",                           "value" => "price_supplier"],
-                    // ["text" =>"Amount",                          "value" => "amount_supplier"],
+                    ["text" =>"Price",                              "value" => "price_supplier"],
+                    ["text" =>"Amount",                             "value" => "amount_supplier"],
                     // ["text" =>"Line Discount %",                 "value" => "discount_percentage"],
                     // ["text" =>"Discount Amount",                 "value" => "discount_value"],
                     ["text" =>"SM Code",                            "value" => "sm_code"],

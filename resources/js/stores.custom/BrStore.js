@@ -12,7 +12,7 @@ const state = Vue.observable({
         'Trade Return Good',
         'Trade Return Bad'
     ],
-    return_remarks: [
+    return_reasons: [
         'Cancelled by Outlet',
         'Cancelled by Salesperson',
         'Expired PO',
@@ -164,23 +164,30 @@ const actions = {
                             }
 
                             // if empty ang return indicator
-                            if(e.return_indicator == '' || e.return_indicator == null) {
+                            if(
+                                e.return_indicator == ''
+                                || e.return_indicator == null
+                                || e.return_indicator == 'not_specified'
+                            ) {
                                 objInvoices[e.invoice_number].with_errors.unshift(
-                                    'Return indicator is not specified'
+                                    'Return indicator is not specified [return_indicator_empty]'
                                 );
                             }
 
                             // if empty ang return reason
-                            if(e.remarks == '' || e.remarks == null) {
+                            if(e.remarks == '' || e.remarks == null || e.remarks == 'not_specified') {
                                 objInvoices[e.invoice_number].with_errors.unshift(
-                                    'Return reason is not specified'
+                                    'Return reason is not specified [return_reason_empty]'
                                 );
                             }
 
                             // if empty ang invoice reference
-                            if(e.cf_return_invoice_reference_value == '' || e.cf_return_invoice_reference_value == null) {
+                            if(
+                                e.cf_return_invoice_reference_value == ''
+                                || e.cf_return_invoice_reference_value == null
+                            ) {
                                 objInvoices[e.invoice_number].with_errors.unshift(
-                                    'Reference invoice not specified'
+                                    'Reference invoice is not specified'
                                 );
                             }
                         }

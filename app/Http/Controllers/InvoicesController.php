@@ -529,7 +529,7 @@ class InvoicesController extends Controller
                     $line_number = 0;
 
                     // remarks lines
-                    $cmRemarks = [];
+                    // $cmRemarks = [];
 
                     if($totalRowCount > 0) {
                         //set memory limit to unli for heavy stuff processing
@@ -590,13 +590,13 @@ class InvoicesController extends Controller
                                     $summaryItem['lines_count_existing'] += 1;
                                 } else {
                                     if($quantity > 0) {
-
                                         $summaryItem['lines_count_uploaded'] += 1;
 
                                         $invoices[] = [
                                             'created_at'=>date($dateTimeToday),
                                             'uploaded_by'=>auth()->user()->id,
-                                            'filename'=> $origFilename,
+                                            // 'filename'=> $origFilename,
+                                            'filename'=> '',
                                             'group'=>$group,
                                             'batch_number' => $batchNumber,
                                             //
@@ -708,43 +708,34 @@ class InvoicesController extends Controller
                                         ->where('item_code',$item_code)
                                         ->where('uom',$uom)
                                         ->where('quantity',$quantity)
-                                        // ->where('shipment_date',$shipment_date)
                                         ->exists() == false
                                 ) {
                                     if($quantity > 0) {
                                         $summaryItem['cm_lines_count_uploaded'] += 1;
 
-                                        $cm_line = [
-                                            'created_at'=>date($dateTimeToday),
-                                            'uploaded_by'=>auth()->user()->id,
-                                            'filename'=> $origFilename,
-                                            'group'=>$group,
+                                        $cm_lines[] = [
+                                            'created_at' => date($dateTimeToday),
+                                            'uploaded_by' => auth()->user()->id,
+                                            // 'filename' =>  $origFilename,
+                                            'filename' =>  '',
+                                            'group' => $group,
                                             'batch_number' => $batchNumber,
                                             //
-                                            'customer_code'=>$customer_code,
-                                            'doc_no'=>$doc_no,
-                                            'shipment_date'=>$shipment_date,
-                                            'item_code'=>$item_code,
-                                            'item_description'=>$item_description,
-                                            'uom'=>$uom,
-                                            'quantity'=>$quantity,
-                                            'price'=>$price,
-                                            'amount'=>$amount,
-                                            'qty_per_uom'=>$qty_per_uom,
-                                            'uom_code'=>$uom_code,
-                                            'discount_percentage'=>$discount_percentage,
-                                            'vat_percentage'=>$vat_percentage,
-                                            // 'ext_doc_no'=>$ext_doc_no,
+                                            'customer_code' => $customer_code,
+                                            'doc_no' => $doc_no,
+                                            'shipment_date' => $shipment_date,
+                                            'item_code' => $item_code,
+                                            'item_description' => $item_description,
+                                            'uom' => $uom,
+                                            'quantity' => $quantity,
+                                            'price' => $price,
+                                            'amount' => $amount,
+                                            'qty_per_uom' => $qty_per_uom,
+                                            'uom_code' => $uom_code,
+                                            'discount_percentage' => $discount_percentage,
+                                            'vat_percentage' => $vat_percentage,
+                                            // 'ext_doc_no' => $ext_doc_no,
                                         ];
-
-                                        DB::table(PrincipalsUtil::$TBL_CM)->insert($cm_line);
-                                    }
-
-                                    // get remarks lines and store to a temp array
-                                    // NOTE: remarks in CMs are stored in item_description column
-                                    // via additional custom CM item line
-                                    if($customer_code=='' && $quantity==0) {
-                                        $cmRemarks[] = [$doc_no, $item_description];
                                     }
                                 } else {
                                     $summaryItem['cm_lines_count_existing'] += 1;
@@ -753,7 +744,7 @@ class InvoicesController extends Controller
 
                             // CM headers ****************************************
                             } else if (
-                                $col_count == 10
+                                $col_count == 12
                                 // $col_count == 11
                                 && $cols[0][0] != '#'
                                 && trim(str_replace('"','',$cols[0])) != ''
@@ -763,35 +754,25 @@ class InvoicesController extends Controller
                                 $posting_date =     trim(str_replace('"','',$cols[4]));
                                 $invoice_doc_no =   trim(str_replace('"','',$cols[8]));
                                 $payment_term =     trim(str_replace('"','',$cols[9]));
-                                $payment_term =     strtolower(str_replace(' ','',$payment_term));
-                                $payment_term =     $payment_term=='' ? 'cod' : $payment_term;
-                                $return_indicator = $ret_indicator->where('payment_term',$payment_term)->first()->return_indicator ?? '';
-                                $return_indicator = $return_indicator=='' ? 'Outright / Devuelto Bad' : $return_indicator;
-                                // $ext_doc_no =       $invoice_doc_no;
-                                // $ext_doc_no =       trim(str_replace('"','',($cols[10] ?? '')));
-                                // $ext_doc_no =       trim(str_replace('"','',$cols[10] ?? $doc_no));
-                                // $ext_doc_no =       $ext_doc_no=='' ? $doc_no : $ext_doc_no;
+                                $return_indicator = trim(str_replace('"','',$cols[10]));
+                                $return_indicator = $return_indicator=='' ? 'not_specified' : $return_indicator;
+                                $return_reason =    trim(str_replace('"','',$cols[11]));
+                                $return_reason = $return_reason=='' ? 'not_specified' : $return_reason;
                                 $ext_doc_no =       DB::table(PrincipalsUtil::$TBL_INVOICES_H)
-                                    ->where('doc_no', $invoice_doc_no)->get()->first()->ext_doc_no ?? '';
+                                                        ->where('doc_no', $invoice_doc_no)->get()->first()->ext_doc_no ?? '';
 
                                 $summaryItem['cm_headers_count'] += 1;
 
-                                if (
-                                    DB::table(PrincipalsUtil::$TBL_CM)
-                                        ->where('doc_no', $doc_no)
-                                        ->where('customer_code', $customer_code)
-                                        ->update([
-                                            'invoice_doc_no' => $invoice_doc_no,
-                                            'return_indicator' => $return_indicator,
-                                            'payment_term' => $payment_term,
-                                            'shipment_date' => $posting_date,
-                                            'ext_doc_no' => $ext_doc_no,
-                                        ])
-                                ) {
-                                    $summaryItem['cm_headers_count_uploaded'] += 1;
-                                } else {
-                                    // $summaryItem['cm_headers_count_existing'] += 1;
-                                }
+                                $cm_headers[] = [
+                                    'doc_no' => $doc_no,
+                                    'customer_code' => $customer_code,
+                                    'invoice_doc_no' => $invoice_doc_no,
+                                    'return_indicator' => $return_indicator,
+                                    'return_reason' => $return_reason,
+                                    'payment_term' => $payment_term,
+                                    'shipment_date' => $posting_date,
+                                    'ext_doc_no' => $ext_doc_no,
+                                ];
                             }
                         }
 
@@ -815,17 +796,36 @@ class InvoicesController extends Controller
                             $chunkCount++;
                         }
 
-                        // DB::table(PrincipalsUtil::$TBL_INVOICES)
-                        //     ->where('created_at','<>',$dateTimeToday)->delete();
-
-                        // update cm remarks
-                        UploadInvoice::dispatch("Updating CM remarks (lines)");
-                        foreach($cmRemarks as $r) {
+                        // save CM lines
+                        $chunks = array_chunk($cm_lines, 500);
+                        $chunkCount = 1;
+                        UploadInvoice::dispatch("Saving CM (lines) (Chunk $chunkCount)");
+                        foreach($chunks as $chunk) {
                             DB::table(PrincipalsUtil::$TBL_CM)
-                                ->where('doc_no', $r[0])
-                                ->update([
-                                    'remarks' =>  $r[1]
-                                ]);
+                                ->insert($chunk);
+                            $chunkCount++;
+                        }
+
+                        // patch CM headers
+                        UploadInvoice::dispatch("Patching CM heads");
+                        foreach($cm_headers as $cmh) {
+                            if (
+                                DB::table(PrincipalsUtil::$TBL_CM)
+                                    ->where('doc_no', $cmh['doc_no'])
+                                    ->where('customer_code', $cmh['customer_code'])
+                                    ->update([
+                                        'invoice_doc_no' => $cmh['invoice_doc_no'],
+                                        'return_indicator' => $cmh['return_indicator'],
+                                        'remarks' => $cmh['return_reason'],
+                                        'payment_term' => $cmh['payment_term'],
+                                        'shipment_date' => $cmh['shipment_date'],
+                                        'ext_doc_no' => $cmh['ext_doc_no'],
+                                    ])
+                            ) {
+                                $summaryItem['cm_headers_count_uploaded'] += 1;
+                            } else {
+                                // $summaryItem['cm_headers_count_existing'] += 1;
+                            }
                         }
                     }
 
@@ -1090,7 +1090,7 @@ class InvoicesController extends Controller
                         $doc_no = $item['external_id'];
 
                         if ($item['success']) {
-                            // update sales returns status
+                            // update sales returns status (CM)
                             DB::table(PrincipalsUtil::$TBL_CM)
                                 ->join(
                                     PrincipalsUtil::$TBL_INVOICES,
@@ -1130,7 +1130,9 @@ class InvoicesController extends Controller
                                 )
                                 ->where('ext_doc_no', $doc_no)
                                 // ->where('vendor_code', $vendor_code)
-                                ->update(['status' => PrincipalsUtil::$STATUS_UPLOADED]);
+                                ->update([
+                                    'status' => PrincipalsUtil::$STATUS_UPLOADED
+                                ]);
                         }
                     }
                 }
