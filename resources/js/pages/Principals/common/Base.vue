@@ -1,7 +1,7 @@
 <template>
 <v-sheet>
     <!-- <v-app-bar elevation="0" app color="secondary darken-1" dense> -->
-    <v-app-bar elevation="27" app dense color="white">
+    <v-app-bar elevation="27" dense color="white" app>
         <v-toolbar-title class="primary--text">
             <!-- <v-icon>mdi-store</v-icon> -->
             <span class="font-weight-bold text-subtitle-2" :title="selectedPrincipal.name">

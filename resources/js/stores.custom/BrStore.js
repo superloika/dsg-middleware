@@ -7,8 +7,8 @@ const state = Vue.observable({
     brUploadDialogOpen: false,
     // currentGeneratedBatches: [],
     return_indicators: [
-        'Outright / Devuelto Good',
-        'Outright / Devuelto Bad',
+        'Outright \/ Devuelto Good',
+        'Outright \/ Devuelto Bad',
         'Trade Return Good',
         'Trade Return Bad'
     ],

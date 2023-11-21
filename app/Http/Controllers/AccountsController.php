@@ -142,9 +142,12 @@ class AccountsController extends Controller
 
     function updatePrincipalAssignment(Request $request)
     {
+        $main_vendor_codes = json_encode($request->main_vendor_codes);
+        $main_vendor_codes = $main_vendor_codes == '[]' ? NULL : $main_vendor_codes;
+
         // dd($request);
         $validator = Validator::make($request->all(), [
-            'main_vendor_codes' => 'required',
+            // 'main_vendor_codes' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -157,7 +160,7 @@ class AccountsController extends Controller
                 $result = DB::table('users')
                     ->where('id', $request->id)
                     ->update([
-                        'main_vendor_codes' => json_encode($request->main_vendor_codes),
+                        'main_vendor_codes' => $main_vendor_codes,
                     ]);
                 return response()->json($result);
             } catch (QueryException $e) {

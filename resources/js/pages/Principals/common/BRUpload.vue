@@ -504,6 +504,8 @@ export default {
                     this.batches[batchIndex][invoiceIndex].included = true;
                 }
             }
+
+            console.log('BATCHES:', this.batches);
         }
     },
 

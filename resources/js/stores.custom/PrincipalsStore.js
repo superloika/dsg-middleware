@@ -233,7 +233,7 @@ const actions = {
             let result = await axios.get(url,
                 {
                     // signal: window.abortCtrl.signal,
-                    cancelToken: window.cancelTokenSource.token,
+                    // cancelToken: window.cancelTokenSource.token,
                 }
             );
             state.isGeneratingData = false;

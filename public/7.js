@@ -499,6 +499,8 @@ __webpack_require__.r(__webpack_exports__);
           this.batches[batchIndex][invoiceIndex].included = true;
         }
       }
+
+      console.log('BATCHES:', this.batches);
     }
   },
   created: function created() {

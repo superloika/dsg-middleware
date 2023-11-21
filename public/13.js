@@ -95,6 +95,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -108,7 +113,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       errMsgs: [],
       errMsgsShown: false,
       errorMsgs: {},
-      principalsSearchKey: ''
+      principalsSearchKey: '',
+      editMode: false
     };
   },
   computed: {
@@ -182,7 +188,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 url = "".concat(_this.AppStore.state.siteUrl, "accounts/update-principal-assignment");
                 payload = {
-                  _method: "PATCH",
+                  _method: "PUT",
                   id: vm.account.id,
                   main_vendor_codes: vm.account.main_vendor_codes
                 };
@@ -246,6 +252,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee, null, [[4, 12]]);
       }))();
+    },
+    editDone: function editDone() {
+      this.editMode = !this.editMode;
+
+      if (this.editMode == false) {
+        this.principalsSearchKey = '';
+      }
     }
   },
   mounted: function mounted() {
@@ -293,6 +306,29 @@ var render = function() {
                 "v-col",
                 { attrs: { cols: "12" } },
                 [
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "mb-3",
+                      attrs: {
+                        rounded: "",
+                        depressed: "",
+                        small: "",
+                        color: "primary"
+                      },
+                      on: { click: _vm.editDone }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(
+                            _vm.editMode == false ? "Edit Selection" : "Done"
+                          ) +
+                          "\n                "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
                   _c("v-select", {
                     attrs: {
                       multiple: "",
@@ -301,7 +337,8 @@ var render = function() {
                       items: _vm.filteredPrincipals,
                       "item-text": "caption",
                       "item-value": "main_vendor_code",
-                      label: "Assigned Principals"
+                      label: "Assigned Principals",
+                      disabled: !_vm.editMode
                     },
                     scopedSlots: _vm._u([
                       {
@@ -319,11 +356,6 @@ var render = function() {
                                     rounded: "",
                                     flat: "",
                                     placeholder: "Search"
-                                  },
-                                  on: {
-                                    blur: function($event) {
-                                      _vm.principalsSearchKey = ""
-                                    }
                                   },
                                   model: {
                                     value: _vm.principalsSearchKey,
@@ -349,7 +381,7 @@ var render = function() {
                               "div",
                               { staticClass: "py-2" },
                               _vm._l(item.caption, function(c, index) {
-                                return _c("div", { key: index }, [
+                                return _c("div", { key: index + "_1" }, [
                                   _c(
                                     "small",
                                     { staticClass: "text-caption ma-1" },
@@ -371,7 +403,7 @@ var render = function() {
                           return _vm._l(item.caption, function(c, index) {
                             return _c(
                               "div",
-                              { key: index },
+                              { key: index + "_" + item.main_vendor_code },
                               [
                                 _c(
                                   "v-chip",
@@ -421,7 +453,8 @@ var render = function() {
                       attrs: {
                         color: "primary",
                         loading: _vm.updatingPrincipal,
-                        rounded: ""
+                        rounded: "",
+                        disabled: _vm.editMode
                       },
                       on: {
                         click: function($event) {

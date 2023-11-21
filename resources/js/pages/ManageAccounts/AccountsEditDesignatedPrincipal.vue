@@ -21,9 +21,12 @@
 
         <v-form v-model="frm_edit_principal" ref="frm_edit_principal">
             <v-row>
-                <v-col
-                    cols="12"
-                >
+                <v-col cols="12">
+                    <v-btn @click="editDone"  rounded depressed small
+                        color="primary" class="mb-3"
+                    >
+                        {{ editMode==false ? 'Edit Selection' : 'Done' }}
+                    </v-btn>
                     <v-select
                         multiple outlined clearable
                         v-model="account.main_vendor_codes"
@@ -31,6 +34,7 @@
                         item-text="caption"
                         item-value="main_vendor_code"
                         label="Assigned Principals"
+                        :disabled="!editMode"
                     >
                         <template v-slot:prepend-item>
                             <div class="mx-2 mb-0 pb-0">
@@ -38,20 +42,20 @@
                                     clearable solo-inverted rounded flat
                                     placeholder="Search"
                                     v-model="principalsSearchKey"
-                                    @blur="principalsSearchKey = ''"
+
                                 ></v-text-field>
                             </div>
                         </template>
                         <template v-slot:item = "{ item }">
                             <div class="py-2">
-                                <div v-for="(c, index) in item.caption" :key="index">
+                                <div v-for="(c, index) in item.caption" :key="index + '_1'">
                                     <small class="text-caption ma-1">{{ c }}</small>
                                     <br>
                                 </div>
                             </div>
                         </template>
                         <template v-slot:selection = "{ item }">
-                            <div v-for="(c, index) in item.caption" :key="index">
+                            <div v-for="(c, index) in item.caption" :key="index + '_' + item.main_vendor_code">
                                 <v-chip color="primary" x-small>{{ c }}</v-chip>
                             </div>
                         </template>
@@ -67,6 +71,7 @@
                         :loading="updatingPrincipal"
                         class="float-lg-right float-md-right float-sm-right"
                         rounded
+                        :disabled="editMode"
                     >
                         Update
                     </v-btn>
@@ -91,6 +96,7 @@ export default {
             errMsgsShown: false,
             errorMsgs: {},
             principalsSearchKey: '',
+            editMode: false,
         };
     },
 
@@ -157,7 +163,7 @@ export default {
                 let url = `${this.AppStore.state.siteUrl}accounts/update-principal-assignment`;
 
                 let payload = {
-                    _method: "PATCH",
+                    _method: "PUT",
                     id: vm.account.id,
                     main_vendor_codes: vm.account.main_vendor_codes,
                 }
@@ -208,6 +214,14 @@ export default {
                     this.AppStore.toast(error, 3000);
                 }
                 this.updatingPrincipal = false;
+            }
+        },
+
+        editDone() {
+            this.editMode = !this.editMode;
+
+            if(this.editMode == false) {
+                this.principalsSearchKey = '';
             }
         }
     },

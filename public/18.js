@@ -126,7 +126,7 @@ var render = function() {
     [
       _c(
         "v-app-bar",
-        { attrs: { elevation: "27", app: "", dense: "", color: "white" } },
+        { attrs: { elevation: "27", dense: "", color: "white", app: "" } },
         [
           _c(
             "v-toolbar-title",
