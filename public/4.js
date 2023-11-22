@@ -129,13 +129,62 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       users: [],
       // messages: [],
       newMessage: "",
-      sending: false
+      sending: false,
+      files: []
     };
   },
   computed: {
@@ -172,27 +221,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     sendMessage: function sendMessage(message) {
-      var _this2 = this;
+      var _arguments = arguments,
+          _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var payload;
+        var attachments, config, formData, i;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                payload = {
-                  message: message,
-                  channel: _this2.channel
+                attachments = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : [];
+                config = {
+                  headers: {
+                    'content-type': 'multipart/form-data'
+                  }
                 };
+                formData = new FormData();
+
+                for (i = 0; i < attachments.length; i++) {
+                  formData.append('attachments[' + i + ']', attachments[i]);
+                }
+
+                formData.append('message', message);
+                formData.append('channel', _this2.channel); // const payload = {
+                //     message: message,
+                //     channel: this.channel,
+                //     attachments: attachments
+                // };
+
                 _this2.sending = true;
-                _context2.next = 4;
-                return axios.post("/devchat/send-message", payload).then(function (response) {
+                _context2.next = 9;
+                return axios.post("/devchat/send-message", formData, config).then(function (response) {
                   _this2.newMessage = "";
+                  _this2.files = [];
                   console.log(response.data);
                   _this2.sending = false;
                 });
 
-              case 4:
+              case 9:
               case "end":
                 return _context2.stop();
             }
@@ -265,6 +331,7 @@ var render = function() {
                       solo: "",
                       "auto-grow": "",
                       "hide-details": "",
+                      rounded: "",
                       label: "Type your message here",
                       rows: "1"
                     },
@@ -281,6 +348,77 @@ var render = function() {
                     "div",
                     { staticClass: "d-flex justify-end" },
                     [
+                      _c("v-file-input", {
+                        staticClass: "mr-3",
+                        attrs: {
+                          counter: "",
+                          rounded: "",
+                          "small-chips": "",
+                          outlined: "",
+                          multiple: "",
+                          dense: "",
+                          color: "primary",
+                          "prepend-icon": "mdi-paperclip",
+                          "show-size": 1000,
+                          label: "Attachments",
+                          placeholder: "Select files",
+                          loading: _vm.sending
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "selection",
+                            fn: function(ref) {
+                              var index = ref.index
+                              var text = ref.text
+                              return [
+                                index < 2
+                                  ? _c(
+                                      "v-chip",
+                                      {
+                                        attrs: {
+                                          color: "primary",
+                                          dark: "",
+                                          label: "",
+                                          small: ""
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                            " +
+                                            _vm._s(text) +
+                                            "\n                        "
+                                        )
+                                      ]
+                                    )
+                                  : index === 2
+                                  ? _c(
+                                      "span",
+                                      {
+                                        staticClass:
+                                          "text-overline grey--text text--darken-3 mx-2"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                            +" +
+                                            _vm._s(_vm.files.length - 2) +
+                                            " File(s)\n                        "
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e()
+                              ]
+                            }
+                          }
+                        ]),
+                        model: {
+                          value: _vm.files,
+                          callback: function($$v) {
+                            _vm.files = $$v
+                          },
+                          expression: "files"
+                        }
+                      }),
+                      _vm._v(" "),
                       _c(
                         "v-btn",
                         {
@@ -295,7 +433,7 @@ var render = function() {
                           },
                           on: {
                             click: function($event) {
-                              return _vm.sendMessage(_vm.newMessage)
+                              return _vm.sendMessage(_vm.newMessage, _vm.files)
                             }
                           }
                         },
@@ -354,26 +492,32 @@ var render = function() {
                                 _c("div", { staticClass: "d-flex" }, [
                                   _c(
                                     "div",
-                                    [
-                                      _c(
-                                        "v-icon",
-                                        { attrs: { color: "", dark: "" } },
-                                        [_vm._v("mdi-account")]
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "pt-1 font-weight-bold caption"
-                                    },
+                                    { staticClass: "font-weight-bold" },
                                     [
                                       _vm._v(
                                         "\n                                        " +
                                           _vm._s(message.name) +
+                                          "\n                                    "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(
+                                    "\n                                     \n                                    "
+                                  ),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "caption",
+                                      class:
+                                        _vm.AuthUser.username ==
+                                        message.username
+                                          ? "lime--text"
+                                          : "grey--text"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                        @" +
+                                          _vm._s(message.username) +
                                           "\n                                    "
                                       )
                                     ]
@@ -388,15 +532,70 @@ var render = function() {
                                   }
                                 }),
                                 _vm._v(" "),
-                                _c("div", { staticClass: "mt-2" }, [
-                                  _c("em", { staticClass: "caption" }, [
-                                    _vm._v(
-                                      "\n                                        " +
-                                        _vm._s(message.created_at) +
-                                        "\n                                    "
-                                    )
-                                  ])
-                                ])
+                                _c(
+                                  "div",
+                                  { staticClass: "caption pt-2" },
+                                  _vm._l(
+                                    JSON.parse(message.attachments),
+                                    function(attachment, attachment_index) {
+                                      return _c(
+                                        "div",
+                                        { key: attachment_index },
+                                        [
+                                          _c(
+                                            "a",
+                                            {
+                                              staticClass: "white--text",
+                                              staticStyle: {
+                                                "text-decoration": "none"
+                                              },
+                                              attrs: {
+                                                href:
+                                                  "/storage/attachments/" +
+                                                  message.channel +
+                                                  "/" +
+                                                  attachment,
+                                                target: "_blank",
+                                                "x-small": ""
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                {
+                                                  attrs: {
+                                                    small: "",
+                                                    color: "white"
+                                                  }
+                                                },
+                                                [_vm._v("mdi-attachment")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("small", [
+                                                _vm._v(_vm._s(attachment))
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      )
+                                    }
+                                  ),
+                                  0
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "mt-2 caption d-flex justify-end"
+                                  },
+                                  [
+                                    _c("small", [
+                                      _vm._v(_vm._s(message.created_at))
+                                    ])
+                                  ]
+                                )
                               ]
                             )
                           ]
@@ -422,15 +621,23 @@ var render = function() {
                     "v-card-text",
                     _vm._l(_vm.onlineUsers, function(u) {
                       return _c("div", { key: u.username }, [
-                        _c("span", { staticClass: "primary--text" }, [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(u.name) +
-                              " ("
-                          ),
-                          _c("em", [_vm._v(_vm._s(u.username))]),
-                          _vm._v(")\n                        ")
-                        ])
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "caption primary--text font-weight-bold"
+                          },
+                          [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(u.name) +
+                                " "
+                            ),
+                            _c("span", { staticClass: "grey--text" }, [
+                              _vm._v("@" + _vm._s(u.username))
+                            ])
+                          ]
+                        )
                       ])
                     }),
                     0
