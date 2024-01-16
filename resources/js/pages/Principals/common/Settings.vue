@@ -20,21 +20,21 @@
         <!-- <v-row v-if="PrincipalsStore.state.settings.length > 0"> -->
             <!-- <v-col cols="12" lg="3" md="4" sm="6" -->
             <v-container fluid>
-                <v-card
-                    v-for="(setting, index) in PrincipalsStore.state.settings"
-                    :key="index"
-                    class="ma-8"
-                >
-                    <v-card-text>
+                <v-row >
+                    <v-col cols="3"
+                        v-for="(setting, index) in PrincipalsStore.state.settings"
+                        :key="index"
+                    >
                         <v-text-field
                             v-if="setting.type=='number' || setting.type=='text'"
                             v-model="setting.value"
-                            :label="setting.description" outlined
+                            :label="setting.description"
                             :hint="setting.hint"
-                            persistent-hint
                             :type="setting.type"
+                            persistent-hint outlined
                         >
                         </v-text-field>
+
                         <v-switch
                             v-if="setting.type=='toggle'"
                             :label="setting.description"
@@ -47,8 +47,8 @@
                                 ).value
                             "
                         >
-
                         </v-switch>
+
                         <v-textarea
                             v-if="setting.type=='json'"
                             v-model="setting.value"
@@ -60,9 +60,8 @@
                             color="warning"
                             auto-grow
                         ></v-textarea>
-
-                    </v-card-text>
-                </v-card>
+                    </v-col>
+                </v-row>
             </v-container>
         <!-- </v-row> -->
     <!-- </v-card-text> -->

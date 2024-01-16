@@ -79,7 +79,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -148,22 +147,25 @@ var render = function() {
       _c(
         "v-container",
         { attrs: { fluid: "" } },
-        _vm._l(_vm.PrincipalsStore.state.settings, function(setting, index) {
-          return _c(
-            "v-card",
-            { key: index, staticClass: "ma-8" },
-            [
-              _c(
-                "v-card-text",
+        [
+          _c(
+            "v-row",
+            _vm._l(_vm.PrincipalsStore.state.settings, function(
+              setting,
+              index
+            ) {
+              return _c(
+                "v-col",
+                { key: index, attrs: { cols: "3" } },
                 [
                   setting.type == "number" || setting.type == "text"
                     ? _c("v-text-field", {
                         attrs: {
                           label: setting.description,
-                          outlined: "",
                           hint: setting.hint,
+                          type: setting.type,
                           "persistent-hint": "",
-                          type: setting.type
+                          outlined: ""
                         },
                         model: {
                           value: setting.value,
@@ -229,10 +231,10 @@ var render = function() {
                 ],
                 1
               )
-            ],
+            }),
             1
           )
-        }),
+        ],
         1
       )
     ],

@@ -50,7 +50,7 @@
                 mdi-alert
             </v-icon>
             <v-tooltip
-                v-if="item.customer_notfound==1"
+                v-if="item.customer_notfound==1 && item.customer_code != ''"
                 right
             >
                 <template v-slot:activator="{ on, attrs }">
@@ -125,7 +125,7 @@
                 mdi-alert
             </v-icon>
             <v-tooltip
-                v-if="item.item_notfound==1"
+                v-if="item.item_notfound==1 && item.item_code != ''"
                 left
             >
                 <template
@@ -171,7 +171,7 @@
 
         <template v-slot:[`item.sm_code`]="{ item }">
             <v-chip
-                v-if="item.salesman_notfound==1"
+                v-if="item.salesman_notfound==1 && item.sm_code != ''"
                 color="warning"
                 small
                 outlined
@@ -191,7 +191,7 @@
         </template>
 
         <template v-slot:[`item.price_supplier`]="{ item }">
-            <div class="text-right">
+            <div class="text-right blue--text">
                 {{ item.price_supplier }}
             </div>
         </template>
@@ -203,7 +203,7 @@
         </template>
 
         <template v-slot:[`item.amount_supplier`]="{ item }">
-            <div class="text-right">
+            <div class="text-right blue--text">
                 {{ item.amount_supplier }}
             </div>
         </template>

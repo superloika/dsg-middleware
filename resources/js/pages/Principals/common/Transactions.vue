@@ -158,6 +158,11 @@
                 {{ item.description }}
             </span>
         </template>
+        <template v-slot:[`item.amount`] = "{ item }">
+            <div style="text-align: right;">
+                {{ item.amount }}
+            </div>
+        </template>
     </v-data-table>
 </v-card>
 </template>

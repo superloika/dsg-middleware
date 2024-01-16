@@ -214,11 +214,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['lineCount', 'warningsCount'],
   components: {
@@ -236,7 +231,8 @@ __webpack_require__.r(__webpack_exports__);
       dlgMissingItems: null,
       dlgMissingSalesmen: null,
       datePickerShown: false,
-      currentTimestamp: ''
+      currentTimestamp: '' // showRefresh: false,
+
     };
   },
   computed: {
@@ -277,14 +273,14 @@ __webpack_require__.r(__webpack_exports__);
       || this.InvoicesStore.state.invoiceStatus != 'completed' && this.InvoicesStore.state.invoiceStatus != 'pending';
     }
   },
-  watch: {
-    invoiceStatus: function invoiceStatus() {
-      this.refresh();
-    },
-    selectedGroupBy: function selectedGroupBy() {
-      this.refresh();
-    }
-  },
+  // watch: {
+  //     invoiceStatus() {
+  //         this.refresh();
+  //     },
+  //     selectedGroupBy() {
+  //         this.refresh();
+  //     },
+  // },
   methods: {
     missingInMaster: function missingInMaster(type) {
       try {
@@ -346,6 +342,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.invoiceStatus != '') {
         var _this$PrincipalsStore;
 
+        // this.showRefresh = true;
         this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus, (_this$PrincipalsStore = this.PrincipalsStore.state.configs.posting_date_format) !== null && _this$PrincipalsStore !== void 0 ? _this$PrincipalsStore : 'm/d/Y');
         this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
       }
@@ -354,8 +351,6 @@ __webpack_require__.r(__webpack_exports__);
       this.currentTimestamp = Date.now();
       this.BrStore.state.brUploadDialogOpen = true;
     }
-  },
-  created: function created() {// this.InvoicesStore.state.invoiceStatus='pending';
   },
   mounted: function mounted() {
     console.log("GeneratedActions component mounted");
@@ -389,30 +384,6 @@ var render = function() {
           _c(
             "v-row",
             [
-              _vm.invoiceStatus != "" && _vm.invoiceStatus != null
-                ? _c("v-col", { attrs: { cols: "12" } }, [
-                    _c(
-                      "div",
-                      { staticClass: "d-flex justify-center" },
-                      [
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: {
-                              icon: "",
-                              title: "Regenerate based on current filter"
-                            },
-                            on: { click: _vm.refresh }
-                          },
-                          [_c("v-icon", [_vm._v("mdi-refresh")])],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
               _c(
                 "v-col",
                 { attrs: { cols: "12" } },
@@ -420,12 +391,12 @@ var render = function() {
                   _c("v-text-field", {
                     staticStyle: { "max-width": "500px", "min-width": "250px" },
                     attrs: {
-                      label: "Posting Date",
                       "hide-details": "",
                       readonly: "",
                       dense: "",
                       outlined: "",
                       rounded: "",
+                      label: "Posting Date",
                       disabled: _vm.PrincipalsStore.state.isGeneratingData
                     },
                     on: {
@@ -530,10 +501,9 @@ var render = function() {
                               },
                               on: {
                                 click: function($event) {
-                                  _vm.$refs.datePicker.save(
+                                  return _vm.$refs.datePicker.save(
                                     _vm.PrincipalsStore.state.posting_date_range
                                   )
-                                  _vm.refresh()
                                 }
                               }
                             },
@@ -624,11 +594,42 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: {
-                        title: "Export to Excel",
                         dense: "",
                         rounded: "",
-                        color: "primary",
+                        outlined: "",
                         block: "",
+                        title: "Generate",
+                        color: "primary",
+                        loading: _vm.PrincipalsStore.state.isGeneratingData,
+                        disabled: this.invoiceStatus == ""
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.refresh()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                    Generate\n                ")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-col", [_c("v-divider")], 1),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "12" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        dense: "",
+                        rounded: "",
+                        block: "",
+                        title: "Export to Excel",
+                        color: "primary",
                         disabled: _vm.disableExportBtn
                       },
                       on: {
@@ -639,10 +640,14 @@ var render = function() {
                       }
                     },
                     [
+                      _c("v-icon", { attrs: { left: "", size: "25" } }, [
+                        _vm._v("mdi-file-excel")
+                      ]),
                       _vm._v(
                         "\n                    Export to Excel\n                "
                       )
-                    ]
+                    ],
+                    1
                   )
                 ],
                 1
@@ -720,9 +725,9 @@ var render = function() {
         {
           attrs: {
             persistent: "",
-            "max-width": "100%",
             scrollable: "",
-            fullscreen: ""
+            fullscreen: "",
+            "max-width": "100%"
           },
           model: {
             value: _vm.BrStore.state.brUploadDialogOpen,

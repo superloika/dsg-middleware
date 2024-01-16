@@ -20,7 +20,7 @@ class InvoicesController extends Controller
         $this->middleware('auth');
     }
 
-    function index() {
+    function index($forTotal = false) {
         // *************************************************
         // $vendor_codes = "";
         // $vcs = DB::table('principals')->where('active', 1)
@@ -73,17 +73,17 @@ class InvoicesController extends Controller
                             'like', '%'.$search_key. '%'
                         )
                         ->orWhere(
-                            PrincipalsUtil::$TBL_INVOICES_H.'.posting_date',
+                            PrincipalsUtil::$TBL_INVOICES.'.posting_date',
                             'like', '%'.$search_key. '%'
                         )
                         ->orWhere(
                             PrincipalsUtil::$TBL_INVOICES.'.shipment_date',
                             'like', '%'.$search_key. '%'
                         )
-                        ->orWhere(
-                            PrincipalsUtil::$TBL_INVOICES.'.created_at',
-                            'like', '%'.$search_key. '%'
-                        )
+                        // ->orWhere(
+                        //     PrincipalsUtil::$TBL_INVOICES.'.created_at',
+                        //     'like', '%'.$search_key. '%'
+                        // )
 
                         ->orWhere(
                             PrincipalsUtil::$TBL_INVOICES.'.item_code',
@@ -94,31 +94,17 @@ class InvoicesController extends Controller
                             'like', '%'.$search_key. '%'
                         )
                         ->orWhere(
-                            PrincipalsUtil::$TBL_INVOICES_H.'.customer_name',
+                            PrincipalsUtil::$TBL_INVOICES.'.customer_name',
                             'like', '%'.$search_key. '%'
                         )
                         ->orWhere(
-                            PrincipalsUtil::$TBL_INVOICES_H.'.sm_code',
+                            PrincipalsUtil::$TBL_INVOICES.'.sm_code',
                             'like', '%'.$search_key. '%'
                         )
 
                         ->orWhere('batch_number','like', '%'.$search_key. '%');
                 });
             })
-
-            // ->where(function($query) use ($principal_code) {
-
-            // })
-
-            // ->when($principal_code != '', function($query) use($principal_code) {
-            //     if($principal_code != '') {
-            //         if($principal_code=='others') {
-            //             $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code', null);
-            //         } else {
-            //             $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.code', $principal_code);
-            //         }
-            //     }
-            // })
             ->when($principal_code != '', function($query) use($principal_code) {
                 if($principal_code != '') {
                     if($principal_code=='others') {
@@ -130,14 +116,6 @@ class InvoicesController extends Controller
                     }
                 }
             })
-
-            // ->where(
-            //     PrincipalsUtil::$TBL_INVOICES. '.vendor_code','like', '%'.$vendor_code. '%'
-            // )
-
-            // ->where(
-            //     PrincipalsUtil::$TBL_INVOICES. '.status','like', '%'.$status. '%'
-            // )
             ->when($status != '' && $status != 'all', function($q) use($status) {
                 $q->where(PrincipalsUtil::$TBL_INVOICES.'.status','like', "%$status%");
             })
@@ -146,90 +124,32 @@ class InvoicesController extends Controller
                     PrincipalsUtil::$TBL_INVOICES. '.group','like', '%'.$terminal. '%'
                 );
             })
-
-            // ->whereBetween(
-            //     DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
-            //     [$dateFrom, $dateTo]
-            // )
             ->whereBetween(
                 DB::raw('DATE('. PrincipalsUtil::$TBL_INVOICES. ".created_at". ')'),
                 [$dateFrom->startOfDay(), $dateTo->endOfDay()]
-            )
-            // ->whereBetween(
-            //     PrincipalsUtil::$TBL_INVOICES. ".created_at",
-            //     [$dateFrom->subDay(), $dateTo->addDay()]
-            // )
-            // ->whereDate(PrincipalsUtil::$TBL_INVOICES. ".created_at",'>=',$dateFrom)
-            // ->whereDate(PrincipalsUtil::$TBL_INVOICES. ".created_at",'<=',$dateTo)
-
-
-            // ->leftJoin('users', 'users.id', PrincipalsUtil::$TBL_INVOICES. '.uploaded_by')
-
-            // ->leftJoin(
-            //     PrincipalsUtil::$TBL_PRINCIPALS,
-            //     PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
-            //     PrincipalsUtil::$TBL_INVOICES.'.vendor_code'
-            // )
-
-            // ->join(
-            //     PrincipalsUtil::$TBL_INVOICES_H,
-            //     PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
-            //     PrincipalsUtil::$TBL_INVOICES.'.doc_no'
-            // )
-
-            // testing ra ni
-            // ->where(
-            //     DB::raw('DATE('.PrincipalsUtil::$TBL_INVOICES.'.created_at)'),
-            //     Carbon::now()->format('Y-m-d')
-            // )
-
-            ->join(
-                PrincipalsUtil::$TBL_INVOICES_H,
-                function($join) {
-                    $join->on(
-                        PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
-                        PrincipalsUtil::$TBL_INVOICES.'.doc_no'
-                    )
-                    ->on(
-                        PrincipalsUtil::$TBL_INVOICES_H.'.customer_code',
-                        PrincipalsUtil::$TBL_INVOICES.'.customer_code'
-                    )
-                    ;
-                }
-            )
-
-            ->select(
-                PrincipalsUtil::$TBL_INVOICES. '.*',
-                PrincipalsUtil::$TBL_INVOICES. '.id as lineID',
-                // 'users.name AS user_fullname',
-                // 'users.username',
-                // PrincipalsUtil::$TBL_PRINCIPALS.'.name AS principals_name',
-                // PrincipalsUtil::$TBL_PRINCIPALS.'.code',
-                // PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
-
-                PrincipalsUtil::$TBL_INVOICES_H. '.id as headID',
-                PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
-                PrincipalsUtil::$TBL_INVOICES_H. '.sm_code',
-                PrincipalsUtil::$TBL_INVOICES_H. '.posting_date',
             );
 
-            // $sum = $result->sum(PrincipalsUtil::$TBL_INVOICES. '.amount');
-            $sum = 0;
 
-            // $invoices = $result->orderBy('id','DESC')
-            // $invoices = $result->orderBy(PrincipalsUtil::$TBL_INVOICES_H. '.posting_date','DESC')
-            //     ->paginate($row_count);
-            // $invoices = $result->latest()->paginate($row_count);
-            // $invoices = $result->orderBy('id')->cursorPaginate($row_count);
-            // dd($row_count);
-            // $invoices = $result->simplePaginate(intval($row_count));
-            $invoices = $result->paginate($row_count);
+        if($forTotal) {
+            return $result;
+        } else {
+            return response()->json([
+                'sum' => 0, // wala na ni
+                'invoices' => $result->select(PrincipalsUtil::$TBL_INVOICES. '.*')
+                    ->paginate($row_count)
+            ]);
+        }
+    }
 
+
+
+    function grandTotal() {
         return response()->json([
-            'sum' => $sum,
-            'invoices' => $invoices
+            'sum' => $this->index(true)->sum(PrincipalsUtil::$TBL_INVOICES. '.amount')
         ]);
     }
+
+
 
     function lookup() {
         $search_key = trim(request()->search_key ?? '');
@@ -241,175 +161,18 @@ class InvoicesController extends Controller
             $result = DB::table(PrincipalsUtil::$TBL_INVOICES)
                 ->where(function($query) use ($search_key) {
                     $query->where(PrincipalsUtil::$TBL_INVOICES.'.doc_no',$search_key)
-                        ->orWhere(PrincipalsUtil::$TBL_INVOICES_H.'.ext_doc_no', $search_key)
+                        ->orWhere(PrincipalsUtil::$TBL_INVOICES.'.ext_doc_no', $search_key)
                         ;
                 })
-                ->join(
-                    PrincipalsUtil::$TBL_INVOICES_H,
-                    function($join) {
-                        $join->on(
-                            PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
-                            PrincipalsUtil::$TBL_INVOICES.'.doc_no'
-                        )
-                        ->on(
-                            PrincipalsUtil::$TBL_INVOICES_H.'.customer_code',
-                            PrincipalsUtil::$TBL_INVOICES.'.customer_code'
-                        )
-                        ;
-                    }
-                )
-                ->select(
-                    PrincipalsUtil::$TBL_INVOICES. '.*',
-                    PrincipalsUtil::$TBL_INVOICES. '.id as lineID',
-                    PrincipalsUtil::$TBL_INVOICES_H. '.id as headID',
-                    PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
-                    PrincipalsUtil::$TBL_INVOICES_H. '.sm_code',
-                    PrincipalsUtil::$TBL_INVOICES_H. '.posting_date',
-                    PrincipalsUtil::$TBL_INVOICES_H. '.ext_doc_no',
-                )
+
+                ->select(PrincipalsUtil::$TBL_INVOICES. '.*')
                 ->cursor();
         }
 
         return response()->json($result);
     }
 
-    function grandTotal() {
-        // posting date range
-        $dates = explode(',', request()->upload_date_range);
-        sort($dates);
-        $dateFrom = '';
-        $dateTo = '';
-        if(count($dates) > 1) {
-            $dateFrom = $dates[0];
-            $dateTo = $dates[1];
-        } else if(count($dates) == 1) {
-            $dateFrom = $dates[0];
-            $dateTo = $dates[0];
-        }
-        $dateFrom = new Carbon($dateFrom);
-        $dateTo = new Carbon($dateTo);
-        // /posting date range
 
-        $row_count = request()->row_count ?? 10;
-        $search_key = request()->search_key ?? '';
-        $principal_code = request()->principal_code ?? '';
-        // $vendor_code = request()->vendor_code ?? '';
-        $status = request()->status ?? '';
-        $terminal = request()->terminal ?? '';
-
-        $result = DB::table(PrincipalsUtil::$TBL_INVOICES)
-            ->where(function($query) use ($search_key, $status){
-                $query->where(
-                        PrincipalsUtil::$TBL_INVOICES.'.doc_no',
-                        'like', '%'.$search_key. '%'
-                    )
-                    ->orWhere(
-                        PrincipalsUtil::$TBL_INVOICES.'.customer_code',
-                        'like', '%'.$search_key. '%'
-                    )
-                    ->orWhere(
-                        PrincipalsUtil::$TBL_INVOICES_H.'.posting_date',
-                        'like', '%'.$search_key. '%'
-                    )
-                    ->orWhere(
-                        PrincipalsUtil::$TBL_INVOICES.'.created_at',
-                        'like', '%'.$search_key. '%'
-                    )
-
-                    ->orWhere(
-                        PrincipalsUtil::$TBL_INVOICES.'.item_code',
-                        'like', '%'.$search_key. '%'
-                    )
-                    ->orWhere(
-                        PrincipalsUtil::$TBL_INVOICES.'.vendor_code',
-                        'like', '%'.$search_key. '%'
-                    )
-                    ->orWhere(
-                        PrincipalsUtil::$TBL_INVOICES_H.'.customer_name',
-                        'like', '%'.$search_key. '%'
-                    )
-                    ->orWhere(
-                        PrincipalsUtil::$TBL_INVOICES_H.'.sm_code',
-                        'like', '%'.$search_key. '%'
-                    )
-
-                    ->orWhere('batch_number','like', '%'.$search_key. '%');
-            })
-
-            // ->when($principal_code != '', function($query) use($principal_code) {
-            //     if($principal_code != '') {
-            //         if($principal_code=='others') {
-            //             $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code', null);
-            //         } else {
-            //             $query->where(PrincipalsUtil::$TBL_PRINCIPALS.'.code', $principal_code);
-            //         }
-            //     }
-            // })
-            ->when($principal_code != '', function($query) use($principal_code) {
-                if($principal_code != '') {
-                    if($principal_code=='others') {
-                        $query->where(PrincipalsUtil::$TBL_INVOICES.'.vendor_code', null);
-                    } else {
-                        $query->where(PrincipalsUtil::$TBL_INVOICES.'.vendor_code', $principal_code);
-                    }
-                }
-            })
-
-            ->where(
-                PrincipalsUtil::$TBL_INVOICES. '.status','like', '%'.$status. '%'
-            )
-            ->where(
-                PrincipalsUtil::$TBL_INVOICES. '.group','like', '%'.$terminal. '%'
-            )
-            ->whereBetween(
-                DB::raw("DATE(". PrincipalsUtil::$TBL_INVOICES. '.created_at'.")"),
-                [$dateFrom->startOfDay(), $dateTo->endOfDay()]
-            )
-            // ->whereDate(PrincipalsUtil::$TBL_INVOICES. ".created_at",'>=',$dateFrom)
-            // ->whereDate(PrincipalsUtil::$TBL_INVOICES. ".created_at",'<=',$dateTo)
-
-            // ->leftJoin(
-            //     PrincipalsUtil::$TBL_PRINCIPALS,
-            //     PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
-            //     PrincipalsUtil::$TBL_INVOICES.'.vendor_code'
-            // )
-
-            // ->join(
-            //     PrincipalsUtil::$TBL_INVOICES_H,
-            //     PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
-            //     PrincipalsUtil::$TBL_INVOICES.'.doc_no'
-            // )
-            ->join(
-                PrincipalsUtil::$TBL_INVOICES_H,
-                function($join) {
-                    $join->on(
-                        PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
-                        PrincipalsUtil::$TBL_INVOICES.'.doc_no'
-                    )
-                    ->on(
-                        PrincipalsUtil::$TBL_INVOICES_H.'.customer_code',
-                        PrincipalsUtil::$TBL_INVOICES.'.customer_code'
-                    )
-                    ;
-                }
-            )
-            ;
-
-            // ->select(
-            //     PrincipalsUtil::$TBL_INVOICES. '.*',
-            //     // 'users.name AS user_fullname',
-            //     'users.username',
-            //     PrincipalsUtil::$TBL_PRINCIPALS.'.name AS principals_name',
-            //     PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
-            //     PrincipalsUtil::$TBL_INVOICES_H. '.sm_code',
-            //     PrincipalsUtil::$TBL_INVOICES_H. '.posting_date',
-            // );
-
-
-            $sum = $result->sum(PrincipalsUtil::$TBL_INVOICES. '.amount');
-
-        return response()->json(['sum'=>$sum]);
-    }
 
     function groups(Request $request) {
         $groups = DB::table(PrincipalsUtil::$TBL_GROUPS)->get();
@@ -417,12 +180,10 @@ class InvoicesController extends Controller
     }
 
 
+
     public function upload(Request $request) {
         set_time_limit(0);
         $memory_limit = ini_get('memory_limit');
-
-        $ret_indicator = DB::table(PrincipalsUtil::$TBL_PT_RI)->get();
-        // dd($ret_indicator);
 
         try {
             $dateTimeToday = Carbon::now()->format('Y-m-d H:i:s');
@@ -476,7 +237,8 @@ class InvoicesController extends Controller
                 // }
                 // dd($group);
 
-                $fileName = 'invoices-'. time(). '-'. $origFilename;
+                // $fileName = 'invoices-'. time(). '-'. $origFilename;
+                $fileName = $origFilename;
                 $testFilesPath = "public/invoices/". substr($dateTimeToday, 0, 10);
                 Storage::putFileAs($testFilesPath, $file, $fileName);
 
@@ -543,8 +305,6 @@ class InvoicesController extends Controller
 
                             // $cols = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $row);
                             $cols = explode('|', $row);
-
-                            // dd($cols);
 
                             // invoice lines ****************************************
                             $col_count = count($cols);
@@ -642,36 +402,12 @@ class InvoicesController extends Controller
                                 // $ext_doc_no =       trim(str_replace('"','',$cols[8] ?? $doc_no));
                                 // $ext_doc_no =       $ext_doc_no=='' ? $doc_no : $ext_doc_no;
 
-                                if (
-                                    DB::table(PrincipalsUtil::$TBL_INVOICES_H)
-                                        ->where('doc_no', $doc_no)
-                                        ->where('customer_code', $customer_code)
-                                        ->where('posting_date', $posting_date)
-                                        ->exists() == false
-                                ) {
-                                    $summaryItem['headers_count_uploaded'] += 1;
-
-                                    $invoices_h[] = [
-                                        // 'created_at'=>date($dateTimeToday),
-                                        // 'uploaded_by'=>auth()->user()->id,
-                                        // 'filename'=> $origFilename,
-                                        // 'group'=>$group,
-                                        // 'batch_number' => $batchNumber,
-                                        //
-                                        'doc_no'=>$doc_no,
-                                        'customer_code'=>$customer_code,
-                                        'customer_name'=>$customer_name,
-                                        'u1'=>$u1,
-                                        'u2'=>$u2,
-                                        'shipment_date'=>$shipment_date,
-                                        'posting_date'=>$posting_date,
-                                        'sm_code'=>$sm_code,
-                                        'ext_doc_no'=>$ext_doc_no,
-                                    ];
-                                } else {
-                                    $summaryItem['headers_count_existing'] += 1;
-                                }
-
+                                $invoices_h[] = [
+                                    'customer_name' => $customer_name,
+                                    'posting_date' => $posting_date,
+                                    'sm_code' => $sm_code,
+                                    'ext_doc_no' => $ext_doc_no,
+                                ];
                             // CM lines ****************************************
                             } else if (
                                 // ($col_count == 12 || $col_count == 13 || $col_count == 14)
@@ -758,10 +494,28 @@ class InvoicesController extends Controller
                                 $return_indicator = $return_indicator=='' ? 'not_specified' : $return_indicator;
                                 $return_reason =    trim(str_replace('"','',$cols[11]));
                                 $return_reason = $return_reason=='' ? 'not_specified' : $return_reason;
-                                $ext_doc_no =       DB::table(PrincipalsUtil::$TBL_INVOICES_H)
+                                // $ext_doc_no =       DB::table(PrincipalsUtil::$TBL_INVOICES_H)
+                                //                         ->where('doc_no', $invoice_doc_no)->get()->first()->ext_doc_no ?? '';
+                                $ext_doc_no =       DB::table(PrincipalsUtil::$TBL_INVOICES)
                                                         ->where('doc_no', $invoice_doc_no)->get()->first()->ext_doc_no ?? '';
 
                                 $summaryItem['cm_headers_count'] += 1;
+
+                                /**
+                                 * if the iteration is already in the cm headers part,
+                                 * start saving the cm lines
+                                 */
+                                // if($summaryItem['cm_headers_count'] == 1) {
+                                //     // save CM lines
+                                //     $chunks = array_chunk($cm_lines, 500);
+                                //     $chunkCount = 1;
+                                //     UploadInvoice::dispatch("Saving CM (lines) (Chunk $chunkCount)");
+                                //     foreach($chunks as $chunk) {
+                                //         DB::table(PrincipalsUtil::$TBL_CM)
+                                //             ->insert($chunk);
+                                //         $chunkCount++;
+                                //     }
+                                // }
 
                                 $cm_headers[] = [
                                     'doc_no' => $doc_no,
@@ -770,45 +524,65 @@ class InvoicesController extends Controller
                                     'return_indicator' => $return_indicator,
                                     'return_reason' => $return_reason,
                                     'payment_term' => $payment_term,
-                                    'shipment_date' => $posting_date,
+                                    'posting_date' => $posting_date,
                                     'ext_doc_no' => $ext_doc_no,
                                 ];
                             }
                         }
 
+                        // -------------------------------------------------------------------------------------
                         // save invoice lines
                         $chunks = array_chunk($invoices, 500);
+                        $chunksLen = count($chunks);
                         $chunkCount = 1;
-                        UploadInvoice::dispatch("Saving invoices (lines) (Chunk $chunkCount)");
                         foreach($chunks as $chunk) {
+                            UploadInvoice::dispatch("Saving invoices lines (chunk $chunkCount of $chunksLen)");
                             DB::table(PrincipalsUtil::$TBL_INVOICES)
                                 ->insert($chunk);
                             $chunkCount++;
                         }
 
-                        // save invoice headers
-                        $chunks = array_chunk($invoices_h, 500);
-                        $chunkCount = 1;
-                        UploadInvoice::dispatch("Saving invoices (headers) (Chunk $chunkCount)");
-                        foreach($chunks as $chunk) {
-                            DB::table(PrincipalsUtil::$TBL_INVOICES_H)
-                                ->insert($chunk);
-                            $chunkCount++;
+                        // -------------------------------------------------------------------------------------
+                        // patch invoice headers
+                        $invoices_h_line_no = 0;
+                        $invoices_h_len = count($invoices_h);
+                        foreach($invoices_h as $header) {
+                            $progressPercent = round(($invoices_h_line_no / $invoices_h_len) * 100);
+                            UploadInvoice::dispatch("Patching invoices headers ($progressPercent)");
+                            if(
+                                DB::table(PrincipalsUtil::$TBL_INVOICES)
+                                ->where('doc_no',$doc_no)
+                                ->where('customer_code',$customer_code)
+                                ->whereNull('posting_date')
+                                ->update($header) > 0
+                            ) {
+                                $summaryItem['headers_count_uploaded'] += 1;
+                            } else {
+                                // store skipped headers count temporarily, rename term soon
+                                $summaryItem['headers_count_existing'] += 1;
+                            }
+                            $invoices_h_line_no += 1;
                         }
 
+                        // -------------------------------------------------------------------------------------
                         // save CM lines
                         $chunks = array_chunk($cm_lines, 500);
+                        $chunksLen = count($chunks);
                         $chunkCount = 1;
-                        UploadInvoice::dispatch("Saving CM (lines) (Chunk $chunkCount)");
                         foreach($chunks as $chunk) {
+                            UploadInvoice::dispatch("Saving CM lines (chunk $chunkCount of $chunksLen)");
                             DB::table(PrincipalsUtil::$TBL_CM)
                                 ->insert($chunk);
                             $chunkCount++;
                         }
 
+                        // -------------------------------------------------------------------------------------
                         // patch CM headers
-                        UploadInvoice::dispatch("Patching CM heads");
+                        $cm_h_line_no = 0;
+                        $cm_h_len = count($cm_headers);
                         foreach($cm_headers as $cmh) {
+                            $progressPercent = round(($cm_h_line_no / $cm_h_len) * 100);
+                            UploadInvoice::dispatch("Patching CM headers ($progressPercent)");
                             if (
                                 DB::table(PrincipalsUtil::$TBL_CM)
                                     ->where('doc_no', $cmh['doc_no'])
@@ -818,14 +592,16 @@ class InvoicesController extends Controller
                                         'return_indicator' => $cmh['return_indicator'],
                                         'remarks' => $cmh['return_reason'],
                                         'payment_term' => $cmh['payment_term'],
-                                        'shipment_date' => $cmh['shipment_date'],
+                                        'posting_date' => $cmh['posting_date'],
                                         'ext_doc_no' => $cmh['ext_doc_no'],
-                                    ])
+                                    ]) > 0
                             ) {
                                 $summaryItem['cm_headers_count_uploaded'] += 1;
                             } else {
-                                // $summaryItem['cm_headers_count_existing'] += 1;
+                                // cm headers skipped, change term soon...
+                                $summaryItem['cm_headers_count_existing'] += 1;
                             }
+                            $cm_h_line_no += 1;
                         }
                     }
 
@@ -836,8 +612,6 @@ class InvoicesController extends Controller
 
             // revert to the default memory limit
             ini_set('memory_limit', $memory_limit);
-
-
 
             // if($fileCount>0) {
             //     $res['success'] = true;
@@ -875,26 +649,13 @@ class InvoicesController extends Controller
 
     public function deleteInvoices(Request $request) {
         $selectedInvoices = $request->selectedInvoices ?? [];
-
         $res = [];
-        // dd($selectedInvoices);
         try {
             DB::beginTransaction();
             foreach($selectedInvoices as $invoice) {
-
-                // "others" is the default middleware code for non-principal items
-                $principal_code = $invoice['code'] ?? 'others';
-
                 DB::table(PrincipalsUtil::$TBL_INVOICES)
                     ->where('id', $invoice['id'])
                     ->delete();
-
-                // DB::table(PrincipalsUtil::$TBL_GENERATED)
-                //     ->where('principal_code', $principal_code)
-                //     ->where('doc_no', $invoice['doc_no'])
-                //     ->where('alturas_customer_code', $invoice['customer_code'])
-                //     ->where('alturas_item_code', $invoice['item_code'])
-                //     ->delete();
             }
             DB::commit();
             $res['success'] = true;
@@ -913,33 +674,19 @@ class InvoicesController extends Controller
 
     public function resetInvoices(Request $request) {
         $selectedInvoices = $request->selectedInvoices ?? [];
-
         $res = [];
-        // dd($selectedInvoices);
         try {
             DB::beginTransaction();
             foreach($selectedInvoices as $invoice) {
-
-                // "others" is the default middleware code for non-principal items
-                $principal_code = $invoice['code'] ?? 'others';
-
                 DB::table(PrincipalsUtil::$TBL_INVOICES)
                     ->where('id', $invoice['id'])
-                    // ->delete();
                     ->update([
                         'status'=>PrincipalsUtil::$STATUS_PENDING
                     ]);
-                // DB::table(PrincipalsUtil::$TBL_GENERATED)
-                //     ->where('principal_code', $principal_code)
-                //     ->where('doc_no', $invoice['doc_no'])
-                //     ->where('alturas_customer_code', $invoice['customer_code'])
-                //     ->where('alturas_item_code', $invoice['item_code'])
-                //     ->delete();
             }
             DB::commit();
             $res['success'] = true;
             $res['message'] = "Deleted successfully";
-
             return response()->json($res);
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -948,6 +695,7 @@ class InvoicesController extends Controller
             return response()->json($res, 500);
         }
     }
+
 
 
     /**
@@ -972,6 +720,8 @@ class InvoicesController extends Controller
     //         return response()->json($res, 500);
     //     }
     // }
+
+
 
     /**
      * Change invoice's status to 'complete'
@@ -1118,16 +868,6 @@ class InvoicesController extends Controller
 
                             // update sales invoices status
                             DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                ->join(
-                                    PrincipalsUtil::$TBL_INVOICES_H,
-                                    function($q) {
-                                        $q->on(
-                                            PrincipalsUtil::$TBL_INVOICES . '.doc_no',
-                                            PrincipalsUtil::$TBL_INVOICES_H . '.doc_no'
-                                        )
-                                        ;
-                                    }
-                                )
                                 ->where('ext_doc_no', $doc_no)
                                 // ->where('vendor_code', $vendor_code)
                                 ->update([
@@ -1209,20 +949,9 @@ class InvoicesController extends Controller
                             //     ->where('vendor_code', $vendor_code)
                             //     ->update(['status' => PrincipalsUtil::$STATUS_COMPLETED]);
 
-                            DB::table(PrincipalsUtil::$TBL_INVOICES)
-                            ->join(
-                                PrincipalsUtil::$TBL_INVOICES_H,
-                                function($q) {
-                                    $q->on(
-                                        PrincipalsUtil::$TBL_INVOICES . '.doc_no',
-                                        PrincipalsUtil::$TBL_INVOICES_H . '.doc_no'
-                                    )
-                                    ;
-                                }
-                            )
-                            ->where('ext_doc_no', $doc_no)
-                            ->where('vendor_code', $vendor_code)
-                            ->update(['status' => PrincipalsUtil::$STATUS_COMPLETED]);
+                            DB::table(PrincipalsUtil::$TBL_INVOICES)->where('ext_doc_no', $doc_no)
+                                ->where('vendor_code', $vendor_code)
+                                ->update(['status' => PrincipalsUtil::$STATUS_COMPLETED]);
                         // }
                     }
                 }
@@ -1365,31 +1094,6 @@ class InvoicesController extends Controller
                 ->where('main_vendor_code', $principal_code)->pluck('vendor_code')->toArray();
 
             $invoices = DB::table(PrincipalsUtil::$TBL_INVOICES)
-                // ->leftJoin(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS,
-                //     PrincipalsUtil::$TBL_INVOICES. '.customer_code',
-                //     PrincipalsUtil::$TBL_GENERAL_CUSTOMERS. '.customer_code'
-                // )
-
-                // ->join(
-                //     PrincipalsUtil::$TBL_INVOICES_H,
-                //     PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
-                //     PrincipalsUtil::$TBL_INVOICES.'.doc_no'
-                // )
-                ->join(
-                    PrincipalsUtil::$TBL_INVOICES_H,
-                    function($join) {
-                        $join->on(
-                            PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
-                            PrincipalsUtil::$TBL_INVOICES.'.doc_no'
-                        )
-                        ->on(
-                            PrincipalsUtil::$TBL_INVOICES_H.'.customer_code',
-                            PrincipalsUtil::$TBL_INVOICES.'.customer_code'
-                        )
-                        ;
-                    }
-                )
-
                 ->select([
                     PrincipalsUtil::$TBL_INVOICES. '.id',
                     PrincipalsUtil::$TBL_INVOICES. '.created_at',
@@ -1400,9 +1104,9 @@ class InvoicesController extends Controller
                     PrincipalsUtil::$TBL_INVOICES. '.batch_number',
                     PrincipalsUtil::$TBL_INVOICES. '.vendor_code',
                     PrincipalsUtil::$TBL_INVOICES. '.customer_code',
-                    PrincipalsUtil::$TBL_INVOICES_H. '.customer_name',
+                    PrincipalsUtil::$TBL_INVOICES. '.customer_name',
                     PrincipalsUtil::$TBL_INVOICES. '.doc_no',
-                    PrincipalsUtil::$TBL_INVOICES_H. '.posting_date',
+                    PrincipalsUtil::$TBL_INVOICES. '.posting_date',
                     PrincipalsUtil::$TBL_INVOICES. '.shipment_date',
                     PrincipalsUtil::$TBL_INVOICES. '.item_code',
                     PrincipalsUtil::$TBL_INVOICES. '.item_description',
@@ -1412,13 +1116,13 @@ class InvoicesController extends Controller
                     PrincipalsUtil::$TBL_INVOICES. '.amount',
                     PrincipalsUtil::$TBL_INVOICES. '.qty_per_uom',
                     PrincipalsUtil::$TBL_INVOICES. '.uom_code',
-                    PrincipalsUtil::$TBL_INVOICES_H. '.sm_code'
+                    PrincipalsUtil::$TBL_INVOICES. '.sm_code'
                 ])
                 ->whereIn('vendor_code', $vendor_codes)
                 ->whereBetween(
-                    DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H.".posting_date, '%m/%d/%Y')"),
+                    DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES.".posting_date, '%m/%d/%Y')"),
                     [$dateFrom, $dateTo])
-                ->orderBy(PrincipalsUtil::$TBL_INVOICES_H.'.posting_date')
+                ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.posting_date')
                 ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.customer_code')
                 ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.doc_no')
                 ->get()
@@ -1469,45 +1173,21 @@ class InvoicesController extends Controller
         GenerateTemplated::dispatch("Retrieving invoices");
 
         return DB::table(PrincipalsUtil::$TBL_INVOICES)
-            ->join(
-                PrincipalsUtil::$TBL_INVOICES_H,
-                function($join) {
-                    $join->on(
-                        PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
-                        PrincipalsUtil::$TBL_INVOICES.'.doc_no'
-                    )
-                    ->on(
-                        PrincipalsUtil::$TBL_INVOICES_H.'.customer_code',
-                        PrincipalsUtil::$TBL_INVOICES.'.customer_code'
-                    )
-                    ;
-                }
-            )
             ->whereIn('vendor_code', $vendor_codes)
             ->whereBetween(
-                DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H . ".posting_date, '%m/%d/%Y')"),
+                DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES . ".posting_date, '%m/%d/%Y')"),
                 [$dateFrom, $dateTo]
             )
             ->when($status != '' && $status != 'all', function($q) use($status) {
                 $q->where(PrincipalsUtil::$TBL_INVOICES.'.status','like', "%$status%");
             })
             ->select([
-                PrincipalsUtil::$TBL_INVOICES.'.*',
-                PrincipalsUtil::$TBL_INVOICES_H.'.customer_name',
-                PrincipalsUtil::$TBL_INVOICES_H.'.sm_code',
-                PrincipalsUtil::$TBL_INVOICES_H.'.posting_date',
-                PrincipalsUtil::$TBL_INVOICES_H.'.ext_doc_no',
-                // PrincipalsUtil::$TBL_CM.'.doc_no as cm_doc_no',
-                // PrincipalsUtil::$TBL_CM.'.quantity as cm_quantity',
-                // PrincipalsUtil::$TBL_CM.'.return_indicator as cm_return_indicator',
-                // PrincipalsUtil::$TBL_CM.'.remarks as cm_remarks',
+                PrincipalsUtil::$TBL_INVOICES.'.*'
             ])
-            // ->orderBy(PrincipalsUtil::$TBL_INVOICES_H.'.posting_date')
-            // ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.customer_code')
-            // ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.doc_no')
-            // ->get();
             ->cursor();
     }
+
+
 
     public static function getReturns($main_vendor_code, $posting_date_range, $status='') {
         // posting date range
@@ -1560,44 +1240,24 @@ class InvoicesController extends Controller
                     ;
                 }
             )
-            ->join(
-                PrincipalsUtil::$TBL_INVOICES_H,
-                function($join) {
-                    $join->on(
-                        PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
-                        PrincipalsUtil::$TBL_CM.'.invoice_doc_no'
-                    )
-                    ->on(
-                        PrincipalsUtil::$TBL_INVOICES_H.'.customer_code',
-                        PrincipalsUtil::$TBL_CM.'.customer_code'
-                    )
-                    ;
-                }
-            )
             ->whereIn('vendor_code', $vendor_codes)
-            ->whereBetween(
-                DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_CM . ".shipment_date, '%m/%d/%Y')"),
-                [$dateFrom, $dateTo]
-            )
+            // ->whereBetween(
+            //     DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_CM . ".shipment_date, '%m/%d/%Y')"),
+            //     [$dateFrom, $dateTo]
+            // )
             ->when($status != '' && $status != 'all', function($q) use($status) {
                 $q->where(PrincipalsUtil::$TBL_CM.'.status','like', "%$status%");
             })
-
-            // ->whereRaw(PrincipalsUtil::$TBL_CM . '.quantity <= ' .PrincipalsUtil::$TBL_INVOICES.'.quantity')
-
             ->select([
                 PrincipalsUtil::$TBL_CM.'.*',
                 PrincipalsUtil::$TBL_INVOICES.'.vendor_code',
                 PrincipalsUtil::$TBL_INVOICES.'.quantity as invoice_quantity',
-                PrincipalsUtil::$TBL_INVOICES_H.'.sm_code',
-                PrincipalsUtil::$TBL_INVOICES_H.'.customer_name',
+                PrincipalsUtil::$TBL_INVOICES.'.sm_code',
+                PrincipalsUtil::$TBL_INVOICES.'.customer_name',
             ])
-            // ->orderBy(PrincipalsUtil::$TBL_CM.'.shipment_date')
-            // ->orderBy(PrincipalsUtil::$TBL_CM.'.customer_code')
-            // ->orderBy(PrincipalsUtil::$TBL_CM.'.doc_no')
-            // ->get();
             ->cursor();
     }
+
 
 
     public static function logInvoicesUpload($batch_number,$summary ,$filename, $remarks) {
@@ -1610,10 +1270,13 @@ class InvoicesController extends Controller
         ]);
     }
 
+
+
     public function uploadLogs() {
         $res = DB::table(PrincipalsUtil::$TBL_INVOICES_UPLOG)->limit(20)->latest()->get();
         return response()->json($res);
     }
+
 
 
     // temp

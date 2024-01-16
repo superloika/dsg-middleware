@@ -8,7 +8,9 @@
                     {{ InvoicesStore.state.invoices.total }}
                 </v-chip>
                 <v-chip color="default" small title="Total Amount">
-                    {{ AppStore.formatAsCurrency(InvoicesStore.state.invoicesTotalAmount) }}
+                    {{ InvoicesStore.state.invoicesTotalAmount=='...' ?
+                    '...' : AppStore.formatAsCurrency(InvoicesStore.state.invoicesTotalAmount)
+                    }}
                 </v-chip>
             </v-toolbar-title>
 

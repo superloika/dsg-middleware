@@ -28,14 +28,18 @@
                 background-color="transparent"
                 active-class="primary--text"
             >
-                <v-tab
+                <v-tooltip bottom
                     v-for="(t, index) in tabs"
                     :key="index"
-                    :title="t.title"
-
                 >
-                    <v-icon>{{ t.icon }}</v-icon>
-                </v-tab>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-tab v-bind="attrs" v-on="on">
+                            <v-icon>{{ t.icon }}</v-icon>
+                        </v-tab>
+                    </template>
+                    <span>{{t.title}}</span>
+                </v-tooltip>
+
             </v-tabs>
         </v-sheet>
     </v-app-bar>

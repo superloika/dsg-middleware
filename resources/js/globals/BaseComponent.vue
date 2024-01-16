@@ -4,7 +4,7 @@
                 background: rgb(237,255,230);
                 background: radial-gradient(circle, rgba(237,255,230,1) 0%, rgba(255,255,255,1) 100%);
             " -->
-        <v-system-bar app height="70" dark color="white">
+        <v-system-bar app height="48" dark color="primary">
             <!-- <v-btn
                 @click="toggleDrawerState()"
                 icon
@@ -35,7 +35,7 @@
             </span> -->
 
             <v-btn icon to="/invoices" title="Invoices">
-                <v-icon color="primary">mdi-file</v-icon>
+                <v-icon>mdi-file</v-icon>
             </v-btn>
 
             <span class="px-1"></span>
@@ -101,11 +101,7 @@
 
         <!-- MAIN -->
         <v-main>
-            <v-card elevation="0">
-                <!-- <keep-alive> -->
-                    <router-view></router-view>
-                <!-- </keep-alive> -->
-            </v-card>
+            <router-view></router-view>
         </v-main>
 
         <!-- MISC -->

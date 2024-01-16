@@ -2,7 +2,7 @@
     <v-dialog v-model="dialog" fullscreen>
         <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on" title="Sales Invoice Quick Lookup">
-                <v-icon color="primary">mdi-text-box-search</v-icon>
+                <v-icon>mdi-text-box-search</v-icon>
             </v-btn>
         </template>
         <v-card>

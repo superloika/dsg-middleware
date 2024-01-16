@@ -59,7 +59,8 @@ const actions = {
     },
 
     async initPrincipals() {
-        let url = `${state.siteUrl}master/principals/all?main_vendor_codes=${window.AuthUser.main_vendor_codes}`;
+        let url = state.siteUrl + 'master/principals/all?main_vendor_codes='
+            + window.AuthUser.main_vendor_codes;
         state.principals = [];
         try {
             let result = await axios.get(url);

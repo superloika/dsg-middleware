@@ -2,7 +2,7 @@
     <v-dialog v-model="dialog" max-width="900" scrollable>
         <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on" title="Dev Chat">
-                <v-icon color="primary">mdi-message</v-icon>
+                <v-icon>mdi-message</v-icon>
             </v-btn>
         </template>
         <v-card>

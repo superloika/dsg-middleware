@@ -4,7 +4,7 @@
             <v-row>
 
                 <!-- refresh -->
-                <v-col cols="12" v-if="invoiceStatus != '' && invoiceStatus != null">
+                <!-- <v-col cols="12" v-if="showRefresh">
                     <div class="d-flex justify-center">
                         <v-btn
                             icon
@@ -12,18 +12,14 @@
                             @click="refresh"
                         ><v-icon>mdi-refresh</v-icon></v-btn>
                     </div>
-                </v-col>
+                </v-col> -->
 
                 <!-- posting date -->
                 <v-col cols="12">
                     <v-text-field
+                        hide-details readonly dense outlined rounded
                         v-model="dateRangeText"
                         label="Posting Date"
-                        hide-details
-                        readonly
-                        dense
-                        outlined
-                        rounded
                         @click.stop="datePickerShown=true"
                         style="max-width:500px;min-width:250px;"
                         :disabled="PrincipalsStore.state.isGeneratingData"
@@ -36,8 +32,8 @@
                         width="290px"
                     >
                         <v-date-picker
-                            v-model="PrincipalsStore.state.posting_date_range"
                             scrollable range
+                            v-model="PrincipalsStore.state.posting_date_range"
                         >
                             <v-spacer></v-spacer>
                             <v-btn
@@ -50,8 +46,9 @@
                                 dense depressed rounded
                                 color="primary"
                                 @click="
-                                    $refs.datePicker.save(PrincipalsStore.state.posting_date_range);
-                                    refresh();
+                                    $refs.datePicker.save(
+                                        PrincipalsStore.state.posting_date_range
+                                    );
                                 "
                             >
                                 Ok
@@ -95,35 +92,36 @@
                     ></v-select>
                 </v-col>
 
-                <!-- <v-col cols="12">
+                <v-col cols="12">
                     <v-btn
-                        title="Generate Templated"
+                        dense rounded outlined block
                         class=""
-                        dense
-                        rounded
-                        block
+                        title="Generate"
+                        color="primary"
                         @click="refresh()"
                         :loading="PrincipalsStore.state.isGeneratingData"
-                        color="primary"
+                        :disabled = "this.invoiceStatus == ''"
                     >
                         Generate
                     </v-btn>
-                </v-col> -->
+                </v-col>
+
+                <v-col>
+                    <v-divider></v-divider>
+                </v-col>
 
                 <v-col cols="12">
                     <!-- ********************* EXPORT ************************ -->
                     <v-btn
+                        dense rounded block
                         title="Export to Excel"
-                        dense
-                        rounded
                         color="primary"
-                        block
+                        :disabled="disableExportBtn"
                         @click.stop="
                             PrincipalsStore.state.confirmExportDialogOpen = true
                         "
-                        :disabled="disableExportBtn"
                     >
-                        <!-- <v-icon left size="25">mdi-file-excel</v-icon> -->
+                        <v-icon left size="25">mdi-file-excel</v-icon>
                         Export to Excel
                     </v-btn>
                 </v-col>
@@ -170,8 +168,8 @@
         <!-- confirm export dialog -->
         <v-dialog
             persistent
-            v-model="PrincipalsStore.state.confirmExportDialogOpen"
             max-width="500"
+            v-model="PrincipalsStore.state.confirmExportDialogOpen"
         >
             <ConfirmExport
                 :key="
@@ -184,18 +182,15 @@
 
         <!-- BR upload dialog -->
         <v-dialog
-            persistent
-            v-model="BrStore.state.brUploadDialogOpen"
+            persistent scrollable fullscreen
             max-width="100%"
-            scrollable
-            fullscreen
+            v-model="BrStore.state.brUploadDialogOpen"
         >
             <BRUpload
                 :key="
                     'br_upload_' + selectedPrincipalCode +
                     '_' + currentTimestamp
                 "
-
             >
             </BRUpload>
         </v-dialog>
@@ -225,6 +220,7 @@ export default {
             dlgMissingSalesmen: null,
             datePickerShown: false,
             currentTimestamp: '',
+            // showRefresh: false,
         };
     },
 
@@ -287,14 +283,14 @@ export default {
         }
     },
 
-    watch: {
-        invoiceStatus() {
-            this.refresh();
-        },
-        selectedGroupBy() {
-            this.refresh();
-        },
-    },
+    // watch: {
+    //     invoiceStatus() {
+    //         this.refresh();
+    //     },
+    //     selectedGroupBy() {
+    //         this.refresh();
+    //     },
+    // },
 
     methods: {
         missingInMaster(type) {
@@ -357,6 +353,7 @@ export default {
 
         refresh() {
             if(this.invoiceStatus != '') {
+                // this.showRefresh = true;
                 this.PrincipalsStore.initCurrentGeneratedData(
                     null,
                     this.InvoicesStore.state.invoiceStatus,
@@ -371,10 +368,6 @@ export default {
             this.currentTimestamp = Date.now();
             this.BrStore.state.brUploadDialogOpen = true;
         }
-    },
-
-    created() {
-        // this.InvoicesStore.state.invoiceStatus='pending';
     },
 
     mounted() {

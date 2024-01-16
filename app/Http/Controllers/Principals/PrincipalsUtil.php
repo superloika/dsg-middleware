@@ -160,27 +160,16 @@ class PrincipalsUtil extends Controller
                 ->pluck('vendor_code')->toArray();
 
             $result = DB::table($this::$TBL_INVOICES)
-                ->join(
-                    PrincipalsUtil::$TBL_INVOICES_H,
-                    PrincipalsUtil::$TBL_INVOICES_H.'.doc_no',
-                    PrincipalsUtil::$TBL_INVOICES.'.doc_no'
-                )
-                ->select(
-                    $this::$TBL_INVOICES. '.*',
-                    $this::$TBL_INVOICES_H. '.posting_date',
-                    $this::$TBL_INVOICES_H. '.customer_name',
-                    $this::$TBL_INVOICES_H. '.customer_code',
-                )
 
                 ->whereIn($this::$TBL_INVOICES. '.vendor_code', $vendor_codes)
                 ->where($this::$TBL_INVOICES. '.status','like', "%$invoice_status%")
                 ->whereBetween(
                     DB::raw(
-                        "STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES_H. ".posting_date, '%m/%d/%Y')"
+                        "STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES. ".posting_date, '%m/%d/%Y')"
                     ),
                     [$dateFrom, $dateTo])
 
-                ->orderBy($this::$TBL_INVOICES_H. '.posting_date', 'DESC')
+                ->orderBy($this::$TBL_INVOICES. '.posting_date', 'DESC')
                 ->orderBy($this::$TBL_INVOICES. '.customer_code', 'ASC')
                 ->orderBy($this::$TBL_INVOICES. '.doc_no', 'ASC')
 

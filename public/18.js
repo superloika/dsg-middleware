@@ -70,6 +70,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['tabs'],
   data: function data() {
@@ -195,10 +199,33 @@ var render = function() {
                 },
                 _vm._l(_vm.tabs, function(t, index) {
                   return _c(
-                    "v-tab",
-                    { key: index, attrs: { title: t.title } },
-                    [_c("v-icon", [_vm._v(_vm._s(t.icon))])],
-                    1
+                    "v-tooltip",
+                    {
+                      key: index,
+                      attrs: { bottom: "" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "activator",
+                            fn: function(ref) {
+                              var on = ref.on
+                              var attrs = ref.attrs
+                              return [
+                                _c(
+                                  "v-tab",
+                                  _vm._g(_vm._b({}, "v-tab", attrs, false), on),
+                                  [_c("v-icon", [_vm._v(_vm._s(t.icon))])],
+                                  1
+                                )
+                              ]
+                            }
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    },
+                    [_vm._v(" "), _c("span", [_vm._v(_vm._s(t.title))])]
                   )
                 }),
                 1

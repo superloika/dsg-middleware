@@ -183,6 +183,11 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -701,6 +706,21 @@ var render = function() {
                     _vm._v(
                       "\n                " +
                         _vm._s(item.description) +
+                        "\n            "
+                    )
+                  ])
+                ]
+              }
+            },
+            {
+              key: "item.amount",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _c("div", { staticStyle: { "text-align": "right" } }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(item.amount) +
                         "\n            "
                     )
                   ])

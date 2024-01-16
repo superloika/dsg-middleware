@@ -458,12 +458,14 @@ class PurefoodsController extends Controller
         set_time_limit(0);
 
         try {
+            // ************************* MISC INITS **************************************
             // templated data grouped result filter
             $group_by = $request->group_by;
             if($group_by==null || $group_by=='null' || $group_by=='' || $group_by=='undefined') {
                 $group_by = 'system_date';
             }
 
+            // response
             $res['success'] = true;
             $res['message'] = 'Success';
             $res['line_count'] = 0;
@@ -472,23 +474,17 @@ class PurefoodsController extends Controller
                     'name' => 'Sales Invoices',
                     'output_template' => [],
                 ],
-                [
-                    'name' => 'Returns',
-                    'output_template' => [],
-                ],
+                // [
+                //     'name' => 'Returns',
+                //     'output_template' => [],
+                // ],
             ];
+            // /response
 
             $dateToday = Carbon::now();
             $system_date = $dateToday->format('Y-m-d');
             $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
             $br_config = DB::table('br_config')->get()->first();
-            // ***************************************************************************
-
-            // ************************* MISC INITS **************************************
-            $chunk_line_count = intval($settings['chunk_line_count'] ?? 0);
-
-            $pageLineCount = 1;
-            $pageNum = 1;
 
             $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
                 ->where('main_vendor_code', $this->PRINCIPAL_CODE)
@@ -511,7 +507,8 @@ class PurefoodsController extends Controller
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE 1 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            if(1) {
+            // Sales Invoices
+            if(true) {
                 // **************** PENDING INVOICES ****************************************
                 $pendingInvoices = InvoicesController::getPendingInvoices(
                     $request->principal_code, $request->posting_date_range, $request->status
@@ -529,7 +526,7 @@ class PurefoodsController extends Controller
                     GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
 
                     $doc_no =               $pendingInvoice->doc_no;
-                    $customer_code       =  $pendingInvoice->customer_code;
+                    $customer_code =        $pendingInvoice->customer_code;
                     // $customer_code =        '101798'; // for BR test (Espana Store External ID)
                     $posting_date =         $pendingInvoice->posting_date;
                     $posting_date =         (new Carbon($posting_date))->format($postingDateFormat);
@@ -559,10 +556,19 @@ class PurefoodsController extends Controller
                     $customer = $principal_customers
                         ->where('customer_code', $customer_code)
                         ->first();
-                    $item = $principal_items
+
+                    $item = null;
+                    if($qty_per_uom > 1) {
+                        $item = $principal_items
                         ->where('item_code', $item_code)
-                        //last resort
+                        // ->where('conversion_qty', $qty_per_uom)
                         ->first();
+                    } else {
+                        $item = $principal_items
+                        ->where('item_code', $item_code)
+                        ->first();
+                    }
+
                     $salesman = $principal_salesmen
                         ->filter(function($sm) use (&$group_code) {
                             return false !== strpos($group_code, $sm->division, 0);
@@ -604,8 +610,7 @@ class PurefoodsController extends Controller
                         $uom_supplier = $qty_per_uom > 1 ?
                             $item->uom : $item->conversion_uom;
 
-                        // *********** PRICEHACKS RIGHT FUCKIN HERE **********************
-
+                        // XXXXXXXXXXXXXXXXXXXXXXXX PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
                         // map to supplier price
                         $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
                         // map to orig price temporarily
@@ -618,7 +623,7 @@ class PurefoodsController extends Controller
                             $vat_value = ($price_supplier - $price_vat_ex) * $quantity;
                             $price_supplier = $price_vat_ex;
                         }
-                        // *********** /PRICEHACKS RIGHT FUCKIN HERE **********************
+                        // XXXXXXXXXXXXXXXXXXXXXXXX /PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
 
                         $amount_supplier = $price_supplier * $quantity;
                         $discount_value = $amount_supplier * $discount_percentage / 100;
@@ -716,7 +721,8 @@ class PurefoodsController extends Controller
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE 1 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE 2 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            if(2) {
+            // Sales Returns (CM)
+            if(false) {
                 // **************** RETURNS ************************************************
                 $returns = InvoicesController::getReturns(
                     $request->principal_code, $request->posting_date_range, $request->status
@@ -989,99 +995,100 @@ class PurefoodsController extends Controller
     }
 
 
+    // varies on every principal/supplier
     public function configs() {
         $arr = [
-            "beatroute_uploading" => true,
+            "beatroute_uploading" => false,
             "bu" => 'ppfb',
             "posting_date_format" => 'Y-m-d',
 
             // principal masterfiles
             "itemsTableHeader" => [
                 [
-                    ["text" => "Material Code",                      "value" => "item_code_supplier"],
-                    ["text" => "Item Code",                          "value" => "item_code"],
-                    ["text" => "Supplier Item Description",          "value" => "description_supplier"],
-                    ["text" => "PCS/CASE",                           "value" => "conversion_qty"],
-                    ["text" => "CASE Price",                        "value" => "uom_price"],
-                    ["text" => "UOM",                                "value" => "uom"],
-                    ["text" => "PCS Price",                         "value" => "conversion_uom_price"],
-                    ["text" => "Conversion UOM",                     "value" => "conversion_uom"],
+                    ["text" => "Material Code",             "value" => "item_code_supplier"],
+                    ["text" => "Item Code",                 "value" => "item_code"],
+                    ["text" => "Supplier Item Description", "value" => "description_supplier"],
+                    ["text" => "PCS/CASE",                  "value" => "conversion_qty"],
+                    ["text" => "CASE Price",                "value" => "uom_price"],
+                    ["text" => "UOM",                       "value" => "uom"],
+                    ["text" => "PCS Price",                 "value" => "conversion_uom_price"],
+                    ["text" => "Conversion UOM",            "value" => "conversion_uom"],
                 ]
             ],
 
             "customersTableHeader" => [
                 [
-                    ["text" => "Customer Code",                    "value" => "customer_code" ],
-                    ["text" => "Customer Code (Supplier)",         "value" => "customer_code_supplier" ],
-                    ["text" => "Customer Name",                    "value" => "customer_name" ],
+                    ["text" => "Customer Code",             "value" => "customer_code" ],
+                    ["text" => "Customer Code (Supplier)",  "value" => "customer_code_supplier" ],
+                    ["text" => "Customer Name",             "value" => "customer_name" ],
                 ],
             ],
 
             "salesmenTableHeader" => [
                 [
-                    ["text" => "Group",                            "value" => "division" ],
-                    ["text" => "SM Code",                          "value" => "sm_code" ],
-                    ["text" => "SM Name",                          "value" => "sm_name" ],
+                    ["text" => "Group",                     "value" => "division" ],
+                    ["text" => "SM Code",                   "value" => "sm_code" ],
+                    ["text" => "SM Name",                   "value" => "sm_name" ],
                 ],
             ],
 
             // templated data table header
             "generatedDataTableHeader" => [
                 [
-                    ["text" =>"Vendor Code",                        "value" => "vendor_code"],
-                    ["text" =>"Invoice #",                          "value" => "invoice_no"],
-                    ["text" =>"External Invoice #",                 "value" => "invoice_number"], // external doc no
-                    ["text" =>"Customer Code (NAV)",                "value" => "alturas_customer_code"],
-                    ["text" =>"Customer Code",                      "value" => "customer_code"],
-                    ["text" =>"Customer Name",                      "value" => "customer_name"],
-                    ["text" =>"Invoice Date (m/d/Y) (NAV)",         "value" => "invoice_date"],
-                    ["text" =>"Item Code (NAV)",                    "value" => "alturas_item_code"],
-                    ["text" =>"Item Code",                          "value" => "item_code"],
-                    ["text" =>"Item Name (NAV)",                    "value" => "item_description"],
-                    ["text" =>"Item Name",                          "value" => "description_supplier"],
-                    ["text" =>"VAT (%)",                            "value" => "vat_percentage"],
-                    ["text" =>"Discount (%)",                       "value" => "discount_percentage"],
-                    ["text" =>"UOM (NAV)",                          "value" => "uom"],
-                    ["text" =>"UOM",                                "value" => "uom_supplier"],
-                    ["text" =>"Quantity",                           "value" => "quantity"],
-                    ["text" =>"Price (NAV, VAT Inc)",               "value" => "price"],
-                    ["text" =>"Amount (NAV, Discounted)",           "value" => "amount"],
-                    ["text" =>"Price (VAT Ex)",                     "value" => "price_supplier"],
-                    ["text" =>"Amount (Discounted)",                "value" => "amount_supplier"],
-                    ["text" =>"SM Code",                            "value" => "sm_code"],
-                    ["text" =>"SM Name",                            "value" => "sm_name"],
-                    ["text" =>"Group",                              "value" => "group"],
+                    ["text" => "Vendor Code",                   "value" => "vendor_code"],
+                    ["text" => "Invoice #",                     "value" => "invoice_no"],
+                    ["text" => "External Invoice #",            "value" => "invoice_number"], // external doc no
+                    ["text" => "Customer Code (NAV)",           "value" => "alturas_customer_code"],
+                    ["text" => "Customer Code",                 "value" => "customer_code"],
+                    ["text" => "Customer Name",                 "value" => "customer_name"],
+                    ["text" => "Invoice Date (m/d/Y) (NAV)",    "value" => "invoice_date"],
+                    ["text" => "Item Code (NAV)",               "value" => "alturas_item_code"],
+                    ["text" => "Item Code",                     "value" => "item_code"],
+                    ["text" => "Item Name (NAV)",               "value" => "item_description"],
+                    ["text" => "Item Name",                     "value" => "description_supplier"],
+                    ["text" => "VAT (%)",                       "value" => "vat_percentage"],
+                    ["text" => "Discount (%)",                  "value" => "discount_percentage"],
+                    ["text" => "UOM (NAV)",                     "value" => "uom"],
+                    ["text" => "UOM",                           "value" => "uom_supplier"],
+                    ["text" => "Quantity",                      "value" => "quantity"],
+                    ["text" => "Price (NAV, VAT Inc)",          "value" => "price"],
+                    ["text" => "Amount (NAV, Discounted)",      "value" => "amount"],
+                    ["text" => "Price (VAT Ex)",                "value" => "price_supplier"],
+                    ["text" => "Amount (Discounted)",           "value" => "amount_supplier"],
+                    ["text" => "SM Code",                       "value" => "sm_code"],
+                    ["text" => "SM Name",                       "value" => "sm_name"],
+                    ["text" => "Group",                         "value" => "group"],
                 ],
-                [
-                    ["text" =>"Vendor Code",                        "value" => "vendor_code"],
-                    ["text" =>"CM #",                               "value" => "invoice_no"],
-                    ["text" =>"External CM #",          "value" => "invoice_number"], // external doc no
-                    ["text" =>"Customer Code (NAV)",                "value" => "alturas_customer_code"],
-                    ["text" =>"Customer Code",                      "value" => "customer_code"],
-                    ["text" =>"Customer Name",                      "value" => "customer_name"],
-                    ["text" =>"CM Date (m/d/Y) (NAV)",  "value" => "invoice_date"],
-                    ["text" =>"Item Code (NAV)",                    "value" => "alturas_item_code"],
-                    ["text" =>"Item Code",                          "value" => "item_code"],
-                    ["text" =>"Item Name (NAV)",                    "value" => "item_description"],
-                    ["text" =>"Item Name",                          "value" => "description_supplier"],
-                    ["text" =>"VAT (%)",                            "value" => "vat_percentage"],
-                    ["text" =>"Discount (%)",                       "value" => "discount_percentage"],
-                    ["text" =>"UOM (NAV)",                          "value" => "uom"],
-                    ["text" =>"UOM",                                "value" => "uom_supplier"],
-                    ["text" =>"Quantity",                           "value" => "quantity"],
-                    ["text" =>"Price (NAV, VAT Inc)",               "value" => "price"],
-                    ["text" =>"Amount (NAV,Discounted)",            "value" => "amount"],
-                    ["text" =>"Price (VAT Ex)",                     "value" => "price_supplier"],
-                    ["text" =>"Amount (Discounted",                 "value" => "amount_supplier"],
-                    ["text" =>"SM Code",                            "value" => "sm_code"],
-                    ["text" =>"SM Name",                            "value" => "sm_name"],
-                    ["text" =>"Group",                              "value" => "group"],
-                    // additional return stuff
-                    ["text" =>"Return Indicator",                   "value" => "return_indicator"],
-                    ["text" =>"Return Reason",                      "value" => "remarks"],
-                    ["text" =>"Invoice Reference #",                "value" => "invoice_doc_no"],
-                    // ["text" =>"Invoice Reference # (Ext Doc No.)",  "value" => "ext_doc_no"],
-                ],
+                // [
+                //     ["text" =>"Vendor Code",                     "value" => "vendor_code"],
+                //     ["text" =>"CM #",                            "value" => "invoice_no"],
+                //     ["text" =>"External CM #",                      "value" => "invoice_number"], // external doc no
+                //     ["text" =>"Customer Code (NAV)",                "value" => "alturas_customer_code"],
+                //     ["text" =>"Customer Code",                      "value" => "customer_code"],
+                //     ["text" =>"Customer Name",                      "value" => "customer_name"],
+                //     ["text" =>"CM Date (m/d/Y) (NAV)",              "value" => "invoice_date"],
+                //     ["text" =>"Item Code (NAV)",                    "value" => "alturas_item_code"],
+                //     ["text" =>"Item Code",                          "value" => "item_code"],
+                //     ["text" =>"Item Name (NAV)",                    "value" => "item_description"],
+                //     ["text" =>"Item Name",                          "value" => "description_supplier"],
+                //     ["text" =>"VAT (%)",                            "value" => "vat_percentage"],
+                //     ["text" =>"Discount (%)",                       "value" => "discount_percentage"],
+                //     ["text" =>"UOM (NAV)",                          "value" => "uom"],
+                //     ["text" =>"UOM",                                "value" => "uom_supplier"],
+                //     ["text" =>"Quantity",                           "value" => "quantity"],
+                //     ["text" =>"Price (NAV, VAT Inc)",               "value" => "price"],
+                //     ["text" =>"Amount (NAV,Discounted)",            "value" => "amount"],
+                //     ["text" =>"Price (VAT Ex)",                     "value" => "price_supplier"],
+                //     ["text" =>"Amount (Discounted",                 "value" => "amount_supplier"],
+                //     ["text" =>"SM Code",                            "value" => "sm_code"],
+                //     ["text" =>"SM Name",                            "value" => "sm_name"],
+                //     ["text" =>"Group",                              "value" => "group"],
+                //     // additional return stuff
+                //     ["text" =>"Return Indicator",                   "value" => "return_indicator"],
+                //     ["text" =>"Return Reason",                      "value" => "remarks"],
+                //     ["text" =>"Invoice Reference #",                "value" => "invoice_doc_no"],
+                //     // ["text" =>"Invoice Reference # (Ext Doc No.)",  "value" => "ext_doc_no"],
+                // ],
             ],
 
             // ***********************************************************************************

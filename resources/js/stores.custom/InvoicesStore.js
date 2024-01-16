@@ -8,47 +8,49 @@ const state = Vue.observable({
     invoices: {},
     isLoadingInvoices: false,
     tableHeader: [
-        { text: "Status", value: "status" },
-        // { text: "Principal", value: "principals_name" },
-        { text: "Uploaded", value: "created_at" },
-        // { text: "Uploaded By", value: "username" },
-        // { text: "Filename", value: "filename" },
-        { text: "Group", value: "group" },
-        { text: "Batch #", value: "batch_number" },
+        { text: "Status",               value: "status" },
+        // { text: "Principal",         value: "principals_name" },
+        { text: "Uploaded",             value: "created_at" },
+        // { text: "Uploaded By",       value: "username" },
+        // { text: "Filename",          value: "filename" },
+        { text: "Group",                value: "group" },
+        { text: "Batch #",              value: "batch_number" },
 
-        { text: "Vendor Code", value: "vendor_code" },
-        { text: "Customer Code", value: "customer_code" },
-        { text: "Customer Name", value: "customer_name" },
-        { text: "Invoice #", value: "doc_no" },
-        { text: "Posting Date", value: "posting_date" },
-        { text: "Shipment Date", value: "shipment_date" },
-        { text: "Item Code", value: "item_code" },
-        { text: "Item Description", value: "item_description" },
-        { text: "UOM", value: "uom" },
-        { text: "Quantity", value: "quantity" },
-        { text: "Price", value: "price" },
-        { text: "Amount", value: "amount" },
-        { text: "Quantity/UOM", value: "qty_per_uom" },
-        { text: "UOM Code", value: "uom_code" },
-        { text: "Salesman Code", value: "sm_code" },
+        { text: "Vendor Code",          value: "vendor_code" },
+        { text: "Customer Code",        value: "customer_code" },
+        { text: "Customer Name",        value: "customer_name" },
+        { text: "Invoice #",            value: "doc_no" },
+        { text: "Posting Date",         value: "posting_date" },
+        { text: "Shipment Date",        value: "shipment_date" },
+        { text: "Item Code",            value: "item_code" },
+        { text: "Item Description",     value: "item_description" },
+        { text: "UOM",                  value: "uom" },
+        { text: "Quantity",             value: "quantity" },
+        { text: "Price",                value: "price" },
+        { text: "Amount",               value: "amount" },
+        { text: "Quantity/UOM",         value: "qty_per_uom" },
+        { text: "UOM Code",             value: "uom_code" },
+        { text: "Salesman Code",        value: "sm_code" },
     ],
     selectedInvoices: [],
     invoicesTotalAmount: 0.00,
+    // invoicesTotalAmountCancelTokenSource: axios.CancelToken.source(),
     isUploadSummaryShown: false,
     // transactions table header
     transactionsTableHeader: [
         [
-            {text:"Vendor Code",    value:"vendor_code"},
-            // {text:"Upload Date",    value:"updated_at"},
-            {text:"Invoice #",  value:"doc_no"},
-            {text:"Posting Date (m/d/Y)",  value:"posting_date"},
-            {text:"Customer Code",  value:"customer_code"},
-            {text:"Account Name",   value:"customer_name"},
-            {text:"Item Code",      value:"item_code"},
-            {text:"Description",    value:"item_description"},
-            {text:"UOM",            value:"uom"},
-            {text:"Quantity",       value:"quantity"},
-            {text:"Amount",         value:"amount"},
+            {text:"Vendor Code",            value:"vendor_code"},
+            // {text:"Upload Date",         value:"updated_at"},
+            {text:"Invoice #",              value:"doc_no"},
+            {text:"Posting Date (m/d/Y)",   value:"posting_date"},
+            {text:"Customer Code",          value:"customer_code"},
+            {text:"Account Name",           value:"customer_name"},
+            {text:"Item Code",              value:"item_code"},
+            {text:"Description",            value:"item_description"},
+            {text:"UOM",                    value:"uom"},
+            {text:"Quantity",               value:"quantity"},
+            {text:"Amount",                 value:"amount"},
+            {text:"SM Code",                value:"sm_code"},
         ]
     ],
     isExtractInvoicesShown: false,
@@ -327,6 +329,10 @@ const actions = {
                     .toISOString()
                     .substr(0, 10)];
             }
+            // if(state.invoicesTotalAmount == '...') {
+            //     state.invoicesTotalAmountCancelTokenSource.cancel('Cancelled by another same request');
+            // }
+            state.invoicesTotalAmount = '...';
             const url = `${AppStore.state.siteUrl}invoices/grand-total`
                 + `?row_count=${row_count}`
                 + `&search_key=${searchKey}`
@@ -335,6 +341,7 @@ const actions = {
                 + `&terminal=${selectedTerminal}`
                 + `&upload_date_range=${upload_date_range}`
                 + `&page=${state.invoices.current_page ?? 1}`;
+            // const response = await axios.get(url, {cancelToken: state.invoicesTotalAmountCancelTokenSource});
             const response = await axios.get(url);
             state.invoicesTotalAmount = response.data.sum;
         } catch (error) {

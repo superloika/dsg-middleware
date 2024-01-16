@@ -482,7 +482,7 @@ var render = function() {
                       )
                     : _vm._e(),
                   _vm._v(" "),
-                  item.customer_notfound == 1
+                  item.customer_notfound == 1 && item.customer_code != ""
                     ? _c(
                         "v-tooltip",
                         {
@@ -647,7 +647,7 @@ var render = function() {
                       )
                     : _vm._e(),
                   _vm._v(" "),
-                  item.item_notfound == 1
+                  item.item_notfound == 1 && item.item_code != ""
                     ? _c(
                         "v-tooltip",
                         {
@@ -750,7 +750,7 @@ var render = function() {
               fn: function(ref) {
                 var item = ref.item
                 return [
-                  item.salesman_notfound == 1
+                  item.salesman_notfound == 1 && item.sm_code != ""
                     ? _c(
                         "v-chip",
                         {
@@ -795,7 +795,7 @@ var render = function() {
               fn: function(ref) {
                 var item = ref.item
                 return [
-                  _c("div", { staticClass: "text-right" }, [
+                  _c("div", { staticClass: "text-right blue--text" }, [
                     _vm._v(
                       "\n                " +
                         _vm._s(item.price_supplier) +
@@ -825,7 +825,7 @@ var render = function() {
               fn: function(ref) {
                 var item = ref.item
                 return [
-                  _c("div", { staticClass: "text-right" }, [
+                  _c("div", { staticClass: "text-right blue--text" }, [
                     _vm._v(
                       "\n                " +
                         _vm._s(item.amount_supplier) +
