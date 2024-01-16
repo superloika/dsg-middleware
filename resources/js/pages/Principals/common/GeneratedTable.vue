@@ -185,25 +185,25 @@
         </template>
 
         <template v-slot:[`item.price`]="{ item }">
-            <div class="text-right">
+            <div class="text-right" title="NAV Price">
                 {{ item.price }}
             </div>
         </template>
 
-        <template v-slot:[`item.price_supplier`]="{ item }">
-            <div class="text-right blue--text">
-                {{ item.price_supplier }}
-            </div>
-        </template>
-
         <template v-slot:[`item.amount`]="{ item }">
-            <div class="text-right">
+            <div class="text-right" title="NAV Amount">
                 {{ item.amount }}
             </div>
         </template>
 
+        <template v-slot:[`item.price_supplier`]="{ item }">
+            <div class="text-right blue--text" title="Supplier Price">
+                {{ item.price_supplier }}
+            </div>
+        </template>
+
         <template v-slot:[`item.amount_supplier`]="{ item }">
-            <div class="text-right blue--text">
+            <div class="text-right blue--text" title="Supplier Amount">
                 {{ item.amount_supplier }}
             </div>
         </template>

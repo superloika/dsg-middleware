@@ -780,28 +780,20 @@ var render = function() {
               fn: function(ref) {
                 var item = ref.item
                 return [
-                  _c("div", { staticClass: "text-right" }, [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(item.price) +
-                        "\n            "
-                    )
-                  ])
-                ]
-              }
-            },
-            {
-              key: "item.price_supplier",
-              fn: function(ref) {
-                var item = ref.item
-                return [
-                  _c("div", { staticClass: "text-right blue--text" }, [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(item.price_supplier) +
-                        "\n            "
-                    )
-                  ])
+                  _c(
+                    "div",
+                    {
+                      staticClass: "text-right",
+                      attrs: { title: "NAV Price" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(item.price) +
+                          "\n            "
+                      )
+                    ]
+                  )
                 ]
               }
             },
@@ -810,13 +802,42 @@ var render = function() {
               fn: function(ref) {
                 var item = ref.item
                 return [
-                  _c("div", { staticClass: "text-right" }, [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(item.amount) +
-                        "\n            "
-                    )
-                  ])
+                  _c(
+                    "div",
+                    {
+                      staticClass: "text-right",
+                      attrs: { title: "NAV Amount" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(item.amount) +
+                          "\n            "
+                      )
+                    ]
+                  )
+                ]
+              }
+            },
+            {
+              key: "item.price_supplier",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "text-right blue--text",
+                      attrs: { title: "Supplier Price" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(item.price_supplier) +
+                          "\n            "
+                      )
+                    ]
+                  )
                 ]
               }
             },
@@ -825,13 +846,20 @@ var render = function() {
               fn: function(ref) {
                 var item = ref.item
                 return [
-                  _c("div", { staticClass: "text-right blue--text" }, [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(item.amount_supplier) +
-                        "\n            "
-                    )
-                  ])
+                  _c(
+                    "div",
+                    {
+                      staticClass: "text-right blue--text",
+                      attrs: { title: "Supplier Amount" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(item.amount_supplier) +
+                          "\n            "
+                      )
+                    ]
+                  )
                 ]
               }
             },
