@@ -396,7 +396,7 @@ var render = function() {
                       dense: "",
                       outlined: "",
                       rounded: "",
-                      label: "Posting Date",
+                      label: "Posting Date (yyyy-mm-dd)",
                       disabled: _vm.PrincipalsStore.state.isGeneratingData
                     },
                     on: {

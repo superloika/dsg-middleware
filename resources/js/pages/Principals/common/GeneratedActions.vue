@@ -19,7 +19,7 @@
                     <v-text-field
                         hide-details readonly dense outlined rounded
                         v-model="dateRangeText"
-                        label="Posting Date"
+                        label="Posting Date (yyyy-mm-dd)"
                         @click.stop="datePickerShown=true"
                         style="max-width:500px;min-width:250px;"
                         :disabled="PrincipalsStore.state.isGeneratingData"

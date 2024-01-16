@@ -207,4 +207,12 @@ class PrincipalsUtil extends Controller
         return $res;
     }
 
+
+    /**
+     * get all the vendor codes of the principals added in the middleware
+     */
+    public static function getSystemVendorCodes() {
+        return DB::table(self::$TBL_PRINCIPALS)->pluck('vendor_code');
+    }
+
 }
