@@ -148,16 +148,21 @@ class CenturyCanningController extends Controller
                             // $uom = 'CASE';
                             // $conversion_uom = 'PCS';
 
-                            $arrLines[] = [
-                                'main_vendor_code' => $this->PRINCIPAL_CODE,
-                                'uploaded_by' => auth()->user()->id,
-                                'item_code' => $item_code,
-                                'item_code_supplier' => $item_code_supplier,
-                                'description_supplier' => $description_supplier,
-                                // 'uom' => $uom,
-                                // 'conversion_uom' => $conversion_uom,
-                                // 'conversion_qty' => $conversion_qty,
-                            ];
+                            if(
+                                $item_code != '' && $item_code != '#N/A' &&
+                                $item_code_supplier != '' && $item_code_supplier != '#N/A'
+                            ) {
+                                $arrLines[] = [
+                                    'main_vendor_code' => $this->PRINCIPAL_CODE,
+                                    'uploaded_by' => auth()->user()->id,
+                                    'item_code' => $item_code,
+                                    'item_code_supplier' => $item_code_supplier,
+                                    'description_supplier' => $description_supplier,
+                                    // 'uom' => $uom,
+                                    // 'conversion_uom' => $conversion_uom,
+                                    // 'conversion_qty' => $conversion_qty,
+                                ];
+                            }
                         }
                     }
                     $lineCount++;
