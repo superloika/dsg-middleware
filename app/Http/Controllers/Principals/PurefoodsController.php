@@ -320,13 +320,15 @@ class PurefoodsController extends Controller
                             $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
                             $customer_name = trim(str_replace('"', '', $arrFileContentLine[2]));
                             // =========================================================================
-                            $arrLines[] = [
-                                'main_vendor_code' => $this->PRINCIPAL_CODE,
-                                'customer_code_supplier' => $customer_code_supplier,
-                                'customer_code' => $customer_code,
-                                'customer_name' => $customer_name,
-                                'uploaded_by' => auth()->user()->id
-                            ];
+                            if($customer_code != '') {
+                                $arrLines[] = [
+                                    'main_vendor_code' => $this->PRINCIPAL_CODE,
+                                    'customer_code_supplier' => $customer_code_supplier,
+                                    'customer_code' => $customer_code,
+                                    'customer_name' => $customer_name,
+                                    'uploaded_by' => auth()->user()->id
+                                ];
+                            }
                         }
                     }
                     $lineCount++;
@@ -483,15 +485,15 @@ class PurefoodsController extends Controller
 
             $dateToday = Carbon::now();
             $system_date = $dateToday->format('Y-m-d');
-            $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
+            // $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
             $br_config = DB::table('br_config')->get()->first();
 
-            $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                ->get();
-            $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                ->get();
+            // $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+            //     ->get();
+            // $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+            //     ->get();
             $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
                 ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                 ->get();
@@ -553,21 +555,30 @@ class PurefoodsController extends Controller
                             ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                     }
 
-                    $customer = $principal_customers
+                    // ************************* MASTERFILE MAPPING *************************
+                    // $customer = $principal_customers
+                    //     ->where('customer_code', $customer_code)
+                    //     ->first();
+                    $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                        ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                         ->where('customer_code', $customer_code)
                         ->first();
 
-                    $item = null;
-                    if($qty_per_uom > 1) {
-                        $item = $principal_items
+                    // $item = null;
+                    // if($qty_per_uom > 1) {
+                    //     $item = $principal_items
+                    //     ->where('item_code', $item_code)
+                    //     // ->where('conversion_qty', $qty_per_uom)
+                    //     ->first();
+                    // } else {
+                    //     $item = $principal_items
+                    //     ->where('item_code', $item_code)
+                    //     ->first();
+                    // }
+                    $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                        ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                         ->where('item_code', $item_code)
-                        // ->where('conversion_qty', $qty_per_uom)
                         ->first();
-                    } else {
-                        $item = $principal_items
-                        ->where('item_code', $item_code)
-                        ->first();
-                    }
 
                     $salesman = $principal_salesmen
                         ->filter(function($sm) use (&$group_code) {
@@ -575,6 +586,7 @@ class PurefoodsController extends Controller
                         })
                         ->where('sm_code', $sm_code)
                         ->first();
+                    // ************************* /MASTERFILE MAPPING *************************
 
                     // ************************* MISC INITS **************************
                     $item_notfound = 0;
@@ -1000,7 +1012,7 @@ class PurefoodsController extends Controller
         $arr = [
             "beatroute_uploading" => false,
             "bu" => 'ppfb',
-            "posting_date_format" => 'Y-m-d',
+            "posting_date_format" => 'm/d/Y',
 
             // principal masterfiles
             "itemsTableHeader" => [

@@ -154,16 +154,20 @@
                             </div>
                         </template>
                         <template v-slot:selection = "{ item }">
-                            <v-chip v-for="(c,index) in item.caption2" :key="index"
+                            <v-chip
+                                v-for="(c,index) in item.caption2" :key="index"
                                 color="primary" small
-                            >{{ c }}</v-chip>
+                                :title="item.caption"
+                            >
+                                {{ c }}
+                            </v-chip>
                         </template>
                     </v-combobox>
 
                     <!-- DATEPICKER -->
                     <v-text-field
                         v-model="dateRangeText"
-                        label="Upload Date"
+                        label="Posting Date"
                         hide-details
                         readonly
                         dense
@@ -399,6 +403,8 @@ export default {
         // },
 
         onPageChange() {
+            if(this.principalCodeFilter=='' || this.principalCodeFilter==null) return;
+
             this.InvoicesStore.initInvoices(
                 this.searchKey,
                 this.principalCodeFilter,
@@ -497,14 +503,15 @@ export default {
 
     created() {
         this.InvoicesStore.state.invoiceStatus = '';
-        this.InvoicesStore.initInvoices();
-        this.InvoicesStore.initInvoicesTotalAmount();
+        // this.InvoicesStore.initInvoices();
+        // this.InvoicesStore.initInvoicesTotalAmount();
+        this.onPageChange();
         this.InvoicesStore.initGroups();
     },
 
     mounted() {
         console.log("Invoices page mounted.");
-        this.AppStore.state.showTopLoading=true;
+        // this.AppStore.state.showTopLoading=true;
     },
 
     beforeDestroy() {}

@@ -72,14 +72,14 @@ class InvoicesController extends Controller
                             PrincipalsUtil::$TBL_INVOICES.'.customer_code',
                             'like', '%'.$search_key. '%'
                         )
-                        ->orWhere(
-                            PrincipalsUtil::$TBL_INVOICES.'.posting_date',
-                            'like', '%'.$search_key. '%'
-                        )
-                        ->orWhere(
-                            PrincipalsUtil::$TBL_INVOICES.'.shipment_date',
-                            'like', '%'.$search_key. '%'
-                        )
+                        // ->orWhere(
+                        //     PrincipalsUtil::$TBL_INVOICES.'.posting_date',
+                        //     'like', '%'.$search_key. '%'
+                        // )
+                        // ->orWhere(
+                        //     PrincipalsUtil::$TBL_INVOICES.'.shipment_date',
+                        //     'like', '%'.$search_key. '%'
+                        // )
                         // ->orWhere(
                         //     PrincipalsUtil::$TBL_INVOICES.'.created_at',
                         //     'like', '%'.$search_key. '%'
@@ -106,26 +106,28 @@ class InvoicesController extends Controller
                 });
             })
             ->when($principal_code != '', function($query) use($principal_code) {
-                if($principal_code != '') {
-                    if($principal_code=='others') {
-                        $query->where(PrincipalsUtil::$TBL_INVOICES.'.vendor_code', null);
-                    } else {
-                        $vendor_codes = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                            ->where('main_vendor_code', $principal_code)->pluck('vendor_code')->toArray();
-                        $query->whereIn(PrincipalsUtil::$TBL_INVOICES.'.vendor_code', $vendor_codes);
-                    }
+                // if($principal_code != '') {
+                if($principal_code=='others') {
+                    $query->where(PrincipalsUtil::$TBL_INVOICES.'.vendor_code', null);
+                } else {
+                    $vendor_codes = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+                        ->where('main_vendor_code', $principal_code)->pluck('vendor_code')->toArray();
+                    $query->whereIn(PrincipalsUtil::$TBL_INVOICES.'.vendor_code', $vendor_codes);
                 }
+                // }
             })
             ->when($status != '' && $status != 'all', function($q) use($status) {
                 $q->where(PrincipalsUtil::$TBL_INVOICES.'.status','like', "%$status%");
             })
+            // terminal=group (NAV term)
             ->when($terminal != '' && $terminal != 'all', function($q) use($terminal) {
                 $q->where(
                     PrincipalsUtil::$TBL_INVOICES. '.group','like', '%'.$terminal. '%'
                 );
             })
             ->whereBetween(
-                DB::raw('DATE('. PrincipalsUtil::$TBL_INVOICES. ".created_at". ')'),
+                // DB::raw('DATE('. PrincipalsUtil::$TBL_INVOICES. ".created_at". ')'),
+                'posting_date',
                 [$dateFrom->startOfDay(), $dateTo->endOfDay()]
             );
 
@@ -319,7 +321,8 @@ class InvoicesController extends Controller
                                 $customer_code =            trim(str_replace('"','',$cols[1]));
                                 $doc_no =                   trim(str_replace('"','',$cols[2]));
                                 $item_code =                trim(str_replace('"','',$cols[5]));
-                                $shipment_date =            trim(str_replace('"','',$cols[6]));
+                                $shipment_date =            Carbon::createFromFormat('m/d/y', trim(str_replace('"','',$cols[6])));
+                                $shipment_date =            $shipment_date->format('Y-m-d');
                                 $item_description =         trim(str_replace('"','',$cols[7]));
                                 $uom =                      trim(str_replace('"','',$cols[8]));
                                 $quantity =                 trim(str_replace('"','',$cols[9]));
@@ -395,8 +398,10 @@ class InvoicesController extends Controller
                                 $customer_name =    trim(str_replace('"','',$cols[2]));
                                 $u1 =               trim(str_replace('"','',$cols[3]));
                                 $u2 =               trim(str_replace('"','',$cols[4]));
-                                $posting_date =     trim(str_replace('"','',$cols[5]));
-                                $shipment_date =    trim(str_replace('"','',$cols[6]));
+                                $posting_date =     Carbon::createFromFormat('m/d/y', trim(str_replace('"','',$cols[5])));
+                                $posting_date =     $posting_date->format('Y-m-d');
+                                // $shipment_date =    Carbon::createFromFormat('m/d/y', trim(str_replace('"','',$cols[6])));
+                                // $shipment_date =    $shipment_date->format('Y-m-d');
                                 $sm_code =          trim(str_replace('"','',$cols[7]));
                                 $ext_doc_no =       trim(str_replace('"','',($cols[8] ?? '')));
                                 // $ext_doc_no =       trim(str_replace('"','',$cols[8] ?? $doc_no));
@@ -418,7 +423,8 @@ class InvoicesController extends Controller
                                 $customer_code =            trim(str_replace('"','',$cols[0]));
                                 $doc_no =                   trim(str_replace('"','',$cols[1]));
                                 $item_code =                trim(str_replace('"','',$cols[2]));
-                                $shipment_date =            trim(str_replace('"','',$cols[3]));
+                                $shipment_date =            Carbon::createFromFormat('m/d/y', trim(str_replace('"','',$cols[3])));
+                                $shipment_date =            $shipment_date->format('Y-m-d');
                                 $item_description =         trim(str_replace('"','',$cols[4]));
                                 $uom =                      trim(str_replace('"','',$cols[5]));
                                 $quantity =                 trim(str_replace('"','',$cols[6]));
@@ -487,7 +493,9 @@ class InvoicesController extends Controller
                             ) {
                                 $doc_no =           trim(str_replace('"','',$cols[0]));
                                 $customer_code =    trim(str_replace('"','',$cols[1]));
-                                $posting_date =     trim(str_replace('"','',$cols[4]));
+                                // $posting_date =     trim(str_replace('"','',$cols[4]));
+                                $posting_date =     Carbon::createFromFormat('m/d/y', trim(str_replace('"','',$cols[4])));
+                                $posting_date =     $posting_date->format('Y-m-d');
                                 $invoice_doc_no =   trim(str_replace('"','',$cols[8]));
                                 $payment_term =     trim(str_replace('"','',$cols[9]));
                                 $return_indicator = trim(str_replace('"','',$cols[10]));
@@ -1119,9 +1127,14 @@ class InvoicesController extends Controller
                     PrincipalsUtil::$TBL_INVOICES. '.sm_code'
                 ])
                 ->whereIn('vendor_code', $vendor_codes)
+                // ->whereBetween(
+                //     DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES.".posting_date, '%m/%d/%Y')"),
+                //     [$dateFrom, $dateTo]
+                // )
                 ->whereBetween(
-                    DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES.".posting_date, '%m/%d/%Y')"),
-                    [$dateFrom, $dateTo])
+                    'posting_date',
+                    [$dateFrom->startOfDay(), $dateTo->endOfDay()]
+                )
                 ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.posting_date')
                 ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.customer_code')
                 ->orderBy(PrincipalsUtil::$TBL_INVOICES.'.doc_no')
@@ -1172,19 +1185,26 @@ class InvoicesController extends Controller
 
         GenerateTemplated::dispatch("Retrieving invoices");
 
-        return DB::table(PrincipalsUtil::$TBL_INVOICES)
+        $res = DB::table(PrincipalsUtil::$TBL_INVOICES)
             ->whereIn('vendor_code', $vendor_codes)
+            // ->whereBetween(
+            //     DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES . ".posting_date, '%m/%d/%Y')"),
+            //     [$dateFrom, $dateTo]
+            // )
             ->whereBetween(
-                DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES . ".posting_date, '%m/%d/%Y')"),
-                [$dateFrom, $dateTo]
+                'posting_date',
+                [$dateFrom->startOfDay(), $dateTo->endOfDay()]
             )
             ->when($status != '' && $status != 'all', function($q) use($status) {
-                $q->where(PrincipalsUtil::$TBL_INVOICES.'.status','like', "%$status%");
+                // $q->where(PrincipalsUtil::$TBL_INVOICES.'.status','like', "%$status%");
+                $q->where(PrincipalsUtil::$TBL_INVOICES.'.status', $status);
             })
-            ->select([
-                PrincipalsUtil::$TBL_INVOICES.'.*'
-            ])
+            // ->select([
+            //     PrincipalsUtil::$TBL_INVOICES.'.*'
+            // ])
             ->cursor();
+
+        return $res;
     }
 
 
@@ -1273,99 +1293,99 @@ class InvoicesController extends Controller
 
 
     public function uploadLogs() {
-        $res = DB::table(PrincipalsUtil::$TBL_INVOICES_UPLOG)->limit(20)->latest()->get();
+        $res = DB::table(PrincipalsUtil::$TBL_INVOICES_UPLOG)->limit(50)->latest()->get();
         return response()->json($res);
     }
 
 
 
     // temp
-    public function restoreLines() {
-        $dtFrom = request()->dtFrom ?? '';
-        $dtTo = request()->dtTo ?? '';
-        if($dtFrom == '' || $dtTo == '') {
-            dd('No date filters');
-        }
-        $dateFrom = new Carbon($dtFrom);
-        $dateTo = new Carbon($dtTo);
+    // public function restoreLines() {
+    //     $dtFrom = request()->dtFrom ?? '';
+    //     $dtTo = request()->dtTo ?? '';
+    //     if($dtFrom == '' || $dtTo == '') {
+    //         dd('No date filters');
+    //     }
+    //     $dateFrom = new Carbon($dtFrom);
+    //     $dateTo = new Carbon($dtTo);
 
-        set_time_limit(0);
-        // $memory_limit = ini_get('memory_limit');
-        // ini_set('memory_limit', 0);
+    //     set_time_limit(0);
+    //     // $memory_limit = ini_get('memory_limit');
+    //     // ini_set('memory_limit', 0);
 
-        // headers XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-        $res = DB::table('invoices_headers_20230315')
-            ->whereBetween(
-                DB::raw("STR_TO_DATE(posting_date, '%m/%d/%Y')"),
-                [$dateFrom, $dateTo]
-            )
-            ->get();
-        foreach($res as $h) {
-            if (
-                DB::table(PrincipalsUtil::$TBL_INVOICES_H)
-                    ->where('doc_no', $h->doc_no)
-                    ->where('customer_code', $h->customer_code)
-                    ->exists() == false
-            ) {
-                DB::table(PrincipalsUtil::$TBL_INVOICES_H)
-                    ->insert([
-                        'doc_no' => $h->doc_no,
-                        'customer_code' => $h->customer_code,
-                        'customer_name' => $h->customer_name,
-                        'u1' => $h->u1,
-                        'u2' => $h->u2,
-                        'shipment_date' => $h->shipment_date,
-                        'posting_date' => $h->posting_date,
-                        'sm_code' => $h->sm_code,
-                    ]);
-            }
-        }
+    //     // headers XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    //     $res = DB::table('invoices_headers_20230315')
+    //         ->whereBetween(
+    //             DB::raw("STR_TO_DATE(posting_date, '%m/%d/%Y')"),
+    //             [$dateFrom, $dateTo]
+    //         )
+    //         ->get();
+    //     foreach($res as $h) {
+    //         if (
+    //             DB::table(PrincipalsUtil::$TBL_INVOICES_H)
+    //                 ->where('doc_no', $h->doc_no)
+    //                 ->where('customer_code', $h->customer_code)
+    //                 ->exists() == false
+    //         ) {
+    //             DB::table(PrincipalsUtil::$TBL_INVOICES_H)
+    //                 ->insert([
+    //                     'doc_no' => $h->doc_no,
+    //                     'customer_code' => $h->customer_code,
+    //                     'customer_name' => $h->customer_name,
+    //                     'u1' => $h->u1,
+    //                     'u2' => $h->u2,
+    //                     'shipment_date' => $h->shipment_date,
+    //                     'posting_date' => $h->posting_date,
+    //                     'sm_code' => $h->sm_code,
+    //                 ]);
+    //         }
+    //     }
 
-        // lines XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-        $res = DB::table('invoices_lines_20230315')
-            ->whereBetween(
-                DB::raw("STR_TO_DATE(shipment_date, '%m/%d/%Y')"),
-                [$dateFrom, $dateTo]
-            )
-            ->get();
-        foreach($res as $i) {
-            if (
-                DB::table(PrincipalsUtil::$TBL_INVOICES)
-                    ->where('vendor_code',$i->vendor_code)
-                    ->where('customer_code',$i->customer_code)
-                    ->where('doc_no',$i->doc_no)
-                    ->where('item_code',$i->item_code)
-                    ->where('uom',$i->uom)
-                    ->where('quantity',$i->quantity)
-                    ->where('shipment_date',$i->shipment_date)
+    //     // lines XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    //     $res = DB::table('invoices_lines_20230315')
+    //         ->whereBetween(
+    //             DB::raw("STR_TO_DATE(shipment_date, '%m/%d/%Y')"),
+    //             [$dateFrom, $dateTo]
+    //         )
+    //         ->get();
+    //     foreach($res as $i) {
+    //         if (
+    //             DB::table(PrincipalsUtil::$TBL_INVOICES)
+    //                 ->where('vendor_code',$i->vendor_code)
+    //                 ->where('customer_code',$i->customer_code)
+    //                 ->where('doc_no',$i->doc_no)
+    //                 ->where('item_code',$i->item_code)
+    //                 ->where('uom',$i->uom)
+    //                 ->where('quantity',$i->quantity)
+    //                 ->where('shipment_date',$i->shipment_date)
 
-                    ->exists() == false
-            ) {
-                DB::table(PrincipalsUtil::$TBL_INVOICES)
-                    ->insert([
-                        'status' => 'completed',
-                        'uploaded_by' => 50,
-                        'filename' => $i->filename,
-                        'group' => $i->group,
-                        'batch_number' => $i->batch_number,
-                        'vendor_code' => $i->vendor_code,
-                        'customer_code' => $i->customer_code,
-                        'doc_no' => $i->doc_no,
-                        'shipment_date' => $i->shipment_date,
-                        'item_code' => $i->item_code,
-                        'item_description' => $i->item_description,
-                        'uom' => $i->uom,
-                        'quantity' => $i->quantity,
-                        'price' => $i->price,
-                        'amount' => $i->amount,
-                        'qty_per_uom' => $i->qty_per_uom,
-                        'uom_code' => $i->uom_code,
-                    ]);
-            }
-        }
-        // dd($res);
-        // ini_set('memory_limit', $memory_limit);
-        $res = null;
-        return response()->json("Done $dtFrom - $dtTo");
-    }
+    //                 ->exists() == false
+    //         ) {
+    //             DB::table(PrincipalsUtil::$TBL_INVOICES)
+    //                 ->insert([
+    //                     'status' => 'completed',
+    //                     'uploaded_by' => 50,
+    //                     'filename' => $i->filename,
+    //                     'group' => $i->group,
+    //                     'batch_number' => $i->batch_number,
+    //                     'vendor_code' => $i->vendor_code,
+    //                     'customer_code' => $i->customer_code,
+    //                     'doc_no' => $i->doc_no,
+    //                     'shipment_date' => $i->shipment_date,
+    //                     'item_code' => $i->item_code,
+    //                     'item_description' => $i->item_description,
+    //                     'uom' => $i->uom,
+    //                     'quantity' => $i->quantity,
+    //                     'price' => $i->price,
+    //                     'amount' => $i->amount,
+    //                     'qty_per_uom' => $i->qty_per_uom,
+    //                     'uom_code' => $i->uom_code,
+    //                 ]);
+    //         }
+    //     }
+    //     // dd($res);
+    //     // ini_set('memory_limit', $memory_limit);
+    //     $res = null;
+    //     return response()->json("Done $dtFrom - $dtTo");
+    // }
 }
