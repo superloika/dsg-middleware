@@ -1044,6 +1044,7 @@ class PurefoodsController extends Controller
                 ],
             ],
 
+            // last resort
             // templated data table header
             "generatedDataTableHeader" => [
                 [
