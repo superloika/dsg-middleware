@@ -214,6 +214,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['lineCount', 'warningsCount'],
   components: {
@@ -343,7 +359,7 @@ __webpack_require__.r(__webpack_exports__);
         var _this$PrincipalsStore;
 
         // this.showRefresh = true;
-        this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus, (_this$PrincipalsStore = this.PrincipalsStore.state.configs.posting_date_format) !== null && _this$PrincipalsStore !== void 0 ? _this$PrincipalsStore : 'm/d/Y');
+        this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus, (_this$PrincipalsStore = this.PrincipalsStore.state.configs.posting_date_format) !== null && _this$PrincipalsStore !== void 0 ? _this$PrincipalsStore : 'm/d/Y', this.InvoicesStore.state.data_type);
         this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
       }
     },
@@ -384,6 +400,34 @@ var render = function() {
           _c(
             "v-row",
             [
+              _c(
+                "v-col",
+                { attrs: { cols: "12" } },
+                [
+                  _c("v-select", {
+                    staticStyle: { "max-width": "500px", "min-width": "200px" },
+                    attrs: {
+                      items: _vm.InvoicesStore.state.data_types,
+                      label: "Type",
+                      "item-text": "type",
+                      "item-value": "value",
+                      outlined: "",
+                      rounded: "",
+                      "hide-details": "",
+                      dense: ""
+                    },
+                    model: {
+                      value: _vm.InvoicesStore.state.data_type,
+                      callback: function($$v) {
+                        _vm.$set(_vm.InvoicesStore.state, "data_type", $$v)
+                      },
+                      expression: "InvoicesStore.state.data_type"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
               _c(
                 "v-col",
                 { attrs: { cols: "12" } },

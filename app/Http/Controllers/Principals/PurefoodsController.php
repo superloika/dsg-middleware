@@ -467,6 +467,9 @@ class PurefoodsController extends Controller
                 $group_by = 'system_date';
             }
 
+            $exportSI = $request->data_type=='all' || $request->data_type=='sales_invoice' ? true : false;
+            $exportCM = $request->data_type=='all' || $request->data_type=='sales_return' ? true : false;
+
             // response
             $res['success'] = true;
             $res['message'] = 'Success';
@@ -476,10 +479,10 @@ class PurefoodsController extends Controller
                     'name' => 'Sales Invoices',
                     'output_template' => [],
                 ],
-                // [
-                //     'name' => 'Returns',
-                //     'output_template' => [],
-                // ],
+                [
+                    'name' => 'Returns',
+                    'output_template' => [],
+                ],
             ];
             // /response
 
@@ -510,7 +513,7 @@ class PurefoodsController extends Controller
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE 1 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             // Sales Invoices
-            if(true) {
+            if($exportSI) {
                 // **************** PENDING INVOICES ****************************************
                 $pendingInvoices = InvoicesController::getPendingInvoices(
                     $request->principal_code, $request->posting_date_range, $request->status
@@ -520,221 +523,242 @@ class PurefoodsController extends Controller
                 $res['line_count'] += $pendingInvoicesCount;
                 // **************** /PENDING INVOICES ****************************************
 
-                // Loop through each line of the file content
-                $loopCounter = 0;
-                foreach ($pendingInvoices as $pendingInvoice) {
-                    $loopCounter++;
-                    $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
-                    GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
+                if($request->status=='pending') {
+                    // Loop through each line of the file content
+                    $loopCounter = 0;
+                    foreach ($pendingInvoices as $pendingInvoice) {
+                        $loopCounter++;
+                        $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
+                        GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
 
-                    $doc_no =               $pendingInvoice->doc_no;
-                    $customer_code =        $pendingInvoice->customer_code;
-                    // $customer_code =        '101798'; // for BR test (Espana Store External ID)
-                    $posting_date =         $pendingInvoice->posting_date;
-                    $posting_date =         (new Carbon($posting_date))->format($postingDateFormat);
-                    $item_code =            $pendingInvoice->item_code;
-                    $quantity =             $pendingInvoice->quantity;
-                    $price =                doubleval($pendingInvoice->price);
-                    $amount =               doubleval($pendingInvoice->amount);
-                    $uom =                  $pendingInvoice->uom;
-                    $item_description =     $pendingInvoice->item_description;
-                    $group_code =           $pendingInvoice->group;
-                    $sm_code =              $pendingInvoice->sm_code;
-                    $discount_percentage =  $pendingInvoice->discount_percentage ?? 0;
-                    $discount_value =       0;
-                    $vat_percentage =       intval($pendingInvoice->vat_percentage ?? 0);
-                    $vat_value =            0;
-                    $vendor_code =          $pendingInvoice->vendor_code;
-                    $qty_per_uom =          $pendingInvoice->qty_per_uom;
+                        $doc_no =               $pendingInvoice->doc_no;
+                        $customer_code =        $pendingInvoice->customer_code;
+                        // $customer_code =        '101798'; // for BR test (Espana Store External ID)
+                        $posting_date =         $pendingInvoice->posting_date;
+                        $posting_date =         (new Carbon($posting_date))->format($postingDateFormat);
+                        $item_code =            $pendingInvoice->item_code;
+                        $quantity =             $pendingInvoice->quantity;
+                        $price =                doubleval($pendingInvoice->price);
+                        $amount =               doubleval($pendingInvoice->amount);
+                        $uom =                  $pendingInvoice->uom;
+                        $item_description =     $pendingInvoice->item_description;
+                        $group =           $pendingInvoice->group;
+                        $sm_code =              $pendingInvoice->sm_code;
+                        $discount_percentage =  $pendingInvoice->discount_percentage ?? 0;
+                        $discount_value =       0;
+                        $vat_percentage =       intval($pendingInvoice->vat_percentage ?? 0);
+                        $vat_value =            0;
+                        $vendor_code =          $pendingInvoice->vendor_code;
+                        $qty_per_uom =          $pendingInvoice->qty_per_uom;
 
-                    //********************************************************************
-                    $nav_customer_name = $pendingInvoice->customer_name;
-                    // if($nav_customer_name==null || $nav_customer_name=='') {
-                    //     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                    //         ->where('customer_code', $customer_code)
-                    //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                    // }
+                        //********************************************************************
+                        $nav_customer_name = $pendingInvoice->customer_name;
+                        // if($nav_customer_name==null || $nav_customer_name=='') {
+                        //     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                        //         ->where('customer_code', $customer_code)
+                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                        // }
 
-                    // ************************* MASTERFILE MAPPING *************************
-                    // $customer = $principal_customers
-                    //     ->where('customer_code', $customer_code)
-                    //     ->first();
-                    $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                        ->where('customer_code', $customer_code)
-                        ->first();
-
-                    // $item = null;
-                    // if($qty_per_uom > 1) {
-                    //     $item = $principal_items
-                    //     ->where('item_code', $item_code)
-                    //     // ->where('conversion_qty', $qty_per_uom)
-                    //     ->first();
-                    // } else {
-                    //     $item = $principal_items
-                    //     ->where('item_code', $item_code)
-                    //     ->first();
-                    // }
-                    $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                        ->where('item_code', $item_code)
-                        ->first();
-
-                    $salesman = $principal_salesmen
-                        ->filter(function($sm) use (&$group_code) {
-                            return false !== strpos($group_code, $sm->division, 0);
-                        })
-                        ->where('sm_code', $sm_code)
-                        ->first();
-                    // ************************* /MASTERFILE MAPPING *************************
-
-                    // ************************* MISC INITS **************************
-                    $item_notfound = 0;
-                    $customer_notfound = 0;
-                    $salesman_notfound = 0;
-                    $missing_customer_name = '';
-                    $missing_item_name = '';
-                    $item_code_supplier = '';
-                    $item_description_supplier = '';
-                    $customer_code_supplier = '';
-                    // $sm_code = 'NA';
-                    $sm_name = '';
-                    $uom_supplier = '';
-                    $price_supplier = 0;
-                    $amount_supplier = 0;
-
-                    // check item *******************************
-                    if ($item == null) {
-                        $item_notfound = 1;
-                        $missing_item_name = $item_description;
-                    } else {
-                        if($item->item_code_supplier!='') {
-                            $item_code_supplier = str_pad(
-                                $item->item_code_supplier,
-                                18,
-                                "0",
-                                STR_PAD_LEFT
-                            );
-                        }
-                        $item_description_supplier = $item->description_supplier;
-
-                        // price and uom mapping (supplier) ********************
-                        $uom_supplier = $qty_per_uom > 1 ?
-                            $item->uom : $item->conversion_uom;
-
-                        // XXXXXXXXXXXXXXXXXXXXXXXX PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
-                        // map to supplier price
-                        $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
-                        // map to orig price temporarily
-                        // $price_supplier = $price;
-
-                        // reverse percentage to get the vat-ex price
-                        if($vat_percentage > 0) {
-                            // $price_vat_ex = $price / (1 + ($vat_percentage / 100));
-                            $price_vat_ex = $price_supplier / (1 + ($vat_percentage / 100));
-                            $vat_value = ($price_supplier - $price_vat_ex) * $quantity;
-                            $price_supplier = $price_vat_ex;
-                        }
-                        // XXXXXXXXXXXXXXXXXXXXXXXX /PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
-
-                        $amount_supplier = $price_supplier * $quantity;
-                        $discount_value = $amount_supplier * $discount_percentage / 100;
-                        $amount_supplier = $amount_supplier - $discount_value;
-
-                        $discount_value = round($discount_value, 5);
-                        $amount_supplier = round($amount_supplier, 5);
-                        $price_supplier = round($price_supplier, 5);
-                    }
-                    // check customer ***************************
-                    if ($customer == null) {
-                        $customer_notfound = 1;
-                        $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                        // ************************* MASTERFILE MAPPING *************************
+                        // $customer = $principal_customers
+                        //     ->where('customer_code', $customer_code)
+                        //     ->first();
+                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                             ->where('customer_code', $customer_code)
-                            ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        $customer_name = $nav_customer_name;
-                    } else {
-                        $customer_code_supplier = $customer->customer_code_supplier;
-                        $customer_name = $customer->customer_name;
-                    }
+                            ->first();
 
-                    // check salesman
-                    if($salesman == null) {
-                        $salesman_notfound = 1;
-                    } else {
-                        $sm_name = $salesman->sm_name ?? '';
-                    }
-                    // ************************* /MISC INITS **************************
+                        // $item = null;
+                        // if($qty_per_uom > 1) {
+                        //     $item = $principal_items
+                        //     ->where('item_code', $item_code)
+                        //     // ->where('conversion_qty', $qty_per_uom)
+                        //     ->first();
+                        // } else {
+                        //     $item = $principal_items
+                        //     ->where('item_code', $item_code)
+                        //     ->first();
+                        // }
+                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                            ->where('item_code', $item_code)
+                            ->first();
 
-                    // Generated data line structure
-                    $arrGenerated = [
-                        //commons
-                        'customer_code' =>          $customer_code_supplier,
-                        'alturas_customer_code' =>  $customer_code,
-                        'item_code' =>              $item_code_supplier,
-                        'alturas_item_code' =>      $item_code,
-                        'doc_no' =>                 $doc_no,
-                        'missing_customer_name' =>  $missing_customer_name,
-                        'missing_item_name' =>      $missing_item_name,
-                        'customer_notfound' =>      $customer_notfound,
-                        'item_notfound' =>          $item_notfound,
-                        'salesman_notfound' =>      $salesman_notfound,
-                        'vendor_code' =>            $vendor_code,
-                        // principal specific
-                        'invoice_no' =>             $doc_no,
-                        'invoice_date' =>           $posting_date,
-                        'quantity' =>               $quantity,
-                        'price' =>                  $price,
-                        'price_supplier' =>         $price_supplier,
-                        'amount' =>                 $amount,
-                        'amount_supplier' =>        $amount_supplier,
-                        'uom' =>                    $uom,
-                        'uom_supplier' =>           $uom_supplier,
-                        'item_description' =>       $item_description,
-                        'description_supplier' =>   $item_description_supplier,
-                        'customer_name' =>          $customer_name,
-                        'sm_code' =>                $sm_code,
-                        'sm_name' =>                $sm_name,
-                        'system_date' =>            $system_date,
-                        'group' =>                  $group_code,
-                        'status' =>                 $pendingInvoice->status,
-                        // other BR payload props
-                        'cf_dsp_name_id' =>         $br_config->cf_dsp_name,
-                        // 'cf_dsp_name_value' =>      $settings['DSP_'. $group_code],
-                        'cf_dsp_name_value' =>      $sm_name,
-                        'invoice_number' =>         $pendingInvoice->ext_doc_no!='' || $pendingInvoice->ext_doc_no!=null ?
-                                                        // $vendor_code. '-'. $pendingInvoice->ext_doc_no : '',
-                                                        $pendingInvoice->ext_doc_no : '',
-                        'discount_percentage' =>    $discount_percentage,
-                        'discount_value' =>         $discount_value,
-                        'vat_percentage' =>         $vat_percentage,
-                        'vat_value' =>              $vat_value,
-                    ];
+                        $salesman = $principal_salesmen
+                            ->filter(function($sm) use (&$group) {
+                                return false !== strpos($group, $sm->division, 0);
+                            })
+                            ->where('sm_code', $sm_code)
+                            ->first();
+                        // ************************* /MASTERFILE MAPPING *************************
 
-                    // group output_template_variations
-                    if (
-                        !isset(
+                        // ************************* MISC INITS **************************
+                        $item_notfound = 0;
+                        $customer_notfound = 0;
+                        $salesman_notfound = 0;
+                        $missing_customer_name = '';
+                        $missing_item_name = '';
+                        $item_code_supplier = '';
+                        $item_description_supplier = '';
+                        $customer_code_supplier = '';
+                        // $sm_code = 'NA';
+                        $sm_name = '';
+                        $uom_supplier = '';
+                        $price_supplier = 0;
+                        $amount_supplier = 0;
+
+                        // check item *******************************
+                        if ($item == null) {
+                            $item_notfound = 1;
+                            $missing_item_name = $item_description;
+                        } else {
+                            if($item->item_code_supplier!='') {
+                                $item_code_supplier = str_pad(
+                                    $item->item_code_supplier,
+                                    18,
+                                    "0",
+                                    STR_PAD_LEFT
+                                );
+                            }
+                            $item_description_supplier = $item->description_supplier;
+
+                            // price and uom mapping (supplier) ********************
+                            $uom_supplier = $qty_per_uom > 1 ?
+                                $item->uom : $item->conversion_uom;
+
+                            // XXXXXXXXXXXXXXXXXXXXXXXX PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
+                            // map to supplier price
+                            $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
+                            // map to orig price temporarily
+                            // $price_supplier = $price;
+
+                            // reverse percentage to get the vat-ex price
+                            if($vat_percentage > 0) {
+                                // $price_vat_ex = $price / (1 + ($vat_percentage / 100));
+                                $price_vat_ex = $price_supplier / (1 + ($vat_percentage / 100));
+                                $vat_value = ($price_supplier - $price_vat_ex) * $quantity;
+                                $price_supplier = $price_vat_ex;
+                            }
+                            // XXXXXXXXXXXXXXXXXXXXXXXX /PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
+
+                            $amount_supplier = $price_supplier * $quantity;
+                            $discount_value = $amount_supplier * $discount_percentage / 100;
+                            $amount_supplier = $amount_supplier - $discount_value;
+
+                            $discount_value = round($discount_value, 5);
+                            $amount_supplier = round($amount_supplier, 5);
+                            $price_supplier = round($price_supplier, 5);
+                        }
+                        // check customer ***************************
+                        if ($customer == null) {
+                            $customer_notfound = 1;
+                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                                ->where('customer_code', $customer_code)
+                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                            $customer_name = $nav_customer_name;
+                        } else {
+                            $customer_code_supplier = $customer->customer_code_supplier;
+                            $customer_name = $customer->customer_name;
+                        }
+
+                        // check salesman
+                        if($salesman == null) {
+                            $salesman_notfound = 1;
+                        } else {
+                            $sm_name = $salesman->sm_name ?? '';
+                        }
+                        // ************************* /MISC INITS **************************
+
+                        // Generated data line structure
+                        $arrGenerated = [
+                            //commons
+                            'customer_code' =>          $customer_code_supplier,
+                            'alturas_customer_code' =>  $customer_code,
+                            'item_code' =>              $item_code_supplier,
+                            'alturas_item_code' =>      $item_code,
+                            'doc_no' =>                 $doc_no,
+                            'missing_customer_name' =>  $missing_customer_name,
+                            'missing_item_name' =>      $missing_item_name,
+                            'customer_notfound' =>      $customer_notfound,
+                            'item_notfound' =>          $item_notfound,
+                            'salesman_notfound' =>      $salesman_notfound,
+                            'vendor_code' =>            $vendor_code,
+                            // principal specific
+                            'invoice_no' =>             $doc_no,
+                            'invoice_date' =>           $posting_date,
+                            'quantity' =>               $quantity,
+                            'price' =>                  $price,
+                            'price_supplier' =>         $price_supplier,
+                            'amount' =>                 $amount,
+                            'amount_supplier' =>        $amount_supplier,
+                            'uom' =>                    $uom,
+                            'uom_supplier' =>           $uom_supplier,
+                            'item_description' =>       $item_description,
+                            'description_supplier' =>   $item_description_supplier,
+                            'customer_name' =>          $customer_name,
+                            'sm_code' =>                $sm_code,
+                            'sm_name' =>                $sm_name,
+                            'system_date' =>            $system_date,
+                            'group' =>                  $group,
+                            'status' =>                 $pendingInvoice->status,
+                            // other BR payload props
+                            'cf_dsp_name_id' =>         $br_config->cf_dsp_name,
+                            // 'cf_dsp_name_value' =>      $settings['DSP_'. $group],
+                            'cf_dsp_name_value' =>      $sm_name,
+                            'invoice_number' =>         $pendingInvoice->ext_doc_no!='' || $pendingInvoice->ext_doc_no!=null ?
+                                                            // $vendor_code. '-'. $pendingInvoice->ext_doc_no : '',
+                                                            $pendingInvoice->ext_doc_no : '',
+                            'discount_percentage' =>    $discount_percentage,
+                            'discount_value' =>         $discount_value,
+                            'vat_percentage' =>         $vat_percentage,
+                            'vat_value' =>              $vat_value,
+                        ];
+
+                        // group output_template_variations
+                        if (
+                            !isset(
+                                $res[
+                                    'output_template_variations'
+                                ][0]['output_template'][$$group_by]
+                            )
+                        ) {
                             $res[
                                 'output_template_variations'
-                            ][0]['output_template'][$$group_by]
-                        )
-                    ) {
-                        $res[
-                            'output_template_variations'
-                        ][0]['output_template'][$$group_by] = [];
+                            ][0]['output_template'][$$group_by] = [];
+                        }
+                        array_push(
+                            $res[
+                                'output_template_variations'
+                            ][0]['output_template'][$$group_by],
+                            $arrGenerated
+                        );
+                    } // /loop invoices
+                } else if ($request->status=='completed') {
+                    foreach ($pendingInvoices as $pendingInvoice) {
+                        if($pendingInvoice->gendata != null) {
+                            $arrGenerated = json_decode($pendingInvoice->gendata);
+                            // group output_template_variations
+                            $groupByKey = $pendingInvoice->$group_by ?? $arrGenerated->$group_by;
+                            if (
+                                !isset(
+                                    $res['output_template_variations'][0]['output_template'][$groupByKey]
+                                )
+                            ) {
+                                $res['output_template_variations'][0]['output_template'][$groupByKey] = [];
+                            }
+                            array_push(
+                                $res['output_template_variations'][0]['output_template'][$groupByKey],
+                                $arrGenerated
+                            );
+                        }
                     }
-                    array_push(
-                        $res[
-                            'output_template_variations'
-                        ][0]['output_template'][$$group_by],
-                        $arrGenerated
-                    );
-                } // /loop invoices
+                }
             }
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE 1 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE 2 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             // Sales Returns (CM)
-            if(false) {
+            if($exportCM) {
                 // **************** RETURNS ************************************************
                 $returns = InvoicesController::getReturns(
                     $request->principal_code, $request->posting_date_range, $request->status
@@ -744,220 +768,247 @@ class PurefoodsController extends Controller
                 $res['line_count'] += $returnsCount;
                 // **************** /RETURNS ************************************************
 
-                // Loop through each line of the file content
-                $loopCounter = 0;
-                foreach ($returns as $return) {
-                    $loopCounter++;
-                    $progressPercent = round(($loopCounter / $returnsCount) * 100);
-                    GenerateTemplated::dispatch("Generating returns ($progressPercent%)");
+                if($request->status=='pending') {
+                    // Loop through each line of the file content
+                    $loopCounter = 0;
+                    foreach ($returns as $return) {
+                        $loopCounter++;
+                        $progressPercent = round(($loopCounter / $returnsCount) * 100);
+                        GenerateTemplated::dispatch("Generating returns ($progressPercent%)");
 
-                    $doc_no =               $return->doc_no;
-                    $customer_code       =  $return->customer_code;
-                    // $customer_code =        '101798'; // for BR test (Espana Store External ID)
-                    $shipment_date =        $return->shipment_date;
-                    $posting_date =        (new Carbon($shipment_date))->format($postingDateFormat);
-                    $item_code =            $return->item_code . '';
-                    $quantity =             $return->quantity;
-                    $price =                doubleval($return->price);
-                    $amount =               doubleval($return->amount);
-                    $uom =                  $return->uom;
-                    $item_description =     $return->item_description;
-                    $group_code =           $return->group;
-                    $discount_percentage =  $return->discount_percentage ?? 0;
-                    $discount_value =       0;
-                    $invoice_quantity =     $return->invoice_quantity;
-                    $invoice_doc_no =       $return->invoice_doc_no;
-                    $return_indicator =     $return->return_indicator;
-                    $vendor_code =          $return->vendor_code;
-                    $sm_code =              $return->sm_code;
-                    $remarks =              $return->remarks;
-                    $vat_percentage =       intval($return->vat_percentage ?? 0);
-                    $vat_value =            0;
-                    $ext_doc_no =           $return->ext_doc_no;
-                    $qty_per_uom =          $return->qty_per_uom;
-                    // dd($ext_doc_no);
+                        $doc_no =               $return->doc_no;
+                        $customer_code       =  $return->customer_code;
+                        // $customer_code =        '101798'; // for BR test (Espana Store External ID)
+                        $shipment_date =        $return->shipment_date;
+                        $posting_date =        (new Carbon($shipment_date))->format($postingDateFormat);
+                        $item_code =            $return->item_code . '';
+                        $quantity =             $return->quantity;
+                        $price =                doubleval($return->price);
+                        $amount =               doubleval($return->amount);
+                        $uom =                  $return->uom;
+                        $item_description =     $return->item_description;
+                        $group =           $return->group;
+                        $discount_percentage =  $return->discount_percentage ?? 0;
+                        $discount_value =       0;
+                        $invoice_quantity =     $return->invoice_quantity;
+                        $invoice_doc_no =       $return->invoice_doc_no;
+                        $return_indicator =     $return->return_indicator;
+                        $vendor_code =          $return->vendor_code;
+                        $sm_code =              $return->sm_code;
+                        $remarks =              $return->remarks;
+                        $vat_percentage =       intval($return->vat_percentage ?? 0);
+                        $vat_value =            0;
+                        $ext_doc_no =           $return->ext_doc_no;
+                        $qty_per_uom =          $return->qty_per_uom;
+                        // dd($ext_doc_no);
 
-                    /**
-                     * return quantity vs actual sales invoice quantity
-                     * skip returned items with greater quantity than the actual sales quantity
-                     */
-                    // if($quantity > $invoice_quantity) continue;
+                        /**
+                         * return quantity vs actual sales invoice quantity
+                         * skip returned items with greater quantity than the actual sales quantity
+                         */
+                        // if($quantity > $invoice_quantity) continue;
 
-                    //************************************************************************
-                    $nav_customer_name = $return->customer_name;
-                    if($nav_customer_name==null || $nav_customer_name=='') {
-                        $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                        // ************************* MASTERFILE MAPPING *************************
+                        // $customer = $principal_customers
+                        //     ->where('customer_code', $customer_code)
+                        //     ->first();
+                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                             ->where('customer_code', $customer_code)
-                            ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                    }
-                    // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                    //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                    //     ->where('customer_code', $customer_code)
-                    //     ->first();
-                    // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                    //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                    //     ->where('item_code', $item_code)
-                    //     ->first();
-                    $customer = $principal_customers
-                        ->where('customer_code', $customer_code)
-                        ->first();
-                    $item = $principal_items
-                        ->where('item_code', $item_code)
-                        ->first();
-                    $salesman = $principal_salesmen
-                        ->filter(function($sm) use (&$group_code) {
-                            return false !== strpos($group_code, $sm->division, 0);
-                        })
-                        ->where('sm_code', $sm_code)
-                        ->first();
+                            ->first();
 
-                    // ************************* MISC INITS **************************
-                    $item_notfound = 0;
-                    $customer_notfound = 0;
-                    $salesman_notfound = 0;
-                    $sm_name = '';
-                    $missing_customer_name = '';
-                    $missing_item_name = '';
-                    $item_code_supplier = '';
-                    $item_description_supplier = '';
-                    $customer_code_supplier = '';
-                    $uom_supplier = '';
-                    $price_supplier = 0;
-                    $amount_supplier = 0;
+                        // $item = null;
+                        // if($qty_per_uom > 1) {
+                        //     $item = $principal_items
+                        //     ->where('item_code', $item_code)
+                        //     // ->where('conversion_qty', $qty_per_uom)
+                        //     ->first();
+                        // } else {
+                        //     $item = $principal_items
+                        //     ->where('item_code', $item_code)
+                        //     ->first();
+                        // }
+                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                            ->where('item_code', $item_code)
+                            ->first();
 
-                    // check item *******************************
-                    if ($item == null) {
-                        $item_notfound = 1;
-                        $missing_item_name = $item_description;
-                    } else {
-                        // $item_code_supplier = "00000". $item->item_code_supplier;
-                        $item_code_supplier = str_pad(
-                            $item->item_code_supplier,
-                            18,
-                            "0",
-                            STR_PAD_LEFT
-                        );
-                        $item_description_supplier = $item->description_supplier;
+                        $salesman = $principal_salesmen
+                            ->filter(function($sm) use (&$group) {
+                                return false !== strpos($group, $sm->division, 0);
+                            })
+                            ->where('sm_code', $sm_code)
+                            ->first();
+                        // ************************* /MASTERFILE MAPPING *************************
 
-                        // price and uom mapping (supplier) ********************
-                        $uom_supplier = $return->qty_per_uom > 1 ?
-                            $item->uom : $item->conversion_uom;
+                        // ************************* MISC INITS **************************
+                        $item_notfound = 0;
+                        $customer_notfound = 0;
+                        $salesman_notfound = 0;
+                        $sm_name = '';
+                        $missing_customer_name = '';
+                        $missing_item_name = '';
+                        $item_code_supplier = '';
+                        $item_description_supplier = '';
+                        $customer_code_supplier = '';
+                        $uom_supplier = '';
+                        $price_supplier = 0;
+                        $amount_supplier = 0;
 
-                        // *********** PRICEHACKS RIGHT FUCKIN HERE ************************
-                        // map to supplier price
-                        $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
-                        // map to orig price temporarily
-                        // $price_supplier = $price;
+                        // check item *******************************
+                        if ($item == null) {
+                            $item_notfound = 1;
+                            $missing_item_name = $item_description;
+                        } else {
+                            // $item_code_supplier = "00000". $item->item_code_supplier;
+                            $item_code_supplier = str_pad(
+                                $item->item_code_supplier,
+                                18,
+                                "0",
+                                STR_PAD_LEFT
+                            );
+                            $item_description_supplier = $item->description_supplier;
 
-                        // reverse percentage to get the vat-ex price
-                        if($vat_percentage > 0) {
-                            // $price_vat_ex = $price / (1 + ($vat_percentage / 100));
-                            $price_vat_ex = $price_supplier / (1 + ($vat_percentage / 100));
-                            $vat_value = ($price_supplier - $price_vat_ex) * $quantity;
-                            $price_supplier = $price_vat_ex;
+                            // price and uom mapping (supplier) ********************
+                            $uom_supplier = $return->qty_per_uom > 1 ?
+                                $item->uom : $item->conversion_uom;
+
+                            // *********** PRICEHACKS RIGHT FUCKIN HERE ************************
+                            // map to supplier price
+                            $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
+                            // map to orig price temporarily
+                            // $price_supplier = $price;
+
+                            // reverse percentage to get the vat-ex price
+                            if($vat_percentage > 0) {
+                                // $price_vat_ex = $price / (1 + ($vat_percentage / 100));
+                                $price_vat_ex = $price_supplier / (1 + ($vat_percentage / 100));
+                                $vat_value = ($price_supplier - $price_vat_ex) * $quantity;
+                                $price_supplier = $price_vat_ex;
+                            }
+                            // *********** /PRICEHACKS RIGHT FUCKIN HERE **********************
+
+                            $amount_supplier = $price_supplier * $quantity;
+                            $discount_value = $amount_supplier * $discount_percentage / 100;
+                            $amount_supplier = $amount_supplier - $discount_value;
+
+                            $discount_value = round($discount_value, 5);
+                            $amount_supplier = round($amount_supplier, 5);
+                            $price_supplier = round($price_supplier, 5);
                         }
-                        // *********** /PRICEHACKS RIGHT FUCKIN HERE **********************
+                        // check customer ***************************
+                        if ($customer == null) {
+                            $customer_notfound = 1;
+                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                                ->where('customer_code', $customer_code)
+                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                            $customer_name = $nav_customer_name;
+                        } else {
+                            $customer_code_supplier = $customer->customer_code_supplier;
+                            $customer_name = $customer->customer_name;
+                        }
+                        // check salesman
+                        if($salesman == null) {
+                            $salesman_notfound = 1;
+                        } else {
+                            $sm_name = $salesman->sm_name ?? '';
+                        }
+                        // ************************* /MISC INITS **************************
 
-                        $amount_supplier = $price_supplier * $quantity;
-                        $discount_value = $amount_supplier * $discount_percentage / 100;
-                        $amount_supplier = $amount_supplier - $discount_value;
+                        // Generated data line structure
+                        $arrGenerated = [
+                            //commons
+                            'customer_code' =>          $customer_code_supplier,
+                            'alturas_customer_code' =>  $customer_code,
+                            'item_code' =>              $item_code_supplier,
+                            'alturas_item_code' =>      $item_code,
+                            'doc_no' =>                 $doc_no,
+                            'missing_customer_name' =>  $missing_customer_name,
+                            'missing_item_name' =>      $missing_item_name,
+                            'customer_notfound' =>      $customer_notfound,
+                            'item_notfound' =>          $item_notfound,
+                            'salesman_notfound' =>      $salesman_notfound,
+                            // principal specific
+                            'invoice_no' =>             $doc_no,
+                            'invoice_date' =>           $posting_date,
+                            'quantity' =>               $quantity,
+                            'price' =>                  $price,
+                            'price_supplier' =>         $price_supplier ?? 0,
+                            'amount' =>                 $amount,
+                            'amount_supplier' =>        $amount_supplier ?? 0,
+                            'uom' =>                    $uom,
+                            'uom_supplier' =>           $uom_supplier ?? '',
+                            'item_description' =>       $item_description,
+                            'description_supplier' =>   $item_description_supplier,
+                            'customer_name' =>          $customer_name,
+                            'system_date' =>            $system_date,
+                            'group' =>                  $group,
+                            'status' =>                 $return->status,
+                            // other BR payload props
+                            'cf_dsp_name_id' =>                     $br_config->cf_dsp_name,
+                            // 'cf_dsp_name_value' =>                  $settings['DSP_'. $group],
+                            'cf_dsp_name_value' =>                  $sm_name,
+                            'cf_return_indicator_id' =>             $br_config->cf_return_indicator,
+                            'cf_return_indicator_value' =>          $return_indicator,
+                            'cf_return_invoice_reference_id' =>     $br_config->cf_return_invoice_reference,
+                            // 'cf_return_invoice_reference_value' =>  $vendor_code. '-'. $invoice_doc_no,
+                            'cf_return_invoice_reference_value' =>  ($ext_doc_no!=''&&$ext_doc_no!=null) ? $ext_doc_no : '',
+                                                                        // $vendor_code. '-'. $ext_doc_no : '',
+                            'invoice_number' =>                     $doc_no,
+                            'discount_percentage' =>                $discount_percentage,
+                            'discount_value' =>                     $discount_value,
+                            'remarks' =>                            $remarks,
+                            'vat_percentage' =>                     $vat_percentage,
+                            'vat_value' =>                          $vat_value,
+                            // order orig details
+                            'invoice_quantity' =>       $invoice_quantity,
+                            'invoice_doc_no' =>         $invoice_doc_no,
+                            'return_indicator' =>       $return_indicator,
+                            'vendor_code' =>            $vendor_code,
+                            'sm_code' =>                $sm_code,
+                            'sm_name' =>                $sm_name,
+                        ];
 
-                        $discount_value = round($discount_value, 5);
-                        $amount_supplier = round($amount_supplier, 5);
-                        $price_supplier = round($price_supplier, 5);
-                    }
-                    // check customer ***************************
-                    if ($customer == null) {
-                        $customer_notfound = 1;
-                        $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                            ->where('customer_code', $customer_code)
-                            ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        $customer_name = $nav_customer_name;
-                    } else {
-                        $customer_code_supplier = $customer->customer_code_supplier;
-                        $customer_name = $customer->customer_name;
-                    }
-                    // check salesman
-                    if($salesman == null) {
-                        $salesman_notfound = 1;
-                    } else {
-                        $sm_name = $salesman->sm_name ?? '';
-                    }
-                    // ************************* /MISC INITS **************************
-
-                    // Generated data line structure
-                    $arrGenerated = [
-                        //commons
-                        'customer_code' =>          $customer_code_supplier,
-                        'alturas_customer_code' =>  $customer_code,
-                        'item_code' =>              $item_code_supplier,
-                        'alturas_item_code' =>      $item_code,
-                        'doc_no' =>                 $doc_no,
-                        'missing_customer_name' =>  $missing_customer_name,
-                        'missing_item_name' =>      $missing_item_name,
-                        'customer_notfound' =>      $customer_notfound,
-                        'item_notfound' =>          $item_notfound,
-                        'salesman_notfound' =>      $salesman_notfound,
-                        // principal specific
-                        'invoice_no' =>             $doc_no,
-                        'invoice_date' =>           $posting_date,
-                        'quantity' =>               $quantity,
-                        'price' =>                  $price,
-                        'price_supplier' =>         $price_supplier ?? 0,
-                        'amount' =>                 $amount,
-                        'amount_supplier' =>        $amount_supplier ?? 0,
-                        'uom' =>                    $uom,
-                        'uom_supplier' =>           $uom_supplier ?? '',
-                        'item_description' =>       $item_description,
-                        'description_supplier' =>   $item_description_supplier,
-                        'customer_name' =>          $customer_name,
-                        'system_date' =>            $system_date,
-                        'group' =>                  $group_code,
-                        'status' =>                 $return->status,
-                        // other BR payload props
-                        'cf_dsp_name_id' =>                     $br_config->cf_dsp_name,
-                        // 'cf_dsp_name_value' =>                  $settings['DSP_'. $group_code],
-                        'cf_dsp_name_value' =>                  $sm_name,
-                        'cf_return_indicator_id' =>             $br_config->cf_return_indicator,
-                        'cf_return_indicator_value' =>          $return_indicator,
-                        'cf_return_invoice_reference_id' =>     $br_config->cf_return_invoice_reference,
-                        // 'cf_return_invoice_reference_value' =>  $vendor_code. '-'. $invoice_doc_no,
-                        'cf_return_invoice_reference_value' =>  ($ext_doc_no!=''&&$ext_doc_no!=null) ? $ext_doc_no : '',
-                                                                    // $vendor_code. '-'. $ext_doc_no : '',
-                        'invoice_number' =>                     $doc_no,
-                        'discount_percentage' =>                $discount_percentage,
-                        'discount_value' =>                     $discount_value,
-                        'remarks' =>                            $remarks,
-                        'vat_percentage' =>                     $vat_percentage,
-                        'vat_value' =>                          $vat_value,
-                        // order orig details
-                        'invoice_quantity' =>       $invoice_quantity,
-                        'invoice_doc_no' =>         $invoice_doc_no,
-                        'return_indicator' =>       $return_indicator,
-                        'vendor_code' =>            $vendor_code,
-                        'sm_code' =>                $sm_code,
-                        'sm_name' =>                $sm_name,
-                    ];
-
-                    // group output_template_variations
-                    if (
-                        !isset(
+                        // group output_template_variations
+                        if (
+                            !isset(
+                                $res[
+                                    'output_template_variations'
+                                ][1]['output_template'][$$group_by]
+                            )
+                        ) {
                             $res[
                                 'output_template_variations'
-                            ][1]['output_template'][$$group_by]
-                        )
-                    ) {
-                        $res[
-                            'output_template_variations'
-                        ][1]['output_template'][$$group_by] = [];
+                            ][1]['output_template'][$$group_by] = [];
+                        }
+                        array_push(
+                            $res[
+                                'output_template_variations'
+                            ][1]['output_template'][$$group_by],
+                            $arrGenerated
+                        );
+                    } // /loop invoices
+                } else if ($request->status=='completed') {
+                    foreach ($returns as $return) {
+                        if($return->gendata != null) {
+                            $arrGenerated = json_decode($return->gendata);
+                            // group output_template_variations
+                            $groupByKey = $return->$group_by ?? $arrGenerated->$group_by;
+                            if (
+                                !isset(
+                                    $res['output_template_variations'][1]['output_template'][$groupByKey]
+                                )
+                            ) {
+                                $res['output_template_variations'][1]['output_template'][$groupByKey] = [];
+                            }
+                            array_push(
+                                $res['output_template_variations'][1]['output_template'][$groupByKey],
+                                $arrGenerated
+                            );
+                        }
                     }
-                    array_push(
-                        $res[
-                            'output_template_variations'
-                        ][1]['output_template'][$$group_by],
-                        $arrGenerated
-                    );
-                } // /loop invoices
+                }
+
             }
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE 2 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -1072,48 +1123,48 @@ class PurefoodsController extends Controller
                     ["text" => "SM Name",                       "value" => "sm_name"],
                     ["text" => "Group",                         "value" => "group"],
                 ],
-                // [
-                //     ["text" =>"Vendor Code",                     "value" => "vendor_code"],
-                //     ["text" =>"CM #",                            "value" => "invoice_no"],
-                //     ["text" =>"External CM #",                      "value" => "invoice_number"], // external doc no
-                //     ["text" =>"Customer Code (NAV)",                "value" => "alturas_customer_code"],
-                //     ["text" =>"Customer Code",                      "value" => "customer_code"],
-                //     ["text" =>"Customer Name",                      "value" => "customer_name"],
-                //     ["text" =>"CM Date (m/d/Y) (NAV)",              "value" => "invoice_date"],
-                //     ["text" =>"Item Code (NAV)",                    "value" => "alturas_item_code"],
-                //     ["text" =>"Item Code",                          "value" => "item_code"],
-                //     ["text" =>"Item Name (NAV)",                    "value" => "item_description"],
-                //     ["text" =>"Item Name",                          "value" => "description_supplier"],
-                //     ["text" =>"VAT (%)",                            "value" => "vat_percentage"],
-                //     ["text" =>"Discount (%)",                       "value" => "discount_percentage"],
-                //     ["text" =>"UOM (NAV)",                          "value" => "uom"],
-                //     ["text" =>"UOM",                                "value" => "uom_supplier"],
-                //     ["text" =>"Quantity",                           "value" => "quantity"],
-                //     ["text" =>"Price (NAV, VAT Inc)",               "value" => "price"],
-                //     ["text" =>"Amount (NAV,Discounted)",            "value" => "amount"],
-                //     ["text" =>"Price (VAT Ex)",                     "value" => "price_supplier"],
-                //     ["text" =>"Amount (Discounted",                 "value" => "amount_supplier"],
-                //     ["text" =>"SM Code",                            "value" => "sm_code"],
-                //     ["text" =>"SM Name",                            "value" => "sm_name"],
-                //     ["text" =>"Group",                              "value" => "group"],
-                //     // additional return stuff
-                //     ["text" =>"Return Indicator",                   "value" => "return_indicator"],
-                //     ["text" =>"Return Reason",                      "value" => "remarks"],
-                //     ["text" =>"Invoice Reference #",                "value" => "invoice_doc_no"],
-                //     // ["text" =>"Invoice Reference # (Ext Doc No.)",  "value" => "ext_doc_no"],
-                // ],
+                [
+                    ["text" =>"Vendor Code",                     "value" => "vendor_code"],
+                    ["text" =>"CM #",                            "value" => "invoice_no"],
+                    ["text" =>"External CM #",                      "value" => "invoice_number"], // external doc no
+                    ["text" =>"Customer Code (NAV)",                "value" => "alturas_customer_code"],
+                    ["text" =>"Customer Code",                      "value" => "customer_code"],
+                    ["text" =>"Customer Name",                      "value" => "customer_name"],
+                    ["text" =>"CM Date (m/d/Y) (NAV)",              "value" => "invoice_date"],
+                    ["text" =>"Item Code (NAV)",                    "value" => "alturas_item_code"],
+                    ["text" =>"Item Code",                          "value" => "item_code"],
+                    ["text" =>"Item Name (NAV)",                    "value" => "item_description"],
+                    ["text" =>"Item Name",                          "value" => "description_supplier"],
+                    ["text" =>"VAT (%)",                            "value" => "vat_percentage"],
+                    ["text" =>"Discount (%)",                       "value" => "discount_percentage"],
+                    ["text" =>"UOM (NAV)",                          "value" => "uom"],
+                    ["text" =>"UOM",                                "value" => "uom_supplier"],
+                    ["text" =>"Quantity",                           "value" => "quantity"],
+                    ["text" =>"Price (NAV, VAT Inc)",               "value" => "price"],
+                    ["text" =>"Amount (NAV,Discounted)",            "value" => "amount"],
+                    ["text" =>"Price (VAT Ex)",                     "value" => "price_supplier"],
+                    ["text" =>"Amount (Discounted",                 "value" => "amount_supplier"],
+                    ["text" =>"SM Code",                            "value" => "sm_code"],
+                    ["text" =>"SM Name",                            "value" => "sm_name"],
+                    ["text" =>"Group",                              "value" => "group"],
+                    // additional return stuff
+                    ["text" =>"Return Indicator",                   "value" => "return_indicator"],
+                    ["text" =>"Return Reason",                      "value" => "remarks"],
+                    ["text" =>"Invoice Reference #",                "value" => "invoice_doc_no"],
+                    // ["text" =>"Invoice Reference # (Ext Doc No.)",  "value" => "ext_doc_no"],
+                ],
             ],
 
             // ***********************************************************************************
             "generatedDataHistoryFilters" => [
                 [
                     ["text" => 'System Date',   "value" => 'system_date'],
-                    ["text" => 'Posting Date',  "value" => 'posting_date'],
-                    ["text" => 'Item Code',     "value" => 'item_code'],
-                    ["text" => 'Customer Code', "value" => 'customer_code'],
-                    ["text" => 'Source Group',  "value" => 'group_code'],
+                    ["text" => 'Source Group',  "value" => 'group'],
                     ["text" => 'Invoice #',     "value" => 'doc_no'],
                     ["text" => 'Vendor Code',   "value" => 'vendor_code'],
+                    ["text" => 'Posting Date',  "value" => 'posting_date'],
+                    ["text" => 'Customer Code', "value" => 'customer_code'],
+                    ["text" => 'Item Code',     "value" => 'item_code'],
                 ]
             ],
         ];

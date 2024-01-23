@@ -377,7 +377,7 @@ class CenturyCanningController extends Controller
 
                         if (count($arrFileContentLine) > 1) {
                             // ====================================================================
-                            $group_code = trim(str_replace('"', '', $arrFileContentLine[0]));
+                            $group = trim(str_replace('"', '', $arrFileContentLine[0]));
                             $sm_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
                             $location_code_supplier =
                                 trim(str_replace('"', '', $arrFileContentLine[2]));
@@ -385,7 +385,7 @@ class CenturyCanningController extends Controller
 
                             $arrLines[] = [
                                 'main_vendor_code' => $this->PRINCIPAL_CODE,
-                                'group_code' => $group_code,
+                                'group_code' => $group,
                                 'sm_code_supplier' => $sm_code_supplier,
                                 'location_code_supplier' => $location_code_supplier,
                                 'uploaded_by' => auth()->user()->id
@@ -434,6 +434,9 @@ class CenturyCanningController extends Controller
                 $group_by = 'order_date';
             }
 
+            $exportSI = $request->data_type=='all' || $request->data_type=='sales_invoice' ? true : false;
+            $exportCM = $request->data_type=='all' || $request->data_type=='sales_return' ? true : false;
+
             $res['success'] = true;
             $res['message'] = 'Success';
             $res['line_count'] = 0;
@@ -475,7 +478,7 @@ class CenturyCanningController extends Controller
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             if(1) {
                 // ****************************** TEMPLATE 1 **********************************
-                if (1) {
+                if ($exportSI) {
                     // **************** PENDING INVOICES ************************************
                     $pendingInvoices = InvoicesController::getPendingInvoices(
                         $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
@@ -484,188 +487,209 @@ class CenturyCanningController extends Controller
                     $res['line_count'] += $pendingInvoicesCount;
                     // **************** /PENDING INVOICES ************************************
 
-                    // Loop through each line of the file content
-                    $loopCounter = 0;
-                    foreach ($pendingInvoices as $pendingInvoice) {
-                        $loopCounter++;
-                        $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
-                        GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
+                    if($request->status=='pending') {
+                        // Loop through each line of the file content
+                        $loopCounter = 0;
+                        foreach ($pendingInvoices as $pendingInvoice) {
+                            $loopCounter++;
+                            $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
+                            GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
 
-                        $doc_no = $pendingInvoice->doc_no;
-                        $customer_code = $pendingInvoice->customer_code;
-                        $posting_date = $pendingInvoice->posting_date;
-                        $item_code = $pendingInvoice->item_code;
-                        $quantity = intval($pendingInvoice->quantity);
-                        $price = doubleval($pendingInvoice->price);
-                        $amount = doubleval($pendingInvoice->amount);
-                        $uom = $pendingInvoice->uom;
-                        $group_code = $pendingInvoice->group;
-                        $sm_code = $pendingInvoice->sm_code;
-                        $qty_per_uom = intval($pendingInvoice->qty_per_uom);
-                        $status = $pendingInvoice->status;
-                        $vendor_code = $pendingInvoice->vendor_code;
+                            $doc_no = $pendingInvoice->doc_no;
+                            $customer_code = $pendingInvoice->customer_code;
+                            $posting_date = $pendingInvoice->posting_date;
+                            $item_code = $pendingInvoice->item_code;
+                            $quantity = intval($pendingInvoice->quantity);
+                            $price = doubleval($pendingInvoice->price);
+                            $amount = doubleval($pendingInvoice->amount);
+                            $uom = $pendingInvoice->uom;
+                            $group = $pendingInvoice->group;
+                            $sm_code = $pendingInvoice->sm_code;
+                            $qty_per_uom = intval($pendingInvoice->qty_per_uom);
+                            $status = $pendingInvoice->status;
+                            $vendor_code = $pendingInvoice->vendor_code;
 
-                        // ****************************************************************
-                        // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first();
-                        // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('item_code', $item_code)
-                        //     ->first();
-                        // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     // ->where('sm_code', $u5)
-                        //     ->where('group_code', $group_code)
-                        //     ->first();
-                        $item = $principal_items
-                            ->where('item_code', $item_code)
-                            ->first();
-                        $salesman = $principal_salesmen
-                            ->where('group_code', $group_code)
-                            ->first();
-                        // ****************************************************************
-
-                        // quantity_conversion
-                        $bulk_qty = 0;
-                        $loose_qty = 0;
-
-                        if($qty_per_uom > 1) {
-                            $bulk_qty = $quantity;
-                        } else {
-                            $loose_qty = $quantity;
-                        }
-
-                        // if($item != null) {
-                        //     $quo = $quantity/$item->conversion_qty;
-                        //     $mod = $quantity%$item->conversion_qty;
-                        //     $bulk_qty = intval($quo);
-                        //     $loose_qty = $mod;
-                        // }
-
-                        // if (
-                        //     strpos(strtolower($group_code), 'bulk') > -1
-                        // ) {
-                        //     $bulk_qty = $quantity;
-                        // } else if (
-                        //     strpos(strtolower($group_code), 'pcs') > -1
-                        // ) {
-                        //     $loose_qty = $quantity;
-                        // }
-
-                        // ************************* TEMPLATE 1 **************************
-                        // tvc = template variation count
-                        // ********************** MISC INITS *************************
-                        $item_notfound = 0;
-                        $customer_notfound = 0;
-                        $salesman_notfound = 0;
-                        $missing_customer_name = '';
-                        $missing_item_name = '';
-
-                        if ($item == null) {
-                            $item_notfound = 1;
-                            $missing_item_name =
-                                DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                            // ****************************************************************
+                            // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                            //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                            //     ->where('customer_code', $customer_code)
+                            //     ->first();
+                            // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                            //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                            //     ->where('item_code', $item_code)
+                            //     ->first();
+                            // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+                            //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                            //     // ->where('sm_code', $u5)
+                            //     ->where('group_code', $group)
+                            //     ->first();
+                            $item = $principal_items
                                 ->where('item_code', $item_code)
-                                ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-                        } else {
-                        }
+                                ->first();
+                            $salesman = $principal_salesmen
+                                ->where('group_code', $group)
+                                ->first();
+                            // ****************************************************************
 
-                        // if ($customer == null) {
-                        //     $customer_notfound = 1;
-                        //     $missing_customer_name =
-                        //         DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //         ->where('customer_code', $customer_code)
-                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // } else {
-                        // }
+                            // quantity_conversion
+                            $bulk_qty = 0;
+                            $loose_qty = 0;
 
-                        if ($salesman == null) {
-                            $salesman_notfound = 1;
-                        }
-
-                        $order_date = $dateToday->format('m/d/Y');
-
-                        $item_code_supplier =
-                            $item->item_code_supplier ?? $item_code;
-
-                        // $customer_code_supplier =
-                        //     $customer->customer_code_supplier ?? $customer_code;
-                        $customer_code_supplier =
-                            $settings['customer_code_supplier_prefix'] ?? '074-';
-                        $customer_code_supplier =
-                            $customer_code_supplier . str_replace('-','',$customer_code);
-
-                        $distributor_id = $settings['distributor_id'] ?? 'NA';
-                        // $location = $settings['location'] ?? 'NA';
-                        $location = $salesman->location_code_supplier ?? 'NA';
-                        $sm_code_supplier = $salesman->sm_code_supplier ?? 'NA';
-                        // ********************** /MISC INITS *************************
-
-                        // Generated data line structure
-                        $arrGenerated = [
-                            //commons
-                            'alturas_customer_code' => $customer_code,
-                            'alturas_item_code' => $item_code,
-                            // 'alturas_sm_code' => $u5, // u5 = sm code
-                            'doc_no' => $doc_no,
-                            'missing_customer_name' => $missing_customer_name,
-                            'missing_item_name' => $missing_item_name,
-                            'customer_notfound' => $customer_notfound,
-                            'item_notfound' => $item_notfound,
-                            'salesman_notfound' => $salesman_notfound,
-                            // principal specific
-                            'customer_code' => $customer_code_supplier,
-                            'item_code' => $item_code_supplier,
-                            'order_date' => $order_date,
-                            'system_date' => $order_date,
-                            'request_delivery_date' => $order_date,
-                            'distributor_id' => $distributor_id,
-                            'bulk_qty' => $bulk_qty,
-                            'loose_qty' => $loose_qty,
-                            'default_user' => $default_user,
-                            'payment_term_code' => $payment_term_code,
-                            'location' => $location,
-                            'sales_agent_id' => $sm_code_supplier,
-                            'status' => $status,
-                            'vendor_code' => $vendor_code,
-                        ];
-
-                        // group output_template_variations
-                        if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
-                            if (
-                                !isset($res['output_template_variations']
-                                    [0]['output_template']['Unmapped'])
-                            ) {
-                                $res['output_template_variations']
-                                    [0]['output_template']['Unmapped'] = [];
+                            if($qty_per_uom > 1) {
+                                $bulk_qty = $quantity;
+                            } else {
+                                $loose_qty = $quantity;
                             }
-                            array_push(
-                                $res['output_template_variations']
-                                    [0]['output_template']['Unmapped'],
-                                $arrGenerated
-                            );
-                        } else {
-                            if (
-                                !isset($res['output_template_variations']
-                                    [0]['output_template'][$$group_by])
-                            ) {
-                                $res['output_template_variations']
-                                    [0]['output_template'][$$group_by] = [];
+
+                            // if($item != null) {
+                            //     $quo = $quantity/$item->conversion_qty;
+                            //     $mod = $quantity%$item->conversion_qty;
+                            //     $bulk_qty = intval($quo);
+                            //     $loose_qty = $mod;
+                            // }
+
+                            // if (
+                            //     strpos(strtolower($group), 'bulk') > -1
+                            // ) {
+                            //     $bulk_qty = $quantity;
+                            // } else if (
+                            //     strpos(strtolower($group), 'pcs') > -1
+                            // ) {
+                            //     $loose_qty = $quantity;
+                            // }
+
+                            // ************************* TEMPLATE 1 **************************
+                            // tvc = template variation count
+                            // ********************** MISC INITS *************************
+                            $item_notfound = 0;
+                            $customer_notfound = 0;
+                            $salesman_notfound = 0;
+                            $missing_customer_name = '';
+                            $missing_item_name = '';
+
+                            if ($item == null) {
+                                $item_notfound = 1;
+                                $missing_item_name =
+                                    DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                                    ->where('item_code', $item_code)
+                                    ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
+                            } else {
                             }
-                            array_push(
-                                $res['output_template_variations']
-                                    [0]['output_template'][$$group_by],
-                                $arrGenerated
-                            );
+
+                            // if ($customer == null) {
+                            //     $customer_notfound = 1;
+                            //     $missing_customer_name =
+                            //         DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            //         ->where('customer_code', $customer_code)
+                            //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                            // } else {
+                            // }
+
+                            if ($salesman == null) {
+                                $salesman_notfound = 1;
+                            }
+
+                            $order_date = $dateToday->format('m/d/Y');
+
+                            $item_code_supplier =
+                                $item->item_code_supplier ?? $item_code;
+
+                            // $customer_code_supplier =
+                            //     $customer->customer_code_supplier ?? $customer_code;
+                            $customer_code_supplier =
+                                $settings['customer_code_supplier_prefix'] ?? '074-';
+                            $customer_code_supplier =
+                                $customer_code_supplier . str_replace('-','',$customer_code);
+
+                            $distributor_id = $settings['distributor_id'] ?? 'NA';
+                            // $location = $settings['location'] ?? 'NA';
+                            $location = $salesman->location_code_supplier ?? 'NA';
+                            $sm_code_supplier = $salesman->sm_code_supplier ?? 'NA';
+                            // ********************** /MISC INITS *************************
+
+                            // Generated data line structure
+                            $arrGenerated = [
+                                //commons
+                                'alturas_customer_code' => $customer_code,
+                                'alturas_item_code' => $item_code,
+                                // 'alturas_sm_code' => $u5, // u5 = sm code
+                                'doc_no' => $doc_no,
+                                'missing_customer_name' => $missing_customer_name,
+                                'missing_item_name' => $missing_item_name,
+                                'customer_notfound' => $customer_notfound,
+                                'item_notfound' => $item_notfound,
+                                'salesman_notfound' => $salesman_notfound,
+                                // principal specific
+                                'customer_code' => $customer_code_supplier,
+                                'item_code' => $item_code_supplier,
+                                'order_date' => $order_date,
+                                'system_date' => $order_date,
+                                'request_delivery_date' => $order_date,
+                                'distributor_id' => $distributor_id,
+                                'bulk_qty' => $bulk_qty,
+                                'loose_qty' => $loose_qty,
+                                'default_user' => $default_user,
+                                'payment_term_code' => $payment_term_code,
+                                'location' => $location,
+                                'sales_agent_id' => $sm_code_supplier,
+                                'status' => $status,
+                                'vendor_code' => $vendor_code,
+                            ];
+
+                            // group output_template_variations
+                            if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
+                                if (
+                                    !isset($res['output_template_variations']
+                                        [0]['output_template']['Unmapped'])
+                                ) {
+                                    $res['output_template_variations']
+                                        [0]['output_template']['Unmapped'] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations']
+                                        [0]['output_template']['Unmapped'],
+                                    $arrGenerated
+                                );
+                            } else {
+                                if (
+                                    !isset($res['output_template_variations']
+                                        [0]['output_template'][$$group_by])
+                                ) {
+                                    $res['output_template_variations']
+                                        [0]['output_template'][$$group_by] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations']
+                                        [0]['output_template'][$$group_by],
+                                    $arrGenerated
+                                );
+                            }
+                        }
+                    } else if ($request->status=='completed') {
+                        foreach ($pendingInvoices as $pendingInvoice) {
+                            if($pendingInvoice->gendata != null) {
+                                $arrGenerated = json_decode($pendingInvoice->gendata);
+                                // group output_template_variations
+                                $groupByKey = $pendingInvoice->$group_by ?? $arrGenerated->$group_by;
+                                if (
+                                    !isset(
+                                        $res['output_template_variations'][0]['output_template'][$groupByKey]
+                                    )
+                                ) {
+                                    $res['output_template_variations'][0]['output_template'][$groupByKey] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations'][0]['output_template'][$groupByKey],
+                                    $arrGenerated
+                                );
+                            }
                         }
                     }
                 }
                 // ****************************** /TEMPLATE 1 **********************************
 
                 // ****************************** TEMPLATE 2 **********************************
-                if (2) {
+                if ($exportCM) {
                     // **************** RETURNS ************************************************
                     $returns = InvoicesController::getReturns(
                         $request->principal_code, $request->posting_date_range, $request->status
@@ -675,187 +699,209 @@ class CenturyCanningController extends Controller
                     $res['line_count'] += $returnsCount;
                     // **************** /RETURNS ************************************************
 
-                    // Loop through each line of the file content
-                    $loopCounter = 0;
-                    foreach ($returns as $return) {
-                        $loopCounter++;
-                        $progressPercent = round(($loopCounter / $returnsCount) * 100);
-                        GenerateTemplated::dispatch("Generating returns ($progressPercent%)");
+                    if($request->status=='pending') {
+                        // Loop through each line of the file content
+                        $loopCounter = 0;
+                        foreach ($returns as $return) {
+                            $loopCounter++;
+                            $progressPercent = round(($loopCounter / $returnsCount) * 100);
+                            GenerateTemplated::dispatch("Generating returns ($progressPercent%)");
 
-                        $doc_no = $return->doc_no;
-                        $customer_code = $return->customer_code;
-                        $posting_date = $return->shipment_date;
-                        $item_code = $return->item_code;
-                        $quantity = intval($return->quantity);
-                        $price = doubleval($return->price);
-                        $amount = doubleval($return->amount);
-                        $uom = $return->uom;
-                        $group_code = $return->group;
-                        $sm_code = $return->sm_code;
-                        $qty_per_uom = intval($return->qty_per_uom);
-                        $status = $return->status;
-                        $invoice_doc_no = $return->invoice_doc_no;
-                        $return_indicator = $return->return_indicator;
-                        $remarks = $return->remarks;
-                        $vendor_code = $return->vendor_code;
+                            $doc_no = $return->doc_no;
+                            $customer_code = $return->customer_code;
+                            $posting_date = $return->shipment_date;
+                            $item_code = $return->item_code;
+                            $quantity = intval($return->quantity);
+                            $price = doubleval($return->price);
+                            $amount = doubleval($return->amount);
+                            $uom = $return->uom;
+                            $group = $return->group;
+                            $sm_code = $return->sm_code;
+                            $qty_per_uom = intval($return->qty_per_uom);
+                            $status = $return->status;
+                            $invoice_doc_no = $return->invoice_doc_no;
+                            $return_indicator = $return->return_indicator;
+                            $remarks = $return->remarks;
+                            $vendor_code = $return->vendor_code;
 
-                        // ****************************************************************
-                        // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first();
-                        // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('item_code', $item_code)
-                        //     ->first();
-                        // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     // ->where('sm_code', $u5)
-                        //     ->where('group_code', $group_code)
-                        //     ->first();
-                        $item = $principal_items
-                            ->where('item_code', $item_code)
-                            ->first();
-                        $salesman = $principal_salesmen
-                            ->where('group_code', $group_code)
-                            ->first();
-                        // ****************************************************************
-
-                        // quantity_conversion
-                        $bulk_qty = 0;
-                        $loose_qty = 0;
-
-                        if($qty_per_uom > 1) {
-                            $bulk_qty = $quantity;
-                        } else {
-                            $loose_qty = $quantity;
-                        }
-
-                        // if($item != null) {
-                        //     $quo = $quantity/$item->conversion_qty;
-                        //     $mod = $quantity%$item->conversion_qty;
-                        //     $bulk_qty = intval($quo);
-                        //     $loose_qty = $mod;
-                        // }
-
-                        // if (
-                        //     strpos(strtolower($group_code), 'bulk') > -1
-                        // ) {
-                        //     $bulk_qty = $quantity;
-                        // } else if (
-                        //     strpos(strtolower($group_code), 'pcs') > -1
-                        // ) {
-                        //     $loose_qty = $quantity;
-                        // }
-
-                        // ************************* TEMPLATE 1 **************************
-                        // tvc = template variation count
-                        // ********************** MISC INITS *************************
-                        $item_notfound = 0;
-                        $customer_notfound = 0;
-                        $salesman_notfound = 0;
-                        $missing_customer_name = '';
-                        $missing_item_name = '';
-
-                        if ($item == null) {
-                            $item_notfound = 1;
-                            $missing_item_name =
-                                DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                            // ****************************************************************
+                            // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                            //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                            //     ->where('customer_code', $customer_code)
+                            //     ->first();
+                            // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                            //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                            //     ->where('item_code', $item_code)
+                            //     ->first();
+                            // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+                            //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                            //     // ->where('sm_code', $u5)
+                            //     ->where('group_code', $group)
+                            //     ->first();
+                            $item = $principal_items
                                 ->where('item_code', $item_code)
-                                ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-                        } else {
+                                ->first();
+                            $salesman = $principal_salesmen
+                                ->where('group_code', $group)
+                                ->first();
+                            // ****************************************************************
+
+                            // quantity_conversion
+                            $bulk_qty = 0;
+                            $loose_qty = 0;
+
+                            if($qty_per_uom > 1) {
+                                $bulk_qty = $quantity;
+                            } else {
+                                $loose_qty = $quantity;
+                            }
+
+                            // if($item != null) {
+                            //     $quo = $quantity/$item->conversion_qty;
+                            //     $mod = $quantity%$item->conversion_qty;
+                            //     $bulk_qty = intval($quo);
+                            //     $loose_qty = $mod;
+                            // }
+
+                            // if (
+                            //     strpos(strtolower($group), 'bulk') > -1
+                            // ) {
+                            //     $bulk_qty = $quantity;
+                            // } else if (
+                            //     strpos(strtolower($group), 'pcs') > -1
+                            // ) {
+                            //     $loose_qty = $quantity;
+                            // }
+
+                            // ************************* TEMPLATE 1 **************************
+                            // tvc = template variation count
+                            // ********************** MISC INITS *************************
+                            $item_notfound = 0;
+                            $customer_notfound = 0;
+                            $salesman_notfound = 0;
+                            $missing_customer_name = '';
+                            $missing_item_name = '';
+
+                            if ($item == null) {
+                                $item_notfound = 1;
+                                $missing_item_name =
+                                    DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                                    ->where('item_code', $item_code)
+                                    ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
+                            } else {
+                            }
+
+                            // if ($customer == null) {
+                            //     $customer_notfound = 1;
+                            //     $missing_customer_name =
+                            //         DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            //         ->where('customer_code', $customer_code)
+                            //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                            // } else {
+                            // }
+
+                            if ($salesman == null) {
+                                $salesman_notfound = 1;
+                            }
+
+                            $order_date = $dateToday->format('m/d/Y');
+
+                            $item_code_supplier =
+                                $item->item_code_supplier ?? $item_code;
+
+                            // $customer_code_supplier =
+                            //     $customer->customer_code_supplier ?? $customer_code;
+                            $customer_code_supplier =
+                                $settings['customer_code_supplier_prefix'] ?? '074-';
+                            $customer_code_supplier =
+                                $customer_code_supplier . str_replace('-','',$customer_code);
+
+                            $distributor_id = $settings['distributor_id'] ?? 'NA';
+                            // $location = $settings['location'] ?? 'NA';
+                            $location = $salesman->location_code_supplier ?? 'NA';
+                            $sm_code_supplier = $salesman->sm_code_supplier ?? 'NA';
+                            // ********************** /MISC INITS *************************
+
+                            // Generated data line structure
+                            $arrGenerated = [
+                                //commons
+                                'alturas_customer_code' => $customer_code,
+                                'alturas_item_code' => $item_code,
+                                // 'alturas_sm_code' => $u5, // u5 = sm code
+                                'doc_no' => $doc_no,
+                                'missing_customer_name' => $missing_customer_name,
+                                'missing_item_name' => $missing_item_name,
+                                'customer_notfound' => $customer_notfound,
+                                'item_notfound' => $item_notfound,
+                                'salesman_notfound' => $salesman_notfound,
+                                // principal specific
+                                'customer_code' => $customer_code_supplier,
+                                'item_code' => $item_code_supplier,
+                                'order_date' => $order_date,
+                                'system_date' => $order_date,
+                                'request_delivery_date' => $order_date,
+                                'distributor_id' => $distributor_id,
+                                'bulk_qty' => $bulk_qty,
+                                'loose_qty' => $loose_qty,
+                                'default_user' => $default_user,
+                                'payment_term_code' => $payment_term_code,
+                                'location' => $location,
+                                'sales_agent_id' => $sm_code_supplier,
+                                'status' => $status,
+                                'invoice_doc_no' => $invoice_doc_no,
+                                'return_indicator' => $return_indicator,
+                                'remarks' => $remarks,
+                                'vendor_code' => $vendor_code,
+                            ];
+
+                            // group output_template_variations
+                            if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
+                                if (
+                                    !isset($res['output_template_variations']
+                                        [1]['output_template']['Unmapped'])
+                                ) {
+                                    $res['output_template_variations']
+                                        [1]['output_template']['Unmapped'] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations']
+                                        [1]['output_template']['Unmapped'],
+                                    $arrGenerated
+                                );
+                            } else {
+                                if (
+                                    !isset($res['output_template_variations']
+                                        [1]['output_template'][$$group_by])
+                                ) {
+                                    $res['output_template_variations']
+                                        [1]['output_template'][$$group_by] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations']
+                                        [1]['output_template'][$$group_by],
+                                    $arrGenerated
+                                );
+                            }
                         }
 
-                        // if ($customer == null) {
-                        //     $customer_notfound = 1;
-                        //     $missing_customer_name =
-                        //         DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //         ->where('customer_code', $customer_code)
-                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // } else {
-                        // }
-
-                        if ($salesman == null) {
-                            $salesman_notfound = 1;
-                        }
-
-                        $order_date = $dateToday->format('m/d/Y');
-
-                        $item_code_supplier =
-                            $item->item_code_supplier ?? $item_code;
-
-                        // $customer_code_supplier =
-                        //     $customer->customer_code_supplier ?? $customer_code;
-                        $customer_code_supplier =
-                            $settings['customer_code_supplier_prefix'] ?? '074-';
-                        $customer_code_supplier =
-                            $customer_code_supplier . str_replace('-','',$customer_code);
-
-                        $distributor_id = $settings['distributor_id'] ?? 'NA';
-                        // $location = $settings['location'] ?? 'NA';
-                        $location = $salesman->location_code_supplier ?? 'NA';
-                        $sm_code_supplier = $salesman->sm_code_supplier ?? 'NA';
-                        // ********************** /MISC INITS *************************
-
-                        // Generated data line structure
-                        $arrGenerated = [
-                            //commons
-                            'alturas_customer_code' => $customer_code,
-                            'alturas_item_code' => $item_code,
-                            // 'alturas_sm_code' => $u5, // u5 = sm code
-                            'doc_no' => $doc_no,
-                            'missing_customer_name' => $missing_customer_name,
-                            'missing_item_name' => $missing_item_name,
-                            'customer_notfound' => $customer_notfound,
-                            'item_notfound' => $item_notfound,
-                            'salesman_notfound' => $salesman_notfound,
-                            // principal specific
-                            'customer_code' => $customer_code_supplier,
-                            'item_code' => $item_code_supplier,
-                            'order_date' => $order_date,
-                            'system_date' => $order_date,
-                            'request_delivery_date' => $order_date,
-                            'distributor_id' => $distributor_id,
-                            'bulk_qty' => $bulk_qty,
-                            'loose_qty' => $loose_qty,
-                            'default_user' => $default_user,
-                            'payment_term_code' => $payment_term_code,
-                            'location' => $location,
-                            'sales_agent_id' => $sm_code_supplier,
-                            'status' => $status,
-                            'invoice_doc_no' => $invoice_doc_no,
-                            'return_indicator' => $return_indicator,
-                            'remarks' => $remarks,
-                            'vendor_code' => $vendor_code,
-                        ];
-
-                        // group output_template_variations
-                        if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
-                            if (
-                                !isset($res['output_template_variations']
-                                    [1]['output_template']['Unmapped'])
-                            ) {
-                                $res['output_template_variations']
-                                    [1]['output_template']['Unmapped'] = [];
+                    } else if ($request->status=='completed') {
+                        foreach ($returns as $return) {
+                            if($return->gendata != null) {
+                                $arrGenerated = json_decode($return->gendata);
+                                // group output_template_variations
+                                $groupByKey = $return->$group_by ?? $arrGenerated->$group_by;
+                                if (
+                                    !isset(
+                                        $res['output_template_variations'][1]['output_template'][$groupByKey]
+                                    )
+                                ) {
+                                    $res['output_template_variations'][1]['output_template'][$groupByKey] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations'][1]['output_template'][$groupByKey],
+                                    $arrGenerated
+                                );
                             }
-                            array_push(
-                                $res['output_template_variations']
-                                    [1]['output_template']['Unmapped'],
-                                $arrGenerated
-                            );
-                        } else {
-                            if (
-                                !isset($res['output_template_variations']
-                                    [1]['output_template'][$$group_by])
-                            ) {
-                                $res['output_template_variations']
-                                    [1]['output_template'][$$group_by] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations']
-                                    [1]['output_template'][$$group_by],
-                                $arrGenerated
-                            );
                         }
                     }
                 }
@@ -955,14 +1001,14 @@ class CenturyCanningController extends Controller
             "generatedDataHistoryFilters" => [
                 [
                     ["text" => 'Order Date', "value" => 'order_date'],
+                    ["text" => 'Source Group', "value" => 'group'],
+                    ["text" => 'Posting Date', "value" => 'posting_date'],
                     ["text" => 'Invoice #', "value" => 'doc_no'],
+                    ["text" => 'Vendor Code', "value" => 'vendor_code'],
                     ["text" => 'Product Code', "value" => 'item_code'],
                     ["text" => 'Customer Code', "value" => 'customer_code'],
-                    ["text" => 'Salesman', "value" => 'sm_code_supplier'],
+                    ["text" => 'Salesman', "value" => 'sm_code'],
                     ["text" => 'Location', "value" => 'location'],
-                    ["text" => 'Invoice Posting Date', "value" => 'posting_date'],
-                    ["text" => 'Source Group', "value" => 'group_code'],
-                    ["text" => 'Vendor Code', "value" => 'vendor_code'],
                 ]
             ],
         ];

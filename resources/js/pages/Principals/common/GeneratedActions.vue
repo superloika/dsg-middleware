@@ -14,6 +14,22 @@
                     </div>
                 </v-col> -->
 
+                <!-- data type -->
+                <v-col cols="12">
+                    <v-select
+                        :items="InvoicesStore.state.data_types"
+                        v-model="InvoicesStore.state.data_type"
+                        label="Type"
+                        item-text="type"
+                        item-value="value"
+                        style="max-width:500px;min-width:200px;"
+                        outlined
+                        rounded
+                        hide-details
+                        dense
+                    ></v-select>
+                </v-col>
+
                 <!-- posting date -->
                 <v-col cols="12">
                     <v-text-field
@@ -357,7 +373,8 @@ export default {
                 this.PrincipalsStore.initCurrentGeneratedData(
                     null,
                     this.InvoicesStore.state.invoiceStatus,
-                    this.PrincipalsStore.state.configs.posting_date_format ?? 'm/d/Y'
+                    this.PrincipalsStore.state.configs.posting_date_format ?? 'm/d/Y',
+                    this.InvoicesStore.state.data_type,
                 );
                 this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
             }

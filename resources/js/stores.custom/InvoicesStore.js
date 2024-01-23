@@ -67,16 +67,32 @@ const state = Vue.observable({
             status: "Completed",
             value: "completed"
         },
+        // {
+        //     status: "Uploaded",
+        //     value: "uploaded"
+        // },
+        // {
+        //     status: "All",
+        //     value: "all"
+        // },
+    ],
+    invoiceStatus: "pending",
+
+    data_types: [
         {
-            status: "Uploaded",
-            value: "uploaded"
+            type: "Sales Invoice",
+            value: "sales_invoice"
         },
         {
-            status: "All",
+            type: "Sales Return",
+            value: "sales_return"
+        },
+        {
+            type: "All",
             value: "all"
         },
     ],
-    invoiceStatus: "",
+    data_type: "sales_invoice",
 })
 
 const actions = {

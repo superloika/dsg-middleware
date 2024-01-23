@@ -165,21 +165,13 @@ class PrincipalsUtil extends Controller
 
                 ->whereIn($this::$TBL_INVOICES. '.vendor_code', $vendor_codes)
                 ->where($this::$TBL_INVOICES. '.status','like', "%$invoice_status%")
-
-                // ->whereBetween(
-                //     DB::raw(
-                //         "STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES. ".posting_date, '%m/%d/%Y')"
-                //     ),
-                //     [$dateFrom, $dateTo]
-                // )
                 ->whereBetween(
-                    // DB::raw('DATE('. PrincipalsUtil::$TBL_INVOICES. ".created_at". ')'),
                     'posting_date',
                     [$dateFrom->startOfDay(), $dateTo->endOfDay()]
                 )
 
-                ->orderBy($this::$TBL_INVOICES. '.posting_date', 'DESC')
-                ->orderBy($this::$TBL_INVOICES. '.customer_code', 'ASC')
+                // ->orderBy($this::$TBL_INVOICES. '.posting_date', 'DESC')
+                // ->orderBy($this::$TBL_INVOICES. '.customer_code', 'ASC')
                 ->orderBy($this::$TBL_INVOICES. '.doc_no', 'ASC')
 
                 ->get();

@@ -215,7 +215,12 @@ const actions = {
     /**
      * Generate templated data based on pending invoices
      */
-    async initCurrentGeneratedData(template_variations_count=1, status='', posting_date_format='m/d/Y') {
+    async initCurrentGeneratedData(
+        template_variations_count=1,
+        status='',
+        posting_date_format='m/d/Y',
+        data_type='all'
+    ) {
         try {
             state.isGeneratingData = true;
             AppStore.overlay(true, 'Generating data, please wait...');
@@ -227,6 +232,7 @@ const actions = {
                 + '&posting_date_range=' + state.posting_date_range
                 + '&status=' + status
                 + '&posting_date_format=' + posting_date_format
+                + '&data_type=' + data_type
                 // + '?template_variations_count=' + template_variations_count
             );
             // {cancelToken:axiosSource.token}

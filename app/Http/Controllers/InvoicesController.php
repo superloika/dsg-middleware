@@ -163,12 +163,12 @@ class InvoicesController extends Controller
             $result = DB::table(PrincipalsUtil::$TBL_INVOICES)
                 ->where(function($query) use ($search_key) {
                     $query->where(PrincipalsUtil::$TBL_INVOICES.'.doc_no',$search_key)
-                        ->orWhere(PrincipalsUtil::$TBL_INVOICES.'.ext_doc_no', $search_key)
+                        // ->orWhere(PrincipalsUtil::$TBL_INVOICES.'.ext_doc_no', $search_key)
                         ;
                 })
 
-                ->select(PrincipalsUtil::$TBL_INVOICES. '.*')
-                ->cursor();
+                // ->select(PrincipalsUtil::$TBL_INVOICES. '.*')
+                ->get();
         }
 
         return response()->json($result);
@@ -317,36 +317,36 @@ class InvoicesController extends Controller
                                 // && trim(str_replace('"','',$cols[0])) != 'Credit Memo'
                                 && trim(str_replace('"','',$cols[0])) != ''
                             ) {
-                                $vendor_code =              trim(str_replace('"','',$cols[0]));
-                                $customer_code =            trim(str_replace('"','',$cols[1]));
-                                $doc_no =                   trim(str_replace('"','',$cols[2]));
-                                $item_code =                trim(str_replace('"','',$cols[5]));
-                                $shipment_date =            Carbon::createFromFormat('m/d/y', trim(str_replace('"','',$cols[6])));
-                                $shipment_date =            $shipment_date->format('Y-m-d');
-                                $item_description =         trim(str_replace('"','',$cols[7]));
-                                $uom =                      trim(str_replace('"','',$cols[8]));
-                                $quantity =                 trim(str_replace('"','',$cols[9]));
-                                $quantity =                 trim(str_replace(',','',$quantity));
-                                $price =                    trim(str_replace('"','', str_replace(',','',$cols[10])));
-                                $price =                    trim(str_replace(',','', $price));
-                                $amount =                   trim(str_replace('"','', str_replace(',','',$cols[11])));
-                                $amount =                   trim(str_replace(',','', $amount));
-                                $qty_per_uom =              trim(str_replace('"','',$cols[12]));
-                                $qty_per_uom =              trim(str_replace(',','',$qty_per_uom));
-                                $uom_code =                 trim(str_replace('"','',$cols[13]));
-                                $discount_percentage =      trim(str_replace('"','',$cols[14] ?? 0));
-                                $vat_percentage =           trim(str_replace('"','',$cols[15] ?? 0));
+                                $vendor_code =          trim(str_replace('"','',$cols[0]));
+                                $customer_code =        trim(str_replace('"','',$cols[1]));
+                                $doc_no =               trim(str_replace('"','',$cols[2]));
+                                $item_code =            trim(str_replace('"','',$cols[5]));
+                                $shipment_date =        Carbon::createFromFormat('m/d/y', trim(str_replace('"','',$cols[6])));
+                                $shipment_date =        $shipment_date->format('Y-m-d');
+                                $item_description =     trim(str_replace('"','',$cols[7]));
+                                $uom =                  trim(str_replace('"','',$cols[8]));
+                                $quantity =             trim(str_replace('"','',$cols[9]));
+                                $quantity =             trim(str_replace(',','',$quantity));
+                                $price =                trim(str_replace('"','', str_replace(',','',$cols[10])));
+                                $price =                trim(str_replace(',','', $price));
+                                $amount =               trim(str_replace('"','', str_replace(',','',$cols[11])));
+                                $amount =               trim(str_replace(',','', $amount));
+                                $qty_per_uom =          trim(str_replace('"','',$cols[12]));
+                                $qty_per_uom =          trim(str_replace(',','',$qty_per_uom));
+                                $uom_code =             trim(str_replace('"','',$cols[13]));
+                                $discount_percentage =  trim(str_replace('"','',$cols[14] ?? 0));
+                                $vat_percentage =       trim(str_replace('"','',$cols[15] ?? 0));
 
                                 if($quantity > 0) $summaryItem['lines_count'] += 1;
 
                                 if (
                                     DB::table(PrincipalsUtil::$TBL_INVOICES)
                                         ->where('vendor_code',$vendor_code)
-                                        ->where('customer_code',$customer_code)
                                         ->where('doc_no',$doc_no)
+                                        ->where('customer_code',$customer_code)
                                         ->where('item_code',$item_code)
-                                        ->where('uom',$uom)
-                                        ->where('quantity',$quantity)
+                                        // ->where('uom',$uom)
+                                        // ->where('quantity',$quantity)
                                         // ->where('shipment_date',$shipment_date)
                                         ->exists()
                                 ) {
@@ -356,27 +356,33 @@ class InvoicesController extends Controller
                                         $summaryItem['lines_count_uploaded'] += 1;
 
                                         $invoices[] = [
-                                            'created_at'=>date($dateTimeToday),
-                                            'uploaded_by'=>auth()->user()->id,
-                                            // 'filename'=> $origFilename,
-                                            'filename'=> '',
-                                            'group'=>$group,
-                                            'batch_number' => $batchNumber,
+                                            'created_at' => date($dateTimeToday),
+                                            'uploaded_by' => auth()->user()->id,
+                                            // 'filename' =>  $origFilename,
+                                            'filename' =>  '',
+                                            'group' =>                  $group,
+                                            'batch_number'  =>          $batchNumber,
                                             //
-                                            'vendor_code'=>$vendor_code,
-                                            'customer_code'=>$customer_code,
-                                            'doc_no'=>$doc_no,
-                                            'shipment_date'=>$shipment_date,
-                                            'item_code'=>$item_code,
-                                            'item_description'=>$item_description,
-                                            'uom'=>$uom,
-                                            'quantity'=>$quantity,
-                                            'price'=>$price,
-                                            'amount'=>$amount,
-                                            'qty_per_uom'=>$qty_per_uom,
-                                            'uom_code'=>$uom_code,
-                                            'discount_percentage'=>$discount_percentage,
-                                            'vat_percentage'=>$vat_percentage,
+                                            'vendor_code' =>            $vendor_code,
+                                            'customer_code' =>          $customer_code,
+                                            'doc_no' =>                 $doc_no,
+                                            'shipment_date' =>          $shipment_date,
+                                            'item_code' =>              $item_code,
+                                            'item_description' =>       $item_description,
+                                            'uom' =>                    $uom,
+                                            'quantity' =>               $quantity,
+                                            'price' =>                  $price,
+                                            'amount' =>                 $amount,
+                                            'qty_per_uom' =>            $qty_per_uom,
+                                            'uom_code' =>               $uom_code,
+                                            'discount_percentage' =>    $discount_percentage,
+                                            'vat_percentage' =>         $vat_percentage,
+                                            /**
+                                             * // set default posting date temporarily since invoice_lines does not have one,
+                                             * it will be updated with the exact posting_date when an invoice_header
+                                             * is uploaded which contains the posting_date
+                                             */
+                                            'posting_date' => '2000-01-01',
                                         ];
 
                                     }
@@ -420,63 +426,63 @@ class InvoicesController extends Controller
                                 && $cols[0][0] != '#'
                                 // && trim(str_replace('"','',$cols[0])) != ''
                             ) {
-                                $customer_code =            trim(str_replace('"','',$cols[0]));
-                                $doc_no =                   trim(str_replace('"','',$cols[1]));
-                                $item_code =                trim(str_replace('"','',$cols[2]));
-                                $shipment_date =            Carbon::createFromFormat('m/d/y', trim(str_replace('"','',$cols[3])));
-                                $shipment_date =            $shipment_date->format('Y-m-d');
-                                $item_description =         trim(str_replace('"','',$cols[4]));
-                                $uom =                      trim(str_replace('"','',$cols[5]));
-                                $quantity =                 trim(str_replace('"','',$cols[6]));
-                                $quantity =                 trim(str_replace(',','',$quantity));
-                                $price =                    trim(str_replace('"','', str_replace(',','',$cols[7])));
-                                $price =                    trim(str_replace(',','', $price));
-                                $amount =                   trim(str_replace('"','', str_replace(',','',$cols[8])));
-                                $amount =                   trim(str_replace(',','', $amount));
-                                $qty_per_uom =              trim(str_replace('"','',$cols[9]));
-                                $qty_per_uom =              trim(str_replace(',','',$qty_per_uom));
-                                $uom_code =                 trim(str_replace('"','',$cols[10]));
-                                $discount_percentage =      trim(str_replace('"','',$cols[11] ?? 0));
-                                $vat_percentage =           trim(str_replace('"','',$cols[12] ?? 0));
-                                // $ext_doc_no =               trim(str_replace('"','',$cols[13] ?? $doc_no));
-                                // $ext_doc_no =               $ext_doc_no=='' ? $doc_no : $ext_doc_no;
+                                $customer_code =        trim(str_replace('"','',$cols[0]));
+                                $doc_no =               trim(str_replace('"','',$cols[1]));
+                                $item_code =            trim(str_replace('"','',$cols[2]));
+                                $shipment_date =        Carbon::createFromFormat('m/d/y', trim(str_replace('"','',$cols[3])));
+                                $shipment_date =        $shipment_date->format('Y-m-d');
+                                $item_description =     trim(str_replace('"','',$cols[4]));
+                                $uom =                  trim(str_replace('"','',$cols[5]));
+                                $quantity =             trim(str_replace('"','',$cols[6]));
+                                $quantity =             trim(str_replace(',','',$quantity));
+                                $price =                trim(str_replace('"','', str_replace(',','',$cols[7])));
+                                $price =                trim(str_replace(',','', $price));
+                                $amount =               trim(str_replace('"','', str_replace(',','',$cols[8])));
+                                $amount =               trim(str_replace(',','', $amount));
+                                $qty_per_uom =          trim(str_replace('"','',$cols[9]));
+                                $qty_per_uom =          trim(str_replace(',','',$qty_per_uom));
+                                $uom_code =             trim(str_replace('"','',$cols[10]));
+                                $discount_percentage =  trim(str_replace('"','',$cols[11] ?? 0));
+                                $vat_percentage =       trim(str_replace('"','',$cols[12] ?? 0));
+                                // $ext_doc_no =        trim(str_replace('"','',$cols[13] ?? $doc_no));
+                                // $ext_doc_no =        $ext_doc_no=='' ? $doc_no : $ext_doc_no;
 
                                 if($quantity > 0) $summaryItem['cm_lines_count'] += 1;
 
                                 if (
                                     DB::table(PrincipalsUtil::$TBL_CM)
-                                        ->where('customer_code',$customer_code)
                                         ->where('doc_no',$doc_no)
+                                        ->where('customer_code',$customer_code)
                                         ->where('item_code',$item_code)
                                         ->where('uom',$uom)
-                                        ->where('quantity',$quantity)
                                         ->exists() == false
                                 ) {
                                     if($quantity > 0) {
                                         $summaryItem['cm_lines_count_uploaded'] += 1;
 
                                         $cm_lines[] = [
-                                            'created_at' => date($dateTimeToday),
-                                            'uploaded_by' => auth()->user()->id,
-                                            // 'filename' =>  $origFilename,
+                                            'created_at' =>             date($dateTimeToday),
+                                            'uploaded_by' =>            auth()->user()->id,
+                                            // 'filename' => $origFilename,
                                             'filename' =>  '',
-                                            'group' => $group,
-                                            'batch_number' => $batchNumber,
+                                            'group' =>                  $group,
+                                            'batch_number' =>           $batchNumber,
                                             //
-                                            'customer_code' => $customer_code,
-                                            'doc_no' => $doc_no,
-                                            'shipment_date' => $shipment_date,
-                                            'item_code' => $item_code,
-                                            'item_description' => $item_description,
-                                            'uom' => $uom,
-                                            'quantity' => $quantity,
-                                            'price' => $price,
-                                            'amount' => $amount,
-                                            'qty_per_uom' => $qty_per_uom,
-                                            'uom_code' => $uom_code,
-                                            'discount_percentage' => $discount_percentage,
-                                            'vat_percentage' => $vat_percentage,
+                                            'customer_code' =>          $customer_code,
+                                            'doc_no' =>                 $doc_no,
+                                            'shipment_date' =>          $shipment_date,
+                                            'item_code' =>              $item_code,
+                                            'item_description' =>       $item_description,
+                                            'uom' =>                    $uom,
+                                            'quantity' =>               $quantity,
+                                            'price' =>                  $price,
+                                            'amount' =>                 $amount,
+                                            'qty_per_uom' =>            $qty_per_uom,
+                                            'uom_code' =>               $uom_code,
+                                            'discount_percentage' =>    $discount_percentage,
+                                            'vat_percentage' =>         $vat_percentage,
                                             // 'ext_doc_no' => $ext_doc_no,
+                                            'posting_date' =>           '2000-01-01'
                                         ];
                                     }
                                 } else {
@@ -501,7 +507,7 @@ class InvoicesController extends Controller
                                 $return_indicator = trim(str_replace('"','',$cols[10]));
                                 $return_indicator = $return_indicator=='' ? 'not_specified' : $return_indicator;
                                 $return_reason =    trim(str_replace('"','',$cols[11]));
-                                $return_reason = $return_reason=='' ? 'not_specified' : $return_reason;
+                                $return_reason =    $return_reason=='' ? 'not_specified' : $return_reason;
                                 // $ext_doc_no =       DB::table(PrincipalsUtil::$TBL_INVOICES_H)
                                 //                         ->where('doc_no', $invoice_doc_no)->get()->first()->ext_doc_no ?? '';
                                 $ext_doc_no =       DB::table(PrincipalsUtil::$TBL_INVOICES)
@@ -509,31 +515,15 @@ class InvoicesController extends Controller
 
                                 $summaryItem['cm_headers_count'] += 1;
 
-                                /**
-                                 * if the iteration is already in the cm headers part,
-                                 * start saving the cm lines
-                                 */
-                                // if($summaryItem['cm_headers_count'] == 1) {
-                                //     // save CM lines
-                                //     $chunks = array_chunk($cm_lines, 500);
-                                //     $chunkCount = 1;
-                                //     UploadInvoice::dispatch("Saving CM (lines) (Chunk $chunkCount)");
-                                //     foreach($chunks as $chunk) {
-                                //         DB::table(PrincipalsUtil::$TBL_CM)
-                                //             ->insert($chunk);
-                                //         $chunkCount++;
-                                //     }
-                                // }
-
                                 $cm_headers[] = [
-                                    'doc_no' => $doc_no,
-                                    'customer_code' => $customer_code,
-                                    'invoice_doc_no' => $invoice_doc_no,
-                                    'return_indicator' => $return_indicator,
-                                    'return_reason' => $return_reason,
-                                    'payment_term' => $payment_term,
-                                    'posting_date' => $posting_date,
-                                    'ext_doc_no' => $ext_doc_no,
+                                    'doc_no' =>             $doc_no,
+                                    'customer_code' =>      $customer_code,
+                                    'invoice_doc_no' =>     $invoice_doc_no,
+                                    'return_indicator' =>   $return_indicator,
+                                    'return_reason' =>      $return_reason,
+                                    'payment_term' =>       $payment_term,
+                                    'posting_date' =>       $posting_date,
+                                    'ext_doc_no' =>         $ext_doc_no,
                                 ];
                             }
                         }
@@ -561,7 +551,8 @@ class InvoicesController extends Controller
                                 DB::table(PrincipalsUtil::$TBL_INVOICES)
                                 ->where('doc_no',$doc_no)
                                 ->where('customer_code',$customer_code)
-                                ->whereNull('posting_date')
+                                // ->whereNull('posting_date')
+                                ->where('posting_date', '2000-01-01')
                                 ->update($header) > 0
                             ) {
                                 $summaryItem['headers_count_uploaded'] += 1;
@@ -595,13 +586,14 @@ class InvoicesController extends Controller
                                 DB::table(PrincipalsUtil::$TBL_CM)
                                     ->where('doc_no', $cmh['doc_no'])
                                     ->where('customer_code', $cmh['customer_code'])
+                                    ->where('posting_date', '2000-01-01')
                                     ->update([
-                                        'invoice_doc_no' => $cmh['invoice_doc_no'],
-                                        'return_indicator' => $cmh['return_indicator'],
-                                        'remarks' => $cmh['return_reason'],
-                                        'payment_term' => $cmh['payment_term'],
-                                        'posting_date' => $cmh['posting_date'],
-                                        'ext_doc_no' => $cmh['ext_doc_no'],
+                                        'invoice_doc_no' =>     $cmh['invoice_doc_no'],
+                                        'return_indicator' =>   $cmh['return_indicator'],
+                                        'remarks' =>            $cmh['return_reason'],
+                                        'payment_term' =>       $cmh['payment_term'],
+                                        'posting_date' =>       $cmh['posting_date'],
+                                        'ext_doc_no' =>         $cmh['ext_doc_no'],
                                     ]) > 0
                             ) {
                                 $summaryItem['cm_headers_count_uploaded'] += 1;
@@ -749,7 +741,7 @@ class InvoicesController extends Controller
             foreach ($generated_data as $genData) {
                 foreach ($genData['output_template'] as $output_template) {
                     foreach ($output_template[1] as $line) {
-                        // dd($line['return_indicator']);
+                        // dd($line);
 
                         // strict tagging
                         // if (
@@ -783,6 +775,8 @@ class InvoicesController extends Controller
                             //     dd($line['return_indicator']);
                             // }
 
+                            $line['status'] = 'completed';
+
                             if($isReturn) {
                                 DB::table(PrincipalsUtil::$TBL_CM)
                                     ->where('doc_no', $line['doc_no'])
@@ -790,7 +784,8 @@ class InvoicesController extends Controller
                                     ->where('status', 'pending')
                                     ->update([
                                         'status' => 'completed',
-                                        'updated_at' => $dateToday
+                                        'updated_at' => $dateToday,
+                                        'gendata' => $line,
                                     ]);
                             }
                             else {
@@ -800,7 +795,8 @@ class InvoicesController extends Controller
                                     ->where('status', 'pending')
                                     ->update([
                                         'status' => 'completed',
-                                        'updated_at' => $dateToday
+                                        'updated_at' => $dateToday,
+                                        'gendata' => $line,
                                     ]);
                             }
                         }
@@ -1191,14 +1187,14 @@ class InvoicesController extends Controller
             //     DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_INVOICES . ".posting_date, '%m/%d/%Y')"),
             //     [$dateFrom, $dateTo]
             // )
-            ->whereBetween(
-                'posting_date',
-                [$dateFrom->startOfDay(), $dateTo->endOfDay()]
-            )
             ->when($status != '' && $status != 'all', function($q) use($status) {
                 // $q->where(PrincipalsUtil::$TBL_INVOICES.'.status','like', "%$status%");
                 $q->where(PrincipalsUtil::$TBL_INVOICES.'.status', $status);
             })
+            ->whereBetween(
+                'posting_date',
+                [$dateFrom->startOfDay(), $dateTo->endOfDay()]
+            )
             // ->select([
             //     PrincipalsUtil::$TBL_INVOICES.'.*'
             // ])
@@ -1253,10 +1249,10 @@ class InvoicesController extends Controller
                         PrincipalsUtil::$TBL_CM.'.item_code',
                         PrincipalsUtil::$TBL_INVOICES.'.item_code'
                     )
-                    ->on(
-                        PrincipalsUtil::$TBL_CM.'.uom',
-                        PrincipalsUtil::$TBL_INVOICES.'.uom'
-                    )
+                    // ->on(
+                    //     PrincipalsUtil::$TBL_CM.'.uom',
+                    //     PrincipalsUtil::$TBL_INVOICES.'.uom'
+                    // )
                     ;
                 }
             )
@@ -1268,6 +1264,10 @@ class InvoicesController extends Controller
             ->when($status != '' && $status != 'all', function($q) use($status) {
                 $q->where(PrincipalsUtil::$TBL_CM.'.status','like', "%$status%");
             })
+            ->whereBetween(
+                PrincipalsUtil::$TBL_CM.'.posting_date',
+                [$dateFrom->startOfDay(), $dateTo->endOfDay()]
+            )
             ->select([
                 PrincipalsUtil::$TBL_CM.'.*',
                 PrincipalsUtil::$TBL_INVOICES.'.vendor_code',
