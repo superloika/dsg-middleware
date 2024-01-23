@@ -337,10 +337,10 @@ class GsmiController extends Controller
             // ************************* MISC INITS **************************************
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
 
-            $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                ->where('main_vendor_code', $this->PRINCIPAL_CODE)->get();
-            $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                ->where('main_vendor_code', $this->PRINCIPAL_CODE)->get();
+            // $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)->get();
+            // $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)->get();
             // ************************* /MISC INITS *************************************
 
 
@@ -386,11 +386,13 @@ class GsmiController extends Controller
                                     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                             }
 
-                            $customer = $principal_customers
+                            $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                                 ->where('customer_code', $customer_code)
                                 ->first();
 
-                            $item = $principal_items
+                            $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                                 ->where('item_code', $item_code)
                                 ->first();
                             //********************************************************************
@@ -525,11 +527,13 @@ class GsmiController extends Controller
                                     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                             }
 
-                            $customer = $principal_customers
+                            $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                                 ->where('customer_code', $customer_code)
                                 ->first();
 
-                            $item = $principal_items
+                            $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                                 ->where('item_code', $item_code)
                                 ->first();
                             //********************************************************************
@@ -600,50 +604,24 @@ class GsmiController extends Controller
                                 $res['output_template_variations'][1]['output_template'][$$group_by],
                                 $arrGenerated
                             );
-
                         }
                     } else if ($request->status=='completed') {
                         foreach ($returns as $return) {
                             if($return->gendata != null) {
                                 $arrGenerated = json_decode($return->gendata);
-                                // $arrGenerated->status = 'completed'; // patch status temporarily
-                                try {
-                                    if (
-                                        !isset(
-                                            $res[
-                                                'output_template_variations'
-                                            ][1]['output_template'][$return->$group_by]
-                                        )
-                                    ) {
-                                        $res[
-                                            'output_template_variations'
-                                        ][1]['output_template'][$return->$group_by] = [];
-                                    }
-                                    array_push(
-                                        $res[
-                                            'output_template_variations'
-                                        ][1]['output_template'][$return->$group_by],
-                                        $arrGenerated
-                                    );
-                                } catch (\Throwable $e) {
-                                    if (
-                                        !isset(
-                                            $res[
-                                                'output_template_variations'
-                                            ][1]['output_template'][$arrGenerated->$group_by]
-                                        )
-                                    ) {
-                                        $res[
-                                            'output_template_variations'
-                                        ][1]['output_template'][$arrGenerated->$group_by] = [];
-                                    }
-                                    array_push(
-                                        $res[
-                                            'output_template_variations'
-                                        ][1]['output_template'][$arrGenerated->$group_by],
-                                        $arrGenerated
-                                    );
+                                // group output_template_variations
+                                $groupByKey = $return->$group_by ?? $arrGenerated->$group_by;
+                                if (
+                                    !isset(
+                                        $res['output_template_variations'][1]['output_template'][$groupByKey]
+                                    )
+                                ) {
+                                    $res['output_template_variations'][1]['output_template'][$groupByKey] = [];
                                 }
+                                array_push(
+                                    $res['output_template_variations'][1]['output_template'][$groupByKey],
+                                    $arrGenerated
+                                );
                             }
                         }
                     }
