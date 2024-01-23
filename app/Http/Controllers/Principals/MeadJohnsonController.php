@@ -448,6 +448,9 @@ class MeadJohnsonController extends Controller
                 $group_by = 'route_code';
             }
 
+            $exportSI = $request->data_type=='all' || $request->data_type=='sales_invoice' ? true : false;
+            $exportCM = $request->data_type=='all' || $request->data_type=='sales_return' ? true : false;
+
             $res['success'] = true;
             $res['message'] = 'Success';
             $res['line_count'] = 0;
@@ -468,15 +471,15 @@ class MeadJohnsonController extends Controller
             // ***************************************************************************
 
             // ************************* MISC INITS **************************************
-            $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                ->get();
-            $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                ->get();
-            $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                ->get();
+            // $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+            //     ->get();
+            // $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+            //     ->get();
+            // $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+            //     ->get();
 
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS *************************************
@@ -484,7 +487,7 @@ class MeadJohnsonController extends Controller
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             if (1) {
                 // ****************************** TEMPLATE 1 ******************************
-                if(1) {
+                if($exportSI) {
                     // **************** PENDING INVOICES ************************************
                     $pendingInvoices = InvoicesController::getPendingInvoices(
                         $this->PRINCIPAL_CODE, $request->posting_date_range, $request->status
@@ -493,155 +496,178 @@ class MeadJohnsonController extends Controller
                     $res['line_count'] += $pendingInvoicesCount;
                     // **************** /PENDING INVOICES ***********************************
 
-                    // Loop through each line of the file content
-                    $loopCounter = 0;
-                    foreach ($pendingInvoices as $pendingInvoice) {
-                        $loopCounter++;
-                        $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
-                        GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
+                    if($request->status=='pending') {
+                        // Loop through each line of the file content
+                        $loopCounter = 0;
+                        foreach ($pendingInvoices as $pendingInvoice) {
+                            $loopCounter++;
+                            $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
+                            GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
 
-                        // ======================= INIT ===========================
-                        $doc_no =           $pendingInvoice->doc_no;
-                        $doc_no_ints =      filter_var($doc_no, FILTER_SANITIZE_NUMBER_INT);
-                        $doc_no_ints =      str_replace('0','', $doc_no_ints);
-                        $doc_no_ints =      str_replace('-','', $doc_no_ints);
+                            // ======================= INIT ===========================
+                            $doc_no =           $pendingInvoice->doc_no;
+                            $doc_no_ints =      filter_var($doc_no, FILTER_SANITIZE_NUMBER_INT);
+                            $doc_no_ints =      str_replace('0','', $doc_no_ints);
+                            $doc_no_ints =      str_replace('-','', $doc_no_ints);
 
-                        $customer_code =    $pendingInvoice->customer_code;
-                        $item_code =        $pendingInvoice->item_code;
-                        $quantity =         intval($pendingInvoice->quantity);
-                        $price =            doubleval($pendingInvoice->price);
-                        $amount =           doubleval($pendingInvoice->amount);
-                        $uom =              $pendingInvoice->uom;
-                        $group_code =       $pendingInvoice->group;
-                        $sm_code =          $pendingInvoice->sm_code;
-                        $vendor_code =      $pendingInvoice->vendor_code;
+                            $customer_code =    $pendingInvoice->customer_code;
+                            $item_code =        $pendingInvoice->item_code;
+                            $quantity =         intval($pendingInvoice->quantity);
+                            $price =            doubleval($pendingInvoice->price);
+                            $amount =           doubleval($pendingInvoice->amount);
+                            $uom =              $pendingInvoice->uom;
+                            $group =            $pendingInvoice->group;
+                            $sm_code =          $pendingInvoice->sm_code;
+                            $vendor_code =      $pendingInvoice->vendor_code;
 
-                        // ****************************************************************
-                        // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first();
-                        // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('item_code', $item_code)
-                        //     ->first();
-                        // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                        //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                        //     ->where('sm_name', $customer->salesman_name ?? 'NA')
-                        //     ->first();
-                        $customer = $principal_customers
-                            ->where('customer_code', $customer_code)
-                            ->first();
-                        $item = $principal_items
-                            ->where('item_code', $item_code)
-                            ->first();
-                        $salesman = $principal_salesmen
-                            ->where('sm_name', $customer->salesman_name ?? 'NA')
-                            ->first();
-                        // ****************************************************************
-
-                        // ************************* TEMPLATE 1 **************************
-                        // tvc = template variation count
-                        // ********************** MISC INITS *************************
-                        $item_notfound = 0;
-                        $customer_notfound = 0;
-                        $salesman_notfound = 0;
-                        $missing_customer_name = '';
-                        $missing_item_name = '';
-                        $missing_salesman_name = '';
-
-                        if ($item==null) {
-                            $item_notfound = 1;
-                            $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                                ->where('item_code', $item_code)
-                                ->first()->description ?? '[ Not Found ]';
-                        } else {
-                        }
-
-                        if ($customer==null) {
-                            $customer_notfound = 1;
-                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            // ****************************************************************
+                            $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                                 ->where('customer_code', $customer_code)
-                                ->first()->name ?? '[ Not Found ]';
-                        } else {
+                                ->first();
+                            $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                                ->where('item_code', $item_code)
+                                ->first();
+                            $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+                                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                                ->where('sm_name', $customer->salesman_name ?? 'NA')
+                                ->first();
 
-                        }
+                            // $customer = $principal_customers
+                            //     ->where('customer_code', $customer_code)
+                            //     ->first();
+                            // $item = $principal_items
+                            //     ->where('item_code', $item_code)
+                            //     ->first();
+                            // $salesman = $principal_salesmen
+                            //     ->where('sm_name', $customer->salesman_name ?? 'NA')
+                            //     ->first();
+                            // ****************************************************************
 
-                        if($salesman==null && $customer!=null) {
-                            $salesman_notfound = 1;
-                            $missing_salesman_name = $customer->salesman_name;
-                        }
+                            // ************************* TEMPLATE 1 **************************
+                            // tvc = template variation count
+                            // ********************** MISC INITS *************************
+                            $item_notfound = 0;
+                            $customer_notfound = 0;
+                            $salesman_notfound = 0;
+                            $missing_customer_name = '';
+                            $missing_item_name = '';
+                            $missing_salesman_name = '';
 
-                        $order_date = $dateToday->format($postingDateFormat);
-                        $order_no = 'N/A';
-
-                        $order_no = $doc_no_ints. $item_code;
-
-                        $item_category_code = $settings['item_category_code'] ?? 'N/A';
-                        $ship_to = $settings['ship_to'] ?? 'N/A';
-
-                        $remarks = '';
-                        $item_code_supplier = $item->item_code_supplier ?? $item_code;
-                        $route_code = $salesman->route_code ?? 'N/A';
-                        // ********************** /MISC INITS *************************
-
-                        // Generated data line structure
-                        $arrGenerated = [
-                            'alturas_customer_code' => $customer_code,
-                            'alturas_item_code' => $item_code,
-                            // 'alturas_sm_code' => $u5, // u5 = sm code
-                            'doc_no' => $doc_no,
-                            'missing_customer_name' => $missing_customer_name,
-                            'missing_item_name' => $missing_item_name,
-                            'missing_salesman_name' => $missing_salesman_name,
-                            'customer_notfound' => $customer_notfound,
-                            'item_notfound' => $item_notfound,
-                            'salesman_notfound' => $salesman_notfound,
-                            // =============================
-                            'customer_code' => $customer_code,
-                            'item_code' => $item_code_supplier,
-                            'order_date' => $order_date,
-                            'route_code' => $route_code,
-                            'product_category_code' => $item_category_code,
-                            'ship_to' => $ship_to,
-                            'order_no' => $order_no,
-                            'remarks' => $remarks,
-                            'quantity' => $quantity,
-                            // 'invoice_uploaded' => $invoice_uploaded,
-                            'status' => $pendingInvoice->status,
-                            'vendor_code' => $pendingInvoice->vendor_code,
-                        ];
-
-                        // ========================== PUSH IN THE OUTPUT ARRAY ===============================
-                        if($item_notfound==1||$customer_notfound==1||$salesman_notfound==1) {
-                            // ---------------------------------------------------------------------------
-                            if (
-                                !isset($res['output_template_variations'][0]['output_template']['Unmapped'])
-                            ) {
-                                $res['output_template_variations'][0]['output_template']['Unmapped'] = [];
+                            if ($item==null) {
+                                $item_notfound = 1;
+                                $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
+                                    ->where('item_code', $item_code)
+                                    ->first()->description ?? '[ Not Found ]';
+                            } else {
                             }
-                            array_push(
-                                $res['output_template_variations'][0]['output_template']['Unmapped'],
-                                $arrGenerated
-                            );
-                            // ---------------------------------------------------------------------------
-                        } else {
-                            // group output_template_variations
-                            if (
-                                !isset($res['output_template_variations'][0]
-                                    ['output_template'][$$group_by])
-                            ) {
-                                $res['output_template_variations'][0]
-                                    ['output_template'][$$group_by] = [];
+
+                            if ($customer==null) {
+                                $customer_notfound = 1;
+                                $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                                    ->where('customer_code', $customer_code)
+                                    ->first()->name ?? '[ Not Found ]';
+                            } else {
+
                             }
-                            array_push(
-                                $res['output_template_variations'][0]
-                                    ['output_template'][$$group_by],
-                                $arrGenerated
-                            );
+
+                            if($salesman==null && $customer!=null) {
+                                $salesman_notfound = 1;
+                                $missing_salesman_name = $customer->salesman_name;
+                            }
+
+                            $order_date = $dateToday->format($postingDateFormat);
+                            $order_no = 'N/A';
+
+                            $order_no = $doc_no_ints. $item_code;
+
+                            $item_category_code = $settings['item_category_code'] ?? 'N/A';
+                            $ship_to = $settings['ship_to'] ?? 'N/A';
+
+                            $remarks = '';
+                            $item_code_supplier = $item->item_code_supplier ?? $item_code;
+                            $route_code = $salesman->route_code ?? 'N/A';
+                            // ********************** /MISC INITS *************************
+
+                            // Generated data line structure
+                            $arrGenerated = [
+                                'alturas_customer_code' => $customer_code,
+                                'alturas_item_code' => $item_code,
+                                // 'alturas_sm_code' => $u5, // u5 = sm code
+                                'doc_no' => $doc_no,
+                                'missing_customer_name' => $missing_customer_name,
+                                'missing_item_name' => $missing_item_name,
+                                'missing_salesman_name' => $missing_salesman_name,
+                                'customer_notfound' => $customer_notfound,
+                                'item_notfound' => $item_notfound,
+                                'salesman_notfound' => $salesman_notfound,
+                                // =============================
+                                'customer_code' => $customer_code,
+                                'item_code' => $item_code_supplier,
+                                'order_date' => $order_date,
+                                'route_code' => $route_code,
+                                'product_category_code' => $item_category_code,
+                                'ship_to' => $ship_to,
+                                'order_no' => $order_no,
+                                'remarks' => $remarks,
+                                'quantity' => $quantity,
+                                // 'invoice_uploaded' => $invoice_uploaded,
+                                'status' => $pendingInvoice->status,
+                                'vendor_code' => $pendingInvoice->vendor_code,
+                            ];
+
+                            // ========================== PUSH IN THE OUTPUT ARRAY ===============================
+                            if($item_notfound==1||$customer_notfound==1||$salesman_notfound==1) {
+                                // ---------------------------------------------------------------------------
+                                if (
+                                    !isset($res['output_template_variations'][0]['output_template']['Unmapped'])
+                                ) {
+                                    $res['output_template_variations'][0]['output_template']['Unmapped'] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations'][0]['output_template']['Unmapped'],
+                                    $arrGenerated
+                                );
+                                // ---------------------------------------------------------------------------
+                            } else {
+                                // group output_template_variations
+                                if (
+                                    !isset($res['output_template_variations'][0]
+                                        ['output_template'][$$group_by])
+                                ) {
+                                    $res['output_template_variations'][0]
+                                        ['output_template'][$$group_by] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations'][0]
+                                        ['output_template'][$$group_by],
+                                    $arrGenerated
+                                );
+                            }
+                            // ========================== /PUSH IN THE OUTPUT ARRAY ===============================
                         }
-                        // ========================== /PUSH IN THE OUTPUT ARRAY ===============================
+                    } else if ($request->status=='completed') {
+                        foreach ($pendingInvoices as $pendingInvoice) {
+                            if($pendingInvoice->gendata != null) {
+                                $arrGenerated = json_decode($pendingInvoice->gendata);
+                                // group output_template_variations
+                                $groupByKey = $pendingInvoice->$group_by ?? $arrGenerated->$group_by;
+                                if (
+                                    !isset(
+                                        $res['output_template_variations'][0]['output_template'][$groupByKey]
+                                    )
+                                ) {
+                                    $res['output_template_variations'][0]['output_template'][$groupByKey] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations'][0]['output_template'][$groupByKey],
+                                    $arrGenerated
+                                );
+                            }
+                        }
                     }
+
                 }
                 // ****************************** /TEMPLATE 1 ******************************
 
@@ -676,7 +702,7 @@ class MeadJohnsonController extends Controller
                 //         $amount =               doubleval($return->amount);
                 //         $uom =                  $return->uom;
                 //         $item_description =     $return->item_description;
-                //         $group_code =           $return->group;
+                //         $group =           $return->group;
                 //         $discount_percentage =  $return->discount_percentage ?? 0;
                 //         $discount_percentage =  intval($discount_percentage);
                 //         $invoice_quantity =     intval($return->invoice_quantity);
@@ -759,11 +785,11 @@ class MeadJohnsonController extends Controller
                 //             'description_supplier' =>   $item_description,
                 //             'customer_name' =>          $nav_customer_name,
                 //             'system_date' =>            $system_date,
-                //             'group' =>                  $group_code,
+                //             'group' =>                  $group,
                 //             'status' =>                 $return->status,
                 //             // other BR payload props
                 //             // 'cf_dsp_name_id' =>                     $br_config->cf_dsp_name,
-                //             // 'cf_dsp_name_value' =>                  $settings['DSP_'. $group_code],
+                //             // 'cf_dsp_name_value' =>                  $settings['DSP_'. $group],
                 //             // 'cf_return_indicator_id' =>             $br_config->cf_return_indicator,
                 //             // 'cf_return_indicator_value' =>          $return_indicator,
                 //             // 'cf_return_invoice_reference_id' =>     $br_config->cf_return_invoice_reference,
@@ -902,9 +928,9 @@ class MeadJohnsonController extends Controller
                     ["text" => 'Order Date',    "value" => 'order_date'],
                     ["text" => 'Item Code',     "value" => 'item_code'],
                     ["text" => 'Customer Code', "value" => 'customer_code'],
-                    ["text" => 'Invoice #', "value" => 'doc_no'],
-                    ["text" => 'Source Group', "value" => 'group_code'],
-                    ["text" => 'Vendor Code', "value" => 'vendor_code'],
+                    ["text" => 'Invoice #',     "value" => 'doc_no'],
+                    ["text" => 'Source Group',  "value" => 'group'],
+                    ["text" => 'Vendor Code',   "value" => 'vendor_code'],
                 ]
             ],
             // ************************* /Templated Data History *******************************
