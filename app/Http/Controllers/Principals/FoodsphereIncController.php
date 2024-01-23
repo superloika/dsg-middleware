@@ -374,7 +374,7 @@ class FoodsphereIncController extends Controller
                             $uom =              $pendingInvoice->uom;
                             $item_description = $pendingInvoice->item_description;
                             $sm_code =          $pendingInvoice->sm_code;
-                            $group_code =       $pendingInvoice->group;
+                            $group =       $pendingInvoice->group;
                             $vendor_code =      $pendingInvoice->vendor_code;
 
                             //********************************************************************
@@ -515,7 +515,7 @@ class FoodsphereIncController extends Controller
                             $uom =              $return->uom;
                             $item_description = $return->item_description;
                             $sm_code =          $return->sm_code;
-                            $group_code =       $return->group;
+                            $group =       $return->group;
                             $status =           $return->status;
                             $return_indicator = $return->return_indicator;
                             $invoice_doc_no =   $return->invoice_doc_no;
@@ -578,7 +578,7 @@ class FoodsphereIncController extends Controller
                                 'customer_name' => $nav_customer_name ?? 'N/A',
                                 'sm_code' => $sm_code ?? 'N/A',
                                 'system_date' => $system_date,
-                                'group' => $group_code,
+                                'group' => $group,
                                 'status' => $status,
                                 'return_indicator' => $return_indicator,
                                 'remarks' => $remarks,
