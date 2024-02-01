@@ -349,24 +349,72 @@ class InvoicesController extends Controller
                                     "[invoice_lines: $doc_no $item_code] ($progressPercent%) "
                                 );
 
-                                if($quantity > 0) {
-                                    $summaryItem['lines_count'] += 1;
+                                if($quantity > 0) $summaryItem['lines_count'] += 1;
 
-                                    if (
-                                        DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                            ->where('vendor_code',$vendor_code)
-                                            ->where('doc_no',$doc_no)
-                                            ->where('customer_code',$customer_code)
-                                            ->where('item_code',$item_code)
-                                            // ->where('uom',$uom)
-                                            // ->where('quantity',$quantity)
-                                            // ->where('shipment_date',$shipment_date)
-                                            ->exists()
-                                    ) {
-                                        $summaryItem['lines_count_existing'] += 1;
-                                    } else {
-                                        // invoice line
-                                        $invoice_l = [
+                                // if($quantity > 0) {
+                                //     $summaryItem['lines_count'] += 1;
+
+                                //     $invoice_line_check = [
+                                //         'vendor_code' => $vendor_code,
+                                //         'doc_no' => $doc_no,
+                                //         'customer_code' => $customer_code,
+                                //         'item_code' => $item_code,
+                                //     ];
+
+                                //     $invoice_line = [
+                                //         'created_at' => date($dateTimeToday),
+                                //         'uploaded_by' => auth()->user()->id,
+                                //         // 'filename' =>  $origFilename,
+                                //         'filename' =>  '',
+                                //         'group' =>                  $group,
+                                //         'batch_number'  =>          $batchNumber,
+                                //         //
+                                //         'vendor_code' =>            $vendor_code,
+                                //         'customer_code' =>          $customer_code,
+                                //         'doc_no' =>                 $doc_no,
+                                //         'shipment_date' =>          $shipment_date,
+                                //         'item_code' =>              $item_code,
+                                //         'item_description' =>       $item_description,
+                                //         'uom' =>                    $uom,
+                                //         'quantity' =>               $quantity,
+                                //         'price' =>                  $price,
+                                //         'amount' =>                 $amount,
+                                //         'qty_per_uom' =>            $qty_per_uom,
+                                //         'uom_code' =>               $uom_code,
+                                //         'discount_percentage' =>    $discount_percentage,
+                                //         'vat_percentage' =>         $vat_percentage,
+                                //         /**
+                                //          * // set default posting date temporarily since invoice_lines does not have one,
+                                //          * it will be updated with the exact posting_date when an invoice_header
+                                //          * is uploaded which contains the posting_date
+                                //          */
+                                //         'posting_date' => '2000-01-01',
+                                //     ];
+
+                                //     DB::table(PrincipalsUtil::$TBL_INVOICES)
+                                //         ->firstOrCreate($invoice_line_check, $invoice_line);
+
+                                //     $summaryItem['lines_count_uploaded'] += 1;
+
+                                //     dd($batchNumber);
+                                // }
+
+                                if (
+                                    DB::table(PrincipalsUtil::$TBL_INVOICES)
+                                        ->where('vendor_code',$vendor_code)
+                                        ->where('doc_no',$doc_no)
+                                        ->where('customer_code',$customer_code)
+                                        ->where('item_code',$item_code)
+                                        // ->where('uom',$uom)
+                                        // ->where('quantity',$quantity)
+                                        // ->where('shipment_date',$shipment_date)
+                                        ->exists()
+                                ) {
+                                    $summaryItem['lines_count_existing'] += 1;
+                                } else {
+                                    if($quantity > 0) {
+                                        $summaryItem['lines_count_uploaded'] += 1;
+                                        $invoices[] = [
                                             'created_at' => date($dateTimeToday),
                                             'uploaded_by' => auth()->user()->id,
                                             // 'filename' =>  $origFilename,
@@ -395,10 +443,10 @@ class InvoicesController extends Controller
                                              */
                                             'posting_date' => '2000-01-01',
                                         ];
-                                        DB::table(PrincipalsUtil::$TBL_INVOICES)->insert($invoice_l);
-                                        $summaryItem['lines_count_uploaded'] += 1;
                                     }
                                 }
+                            // -------------------------------------------------------
+
                             // INVOICE HEADERS **************************************************************************************
                             } else if (
                                 // ($col_count == 8 || $col_count == 9)
@@ -429,26 +477,14 @@ class InvoicesController extends Controller
                                     "[invoice_headers: $doc_no] ($progressPercent%)"
                                 );
 
-                                if(
-                                    DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                    ->where('doc_no',$doc_no)
-                                    ->where('customer_code',$customer_code)
-                                    // ->whereNull('posting_date')
-                                    ->where('posting_date', '2000-01-01')
-                                    ->update(
-                                        [
-                                            'customer_name' => $customer_name,
-                                            'posting_date' => $posting_date,
-                                            'sm_code' => $sm_code,
-                                            'ext_doc_no' => $ext_doc_no,
-                                        ]
-                                    ) > 0
-                                ) {
-                                    $summaryItem['headers_count_uploaded'] += 1;
-                                } else {
-                                    // store skipped headers count temporarily, rename term soon
-                                    $summaryItem['headers_count_existing'] += 1;
-                                }
+                                $invoices_h[] = [
+                                    'customer_name' => $customer_name,
+                                    'posting_date' => $posting_date,
+                                    'sm_code' => $sm_code,
+                                    'ext_doc_no' => $ext_doc_no,
+                                    'doc_no' => $doc_no,
+                                    'customer_code' => $customer_code,
+                                ];
                             // CM LINES **********************************************************************************************
                             } else if (
                                 // ($col_count == 12 || $col_count == 13 || $col_count == 14)
@@ -483,18 +519,20 @@ class InvoicesController extends Controller
                                     "[cm_lines: $doc_no]"." ($progressPercent%)"
                                 );
 
-                                if($quantity > 0) {
-                                    $summaryItem['cm_lines_count'] += 1;
+                                if($quantity > 0) $summaryItem['cm_lines_count'] += 1;
 
-                                    if (
-                                        DB::table(PrincipalsUtil::$TBL_CM)
-                                            ->where('doc_no',$doc_no)
-                                            ->where('customer_code',$customer_code)
-                                            ->where('item_code',$item_code)
-                                            ->where('uom',$uom)
-                                            ->exists() == false
-                                    ) {
-                                        $cm_l = [
+                                if (
+                                    DB::table(PrincipalsUtil::$TBL_CM)
+                                        ->where('doc_no',$doc_no)
+                                        ->where('customer_code',$customer_code)
+                                        ->where('item_code',$item_code)
+                                        ->where('uom',$uom)
+                                        ->exists() == false
+                                ) {
+                                    if($quantity > 0) {
+                                        $summaryItem['cm_lines_count_uploaded'] += 1;
+
+                                        $cm_lines[] = [
                                             'created_at' =>             date($dateTimeToday),
                                             'uploaded_by' =>            auth()->user()->id,
                                             // 'filename' => $origFilename,
@@ -518,13 +556,10 @@ class InvoicesController extends Controller
                                             // 'ext_doc_no' => $ext_doc_no,
                                             'posting_date' =>           '2000-01-01'
                                         ];
-                                        DB::table(PrincipalsUtil::$TBL_CM)->insert($cm_l);
-                                        $summaryItem['cm_lines_count_uploaded'] += 1;
-                                    } else {
-                                        $summaryItem['cm_lines_count_existing'] += 1;
                                     }
+                                } else {
+                                    $summaryItem['cm_lines_count_existing'] += 1;
                                 }
-
                             // -------------------------------------------------------
 
                             // CM HEADERS ********************************************************************************************
@@ -559,26 +594,100 @@ class InvoicesController extends Controller
 
                                 $summaryItem['cm_headers_count'] += 1;
 
-                                if (
-                                    DB::table(PrincipalsUtil::$TBL_CM)
-                                        ->where('doc_no', $doc_no)
-                                        ->where('customer_code', $customer_code)
-                                        ->where('posting_date', '2000-01-01')
-                                        ->update([
-                                            'invoice_doc_no' =>     $invoice_doc_no,
-                                            // 'return_indicator' =>   $return_indicator,
-                                            // 'remarks' =>            $return_reason,
-                                            'payment_term' =>       $payment_term,
-                                            'posting_date' =>       $posting_date,
-                                            'ext_doc_no' =>         $ext_doc_no,
-                                        ]) > 0
-                                ) {
-                                    $summaryItem['cm_headers_count_uploaded'] += 1;
-                                } else {
-                                    // cm headers skipped, change term soon...
-                                    $summaryItem['cm_headers_count_existing'] += 1;
-                                }
+                                $cm_headers[] = [
+                                    'doc_no' =>             $doc_no,
+                                    'customer_code' =>      $customer_code,
+                                    'invoice_doc_no' =>     $invoice_doc_no,
+                                    // 'return_indicator' =>   $return_indicator,
+                                    // 'return_reason' =>      $return_reason,
+                                    'payment_term' =>       $payment_term,
+                                    'posting_date' =>       $posting_date,
+                                    'ext_doc_no' =>         $ext_doc_no,
+                                ];
                             }
+                        }
+
+                        // -------------------------------------------------------------------------------------
+                        // save invoice lines
+                        $chunks = array_chunk($invoices, 500);
+                        $chunksLen = count($chunks);
+                        $chunkCount = 1;
+                        foreach($chunks as $chunk) {
+                            UploadInvoice::dispatch("Saving invoices lines (chunk $chunkCount of $chunksLen)");
+                            DB::table(PrincipalsUtil::$TBL_INVOICES)
+                                ->insert($chunk);
+                            $chunkCount++;
+                        }
+
+                        // -------------------------------------------------------------------------------------
+                        // patch invoice headers
+                        $invoices_h_line_no = 0;
+                        $invoices_h_len = count($invoices_h);
+                        foreach($invoices_h as $header) {
+                            $progressPercent = round(($invoices_h_line_no / $invoices_h_len) * 100);
+                            UploadInvoice::dispatch("Patching invoices headers ($progressPercent%)");
+                            if(
+                                DB::table(PrincipalsUtil::$TBL_INVOICES)
+                                ->where('doc_no',$header['doc_no'])
+                                ->where('customer_code',$header['customer_code'])
+                                // ->whereNull('posting_date')
+                                // ->where('posting_date', '2000-01-01')
+                                ->update(
+                                    [
+                                        'customer_name' => $header['customer_name'],
+                                        'posting_date' => $header['posting_date'],
+                                        'sm_code' => $header['sm_code'],
+                                        'ext_doc_no' => $header['ext_doc_no'],
+                                    ]
+                                ) > 0
+                            ) {
+                                $summaryItem['headers_count_uploaded'] += 1;
+                            } else {
+                                // store skipped headers count temporarily, rename term soon
+                                $summaryItem['headers_count_existing'] += 1;
+                            }
+                            $invoices_h_line_no += 1;
+                        }
+
+                        // -------------------------------------------------------------------------------------
+                        // save CM lines
+                        $chunks = array_chunk($cm_lines, 500);
+                        $chunksLen = count($chunks);
+                        $chunkCount = 1;
+                        foreach($chunks as $chunk) {
+                            UploadInvoice::dispatch("Saving CM lines (chunk $chunkCount of $chunksLen)");
+                            DB::table(PrincipalsUtil::$TBL_CM)
+                                ->insert($chunk);
+                            $chunkCount++;
+                        }
+
+                        // -------------------------------------------------------------------------------------
+                        // patch CM headers
+                        $cm_h_line_no = 0;
+                        $cm_h_len = count($cm_headers);
+                        foreach($cm_headers as $cmh) {
+                            $progressPercent = round(($cm_h_line_no / $cm_h_len) * 100);
+                            UploadInvoice::dispatch("Patching CM headers ($progressPercent)");
+                            if (
+                                DB::table(PrincipalsUtil::$TBL_CM)
+                                    ->where('doc_no', $cmh['doc_no'])
+                                    ->where('customer_code', $cmh['customer_code'])
+                                    ->where('posting_date', '2000-01-01')
+                                    ->update([
+                                        'invoice_doc_no' =>     $cmh['invoice_doc_no'],
+                                        // 'return_indicator' =>   $cmh['return_indicator'],
+                                        // 'remarks' =>            $cmh['return_reason'],
+                                        'payment_term' =>       $cmh['payment_term'],
+                                        'posting_date' =>       $cmh['posting_date'],
+                                        'ext_doc_no' =>         $cmh['ext_doc_no'],
+                                    ]) > 0
+                            ) {
+                                $summaryItem['cm_headers_count_uploaded'] += 1;
+                            } else {
+                                // cm headers skipped, change term soon...
+                                $summaryItem['cm_headers_count_existing'] += 1;
+                            }
+                            $cm_h_line_no += 1;
                         }
                     }
 

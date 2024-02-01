@@ -640,7 +640,6 @@ var render = function() {
                       attrs: {
                         dense: "",
                         rounded: "",
-                        outlined: "",
                         block: "",
                         title: "Generate",
                         color: "primary",
@@ -672,6 +671,7 @@ var render = function() {
                         dense: "",
                         rounded: "",
                         block: "",
+                        outlined: "",
                         title: "Export to Excel",
                         color: "primary",
                         disabled: _vm.disableExportBtn

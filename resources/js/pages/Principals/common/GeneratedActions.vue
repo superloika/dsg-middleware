@@ -110,7 +110,7 @@
 
                 <v-col cols="12">
                     <v-btn
-                        dense rounded outlined block
+                        dense rounded block
                         class=""
                         title="Generate"
                         color="primary"
@@ -129,7 +129,7 @@
                 <v-col cols="12">
                     <!-- ********************* EXPORT ************************ -->
                     <v-btn
-                        dense rounded block
+                        dense rounded block outlined
                         title="Export to Excel"
                         color="primary"
                         :disabled="disableExportBtn"
