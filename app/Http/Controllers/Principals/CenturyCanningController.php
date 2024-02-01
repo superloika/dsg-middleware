@@ -511,18 +511,18 @@ class CenturyCanningController extends Controller
 
                             // ****************************************************************
                             // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                            //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                             //     ->where('customer_code', $customer_code)
                             //     ->first();
                             // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                            //     ->where('principal_code', $this->PRINCIPAL_CODE)
+                            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                             //     ->where('item_code', $item_code)
                             //     ->first();
                             // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                            //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                            //     // ->where('sm_code', $u5)
+                            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                             //     ->where('group_code', $group)
                             //     ->first();
+
                             $item = $principal_items
                                 ->where('item_code', $item_code)
                                 ->first();

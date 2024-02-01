@@ -346,7 +346,7 @@ class InvoicesController extends Controller
 
                                 UploadInvoice::dispatch(
                                     "($fileCount of $totalFileCount) $origFilename " .
-                                    "[invoice_lines: $doc_no $item_code] ($progressPercent%) "
+                                    "[invoice_lines: $doc_no] ($progressPercent%) "
                                 );
 
                                 if($quantity > 0) {
