@@ -33,13 +33,19 @@
             <v-card-text class="ma-0 pa-0">
                 <v-tabs-items v-model="tab_genmas">
                     <v-tab-item>
-                        <MasterPrincipals></MasterPrincipals>
+                        <v-container fluid>
+                            <MasterPrincipals></MasterPrincipals>
+                        </v-container>
                     </v-tab-item>
                     <v-tab-item>
-                        <MasterCustomers></MasterCustomers>
+                        <v-container fluid>
+                            <MasterCustomers></MasterCustomers>
+                        </v-container>
                     </v-tab-item>
                     <v-tab-item>
-                        <MasterItems></MasterItems>
+                        <v-container fluid>
+                            <MasterItems></MasterItems>
+                        </v-container>
                     </v-tab-item>
                 </v-tabs-items>
             </v-card-text>
