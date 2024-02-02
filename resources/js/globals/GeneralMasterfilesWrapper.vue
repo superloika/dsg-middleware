@@ -18,13 +18,13 @@
                 <template v-slot:extension>
                     <v-tabs v-model="tab_genmas">
                         <v-tab class="px-3 text-caption">
+                            Principals
+                        </v-tab>
+                        <v-tab class="px-3 text-caption">
                             Customers
                         </v-tab>
                         <v-tab class="px-3 text-caption">
                             Items
-                        </v-tab>
-                        <v-tab class="px-3 text-caption">
-                            Principals
                         </v-tab>
                     </v-tabs>
                 </template>
@@ -33,13 +33,13 @@
             <v-card-text class="ma-0 pa-0">
                 <v-tabs-items v-model="tab_genmas">
                     <v-tab-item>
+                        <MasterPrincipals></MasterPrincipals>
+                    </v-tab-item>
+                    <v-tab-item>
                         <MasterCustomers></MasterCustomers>
                     </v-tab-item>
                     <v-tab-item>
                         <MasterItems></MasterItems>
-                    </v-tab-item>
-                    <v-tab-item>
-                        <MasterPrincipals></MasterPrincipals>
                     </v-tab-item>
                 </v-tabs-items>
             </v-card-text>

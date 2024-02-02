@@ -9,9 +9,9 @@ const state = Vue.observable({
     tableHeader: [
         { text: "Principal Name", value: "name" },
         { text: "Vendor Code", value: "vendor_code" },
-        { text: "Middleware Code", value: "code" },
+        { text: "Main Vendor Code", value: "main_vendor_code" },
         { text: "Template Variation Count", value: "template_variation_count" },
-        { text: "Main Vendor", value: "main_vendor_code" },
+        { text: "Middleware Code", value: "code" },
         { text: "Middleware Controller", value: "controller" },
     ],
 })

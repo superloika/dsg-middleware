@@ -21,6 +21,7 @@ class MasterPrincipalsController extends Controller
             // ->orderBy('proj_status', 'DESC')
             // ->orderBy('code')
             // ->orderBy('name')
+            ->orderBy('main_vendor_code')
             ->when(
                 count($main_vendor_codes) > 0 && $main_vendor_codes[0]!='*',
                 function($q) use($main_vendor_codes) {
