@@ -358,9 +358,9 @@ class InvoicesController extends Controller
                                             ->where('doc_no',$doc_no)
                                             ->where('customer_code',$customer_code)
                                             ->where('item_code',$item_code)
-                                            // ->where('uom',$uom)
-                                            // ->where('quantity',$quantity)
-                                            // ->where('shipment_date',$shipment_date)
+                                            ->where('uom',$uom)
+                                            ->where('quantity',$quantity)
+                                            ->where('shipment_date',$shipment_date)
                                             ->exists()
                                     ) {
                                         $summaryItem['lines_count_existing'] += 1;
@@ -492,6 +492,8 @@ class InvoicesController extends Controller
                                             ->where('customer_code',$customer_code)
                                             ->where('item_code',$item_code)
                                             ->where('uom',$uom)
+                                            ->where('quantity',$quantity)
+                                            ->where('shipment_date',$shipment_date)
                                             ->exists() == false
                                     ) {
                                         $cm_l = [
