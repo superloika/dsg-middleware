@@ -26,15 +26,19 @@ class MasterItemsController extends Controller
         //     ->paginate($row_count);
 
         $result = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-            ->where('item_code','like', '%'.$search_key. '%')
-            ->orWhere('description','like', '%'.$search_key. '%')
-            ->orWhere(PrincipalsUtil::$TBL_GENERAL_ITEMS.'.vendor_code','like', '%'.$search_key. '%')
-            ->orWhere(PrincipalsUtil::$TBL_PRINCIPALS.'.name','like', '%'.$search_key. '%')
             ->leftJoin(
                 PrincipalsUtil::$TBL_PRINCIPALS,
                 PrincipalsUtil::$TBL_PRINCIPALS.'.vendor_code',
                 PrincipalsUtil::$TBL_GENERAL_ITEMS.'.vendor_code'
             )
+            ->when($search_key != '', function($q) use($search_key){
+                $q
+                    ->where(PrincipalsUtil::$TBL_GENERAL_ITEMS.'.vendor_code','like', '%'.$search_key. '%')
+                    ->orWhere(PrincipalsUtil::$TBL_PRINCIPALS.'.name','like', '%'.$search_key. '%')
+                    ->orWhere('item_code','like', '%'.$search_key. '%')
+                    ->orWhere('description','like', '%'.$search_key. '%')
+                    ;
+            })
             ->select(
                 PrincipalsUtil::$TBL_GENERAL_ITEMS.'.*',
                 PrincipalsUtil::$TBL_PRINCIPALS.'.name as principal_name'
