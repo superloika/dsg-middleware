@@ -248,4 +248,8 @@ export default {
         /* box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px; */
         box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
     }
+
+    .v-btn {
+        font-size: 11px;
+    }
 </style>

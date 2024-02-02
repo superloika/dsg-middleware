@@ -64,8 +64,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     // Initialize settings
     this.PrincipalsStore.initSettings();
-    this.PrincipalsStore.initConfigs();
-    this.BrStore.refresh('ppfb');
+    this.PrincipalsStore.initConfigs(); // this.BrStore.refresh('ppfb');
   },
   mounted: function mounted() {
     console.log(this.selectedPrincipalCode + ' component mounted');

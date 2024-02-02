@@ -59,7 +59,7 @@ export default {
         this.PrincipalsStore.initSettings();
         this.PrincipalsStore.initConfigs();
 
-        this.BrStore.refresh('ppfb');
+        // this.BrStore.refresh('ppfb');
 
     },
 

@@ -34,10 +34,14 @@ const opts = {
         },
 
         sizes: {
-            xs: 24,
-            sm: 32,
-            md: 48,
-            lg: 64,
+            // xs: 24,
+            // sm: 32,
+            // md: 48,
+            // lg: 64,
+            xs: 16,
+            sm: 24,
+            md: 36,
+            lg: 48,
         },
 
         themes: {
