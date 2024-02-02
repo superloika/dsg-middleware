@@ -29,6 +29,17 @@ const opts = {
         // dark: true,
         // variations: true,
 
+        options: {
+            customProperties: true,
+        },
+
+        sizes: {
+            xs: 24,
+            sm: 32,
+            md: 48,
+            lg: 64,
+        },
+
         themes: {
             light: {
                 error: '#FF5252',
