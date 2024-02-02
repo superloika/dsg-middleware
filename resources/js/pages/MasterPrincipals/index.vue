@@ -35,6 +35,14 @@
 
         <v-btn
             icon
+            title="Export Vendor Codes (NAV Filter)"
+            @click.stop="exportNavFilters"
+        >
+            <v-icon>mdi-file-export</v-icon>
+        </v-btn>
+
+        <v-btn
+            icon
             title="Import"
             @click.stop="AppStore.state.dlgImportMaster=true"
             :disabled="!AppStore.isSuperAdmin()"
@@ -89,6 +97,20 @@ export default {
             XLSX.writeFile(wb,'tbl.csv');
             this.isLoading = false;
         },
+
+        exportNavFilters() {
+            let data = "";
+            const principals = this.AppStore.state.principals;
+            for(let i = 0; i < principals.length; i++) {
+                if(principals[i][1][0].active) {
+                    data += principals[i][1][0].vendor_code;
+                    if(i != principals.length - 1) {
+                        data += "|";
+                    }
+                }
+            }
+            this.AppStore.exportToTxt('VendorCodesNavFilter.txt', data);
+        }
     },
 
     created() {

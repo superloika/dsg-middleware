@@ -74,6 +74,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
@@ -99,6 +107,22 @@ __webpack_require__.r(__webpack_exports__);
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
       XLSX.writeFile(wb, 'tbl.csv');
       this.isLoading = false;
+    },
+    exportNavFilters: function exportNavFilters() {
+      var data = "";
+      var principals = this.AppStore.state.principals;
+
+      for (var i = 0; i < principals.length; i++) {
+        if (principals[i][1][0].active) {
+          data += principals[i][1][0].vendor_code;
+
+          if (i != principals.length - 1) {
+            data += "|";
+          }
+        }
+      }
+
+      this.AppStore.exportToTxt('VendorCodesNavFilter.txt', data);
     }
   },
   created: function created() {
@@ -185,6 +209,21 @@ var render = function() {
               expression: "searchKey"
             }
           }),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { icon: "", title: "Export Vendor Codes (NAV Filter)" },
+              on: {
+                click: function($event) {
+                  $event.stopPropagation()
+                  return _vm.exportNavFilters.apply(null, arguments)
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-file-export")])],
+            1
+          ),
           _vm._v(" "),
           _vm.AppStore.isSuperAdmin()
             ? _c(
