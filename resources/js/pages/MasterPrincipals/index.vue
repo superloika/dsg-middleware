@@ -100,10 +100,11 @@ export default {
 
         exportNavFilters() {
             let data = "";
-            const principals = this.AppStore.state.principals;
+            const principals = this.MasterPrincipals.state.principals;
+            console.log(principals);
             for(let i = 0; i < principals.length; i++) {
-                if(principals[i][1][0].active) {
-                    data += principals[i][1][0].vendor_code;
+                if(principals[i].active) {
+                    data += principals[i].vendor_code;
                     if(i != principals.length - 1) {
                         data += "|";
                     }

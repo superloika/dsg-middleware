@@ -110,11 +110,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     exportNavFilters: function exportNavFilters() {
       var data = "";
-      var principals = this.AppStore.state.principals;
+      var principals = this.MasterPrincipals.state.principals;
+      console.log(principals);
 
       for (var i = 0; i < principals.length; i++) {
-        if (principals[i][1][0].active) {
-          data += principals[i][1][0].vendor_code;
+        if (principals[i].active) {
+          data += principals[i].vendor_code;
 
           if (i != principals.length - 1) {
             data += "|";
