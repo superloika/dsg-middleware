@@ -373,9 +373,14 @@ const actions = {
      * Export to simple Excel
      */
     toExcel_simple(
-        sheetName, data, headerFormatSource, includeTotals,
-        fileName, extension='xlsx', tableHeadersIndex=0
-    ){
+        sheetName,
+        data,
+        prop, // store state property to refer for header names and format
+        includeTotals,
+        fileName,
+        extension='xlsx',
+        tableHeadersIndex=0
+    ) {
         const tempData = [
             [
                 sheetName,
@@ -383,7 +388,9 @@ const actions = {
             ]
         ];
 
-        const config = this.getHeaderAndFormat(headerFormatSource);
+        // const config = this.getHeaderAndFormat(headerFormatSource);
+        // const config = this.getHeaderAndFormat(configPropertyName);
+        const config = this.getHeaderAndFormat(prop);
 
         this.exportToExcel(
             config[tableHeadersIndex].header,
@@ -551,15 +558,17 @@ const actions = {
      * Returns an object containing the arrays of headers
      * and its content column format/sequence
      */
-    getHeaderAndFormat() {
+    // getHeaderAndFormat(configPropertyName='generatedDataTableHeader') {
+    getHeaderAndFormat(prop = state.configs['generatedDataTableHeader']) {
         let tempArray = [];
-        state.configs.generatedDataTableHeader
-            .forEach(el=>{
+        // state.configs.generatedDataTableHeader
+        prop
+            .forEach(el => {
                 const tempObj = {
                     header: el.map(e=>{
                             return e.text;
                         }),
-                    format: el.map(e=>{
+                    format: el.map(e => {
                             return e.value;
                         }),
                 };

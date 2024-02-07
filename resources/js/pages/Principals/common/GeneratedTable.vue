@@ -272,10 +272,11 @@ export default {
             this.PrincipalsStore.toExcel_simple(
                 `${this.tab_caption}`,
                 this.items,
-                {
-                    storeName: this.PrincipalsStore.state.selectedPrincipalCode,
-                    propertyName: 'generatedDataTableHeader'
-                },
+                // {
+                //     storeName: this.PrincipalsStore.state.selectedPrincipalCode,
+                //     propertyName: 'generatedDataTableHeader'
+                // },
+                this.PrincipalsStore.state.configs['generatedDataTableHeader'],
                 null,
                 `${this.tab_caption}`,
                 extention,

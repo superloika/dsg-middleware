@@ -127,10 +127,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     exportToExcel: function exportToExcel() {
-      this.PrincipalsStore.toExcel_simple('Salesmen', this.PrincipalsStore.state.salesmen, {
-        storeName: this.selectedPrincipalCode,
-        propertyName: 'salesmenTableHeader'
-      }, null, "".concat(this.selectedPrincipalCode, "_Salesmen"));
+      this.PrincipalsStore.toExcel_simple('Salesmen', this.PrincipalsStore.state.salesmen, this.PrincipalsStore.state.configs['salesmenTableHeader'], null, "".concat(this.selectedPrincipalCode, "_Salesmen"));
     }
   },
   created: function created() {

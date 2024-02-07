@@ -150,10 +150,11 @@ __webpack_require__.r(__webpack_exports__);
       } catch (error) {}
 
       this.PrincipalsStore.initCustomers('', 9999999).then(function () {
-        _this.PrincipalsStore.toExcel_simple('Customers', _this.PrincipalsStore.state.customers.data, {
-          storeName: _this.selectedPrincipalCode,
-          propertyName: 'customersTableHeader'
-        }, null, "".concat(_this.selectedPrincipalCode, "_Customers"));
+        _this.PrincipalsStore.toExcel_simple('Customers', _this.PrincipalsStore.state.customers.data, // {
+        //     storeName: this.selectedPrincipalCode,
+        //     propertyName: 'customersTableHeader'
+        // },
+        _this.PrincipalsStore.state.configs['customersTableHeader'], null, "".concat(_this.selectedPrincipalCode, "_Customers"));
 
         _this.PrincipalsStore.initCustomers(_this.searchKey);
       });

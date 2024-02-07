@@ -156,10 +156,11 @@ __webpack_require__.r(__webpack_exports__);
       } catch (error) {}
 
       this.PrincipalsStore.initItems('', 9999999).then(function () {
-        _this.PrincipalsStore.toExcel_simple('Items', _this.PrincipalsStore.state.items.data, {
-          storeName: _this.selectedPrincipalCode,
-          propertyName: 'itemsTableHeader'
-        }, null, "".concat(_this.selectedPrincipalCode, "_Items"));
+        _this.PrincipalsStore.toExcel_simple('Items', _this.PrincipalsStore.state.items.data, // {
+        //     storeName: this.selectedPrincipalCode,
+        //     propertyName: 'itemsTableHeader'
+        // },
+        _this.PrincipalsStore.state.configs['itemsTableHeader'], null, "".concat(_this.selectedPrincipalCode, "_Items"));
 
         _this.PrincipalsStore.initItems(_this.searchKey);
       });

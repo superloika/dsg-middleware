@@ -124,10 +124,7 @@ export default {
             this.PrincipalsStore.toExcel_simple(
                 'Salesmen',
                 this.PrincipalsStore.state.salesmen,
-                {
-                    storeName: this.selectedPrincipalCode,
-                    propertyName: 'salesmenTableHeader'
-                },
+                this.PrincipalsStore.state.configs['salesmenTableHeader'],
                 null,
                 `${this.selectedPrincipalCode}_Salesmen`
             );

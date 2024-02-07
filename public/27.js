@@ -260,10 +260,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     // },
     exportToExcel: function exportToExcel() {
       console.log(this.PrincipalsStore.state.transactions);
-      this.PrincipalsStore.toExcel_simple(this.date.toString(), this.PrincipalsStore.state.transactions, {
-        storeName: 'InvoicesStore',
-        propertyName: 'transactionsTableHeader'
-      }, null, //[7,8],
+      this.PrincipalsStore.toExcel_simple(this.date.toString(), this.PrincipalsStore.state.transactions, this.InvoicesStore.state.transactionsTableHeader, null, //[7,8],
       "".concat(this.selectedPrincipalCode, "_transactions"));
     },
     loadInvoicesOrTransactions: function loadInvoicesOrTransactions() {

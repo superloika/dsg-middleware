@@ -276,10 +276,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     exportToCsv: function exportToCsv() {
       var extention = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'csv';
-      this.PrincipalsStore.toExcel_simple("".concat(this.tab_caption), this.items, {
-        storeName: this.PrincipalsStore.state.selectedPrincipalCode,
-        propertyName: 'generatedDataTableHeader'
-      }, null, "".concat(this.tab_caption), extention, this.template_variation_index);
+      this.PrincipalsStore.toExcel_simple("".concat(this.tab_caption), this.items, // {
+      //     storeName: this.PrincipalsStore.state.selectedPrincipalCode,
+      //     propertyName: 'generatedDataTableHeader'
+      // },
+      this.PrincipalsStore.state.configs['generatedDataTableHeader'], null, "".concat(this.tab_caption), extention, this.template_variation_index);
     },
     itemRowStyle: function itemRowStyle(item) {
       try {

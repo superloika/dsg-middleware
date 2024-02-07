@@ -258,10 +258,7 @@ export default {
             this.PrincipalsStore.toExcel_simple(
                 this.date.toString(),
                 this.PrincipalsStore.state.transactions,
-                {
-                    storeName: 'InvoicesStore',
-                    propertyName: 'transactionsTableHeader'
-                },
+                this.InvoicesStore.state.transactionsTableHeader,
                 null, //[7,8],
                 `${this.selectedPrincipalCode}_transactions`
             );

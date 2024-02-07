@@ -151,10 +151,11 @@ export default {
                     this.PrincipalsStore.toExcel_simple(
                         'Items',
                         this.PrincipalsStore.state.items.data,
-                        {
-                            storeName: this.selectedPrincipalCode,
-                            propertyName: 'itemsTableHeader'
-                        },
+                        // {
+                        //     storeName: this.selectedPrincipalCode,
+                        //     propertyName: 'itemsTableHeader'
+                        // },
+                        this.PrincipalsStore.state.configs['itemsTableHeader'],
                         null,
                         `${this.selectedPrincipalCode}_Items`
                     );

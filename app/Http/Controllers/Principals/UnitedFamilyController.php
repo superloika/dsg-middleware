@@ -61,6 +61,11 @@ class UnitedFamilyController extends Controller
             $dateToday = Carbon::now();
             $system_date = $dateToday->format('Y-m-d');
             // $settings = PrincipalsUtil::getSettings($request->principal_code);
+
+            $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                ->get();
+
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS **************************************************
 
@@ -108,15 +113,31 @@ class UnitedFamilyController extends Controller
                             }
                             //********************************************************************
 
+                            // ************************* /MASTERFILE MAPPING *************************
+                            $salesman = $principal_salesmen
+                                ->filter(function($sm) use (&$group) {
+                                    return false !== strpos($group, $sm->division, 0);
+                                })
+                                ->where('sm_code', $sm_code)
+                                ->first();
+                            // ************************* /MASTERFILE MAPPING *************************
+
                             // ************************* MISC INITS **************************
                             $item_notfound = 0;
                             $customer_notfound = 0;
                             $salesman_notfound = 0;
                             $missing_customer_name = '';
                             $missing_item_name = '';
+                            $sm_name = '';
 
                             $item_code_supplier = $item_code ?? 'NA';
                             $customer_code_supplier = $customer_code ?? 'NA';
+
+                            if ($salesman == null) {
+                                $salesman_notfound = 1;
+                            } else {
+                                $sm_name = $salesman->sm_name ?? '';
+                            }
                             // ************************* /MISC INITS **************************
 
                             // Generated data line structure
@@ -146,6 +167,7 @@ class UnitedFamilyController extends Controller
                                 // 'customer_name' => $nav_customer_name,
                                 'customer_name' => $nav_customer_name ?? 'NA',
                                 'sm_code' => $sm_code ?? 'NA',
+                                'sm_name' => $sm_name,
                                 'system_date' => $system_date,
                                 'group' => $pendingInvoice->group,
                                 'status' => $pendingInvoice->status,
@@ -231,15 +253,31 @@ class UnitedFamilyController extends Controller
                             }
                             //********************************************************************
 
+                            // ************************* /MASTERFILE MAPPING *************************
+                            $salesman = $principal_salesmen
+                                ->filter(function($sm) use (&$group) {
+                                    return false !== strpos($group, $sm->division, 0);
+                                })
+                                ->where('sm_code', $sm_code)
+                                ->first();
+                            // ************************* /MASTERFILE MAPPING *************************
+
                             // ************************* MISC INITS **************************
                             $item_notfound = 0;
                             $customer_notfound = 0;
                             $salesman_notfound = 0;
                             $missing_customer_name = '';
                             $missing_item_name = '';
+                            $sm_name = '';
 
                             $item_code_supplier = $item_code ?? 'NA';
                             $customer_code_supplier = $customer_code ?? 'NA';
+
+                            if ($salesman == null) {
+                                $salesman_notfound = 1;
+                            } else {
+                                $sm_name = $salesman->sm_name ?? '';
+                            }
                             // ************************* /MISC INITS **************************
 
                             // Generated data line structure
@@ -269,6 +307,7 @@ class UnitedFamilyController extends Controller
                                 // 'customer_name' => $nav_customer_name,
                                 'customer_name' => $nav_customer_name ?? 'NA',
                                 'sm_code' => $sm_code ?? 'NA',
+                                'sm_name' => $salesman,
                                 'system_date' => $system_date,
                                 'group' => $group,
                                 'status' => $status,
@@ -473,18 +512,19 @@ class UnitedFamilyController extends Controller
             'generatedDataTableHeader' => [
                 [
                     ["text" => "Invoice #", "value" => "invoice_no"],
-                    ["text" => "Customer Code", "value" => "customer_code"],
+                    // ["text" => "Customer Code", "value" => "customer_code"],
                     ["text" => "Customer Name", "value" => "customer_name"],
                     ["text" => "Invoice Date (m/d/Y)", "value" => "invoice_date"],
                     ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],
-                    ["text" => "Item Code (Supplier)", "value" => "item_code"],
+                    // ["text" => "Item Code (Supplier)", "value" => "item_code"],
                     ["text" => "Item Name (NAV)", "value" => "item_description"],
-                    ["text" => "Item Name (Supplier)", "value" => "description_supplier"],
+                    // ["text" => "Item Name (Supplier)", "value" => "description_supplier"],
                     ["text" => "UOM", "value" => "uom"],
                     ["text" => "Quantity", "value" => "quantity"],
                     ["text" => "Price", "value" => "price"],
                     ["text" => "Amount", "value" => "amount"],
-                    ["text" => "Salesman", "value" => "sm_code"],
+                    ["text" => "Salesman Code", "value" => "sm_code"],
+                    ["text" => "Salesman Name", "value" => "sm_name"],
                     ["text" => "Group", "value" => "group"],
                 ],
                 [
@@ -493,14 +533,15 @@ class UnitedFamilyController extends Controller
                     ["text" => "Customer Name", "value" => "customer_name"],
                     ["text" => "Invoice Date (m/d/Y)", "value" => "invoice_date"],
                     ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],
-                    ["text" => "Item Code (Supplier)", "value" => "item_code"],
+                    // ["text" => "Item Code (Supplier)", "value" => "item_code"],
                     ["text" => "Item Name (NAV)", "value" => "item_description"],
-                    ["text" => "Item Name (Supplier)", "value" => "description_supplier"],
+                    // ["text" => "Item Name (Supplier)", "value" => "description_supplier"],
                     ["text" => "UOM", "value" => "uom"],
                     ["text" => "Quantity", "value" => "quantity"],
                     ["text" => "Price", "value" => "price"],
                     ["text" => "Amount", "value" => "amount"],
-                    ["text" => "Salesman", "value" => "sm_code"],
+                    ["text" => "Salesman Code", "value" => "sm_code"],
+                    ["text" => "Salesman Name", "value" => "sm_name"],
                     ["text" => "Group", "value" => "group"],
                     ["text" => "Invoice Reference #", "value" => "invoice_doc_no"],
                     ["text" => "Remarks", "value" => "remarks"],
