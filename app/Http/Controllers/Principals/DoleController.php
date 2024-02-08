@@ -84,29 +84,22 @@ class DoleController extends Controller
                         $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
                         GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
 
-                        $doc_no = $pendingInvoice->doc_no;
-                        $customer_code = $pendingInvoice->customer_code;
-                        $posting_date = $pendingInvoice->posting_date;
+                        $doc_no =           $pendingInvoice->doc_no;
+                        $customer_code =    $pendingInvoice->customer_code;
+                        // $posting_date =     $pendingInvoice->posting_date;
                         // $posting_date = (new Carbon($posting_date))->format('m/d/Y';
-                        $posting_date = (new Carbon($posting_date))->format($postingDateFormat);
-                        $item_code = $pendingInvoice->item_code;
-                        $quantity = intval($pendingInvoice->quantity);
-                        $price = doubleval($pendingInvoice->price);
-                        $amount = doubleval($pendingInvoice->amount);
-                        $uom = $pendingInvoice->uom;
+                        $posting_date =     (new Carbon($pendingInvoice->posting_date))->format($postingDateFormat);
+                        $item_code =        $pendingInvoice->item_code;
+                        $quantity =         intval($pendingInvoice->quantity);
+                        $price =            doubleval($pendingInvoice->price);
+                        $amount =           doubleval($pendingInvoice->amount);
+                        $uom =              $pendingInvoice->uom;
                         $item_description = $pendingInvoice->item_description;
-                        $sm_code = $pendingInvoice->sm_code;
-                        $group = $pendingInvoice->group;
-                        $vendor_code = $pendingInvoice->vendor_code;
-
-                        //********************************************************************
-                        $nav_customer_name = $pendingInvoice->customer_name;
-                        if($nav_customer_name==null || $nav_customer_name=='') {
-                            $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                ->where('customer_code', $customer_code)
-                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        }
-                        //********************************************************************
+                        $sm_code =          $pendingInvoice->sm_code;
+                        $group =            $pendingInvoice->group;
+                        $vendor_code =      $pendingInvoice->vendor_code;
+                        $customer_name =    $pendingInvoice->customer_name;
+                        $status =           $pendingInvoice->status;
 
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
@@ -122,34 +115,34 @@ class DoleController extends Controller
                         // Generated data line structure
                         $arrGenerated = [
                             //commons
-                            'customer_code' => $customer_code_supplier,
-                            'alturas_customer_code' => $customer_code,
-                            'item_code' => $item_code_supplier,
-                            'alturas_item_code' => $item_code,
-                            'doc_no' => $doc_no,
-                            'missing_customer_name' => $missing_customer_name,
-                            'missing_item_name' => $missing_item_name,
-                            'customer_notfound' => $customer_notfound,
-                            'item_notfound' => $item_notfound,
-                            'salesman_notfound' => $salesman_notfound,
+                            'customer_code' =>          $customer_code_supplier,
+                            'alturas_customer_code' =>  $customer_code,
+                            'item_code' =>              $item_code_supplier,
+                            'alturas_item_code' =>      $item_code,
+                            'doc_no' =>                 $doc_no,
+                            'missing_customer_name' =>  $missing_customer_name,
+                            'missing_item_name' =>      $missing_item_name,
+                            'customer_notfound' =>      $customer_notfound,
+                            'item_notfound' =>          $item_notfound,
+                            'salesman_notfound' =>      $salesman_notfound,
                             // principal specific
-                            'invoice_no' => $doc_no,
-                            'invoice_date' => $posting_date,
-                            'quantity' => $quantity,
+                            'invoice_no' =>             $doc_no,
+                            'invoice_date' =>           $posting_date,
+                            'quantity' =>               $quantity,
                             // 'bulk_qty' => $bulk_qty,
                             // 'loose_qty' => $loose_qty,
-                            'price' => $price,
-                            'amount' => $amount,
-                            'uom' => $uom,
-                            'item_description' => $item_description,
-                            'description_supplier' => $item_description ?? 'NA',
+                            'price' =>                  $price,
+                            'amount' =>                 $amount,
+                            'uom' =>                    $uom,
+                            'item_description' =>       $item_description,
+                            'description_supplier' =>   $item_description ?? 'NA',
                             // 'customer_name' => $nav_customer_name,
-                            'customer_name' => $nav_customer_name ?? 'NA',
-                            'sm_code' => $sm_code ?? 'NA',
-                            'system_date' => $system_date,
-                            'group' => $pendingInvoice->group,
-                            'status' => $pendingInvoice->status,
-                            'vendor_code' => $vendor_code,
+                            'customer_name' =>          $customer_name ?? 'NA',
+                            'sm_code' =>                $sm_code ?? 'NA',
+                            'system_date' =>            $system_date,
+                            'group' =>                  $group,
+                            'status' =>                 $status,
+                            'vendor_code' =>            $vendor_code,
                         ];
 
                         if (
@@ -203,33 +196,25 @@ class DoleController extends Controller
                         $progressPercent = round(($loopCounter / $returnsCount) * 100);
                         GenerateTemplated::dispatch("Generating returns ($progressPercent%)");
 
-                        $doc_no = $return->doc_no;
-                        $customer_code = $return->customer_code;
-                        $posting_date = $return->shipment_date;
+                        $doc_no =           $return->doc_no;
+                        $customer_code =    $return->customer_code;
+                        $posting_date =     $return->shipment_date;
                         // $posting_date = (new Carbon($posting_date))->format('m/d/Y';
-                        $posting_date = (new Carbon($posting_date))->format($postingDateFormat);
-                        $item_code = $return->item_code;
-                        $quantity = intval($return->quantity);
-                        $price = doubleval($return->price);
-                        $amount = doubleval($return->amount);
-                        $uom = $return->uom;
+                        $posting_date =     (new Carbon($posting_date))->format($postingDateFormat);
+                        $item_code =        $return->item_code;
+                        $quantity =         intval($return->quantity);
+                        $price =            doubleval($return->price);
+                        $amount =           doubleval($return->amount);
+                        $uom =              $return->uom;
                         $item_description = $return->item_description;
-                        $sm_code = $return->sm_code;
-                        $group = $return->group;
-                        $status = $return->status;
-                        $invoice_doc_no = $return->invoice_doc_no; // reference #
+                        $sm_code =          $return->sm_code;
+                        $group =            $return->group;
+                        $status =           $return->status;
+                        $invoice_doc_no =   $return->invoice_doc_no; // reference #
                         $return_indicator = $return->return_indicator;
-                        $remarks = $return->remarks;
-                        $vendor_code = $return->vendor_code;
-
-                        //********************************************************************
-                        $nav_customer_name = $return->customer_name;
-                        if($nav_customer_name==null || $nav_customer_name=='') {
-                            $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                ->where('customer_code', $customer_code)
-                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        }
-                        //********************************************************************
+                        $remarks =          $return->remarks;
+                        $vendor_code =      $return->vendor_code;
+                        $customer_name =    $return->customer_name;
 
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
@@ -245,37 +230,37 @@ class DoleController extends Controller
                         // Generated data line structure
                         $arrGenerated = [
                             //commons
-                            'customer_code' => $customer_code_supplier,
-                            'alturas_customer_code' => $customer_code,
-                            'item_code' => $item_code_supplier,
-                            'alturas_item_code' => $item_code,
-                            'doc_no' => $doc_no,
-                            'missing_customer_name' => $missing_customer_name,
-                            'missing_item_name' => $missing_item_name,
-                            'customer_notfound' => $customer_notfound,
-                            'item_notfound' => $item_notfound,
-                            'salesman_notfound' => $salesman_notfound,
+                            'customer_code' =>          $customer_code_supplier,
+                            'alturas_customer_code' =>  $customer_code,
+                            'item_code' =>              $item_code_supplier,
+                            'alturas_item_code' =>      $item_code,
+                            'doc_no' =>                 $doc_no,
+                            'missing_customer_name' =>  $missing_customer_name,
+                            'missing_item_name' =>      $missing_item_name,
+                            'customer_notfound' =>      $customer_notfound,
+                            'item_notfound' =>          $item_notfound,
+                            'salesman_notfound' =>      $salesman_notfound,
                             // principal specific
-                            'invoice_no' => $doc_no,
-                            'invoice_date' => $posting_date,
-                            'quantity' => $quantity,
+                            'invoice_no' =>             $doc_no,
+                            'invoice_date' =>           $posting_date,
+                            'quantity' =>               $quantity,
                             // 'bulk_qty' => $bulk_qty,
                             // 'loose_qty' => $loose_qty,
-                            'price' => $price,
-                            'amount' => $amount,
-                            'uom' => $uom,
-                            'item_description' => $item_description,
-                            'description_supplier' => $item_description ?? 'NA',
-                            // 'customer_name' => $nav_customer_name,
-                            'customer_name' => $nav_customer_name ?? 'NA',
-                            'sm_code' => $sm_code ?? 'NA',
-                            'system_date' => $system_date,
-                            'group' => $group,
-                            'status' => $status,
-                            'return_indicator' => $return_indicator,
-                            'remarks' => $remarks,
-                            'invoice_doc_no' => $invoice_doc_no,
-                            'vendor_code' => $vendor_code,
+                            'price' =>                  $price,
+                            'amount' =>                 $amount,
+                            'uom' =>                    $uom,
+                            'item_description' =>       $item_description,
+                            'description_supplier' =>   $item_description ?? 'NA',
+                            'customer_name' =>          $customer_name,
+                            // 'customer_name' => $nav_customer_name ?? 'NA',
+                            'sm_code' =>                $sm_code ?? 'NA',
+                            'system_date' =>            $system_date,
+                            'group' =>                  $group,
+                            'status' =>                 $status,
+                            'return_indicator' =>       $return_indicator,
+                            'remarks' =>                $remarks,
+                            'invoice_doc_no' =>         $invoice_doc_no,
+                            'vendor_code' =>            $vendor_code,
                         ];
 
                         if (
