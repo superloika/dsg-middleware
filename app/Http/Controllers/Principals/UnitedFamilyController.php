@@ -66,7 +66,8 @@ class UnitedFamilyController extends Controller
                 ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                 ->get();
 
-            $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
+            // $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
+            $postingDateFormat = $this->configs()->getData(true)['posting_date_format'];
             // ************************* /MISC INITS **************************************************
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
