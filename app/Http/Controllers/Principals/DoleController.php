@@ -362,11 +362,9 @@ class DoleController extends Controller
 
                         if (count($arrFileContentLine) > 1) {
                             if($arrFileContentLine[0] != '' && $arrFileContentLine[0] != null ) {
-                                // ==========================================================================
                                 $division = trim(str_replace('"', '', $arrFileContentLine[0])); // group code (e.g. WDG)
                                 $sm_code = trim(str_replace('"', '', $arrFileContentLine[1]));
                                 $sm_name = trim(str_replace('"', '', $arrFileContentLine[2]));
-                                // =========================================================================
 
                                 $arrLines[] = [
                                     'main_vendor_code' => $this->PRINCIPAL_CODE,
@@ -412,11 +410,144 @@ class DoleController extends Controller
     function items()
     {
         set_time_limit(0);
+        $row_count = request()->row_count ?? 10;
+        $search_key = request()->search_key ?? '';
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-            ->get();
+            ->leftJoin(PrincipalsUtil::$TBL_GENERAL_ITEMS,
+                PrincipalsUtil::$TBL_GENERAL_ITEMS. '.item_code',
+                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.item_code'
+            )
+            // ->leftJoin(PrincipalsUtil::$TBL_PRINCIPALS,
+            //     PrincipalsUtil::$TBL_PRINCIPALS. '.vendor_code',
+            //     PrincipalsUtil::$TBL_GENERAL_ITEMS. '.vendor_code'
+            // )
+            ->select([
+                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.*',
+                PrincipalsUtil::$TBL_GENERAL_ITEMS. '.vendor_code',
+                // PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
+            ])
+            ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.main_vendor_code',
+                $this->PRINCIPAL_CODE)
+            ->when($search_key != '', function($q) use ($search_key) {
+                $q->where(function($q) use ($search_key) {
+                    $q->where(
+                        PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.item_code',
+                        'like',
+                        '%'. $search_key. '%'
+                    )
+                    ->orWhere(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.item_code_supplier',
+                        'like',
+                        '%'. $search_key. '%'
+                    )
+                    ->orWhere(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.description_supplier',
+                        'like',
+                        '%'. $search_key. '%'
+                    )
+                    ;
+                });
+            })
+            ->paginate($row_count);
+
+            // append custom column value (case = '1')
+            // $result = tap($result, function($paginatedInstance){
+            //     return $paginatedInstance->getCollection()->transform(function($value){
+            //         $value->case = 1;
+            //         return $value;
+            //     });
+            // });
+
         return response()->json($result);
+    }
+
+
+    /**
+     * Import items masterfile (.csv)
+     */
+    public function uploadMasterItems(Request $request)
+    {
+        set_time_limit(0);
+
+        try {
+            $fileName = time() . '.' . $request->file->getClientOriginalName();
+            $fileStoragePath =
+                "public/principals/" . $this->PRINCIPAL_CODE . "/items";
+            Storage::putFileAs($fileStoragePath, $request->file, $fileName);
+
+            $res['success'] = true;
+            $res['message'] = 'Done';
+
+            DB::beginTransaction();
+
+            if (Storage::exists("$fileStoragePath/$fileName")) {
+                $fileContent = Storage::get("$fileStoragePath/$fileName");
+
+                // init lineCount to 1 for the header
+                $lineCount = 1;
+
+                DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
+
+                $arrLines = [];
+                $fileContent = utf8_encode($fileContent);
+                $fileContentLines =
+                    explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
+
+                foreach ($fileContentLines as $fileContentLine) {
+                    // Begin on the second line to skip the headers
+                    if ($lineCount > 1) {
+                        // $arrFileContentLine = explode($delimiter, $fileContentLine);
+                        $arrFileContentLine =
+                            preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+
+                        if (count($arrFileContentLine) > 1) {
+                            $item_code_supplier = trim(str_replace('"', '', $arrFileContentLine[0]));
+                            $item_code = trim(str_replace('"', '', $arrFileContentLine[1]));
+                            $description_supplier = trim(str_replace('"', '', $arrFileContentLine[2]));
+                            $uom_price = trim(str_replace('"', '', $arrFileContentLine[3]));
+                            $uom_price = str_replace(',', '', $uom_price);
+                            $uom_price = floatval($uom_price);
+                            $conversion_uom_price = trim(str_replace('"', '', $arrFileContentLine[4]));
+                            $conversion_uom_price = str_replace(',', '', $conversion_uom_price);
+                            $conversion_uom_price = floatval($conversion_uom_price);
+                            $conversion_qty = trim(str_replace('"', '', $arrFileContentLine[5]));
+                            $uom = trim(str_replace('"', '', $arrFileContentLine[6]));
+
+                            if(
+                                $item_code != '' && $item_code != '#N/A' &&
+                                $item_code_supplier != '' && $item_code_supplier != '#N/A'
+                            ) {
+                                $arrLines[] = [
+                                    'main_vendor_code' =>       $this->PRINCIPAL_CODE,
+                                    'uploaded_by' =>            auth()->user()->id,
+                                    'item_code' =>              $item_code,
+                                    'item_code_supplier' =>     $item_code_supplier,
+                                    'description_supplier' =>   $description_supplier,
+                                    'uom_price' =>              $uom_price,
+                                    'conversion_uom_price' =>   $conversion_uom_price,
+                                    'conversion_qty' =>         $conversion_qty,
+                                    'uom' =>                    $uom,
+                                ];
+                            }
+                        }
+                    }
+                    $lineCount++;
+                }
+
+                $chunks = array_chunk($arrLines, 500);
+                foreach ($chunks as $chunk) {
+                    DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)->insert($chunk);
+                }
+            }
+
+            DB::commit();
+            return response()->json($res);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $res['success'] = false;
+            $res['message'] = $th->getMessage();
+            return response()->json($res, 500);
+        }
     }
 
 
@@ -443,15 +574,35 @@ class DoleController extends Controller
 
     /**
      * Templated data table headers
-     */
+    //  */
+    //                                 'item_code' =>              $item_code,
+    //                                 'item_code_supplier' =>     $item_code_supplier,
+    //                                 'description_supplier' =>   $description_supplier,
+    //                                 'uom_price' =>              $uom_price,
+    //                                 'conversion_uom_price' =>   $conversion_uom_price,
+    //                                 'conversion_qty' =>         $conversion_qty,
+    //                                 'uom' =>                    $uom,
     public function configs() {
         $arr = [
+            'posting_date_format' => 'm/d/Y',
+
             "salesmenTableHeader" => [
                 [
                     ["text" => "Group",     "value" => "division" ],
                     ["text" => "SM Code",   "value" => "sm_code" ],
                     ["text" => "SM Name",   "value" => "sm_name" ],
                 ],
+            ],
+            "itemsTableHeader" => [
+                [
+                    ["text" => "DOLE Code",         "value" => "item_code_supplier"],
+                    ["text" => "NAV Code",          "value" => "item_code"],
+                    ["text" => "Description",       "value" => "description_supplier"],
+                    ["text" => "Amount per Case",   "value" => "uom_price"],
+                    ["text" => "Amount per Pcs",    "value" => "conversion_uom_price"],
+                    ["text" => "Conversion Factor", "value" => "conversion_qty"],
+                    ["text" => "PUOM",              "value" => "uom"],
+                ]
             ],
 
             'generatedDataTableHeader' => [
@@ -501,8 +652,6 @@ class DoleController extends Controller
                     ["text" => 'Vendor Code', "value" => 'vendor_code'],
                 ]
             ],
-
-            'posting_date_format' => 'm/d/Y',
         ];
         return response()->json($arr);
     }

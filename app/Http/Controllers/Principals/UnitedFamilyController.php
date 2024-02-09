@@ -394,11 +394,9 @@ class UnitedFamilyController extends Controller
 
                         if (count($arrFileContentLine) > 1) {
                             if($arrFileContentLine[0] != '' && $arrFileContentLine[0] != null ) {
-                                // ==========================================================================
                                 $division = trim(str_replace('"', '', $arrFileContentLine[0])); // group code (e.g. WDG)
                                 $sm_code = trim(str_replace('"', '', $arrFileContentLine[1]));
                                 $sm_name = trim(str_replace('"', '', $arrFileContentLine[2]));
-                                // =========================================================================
 
                                 $arrLines[] = [
                                     'main_vendor_code' => $this->PRINCIPAL_CODE,
