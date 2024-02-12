@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class DoleController extends Controller
 {
-    private $PRINCIPAL_CODE = 'S4894';
+    private $PRINCIPAL_CODE = '';
     /**
      * Create a new controller instance.
      *
@@ -22,6 +22,11 @@ class DoleController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        try {
+            $this->PRINCIPAL_CODE = explode("/",Route::current()->getAction()['prefix'])[1] ?? 'NA';
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 
 
@@ -58,11 +63,15 @@ class DoleController extends Controller
                 ],
             ];
 
-            $dateToday = Carbon::now();
-            $system_date = $dateToday->format('Y-m-d');
+            // $dateToday = Carbon::now();
+            $system_date = Carbon::now()->format('Y-m-d');
             // $settings = PrincipalsUtil::getSettings($request->principal_code);
             // $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             $postingDateFormat = $this->configs()->getData(true)['posting_date_format'];
+
+            $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                ->get();
             // ************************* /MISC INITS **************************************************
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -101,6 +110,9 @@ class DoleController extends Controller
                         $customer_name =    $pendingInvoice->customer_name;
                         $status =           $pendingInvoice->status;
 
+                        $item = $principal_items->where('item_code', $item_code)->first();
+                        // last resort (friday)
+
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
                         $customer_notfound = 0;
@@ -108,7 +120,11 @@ class DoleController extends Controller
                         $missing_customer_name = '';
                         $missing_item_name = '';
 
-                        $item_code_supplier = $item_code ?? 'NA';
+                        if($item == null) {
+                            $item_notfound = 1;
+                        }
+
+                        $item_code_supplier = $item->item_code_supplier ?? $item_code;
                         $customer_code_supplier = $customer_code ?? 'NA';
                         // ************************* /MISC INITS **************************
 
@@ -129,16 +145,13 @@ class DoleController extends Controller
                             'invoice_no' =>             $doc_no,
                             'invoice_date' =>           $posting_date,
                             'quantity' =>               $quantity,
-                            // 'bulk_qty' => $bulk_qty,
-                            // 'loose_qty' => $loose_qty,
                             'price' =>                  $price,
                             'amount' =>                 $amount,
                             'uom' =>                    $uom,
                             'item_description' =>       $item_description,
-                            'description_supplier' =>   $item_description ?? 'NA',
-                            // 'customer_name' => $nav_customer_name,
-                            'customer_name' =>          $customer_name ?? 'NA',
-                            'sm_code' =>                $sm_code ?? 'NA',
+                            'description_supplier' =>   $item_description,
+                            'customer_name' =>          $customer_name,
+                            'sm_code' =>                $sm_code,
                             'system_date' =>            $system_date,
                             'group' =>                  $group,
                             'status' =>                 $status,
@@ -332,7 +345,6 @@ class DoleController extends Controller
     {
         set_time_limit(0);
         try {
-            $delimiter = ',';
             $fileName = time() . '.' . $request->file->getClientOriginalName();
             $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/salesmen";
             Storage::putFileAs($fileStoragePath, $request->file, $fileName);
@@ -606,21 +618,52 @@ class DoleController extends Controller
             ],
 
             'generatedDataTableHeader' => [
+                // [
+                //     ["text" => "Invoice #", "value" => "invoice_no"],
+                //     ["text" => "Customer Code", "value" => "customer_code"],
+                //     ["text" => "Customer Name", "value" => "customer_name"],
+                //     ["text" => "Invoice Date (m/d/Y)", "value" => "invoice_date"],
+                //     ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],
+                //     // ["text" => "Item Code (Supplier)", "value" => "item_code"],
+                //     ["text" => "Item Name (NAV)", "value" => "item_description"],
+                //     // ["text" => "Item Name (Supplier)", "value" => "description_supplier"],
+                //     ["text" => "UOM", "value" => "uom"],
+                //     ["text" => "Quantity", "value" => "quantity"],
+                //     ["text" => "Price", "value" => "price"],
+                //     ["text" => "Amount", "value" => "amount"],
+                //     ["text" => "Salesman", "value" => "sm_code"],
+                //     ["text" => "Group", "value" => "group"],
+                // ],
                 [
-                    ["text" => "Invoice #", "value" => "invoice_no"],
-                    ["text" => "Customer Code", "value" => "customer_code"],
-                    ["text" => "Customer Name", "value" => "customer_name"],
-                    ["text" => "Invoice Date (m/d/Y)", "value" => "invoice_date"],
-                    ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],
-                    // ["text" => "Item Code (Supplier)", "value" => "item_code"],
-                    ["text" => "Item Name (NAV)", "value" => "item_description"],
-                    // ["text" => "Item Name (Supplier)", "value" => "description_supplier"],
-                    ["text" => "UOM", "value" => "uom"],
-                    ["text" => "Quantity", "value" => "quantity"],
-                    ["text" => "Price", "value" => "price"],
-                    ["text" => "Amount", "value" => "amount"],
-                    ["text" => "Salesman", "value" => "sm_code"],
-                    ["text" => "Group", "value" => "group"],
+                    ["text" => "DocumentNumber", "value" => "invoice_no"],
+                    ["text" => "DocumentDate", "value" => "invoice_date"],
+                    ["text" => "SalesmanCode", "value" => "sm_code"],
+                    ["text" => "BeatCode", "value" => "xxx"],
+                    ["text" => "CustomerCode", "value" => "customer_code"],
+                    ["text" => "ScheduledDeliveryDate", "value" => "xxx"],
+                    ["text" => "DiscountAmount", "value" => "xxx"],
+                    ["text" => "PromotionAmount", "value" => "xxx"],
+                    ["text" => "TaxAmount", "value" => "xxx"],
+                    ["text" => "DocumentAmount", "value" => "xxx"],
+                    ["text" => "SalesDescription", "value" => "xxx"],
+                    ["text" => "ExternalDocNo1", "value" => "xxx"],
+                    ["text" => "ExternalDocDate1", "value" => "xxx"],
+                    ["text" => "SequenceNumber", "value" => "xxx"],
+                    ["text" => "ItemCode", "value" => "item_code"],
+                    ["text" => "SubHierarchyCode", "value" => "xxx"],
+                    ["text" => "ItemQuantity", "value" => "xxx"],
+                    ["text" => "ItemQuantity1", "value" => "xxx"],
+                    ["text" => "ItemQuantity2", "value" => "xxx"],
+                    ["text" => "ItemQuantity3", "value" => "xxx"],
+                    ["text" => "ItemQuantity4", "value" => "xxx"],
+                    ["text" => "ItemQuantity5", "value" => "xxx"],
+                    ["text" => "MRP", "value" => "xxx"],
+                    ["text" => "ItemPrice", "value" => "xxx"],
+                    ["text" => "ItemTotalPromotion", "value" => "xxx"],
+                    ["text" => "ItemDiscountAmount", "value" => "xxx"],
+                    ["text" => "NetUnitPrice", "value" => "xxx"],
+                    ["text" => "IsFreeGood", "value" => "xxx"],
+                    ["text" => "LineNetAmount", "value" => "xxx"],
                 ],
                 [
                     ["text" => "CM #", "value" => "invoice_no"],
