@@ -93,25 +93,31 @@ class DoleController extends Controller
                         $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
                         GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
 
-                        $doc_no =           $pendingInvoice->doc_no;
-                        $customer_code =    $pendingInvoice->customer_code;
+                        $doc_no =               $pendingInvoice->doc_no;
+                        $customer_code =        $pendingInvoice->customer_code;
                         // $posting_date =     $pendingInvoice->posting_date;
                         // $posting_date = (new Carbon($posting_date))->format('m/d/Y';
-                        $posting_date =     (new Carbon($pendingInvoice->posting_date))->format($postingDateFormat);
-                        $item_code =        $pendingInvoice->item_code;
-                        $quantity =         intval($pendingInvoice->quantity);
-                        $price =            doubleval($pendingInvoice->price);
-                        $amount =           doubleval($pendingInvoice->amount);
-                        $uom =              $pendingInvoice->uom;
-                        $item_description = $pendingInvoice->item_description;
-                        $sm_code =          $pendingInvoice->sm_code;
-                        $group =            $pendingInvoice->group;
-                        $vendor_code =      $pendingInvoice->vendor_code;
-                        $customer_name =    $pendingInvoice->customer_name;
-                        $status =           $pendingInvoice->status;
+                        $posting_date =         (new Carbon($pendingInvoice->posting_date))->format($postingDateFormat);
+                        $item_code =            $pendingInvoice->item_code;
+                        $quantity =             intval($pendingInvoice->quantity);
+                        $price =                doubleval($pendingInvoice->price);
+                        $amount =               doubleval($pendingInvoice->amount);
+                        $uom =                  $pendingInvoice->uom;
+                        $item_description =     $pendingInvoice->item_description;
+                        $sm_code =              $pendingInvoice->sm_code;
+                        $group =                $pendingInvoice->group;
+                        $vendor_code =          $pendingInvoice->vendor_code;
+                        $customer_name =        $pendingInvoice->customer_name;
+                        $status =               $pendingInvoice->status;
+                        $discount_percentage =  $pendingInvoice->discount_percentage ?? 0;
+                        $discount_value =       0;
+                        $vat_percentage =       intval($pendingInvoice->vat_percentage ?? 0);
+                        $vat_value =            0;
+                        $price_supplier =       0;
+                        $amount_supplier =      0;
+                        $qty_per_uom =          $pendingInvoice->qty_per_uom;
 
                         $item = $principal_items->where('item_code', $item_code)->first();
-                        // last resort (friday)
 
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
@@ -122,6 +128,33 @@ class DoleController extends Controller
 
                         if($item == null) {
                             $item_notfound = 1;
+                        } else {
+                            // XXXXXXXXXXXXXXXXXXXXXXXX PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
+                            // map to supplier price
+                            // $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
+                            $price_supplier = $item->conversion_uom_price;
+                            // map to orig price temporarily
+                            // $price_supplier = $price;
+
+                            // reverse percentage to get the vat-ex price
+
+
+
+
+                            $amount_supplier = $price_supplier * $quantity * $item->conversion_qty;
+                            // $discount_value = $amount_supplier * $discount_percentage / 100;
+                            $amount_supplier = $amount_supplier - $discount_value;
+
+                            $vat_percentage = 12; // temporary
+                            $vat_value = $amount_supplier * $vat_percentage / 100;
+
+                            $amount_supplier = $amount_supplier + $vat_value;
+
+                            $discount_value = round($discount_value, 5);
+                            $amount_supplier = round($amount_supplier, 5);
+                            $price_supplier = round($price_supplier, 5);
+                            $vat_value = round($vat_value, 5);
+                            // XXXXXXXXXXXXXXXXXXXXXXXX /PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
                         }
 
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
@@ -156,6 +189,12 @@ class DoleController extends Controller
                             'group' =>                  $group,
                             'status' =>                 $status,
                             'vendor_code' =>            $vendor_code,
+                            'price_supplier' =>         $price_supplier,
+                            'amount_supplier' =>        $amount_supplier,
+                            'discount_percentage' =>    $discount_percentage,
+                            'discount_value' =>         $discount_value,
+                            'vat_percentage' =>         $vat_percentage,
+                            'vat_value' =>              $vat_value,
                         ];
 
                         if (
@@ -635,35 +674,35 @@ class DoleController extends Controller
                 //     ["text" => "Group", "value" => "group"],
                 // ],
                 [
-                    ["text" => "DocumentNumber", "value" => "invoice_no"],
-                    ["text" => "DocumentDate", "value" => "invoice_date"],
-                    ["text" => "SalesmanCode", "value" => "sm_code"],
-                    ["text" => "BeatCode", "value" => "xxx"],
-                    ["text" => "CustomerCode", "value" => "customer_code"],
-                    ["text" => "ScheduledDeliveryDate", "value" => "xxx"],
-                    ["text" => "DiscountAmount", "value" => "xxx"],
-                    ["text" => "PromotionAmount", "value" => "xxx"],
-                    ["text" => "TaxAmount", "value" => "xxx"],
-                    ["text" => "DocumentAmount", "value" => "xxx"],
-                    ["text" => "SalesDescription", "value" => "xxx"],
-                    ["text" => "ExternalDocNo1", "value" => "xxx"],
-                    ["text" => "ExternalDocDate1", "value" => "xxx"],
-                    ["text" => "SequenceNumber", "value" => "xxx"],
-                    ["text" => "ItemCode", "value" => "item_code"],
-                    ["text" => "SubHierarchyCode", "value" => "xxx"],
-                    ["text" => "ItemQuantity", "value" => "xxx"],
-                    ["text" => "ItemQuantity1", "value" => "xxx"],
-                    ["text" => "ItemQuantity2", "value" => "xxx"],
-                    ["text" => "ItemQuantity3", "value" => "xxx"],
-                    ["text" => "ItemQuantity4", "value" => "xxx"],
-                    ["text" => "ItemQuantity5", "value" => "xxx"],
-                    ["text" => "MRP", "value" => "xxx"],
-                    ["text" => "ItemPrice", "value" => "xxx"],
-                    ["text" => "ItemTotalPromotion", "value" => "xxx"],
-                    ["text" => "ItemDiscountAmount", "value" => "xxx"],
-                    ["text" => "NetUnitPrice", "value" => "xxx"],
-                    ["text" => "IsFreeGood", "value" => "xxx"],
-                    ["text" => "LineNetAmount", "value" => "xxx"],
+                    ["text" => "DocumentNumber",        "value" => "invoice_no"],
+                    ["text" => "DocumentDate",          "value" => "invoice_date"],
+                    ["text" => "SalesmanCode",          "value" => "sm_code"],
+                    ["text" => "BeatCode",              "value" => "xx"],
+                    ["text" => "CustomerCode",          "value" => "customer_code"],
+                    ["text" => "ScheduledDeliveryDate", "value" => "system_date"],
+                    ["text" => "DiscountAmount",        "value" => "discount_value"],
+                    ["text" => "PromotionAmount",       "value" => "xx"],
+                    ["text" => "TaxAmount",             "value" => "vat_value"],
+                    ["text" => "DocumentAmount",        "value" => "xx"],
+                    ["text" => "SalesDescription",      "value" => "xx"],
+                    ["text" => "ExternalDocNo1",        "value" => "xx"],
+                    ["text" => "ExternalDocDate1",      "value" => "xx"],
+                    ["text" => "SequenceNumber",        "value" => "xx"],
+                    ["text" => "ItemCode",              "value" => "item_code"],
+                    ["text" => "SubHierarchyCode",      "value" => "xx"],
+                    ["text" => "ItemQuantity",          "value" => "xx"],
+                    ["text" => "ItemQuantity1",         "value" => "xx"],
+                    ["text" => "ItemQuantity2",         "value" => "xx"],
+                    ["text" => "ItemQuantity3",         "value" => "xx"],
+                    ["text" => "ItemQuantity4",         "value" => "xx"],
+                    ["text" => "ItemQuantity5",         "value" => "xx"],
+                    ["text" => "MRP",                   "value" => "xx"],
+                    ["text" => "ItemPrice",             "value" => "price_supplier"],
+                    ["text" => "ItemTotalPromotion",    "value" => "xx"],
+                    ["text" => "ItemDiscountAmount",    "value" => "xx"],
+                    ["text" => "NetUnitPrice",          "value" => "xx"],
+                    ["text" => "IsFreeGood",            "value" => "xx"],
+                    ["text" => "LineNetAmount",         "value" => "amount_supplier"],
                 ],
                 [
                     ["text" => "CM #", "value" => "invoice_no"],
