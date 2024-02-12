@@ -89,6 +89,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -161,47 +165,7 @@ var render = function() {
     [
       _c(
         "v-toolbar",
-        {
-          attrs: { elevation: "27" },
-          scopedSlots: _vm._u([
-            {
-              key: "extension",
-              fn: function() {
-                return [
-                  _c(
-                    "div",
-                    [
-                      _c("v-pagination", {
-                        attrs: {
-                          length: _vm.MasterItems.state.items.last_page,
-                          "total-visible": "5"
-                        },
-                        on: {
-                          input: function($event) {
-                            return _vm.onPageChange()
-                          }
-                        },
-                        model: {
-                          value: _vm.MasterItems.state.items.current_page,
-                          callback: function($$v) {
-                            _vm.$set(
-                              _vm.MasterItems.state.items,
-                              "current_page",
-                              $$v
-                            )
-                          },
-                          expression: "MasterItems.state.items.current_page"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ]
-              },
-              proxy: true
-            }
-          ])
-        },
+        { attrs: { elevation: "27" } },
         [
           _c(
             "v-toolbar-title",
@@ -292,6 +256,32 @@ var render = function() {
           "disable-pagination": ""
         }
       }),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "pb-6" },
+        [
+          _c("v-pagination", {
+            attrs: {
+              length: _vm.MasterItems.state.items.last_page,
+              "total-visible": "5"
+            },
+            on: {
+              input: function($event) {
+                return _vm.onPageChange()
+              }
+            },
+            model: {
+              value: _vm.MasterItems.state.items.current_page,
+              callback: function($$v) {
+                _vm.$set(_vm.MasterItems.state.items, "current_page", $$v)
+              },
+              expression: "MasterItems.state.items.current_page"
+            }
+          })
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "v-dialog",

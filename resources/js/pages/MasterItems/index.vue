@@ -45,17 +45,9 @@
             <v-icon>mdi-file-upload</v-icon>
         </v-btn>
 
-        <template v-slot:extension>
-            <div>
-                <v-pagination
-                    v-model="MasterItems.state.items.current_page"
-                    :length="MasterItems.state.items.last_page"
-                    @input="onPageChange()"
-                    total-visible="5"
-                >
-                </v-pagination>
-            </div>
-        </template>
+        <!-- <template v-slot:extension>
+
+        </template> -->
     </v-toolbar>
 
     <v-data-table
@@ -65,6 +57,18 @@
         hide-default-footer
         disable-pagination
     ></v-data-table>
+
+    <div class="pb-6">
+        <v-pagination
+            v-model="MasterItems.state.items.current_page"
+            :length="MasterItems.state.items.last_page"
+            @input="onPageChange()"
+            total-visible="5"
+        >
+        </v-pagination>
+    </div>
+
+
 
     <v-dialog
         v-model="AppStore.state.dlgImportMaster"
