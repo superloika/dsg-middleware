@@ -51,34 +51,27 @@
         >
             <v-icon>mdi-file-upload</v-icon>
         </v-btn>
-
-        <template v-slot:extension>
-            <div>
-                <v-pagination
-                    v-model="MasterCustomers.state.customers.current_page"
-                    :length="MasterCustomers.state.customers.last_page"
-                    @input="onPageChange()"
-                    total-visible="5"
-                >
-                </v-pagination>
-            </div>
-        </template>
-
     </v-toolbar>
 
-    <v-row>
-        <v-col cols="12">
-            <v-data-table
-                :items="MasterCustomers.state.customers.data"
-                :headers="tblHeader"
-                class="tbl-items"
-                densex
-                hide-default-footer
-                disable-pagination
-                :loading="MasterCustomers.state.isLoadingCustomers"
-            ></v-data-table>
-        </v-col>
-    </v-row>
+    <v-data-table
+        :items="MasterCustomers.state.customers.data"
+        :headers="tblHeader"
+        class="tbl-items"
+        densex
+        hide-default-footer
+        disable-pagination
+        :loading="MasterCustomers.state.isLoadingCustomers"
+    ></v-data-table>
+
+    <div class="pb-6">
+        <v-pagination
+            v-model="MasterCustomers.state.customers.current_page"
+            :length="MasterCustomers.state.customers.last_page"
+            @input="onPageChange()"
+            total-visible="5"
+        >
+        </v-pagination>
+    </div>
 </v-card>
 </template>
 

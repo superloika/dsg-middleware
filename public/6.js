@@ -88,13 +88,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -253,49 +246,7 @@ var render = function() {
     [
       _c(
         "v-toolbar",
-        {
-          attrs: { elevation: "27" },
-          scopedSlots: _vm._u([
-            {
-              key: "extension",
-              fn: function() {
-                return [
-                  _c(
-                    "div",
-                    [
-                      _c("v-pagination", {
-                        attrs: {
-                          length: _vm.MasterCustomers.state.customers.last_page,
-                          "total-visible": "5"
-                        },
-                        on: {
-                          input: function($event) {
-                            return _vm.onPageChange()
-                          }
-                        },
-                        model: {
-                          value:
-                            _vm.MasterCustomers.state.customers.current_page,
-                          callback: function($$v) {
-                            _vm.$set(
-                              _vm.MasterCustomers.state.customers,
-                              "current_page",
-                              $$v
-                            )
-                          },
-                          expression:
-                            "MasterCustomers.state.customers.current_page"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ]
-              },
-              proxy: true
-            }
-          ])
-        },
+        { attrs: { elevation: "27" } },
         [
           _c(
             "v-toolbar-title",
@@ -392,27 +343,44 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _c("v-data-table", {
+        staticClass: "tbl-items",
+        attrs: {
+          items: _vm.MasterCustomers.state.customers.data,
+          headers: _vm.tblHeader,
+          densex: "",
+          "hide-default-footer": "",
+          "disable-pagination": "",
+          loading: _vm.MasterCustomers.state.isLoadingCustomers
+        }
+      }),
+      _vm._v(" "),
       _c(
-        "v-row",
+        "div",
+        { staticClass: "pb-6" },
         [
-          _c(
-            "v-col",
-            { attrs: { cols: "12" } },
-            [
-              _c("v-data-table", {
-                staticClass: "tbl-items",
-                attrs: {
-                  items: _vm.MasterCustomers.state.customers.data,
-                  headers: _vm.tblHeader,
-                  densex: "",
-                  "hide-default-footer": "",
-                  "disable-pagination": "",
-                  loading: _vm.MasterCustomers.state.isLoadingCustomers
-                }
-              })
-            ],
-            1
-          )
+          _c("v-pagination", {
+            attrs: {
+              length: _vm.MasterCustomers.state.customers.last_page,
+              "total-visible": "5"
+            },
+            on: {
+              input: function($event) {
+                return _vm.onPageChange()
+              }
+            },
+            model: {
+              value: _vm.MasterCustomers.state.customers.current_page,
+              callback: function($$v) {
+                _vm.$set(
+                  _vm.MasterCustomers.state.customers,
+                  "current_page",
+                  $$v
+                )
+              },
+              expression: "MasterCustomers.state.customers.current_page"
+            }
+          })
         ],
         1
       )
