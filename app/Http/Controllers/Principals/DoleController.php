@@ -116,6 +116,9 @@ class DoleController extends Controller
                         $price_supplier =       0;
                         $amount_supplier =      0;
                         $qty_per_uom =          $pendingInvoice->qty_per_uom;
+                        $ItemQuantity =         "";
+                        $ItemQuantity1 =        0;
+                        $ItemQuantity2 =        0;
 
                         $item = $principal_items->where('item_code', $item_code)->first();
 
@@ -136,11 +139,6 @@ class DoleController extends Controller
                             // map to orig price temporarily
                             // $price_supplier = $price;
 
-                            // reverse percentage to get the vat-ex price
-
-
-
-
                             $amount_supplier = $price_supplier * $quantity * $item->conversion_qty;
                             // $discount_value = $amount_supplier * $discount_percentage / 100;
                             $amount_supplier = $amount_supplier - $discount_value;
@@ -154,6 +152,17 @@ class DoleController extends Controller
                             $amount_supplier = round($amount_supplier, 5);
                             $price_supplier = round($price_supplier, 5);
                             $vat_value = round($vat_value, 5);
+
+                            $ItemQuantity2 = intval(($quantity * $qty_per_uom) / $item->conversion_qty);
+                            $ItemQuantity = $ItemQuantity2;
+                            $ItemQuantity1 = ($quantity * $qty_per_uom) % $item->conversion_qty;
+                            $ItemQuantity = ($ItemQuantity1 > 0) ? "$ItemQuantity2.0$ItemQuantity1" : $ItemQuantity;
+                            // if($ItemQuantity2 > 0) {
+                            //     $ItemQuantity = $ItemQuantity2;
+                            // }
+                            // if($ItemQuantity1 > 0) {
+                            //     $ItemQuantity = $ItemQuantity . "." . ($ItemQuantity1 < 10) ? "0$ItemQuantity1" : $ItemQuantity1;
+                            // }
                             // XXXXXXXXXXXXXXXXXXXXXXXX /PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
                         }
 
@@ -195,6 +204,25 @@ class DoleController extends Controller
                             'discount_value' =>         $discount_value,
                             'vat_percentage' =>         $vat_percentage,
                             'vat_value' =>              $vat_value,
+                            // temp defaults for the template
+                            'BeatCode' =>               '',
+                            'PromotionAmount' =>        0,
+                            'SalesDescription' =>       '',
+                            'ExternalDocNo1' =>         '',
+                            'ExternalDocDate1' =>       '',
+                            'SequenceNumber' =>         '',
+                            'SubHierarchyCode' =>       '',
+                            'ItemQuantity' =>           $ItemQuantity,
+                            'ItemQuantity1' =>          $ItemQuantity1,
+                            'ItemQuantity2' =>          $ItemQuantity2,
+                            'ItemQuantity3' =>          0,
+                            'ItemQuantity4' =>          0,
+                            'ItemQuantity5' =>          0,
+                            'MRP' =>                    0,
+                            'ItemTotalPromotion' =>     0,
+                            'ItemDiscountAmount' =>     0,
+                            'NetUnitPrice' =>           0,
+                            'IsFreeGood' =>             0,
                         ];
 
                         if (
@@ -677,31 +705,31 @@ class DoleController extends Controller
                     ["text" => "DocumentNumber",        "value" => "invoice_no"],
                     ["text" => "DocumentDate",          "value" => "invoice_date"],
                     ["text" => "SalesmanCode",          "value" => "sm_code"],
-                    ["text" => "BeatCode",              "value" => "xx"],
+                    ["text" => "BeatCode",              "value" => "BeatCode"],
                     ["text" => "CustomerCode",          "value" => "customer_code"],
                     ["text" => "ScheduledDeliveryDate", "value" => "system_date"],
                     ["text" => "DiscountAmount",        "value" => "discount_value"],
-                    ["text" => "PromotionAmount",       "value" => "xx"],
+                    ["text" => "PromotionAmount",       "value" => "PromotionAmount"],
                     ["text" => "TaxAmount",             "value" => "vat_value"],
-                    ["text" => "DocumentAmount",        "value" => "xx"],
-                    ["text" => "SalesDescription",      "value" => "xx"],
-                    ["text" => "ExternalDocNo1",        "value" => "xx"],
-                    ["text" => "ExternalDocDate1",      "value" => "xx"],
-                    ["text" => "SequenceNumber",        "value" => "xx"],
+                    ["text" => "DocumentAmount",        "value" => "DocumentAmount"],
+                    ["text" => "SalesDescription",      "value" => "SalesDescription"],
+                    ["text" => "ExternalDocNo1",        "value" => "ExternalDocNo1"],
+                    ["text" => "ExternalDocDate1",      "value" => "ExternalDocDate1"],
+                    ["text" => "SequenceNumber",        "value" => "SequenceNumber"],
                     ["text" => "ItemCode",              "value" => "item_code"],
-                    ["text" => "SubHierarchyCode",      "value" => "xx"],
-                    ["text" => "ItemQuantity",          "value" => "xx"],
-                    ["text" => "ItemQuantity1",         "value" => "xx"],
-                    ["text" => "ItemQuantity2",         "value" => "xx"],
-                    ["text" => "ItemQuantity3",         "value" => "xx"],
-                    ["text" => "ItemQuantity4",         "value" => "xx"],
-                    ["text" => "ItemQuantity5",         "value" => "xx"],
-                    ["text" => "MRP",                   "value" => "xx"],
+                    ["text" => "SubHierarchyCode",      "value" => "SubHierarchyCode"],
+                    ["text" => "ItemQuantity",          "value" => "ItemQuantity"],
+                    ["text" => "ItemQuantity1",         "value" => "ItemQuantity1"],
+                    ["text" => "ItemQuantity2",         "value" => "ItemQuantity2"],
+                    ["text" => "ItemQuantity3",         "value" => "ItemQuantity3"],
+                    ["text" => "ItemQuantity4",         "value" => "ItemQuantity4"],
+                    ["text" => "ItemQuantity5",         "value" => "ItemQuantity5"],
+                    ["text" => "MRP",                   "value" => "MRP"],
                     ["text" => "ItemPrice",             "value" => "price_supplier"],
-                    ["text" => "ItemTotalPromotion",    "value" => "xx"],
-                    ["text" => "ItemDiscountAmount",    "value" => "xx"],
-                    ["text" => "NetUnitPrice",          "value" => "xx"],
-                    ["text" => "IsFreeGood",            "value" => "xx"],
+                    ["text" => "ItemTotalPromotion",    "value" => "ItemTotalPromotion"],
+                    ["text" => "ItemDiscountAmount",    "value" => "ItemDiscountAmount"],
+                    ["text" => "NetUnitPrice",          "value" => "NetUnitPrice"],
+                    ["text" => "IsFreeGood",            "value" => "IsFreeGood"],
                     ["text" => "LineNetAmount",         "value" => "amount_supplier"],
                 ],
                 [
