@@ -72,6 +72,8 @@ class DoleController extends Controller
             $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                 ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                 ->get();
+
+            $DocumentAmounts = [];
             // ************************* /MISC INITS **************************************************
 
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -133,14 +135,9 @@ class DoleController extends Controller
                             $item_notfound = 1;
                         } else {
                             // XXXXXXXXXXXXXXXXXXXXXXXX PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
-                            // map to supplier price
-                            // $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
                             $price_supplier = $item->conversion_uom_price;
-                            // map to orig price temporarily
-                            // $price_supplier = $price;
 
-                            $amount_supplier = $price_supplier * $quantity * $item->conversion_qty;
-                            // $discount_value = $amount_supplier * $discount_percentage / 100;
+                            $amount_supplier = $price_supplier * $quantity * $qty_per_uom;
                             $amount_supplier = $amount_supplier - $discount_value;
 
                             $vat_percentage = 12; // temporary
@@ -152,18 +149,19 @@ class DoleController extends Controller
                             $amount_supplier = round($amount_supplier, 5);
                             $price_supplier = round($price_supplier, 5);
                             $vat_value = round($vat_value, 5);
+                            // XXXXXXXXXXXXXXXXXXXXXXXX /PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
 
                             $ItemQuantity2 = intval(($quantity * $qty_per_uom) / $item->conversion_qty);
                             $ItemQuantity = $ItemQuantity2;
                             $ItemQuantity1 = ($quantity * $qty_per_uom) % $item->conversion_qty;
                             $ItemQuantity = ($ItemQuantity1 > 0) ? "$ItemQuantity2.0$ItemQuantity1" : $ItemQuantity;
-                            // if($ItemQuantity2 > 0) {
-                            //     $ItemQuantity = $ItemQuantity2;
-                            // }
-                            // if($ItemQuantity1 > 0) {
-                            //     $ItemQuantity = $ItemQuantity . "." . ($ItemQuantity1 < 10) ? "0$ItemQuantity1" : $ItemQuantity1;
-                            // }
-                            // XXXXXXXXXXXXXXXXXXXXXXXX /PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
+
+                            // $tempInvoice = DB::table(PrincipalsUtil::$TBL_INVOICES)
+                            //     ->where('vendor_code', $vendor_code)
+                            //     ->where('doc_no', $doc_no)
+                            //     ->where('posting_date', $pendingInvoice->posting_date)
+                            //     ->sum('amount');
+                            // $DocumentAmount = $tempInvoice;
                         }
 
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
@@ -207,6 +205,7 @@ class DoleController extends Controller
                             // temp defaults for the template
                             'BeatCode' =>               '',
                             'PromotionAmount' =>        0,
+                            'DocumentAmount' =>         0.00,
                             'SalesDescription' =>       '',
                             'ExternalDocNo1' =>         '',
                             'ExternalDocDate1' =>       '',
@@ -225,6 +224,12 @@ class DoleController extends Controller
                             'IsFreeGood' =>             0,
                         ];
 
+                        // calculate DocumentAmount
+                        if (!isset($DocumentAmounts[$doc_no])) {
+                            $DocumentAmounts[$doc_no] = 0.00;
+                        }
+                        $DocumentAmounts[$doc_no] += $amount_supplier;
+
                         if (
                             !isset($res['output_template_variations'][0]['output_template'][$$group_by])
                         ) {
@@ -235,6 +240,25 @@ class DoleController extends Controller
                             $arrGenerated
                         );
                     }
+
+                    // patch DocumentAmounts
+                    $dynamicGroupBy = $$group_by;
+                    $res['output_template_variations'][0]['output_template'] = array_map(
+                        function($ot_element) use ($DocumentAmounts, $dynamicGroupBy) {
+                            return array_map(
+                                function($element) use ($DocumentAmounts) {
+                                    // dd($element);
+                                    return array_replace(
+                                        $element,
+                                        ['DocumentAmount' => round($DocumentAmounts[$element['invoice_no']], 5)]
+                                    );
+                                },
+                                $ot_element
+                            );
+                        },
+                        $res['output_template_variations'][0]['output_template']
+                    );
+
                 } else if($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
                     foreach ($pendingInvoices as $pendingInvoice) {
                         if($pendingInvoice->gendata != null) {
