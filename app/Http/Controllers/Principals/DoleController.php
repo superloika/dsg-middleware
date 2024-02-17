@@ -72,6 +72,9 @@ class DoleController extends Controller
             $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                 ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                 ->get();
+            $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                ->get();
 
             $DocumentAmounts = [];
             // ************************* /MISC INITS **************************************************
@@ -123,6 +126,18 @@ class DoleController extends Controller
                         $ItemQuantity2 =        0;
 
                         $item = $principal_items->where('item_code', $item_code)->first();
+                        $salesman = null;
+                        // for non-store invoice data (compare masterfile group to invoice group)
+                        if($group != 'STORE_CDC' && $group != 'STORE_UDC') {
+                            $salesman = $principal_salesmen->filter(function($sm) use (&$group) {
+                                    return false !== strpos($group, $sm->division, 0);
+                                })->first();
+                        }
+                        // for store invoice data (compare masterfile group to invoice customer name)
+                        // note: division=group in db
+                        else {
+                            $salesman = $principal_salesmen->where('division', $customer_name)->first();
+                        }
 
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
@@ -164,8 +179,15 @@ class DoleController extends Controller
                             // $DocumentAmount = $tempInvoice;
                         }
 
+                        if($salesman == null) {
+                            $salesman_notfound = 1;
+                        } else {
+
+                        }
+
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
                         $customer_code_supplier = $customer_code ?? 'NA';
+                        $sm_code_supplier = $salesman->sm_code_supplier ?? '';
                         // ************************* /MISC INITS **************************
 
                         // Generated data line structure
@@ -192,6 +214,7 @@ class DoleController extends Controller
                             'description_supplier' =>   $item_description,
                             'customer_name' =>          $customer_name,
                             'sm_code' =>                $sm_code,
+                            'sm_code_supplier' =>       $sm_code_supplier,
                             'system_date' =>            $system_date,
                             'group' =>                  $group,
                             'status' =>                 $status,
@@ -242,12 +265,10 @@ class DoleController extends Controller
                     }
 
                     // patch DocumentAmounts
-                    $dynamicGroupBy = $$group_by;
                     $res['output_template_variations'][0]['output_template'] = array_map(
-                        function($ot_element) use ($DocumentAmounts, $dynamicGroupBy) {
+                        function($ot_element) use ($DocumentAmounts) {
                             return array_map(
                                 function($element) use ($DocumentAmounts) {
-                                    // dd($element);
                                     return array_replace(
                                         $element,
                                         ['DocumentAmount' => round($DocumentAmounts[$element['invoice_no']], 5)]
@@ -258,6 +279,7 @@ class DoleController extends Controller
                         },
                         $res['output_template_variations'][0]['output_template']
                     );
+                    // last resort
 
                 } else if($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
                     foreach ($pendingInvoices as $pendingInvoice) {
@@ -466,13 +488,13 @@ class DoleController extends Controller
                         if (count($arrFileContentLine) > 1) {
                             if($arrFileContentLine[0] != '' && $arrFileContentLine[0] != null ) {
                                 $division = trim(str_replace('"', '', $arrFileContentLine[0])); // group code (e.g. WDG)
-                                $sm_code = trim(str_replace('"', '', $arrFileContentLine[1]));
+                                $sm_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
                                 $sm_name = trim(str_replace('"', '', $arrFileContentLine[2]));
 
                                 $arrLines[] = [
                                     'main_vendor_code' => $this->PRINCIPAL_CODE,
                                     'division' => $division,
-                                    'sm_code' => $sm_code,
+                                    'sm_code_supplier' => $sm_code_supplier,
                                     'sm_name' => $sm_name,
                                     'uploaded_by' => auth()->user()->id
                                 ];
@@ -691,9 +713,9 @@ class DoleController extends Controller
 
             "salesmenTableHeader" => [
                 [
-                    ["text" => "Group",     "value" => "division" ],
-                    ["text" => "SM Code",   "value" => "sm_code" ],
-                    ["text" => "SM Name",   "value" => "sm_name" ],
+                    ["text" => "Group",         "value" => "division" ],
+                    ["text" => "System Code",   "value" => "sm_code_supplier" ],
+                    ["text" => "SM Name",       "value" => "sm_name" ],
                 ],
             ],
             "itemsTableHeader" => [
@@ -728,7 +750,7 @@ class DoleController extends Controller
                 [
                     ["text" => "DocumentNumber",        "value" => "invoice_no"],
                     ["text" => "DocumentDate",          "value" => "invoice_date"],
-                    ["text" => "SalesmanCode",          "value" => "sm_code"],
+                    ["text" => "SalesmanCode",          "value" => "sm_code_supplier"],
                     ["text" => "BeatCode",              "value" => "BeatCode"],
                     ["text" => "CustomerCode",          "value" => "customer_code"],
                     ["text" => "ScheduledDeliveryDate", "value" => "system_date"],
@@ -780,6 +802,7 @@ class DoleController extends Controller
                 [
                     ["text" => 'System Date', "value" => 'system_date'],
                     ["text" => 'Source Group', "value" => 'group'],
+                    ["text" => 'Salesman Code (DOLE)', "value" => 'sm_code_supplier'],
                     ["text" => 'Invoice #', "value" => 'doc_no'],
                     ["text" => 'Item Code', "value" => 'item_code'],
                     ["text" => 'Customer Code', "value" => 'customer_code'],

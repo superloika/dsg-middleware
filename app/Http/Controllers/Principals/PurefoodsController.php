@@ -542,7 +542,7 @@ class PurefoodsController extends Controller
                         $amount =               doubleval($pendingInvoice->amount);
                         $uom =                  $pendingInvoice->uom;
                         $item_description =     $pendingInvoice->item_description;
-                        $group =           $pendingInvoice->group;
+                        $group =                $pendingInvoice->group;
                         $sm_code =              $pendingInvoice->sm_code;
                         $discount_percentage =  $pendingInvoice->discount_percentage ?? 0;
                         $discount_value =       0;
