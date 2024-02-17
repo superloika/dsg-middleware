@@ -65,7 +65,7 @@ class DoleController extends Controller
 
             // $dateToday = Carbon::now();
             $system_date = Carbon::now()->format('Y-m-d');
-            // $settings = PrincipalsUtil::getSettings($request->principal_code);
+            $settings = PrincipalsUtil::getSettings($request->principal_code);
             // $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             $postingDateFormat = $this->configs()->getData(true)['posting_date_format'];
 
