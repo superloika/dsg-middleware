@@ -63,11 +63,13 @@ class DoleController extends Controller
                 ],
             ];
 
-            // $dateToday = Carbon::now();
-            $system_date = Carbon::now()->format('Y-m-d');
-            $settings = PrincipalsUtil::getSettings($request->principal_code);
-            // $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             $postingDateFormat = $this->configs()->getData(true)['posting_date_format'];
+            // $dateToday = Carbon::now();
+            $system_date = Carbon::now()->format($postingDateFormat);
+            $settings = PrincipalsUtil::getSettings($request->principal_code);
+            $DocumentNumberAI = $settings['DocumentNumber_AI'] ?? 0;
+            $DocumentNumberPrefix = $settings['DocumentNumberPrefix'] ?? 'SOV-';
+            // $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
 
             $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                 ->where('main_vendor_code', $this->PRINCIPAL_CODE)
@@ -128,7 +130,7 @@ class DoleController extends Controller
                         $item = $principal_items->where('item_code', $item_code)->first();
                         $salesman = null;
                         // for non-store invoice data (compare masterfile group to invoice group)
-                        if($group != 'STORE_CDC' && $group != 'STORE_UDC') {
+                        if(!in_array($group, ['STORE_CDC','STORE_UDC'])) {
                             $salesman = $principal_salesmen->filter(function($sm) use (&$group) {
                                     return false !== strpos($group, $sm->division, 0);
                                 })->first();
@@ -171,7 +173,7 @@ class DoleController extends Controller
                             $ItemQuantity1 = ($quantity * $qty_per_uom) % $item->conversion_qty;
                             $ItemQuantity = ($ItemQuantity1 > 0) ? "$ItemQuantity2.0$ItemQuantity1" : $ItemQuantity;
 
-                            // $tempInvoice = DB::table(PrincipalsUtil::$TBL_INVOICES)
+                            // $tempInvoice = DB::table(PrinciEpalsUtil::$TBL_INVOICES)
                             //     ->where('vendor_code', $vendor_code)
                             //     ->where('doc_no', $doc_no)
                             //     ->where('posting_date', $pendingInvoice->posting_date)
@@ -188,6 +190,9 @@ class DoleController extends Controller
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
                         $customer_code_supplier = $customer_code ?? 'NA';
                         $sm_code_supplier = $salesman->sm_code_supplier ?? '';
+
+                        $DocumentNumberAI += 1;
+                        $invoice_no = $DocumentNumberPrefix . $DocumentNumberAI;
                         // ************************* /MISC INITS **************************
 
                         // Generated data line structure
@@ -204,7 +209,7 @@ class DoleController extends Controller
                             'item_notfound' =>          $item_notfound,
                             'salesman_notfound' =>      $salesman_notfound,
                             // principal specific
-                            'invoice_no' =>             $doc_no,
+                            'invoice_no' =>             $invoice_no,
                             'invoice_date' =>           $posting_date,
                             'quantity' =>               $quantity,
                             'price' =>                  $price,
@@ -271,7 +276,7 @@ class DoleController extends Controller
                                 function($element) use ($DocumentAmounts) {
                                     return array_replace(
                                         $element,
-                                        ['DocumentAmount' => round($DocumentAmounts[$element['invoice_no']], 5)]
+                                        ['DocumentAmount' => round($DocumentAmounts[$element['doc_no']], 5)]
                                     );
                                 },
                                 $ot_element
@@ -803,10 +808,10 @@ class DoleController extends Controller
                     ["text" => 'System Date', "value" => 'system_date'],
                     ["text" => 'Source Group', "value" => 'group'],
                     ["text" => 'Salesman Code (DOLE)', "value" => 'sm_code_supplier'],
-                    ["text" => 'Invoice #', "value" => 'doc_no'],
-                    ["text" => 'Item Code', "value" => 'item_code'],
+                    // ["text" => 'Document #', "value" => 'invoice_no'],
+                    // ["text" => 'Item Code', "value" => 'item_code'],
                     ["text" => 'Customer Code', "value" => 'customer_code'],
-                    ["text" => 'Vendor Code', "value" => 'vendor_code'],
+                    // ["text" => 'Vendor Code', "value" => 'vendor_code'],
                 ]
             ],
         ];

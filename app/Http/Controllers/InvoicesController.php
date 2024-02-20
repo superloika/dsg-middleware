@@ -713,7 +713,8 @@ class InvoicesController extends Controller
         $dateToday = Carbon::now()->format('Y-m-d H:i:s');
 
         $generated_data = $request->generated_data;
-        // dd($generated_data);
+
+        dd($request);
 
         // generated data
         DB::beginTransaction();
@@ -759,24 +760,28 @@ class InvoicesController extends Controller
 
                             if($isReturn) {
                                 DB::table(PrincipalsUtil::$TBL_CM)
-                                    ->where('doc_no', $line['doc_no'])
-                                    ->where('item_code', $line['alturas_item_code'])
-                                    ->where('status', 'pending')
+                                    ->where('vendor_code',      $line['vendor_code'])
+                                    ->where('doc_no',           $line['doc_no'])
+                                    ->where('customer_code',    $line['alturas_customer_code'])
+                                    ->where('item_code',        $line['alturas_item_code'])
+                                    ->where('status',           'pending')
                                     ->update([
-                                        'status' => 'completed',
-                                        'updated_at' => $dateToday,
-                                        'gendata' => $line,
+                                        'status' =>         'completed',
+                                        'updated_at' =>     $dateToday,
+                                        'gendata' =>        $line,
                                     ]);
                             }
                             else {
                                 DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                    ->where('doc_no', $line['doc_no'])
-                                    ->where('item_code', $line['alturas_item_code'])
+                                    ->where('vendor_code',      $line['vendor_code'])
+                                    ->where('doc_no',           $line['doc_no'])
+                                    ->where('customer_code',    $line['alturas_customer_code'])
+                                    ->where('item_code',        $line['alturas_item_code'])
                                     ->where('status', 'pending')
                                     ->update([
-                                        'status' => 'completed',
-                                        'updated_at' => $dateToday,
-                                        'gendata' => $line,
+                                        'status' =>         'completed',
+                                        'updated_at' =>     $dateToday,
+                                        'gendata' =>        $line,
                                     ]);
                             }
                         }
