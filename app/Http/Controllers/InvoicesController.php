@@ -713,8 +713,7 @@ class InvoicesController extends Controller
         $dateToday = Carbon::now()->format('Y-m-d H:i:s');
 
         $generated_data = $request->generated_data;
-
-        dd($request);
+        // dd($generated_data);
 
         // generated data
         DB::beginTransaction();
@@ -785,6 +784,20 @@ class InvoicesController extends Controller
                                     ]);
                             }
                         }
+                    }
+                }
+
+                // apply principal settings changes (if present)
+                $main_vendor_code = $genData['main_vendor_code'] ?? null;
+                $update_settings = $genData['update_settings'] ?? null;
+                if($main_vendor_code != null && $update_settings != null) {
+                    foreach($update_settings as $setting) {
+                        DB::table(PrincipalsUtil::$TBL_SETTINGS)
+                        ->where('main_vendor_code', $main_vendor_code)
+                        ->where('name', $setting[0])
+                        ->update([
+                            'value' => $setting[1]
+                        ]);
                     }
                 }
             }

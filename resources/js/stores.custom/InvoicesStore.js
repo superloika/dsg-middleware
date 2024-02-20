@@ -210,7 +210,8 @@ const actions = {
                             config[i].format
                         ),
                         null,
-                        PrincipalsStore.state.selectedPrincipalCode + '_templated_' + (i+1)
+                        PrincipalsStore.state.selectedPrincipalCode +
+                            '_templated_' + PrincipalsStore.state.currentGeneratedData[i].name
                     );
                 }
             };
@@ -227,11 +228,29 @@ const actions = {
             // );
 
             if(state.invoiceStatus!='completed' && state.invoiceStatus!='uploaded') {
+                PrincipalsStore.initSettings();
                 PrincipalsStore.initCurrentGeneratedData(null, state.invoiceStatus);
             }
         } catch (error) {
             console.error("setInvoicesComplete():", error);
         }
+    },
+
+
+    /**
+     * Update settings (after templated data exporting)
+     */
+    async updateSettings(update_settings) {
+        const url = AppStore.state.siteUrl +
+            "invoices/" +
+            PrincipalsStore.state.selectedPrincipalCode +
+            "/updateSettings"
+            ;
+
+        const payload = {
+            update_settings: update_settings
+        };
+        await axios.post(url, payload);
     },
 
 

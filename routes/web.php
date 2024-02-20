@@ -139,6 +139,9 @@ Route::prefix('principals')->group(function(){
             Route::get("/generate-templated-data", $ctrl. "generateTemplatedData");
             Route::get("/generateReturns", $ctrl. "generateReturns");
 
+            // // Update settings (after templated data export)
+            // Route::post("/updateSettings", $ctrl. "updateSettings");
+
             Route::get("/configs", $ctrl. "configs");
 
         });

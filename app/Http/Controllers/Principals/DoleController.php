@@ -56,10 +56,14 @@ class DoleController extends Controller
                 [
                     'name' => 'Sales Invoices',
                     'output_template' => [],
+                    'main_vendor_code' => $request->principal_code,
+                    'update_settings' => [],
                 ],
                 [
                     'name' => 'Returns',
                     'output_template' => [],
+                    'main_vendor_code' => $request->principal_code,
+                    'update_settings' => [],
                 ],
             ];
 
@@ -284,7 +288,11 @@ class DoleController extends Controller
                         },
                         $res['output_template_variations'][0]['output_template']
                     );
-                    // last resort
+
+                    // attach principal settings to modify (will be applied after exporting the templated data)
+                    $res['output_template_variations'][0]['update_settings'] = [
+                        ['DocumentNumber_AI', $DocumentNumberAI]
+                    ];
 
                 } else if($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
                     foreach ($pendingInvoices as $pendingInvoice) {
@@ -702,16 +710,16 @@ class DoleController extends Controller
     }
 
 
+    // =====================================================================
+    // =====================================================================
+    // UPDATE SETTINGS ===========================================================
+    // =====================================================================
+    // =====================================================================
+
+
     /**
      * Templated data table headers
-    //  */
-    //                                 'item_code' =>              $item_code,
-    //                                 'item_code_supplier' =>     $item_code_supplier,
-    //                                 'description_supplier' =>   $description_supplier,
-    //                                 'uom_price' =>              $uom_price,
-    //                                 'conversion_uom_price' =>   $conversion_uom_price,
-    //                                 'conversion_qty' =>         $conversion_qty,
-    //                                 'uom' =>                    $uom,
+    */
     public function configs() {
         $arr = [
             'posting_date_format' => 'm/d/Y',

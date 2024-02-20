@@ -252,6 +252,8 @@ const actions = {
                     return {
                         name: e.name,
                         output_template: Object.entries(e.output_template),
+                        main_vendor_code: e.main_vendor_code,
+                        update_settings: e.update_settings,
                     }
                 });
             // ];
