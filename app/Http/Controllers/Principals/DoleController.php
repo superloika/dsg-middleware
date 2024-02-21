@@ -194,9 +194,6 @@ class DoleController extends Controller
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
                         $customer_code_supplier = $customer_code ?? 'NA';
                         $sm_code_supplier = $salesman->sm_code_supplier ?? '';
-
-                        $DocumentNumberAI += 1;
-                        $invoice_no = $DocumentNumberPrefix . $DocumentNumberAI;
                         // ************************* /MISC INITS **************************
 
                         // Generated data line structure
@@ -213,7 +210,7 @@ class DoleController extends Controller
                             'item_notfound' =>          $item_notfound,
                             'salesman_notfound' =>      $salesman_notfound,
                             // principal specific
-                            'invoice_no' =>             $invoice_no,
+                            'invoice_no' =>             '',
                             'invoice_date' =>           $posting_date,
                             'quantity' =>               $quantity,
                             'price' =>                  $price,
@@ -273,14 +270,28 @@ class DoleController extends Controller
                         );
                     }
 
-                    // patch DocumentAmounts
+                    // patch DocumentAmounts and DocumentNumbers ---------------------------------------------
+                    $DocumentNumbers = [];
+                    $invoice_no = '';
+                    foreach($DocumentAmounts as $dn => $da) {
+                        $DocumentNumberAI += 1;
+                        $invoice_no = $DocumentNumberPrefix . $DocumentNumberAI;
+                        if (!isset($DocumentNumbers[$dn])) {
+                            $DocumentNumbers[$dn] = '';
+                        }
+                        $DocumentNumbers[$dn] = $invoice_no;
+                    }
+
                     $res['output_template_variations'][0]['output_template'] = array_map(
-                        function($ot_element) use ($DocumentAmounts) {
+                        function($ot_element) use ($DocumentAmounts, $DocumentNumbers) {
                             return array_map(
-                                function($element) use ($DocumentAmounts) {
+                                function($element) use ($DocumentAmounts, $DocumentNumbers) {
                                     return array_replace(
                                         $element,
-                                        ['DocumentAmount' => round($DocumentAmounts[$element['doc_no']], 5)]
+                                        [
+                                            'DocumentAmount' => round($DocumentAmounts[$element['doc_no']], 5),
+                                            'invoice_no' => $DocumentNumbers[$element['doc_no']]
+                                        ]
                                     );
                                 },
                                 $ot_element
@@ -288,6 +299,7 @@ class DoleController extends Controller
                         },
                         $res['output_template_variations'][0]['output_template']
                     );
+                    // /patch DocumentAmounts and DocumentNumbers ---------------------------------------------
 
                     // attach principal settings to modify (will be applied after exporting the templated data)
                     $res['output_template_variations'][0]['update_settings'] = [
@@ -761,6 +773,7 @@ class DoleController extends Controller
                 //     ["text" => "Group", "value" => "group"],
                 // ],
                 [
+                    ["text" => "Invoice # (NAV)",       "value" => "doc_no"],
                     ["text" => "DocumentNumber",        "value" => "invoice_no"],
                     ["text" => "DocumentDate",          "value" => "invoice_date"],
                     ["text" => "SalesmanCode",          "value" => "sm_code_supplier"],

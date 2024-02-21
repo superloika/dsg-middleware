@@ -15,8 +15,8 @@
                     class="text-h6 white--text"
                     :title="AppStore.state.AppName"
                 >
-                    <v-img src="/img/logo.png" max-width="40"></v-img>
-                    <!-- {{ AppStore.state.AppAbbr }} -->
+                    <v-img src="/img/logo_l.png" max-width="40"></v-img>
+                    <!-- {{ AppStore.state.AppName }} -->
                 </a>
             </v-toolbar-title>
 
