@@ -334,7 +334,7 @@ class PurefoodsController extends Controller
                         }
                     } // /loop invoices
 
-                    ksort($arrGenerated);
+                    ksort($res['output_template_variations'][0]['output_template']);
 
                 } else if ($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
                     foreach ($pendingInvoices as $pendingInvoice) {
