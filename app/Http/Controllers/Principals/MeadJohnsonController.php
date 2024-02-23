@@ -496,7 +496,7 @@ class MeadJohnsonController extends Controller
                     $res['line_count'] += $pendingInvoicesCount;
                     // **************** /PENDING INVOICES ***********************************
 
-                    if($request->status=='pending') {
+                    if($request->status == PrincipalsUtil::$STATUS_PENDING) {
                         // Loop through each line of the file content
                         $loopCounter = 0;
                         foreach ($pendingInvoices as $pendingInvoice) {
@@ -618,20 +618,21 @@ class MeadJohnsonController extends Controller
                             ];
 
                             // ========================== PUSH IN THE OUTPUT ARRAY ===============================
-                            if($item_notfound==1||$customer_notfound==1||$salesman_notfound==1) {
+                            // group output_template_variations
+                            if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
                                 // ---------------------------------------------------------------------------
                                 if (
-                                    !isset($res['output_template_variations'][0]['output_template']['Unmapped'])
+                                    !isset($res['output_template_variations'][0]['output_template'][$$group_by])
                                 ) {
-                                    $res['output_template_variations'][0]['output_template']['Unmapped'] = [];
+                                    $res['output_template_variations'][0]['output_template'][$$group_by] = [];
                                 }
                                 array_push(
-                                    $res['output_template_variations'][0]['output_template']['Unmapped'],
+                                    $res['output_template_variations'][0]['output_template'][$$group_by],
                                     $arrGenerated
                                 );
                                 // ---------------------------------------------------------------------------
                             } else {
-                                // group output_template_variations
+
                                 if (
                                     !isset($res['output_template_variations'][0]
                                         ['output_template'][$$group_by])
@@ -647,7 +648,10 @@ class MeadJohnsonController extends Controller
                             }
                             // ========================== /PUSH IN THE OUTPUT ARRAY ===============================
                         }
-                    } else if ($request->status=='completed') {
+
+                        ksort($res['output_template_variations'][0]['output_template']);
+
+                    } else if ($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
                         foreach ($pendingInvoices as $pendingInvoice) {
                             if($pendingInvoice->gendata != null) {
                                 $arrGenerated = json_decode($pendingInvoice->gendata);
