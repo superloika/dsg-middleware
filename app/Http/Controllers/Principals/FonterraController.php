@@ -151,16 +151,33 @@ class FonterraController extends Controller
                                 'vendor_code' => $vendor_code,
                             ];
 
-                            if (
-                                !isset($res['output_template_variations'][0]['output_template'][$$group_by])
-                            ) {
-                                $res['output_template_variations'][0]['output_template'][$$group_by] = [];
+                            if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
+                                // ---------------------------------------------------------------------------
+                                if (
+                                    !isset($res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'])
+                                ) {
+                                    $res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'],
+                                    $arrGenerated
+                                );
+                                // ---------------------------------------------------------------------------
+                            } else {
+                                if (
+                                    !isset($res['output_template_variations'][0]['output_template'][$$group_by])
+                                ) {
+                                    $res['output_template_variations'][0]['output_template'][$$group_by] = [];
+                                }
+                                array_push(
+                                    $res['output_template_variations'][0]['output_template'][$$group_by],
+                                    $arrGenerated
+                                );
                             }
-                            array_push(
-                                $res['output_template_variations'][0]['output_template'][$$group_by],
-                                $arrGenerated
-                            );
                         }
+
+                        ksort($res['output_template_variations'][0]['output_template']);
+
                     } else if($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
                         foreach ($pendingInvoices as $pendingInvoice) {
                             if($pendingInvoice->gendata != null) {
