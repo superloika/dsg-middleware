@@ -828,7 +828,7 @@ var render = function() {
                   _c(
                     "div",
                     {
-                      staticClass: "text-right blue--text",
+                      staticClass: "text-right teal--text",
                       attrs: { title: "Supplier Price" }
                     },
                     [
@@ -850,7 +850,7 @@ var render = function() {
                   _c(
                     "div",
                     {
-                      staticClass: "text-right blue--text",
+                      staticClass: "text-right teal--text",
                       attrs: { title: "Supplier Amount" }
                     },
                     [

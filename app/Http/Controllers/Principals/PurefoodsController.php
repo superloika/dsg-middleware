@@ -579,6 +579,7 @@ class PurefoodsController extends Controller
                         //     ->where('item_code', $item_code)
                         //     ->first();
                         // }
+
                         $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                             ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                             ->where('item_code', $item_code)

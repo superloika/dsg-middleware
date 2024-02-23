@@ -197,13 +197,13 @@
         </template>
 
         <template v-slot:[`item.price_supplier`]="{ item }">
-            <div class="text-right blue--text" title="Supplier Price">
+            <div class="text-right teal--text" title="Supplier Price">
                 {{ item.price_supplier }}
             </div>
         </template>
 
         <template v-slot:[`item.amount_supplier`]="{ item }">
-            <div class="text-right blue--text" title="Supplier Amount">
+            <div class="text-right teal--text" title="Supplier Amount">
                 {{ item.amount_supplier }}
             </div>
         </template>
