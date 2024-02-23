@@ -36,6 +36,602 @@ class PurefoodsController extends Controller
     }
 
 
+
+    // =====================================================================
+    // =====================================================================
+    // INVOICES ===========================================================
+    // =====================================================================
+    // =====================================================================
+
+    /**
+     * Generate templated data based on invoices with 'pending' status
+     */
+    public function generateTemplatedData(Request $request)
+    {
+        set_time_limit(0);
+
+        try {
+            // ************************* MISC INITS **************************************
+            // templated data grouped result filter
+            $group_by = $request->group_by;
+            if($group_by==null || $group_by=='null' || $group_by=='' || $group_by=='undefined') {
+                $group_by = 'system_date';
+            }
+
+            $exportSI = $request->data_type=='all' || $request->data_type=='sales_invoice' ? true : false;
+            $exportCM = $request->data_type=='all' || $request->data_type=='sales_return' ? true : false;
+
+            // response
+            $res['success'] = true;
+            $res['message'] = 'Success';
+            $res['line_count'] = 0;
+            $res['output_template_variations'] = [
+                [
+                    'name' => 'Sales Invoices',
+                    'output_template' => [],
+                ],
+                [
+                    'name' => 'Returns',
+                    'output_template' => [],
+                ],
+            ];
+            // /response
+
+            $dateToday = Carbon::now();
+            $system_date = $dateToday->format('Y-m-d');
+            // $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
+            $br_config = DB::table('br_config')->get()->first();
+
+            // $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+            //     ->get();
+            // $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+            //     ->get();
+            $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                ->get();
+            // dd($principal_salesmen);
+
+            $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
+            // ************************* /MISC INITS *************************************
+
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE 1 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // Sales Invoices
+            if($exportSI) {
+                // **************** PENDING INVOICES ****************************************
+                $pendingInvoices = InvoicesController::getPendingInvoices(
+                    $request->principal_code, $request->posting_date_range, $request->status
+                );
+                $pendingInvoicesCount = $pendingInvoices->count();
+                // dd($pendingInvoices[0]);
+                $res['line_count'] += $pendingInvoicesCount;
+                // **************** /PENDING INVOICES ****************************************
+
+                if($request->status == PrincipalsUtil::$STATUS_PENDING) {
+                    // Loop through each line of the file content
+                    $loopCounter = 0;
+                    foreach ($pendingInvoices as $pendingInvoice) {
+                        $loopCounter++;
+                        $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
+                        GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
+
+                        $doc_no =               $pendingInvoice->doc_no;
+                        $customer_code =        $pendingInvoice->customer_code;
+                        // $customer_code =        '101798'; // for BR test (Espana Store External ID)
+                        $posting_date =         $pendingInvoice->posting_date;
+                        $posting_date =         (new Carbon($posting_date))->format($postingDateFormat);
+                        $item_code =            $pendingInvoice->item_code;
+                        $quantity =             $pendingInvoice->quantity;
+                        $price =                doubleval($pendingInvoice->price);
+                        $amount =               doubleval($pendingInvoice->amount);
+                        $uom =                  $pendingInvoice->uom;
+                        $item_description =     $pendingInvoice->item_description;
+                        $group =                $pendingInvoice->group;
+                        $sm_code =              $pendingInvoice->sm_code;
+                        $discount_percentage =  $pendingInvoice->discount_percentage ?? 0;
+                        $discount_value =       0;
+                        $vat_percentage =       intval($pendingInvoice->vat_percentage ?? 0);
+                        $vat_value =            0;
+                        $vendor_code =          $pendingInvoice->vendor_code;
+                        $qty_per_uom =          $pendingInvoice->qty_per_uom;
+
+                        //********************************************************************
+                        $nav_customer_name = $pendingInvoice->customer_name;
+                        // if($nav_customer_name==null || $nav_customer_name=='') {
+                        //     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                        //         ->where('customer_code', $customer_code)
+                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                        // }
+
+                        // ************************* MASTERFILE MAPPING *************************
+                        // $customer = $principal_customers
+                        //     ->where('customer_code', $customer_code)
+                        //     ->first();
+                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                            ->where('customer_code', $customer_code)
+                            ->first();
+
+                        // $item = null;
+                        // if($qty_per_uom > 1) {
+                        //     $item = $principal_items
+                        //     ->where('item_code', $item_code)
+                        //     // ->where('conversion_qty', $qty_per_uom)
+                        //     ->first();
+                        // } else {
+                        //     $item = $principal_items
+                        //     ->where('item_code', $item_code)
+                        //     ->first();
+                        // }
+
+                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                            ->where('item_code', $item_code)
+                            ->first();
+
+                        $salesman = $principal_salesmen
+                            ->filter(function($sm) use (&$group) {
+                                return false !== strpos($group, $sm->division, 0);
+                            })
+                            ->where('sm_code', $sm_code)
+                            ->first();
+                        // ************************* /MASTERFILE MAPPING *************************
+
+                        // ************************* MISC INITS **************************
+                        $item_notfound = 0;
+                        $customer_notfound = 0;
+                        $salesman_notfound = 0;
+                        $missing_customer_name = '';
+                        $missing_item_name = '';
+                        $item_code_supplier = '';
+                        $item_description_supplier = '';
+                        $customer_code_supplier = '';
+                        // $sm_code = 'NA';
+                        $sm_name = '';
+                        $uom_supplier = '';
+                        $price_supplier = 0;
+                        $amount_supplier = 0;
+
+                        // check item *******************************
+                        if ($item == null) {
+                            $item_notfound = 1;
+                            $missing_item_name = $item_description;
+                        } else {
+                            if($item->item_code_supplier!='') {
+                                $item_code_supplier = str_pad(
+                                    $item->item_code_supplier,
+                                    18,
+                                    "0",
+                                    STR_PAD_LEFT
+                                );
+                            }
+                            $item_description_supplier = $item->description_supplier;
+
+                            // price and uom mapping (supplier) ********************
+                            $uom_supplier = $qty_per_uom > 1 ?
+                                $item->uom : $item->conversion_uom;
+
+                            // XXXXXXXXXXXXXXXXXXXXXXXX PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
+                            // map to supplier price
+                            $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
+                            // map to orig price temporarily
+                            // $price_supplier = $price;
+
+                            // reverse percentage to get the vat-ex price
+                            if($vat_percentage > 0) {
+                                // $price_vat_ex = $price / (1 + ($vat_percentage / 100));
+                                $price_vat_ex = $price_supplier / (1 + ($vat_percentage / 100));
+                                $vat_value = ($price_supplier - $price_vat_ex) * $quantity;
+                                $price_supplier = $price_vat_ex;
+                            }
+                            // XXXXXXXXXXXXXXXXXXXXXXXX /PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
+
+                            $amount_supplier = $price_supplier * $quantity;
+                            $discount_value = $amount_supplier * $discount_percentage / 100;
+                            $amount_supplier = $amount_supplier - $discount_value;
+
+                            $discount_value = round($discount_value, 5);
+                            $amount_supplier = round($amount_supplier, 5);
+                            $price_supplier = round($price_supplier, 5);
+                        }
+                        // check customer ***************************
+                        if ($customer == null) {
+                            $customer_notfound = 1;
+                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                                ->where('customer_code', $customer_code)
+                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                            $customer_name = $nav_customer_name;
+                        } else {
+                            $customer_code_supplier = $customer->customer_code_supplier;
+                            $customer_name = $customer->customer_name;
+                        }
+
+                        // check salesman
+                        if($salesman == null) {
+                            $salesman_notfound = 1;
+                        } else {
+                            $sm_name = $salesman->sm_name ?? '';
+                        }
+                        // ************************* /MISC INITS **************************
+
+                        // Generated data line structure
+                        $arrGenerated = [
+                            //commons
+                            'customer_code' =>          $customer_code_supplier,
+                            'alturas_customer_code' =>  $customer_code,
+                            'item_code' =>              $item_code_supplier,
+                            'alturas_item_code' =>      $item_code,
+                            'doc_no' =>                 $doc_no,
+                            'missing_customer_name' =>  $missing_customer_name,
+                            'missing_item_name' =>      $missing_item_name,
+                            'customer_notfound' =>      $customer_notfound,
+                            'item_notfound' =>          $item_notfound,
+                            'salesman_notfound' =>      $salesman_notfound,
+                            'vendor_code' =>            $vendor_code,
+                            // principal specific
+                            'invoice_no' =>             $doc_no,
+                            'invoice_date' =>           $posting_date,
+                            'quantity' =>               $quantity,
+                            'price' =>                  $price,
+                            'price_supplier' =>         $price_supplier,
+                            'amount' =>                 $amount,
+                            'amount_supplier' =>        $amount_supplier,
+                            'uom' =>                    $uom,
+                            'uom_supplier' =>           $uom_supplier,
+                            'item_description' =>       $item_description,
+                            'description_supplier' =>   $item_description_supplier,
+                            'customer_name' =>          $customer_name,
+                            'sm_code' =>                $sm_code,
+                            'sm_name' =>                $sm_name,
+                            'system_date' =>            $system_date,
+                            'group' =>                  $group,
+                            'status' =>                 $pendingInvoice->status,
+                            // other BR payload props
+                            'cf_dsp_name_id' =>         $br_config->cf_dsp_name,
+                            // 'cf_dsp_name_value' =>      $settings['DSP_'. $group],
+                            'cf_dsp_name_value' =>      $sm_name,
+                            'invoice_number' =>         $pendingInvoice->ext_doc_no!='' || $pendingInvoice->ext_doc_no!=null ?
+                                                            // $vendor_code. '-'. $pendingInvoice->ext_doc_no : '',
+                                                            $pendingInvoice->ext_doc_no : '',
+                            'discount_percentage' =>    $discount_percentage,
+                            'discount_value' =>         $discount_value,
+                            'vat_percentage' =>         $vat_percentage,
+                            'vat_value' =>              $vat_value,
+                        ];
+
+                        // group output_template_variations
+                        if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
+                            // ---------------------------------------------------------------------------
+                            if (
+                                !isset($res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'])
+                            ) {
+                                $res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'] = [];
+                            }
+                            array_push(
+                                $res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'],
+                                $arrGenerated
+                            );
+                            // ---------------------------------------------------------------------------
+                        } else {
+                            if (
+                                !isset(
+                                    $res['output_template_variations'][0]['output_template'][$$group_by]
+                                )
+                            ) {
+                                $res['output_template_variations'][0]['output_template'][$$group_by] = [];
+                            }
+                            array_push(
+                                $res['output_template_variations'][0]['output_template'][$$group_by],
+                                $arrGenerated
+                            );
+                        }
+                    } // /loop invoices
+
+                    ksort($arrGenerated);
+
+                } else if ($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
+                    foreach ($pendingInvoices as $pendingInvoice) {
+                        if($pendingInvoice->gendata != null) {
+                            $arrGenerated = json_decode($pendingInvoice->gendata);
+                            // group output_template_variations
+                            $groupByKey = $pendingInvoice->$group_by ?? $arrGenerated->$group_by;
+                            if (
+                                !isset(
+                                    $res['output_template_variations'][0]['output_template'][$groupByKey]
+                                )
+                            ) {
+                                $res['output_template_variations'][0]['output_template'][$groupByKey] = [];
+                            }
+                            array_push(
+                                $res['output_template_variations'][0]['output_template'][$groupByKey],
+                                $arrGenerated
+                            );
+                        }
+                    }
+                }
+            }
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE 1 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE 2 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // Sales Returns (CM)
+            if($exportCM) {
+                // **************** RETURNS ************************************************
+                $returns = InvoicesController::getReturns(
+                    $request->principal_code, $request->posting_date_range, $request->status
+                );
+                $returnsCount = $returns->count();
+                // dd($returnsCount);
+                $res['line_count'] += $returnsCount;
+                // **************** /RETURNS ************************************************
+
+                if($request->status=='pending') {
+                    // Loop through each line of the file content
+                    $loopCounter = 0;
+                    foreach ($returns as $return) {
+                        $loopCounter++;
+                        $progressPercent = round(($loopCounter / $returnsCount) * 100);
+                        GenerateTemplated::dispatch("Generating returns ($progressPercent%)");
+
+                        $doc_no =               $return->doc_no;
+                        $customer_code       =  $return->customer_code;
+                        // $customer_code =        '101798'; // for BR test (Espana Store External ID)
+                        $shipment_date =        $return->shipment_date;
+                        $posting_date =        (new Carbon($shipment_date))->format($postingDateFormat);
+                        $item_code =            $return->item_code . '';
+                        $quantity =             $return->quantity;
+                        $price =                doubleval($return->price);
+                        $amount =               doubleval($return->amount);
+                        $uom =                  $return->uom;
+                        $item_description =     $return->item_description;
+                        $group =           $return->group;
+                        $discount_percentage =  $return->discount_percentage ?? 0;
+                        $discount_value =       0;
+                        $invoice_quantity =     $return->invoice_quantity;
+                        $invoice_doc_no =       $return->invoice_doc_no;
+                        $return_indicator =     $return->return_indicator;
+                        $vendor_code =          $return->vendor_code;
+                        $sm_code =              $return->sm_code;
+                        $remarks =              $return->remarks;
+                        $vat_percentage =       intval($return->vat_percentage ?? 0);
+                        $vat_value =            0;
+                        $ext_doc_no =           $return->ext_doc_no;
+                        $qty_per_uom =          $return->qty_per_uom;
+                        // dd($ext_doc_no);
+
+                        /**
+                         * return quantity vs actual sales invoice quantity
+                         * skip returned items with greater quantity than the actual sales quantity
+                         */
+                        // if($quantity > $invoice_quantity) continue;
+
+                        // ************************* MASTERFILE MAPPING *************************
+                        // $customer = $principal_customers
+                        //     ->where('customer_code', $customer_code)
+                        //     ->first();
+                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                            ->where('customer_code', $customer_code)
+                            ->first();
+
+                        // $item = null;
+                        // if($qty_per_uom > 1) {
+                        //     $item = $principal_items
+                        //     ->where('item_code', $item_code)
+                        //     // ->where('conversion_qty', $qty_per_uom)
+                        //     ->first();
+                        // } else {
+                        //     $item = $principal_items
+                        //     ->where('item_code', $item_code)
+                        //     ->first();
+                        // }
+                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                            ->where('item_code', $item_code)
+                            ->first();
+
+                        $salesman = $principal_salesmen
+                            ->filter(function($sm) use (&$group) {
+                                return false !== strpos($group, $sm->division, 0);
+                            })
+                            ->where('sm_code', $sm_code)
+                            ->first();
+                        // ************************* /MASTERFILE MAPPING *************************
+
+                        // ************************* MISC INITS **************************
+                        $item_notfound = 0;
+                        $customer_notfound = 0;
+                        $salesman_notfound = 0;
+                        $sm_name = '';
+                        $missing_customer_name = '';
+                        $missing_item_name = '';
+                        $item_code_supplier = '';
+                        $item_description_supplier = '';
+                        $customer_code_supplier = '';
+                        $uom_supplier = '';
+                        $price_supplier = 0;
+                        $amount_supplier = 0;
+
+                        // check item *******************************
+                        if ($item == null) {
+                            $item_notfound = 1;
+                            $missing_item_name = $item_description;
+                        } else {
+                            // $item_code_supplier = "00000". $item->item_code_supplier;
+                            $item_code_supplier = str_pad(
+                                $item->item_code_supplier,
+                                18,
+                                "0",
+                                STR_PAD_LEFT
+                            );
+                            $item_description_supplier = $item->description_supplier;
+
+                            // price and uom mapping (supplier) ********************
+                            $uom_supplier = $return->qty_per_uom > 1 ?
+                                $item->uom : $item->conversion_uom;
+
+                            // *********** PRICEHACKS RIGHT FUCKIN HERE ************************
+                            // map to supplier price
+                            $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
+                            // map to orig price temporarily
+                            // $price_supplier = $price;
+
+                            // reverse percentage to get the vat-ex price
+                            if($vat_percentage > 0) {
+                                // $price_vat_ex = $price / (1 + ($vat_percentage / 100));
+                                $price_vat_ex = $price_supplier / (1 + ($vat_percentage / 100));
+                                $vat_value = ($price_supplier - $price_vat_ex) * $quantity;
+                                $price_supplier = $price_vat_ex;
+                            }
+                            // *********** /PRICEHACKS RIGHT FUCKIN HERE **********************
+
+                            $amount_supplier = $price_supplier * $quantity;
+                            $discount_value = $amount_supplier * $discount_percentage / 100;
+                            $amount_supplier = $amount_supplier - $discount_value;
+
+                            $discount_value = round($discount_value, 5);
+                            $amount_supplier = round($amount_supplier, 5);
+                            $price_supplier = round($price_supplier, 5);
+                        }
+                        // check customer ***************************
+                        if ($customer == null) {
+                            $customer_notfound = 1;
+                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                                ->where('customer_code', $customer_code)
+                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                            $customer_name = $nav_customer_name;
+                        } else {
+                            $customer_code_supplier = $customer->customer_code_supplier;
+                            $customer_name = $customer->customer_name;
+                        }
+                        // check salesman
+                        if($salesman == null) {
+                            $salesman_notfound = 1;
+                        } else {
+                            $sm_name = $salesman->sm_name ?? '';
+                        }
+                        // ************************* /MISC INITS **************************
+
+                        // Generated data line structure
+                        $arrGenerated = [
+                            //commons
+                            'customer_code' =>          $customer_code_supplier,
+                            'alturas_customer_code' =>  $customer_code,
+                            'item_code' =>              $item_code_supplier,
+                            'alturas_item_code' =>      $item_code,
+                            'doc_no' =>                 $doc_no,
+                            'missing_customer_name' =>  $missing_customer_name,
+                            'missing_item_name' =>      $missing_item_name,
+                            'customer_notfound' =>      $customer_notfound,
+                            'item_notfound' =>          $item_notfound,
+                            'salesman_notfound' =>      $salesman_notfound,
+                            // principal specific
+                            'invoice_no' =>             $doc_no,
+                            'invoice_date' =>           $posting_date,
+                            'quantity' =>               $quantity,
+                            'price' =>                  $price,
+                            'price_supplier' =>         $price_supplier ?? 0,
+                            'amount' =>                 $amount,
+                            'amount_supplier' =>        $amount_supplier ?? 0,
+                            'uom' =>                    $uom,
+                            'uom_supplier' =>           $uom_supplier ?? '',
+                            'item_description' =>       $item_description,
+                            'description_supplier' =>   $item_description_supplier,
+                            'customer_name' =>          $customer_name,
+                            'system_date' =>            $system_date,
+                            'group' =>                  $group,
+                            'status' =>                 $return->status,
+                            // other BR payload props
+                            'cf_dsp_name_id' =>                     $br_config->cf_dsp_name,
+                            // 'cf_dsp_name_value' =>                  $settings['DSP_'. $group],
+                            'cf_dsp_name_value' =>                  $sm_name,
+                            'cf_return_indicator_id' =>             $br_config->cf_return_indicator,
+                            'cf_return_indicator_value' =>          $return_indicator,
+                            'cf_return_invoice_reference_id' =>     $br_config->cf_return_invoice_reference,
+                            // 'cf_return_invoice_reference_value' =>  $vendor_code. '-'. $invoice_doc_no,
+                            'cf_return_invoice_reference_value' =>  ($ext_doc_no!=''&&$ext_doc_no!=null) ? $ext_doc_no : '',
+                                                                        // $vendor_code. '-'. $ext_doc_no : '',
+                            'invoice_number' =>                     $doc_no,
+                            'discount_percentage' =>                $discount_percentage,
+                            'discount_value' =>                     $discount_value,
+                            'remarks' =>                            $remarks,
+                            'vat_percentage' =>                     $vat_percentage,
+                            'vat_value' =>                          $vat_value,
+                            // order orig details
+                            'invoice_quantity' =>       $invoice_quantity,
+                            'invoice_doc_no' =>         $invoice_doc_no,
+                            'return_indicator' =>       $return_indicator,
+                            'vendor_code' =>            $vendor_code,
+                            'sm_code' =>                $sm_code,
+                            'sm_name' =>                $sm_name,
+                        ];
+
+                        // group output_template_variations
+                        if (
+                            !isset(
+                                $res[
+                                    'output_template_variations'
+                                ][1]['output_template'][$$group_by]
+                            )
+                        ) {
+                            $res[
+                                'output_template_variations'
+                            ][1]['output_template'][$$group_by] = [];
+                        }
+                        array_push(
+                            $res[
+                                'output_template_variations'
+                            ][1]['output_template'][$$group_by],
+                            $arrGenerated
+                        );
+                    } // /loop invoices
+                } else if ($request->status=='completed') {
+                    foreach ($returns as $return) {
+                        if($return->gendata != null) {
+                            $arrGenerated = json_decode($return->gendata);
+                            // group output_template_variations
+                            $groupByKey = $return->$group_by ?? $arrGenerated->$group_by;
+                            if (
+                                !isset(
+                                    $res['output_template_variations'][1]['output_template'][$groupByKey]
+                                )
+                            ) {
+                                $res['output_template_variations'][1]['output_template'][$groupByKey] = [];
+                            }
+                            array_push(
+                                $res['output_template_variations'][1]['output_template'][$groupByKey],
+                                $arrGenerated
+                            );
+                        }
+                    }
+                }
+
+            }
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE 2 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+            return response()->json($res);
+
+        } catch (\Throwable $th) {
+            $res['success'] = false;
+            $res['message'] = $th->getMessage();
+            return response()->json($res, 500);
+        }
+    }
+
+
+
     // =====================================================================
     // =====================================================================
     // ITEMS =============================================================
@@ -446,587 +1042,6 @@ class PurefoodsController extends Controller
     }
 
 
-    // =====================================================================
-    // =====================================================================
-    // INVOICES ===========================================================
-    // =====================================================================
-    // =====================================================================
-
-    /**
-     * Generate templated data based on invoices with 'pending' status
-     */
-    public function generateTemplatedData(Request $request)
-    {
-        set_time_limit(0);
-
-        try {
-            // ************************* MISC INITS **************************************
-            // templated data grouped result filter
-            $group_by = $request->group_by;
-            if($group_by==null || $group_by=='null' || $group_by=='' || $group_by=='undefined') {
-                $group_by = 'system_date';
-            }
-
-            $exportSI = $request->data_type=='all' || $request->data_type=='sales_invoice' ? true : false;
-            $exportCM = $request->data_type=='all' || $request->data_type=='sales_return' ? true : false;
-
-            // response
-            $res['success'] = true;
-            $res['message'] = 'Success';
-            $res['line_count'] = 0;
-            $res['output_template_variations'] = [
-                [
-                    'name' => 'Sales Invoices',
-                    'output_template' => [],
-                ],
-                [
-                    'name' => 'Returns',
-                    'output_template' => [],
-                ],
-            ];
-            // /response
-
-            $dateToday = Carbon::now();
-            $system_date = $dateToday->format('Y-m-d');
-            // $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
-            $br_config = DB::table('br_config')->get()->first();
-
-            // $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-            //     ->get();
-            // $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-            //     ->get();
-            $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                ->get();
-            // dd($principal_salesmen);
-
-            $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
-            // ************************* /MISC INITS *************************************
-
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE 1 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            // Sales Invoices
-            if($exportSI) {
-                // **************** PENDING INVOICES ****************************************
-                $pendingInvoices = InvoicesController::getPendingInvoices(
-                    $request->principal_code, $request->posting_date_range, $request->status
-                );
-                $pendingInvoicesCount = $pendingInvoices->count();
-                // dd($pendingInvoices[0]);
-                $res['line_count'] += $pendingInvoicesCount;
-                // **************** /PENDING INVOICES ****************************************
-
-                if($request->status=='pending') {
-                    // Loop through each line of the file content
-                    $loopCounter = 0;
-                    foreach ($pendingInvoices as $pendingInvoice) {
-                        $loopCounter++;
-                        $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
-                        GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
-
-                        $doc_no =               $pendingInvoice->doc_no;
-                        $customer_code =        $pendingInvoice->customer_code;
-                        // $customer_code =        '101798'; // for BR test (Espana Store External ID)
-                        $posting_date =         $pendingInvoice->posting_date;
-                        $posting_date =         (new Carbon($posting_date))->format($postingDateFormat);
-                        $item_code =            $pendingInvoice->item_code;
-                        $quantity =             $pendingInvoice->quantity;
-                        $price =                doubleval($pendingInvoice->price);
-                        $amount =               doubleval($pendingInvoice->amount);
-                        $uom =                  $pendingInvoice->uom;
-                        $item_description =     $pendingInvoice->item_description;
-                        $group =                $pendingInvoice->group;
-                        $sm_code =              $pendingInvoice->sm_code;
-                        $discount_percentage =  $pendingInvoice->discount_percentage ?? 0;
-                        $discount_value =       0;
-                        $vat_percentage =       intval($pendingInvoice->vat_percentage ?? 0);
-                        $vat_value =            0;
-                        $vendor_code =          $pendingInvoice->vendor_code;
-                        $qty_per_uom =          $pendingInvoice->qty_per_uom;
-
-                        //********************************************************************
-                        $nav_customer_name = $pendingInvoice->customer_name;
-                        // if($nav_customer_name==null || $nav_customer_name=='') {
-                        //     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //         ->where('customer_code', $customer_code)
-                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // }
-
-                        // ************************* MASTERFILE MAPPING *************************
-                        // $customer = $principal_customers
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first();
-                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                            ->where('customer_code', $customer_code)
-                            ->first();
-
-                        // $item = null;
-                        // if($qty_per_uom > 1) {
-                        //     $item = $principal_items
-                        //     ->where('item_code', $item_code)
-                        //     // ->where('conversion_qty', $qty_per_uom)
-                        //     ->first();
-                        // } else {
-                        //     $item = $principal_items
-                        //     ->where('item_code', $item_code)
-                        //     ->first();
-                        // }
-
-                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                            ->where('item_code', $item_code)
-                            ->first();
-
-                        $salesman = $principal_salesmen
-                            ->filter(function($sm) use (&$group) {
-                                return false !== strpos($group, $sm->division, 0);
-                            })
-                            ->where('sm_code', $sm_code)
-                            ->first();
-                        // ************************* /MASTERFILE MAPPING *************************
-
-                        // ************************* MISC INITS **************************
-                        $item_notfound = 0;
-                        $customer_notfound = 0;
-                        $salesman_notfound = 0;
-                        $missing_customer_name = '';
-                        $missing_item_name = '';
-                        $item_code_supplier = '';
-                        $item_description_supplier = '';
-                        $customer_code_supplier = '';
-                        // $sm_code = 'NA';
-                        $sm_name = '';
-                        $uom_supplier = '';
-                        $price_supplier = 0;
-                        $amount_supplier = 0;
-
-                        // check item *******************************
-                        if ($item == null) {
-                            $item_notfound = 1;
-                            $missing_item_name = $item_description;
-                        } else {
-                            if($item->item_code_supplier!='') {
-                                $item_code_supplier = str_pad(
-                                    $item->item_code_supplier,
-                                    18,
-                                    "0",
-                                    STR_PAD_LEFT
-                                );
-                            }
-                            $item_description_supplier = $item->description_supplier;
-
-                            // price and uom mapping (supplier) ********************
-                            $uom_supplier = $qty_per_uom > 1 ?
-                                $item->uom : $item->conversion_uom;
-
-                            // XXXXXXXXXXXXXXXXXXXXXXXX PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
-                            // map to supplier price
-                            $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
-                            // map to orig price temporarily
-                            // $price_supplier = $price;
-
-                            // reverse percentage to get the vat-ex price
-                            if($vat_percentage > 0) {
-                                // $price_vat_ex = $price / (1 + ($vat_percentage / 100));
-                                $price_vat_ex = $price_supplier / (1 + ($vat_percentage / 100));
-                                $vat_value = ($price_supplier - $price_vat_ex) * $quantity;
-                                $price_supplier = $price_vat_ex;
-                            }
-                            // XXXXXXXXXXXXXXXXXXXXXXXX /PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
-
-                            $amount_supplier = $price_supplier * $quantity;
-                            $discount_value = $amount_supplier * $discount_percentage / 100;
-                            $amount_supplier = $amount_supplier - $discount_value;
-
-                            $discount_value = round($discount_value, 5);
-                            $amount_supplier = round($amount_supplier, 5);
-                            $price_supplier = round($price_supplier, 5);
-                        }
-                        // check customer ***************************
-                        if ($customer == null) {
-                            $customer_notfound = 1;
-                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                ->where('customer_code', $customer_code)
-                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                            $customer_name = $nav_customer_name;
-                        } else {
-                            $customer_code_supplier = $customer->customer_code_supplier;
-                            $customer_name = $customer->customer_name;
-                        }
-
-                        // check salesman
-                        if($salesman == null) {
-                            $salesman_notfound = 1;
-                        } else {
-                            $sm_name = $salesman->sm_name ?? '';
-                        }
-                        // ************************* /MISC INITS **************************
-
-                        // Generated data line structure
-                        $arrGenerated = [
-                            //commons
-                            'customer_code' =>          $customer_code_supplier,
-                            'alturas_customer_code' =>  $customer_code,
-                            'item_code' =>              $item_code_supplier,
-                            'alturas_item_code' =>      $item_code,
-                            'doc_no' =>                 $doc_no,
-                            'missing_customer_name' =>  $missing_customer_name,
-                            'missing_item_name' =>      $missing_item_name,
-                            'customer_notfound' =>      $customer_notfound,
-                            'item_notfound' =>          $item_notfound,
-                            'salesman_notfound' =>      $salesman_notfound,
-                            'vendor_code' =>            $vendor_code,
-                            // principal specific
-                            'invoice_no' =>             $doc_no,
-                            'invoice_date' =>           $posting_date,
-                            'quantity' =>               $quantity,
-                            'price' =>                  $price,
-                            'price_supplier' =>         $price_supplier,
-                            'amount' =>                 $amount,
-                            'amount_supplier' =>        $amount_supplier,
-                            'uom' =>                    $uom,
-                            'uom_supplier' =>           $uom_supplier,
-                            'item_description' =>       $item_description,
-                            'description_supplier' =>   $item_description_supplier,
-                            'customer_name' =>          $customer_name,
-                            'sm_code' =>                $sm_code,
-                            'sm_name' =>                $sm_name,
-                            'system_date' =>            $system_date,
-                            'group' =>                  $group,
-                            'status' =>                 $pendingInvoice->status,
-                            // other BR payload props
-                            'cf_dsp_name_id' =>         $br_config->cf_dsp_name,
-                            // 'cf_dsp_name_value' =>      $settings['DSP_'. $group],
-                            'cf_dsp_name_value' =>      $sm_name,
-                            'invoice_number' =>         $pendingInvoice->ext_doc_no!='' || $pendingInvoice->ext_doc_no!=null ?
-                                                            // $vendor_code. '-'. $pendingInvoice->ext_doc_no : '',
-                                                            $pendingInvoice->ext_doc_no : '',
-                            'discount_percentage' =>    $discount_percentage,
-                            'discount_value' =>         $discount_value,
-                            'vat_percentage' =>         $vat_percentage,
-                            'vat_value' =>              $vat_value,
-                        ];
-
-                        // group output_template_variations
-                        if (
-                            !isset(
-                                $res[
-                                    'output_template_variations'
-                                ][0]['output_template'][$$group_by]
-                            )
-                        ) {
-                            $res[
-                                'output_template_variations'
-                            ][0]['output_template'][$$group_by] = [];
-                        }
-                        array_push(
-                            $res[
-                                'output_template_variations'
-                            ][0]['output_template'][$$group_by],
-                            $arrGenerated
-                        );
-                    } // /loop invoices
-                } else if ($request->status=='completed') {
-                    foreach ($pendingInvoices as $pendingInvoice) {
-                        if($pendingInvoice->gendata != null) {
-                            $arrGenerated = json_decode($pendingInvoice->gendata);
-                            // group output_template_variations
-                            $groupByKey = $pendingInvoice->$group_by ?? $arrGenerated->$group_by;
-                            if (
-                                !isset(
-                                    $res['output_template_variations'][0]['output_template'][$groupByKey]
-                                )
-                            ) {
-                                $res['output_template_variations'][0]['output_template'][$groupByKey] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][0]['output_template'][$groupByKey],
-                                $arrGenerated
-                            );
-                        }
-                    }
-                }
-            }
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE 1 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE 2 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            // Sales Returns (CM)
-            if($exportCM) {
-                // **************** RETURNS ************************************************
-                $returns = InvoicesController::getReturns(
-                    $request->principal_code, $request->posting_date_range, $request->status
-                );
-                $returnsCount = $returns->count();
-                // dd($returnsCount);
-                $res['line_count'] += $returnsCount;
-                // **************** /RETURNS ************************************************
-
-                if($request->status=='pending') {
-                    // Loop through each line of the file content
-                    $loopCounter = 0;
-                    foreach ($returns as $return) {
-                        $loopCounter++;
-                        $progressPercent = round(($loopCounter / $returnsCount) * 100);
-                        GenerateTemplated::dispatch("Generating returns ($progressPercent%)");
-
-                        $doc_no =               $return->doc_no;
-                        $customer_code       =  $return->customer_code;
-                        // $customer_code =        '101798'; // for BR test (Espana Store External ID)
-                        $shipment_date =        $return->shipment_date;
-                        $posting_date =        (new Carbon($shipment_date))->format($postingDateFormat);
-                        $item_code =            $return->item_code . '';
-                        $quantity =             $return->quantity;
-                        $price =                doubleval($return->price);
-                        $amount =               doubleval($return->amount);
-                        $uom =                  $return->uom;
-                        $item_description =     $return->item_description;
-                        $group =           $return->group;
-                        $discount_percentage =  $return->discount_percentage ?? 0;
-                        $discount_value =       0;
-                        $invoice_quantity =     $return->invoice_quantity;
-                        $invoice_doc_no =       $return->invoice_doc_no;
-                        $return_indicator =     $return->return_indicator;
-                        $vendor_code =          $return->vendor_code;
-                        $sm_code =              $return->sm_code;
-                        $remarks =              $return->remarks;
-                        $vat_percentage =       intval($return->vat_percentage ?? 0);
-                        $vat_value =            0;
-                        $ext_doc_no =           $return->ext_doc_no;
-                        $qty_per_uom =          $return->qty_per_uom;
-                        // dd($ext_doc_no);
-
-                        /**
-                         * return quantity vs actual sales invoice quantity
-                         * skip returned items with greater quantity than the actual sales quantity
-                         */
-                        // if($quantity > $invoice_quantity) continue;
-
-                        // ************************* MASTERFILE MAPPING *************************
-                        // $customer = $principal_customers
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first();
-                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                            ->where('customer_code', $customer_code)
-                            ->first();
-
-                        // $item = null;
-                        // if($qty_per_uom > 1) {
-                        //     $item = $principal_items
-                        //     ->where('item_code', $item_code)
-                        //     // ->where('conversion_qty', $qty_per_uom)
-                        //     ->first();
-                        // } else {
-                        //     $item = $principal_items
-                        //     ->where('item_code', $item_code)
-                        //     ->first();
-                        // }
-                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                            ->where('item_code', $item_code)
-                            ->first();
-
-                        $salesman = $principal_salesmen
-                            ->filter(function($sm) use (&$group) {
-                                return false !== strpos($group, $sm->division, 0);
-                            })
-                            ->where('sm_code', $sm_code)
-                            ->first();
-                        // ************************* /MASTERFILE MAPPING *************************
-
-                        // ************************* MISC INITS **************************
-                        $item_notfound = 0;
-                        $customer_notfound = 0;
-                        $salesman_notfound = 0;
-                        $sm_name = '';
-                        $missing_customer_name = '';
-                        $missing_item_name = '';
-                        $item_code_supplier = '';
-                        $item_description_supplier = '';
-                        $customer_code_supplier = '';
-                        $uom_supplier = '';
-                        $price_supplier = 0;
-                        $amount_supplier = 0;
-
-                        // check item *******************************
-                        if ($item == null) {
-                            $item_notfound = 1;
-                            $missing_item_name = $item_description;
-                        } else {
-                            // $item_code_supplier = "00000". $item->item_code_supplier;
-                            $item_code_supplier = str_pad(
-                                $item->item_code_supplier,
-                                18,
-                                "0",
-                                STR_PAD_LEFT
-                            );
-                            $item_description_supplier = $item->description_supplier;
-
-                            // price and uom mapping (supplier) ********************
-                            $uom_supplier = $return->qty_per_uom > 1 ?
-                                $item->uom : $item->conversion_uom;
-
-                            // *********** PRICEHACKS RIGHT FUCKIN HERE ************************
-                            // map to supplier price
-                            $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
-                            // map to orig price temporarily
-                            // $price_supplier = $price;
-
-                            // reverse percentage to get the vat-ex price
-                            if($vat_percentage > 0) {
-                                // $price_vat_ex = $price / (1 + ($vat_percentage / 100));
-                                $price_vat_ex = $price_supplier / (1 + ($vat_percentage / 100));
-                                $vat_value = ($price_supplier - $price_vat_ex) * $quantity;
-                                $price_supplier = $price_vat_ex;
-                            }
-                            // *********** /PRICEHACKS RIGHT FUCKIN HERE **********************
-
-                            $amount_supplier = $price_supplier * $quantity;
-                            $discount_value = $amount_supplier * $discount_percentage / 100;
-                            $amount_supplier = $amount_supplier - $discount_value;
-
-                            $discount_value = round($discount_value, 5);
-                            $amount_supplier = round($amount_supplier, 5);
-                            $price_supplier = round($price_supplier, 5);
-                        }
-                        // check customer ***************************
-                        if ($customer == null) {
-                            $customer_notfound = 1;
-                            $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                ->where('customer_code', $customer_code)
-                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                            $customer_name = $nav_customer_name;
-                        } else {
-                            $customer_code_supplier = $customer->customer_code_supplier;
-                            $customer_name = $customer->customer_name;
-                        }
-                        // check salesman
-                        if($salesman == null) {
-                            $salesman_notfound = 1;
-                        } else {
-                            $sm_name = $salesman->sm_name ?? '';
-                        }
-                        // ************************* /MISC INITS **************************
-
-                        // Generated data line structure
-                        $arrGenerated = [
-                            //commons
-                            'customer_code' =>          $customer_code_supplier,
-                            'alturas_customer_code' =>  $customer_code,
-                            'item_code' =>              $item_code_supplier,
-                            'alturas_item_code' =>      $item_code,
-                            'doc_no' =>                 $doc_no,
-                            'missing_customer_name' =>  $missing_customer_name,
-                            'missing_item_name' =>      $missing_item_name,
-                            'customer_notfound' =>      $customer_notfound,
-                            'item_notfound' =>          $item_notfound,
-                            'salesman_notfound' =>      $salesman_notfound,
-                            // principal specific
-                            'invoice_no' =>             $doc_no,
-                            'invoice_date' =>           $posting_date,
-                            'quantity' =>               $quantity,
-                            'price' =>                  $price,
-                            'price_supplier' =>         $price_supplier ?? 0,
-                            'amount' =>                 $amount,
-                            'amount_supplier' =>        $amount_supplier ?? 0,
-                            'uom' =>                    $uom,
-                            'uom_supplier' =>           $uom_supplier ?? '',
-                            'item_description' =>       $item_description,
-                            'description_supplier' =>   $item_description_supplier,
-                            'customer_name' =>          $customer_name,
-                            'system_date' =>            $system_date,
-                            'group' =>                  $group,
-                            'status' =>                 $return->status,
-                            // other BR payload props
-                            'cf_dsp_name_id' =>                     $br_config->cf_dsp_name,
-                            // 'cf_dsp_name_value' =>                  $settings['DSP_'. $group],
-                            'cf_dsp_name_value' =>                  $sm_name,
-                            'cf_return_indicator_id' =>             $br_config->cf_return_indicator,
-                            'cf_return_indicator_value' =>          $return_indicator,
-                            'cf_return_invoice_reference_id' =>     $br_config->cf_return_invoice_reference,
-                            // 'cf_return_invoice_reference_value' =>  $vendor_code. '-'. $invoice_doc_no,
-                            'cf_return_invoice_reference_value' =>  ($ext_doc_no!=''&&$ext_doc_no!=null) ? $ext_doc_no : '',
-                                                                        // $vendor_code. '-'. $ext_doc_no : '',
-                            'invoice_number' =>                     $doc_no,
-                            'discount_percentage' =>                $discount_percentage,
-                            'discount_value' =>                     $discount_value,
-                            'remarks' =>                            $remarks,
-                            'vat_percentage' =>                     $vat_percentage,
-                            'vat_value' =>                          $vat_value,
-                            // order orig details
-                            'invoice_quantity' =>       $invoice_quantity,
-                            'invoice_doc_no' =>         $invoice_doc_no,
-                            'return_indicator' =>       $return_indicator,
-                            'vendor_code' =>            $vendor_code,
-                            'sm_code' =>                $sm_code,
-                            'sm_name' =>                $sm_name,
-                        ];
-
-                        // group output_template_variations
-                        if (
-                            !isset(
-                                $res[
-                                    'output_template_variations'
-                                ][1]['output_template'][$$group_by]
-                            )
-                        ) {
-                            $res[
-                                'output_template_variations'
-                            ][1]['output_template'][$$group_by] = [];
-                        }
-                        array_push(
-                            $res[
-                                'output_template_variations'
-                            ][1]['output_template'][$$group_by],
-                            $arrGenerated
-                        );
-                    } // /loop invoices
-                } else if ($request->status=='completed') {
-                    foreach ($returns as $return) {
-                        if($return->gendata != null) {
-                            $arrGenerated = json_decode($return->gendata);
-                            // group output_template_variations
-                            $groupByKey = $return->$group_by ?? $arrGenerated->$group_by;
-                            if (
-                                !isset(
-                                    $res['output_template_variations'][1]['output_template'][$groupByKey]
-                                )
-                            ) {
-                                $res['output_template_variations'][1]['output_template'][$groupByKey] = [];
-                            }
-                            array_push(
-                                $res['output_template_variations'][1]['output_template'][$groupByKey],
-                                $arrGenerated
-                            );
-                        }
-                    }
-                }
-
-            }
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE 2 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-            return response()->json($res);
-
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-            return response()->json($res, 500);
-        }
-    }
 
     // temporary
     public function resetInvoicesToPending() {

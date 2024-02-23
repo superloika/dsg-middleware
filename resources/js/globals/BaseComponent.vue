@@ -226,6 +226,9 @@ export default {
     .v-data-table__wrapper table tbody tr td.text-start{
         font-size: 12px;
     }
+    /* .v-data-table__wrapper table tbody tr td.text-start:hover {
+        background-color: #f1f1f1;
+    } */
 
     /* .theme--dark.v-data-table
     > .v-data-table__wrapper
