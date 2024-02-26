@@ -791,6 +791,7 @@ class MondelezController extends Controller
                         }
 
                         ksort($res['output_template_variations'][0]['output_template']);
+                        // last resort
 
                     } else if($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
                         foreach ($pendingInvoices as $pendingInvoice) {
