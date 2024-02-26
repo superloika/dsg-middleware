@@ -10,8 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class TemprincipalsController extends Controller
+class CleAceController extends Controller
 {
+    private $PRINCIPAL_CODE = 'S1662';
+
     /**
      * Create a new controller instance.
      *
