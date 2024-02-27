@@ -128,7 +128,7 @@
                 &nbsp;
 
             </v-chip> -->
-            <v-card width="250" height="220" color="white primary--text">
+            <v-card width="250" height="220">
                 <v-card-text>
                     <v-row>
                         <v-col cols="12"></v-col>
@@ -136,7 +136,7 @@
                             <v-progress-circular
                                 :value="64"
                                 indeterminate
-                                size="60"
+                                size="50"
                                 color="primary"
                             ></v-progress-circular>
                         </v-col>
