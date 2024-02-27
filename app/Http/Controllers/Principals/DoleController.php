@@ -66,6 +66,7 @@ class DoleController extends Controller
                     'update_settings' => [],
                 ],
             ];
+            $outputTemplate = null;
 
             $postingDateFormat = $this->configs()->getData(true)['posting_date_format'];
             // $dateToday = Carbon::now();
@@ -95,6 +96,8 @@ class DoleController extends Controller
                 $pendingInvoicesCount = $pendingInvoices->count();
                 $res['line_count'] += $pendingInvoicesCount;
                 // **************** /PENDING INVOICES ***************************************
+
+                $outputTemplate = &$res['output_template_variations'][0]['output_template'];
 
                 if($request->status == PrincipalsUtil::$STATUS_PENDING) {
                     // Loop through each line of the file content
@@ -259,15 +262,17 @@ class DoleController extends Controller
                         }
                         $DocumentAmounts[$doc_no] += $amount_supplier;
 
-                        if (
-                            !isset($res['output_template_variations'][0]['output_template'][$$group_by])
-                        ) {
-                            $res['output_template_variations'][0]['output_template'][$$group_by] = [];
+                        // group output_template_variations
+                        $tempKey = '';
+                        if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
+                            $tempKey = $$group_by . '-Unmapped';
+                        } else {
+                            $tempKey = $$group_by;
                         }
-                        array_push(
-                            $res['output_template_variations'][0]['output_template'][$$group_by],
-                            $arrGenerated
-                        );
+                        if (!isset($outputTemplate[$tempKey])) {
+                            $outputTemplate[$tempKey] = [];
+                        }
+                        array_push($outputTemplate[$tempKey], $arrGenerated);
                     }
 
                     // patch DocumentAmounts and DocumentNumbers ---------------------------------------------
@@ -282,7 +287,7 @@ class DoleController extends Controller
                         $DocumentNumbers[$dn] = $invoice_no;
                     }
 
-                    $res['output_template_variations'][0]['output_template'] = array_map(
+                    $outputTemplate = array_map(
                         function($ot_element) use ($DocumentAmounts, $DocumentNumbers) {
                             return array_map(
                                 function($element) use ($DocumentAmounts, $DocumentNumbers) {
@@ -297,7 +302,7 @@ class DoleController extends Controller
                                 $ot_element
                             );
                         },
-                        $res['output_template_variations'][0]['output_template']
+                        $outputTemplate
                     );
                     // /patch DocumentAmounts and DocumentNumbers ---------------------------------------------
 
@@ -312,32 +317,28 @@ class DoleController extends Controller
                             $arrGenerated = json_decode($pendingInvoice->gendata);
                             // group output_template_variations
                             $groupByKey = $pendingInvoice->$group_by ?? $arrGenerated->$group_by;
-                            if (
-                                !isset(
-                                    $res['output_template_variations'][0]['output_template'][$groupByKey]
-                                )
-                            ) {
-                                $res['output_template_variations'][0]['output_template'][$groupByKey] = [];
+                            if (!isset($outputTemplate[$groupByKey])) {
+                                $outputTemplate[$groupByKey] = [];
                             }
-                            array_push(
-                                $res['output_template_variations'][0]['output_template'][$groupByKey],
-                                $arrGenerated
-                            );
+                            array_push($outputTemplate[$groupByKey], $arrGenerated);
                         }
                     }
                 }
+                ksort($outputTemplate);
             }
             // **************************** /TEMPLATE 1 ****************************
 
             // **************************** TEMPLATE 2 ****************************
             if($exportCM) {
-                // **************** RETURNS ************************************************
+                //
                 $returns = InvoicesController::getReturns(
                     $request->principal_code, $request->posting_date_range, $request->status
                 );
                 $returnsCount = $returns->count();
                 $res['line_count'] += $returnsCount;
                 // **************** /RETURNS ************************************************
+
+                $outputTemplate = &$res['output_template_variations'][1]['output_template'];
 
                 if($request->status == PrincipalsUtil::$STATUS_PENDING) {
                     // Loop through each line of the file content
@@ -414,36 +415,32 @@ class DoleController extends Controller
                             'vendor_code' =>            $vendor_code,
                         ];
 
-                        if (
-                            !isset($res['output_template_variations'][1]['output_template'][$$group_by])
-                        ) {
-                            $res['output_template_variations'][1]['output_template'][$$group_by] = [];
+                        // group output_template_variations -------------------------------------------------------------
+                        $tempKey = '';
+                        if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
+                            $tempKey = $$group_by . '-Unmapped';
+                        } else {
+                            $tempKey = $$group_by;
                         }
-                        array_push(
-                            $res['output_template_variations'][1]['output_template'][$$group_by],
-                            $arrGenerated
-                        );
+                        if (!isset($outputTemplate[$tempKey])) {
+                            $outputTemplate[$tempKey] = [];
+                        }
+                        array_push($outputTemplate[$tempKey], $arrGenerated);
                     }
-                } else if($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
+                } else if ($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
                     foreach ($returns as $return) {
                         if($return->gendata != null) {
                             $arrGenerated = json_decode($return->gendata);
                             // group output_template_variations
                             $groupByKey = $return->$group_by ?? $arrGenerated->$group_by;
-                            if (
-                                !isset(
-                                    $res['output_template_variations'][1]['output_template'][$groupByKey]
-                                )
-                            ) {
-                                $res['output_template_variations'][1]['output_template'][$groupByKey] = [];
+                            if (!isset($outputTemplate[$groupByKey])) {
+                                $outputTemplate[$groupByKey] = [];
                             }
-                            array_push(
-                                $res['output_template_variations'][1]['output_template'][$groupByKey],
-                                $arrGenerated
-                            );
+                            array_push($outputTemplate[$groupByKey], $arrGenerated);
                         }
                     }
                 }
+                ksort($outputTemplate);
             }
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

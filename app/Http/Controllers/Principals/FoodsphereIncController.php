@@ -328,6 +328,7 @@ class FoodsphereIncController extends Controller
                     'output_template' => [],
                 ],
             ];
+            $outputTemplate = null;
 
             $dateToday = Carbon::now();
             $system_date = $dateToday->format('Y-m-d');
@@ -355,6 +356,8 @@ class FoodsphereIncController extends Controller
 
                     $res['line_count'] = $pendingInvoicesCount;
                     // **************** /PENDING INVOICES ************************************
+
+                    $outputTemplate = &$res['output_template_variations'][0]['output_template'];
 
                     if($request->status=='pending') {
                         // Loop through each line of the file content
@@ -438,54 +441,31 @@ class FoodsphereIncController extends Controller
                             ];
 
                             // group output_template_variations
+                            $tempKey = '';
                             if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
-                                // ---------------------------------------------------------------------------
-                                if (
-                                    !isset($res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'])
-                                ) {
-                                    $res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'],
-                                    $arrGenerated
-                                );
-                                // ---------------------------------------------------------------------------
+                                $tempKey = $$group_by . '-Unmapped';
                             } else {
-                                if (
-                                    !isset($res['output_template_variations'][0]['output_template'][$$group_by])
-                                ) {
-                                    $res['output_template_variations'][0]['output_template'][$$group_by] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations'][0]['output_template'][$$group_by],
-                                    $arrGenerated
-                                );
+                                $tempKey = $$group_by;
                             }
-                            // ******************** /TEMPLATE 1 **************************
+                            if (!isset($outputTemplate[$tempKey])) {
+                                $outputTemplate[$tempKey] = [];
+                            }
+                            array_push($outputTemplate[$tempKey], $arrGenerated);
                         }
-
-                        ksort($res['output_template_variations'][0]['output_template']);
-
-                    } else if ($request->status=='completed') {
+                    } else if ($request->status ==PrincipalsUtil::$STATUS_COMPLETED) {
                         foreach ($pendingInvoices as $pendingInvoice) {
                             if($pendingInvoice->gendata != null) {
                                 $arrGenerated = json_decode($pendingInvoice->gendata);
                                 // group output_template_variations
                                 $groupByKey = $pendingInvoice->$group_by ?? $arrGenerated->$group_by;
-                                if (
-                                    !isset(
-                                        $res['output_template_variations'][0]['output_template'][$groupByKey]
-                                    )
-                                ) {
-                                    $res['output_template_variations'][0]['output_template'][$groupByKey] = [];
+                                if (!isset($outputTemplate[$groupByKey])) {
+                                    $outputTemplate[$groupByKey] = [];
                                 }
-                                array_push(
-                                    $res['output_template_variations'][0]['output_template'][$groupByKey],
-                                    $arrGenerated
-                                );
+                                array_push($outputTemplate[$groupByKey], $arrGenerated);
                             }
                         }
                     }
+                    ksort($outputTemplate);
                 }
                 // ******************************** /TEMPLATE 1 ***********************************
 
@@ -499,6 +479,8 @@ class FoodsphereIncController extends Controller
                     // dd($returns[0]);
                     $res['line_count'] += $returnsCount;
                     // **************** /RETURNS ***********************************************
+
+                    $outputTemplate = &$res['output_template_variations'][1]['output_template'];
 
                     if($request->status=='pending') {
                         // Loop through each line of the file content
@@ -589,51 +571,32 @@ class FoodsphereIncController extends Controller
                                 'vendor_code' => $vendor_code,
                             ];
 
-                            // group output_template_variations
+                            // group output_template_variations -------------------------------------------------------------
+                            $tempKey = '';
                             if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
-                                // ---------------------------------------------------------------------------
-                                if (
-                                    !isset($res['output_template_variations'][1]['output_template']['Unmapped'])
-                                ) {
-                                    $res['output_template_variations'][1]['output_template']['Unmapped'] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations'][1]['output_template']['Unmapped'],
-                                    $arrGenerated
-                                );
-                                // ---------------------------------------------------------------------------
+                                $tempKey = $$group_by . '-Unmapped';
                             } else {
-                                if (
-                                    !isset($res['output_template_variations'][1]['output_template'][$$group_by])
-                                ) {
-                                    $res['output_template_variations'][1]['output_template'][$$group_by] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations'][1]['output_template'][$$group_by],
-                                    $arrGenerated
-                                );
+                                $tempKey = $$group_by;
                             }
+                            if (!isset($outputTemplate[$tempKey])) {
+                                $outputTemplate[$tempKey] = [];
+                            }
+                            array_push($outputTemplate[$tempKey], $arrGenerated);
                         }
-                    } else if ($request->status=='completed') {
+                    } else if ($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
                         foreach ($returns as $return) {
                             if($return->gendata != null) {
                                 $arrGenerated = json_decode($return->gendata);
                                 // group output_template_variations
                                 $groupByKey = $return->$group_by ?? $arrGenerated->$group_by;
-                                if (
-                                    !isset(
-                                        $res['output_template_variations'][1]['output_template'][$groupByKey]
-                                    )
-                                ) {
-                                    $res['output_template_variations'][1]['output_template'][$groupByKey] = [];
+                                if (!isset($outputTemplate[$groupByKey])) {
+                                    $outputTemplate[$groupByKey] = [];
                                 }
-                                array_push(
-                                    $res['output_template_variations'][1]['output_template'][$groupByKey],
-                                    $arrGenerated
-                                );
+                                array_push($outputTemplate[$groupByKey], $arrGenerated);
                             }
                         }
                     }
+                    ksort($outputTemplate);
                 }
                 // ***************************** /TEMPLATE 2 *************************************
             }

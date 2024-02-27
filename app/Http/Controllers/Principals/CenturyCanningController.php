@@ -451,6 +451,7 @@ class CenturyCanningController extends Controller
                     'output_template' => [],
                 ],
             ];
+            $outputTemplate = null;
 
             $dateToday = Carbon::now();
             $system_date = $dateToday->format('Y-m-d');
@@ -487,6 +488,8 @@ class CenturyCanningController extends Controller
                     $res['line_count'] += $pendingInvoicesCount;
                     // **************** /PENDING INVOICES ************************************
 
+                    $outputTemplate = &$res['output_template_variations'][0]['output_template'];
+
                     if($request->status == PrincipalsUtil::$STATUS_PENDING) {
                         // Loop through each line of the file content
                         $loopCounter = 0;
@@ -510,18 +513,6 @@ class CenturyCanningController extends Controller
                             $vendor_code = $pendingInvoice->vendor_code;
 
                             // ****************************************************************
-                            // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                            //     ->where('customer_code', $customer_code)
-                            //     ->first();
-                            // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                            //     ->where('item_code', $item_code)
-                            //     ->first();
-                            // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                            //     ->where('group_code', $group)
-                            //     ->first();
 
                             $item = $principal_items
                                 ->where('item_code', $item_code)
@@ -541,25 +532,7 @@ class CenturyCanningController extends Controller
                                 $loose_qty = $quantity;
                             }
 
-                            // if($item != null) {
-                            //     $quo = $quantity/$item->conversion_qty;
-                            //     $mod = $quantity%$item->conversion_qty;
-                            //     $bulk_qty = intval($quo);
-                            //     $loose_qty = $mod;
-                            // }
-
-                            // if (
-                            //     strpos(strtolower($group), 'bulk') > -1
-                            // ) {
-                            //     $bulk_qty = $quantity;
-                            // } else if (
-                            //     strpos(strtolower($group), 'pcs') > -1
-                            // ) {
-                            //     $loose_qty = $quantity;
-                            // }
-
                             // ************************* TEMPLATE 1 **************************
-                            // tvc = template variation count
                             // ********************** MISC INITS *************************
                             $item_notfound = 0;
                             $customer_notfound = 0;
@@ -569,19 +542,11 @@ class CenturyCanningController extends Controller
 
                             if ($item == null) {
                                 $item_notfound = 1;
-                                $missing_item_name =
-                                    DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                                    ->where('item_code', $item_code)
-                                    ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
                             } else {
                             }
 
                             // if ($customer == null) {
                             //     $customer_notfound = 1;
-                            //     $missing_customer_name =
-                            //         DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                            //         ->where('customer_code', $customer_code)
-                            //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                             // } else {
                             // }
 
@@ -637,56 +602,31 @@ class CenturyCanningController extends Controller
                             ];
 
                             // group output_template_variations
+                            $tempKey = '';
                             if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
-                                // ---------------------------------------------------------------------------
-                                if (
-                                    !isset($res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'])
-                                ) {
-                                    $res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'],
-                                    $arrGenerated
-                                );
-                                // ---------------------------------------------------------------------------
+                                $tempKey = $$group_by . '-Unmapped';
                             } else {
-                                if (
-                                    !isset($res['output_template_variations']
-                                        [0]['output_template'][$$group_by])
-                                ) {
-                                    $res['output_template_variations']
-                                        [0]['output_template'][$$group_by] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations']
-                                        [0]['output_template'][$$group_by],
-                                    $arrGenerated
-                                );
+                                $tempKey = $$group_by;
                             }
+                            if (!isset($outputTemplate[$tempKey])) {
+                                $outputTemplate[$tempKey] = [];
+                            }
+                            array_push($outputTemplate[$tempKey], $arrGenerated);
                         }
-
-                        ksort($res['output_template_variations'][0]['output_template']);
-
                     } else if ($request->status ==PrincipalsUtil::$STATUS_COMPLETED) {
                         foreach ($pendingInvoices as $pendingInvoice) {
                             if($pendingInvoice->gendata != null) {
                                 $arrGenerated = json_decode($pendingInvoice->gendata);
                                 // group output_template_variations
                                 $groupByKey = $pendingInvoice->$group_by ?? $arrGenerated->$group_by;
-                                if (
-                                    !isset(
-                                        $res['output_template_variations'][0]['output_template'][$groupByKey]
-                                    )
-                                ) {
-                                    $res['output_template_variations'][0]['output_template'][$groupByKey] = [];
+                                if (!isset($outputTemplate[$groupByKey])) {
+                                    $outputTemplate[$groupByKey] = [];
                                 }
-                                array_push(
-                                    $res['output_template_variations'][0]['output_template'][$groupByKey],
-                                    $arrGenerated
-                                );
+                                array_push($outputTemplate[$groupByKey], $arrGenerated);
                             }
                         }
                     }
+                    ksort($outputTemplate);
                 }
                 // ****************************** /TEMPLATE 1 **********************************
 
@@ -700,6 +640,8 @@ class CenturyCanningController extends Controller
                     // dd($returns[0]);
                     $res['line_count'] += $returnsCount;
                     // **************** /RETURNS ************************************************
+
+                    $outputTemplate = &$res['output_template_variations'][1]['output_template'];
 
                     if($request->status == PrincipalsUtil::$STATUS_PENDING) {
                         // Loop through each line of the file content
@@ -727,19 +669,6 @@ class CenturyCanningController extends Controller
                             $vendor_code = $return->vendor_code;
 
                             // ****************************************************************
-                            // $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                            //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                            //     ->where('customer_code', $customer_code)
-                            //     ->first();
-                            // $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                            //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                            //     ->where('item_code', $item_code)
-                            //     ->first();
-                            // $salesman = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                            //     ->where('principal_code', $this->PRINCIPAL_CODE)
-                            //     // ->where('sm_code', $u5)
-                            //     ->where('group_code', $group)
-                            //     ->first();
                             $item = $principal_items
                                 ->where('item_code', $item_code)
                                 ->first();
@@ -757,26 +686,7 @@ class CenturyCanningController extends Controller
                             } else {
                                 $loose_qty = $quantity;
                             }
-
-                            // if($item != null) {
-                            //     $quo = $quantity/$item->conversion_qty;
-                            //     $mod = $quantity%$item->conversion_qty;
-                            //     $bulk_qty = intval($quo);
-                            //     $loose_qty = $mod;
-                            // }
-
-                            // if (
-                            //     strpos(strtolower($group), 'bulk') > -1
-                            // ) {
-                            //     $bulk_qty = $quantity;
-                            // } else if (
-                            //     strpos(strtolower($group), 'pcs') > -1
-                            // ) {
-                            //     $loose_qty = $quantity;
-                            // }
-
                             // ************************* TEMPLATE 1 **************************
-                            // tvc = template variation count
                             // ********************** MISC INITS *************************
                             $item_notfound = 0;
                             $customer_notfound = 0;
@@ -786,19 +696,11 @@ class CenturyCanningController extends Controller
 
                             if ($item == null) {
                                 $item_notfound = 1;
-                                $missing_item_name =
-                                    DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
-                                    ->where('item_code', $item_code)
-                                    ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
                             } else {
                             }
 
                             // if ($customer == null) {
                             //     $customer_notfound = 1;
-                            //     $missing_customer_name =
-                            //         DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                            //         ->where('customer_code', $customer_code)
-                            //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
                             // } else {
                             // }
 
@@ -856,57 +758,32 @@ class CenturyCanningController extends Controller
                                 'vendor_code' => $vendor_code,
                             ];
 
-                            // group output_template_variations
+                            // group output_template_variations -------------------------------------------------------------
+                            $tempKey = '';
                             if($item_notfound==1 || $customer_notfound==1 || $salesman_notfound==1) {
-                                // ---------------------------------------------------------------------------
-                                if (
-                                    !isset($res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'])
-                                ) {
-                                    $res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations'][0]['output_template'][$$group_by . '-Unmapped'],
-                                    $arrGenerated
-                                );
-                                // ---------------------------------------------------------------------------
+                                $tempKey = $$group_by . '-Unmapped';
                             } else {
-                                if (
-                                    !isset($res['output_template_variations']
-                                        [1]['output_template'][$$group_by])
-                                ) {
-                                    $res['output_template_variations']
-                                        [1]['output_template'][$$group_by] = [];
-                                }
-                                array_push(
-                                    $res['output_template_variations']
-                                        [1]['output_template'][$$group_by],
-                                    $arrGenerated
-                                );
+                                $tempKey = $$group_by;
                             }
+                            if (!isset($outputTemplate[$tempKey])) {
+                                $outputTemplate[$tempKey] = [];
+                            }
+                            array_push($outputTemplate[$tempKey], $arrGenerated);
                         }
-
-                        ksort($res['output_template_variations'][0]['output_template']);
-
                     } else if ($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
                         foreach ($returns as $return) {
                             if($return->gendata != null) {
                                 $arrGenerated = json_decode($return->gendata);
                                 // group output_template_variations
                                 $groupByKey = $return->$group_by ?? $arrGenerated->$group_by;
-                                if (
-                                    !isset(
-                                        $res['output_template_variations'][1]['output_template'][$groupByKey]
-                                    )
-                                ) {
-                                    $res['output_template_variations'][1]['output_template'][$groupByKey] = [];
+                                if (!isset($outputTemplate[$groupByKey])) {
+                                    $outputTemplate[$groupByKey] = [];
                                 }
-                                array_push(
-                                    $res['output_template_variations'][1]['output_template'][$groupByKey],
-                                    $arrGenerated
-                                );
+                                array_push($outputTemplate[$groupByKey], $arrGenerated);
                             }
                         }
                     }
+                    ksort($outputTemplate);
                 }
                 // ****************************** /TEMPLATE 2 **********************************
             }

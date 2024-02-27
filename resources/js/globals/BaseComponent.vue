@@ -119,15 +119,35 @@
             z-index="999999"
             opacity="0.5"
         >
-            <v-chip color="primary darken-1">
+            <!-- <v-chip color="primary darken-1">
                 <v-progress-circular
                     :value="64"
                     indeterminate
-                    size="20"
+                    size="40"
                 ></v-progress-circular>
                 &nbsp;
-                {{ AppStore.state.overlay.msg }}
-            </v-chip>
+
+            </v-chip> -->
+            <v-card width="250" height="220" color="white primary--text">
+                <v-card-text>
+                    <v-row>
+                        <v-col cols="12"></v-col>
+                        <v-col cols="12" class="d-flex justify-center">
+                            <v-progress-circular
+                                :value="64"
+                                indeterminate
+                                size="60"
+                                color="primary"
+                            ></v-progress-circular>
+                        </v-col>
+                        <v-col cols="12" class="d-flex justify-center">
+                            <small class="text-align-center primary--text">
+                                {{ AppStore.state.overlay.msg }}
+                            </small>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+            </v-card>
         </v-overlay>
     </v-app>
 </template>
