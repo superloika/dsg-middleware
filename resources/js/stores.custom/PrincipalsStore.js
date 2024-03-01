@@ -430,7 +430,7 @@ const actions = {
                 //         && line.salesman_notfound==0;
                 // });
 
-                // export all (including unmapped lines)
+                // export including unmapped lines (temporary)
                 uploadable = element[1];
             }
 
