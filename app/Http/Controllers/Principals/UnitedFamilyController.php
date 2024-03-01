@@ -185,6 +185,13 @@ class UnitedFamilyController extends Controller
                             $arrGenerated = json_decode($pendingInvoice->gendata);
                             // group output_template_variations
                             $groupByKey = $pendingInvoice->$group_by ?? $arrGenerated->$group_by;
+                            if(
+                                $arrGenerated->item_notfound==1 ||
+                                $arrGenerated->customer_notfound==1 ||
+                                $arrGenerated->salesman_notfound==1
+                            ) {
+                                $groupByKey = $groupByKey . '-Unmapped';
+                            }
                             if (!isset($outputTemplate[$groupByKey])) {
                                 $outputTemplate[$groupByKey] = [];
                             }
@@ -314,6 +321,13 @@ class UnitedFamilyController extends Controller
                             $arrGenerated = json_decode($return->gendata);
                             // group output_template_variations
                             $groupByKey = $return->$group_by ?? $arrGenerated->$group_by;
+                            if(
+                                $arrGenerated->item_notfound==1 ||
+                                $arrGenerated->customer_notfound==1 ||
+                                $arrGenerated->salesman_notfound==1
+                            ) {
+                                $groupByKey = $groupByKey . '-Unmapped';
+                            }
                             if (!isset($outputTemplate[$groupByKey])) {
                                 $outputTemplate[$groupByKey] = [];
                             }

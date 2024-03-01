@@ -28,4 +28,11 @@ class MiscUtils extends Controller
     //         ]);
     //     }
     // }
+
+    /**
+     * MVC = main vendor code KEKW
+     */
+    public function overrideMVC(Request $request) {
+
+    }
 }
