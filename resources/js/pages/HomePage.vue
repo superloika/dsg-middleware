@@ -18,7 +18,7 @@
                     small
                 >
                     <span v-if="isUploadedToday(notice.created_at)">
-                        Today
+                        Today ({{ notice.created_at }})
                     </span>
                     <span v-else>{{ notice.created_at }}</span>
                 </v-chip>
@@ -41,7 +41,7 @@
             >
                 <span
                     v-if="isUploadedToday(uplog.created_at)"
-                >Uploaded Today</span>
+                >Uploaded today {{ uplog.created_at }}</span>
                 <span v-else>
                     Uploaded on {{ uplog.created_at }}
                 </span>
