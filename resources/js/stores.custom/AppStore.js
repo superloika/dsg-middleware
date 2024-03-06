@@ -59,6 +59,7 @@ const actions = {
     },
 
     async initPrincipals() {
+        console.log(window.AuthUser.main_vendor_codes);
         let url = state.siteUrl + 'master/principals/all?main_vendor_codes='
             + window.AuthUser.main_vendor_codes;
         state.principals = [];
