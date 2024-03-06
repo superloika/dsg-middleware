@@ -16,12 +16,8 @@ class MasterPrincipalsController extends Controller
         // dd($main_vendor_codes);
 
         $res = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-            // ->where('active', 1)
             ->where('active', 1)
-            // ->orderBy('proj_status', 'DESC')
-            // ->orderBy('code')
-            // ->orderBy('name')
-            ->orderBy('main_vendor_code')
+            // ->orderBy('main_vendor_code')
             ->when(
                 count($main_vendor_codes) > 0 && $main_vendor_codes[0]!='*',
                 function($q) use($main_vendor_codes) {
@@ -58,25 +54,25 @@ class MasterPrincipalsController extends Controller
                             if (count($cols) > 1) {
                                 // $id = $cols[0];
                                 $name = trim($cols[0], ' \t\n\r\0\"');
-                                $principal_code = $cols[1];
-                                $vendor_code = $cols[2];
-                                $template_variation_count = $cols[3];
-                                $proj_status = $cols[4];
-                                $active = $cols[5];
-                                $search_key = $cols[6];
-                                $main_vendor_code = $cols[7];
-                                $controller = $cols[9];
+                                $principal_code =               $cols[1];
+                                $vendor_code =                  $cols[2];
+                                $template_variation_count =     $cols[3];
+                                $proj_status =                  $cols[4];
+                                $active =                       $cols[5];
+                                $search_key =                   $cols[6];
+                                $main_vendor_code =             $cols[7];
+                                $controller =                   $cols[9];
 
                                 $arr = [
-                                    'name' => $name,
-                                    'code' => $principal_code,
-                                    'vendor_code' => $vendor_code,
-                                    'template_variation_count' => $template_variation_count,
-                                    'proj_status' => $proj_status,
-                                    'active' => $active,
-                                    'search_key' => $search_key,
-                                    'main_vendor_code' => $main_vendor_code,
-                                    'controller' => $controller,
+                                    'name' =>                       $name,
+                                    'code' =>                       $principal_code,
+                                    'vendor_code' =>                $vendor_code,
+                                    'template_variation_count' =>   $template_variation_count,
+                                    'proj_status' =>                $proj_status,
+                                    'active' =>                     $active,
+                                    'search_key' =>                 $search_key,
+                                    'main_vendor_code' =>           $main_vendor_code,
+                                    'controller' =>                 $controller,
                                 ];
 
                                 if(
