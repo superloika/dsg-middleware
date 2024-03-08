@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\DB;
 
 class PrincipalsUtil extends Controller
 {
-    public static $TBL_SETTINGS = 'settings';
+    // public static $TBL_SETTINGS = 'settings';
+    public static $TBL_SETTINGS = 'settings_ptn';
 
     public static $STATUS_COMPLETED = 'completed';
     public static $STATUS_PENDING = 'pending';
