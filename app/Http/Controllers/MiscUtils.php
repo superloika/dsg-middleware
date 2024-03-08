@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Principals\PrincipalsUtil;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MiscUtils extends Controller
 {
@@ -34,5 +36,19 @@ class MiscUtils extends Controller
      */
     public function overrideMVC(Request $request) {
 
+    }
+
+    public function dbDetails() {
+        $con = DB::connection();
+        return response()->json([
+            'db_config' => array_filter(
+                $con->getConfig(), function($key) {
+                    return $key != 'password';
+                },
+                ARRAY_FILTER_USE_KEY
+            ),
+            'invoices_table' => PrincipalsUtil::$TBL_INVOICES,
+            'settings_table' => PrincipalsUtil::$TBL_SETTINGS,
+        ]);
     }
 }

@@ -145,7 +145,12 @@ MODIFY posting_date DATE
 -- create new temp table copy for invoices_lines
 -- add partitioning based on posting_date (monthly) - execute add partition raw query
 -- copy data from orig invoices_lines into the new table with partitioning
+-- source table column positions must be equal to the target table column positions
 INSERT INTO invoices_lines_ptn select * from invoices_lines;
+
+-- settings TABLE
+-- copy and execute create code of the updated table from local
+INSERT INTO settings_ptn SELECT * FROM settings;
 
 -- ========== principal specific masterfiles ============
 -- copy and execute create code of the updated table from local
@@ -174,5 +179,6 @@ INSERT INTO general_customers_ptn select * from general_customers;
 -- new settings entries for DOLE
 -- DocumentNumberPrefix
 -- DocumentNumber_AI
+
 
 
