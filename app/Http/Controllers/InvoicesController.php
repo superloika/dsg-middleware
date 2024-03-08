@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 
@@ -1177,6 +1178,11 @@ class InvoicesController extends Controller
         $vendor_codes = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
             ->where('main_vendor_code', $main_vendor_code)->pluck('vendor_code')->toArray();
 
+        $selectOnly = array_diff(
+            Schema::getColumnListing(PrincipalsUtil::$TBL_INVOICES),
+            ['id','created_at','updated_at','uploaded_by','filename','batch_number']
+        );
+
         GenerateTemplated::dispatch("Retrieving invoices");
 
         $res = DB::table(PrincipalsUtil::$TBL_INVOICES)
@@ -1196,6 +1202,7 @@ class InvoicesController extends Controller
             // ->select([
             //     PrincipalsUtil::$TBL_INVOICES.'.*'
             // ])
+            ->select($selectOnly)
             ->cursor();
 
         return $res;
