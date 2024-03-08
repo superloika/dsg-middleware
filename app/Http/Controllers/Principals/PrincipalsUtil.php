@@ -182,7 +182,7 @@ class PrincipalsUtil extends Controller
                 // ->orderBy($this::$TBL_INVOICES. '.customer_code', 'ASC')
                 ->orderBy($this::$TBL_INVOICES. '.doc_no', 'ASC')
 
-                ->get();
+                ->cursor();
 
             $res['success'] = true;
             $res['message'] = 'Success';
