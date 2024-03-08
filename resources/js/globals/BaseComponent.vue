@@ -128,7 +128,7 @@
                 &nbsp;
 
             </v-chip> -->
-            <v-card width="250" height="220">
+            <v-card width="250" height="220" color="white">
                 <v-card-text>
                     <v-row>
                         <v-col cols="12"></v-col>
