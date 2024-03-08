@@ -68,7 +68,7 @@ add column `controller` VARCHAR(191) NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_
 ;
 
 alter table users
-add column `main_vendor_codes` LONGTEXT NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_ci'
+add column `main_vendor_codes` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_ci'
 ;
 
 
@@ -132,25 +132,46 @@ posting_date = DATE_FORMAT(STR_TO_DATE(posting_date, '%m/%d/%y'), '%Y-%m-%d')
 
 
 -- change both of their format into DATE
--- reindex
+ALTER TABLE invoices_lines
+MODIFY shipment_date DATE,
+MODIFY posting_date DATE
+;
+
+ALTER TABLE cm_lines
+MODIFY shipment_date DATE,
+MODIFY posting_date DATE
+;
+-- re-index
 -- create new temp table copy for invoices_lines
 -- add partitioning based on posting_date (monthly) - execute add partition raw query
 -- copy data from orig invoices_lines into the new table with partitioning
--- OPTIMIZE TABLE invoices_lines_ptn;
+INSERT INTO invoices_lines_ptn select * from invoices_lines;
 
--- principal masterfiles table
+-- ========== principal specific masterfiles ============
+-- copy and execute create code of the updated table from local
+-- principals_customers, principals_items, principals_salesmen
+INSERT INTO principals_customers_ptn SELECT * FROM principals_customers;
+INSERT INTO principals_items_ptn SELECT * FROM principals_items;
+INSERT INTO principals_salesmen_ptn SELECT * FROM principals_salesmen;
+
+
+-- ========== general masterfiles ===========
+-- principal masterfiles TABLE
 -- use composite indexing
--- OPTIMIZE TABLE
+-- copy and execute create code of the updated table from local
+INSERT INTO principals_ptn select * from principals;
 
--- general_items table
--- re index (composite indexing)
--- optimize table
+-- general_items TABLE
+-- use composite indexing
+-- copy and execute create code of the updated table from local
+INSERT INTO general_items_ptn select * from general_items;
 
--- general_customers table
--- re index
--- optimize table
+-- general_customers TABLE
+-- use composite indexing
+-- copy and execute create code of the updated table from local
+INSERT INTO general_customers_ptn select * from general_customers;
 
--- new settings entries for dole
+-- new settings entries for DOLE
 -- DocumentNumberPrefix
 -- DocumentNumber_AI
 

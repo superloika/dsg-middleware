@@ -33,16 +33,23 @@ class PrincipalsUtil extends Controller
     /**
      * Return invoices db table name (lines)
      */
-    public static $TBL_CM = 'cm_lines';
+    // public static $TBL_CM = 'cm_lines';
+    public static $TBL_CM = 'cm_lines_ptn';
 
-    public static $TBL_PRINCIPALS_CUSTOMERS = 'principals_customers';
-    public static $TBL_PRINCIPALS_ITEMS = 'principals_items';
-    public static $TBL_PRINCIPALS_SALESMEN = 'principals_salesmen';
+    // public static $TBL_PRINCIPALS_CUSTOMERS = 'principals_customers';
+    // public static $TBL_PRINCIPALS_ITEMS = 'principals_items';
+    // public static $TBL_PRINCIPALS_SALESMEN = 'principals_salesmen';
+    public static $TBL_PRINCIPALS_CUSTOMERS = 'principals_customers_ptn';
+    public static $TBL_PRINCIPALS_ITEMS = 'principals_items_ptn';
+    public static $TBL_PRINCIPALS_SALESMEN = 'principals_salesmen_ptn';
 
-    public static $TBL_GENERAL_ITEMS = 'general_items';
-    public static $TBL_GENERAL_CUSTOMERS = 'general_customers';
+    // public static $TBL_GENERAL_ITEMS = 'general_items';
+    // public static $TBL_GENERAL_CUSTOMERS = 'general_customers';
+    public static $TBL_GENERAL_ITEMS = 'general_items_ptn';
+    public static $TBL_GENERAL_CUSTOMERS = 'general_customers_ptn';
 
-    public static $TBL_PRINCIPALS = 'principals';
+    // public static $TBL_PRINCIPALS = 'principals';
+    public static $TBL_PRINCIPALS = 'principals_ptn';
 
     public static $TBL_GROUPS = 'groups';
 
