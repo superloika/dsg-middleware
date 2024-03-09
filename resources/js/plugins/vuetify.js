@@ -49,10 +49,10 @@ const opts = {
                 error: '#FF5252',
                 info: '#2196F3',
                 success: '#4CAF50',
-                // primary: '#2dba02',
-                primary: '#6200EA',
-                // accent: "#7dd663",
-                accent: "#7C4DFF",
+                primary: '#2dba02', //green
+                accent: "#7dd663", //green
+                // primary: '#6200EA', //purple
+                // accent: "#7C4DFF", //purple
             },
             // light: {
             //     error: '#FF5252',

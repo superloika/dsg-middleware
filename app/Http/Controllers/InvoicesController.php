@@ -306,6 +306,8 @@ class InvoicesController extends Controller
                         //set memory limit to unli for heavy stuff processing
                         ini_set('memory_limit', -1);
 
+                        UploadInvoice::dispatch("Reading invoices and checking existence in the database...");
+
                         foreach ($rows as $row) {
                             $line_number += 1;
 
@@ -347,7 +349,7 @@ class InvoicesController extends Controller
 
                                 UploadInvoice::dispatch(
                                     "($fileCount of $totalFileCount) $origFilename " .
-                                    "[invoice_lines: $doc_no] ($progressPercent%) "
+                                    "[invoice_lines: $doc_no] (<b>$progressPercent%</b>) "
                                 );
 
                                 if($quantity > 0) {
@@ -366,6 +368,11 @@ class InvoicesController extends Controller
                                     ) {
                                         $summaryItem['lines_count_existing'] += 1;
                                     } else {
+                                        UploadInvoice::dispatch(
+                                            "($fileCount of $totalFileCount) $origFilename " .
+                                            "[invoice_lines: $doc_no] ($progressPercent%) "
+                                        );
+
                                         // invoice line
                                         $invoice_l = [
                                             'created_at' => date($dateTimeToday),
@@ -425,10 +432,6 @@ class InvoicesController extends Controller
                                 $ext_doc_no =       trim(str_replace('"','',($cols[8] ?? '')));
                                 // $ext_doc_no =       trim(str_replace('"','',$cols[8] ?? $doc_no));
                                 // $ext_doc_no =       $ext_doc_no=='' ? $doc_no : $ext_doc_no;
-                                UploadInvoice::dispatch(
-                                    "($fileCount of $totalFileCount) $origFilename " .
-                                    "[invoice_headers: $doc_no] ($progressPercent%)"
-                                );
 
                                 if(
                                     DB::table(PrincipalsUtil::$TBL_INVOICES)
@@ -445,6 +448,11 @@ class InvoicesController extends Controller
                                         ]
                                     ) > 0
                                 ) {
+                                    UploadInvoice::dispatch(
+                                        "($fileCount of $totalFileCount) $origFilename " .
+                                        "[invoice_headers: $doc_no] ($progressPercent%)"
+                                    );
+
                                     $summaryItem['headers_count_uploaded'] += 1;
                                 } else {
                                     // store skipped headers count temporarily, rename term soon
@@ -479,10 +487,6 @@ class InvoicesController extends Controller
                                 $vat_percentage =       trim(str_replace('"','',$cols[12] ?? 0));
                                 // $ext_doc_no =        trim(str_replace('"','',$cols[13] ?? $doc_no));
                                 // $ext_doc_no =        $ext_doc_no=='' ? $doc_no : $ext_doc_no;
-                                UploadInvoice::dispatch(
-                                    "($fileCount of $totalFileCount) $origFilename " .
-                                    "[cm_lines: $doc_no]"." ($progressPercent%)"
-                                );
 
                                 if($quantity > 0) {
                                     $summaryItem['cm_lines_count'] += 1;
@@ -497,6 +501,11 @@ class InvoicesController extends Controller
                                             ->where('shipment_date',$shipment_date)
                                             ->exists() == false
                                     ) {
+                                        UploadInvoice::dispatch(
+                                            "($fileCount of $totalFileCount) $origFilename " .
+                                            "[cm_lines: $doc_no]"." ($progressPercent%)"
+                                        );
+
                                         $cm_l = [
                                             'created_at' =>             date($dateTimeToday),
                                             'uploaded_by' =>            auth()->user()->id,
@@ -555,11 +564,6 @@ class InvoicesController extends Controller
                                 //                         ->where('doc_no', $invoice_doc_no)->get()->first()->ext_doc_no ?? '';
                                 $ext_doc_no = $invoice_doc_no; // temporary
 
-                                UploadInvoice::dispatch(
-                                    "($fileCount of $totalFileCount) $origFilename " .
-                                    "[cm_headers: $doc_no]"." ($progressPercent%)"
-                                );
-
                                 $summaryItem['cm_headers_count'] += 1;
 
                                 if (
@@ -576,6 +580,10 @@ class InvoicesController extends Controller
                                             'ext_doc_no' =>         $ext_doc_no,
                                         ]) > 0
                                 ) {
+                                    UploadInvoice::dispatch(
+                                        "($fileCount of $totalFileCount) $origFilename " .
+                                        "[cm_headers: $doc_no]"." ($progressPercent%)"
+                                    );
                                     $summaryItem['cm_headers_count_uploaded'] += 1;
                                 } else {
                                     // cm headers skipped, change term soon...
@@ -1211,7 +1219,7 @@ class InvoicesController extends Controller
 
 
     public static function getReturns($main_vendor_code, $posting_date_range, $status='') {
-        // posting date range
+        // posting date range ***********************
         $dates = explode(',', $posting_date_range);
         sort($dates);
         $dateFrom = '';
@@ -1231,7 +1239,7 @@ class InvoicesController extends Controller
         if($dateTo->isFuture()) {
             $dateTo = $dateToday;
         }
-        // /posting date range
+        // /posting date range ***********************
 
         GenerateTemplated::dispatch("Retrieving returns");
 
@@ -1254,18 +1262,10 @@ class InvoicesController extends Controller
                         PrincipalsUtil::$TBL_CM.'.item_code',
                         PrincipalsUtil::$TBL_INVOICES.'.item_code'
                     )
-                    // ->on(
-                    //     PrincipalsUtil::$TBL_CM.'.uom',
-                    //     PrincipalsUtil::$TBL_INVOICES.'.uom'
-                    // )
                     ;
                 }
             )
             ->whereIn('vendor_code', $vendor_codes)
-            // ->whereBetween(
-            //     DB::raw("STR_TO_DATE(". PrincipalsUtil::$TBL_CM . ".shipment_date, '%m/%d/%Y')"),
-            //     [$dateFrom, $dateTo]
-            // )
             ->when($status != '' && $status != 'all', function($q) use($status) {
                 $q->where(PrincipalsUtil::$TBL_CM.'.status','like', "%$status%");
             })

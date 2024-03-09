@@ -64,11 +64,23 @@
             ></v-progress-linear>
         </v-system-bar>
 
-        <!-- top error bar (supposed to be) -->
-        <!-- <v-system-bar v-if="AppStore.state.errorBar.show"
-            height="20" color="red darken-4" app dark elevation="1">
-            {{ AppStore.state.errorBar.msg }}
-        </v-system-bar> -->
+        <!-- websocket connection status display -->
+        <v-overlay
+            :value="wsConState != 'websocket:connected'"
+            z-index="9999999"
+            opacity="0.8"
+        >
+            <div v-if="wsConState == 'websocket:error'">
+                <v-chip small color="error">
+                    WebSocket connection error. Press F5 to retry.
+                </v-chip>
+            </div>
+            <div v-else>
+                <v-chip small color="error">
+                    {{ wsConState }}
+                </v-chip>
+            </div>
+        </v-overlay>
 
         <!-- SIDE NAV -->
         <!-- <v-navigation-drawer v-model="navDrawerState" app>
@@ -129,9 +141,8 @@
 
             </v-chip> -->
             <v-card width="250" height="220" color="white">
-                <v-card-text>
-                    <v-row>
-                        <v-col cols="12"></v-col>
+                <v-container fluid fill-height>
+                    <v-row align="center" justify="center">
                         <v-col cols="12" class="d-flex justify-center">
                             <v-progress-circular
                                 :value="64"
@@ -141,12 +152,13 @@
                             ></v-progress-circular>
                         </v-col>
                         <v-col cols="12" class="d-flex justify-center">
-                            <small class="text-align-center primary--text">
-                                {{ AppStore.state.overlay.msg }}
+                            <small
+                                class="primary--text" style="text-align: center;"
+                                v-html="AppStore.state.overlay.msg">
                             </small>
                         </v-col>
                     </v-row>
-                </v-card-text>
+                </v-container>
             </v-card>
         </v-overlay>
     </v-app>
@@ -157,6 +169,7 @@
 export default {
     data: () => ({
         navDrawerState: false,
+        wsConState: 'websocket:error',
     }),
 
     // computed: {
@@ -175,6 +188,7 @@ export default {
     mounted() {
         console.log('BaseComponent mounted');
 
+        // websocket server connection
         try {
             //DevChat channel
             Echo.join(this.DevChatStore.state.groupChannel)
@@ -214,6 +228,21 @@ export default {
             })
             ;
 
+            // Event listener for 'pusher:connection_established' event
+            window.Echo.connector.pusher.connection.bind('connected', () => {
+                console.log('Connected to Pusher');
+                this.wsConState = 'websocket:connected'
+            });
+
+            window.Echo.connector.pusher.connection.bind('connecting', () => {
+                console.log('Connecting to pusher');
+                this.wsConState = 'websocket:connecting'
+            });
+
+            window.Echo.connector.pusher.connection.bind('error', () => {
+                console.log('Disconnected to Pusher');
+                this.wsConState = 'websocket:error'
+            });
 
             // refresh BR
             // this.BrStore.refresh('ppfb');
@@ -221,6 +250,7 @@ export default {
             this.AppStore.initPrincipals();
 
         } catch (error) {
+            this.wsConState = 'websocket:error';
             console.error(error);
         }
     },
