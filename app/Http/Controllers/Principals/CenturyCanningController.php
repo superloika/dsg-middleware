@@ -496,7 +496,7 @@ class CenturyCanningController extends Controller
                         foreach ($pendingInvoices as $pendingInvoice) {
                             $loopCounter++;
                             $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
-                            GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
+                            GenerateTemplated::dispatch("Generating sales invoicesxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx test test test test test test test test test test test test test test test test test  ($progressPercent%)");
 
                             $doc_no = $pendingInvoice->doc_no;
                             $customer_code = $pendingInvoice->customer_code;
@@ -908,6 +908,8 @@ class CenturyCanningController extends Controller
                     ["text" => 'Location', "value" => 'location'],
                 ]
             ],
+
+            'posting_date_format' => 'm/d/Y',
         ];
 
         return response()->json($arr);

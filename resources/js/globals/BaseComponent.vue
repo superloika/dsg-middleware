@@ -153,7 +153,7 @@
                         </v-col>
                         <v-col cols="12" class="d-flex justify-center">
                             <small
-                                class="primary--text" style="text-align: center;"
+                                class="primary--text" style="text-align: center; word-break: break-word;"
                                 v-html="AppStore.state.overlay.msg">
                             </small>
                         </v-col>

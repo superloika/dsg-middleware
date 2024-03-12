@@ -216,9 +216,9 @@ const actions = {
      * Generate templated data based on pending invoices
      */
     async initCurrentGeneratedData(
-        template_variations_count=1,
+        // template_variations_count=1,
         status='',
-        posting_date_format='m/d/Y',
+        // posting_date_format='m/d/Y',
         data_type='all'
     ) {
         try {
@@ -231,7 +231,7 @@ const actions = {
                 + '&group_by=' + state.selectedGroupBy
                 + '&posting_date_range=' + state.posting_date_range
                 + '&status=' + status
-                + '&posting_date_format=' + posting_date_format
+                + '&posting_date_format=' + state.configs.posting_date_format
                 + '&data_type=' + data_type
                 // + '?template_variations_count=' + template_variations_count
             );
@@ -531,7 +531,7 @@ const actions = {
             let result = await axios.post(url, payload);
             if(result.data.success == true) {
                 AppStore.toast(result.data.message);
-                this.initCurrentGeneratedData();
+                // this.initCurrentGeneratedData();
             }
         } catch (error) {
             console.log('saveSettings():', error);

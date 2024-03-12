@@ -356,10 +356,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     refresh: function refresh() {
       if (this.invoiceStatus != '') {
-        var _this$PrincipalsStore;
-
         // this.showRefresh = true;
-        this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus, (_this$PrincipalsStore = this.PrincipalsStore.state.configs.posting_date_format) !== null && _this$PrincipalsStore !== void 0 ? _this$PrincipalsStore : 'm/d/Y', this.InvoicesStore.state.data_type);
+        this.PrincipalsStore.initCurrentGeneratedData( // null,
+        this.InvoicesStore.state.invoiceStatus, // this.PrincipalsStore.state.configs.posting_date_format ?? 'm/d/Y',
+        this.InvoicesStore.state.data_type);
         this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
       }
     },

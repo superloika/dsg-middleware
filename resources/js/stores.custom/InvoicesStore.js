@@ -229,7 +229,12 @@ const actions = {
 
             if(state.invoiceStatus!='completed' && state.invoiceStatus!='uploaded') {
                 PrincipalsStore.initSettings();
-                PrincipalsStore.initCurrentGeneratedData(null, state.invoiceStatus);
+                // PrincipalsStore.initCurrentGeneratedData(null, state.invoiceStatus);
+                PrincipalsStore.initCurrentGeneratedData(
+                    // null,
+                    state.invoiceStatus,
+                    state.data_type,
+                );
             }
         } catch (error) {
             console.error("setInvoicesComplete():", error);
