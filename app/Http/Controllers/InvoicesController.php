@@ -757,7 +757,7 @@ class InvoicesController extends Controller
                             // override from pending to complete (for gendata)
                             $line['status'] = 'completed';
 
-                            dd($line);
+                            // dd($line);
 
                             if($isReturn) {
                                 DB::table(PrincipalsUtil::$TBL_CM)
