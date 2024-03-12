@@ -757,7 +757,7 @@ class InvoicesController extends Controller
                             // override from pending to complete (for gendata)
                             $line['status'] = 'completed';
 
-                            // dd($line);
+                            dd($line);
 
                             if($isReturn) {
                                 DB::table(PrincipalsUtil::$TBL_CM)
@@ -765,7 +765,6 @@ class InvoicesController extends Controller
                                     ->where('item_code',        $line['alturas_item_code'])
                                     ->where('customer_code',    $line['alturas_customer_code'])
                                     ->where('uom',              $line['uom'])
-                                    // ->where('vendor_code',      $line['vendor_code'])
                                     ->where('status',           'pending')
                                     ->update([
                                         'status' =>         'completed',
@@ -778,8 +777,8 @@ class InvoicesController extends Controller
                                     ->where('doc_no',           $line['doc_no'])
                                     ->where('item_code',        $line['alturas_item_code'])
                                     ->where('customer_code',    $line['alturas_customer_code'])
-                                    ->where('uom',              $line['uom'])
                                     ->where('vendor_code',      $line['vendor_code'])
+                                    ->where('uom',              $line['uom'])
                                     ->where('status',           'pending')
                                     ->update([
                                         'status' =>         'completed',

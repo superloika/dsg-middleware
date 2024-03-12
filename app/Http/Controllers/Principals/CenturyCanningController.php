@@ -577,6 +577,7 @@ class CenturyCanningController extends Controller
                                 //commons
                                 'alturas_customer_code' => $customer_code,
                                 'alturas_item_code' => $item_code,
+                                'uom' => $uom,
                                 // 'alturas_sm_code' => $u5, // u5 = sm code
                                 'doc_no' => $doc_no,
                                 'missing_customer_name' => $missing_customer_name,
@@ -739,6 +740,7 @@ class CenturyCanningController extends Controller
                                 //commons
                                 'alturas_customer_code' => $customer_code,
                                 'alturas_item_code' => $item_code,
+                                'uom' => $uom,
                                 // 'alturas_sm_code' => $u5, // u5 = sm code
                                 'doc_no' => $doc_no,
                                 'missing_customer_name' => $missing_customer_name,
