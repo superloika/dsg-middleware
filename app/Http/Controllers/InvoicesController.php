@@ -347,10 +347,10 @@ class InvoicesController extends Controller
                                 $discount_percentage =  trim(str_replace('"','',$cols[14] ?? 0));
                                 $vat_percentage =       trim(str_replace('"','',$cols[15] ?? 0));
 
-                                UploadInvoice::dispatch(
-                                    "($fileCount of $totalFileCount) $origFilename " .
-                                    "[invoice_lines: $doc_no] (<b>$progressPercent%</b>) "
-                                );
+                                // UploadInvoice::dispatch(
+                                //     "($fileCount of $totalFileCount) $origFilename " .
+                                //     "[invoice_lines: $doc_no] (<b>$progressPercent%</b>) "
+                                // );
 
                                 if($quantity > 0) {
                                     $summaryItem['lines_count'] += 1;
