@@ -73,38 +73,33 @@ class InvoicesController extends Controller
                             PrincipalsUtil::$TBL_INVOICES.'.customer_code',
                             'like', '%'.$search_key. '%'
                         )
-                        // ->orWhere(
-                        //     PrincipalsUtil::$TBL_INVOICES.'.posting_date',
-                        //     'like', '%'.$search_key. '%'
-                        // )
-                        // ->orWhere(
-                        //     PrincipalsUtil::$TBL_INVOICES.'.shipment_date',
-                        //     'like', '%'.$search_key. '%'
-                        // )
-                        // ->orWhere(
-                        //     PrincipalsUtil::$TBL_INVOICES.'.created_at',
-                        //     'like', '%'.$search_key. '%'
-                        // )
-
                         ->orWhere(
                             PrincipalsUtil::$TBL_INVOICES.'.item_code',
                             'like', '%'.$search_key. '%'
                         )
                         ->orWhere(
-                            PrincipalsUtil::$TBL_INVOICES.'.vendor_code',
+                            PrincipalsUtil::$TBL_INVOICES.'.item_description',
+                            'like', '%'.$search_key. '%'
+                        )
+                        // ->orWhere(
+                        //     PrincipalsUtil::$TBL_INVOICES.'.vendor_code',
+                        //     'like', '%'.$search_key. '%'
+                        // )
+                        ->orWhere(
+                            PrincipalsUtil::$TBL_INVOICES.'.sm_code',
                             'like', '%'.$search_key. '%'
                         )
                         ->orWhere(
                             PrincipalsUtil::$TBL_INVOICES.'.customer_name',
                             'like', '%'.$search_key. '%'
                         )
-                        ->orWhere(
-                            PrincipalsUtil::$TBL_INVOICES.'.sm_code',
-                            'like', '%'.$search_key. '%'
-                        )
-
                         ->orWhere('batch_number','like', '%'.$search_key. '%');
                 });
+            })
+            ->when($terminal != '' && $terminal != 'all', function($q) use($terminal) {
+                $q->where(
+                    PrincipalsUtil::$TBL_INVOICES. '.group','like', '%'.$terminal. '%'
+                );
             })
             ->when($principal_code != '', function($query) use($principal_code) {
                 // if($principal_code != '') {
@@ -121,11 +116,6 @@ class InvoicesController extends Controller
                 $q->where(PrincipalsUtil::$TBL_INVOICES.'.status','like', "%$status%");
             })
             // terminal=group (NAV term)
-            ->when($terminal != '' && $terminal != 'all', function($q) use($terminal) {
-                $q->where(
-                    PrincipalsUtil::$TBL_INVOICES. '.group','like', '%'.$terminal. '%'
-                );
-            })
             ->whereBetween(
                 // DB::raw('DATE('. PrincipalsUtil::$TBL_INVOICES. ".created_at". ')'),
                 'posting_date',
@@ -357,13 +347,13 @@ class InvoicesController extends Controller
 
                                     if (
                                         DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                            ->where('vendor_code',$vendor_code)
                                             ->where('doc_no',$doc_no)
-                                            ->where('customer_code',$customer_code)
                                             ->where('item_code',$item_code)
+                                            ->where('customer_code',$customer_code)
+                                            ->where('vendor_code',$vendor_code)
                                             ->where('uom',$uom)
-                                            ->where('quantity',$quantity)
-                                            ->where('shipment_date',$shipment_date)
+                                            // ->where('quantity',$quantity)
+                                            // ->where('shipment_date',$shipment_date)
                                             ->exists()
                                     ) {
                                         $summaryItem['lines_count_existing'] += 1;
@@ -494,11 +484,11 @@ class InvoicesController extends Controller
                                     if (
                                         DB::table(PrincipalsUtil::$TBL_CM)
                                             ->where('doc_no',$doc_no)
-                                            ->where('customer_code',$customer_code)
                                             ->where('item_code',$item_code)
+                                            ->where('customer_code',$customer_code)
                                             ->where('uom',$uom)
-                                            ->where('quantity',$quantity)
-                                            ->where('shipment_date',$shipment_date)
+                                            // ->where('quantity',$quantity)
+                                            // ->where('shipment_date',$shipment_date)
                                             ->exists() == false
                                     ) {
                                         UploadInvoice::dispatch(
@@ -768,10 +758,10 @@ class InvoicesController extends Controller
 
                             if($isReturn) {
                                 DB::table(PrincipalsUtil::$TBL_CM)
-                                    ->where('vendor_code',      $line['vendor_code'])
                                     ->where('doc_no',           $line['doc_no'])
-                                    ->where('customer_code',    $line['alturas_customer_code'])
                                     ->where('item_code',        $line['alturas_item_code'])
+                                    ->where('customer_code',    $line['alturas_customer_code'])
+                                    ->where('vendor_code',      $line['vendor_code'])
                                     ->where('status',           'pending')
                                     ->update([
                                         'status' =>         'completed',
@@ -781,10 +771,10 @@ class InvoicesController extends Controller
                             }
                             else {
                                 DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                    ->where('vendor_code',      $line['vendor_code'])
                                     ->where('doc_no',           $line['doc_no'])
-                                    ->where('customer_code',    $line['alturas_customer_code'])
                                     ->where('item_code',        $line['alturas_item_code'])
+                                    ->where('customer_code',    $line['alturas_customer_code'])
+                                    ->where('vendor_code',      $line['vendor_code'])
                                     ->where('status', 'pending')
                                     ->update([
                                         'status' =>         'completed',
@@ -1255,12 +1245,16 @@ class InvoicesController extends Controller
                         PrincipalsUtil::$TBL_INVOICES.'.doc_no'
                     )
                     ->on(
+                        PrincipalsUtil::$TBL_CM.'.item_code',
+                        PrincipalsUtil::$TBL_INVOICES.'.item_code'
+                    )
+                    ->on(
                         PrincipalsUtil::$TBL_CM.'.customer_code',
                         PrincipalsUtil::$TBL_INVOICES.'.customer_code'
                     )
                     ->on(
-                        PrincipalsUtil::$TBL_CM.'.item_code',
-                        PrincipalsUtil::$TBL_INVOICES.'.item_code'
+                        PrincipalsUtil::$TBL_CM.'.uom',
+                        PrincipalsUtil::$TBL_INVOICES.'.uom'
                     )
                     ;
                 }

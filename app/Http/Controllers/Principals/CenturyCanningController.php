@@ -617,12 +617,13 @@ class CenturyCanningController extends Controller
                         foreach ($pendingInvoices as $pendingInvoice) {
                             if($pendingInvoice->gendata != null) {
                                 $arrGenerated = json_decode($pendingInvoice->gendata);
+                                // dd($arrGenerated);
                                 // group output_template_variations
                                 $groupByKey = $pendingInvoice->$group_by ?? $arrGenerated->$group_by;
                                 if(
-                                    $pendingInvoices->item_notfound==1 ||
-                                    $pendingInvoices->customer_notfound==1 ||
-                                    $pendingInvoices->salesman_notfound==1
+                                    $arrGenerated->item_notfound==1 ||
+                                    $arrGenerated->customer_notfound==1 ||
+                                    $arrGenerated->salesman_notfound==1
                                 ) {
                                     $groupByKey = $groupByKey . '-Unmapped';
                                 }

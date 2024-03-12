@@ -26,9 +26,9 @@ class PrincipalsUtil extends Controller
     /**
      * Invoices db table name (lines)
      */
-    // public static $TBL_INVOICES = 'invoices_lines';
+    public static $TBL_INVOICES = 'invoices_lines';
     // public static $TBL_INVOICES = 'invoices_lines_trial';
-    public static $TBL_INVOICES = 'invoices_lines_ptn'; // test table with partitioning
+    // public static $TBL_INVOICES = 'invoices_lines_ptn'; // test table with partitioning
 
     // credit memos
     /**

@@ -1,8 +1,11 @@
 -- DSGPM TO PATCH 2024
 
+-- Notify NAV personnel for column changes included in the invoice extraction
+
 -- new principals - dsgpm
 -- S8201, S8329, S1593, S7105
 
+-- ---------------------------------------------------------------------------------
 -- == new cols ==
 -- invoices_lines:
 -- vat_percentage
@@ -28,6 +31,7 @@
 
 -- users
 -- main_vendor_codes
+-- ---------------------------------------------------------------------------------
 
 alter table invoices_lines
 add column `vat_percentage` DECIMAL(3,1) NULL DEFAULT '0.0',
