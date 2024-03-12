@@ -360,7 +360,7 @@ class InvoicesController extends Controller
                                     } else {
                                         UploadInvoice::dispatch(
                                             "($fileCount of $totalFileCount) $origFilename " .
-                                            "[invoice_lines: $doc_no] ($progressPercent%) "
+                                            "[invoice_lines: $doc_no, $item_code] ($progressPercent%) "
                                         );
 
                                         // invoice line
@@ -493,7 +493,7 @@ class InvoicesController extends Controller
                                     ) {
                                         UploadInvoice::dispatch(
                                             "($fileCount of $totalFileCount) $origFilename " .
-                                            "[cm_lines: $doc_no]"." ($progressPercent%)"
+                                            "[cm_lines: $doc_no, $item_code]"." ($progressPercent%)"
                                         );
 
                                         $cm_l = [
@@ -754,14 +754,18 @@ class InvoicesController extends Controller
                             //     dd($line['return_indicator']);
                             // }
 
+                            // override from pending to complete (for gendata)
                             $line['status'] = 'completed';
+
+                            // dd($line);
 
                             if($isReturn) {
                                 DB::table(PrincipalsUtil::$TBL_CM)
                                     ->where('doc_no',           $line['doc_no'])
                                     ->where('item_code',        $line['alturas_item_code'])
                                     ->where('customer_code',    $line['alturas_customer_code'])
-                                    ->where('vendor_code',      $line['vendor_code'])
+                                    ->where('uom',              $line['uom'])
+                                    // ->where('vendor_code',      $line['vendor_code'])
                                     ->where('status',           'pending')
                                     ->update([
                                         'status' =>         'completed',
@@ -774,8 +778,9 @@ class InvoicesController extends Controller
                                     ->where('doc_no',           $line['doc_no'])
                                     ->where('item_code',        $line['alturas_item_code'])
                                     ->where('customer_code',    $line['alturas_customer_code'])
+                                    ->where('uom',              $line['uom'])
                                     ->where('vendor_code',      $line['vendor_code'])
-                                    ->where('status', 'pending')
+                                    ->where('status',           'pending')
                                     ->update([
                                         'status' =>         'completed',
                                         'updated_at' =>     $dateToday,
@@ -1240,10 +1245,7 @@ class InvoicesController extends Controller
             ->join(
                 PrincipalsUtil::$TBL_INVOICES,
                 function($join) {
-                    $join->on(
-                        PrincipalsUtil::$TBL_CM.'.invoice_doc_no',
-                        PrincipalsUtil::$TBL_INVOICES.'.doc_no'
-                    )
+                    $join
                     ->on(
                         PrincipalsUtil::$TBL_CM.'.item_code',
                         PrincipalsUtil::$TBL_INVOICES.'.item_code'
@@ -1255,6 +1257,10 @@ class InvoicesController extends Controller
                     ->on(
                         PrincipalsUtil::$TBL_CM.'.uom',
                         PrincipalsUtil::$TBL_INVOICES.'.uom'
+                    )
+                    ->on(
+                        PrincipalsUtil::$TBL_CM.'.invoice_doc_no',
+                        PrincipalsUtil::$TBL_INVOICES.'.doc_no'
                     )
                     ;
                 }
