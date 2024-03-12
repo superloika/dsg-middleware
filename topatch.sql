@@ -186,5 +186,12 @@ INSERT INTO general_customers_ptn select * from general_customers;
 -- DocumentNumberPrefix
 -- DocumentNumber_AI
 
+-- patch sm_code from invoices_lines to cm_lines, patch default return indicator as 'not_specified'
+UPDATE cm_lines_ptn JOIN invoices_lines_ptn ON invoices_lines_ptn.doc_no=cm_lines_ptn.invoice_doc_no
+SET cm_lines_ptn.sm_code=invoices_lines_ptn.sm_code;
+
+update cm_lines_ptn set return_indicator='not_specified' where return_indicator is null;
+
+
 
 

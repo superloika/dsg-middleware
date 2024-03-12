@@ -496,7 +496,7 @@ class CenturyCanningController extends Controller
                         foreach ($pendingInvoices as $pendingInvoice) {
                             $loopCounter++;
                             $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
-                            GenerateTemplated::dispatch("Generating sales invoicesxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx test test test test test test test test test test test test test test test test test  ($progressPercent%)");
+                            GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
 
                             $doc_no = $pendingInvoice->doc_no;
                             $customer_code = $pendingInvoice->customer_code;
