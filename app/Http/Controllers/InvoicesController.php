@@ -316,6 +316,8 @@ class InvoicesController extends Controller
                                 // && trim(str_replace('"','',$cols[0])) != 'Credit Memo'
                                 && trim(str_replace('"','',$cols[0])) != ''
                                 && ($shipment_date = trim(str_replace('"','',$cols[6]))) != ''
+                                && trim(str_replace('"','',$cols[5])) != '' // item code
+                                && trim(str_replace('"','',$cols[8])) != '' // uom
                             ) {
                                 $vendor_code =          trim(str_replace('"','',$cols[0]));
                                 $customer_code =        trim(str_replace('"','',$cols[1]));
@@ -456,6 +458,8 @@ class InvoicesController extends Controller
                                 && $cols[0][0] != '#'
                                 // && trim(str_replace('"','',$cols[0])) != ''
                                 && ($shipment_date = trim(str_replace('"','',$cols[3]))) != ''
+                                && trim(str_replace('"','',$cols[2])) != '' // item code
+                                && trim(str_replace('"','',$cols[5])) != '' // uom
                             ) {
                                 $customer_code =        trim(str_replace('"','',$cols[0]));
                                 $doc_no =               trim(str_replace('"','',$cols[1]));

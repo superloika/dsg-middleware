@@ -191,6 +191,9 @@ UPDATE cm_lines_ptn JOIN invoices_lines_ptn ON invoices_lines_ptn.doc_no=cm_line
 SET cm_lines_ptn.sm_code=invoices_lines_ptn.sm_code;
 
 update cm_lines_ptn set return_indicator='not_specified' where return_indicator is null;
+update cm_lines_ptn set ext_doc_no=invoice_doc_no;
+
+
 
 
 
