@@ -243,16 +243,16 @@ export default {
                 console.log('Disconnected to Pusher');
                 this.wsConState = 'websocket:error'
             });
-
-            // refresh BR
-            // this.BrStore.refresh('ppfb');
-
-            this.AppStore.initPrincipals();
-
         } catch (error) {
             this.wsConState = 'websocket:error';
             console.error(error);
         }
+
+        // refresh BR
+        this.BrStore.refresh('ppfb');
+
+        // initialize principals
+        this.AppStore.initPrincipals();
     },
 
     beforeDestroy() {

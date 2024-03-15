@@ -116,7 +116,10 @@ class PurefoodsController extends Controller
 
                 $outputTemplate = &$res['output_template_variations'][0]['output_template'];
 
-                if($request->status == PrincipalsUtil::$STATUS_PENDING) {
+                if(
+                    $request->status == PrincipalsUtil::$STATUS_PENDING
+                    // 1
+                ) {
                     // Loop through each line of the file content
                     $loopCounter = 0;
                     foreach ($pendingInvoices as $pendingInvoice) {
@@ -320,7 +323,8 @@ class PurefoodsController extends Controller
                         }
                         array_push($outputTemplate[$tempKey], $arrGenerated);
                     }
-                } else if ($request->status ==PrincipalsUtil::$STATUS_COMPLETED) {
+                }
+                else if ($request->status ==PrincipalsUtil::$STATUS_COMPLETED) {
                     foreach ($pendingInvoices as $pendingInvoice) {
                         if($pendingInvoice->gendata != null) {
                             $arrGenerated = json_decode($pendingInvoice->gendata);
@@ -340,6 +344,7 @@ class PurefoodsController extends Controller
                         }
                     }
                 }
+
                 ksort($outputTemplate);
             }
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE 1 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -358,7 +363,10 @@ class PurefoodsController extends Controller
 
                 $outputTemplate = &$res['output_template_variations'][1]['output_template'];
 
-                if($request->status==PrincipalsUtil::$STATUS_PENDING) {
+                if(
+                    $request->status==PrincipalsUtil::$STATUS_PENDING
+                    // 1
+                ) {
                     // Loop through each line of the file content
                     $loopCounter = 0;
                     foreach ($returns as $return) {
@@ -571,7 +579,8 @@ class PurefoodsController extends Controller
                         }
                         array_push($outputTemplate[$tempKey], $arrGenerated);
                     }
-                } else if ($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
+                }
+                else if ($request->status == PrincipalsUtil::$STATUS_COMPLETED) {
                     foreach ($returns as $return) {
                         if($return->gendata != null) {
                             $arrGenerated = json_decode($return->gendata);
@@ -591,6 +600,7 @@ class PurefoodsController extends Controller
                         }
                     }
                 }
+
                 ksort($outputTemplate);
 
             }

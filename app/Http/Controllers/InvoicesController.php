@@ -548,11 +548,9 @@ class InvoicesController extends Controller
                                 // $return_indicator = $return_indicator=='' ? 'not_specified' : $return_indicator;
                                 // $return_reason =    trim(str_replace('"','',$cols[11]));
                                 // $return_reason =    $return_reason=='' ? 'not_specified' : $return_reason;
-                                // $ext_doc_no =       DB::table(PrincipalsUtil::$TBL_INVOICES_H)
-                                //                         ->where('doc_no', $invoice_doc_no)->get()->first()->ext_doc_no ?? '';
-                                // $ext_doc_no =       DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                //                         ->where('doc_no', $invoice_doc_no)->get()->first()->ext_doc_no ?? '';
-                                $ext_doc_no = $invoice_doc_no; // temporary
+
+                                // in NAV, the external doc no column in CM table contains the reference sales invoice #
+                                $ext_doc_no = $invoice_doc_no;
 
                                 $summaryItem['cm_headers_count'] += 1;
 
