@@ -198,9 +198,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.InvoicesStore.extractRawInvoicesToExcel(_this.principal_code, _this.date);
+                _this.AppStore.overlay(true);
 
-              case 1:
+                _this.InvoicesStore.extractRawInvoicesToExcel(_this.principal_code, _this.date).then(function () {
+                  _this.AppStore.overlay(false);
+                });
+
+              case 2:
               case "end":
                 return _context.stop();
             }

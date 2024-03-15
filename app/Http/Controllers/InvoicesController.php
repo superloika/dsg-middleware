@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ExtractRawSICM;
 use App\Events\GenerateTemplated;
 use App\Events\UploadInvoice;
 use App\Http\Controllers\Principals\PrincipalsUtil;
@@ -1095,8 +1096,12 @@ class InvoicesController extends Controller
             $dateTo = new Carbon($dateTo);
 
             $principal_code = $request->principal_code;
+
+            ExtractRawSICM::dispatch("Extracting raw invoice data");
+
             // $vendor_code = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
             //     ->where('code', $principal_code)->first()->vendor_code ?? 'NA';
+
             $vendor_codes = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
                 ->where('main_vendor_code', $principal_code)->pluck('vendor_code')->toArray();
 

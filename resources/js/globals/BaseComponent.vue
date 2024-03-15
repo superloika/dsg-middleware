@@ -226,6 +226,9 @@ export default {
             .listen("GenerateTemplated", event => {
                 this.AppStore.state.overlay.msg = event.message;
             })
+            .listen("ExtractRawSICM", event => {
+                this.AppStore.state.overlay.msg = event.message;
+            })
             ;
 
             // Event listener for 'pusher:connection_established' event

@@ -178,9 +178,13 @@ export default {
 
 
         async extractRawInvoicesToExcel() {
+            this.AppStore.overlay(true);
             this.InvoicesStore.extractRawInvoicesToExcel(
                 this.principal_code, this.date
-            );
+            ).then(() => {
+                this.AppStore.overlay(false);
+            })
+            ;
         },
 
         // async asd() {
