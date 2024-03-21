@@ -355,7 +355,7 @@ class InvoicesController extends Controller
                                             ->where('customer_code',$customer_code)
                                             ->where('vendor_code',$vendor_code)
                                             ->where('uom',$uom)
-                                            // ->where('quantity',$quantity)
+                                            ->where('quantity',$quantity)
                                             // ->where('shipment_date',$shipment_date)
                                             ->exists()
                                     ) {
@@ -492,7 +492,7 @@ class InvoicesController extends Controller
                                             ->where('item_code',$item_code)
                                             ->where('customer_code',$customer_code)
                                             ->where('uom',$uom)
-                                            // ->where('quantity',$quantity)
+                                            ->where('quantity',$quantity)
                                             // ->where('shipment_date',$shipment_date)
                                             ->exists() == false
                                     ) {
@@ -1399,4 +1399,162 @@ class InvoicesController extends Controller
     //     $res = null;
     //     return response()->json("Done $dtFrom - $dtTo");
     // }
+
+
+    public function sync(Request $request) {
+        set_time_limit(0);
+        $memory_limit = ini_get('memory_limit');
+        ini_set('memory_limit', -1);
+
+        try {
+            // =================================================
+            $server_name = 'HORECA PCS';
+            $config = array_filter(NavisionController::serverConfigs(), function($e) use ($server_name) {
+                return $e['server_name'] == $server_name;
+            });
+            $config = reset($config);
+            $invoice_headers_tbl = $config['invoice_headers_tbl'];
+            $invoice_lines_tbl = $config['invoice_lines_tbl'];
+            $cm_headers_tbl = $config['cm_headers_tbl'];
+            $cm_lines_tbl = $config['cm_lines_tbl'];
+            $group_name = $config['group_name'];
+
+            $vendor_codes = ['S3030', 'S3564', 'S4135'];
+            $vendor_codes_imp = implode(',', array_map(fn($item) => "'$item'", $vendor_codes));
+            $posting_date_from = '2024-01-01';
+            $posting_date_to = '2024-03-19';
+
+            // $invoice_lines = DB::connection($server_name)
+            //     ->select(
+            //         "SELECT
+            //         [Vendor No_] as vendor_code,
+            //         [Sell-to Customer No_] as customer_code,
+            //         [Document No_] as doc_no,
+            //         [Line No_],
+            //         [Type],
+            //         [No_] as item_code,
+            //         [Shipment Date] as shipment_date,
+            //         [Description] as item_description,
+            //         [Unit of Measure] as uom,
+            //         [Quantity] as qty,
+            //         [Unit Price] as price,
+            //         [Amount Including VAT] as amount,
+            //         [Qty_ per Unit of Measure] as qty_per_uom,
+            //         [Unit of Measure Code] as uom_code,
+            //         [Line Discount %] as discount_percentage,
+            //         [VAT %] as vat_percentage
+            //         FROM [$invoice_lines_tbl]
+            //         WHERE [Shipment Date] >= '$posting_date_from 00:00:00.000'
+            //         AND [Shipment Date] <= '$posting_date_to 23:59:59.999'
+            //         AND [Vendor No_] IN ($vendor_codes_imp)
+            //         "
+            //     )
+            //     ;
+
+            // $invoice_headers = DB::connection($server_name)
+            //     ->select(
+            //         "SELECT
+            //         [No_],
+            //         [Sell-to Customer No_],
+            //         [Bill-to Name],
+            //         [Your Reference],
+            //         [Ship-to Code],
+            //         [Posting Date],
+            //         [Shipment Date],
+            //         [Salesperson Code],
+            //         [External Document No_]
+            //         FROM [$invoice_headers_tbl]
+            //         WHERE [Shipment Date] >= '$posting_date_from 00:00:00.000'
+            //         AND [Shipment Date] <= '$posting_date_to 23:59:59.999'
+            //         -- AND [Vendor No_] IN ($vendor_codes_imp)
+            //         "
+            //     )
+            //     ;
+
+            $sales_invoices = DB::connection($server_name)
+                ->select(
+                    "SELECT
+                        -- header
+                        [$invoice_headers_tbl].[No_] as doc_no,
+                        [$invoice_headers_tbl].[Sell-to Customer No_] as customer_code,
+                        [$invoice_headers_tbl].[Posting Date] as posting_date,
+                        [$invoice_headers_tbl].[Salesperson Code] as sm_code,
+                        [$invoice_headers_tbl].[External Document No_] as ext_doc_no,
+                        -- line
+                        [Vendor No_] as vendor_code,
+                        [$invoice_lines_tbl].[No_] as item_code,
+                        [$invoice_lines_tbl].[Shipment Date] as shipment_date,
+                        [$invoice_lines_tbl].[Description] as item_description,
+                        [$invoice_lines_tbl].[Unit of Measure] as uom,
+                        [$invoice_lines_tbl].[Quantity] as qty,
+                        [$invoice_lines_tbl].[Unit Price] as price,
+                        [$invoice_lines_tbl].[Amount Including VAT] as amount,
+                        [$invoice_lines_tbl].[Qty_ per Unit of Measure] as qty_per_uom,
+                        [$invoice_lines_tbl].[Unit of Measure Code] as uom_code,
+                        [$invoice_lines_tbl].[Line Discount %] as discount_percentage,
+                        [$invoice_lines_tbl].[VAT %] as vat_percentage
+                    FROM [$invoice_lines_tbl]
+                    JOIN [$invoice_headers_tbl]
+                        ON [$invoice_headers_tbl].[No_] = [$invoice_lines_tbl].[Document No_]
+                    WHERE [$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
+                    AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 23:59:59.999'
+                    AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
+                    ;
+                    "
+                )
+                ;
+
+            $sales_returns = DB::connection($server_name)
+                ->select(
+                    "SELECT
+                        -- header
+                        [$cm_headers_tbl].[No_] as doc_no,
+                        [$cm_headers_tbl].[Bill-to Customer No_] as customer_code,
+                        [$cm_headers_tbl].[Posting Date] as posting_date,
+                        [$cm_headers_tbl].[Shipment Date] as shipment_date,
+                        [$cm_headers_tbl].[Salesperson Code] as sm_code,
+                        [$cm_headers_tbl].[External Document No_] as invoice_doc_no,
+                        -- line
+                        [$cm_lines_tbl].[No_] as item_code,
+                        [$cm_lines_tbl].[Description] as item_description,
+                        [$cm_lines_tbl].[Unit of Measure] as uom,
+                        [$cm_lines_tbl].[Quantity] as qty,
+                        [$cm_lines_tbl].[Unit Price] as price,
+                        [$cm_lines_tbl].[Amount Including VAT] as amount,
+                        [$cm_lines_tbl].[Qty_ per Unit of Measure] as qty_per_uom,
+                        [$cm_lines_tbl].[Unit of Measure Code] as uom_code,
+                        [$cm_lines_tbl].[Line Discount %] as discount_percentage,
+                        [$cm_lines_tbl].[VAT %] as vat_percentage,
+                        -- sales invoice line
+                        [$invoice_lines_tbl].[Vendor No_] as vendor_code
+                    FROM [$cm_lines_tbl]
+                    JOIN [$cm_headers_tbl]
+                        ON [$cm_headers_tbl].[No_] = [$cm_lines_tbl].[Document No_]
+                    LEFT JOIN [$invoice_lines_tbl]
+                        ON [$invoice_lines_tbl].[Document No_] = [$cm_headers_tbl].[External Document No_]
+                        AND [$invoice_lines_tbl].[No_] = [$cm_lines_tbl].[No_]
+                        AND [$invoice_lines_tbl].[Unit of Measure] = [$cm_lines_tbl].[Unit of Measure]
+                    WHERE [$cm_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
+                    AND [$cm_headers_tbl].[Posting Date] <= '$posting_date_to 23:59:59.999'
+                    AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
+                    ;
+                    "
+                )
+                ;
+
+            ini_set('memory_limit', $memory_limit);
+            // dd($sales_invoices);
+            // dd($sales_returns);
+            // =================================================
+
+            return response()->json([
+                'sales_invoices' => $sales_invoices,
+                'sales_returns' => $sales_returns,
+            ]);
+        } catch (\Throwable $th) {
+            $res['success'] = false;
+            $res['message'] = $th->getMessage();
+            return response()->json($res, 500);
+        }
+    }
 }

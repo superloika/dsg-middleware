@@ -21,6 +21,11 @@ export default {
     computed: {
         tabs() {
             return [
+                // {
+                //     title: 'Download Invoices',
+                //     icon: 'mdi-download',
+                //     component: () => import("./common/DownloadInvoices.vue"),
+                // },
                 {
                     title: 'Invoices',
                     icon: 'mdi-receipt',

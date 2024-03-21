@@ -11,4 +11,6 @@ class NoticeController extends Controller
         $res = DB::table('notices')->latest()->get();
         return response()->json($res);
     }
+
+
 }

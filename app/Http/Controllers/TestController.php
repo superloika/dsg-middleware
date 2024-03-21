@@ -79,8 +79,7 @@ class TestController extends Controller
     }
 
     public function recordCount(Request $request) {
-        $tbl = '[Islands City Mall - SM TEST$Item]';
-        // $tbl = 'Company';
+        $tbl = 'dbo.[ALTURAS SUPERMARKET CORP_$Sales Invoice Line]';
 
         $res = DB::connection('odbc_ldi')
             ->select("SELECT COUNT(No_) AS recordCount FROM $tbl");

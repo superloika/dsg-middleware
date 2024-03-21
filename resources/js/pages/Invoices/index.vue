@@ -83,6 +83,23 @@
                 Extract
             </v-btn>
 
+            <v-dialog v-model="dlg_dlinvoices" width="500">
+                <template v-slot:activator="{on, attrs}">
+                    <v-btn
+                        title="Download Invoices from Navision"
+                        dense icon rounded
+                        class="mr-2"
+                        v-bind="attrs"
+                        v-on="on"
+                    >
+                        <v-icon>mdi-download</v-icon>
+                    </v-btn>
+                </template>
+
+                <DownloadInvoices></DownloadInvoices>
+            </v-dialog>
+
+
             <!-- <v-btn
                 title="Sync Text Files"
                 icon
@@ -358,6 +375,7 @@ export default {
     components: {
         InvoicesUpload: () => import("./InvoicesUpload.vue"),
         ExtractInvoices: () => import("./ExtractInvoices.vue"),
+        DownloadInvoices: () => import("./DownloadInvoices.vue"),
     },
     data() {
         return {

@@ -1,63 +1,14 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[25],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Salesmen.vue?vue&type=script&lang=js&":
-/*!********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/Salesmen.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/MasterFiles.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/MasterFiles.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -92,55 +43,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['customers', 'items', 'salesmen'],
   components: {
-    MasterfileUpload: function MasterfileUpload() {
-      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./MasterfileUpload.vue */ "./resources/js/pages/Principals/common/MasterfileUpload.vue"));
+    Items: function Items() {
+      return __webpack_require__.e(/*! import() */ 24).then(__webpack_require__.bind(null, /*! ./Items.vue */ "./resources/js/pages/Principals/common/Items.vue"));
+    },
+    Customers: function Customers() {
+      return __webpack_require__.e(/*! import() */ 21).then(__webpack_require__.bind(null, /*! ./Customers.vue */ "./resources/js/pages/Principals/common/Customers.vue"));
+    },
+    Salesmen: function Salesmen() {
+      return __webpack_require__.e(/*! import() */ 26).then(__webpack_require__.bind(null, /*! ./Salesmen.vue */ "./resources/js/pages/Principals/common/Salesmen.vue"));
     }
   },
   data: function data() {
     return {
-      searchKey: ''
+      masterfiles_tab: null
     };
   },
-  computed: {
-    selectedPrincipalCode: function selectedPrincipalCode() {
-      return this.PrincipalsStore.state.selectedPrincipalCode;
-    },
-    tblHeader: function tblHeader() {
-      return this.PrincipalsStore.state.configs.salesmenTableHeader[0]; // if(this.PrincipalsStore.state.selectedPrincipalCode == 'wyeth') {
-      //     return this.WyethStore.state.customersTableHeader;
-      // } else {
-      //     return [];
-      // }
-    },
-    updatedAt: function updatedAt() {
-      try {
-        return this.PrincipalsStore.state.salesmen[0].upload_date;
-      } catch (error) {
-        return '...';
-      }
-    } // principal_code() {
-    //     const principal = this.AppStore.state.principals.find(e => e.id == this.$route.params.principal_id);
-    //     return principal.code.toLowerCase();\
-    // },
-
-  },
-  methods: {
-    exportToExcel: function exportToExcel() {
-      this.PrincipalsStore.toExcel_simple('Salesmen', this.PrincipalsStore.state.salesmen, this.PrincipalsStore.state.configs['salesmenTableHeader'], null, "".concat(this.selectedPrincipalCode, "_Salesmen"));
-    }
-  },
-  created: function created() {
-    this.PrincipalsStore.initSalesmen(this.selectedPrincipalCode);
+  mounted: function mounted() {
+    console.log('MasterFiles component mounted');
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Salesmen.vue?vue&type=template&id=374cc966&":
-/*!************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/Salesmen.vue?vue&type=template&id=374cc966& ***!
-  \************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/MasterFiles.vue?vue&type=template&id=e578d5fc&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/MasterFiles.vue?vue&type=template&id=e578d5fc& ***!
+  \***************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -156,127 +86,71 @@ var render = function() {
     "v-card",
     [
       _c(
-        "v-toolbar",
-        { attrs: { elevation: "27" } },
+        "v-tabs",
+        {
+          attrs: { height: "35" },
+          model: {
+            value: _vm.masterfiles_tab,
+            callback: function($$v) {
+              _vm.masterfiles_tab = $$v
+            },
+            expression: "masterfiles_tab"
+          }
+        },
         [
-          _c("v-toolbar-title", [
-            _c("div", [_vm._v("\n                Salesmen\n            ")]),
-            _vm._v(" "),
-            _c("div", [
-              _c("em", { staticClass: "text-caption primary--text" }, [
-                _vm._v(
-                  "\n                    Updated at " +
-                    _vm._s(_vm.updatedAt) +
-                    "\n                "
-                )
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("v-spacer"),
-          _vm._v(" "),
           _c(
-            "v-btn",
-            {
-              staticClass: "mr-2",
-              attrs: {
-                title: "Refresh",
-                icon: "",
-                dense: "",
-                rounded: "",
-                depressed: ""
-              },
-              on: {
-                click: function($event) {
-                  return _vm.PrincipalsStore.initSalesmen(
-                    _vm.selectedPrincipalCode
-                  )
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-refresh")])],
-            1
-          ),
-          _vm._v(" "),
-          _c("v-text-field", {
-            staticClass: "mr-3",
-            staticStyle: { "max-width": "300px" },
-            attrs: {
-              label: "Search",
-              clearable: "",
-              "hide-details": "",
-              dense: "",
-              flat: "",
-              rounded: "",
-              "solo-inverted": ""
-            },
-            model: {
-              value: _vm.searchKey,
-              callback: function($$v) {
-                _vm.searchKey = $$v
-              },
-              expression: "searchKey"
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: { title: "Import", icon: "", dense: "" },
-              on: {
-                click: function($event) {
-                  $event.stopPropagation()
-                  _vm.PrincipalsStore.state.isUploadMasterSalesmenOpen = true
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-file-upload")])],
+            "v-tab",
+            { staticClass: "px-6", attrs: { exact: "" } },
+            [
+              _c("v-icon", { staticClass: "mr-1" }, [_vm._v("mdi-cube")]),
+              _vm._v("\n            Items\n        ")
+            ],
             1
           ),
           _vm._v(" "),
           _c(
-            "v-btn",
-            {
-              attrs: { title: "Export to Excel", icon: "", dense: "" },
-              on: {
-                click: function($event) {
-                  return _vm.exportToExcel()
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-file-excel")])],
+            "v-tab",
+            { staticClass: "px-6", attrs: { exact: "" } },
+            [
+              _c("v-icon", { staticClass: "mr-1" }, [
+                _vm._v("mdi-account-multiple")
+              ]),
+              _vm._v("\n            Customers\n        ")
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-tab",
+            { staticClass: "px-6", attrs: { exact: "" } },
+            [
+              _c("v-icon", { staticClass: "mr-1" }, [_vm._v("mdi-account")]),
+              _vm._v("\n            Salesmen\n        ")
+            ],
             1
           )
         ],
         1
       ),
       _vm._v(" "),
-      _c("v-data-table", {
-        attrs: {
-          items: _vm.PrincipalsStore.state.salesmen,
-          headers: _vm.tblHeader,
-          dense: "",
-          search: _vm.searchKey
-        }
-      }),
-      _vm._v(" "),
       _c(
-        "v-dialog",
+        "v-tabs-items",
         {
-          attrs: { "max-width": "800", persistent: "" },
           model: {
-            value: _vm.PrincipalsStore.state.isUploadMasterSalesmenOpen,
+            value: _vm.masterfiles_tab,
             callback: function($$v) {
-              _vm.$set(
-                _vm.PrincipalsStore.state,
-                "isUploadMasterSalesmenOpen",
-                $$v
-              )
+              _vm.masterfiles_tab = $$v
             },
-            expression: "PrincipalsStore.state.isUploadMasterSalesmenOpen"
+            expression: "masterfiles_tab"
           }
         },
-        [_c("MasterfileUpload", { attrs: { id: "salesmen" } })],
+        [
+          _c("v-tab-item", [_c("Items")], 1),
+          _vm._v(" "),
+          _c("v-tab-item", [_c("Customers")], 1),
+          _vm._v(" "),
+          _c("v-tab-item", [_c("Salesmen")], 1)
+        ],
         1
       )
     ],
@@ -290,17 +164,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/Salesmen.vue":
-/*!***********************************************************!*\
-  !*** ./resources/js/pages/Principals/common/Salesmen.vue ***!
-  \***********************************************************/
+/***/ "./resources/js/pages/Principals/common/MasterFiles.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/MasterFiles.vue ***!
+  \**************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Salesmen_vue_vue_type_template_id_374cc966___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Salesmen.vue?vue&type=template&id=374cc966& */ "./resources/js/pages/Principals/common/Salesmen.vue?vue&type=template&id=374cc966&");
-/* harmony import */ var _Salesmen_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Salesmen.vue?vue&type=script&lang=js& */ "./resources/js/pages/Principals/common/Salesmen.vue?vue&type=script&lang=js&");
+/* harmony import */ var _MasterFiles_vue_vue_type_template_id_e578d5fc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MasterFiles.vue?vue&type=template&id=e578d5fc& */ "./resources/js/pages/Principals/common/MasterFiles.vue?vue&type=template&id=e578d5fc&");
+/* harmony import */ var _MasterFiles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MasterFiles.vue?vue&type=script&lang=js& */ "./resources/js/pages/Principals/common/MasterFiles.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -310,9 +184,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Salesmen_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Salesmen_vue_vue_type_template_id_374cc966___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Salesmen_vue_vue_type_template_id_374cc966___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _MasterFiles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _MasterFiles_vue_vue_type_template_id_e578d5fc___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _MasterFiles_vue_vue_type_template_id_e578d5fc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -322,38 +196,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/pages/Principals/common/Salesmen.vue"
+component.options.__file = "resources/js/pages/Principals/common/MasterFiles.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/Salesmen.vue?vue&type=script&lang=js&":
-/*!************************************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/Salesmen.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************/
+/***/ "./resources/js/pages/Principals/common/MasterFiles.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/MasterFiles.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Salesmen_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Salesmen.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Salesmen.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Salesmen_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MasterFiles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./MasterFiles.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/MasterFiles.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MasterFiles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/Salesmen.vue?vue&type=template&id=374cc966&":
-/*!******************************************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/Salesmen.vue?vue&type=template&id=374cc966& ***!
-  \******************************************************************************************/
+/***/ "./resources/js/pages/Principals/common/MasterFiles.vue?vue&type=template&id=e578d5fc&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/MasterFiles.vue?vue&type=template&id=e578d5fc& ***!
+  \*********************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Salesmen_vue_vue_type_template_id_374cc966___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Salesmen.vue?vue&type=template&id=374cc966& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Salesmen.vue?vue&type=template&id=374cc966&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Salesmen_vue_vue_type_template_id_374cc966___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MasterFiles_vue_vue_type_template_id_e578d5fc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./MasterFiles.vue?vue&type=template&id=e578d5fc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/MasterFiles.vue?vue&type=template&id=e578d5fc&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MasterFiles_vue_vue_type_template_id_e578d5fc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Salesmen_vue_vue_type_template_id_374cc966___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MasterFiles_vue_vue_type_template_id_e578d5fc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

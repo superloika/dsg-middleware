@@ -97,7 +97,7 @@ Route::prefix('invoices')->group(function(){
     Route::post('/upload', 'InvoicesController@upload');
     Route::post("/delete", "InvoicesController@deleteInvoices");
     Route::post("/reset", "InvoicesController@resetInvoices");
-    Route::post("/sync-textfiles", "InvoicesController@syncTextfiles");
+    // Route::post("/sync-textfiles", "InvoicesController@syncTextfiles");
     Route::post("/set-invoices-complete", "InvoicesController@setInvoicesComplete");
     Route::post("/setInvoicesUploaded", "InvoicesController@setInvoicesUploaded");
     Route::post("/setInvoicesCancelled", "InvoicesController@setInvoicesCancelled");
@@ -106,6 +106,7 @@ Route::prefix('invoices')->group(function(){
     Route::get("/groups", "InvoicesController@groups");
     Route::get("/invoices-upload-logs", "InvoicesController@uploadLogs");
     Route::get("/grand-total", "InvoicesController@grandTotal");
+    Route::get("/sync", "InvoicesController@sync");
 });
 
 

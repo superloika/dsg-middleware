@@ -25,9 +25,9 @@ const myCustomLightTheme = {
 const opts = {
     theme: {
         // defaultTheme: 'myCustomLightTheme',
-        light: true,
+        // light: true,
         // dark: true,
-        // variations: true,
+        variations: true,
 
         options: {
             customProperties: true,
@@ -38,22 +38,22 @@ const opts = {
             // sm: 32,
             // md: 48,
             // lg: 64,
-            xs: 16,
-            sm: 24,
-            md: 36,
-            lg: 48,
+            // xs: 16,
+            // sm: 24,
+            // md: 36,
+            // lg: 48,
         },
 
         themes: {
-            light: {
-                error: '#FF5252',
-                info: '#2196F3',
-                success: '#4CAF50',
-                primary: '#2dba02', //green
-                accent: "#7dd663", //green
-                // primary: '#6200EA', //purple
-                // accent: "#7C4DFF", //purple
-            },
+            // light: {
+            //     error: '#FF5252',
+            //     info: '#2196F3',
+            //     success: '#4CAF50',
+            //     primary: '#2dba02', //green
+            //     accent: "#7dd663", //green
+            //     // primary: '#6200EA', //purple
+            //     // accent: "#7C4DFF", //purple
+            // },
             // light: {
             //     error: '#FF5252',
             //     info: '#2196F3',

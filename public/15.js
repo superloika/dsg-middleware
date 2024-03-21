@@ -1,9 +1,9 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[15],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsEditProfile.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ManageAccounts/AccountsEditProfile.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -99,166 +99,131 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _this = this;
 
     return {
-      nameRegex: /^[a-zA-Z\s]+$/,
-      usernameRegex: /^[a-zA-Z0-9]+$/,
-      frm_edit_profile: false,
+      frmEditPw: false,
       account: {
         id: this.ManageAccounts.state.toEdit.id,
-        name: this.ManageAccounts.state.toEdit.name,
-        old_username: this.ManageAccounts.state.toEdit.old_username,
-        username: this.ManageAccounts.state.toEdit.username,
-        user_type: this.ManageAccounts.state.toEdit.user_type,
+        // old_password_hashed: this.ManageAccounts.state.toEdit.old_password_hashed,
+        old_password: '',
+        password: '',
+        password_confirmation: '',
         rules: {
-          name: [function (v) {
-            return !!v || "Name is required";
-          }, function (v) {
-            return v.length >= 2 || "Name must be 2 characters or above";
-          }, function (v) {
-            return _this.nameRegex.test(v) || "Invalid name. Use alpha characters only";
+          old_password: [function (v) {
+            return !!v || "Old password is required.";
           }],
-          username: [function (v) {
-            return !!v || "Username is required";
+          password: [function (v) {
+            return !!v || "Password is required.";
           }, function (v) {
-            return v.length >= 3 || "Username must be 3 characters or above";
-          }, function (v) {
-            return _this.usernameRegex.test(v) || "Invalid username";
+            return v.length >= 3 || "Password must be 3 characters or above.";
           }],
-          user_type: [function (v) {
-            return !!v || "User type is required";
+          password_confirmation: [function (v) {
+            return !!v || "Please confirm your password.";
+          }, function (v) {
+            return v === _this.account.password || "Password confirmation is incorrect.";
           }]
         }
       },
-      updatingProfile: false,
+      updatingPassword: false,
       errMsgs: [],
       errMsgsShown: false,
       errorMsgs: {}
     };
   },
-  computed: {
-    filteredUserTypes: function filteredUserTypes() {
+  watch: {},
+  methods: {
+    updatePassword: function updatePassword() {
       var _this2 = this;
 
-      return this.AppStore.state.userTypes.filter(function (e) {
-        if (_this2.AppStore.isAdmin()) {
-          return e != 'super_admin' && e != 'admin';
-        } else {
-          return e;
-        }
-      });
-    }
-  },
-  watch: {
-    "account.name": function accountName() {
-      this.account.name = this.account.name.replace("  ", " ").trim();
-    }
-  },
-  methods: {
-    updateProfile: function updateProfile() {
-      var _this3 = this;
-
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var vm, url, payload, response;
+        var url, payload, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                vm = _this3;
-
-                if (!_this3.$refs.frm_edit_profile.validate()) {
-                  _context.next = 17;
+                if (!_this2.$refs.form.validate()) {
+                  _context.next = 16;
                   break;
                 }
 
-                url = "".concat(_this3.AppStore.state.siteUrl, "accounts/update-profile");
+                url = "".concat(_this2.AppStore.state.siteUrl, "accounts/update-password");
                 payload = {
                   _method: "PATCH",
-                  id: vm.account.id,
-                  name: vm.account.name,
-                  old_username: vm.account.old_username,
-                  username: vm.account.username,
-                  user_type: vm.account.user_type
+                  id: _this2.account.id,
+                  // old_password_hashed: this.account.old_password_hashed,
+                  old_password: _this2.account.old_password,
+                  password: _this2.account.password,
+                  password_confirmation: _this2.account.password_confirmation
                 };
-                _context.prev = 4;
-                _this3.updatingProfile = true;
-                _context.next = 8;
+                _context.prev = 3;
+                _this2.updatingPassword = true;
+                _context.next = 7;
                 return axios.post(url, payload);
 
-              case 8:
+              case 7:
                 response = _context.sent;
 
                 if (response.data == true) {
-                  if (_this3.$route.meta.name === 'Account') {
+                  if (_this2.$route.meta.name === 'Account') {
                     location.reload();
-                  } // temp
-                  // this.ManageAccounts.state.toEdit.name = vm.account.name;
-                  // this.ManageAccounts.state.toEdit.old_username =
-                  //     vm.account.username;
-                  // this.ManageAccounts.state.toEdit.username =
-                  //     vm.account.username;
-                  // this.ManageAccounts.state.toEdit.user_type =
-                  //     vm.account.user_type;
+                  }
 
+                  _this2.ManageAccounts.initUsers();
 
-                  _this3.ManageAccounts.initUsers(); // this.ManageAccounts.state.modalEditIsOpen = false;
+                  _this2.ManageAccounts.state.modalEditIsOpen = false;
 
-
-                  _this3.AppStore.toast("Account updated", 2000);
+                  _this2.AppStore.toast("Password updated", 1500);
                 } else if (response.data.invalidations != undefined || response.data.invalidations != null) {
-                  _this3.errMsgs = [];
-                  _this3.errorMsgs = {};
-                  _this3.errorMsgs = response.data.invalidations;
+                  _this2.errMsgs = [];
+                  _this2.errorMsgs = {};
+                  _this2.errorMsgs = response.data.invalidations;
                   Object.entries(response.data.invalidations).forEach(function (field) {
-                    _this3.errMsgs.push(field[1][0]);
+                    _this2.errMsgs.push(field[1][0]);
                   }); // this.AppStore.toast(this.errMsgs, 3000);
 
-                  _this3.errMsgsShown = true;
+                  _this2.errMsgsShown = true;
                 } else if (response.data.errorInfo != null || response.data.errorInfo != undefined) {
-                  _this3.AppStore.toast("An error occured", 2000);
+                  _this2.AppStore.toast("An error occured", 2000);
 
                   console.log(response.data.errorInfo);
                 }
 
-                _context.next = 16;
+                _context.next = 15;
                 break;
 
-              case 12:
-                _context.prev = 12;
-                _context.t0 = _context["catch"](4);
+              case 11:
+                _context.prev = 11;
+                _context.t0 = _context["catch"](3);
                 console.log(_context.t0);
 
-                _this3.AppStore.toast(_context.t0, 3000);
+                _this2.AppStore.toast(_context.t0, 3000);
+
+              case 15:
+                _this2.updatingPassword = false;
 
               case 16:
-                _this3.updatingProfile = false;
-
-              case 17:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[4, 12]]);
+        }, _callee, null, [[3, 11]]);
       }))();
     }
   },
   mounted: function mounted() {
-    console.log('AccountsEditProfile component mounted');
+    console.log('AccountsEditPassword component mounted');
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsEditProfile.vue?vue&type=template&id=4c00497e&":
-/*!********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ManageAccounts/AccountsEditProfile.vue?vue&type=template&id=4c00497e& ***!
-  \********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=template&id=0f82d596&":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=template&id=0f82d596& ***!
+  \*********************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -276,13 +241,13 @@ var render = function() {
       _c(
         "v-form",
         {
-          ref: "frm_edit_profile",
+          ref: "form",
           model: {
-            value: _vm.frm_edit_profile,
+            value: _vm.frmEditPw,
             callback: function($$v) {
-              _vm.frm_edit_profile = $$v
+              _vm.frmEditPw = $$v
             },
-            expression: "frm_edit_profile"
+            expression: "frmEditPw"
           }
         },
         [
@@ -291,88 +256,85 @@ var render = function() {
             [
               _c(
                 "v-col",
-                { attrs: { md: "12" } },
+                { attrs: { cols: "12" } },
                 [
                   _c("v-text-field", {
                     attrs: {
                       outlined: "",
                       text: "",
-                      label: "Name *",
+                      label: "Old Password *",
                       required: "",
-                      rules: _vm.account.rules.name,
-                      error: _vm.errorMsgs.name != undefined ? true : false,
-                      "error-messages":
-                        _vm.errorMsgs.name != undefined
-                          ? _vm.errorMsgs.name
-                          : []
-                    },
-                    model: {
-                      value: _vm.account.name,
-                      callback: function($$v) {
-                        _vm.$set(_vm.account, "name", $$v)
-                      },
-                      expression: "account.name"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { md: "12" } },
-                [
-                  _c("v-text-field", {
-                    attrs: {
-                      outlined: "",
-                      text: "",
-                      label: "Username *",
-                      required: "",
-                      rules: _vm.account.rules.username,
-                      error: _vm.errorMsgs.username != undefined ? true : false,
-                      "error-messages":
-                        _vm.errorMsgs.username != undefined
-                          ? _vm.errorMsgs.username
-                          : []
-                    },
-                    model: {
-                      value: _vm.account.username,
-                      callback: function($$v) {
-                        _vm.$set(_vm.account, "username", $$v)
-                      },
-                      expression: "account.username"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { md: "12" } },
-                [
-                  _c("v-select", {
-                    attrs: {
-                      items: _vm.filteredUserTypes,
-                      outlined: "",
-                      text: "",
-                      label: "User Type",
-                      required: "",
-                      rules: _vm.account.rules.user_type,
+                      type: "password",
+                      rules: _vm.account.rules.old_password,
                       error:
-                        _vm.errorMsgs.user_type != undefined ? true : false,
+                        _vm.errorMsgs.old_password != undefined ? true : false,
                       "error-messages":
-                        _vm.errorMsgs.user_type != undefined
-                          ? _vm.errorMsgs.user_type
-                          : [],
-                      disabled: _vm.account.id == _vm.AuthUser.id
+                        _vm.errorMsgs.old_password != undefined
+                          ? _vm.errorMsgs.old_password
+                          : []
                     },
                     model: {
-                      value: _vm.account.user_type,
+                      value: _vm.account.old_password,
                       callback: function($$v) {
-                        _vm.$set(_vm.account, "user_type", $$v)
+                        _vm.$set(_vm.account, "old_password", $$v)
                       },
-                      expression: "account.user_type"
+                      expression: "account.old_password"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "12" } },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      outlined: "",
+                      text: "",
+                      label: "New Password *",
+                      required: "",
+                      type: "password",
+                      rules: _vm.account.rules.password,
+                      error: _vm.errorMsgs.password != undefined ? true : false,
+                      "error-messages":
+                        _vm.errorMsgs.password != undefined
+                          ? _vm.errorMsgs.password
+                          : []
+                    },
+                    model: {
+                      value: _vm.account.password,
+                      callback: function($$v) {
+                        _vm.$set(_vm.account, "password", $$v)
+                      },
+                      expression: "account.password"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "12" } },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      outlined: "",
+                      text: "",
+                      label: "Confirm Password *",
+                      autocomplete: "false",
+                      required: "",
+                      type: "password",
+                      rules: _vm.account.rules.password_confirmation
+                    },
+                    model: {
+                      value: _vm.account.password_confirmation,
+                      callback: function($$v) {
+                        _vm.$set(_vm.account, "password_confirmation", $$v)
+                      },
+                      expression: "account.password_confirmation"
                     }
                   })
                 ],
@@ -400,18 +362,18 @@ var render = function() {
                         "float-lg-right float-md-right float-sm-right",
                       attrs: {
                         color: "primary",
-                        loading: _vm.updatingProfile,
+                        loading: _vm.updatingPassword,
                         rounded: ""
                       },
                       on: {
                         click: function($event) {
-                          return _vm.updateProfile()
+                          return _vm.updatePassword()
                         }
                       }
                     },
                     [
                       _vm._v(
-                        "\n                    Update Profile\n                "
+                        "\n                    Update Password\n                "
                       )
                     ]
                   )
@@ -435,17 +397,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/pages/ManageAccounts/AccountsEditProfile.vue":
-/*!*******************************************************************!*\
-  !*** ./resources/js/pages/ManageAccounts/AccountsEditProfile.vue ***!
-  \*******************************************************************/
+/***/ "./resources/js/pages/ManageAccounts/AccountsEditPassword.vue":
+/*!********************************************************************!*\
+  !*** ./resources/js/pages/ManageAccounts/AccountsEditPassword.vue ***!
+  \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _AccountsEditProfile_vue_vue_type_template_id_4c00497e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AccountsEditProfile.vue?vue&type=template&id=4c00497e& */ "./resources/js/pages/ManageAccounts/AccountsEditProfile.vue?vue&type=template&id=4c00497e&");
-/* harmony import */ var _AccountsEditProfile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AccountsEditProfile.vue?vue&type=script&lang=js& */ "./resources/js/pages/ManageAccounts/AccountsEditProfile.vue?vue&type=script&lang=js&");
+/* harmony import */ var _AccountsEditPassword_vue_vue_type_template_id_0f82d596___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AccountsEditPassword.vue?vue&type=template&id=0f82d596& */ "./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=template&id=0f82d596&");
+/* harmony import */ var _AccountsEditPassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AccountsEditPassword.vue?vue&type=script&lang=js& */ "./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -455,9 +417,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _AccountsEditProfile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _AccountsEditProfile_vue_vue_type_template_id_4c00497e___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _AccountsEditProfile_vue_vue_type_template_id_4c00497e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _AccountsEditPassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AccountsEditPassword_vue_vue_type_template_id_0f82d596___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AccountsEditPassword_vue_vue_type_template_id_0f82d596___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -467,38 +429,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/pages/ManageAccounts/AccountsEditProfile.vue"
+component.options.__file = "resources/js/pages/ManageAccounts/AccountsEditPassword.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/pages/ManageAccounts/AccountsEditProfile.vue?vue&type=script&lang=js&":
-/*!********************************************************************************************!*\
-  !*** ./resources/js/pages/ManageAccounts/AccountsEditProfile.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************************/
+/***/ "./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditProfile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AccountsEditProfile.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsEditProfile.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditProfile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditPassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AccountsEditPassword.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditPassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/pages/ManageAccounts/AccountsEditProfile.vue?vue&type=template&id=4c00497e&":
-/*!**************************************************************************************************!*\
-  !*** ./resources/js/pages/ManageAccounts/AccountsEditProfile.vue?vue&type=template&id=4c00497e& ***!
-  \**************************************************************************************************/
+/***/ "./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=template&id=0f82d596&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=template&id=0f82d596& ***!
+  \***************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditProfile_vue_vue_type_template_id_4c00497e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AccountsEditProfile.vue?vue&type=template&id=4c00497e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsEditProfile.vue?vue&type=template&id=4c00497e&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditProfile_vue_vue_type_template_id_4c00497e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditPassword_vue_vue_type_template_id_0f82d596___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AccountsEditPassword.vue?vue&type=template&id=0f82d596& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/ManageAccounts/AccountsEditPassword.vue?vue&type=template&id=0f82d596&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditPassword_vue_vue_type_template_id_0f82d596___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditProfile_vue_vue_type_template_id_4c00497e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AccountsEditPassword_vue_vue_type_template_id_0f82d596___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

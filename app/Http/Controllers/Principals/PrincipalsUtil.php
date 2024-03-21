@@ -63,6 +63,9 @@ class PrincipalsUtil extends Controller
     // invoices upload log
     public static $TBL_PT_RI = 'pterm_return_indicator';
 
+    // invoice servers table
+    public static $TBL_INVOICE_SERVERS = 'invoice_servers';
+
 
     /**
      * Create a new controller instance.

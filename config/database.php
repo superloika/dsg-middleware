@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\NavisionController;
 use Illuminate\Support\Str;
 
-return [
+$config = [
 
     /*
     |--------------------------------------------------------------------------
@@ -91,30 +92,99 @@ return [
             'prefix_indexes' => true,
         ],
 
-        // 'odbc1' => [
-        //     'driver' => 'odbc',
-        //     'dsn' => env('ODBC_DSN'), // odbc: will be prefixed
-        //     'username' => env('ODBC_USERNAME'),
-        //     'password' => env('ODBC_PASSWORD'),
-        //     'database' => env('ODBC_DB'),
+        // ************************************** NAV invoice servers ******************************************
+        // 'WDG PCS' => [
+        //     'driver'    => 'odbc',
+        //     'dsn'       => 'Driver={SQL Server};Server=172.16.192.1;Database=CWDG_VARIOUS_SI;',
+        //     'username'  => 'super',
+        //     'password'  => 'fsasya1941',
+        //     'database'  => 'CWDG_VARIOUS_SI',
         // ],
-
-        'odbc_ldi' => [
-            'driver' => 'odbc',
-            'dsn' => 'ODBC_LDI', // odbc: will be prefixed
-            'username' => 'fran_conn',
-            'password' => 'fran_conn',
-            'database' => 'ICM_SM_SQL',
-        ],
-
-        // sample ra ni
-        'ODBC_WDG_PCS' => [
-            'driver' => 'odbc',
-            'dsn' => 'ODBC_WDG_PCS', // odbc: will be prefixed
-            'username' => 'fran_conn',
-            'password' => 'fran_conn',
-            'database' => 'CWDG_VARIOUS_SI',
-        ],
+        // 'WDG BULK' => [
+        //     'driver'    => 'odbc',
+        //     'dsn'       => 'Driver={SQL Server};Server=172.16.192.13;Database=WDG_SI_SQL;',
+        //     'username'  => 'super',
+        //     'password'  => 'fsasya1941',
+        //     'database'  => 'WDG_SI_SQL',
+        // ],
+        // 'WDG UBAY' => [
+        //     'driver'    => 'odbc',
+        //     'dsn'       => 'Driver={SQL Server};Server=172.16.21.201;Database=SI CONSOLIDATOR;',
+        //     'username'  => 'super',
+        //     'password'  => 'fsasya1941',
+        //     'database'  => 'SI CONSOLIDATOR',
+        // ],
+        // 'DELICA BULK' => [
+        //     'driver'    => 'odbc',
+        //     'dsn'       => 'Driver={SQL Server};Server=172.16.192.3;Database=OPLAN_SO_SRV;',
+        //     'username'  => 'super',
+        //     'password'  => 'fsasya1941',
+        //     'database'  => 'OPLAN_SO_SRV',
+        // ],
+        // 'DELICA PCS' => [
+        //     'driver'    => 'odbc',
+        //     'dsn'       => 'Driver={SQL Server};Server=172.16.192.1;Database=CLDI SI SRV_VARIOUS;',
+        //     'username'  => 'super',
+        //     'password'  => 'fsasya1941',
+        //     'database'  => 'CLDI SI SRV_VARIOUS',
+        // ],
+        // 'HORECA BULK' => [
+        //     'driver'    => 'odbc',
+        //     'dsn'       => 'Driver={SQL Server};Server=172.16.192.30;Database=HORECA BULK;',
+        //     'username'  => 'super',
+        //     'password'  => 'fsasya1941',
+        //     'database'  => 'HORECA BULK',
+        // ],
+        // 'HORECA PCS' => [
+        //     'driver'    => 'odbc',
+        //     'dsn'       => 'Driver={SQL Server};Server=172.16.192.1;Database=HORECA_SRV;',
+        //     'username'  => 'super',
+        //     'password'  => 'fsasya1941',
+        //     'database'  => 'HORECA_SRV',
+        // ],
+        // '3PS' => [
+        //     'driver'    => 'odbc',
+        //     'dsn'       => 'Driver={SQL Server};Server=172.16.192.3;Database=3PS_NEW;',
+        //     'username'  => 'super',
+        //     'password'  => 'fsasya1941',
+        //     'database'  => '3PS_NEW',
+        // ],
+        // 'STORE WITHDRAWAL' => [
+        //     'driver'    => 'odbc',
+        //     'dsn'       => 'Driver={SQL Server};Server=172.16.192.4;Database=CDC_SRV_SQL;',
+        //     'username'  => 'super',
+        //     'password'  => 'fsasya1941',
+        //     'database'  => 'CDC_SRV_SQL',
+        // ],
+        // 'CVS BULK' => [
+        //     'driver'    => 'odbc',
+        //     'dsn'       => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_BCVS;',
+        //     'username'  => 'super',
+        //     'password'  => 'fsasya1941',
+        //     'database'  => 'LDI_BCVS',
+        // ],
+        // 'CVS PCS ' => [
+        //     'driver'    => 'odbc',
+        //     'dsn'       => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_VCVS;',
+        //     'username'  => 'super',
+        //     'password'  => 'fsasya1941',
+        //     'database'  => 'LDI_VCVS',
+        // ],
+        // 'MAS BULK  ' => [
+        //     'driver'    => 'odbc',
+        //     'dsn'       => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_BMAS;',
+        //     'username'  => 'super',
+        //     'password'  => 'fsasya1941',
+        //     'database'  => 'LDI_BMAS',
+        // ],
+        // 'MAS PCS  ' => [
+        //     'driver'    => 'odbc',
+        //     'dsn'       => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_VMAS;',
+        //     'username'  => 'super',
+        //     'password'  => 'fsasya1941',
+        //     'database'  => 'LDI_VMAS',
+        // ],
+        // ************************************** /NAV invoice servers ******************************************
 
     ],
 
@@ -170,3 +240,15 @@ return [
     ],
 
 ];
+
+foreach(NavisionController::serverConfigs() as $c) {
+    $config['connections'][$c['server_name']] = [
+        'driver'    => 'odbc',
+        'dsn'       => $c['dsn'],
+        'username'  => 'super',
+        'password'  => 'fsasya1941',
+        'database'  => $c['database'],
+    ];
+}
+
+return $config;
