@@ -22,7 +22,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Base: function Base() {
-      return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ./common/Base.vue */ "./resources/js/pages/Principals/common/Base.vue"));
+      return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! ./common/Base.vue */ "./resources/js/pages/Principals/common/Base.vue"));
     }
   },
   data: function data() {

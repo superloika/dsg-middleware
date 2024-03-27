@@ -229,6 +229,9 @@ export default {
             .listen("ExtractRawSICM", event => {
                 this.AppStore.state.overlay.msg = event.message;
             })
+            .listen("DownloadInvoice", event => {
+                this.AppStore.state.overlay.msg = event.message;
+            })
             ;
 
             // Event listener for 'pusher:connection_established' event

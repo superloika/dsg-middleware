@@ -31,6 +31,23 @@
 
             <v-spacer></v-spacer>
 
+            <v-dialog width="500">
+                <template v-slot:activator="{on, attrs}">
+                    <v-btn
+                        title="Download Invoices from Navision"
+                        dense icon rounded
+                        class="mr-2"
+                        v-bind="attrs"
+                        v-on="on"
+                        color="primary"
+                    >
+                        <v-icon>mdi-download</v-icon>
+                    </v-btn>
+                </template>
+
+                <DownloadInvoices></DownloadInvoices>
+            </v-dialog>
+
             <v-menu
                 v-model="menu"
                 :close-on-content-click="false"
@@ -102,6 +119,7 @@ export default {
     components: {
         GeneratedTableWrapper: () => import("./GeneratedTableWrapper.vue"),
         GeneratedActions: () => import("./GeneratedActions.vue"),
+        DownloadInvoices: () => import("./DownloadInvoices.vue"),
     },
 
     data() {

@@ -106,7 +106,13 @@ Route::prefix('invoices')->group(function(){
     Route::get("/groups", "InvoicesController@groups");
     Route::get("/invoices-upload-logs", "InvoicesController@uploadLogs");
     Route::get("/grand-total", "InvoicesController@grandTotal");
-    Route::get("/sync", "InvoicesController@sync");
+    Route::post("/sync", "InvoicesController@sync");
+});
+
+
+// NAVISION
+Route::prefix('nav')->group(function(){
+    Route::post("/downloadInvoices", "NavisionController@downloadInvoices");
 });
 
 

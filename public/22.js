@@ -107,6 +107,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     GeneratedTableWrapper: function GeneratedTableWrapper() {
@@ -114,6 +131,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     GeneratedActions: function GeneratedActions() {
       return __webpack_require__.e(/*! import() */ 23).then(__webpack_require__.bind(null, /*! ./GeneratedActions.vue */ "./resources/js/pages/Principals/common/GeneratedActions.vue"));
+    },
+    DownloadInvoices: function DownloadInvoices() {
+      return __webpack_require__.e(/*! import() */ 21).then(__webpack_require__.bind(null, /*! ./DownloadInvoices.vue */ "./resources/js/pages/Principals/common/DownloadInvoices.vue"));
     }
   },
   data: function data() {
@@ -299,6 +319,49 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("v-spacer"),
+          _vm._v(" "),
+          _c(
+            "v-dialog",
+            {
+              attrs: { width: "500" },
+              scopedSlots: _vm._u([
+                {
+                  key: "activator",
+                  fn: function(ref) {
+                    var on = ref.on
+                    var attrs = ref.attrs
+                    return [
+                      _c(
+                        "v-btn",
+                        _vm._g(
+                          _vm._b(
+                            {
+                              staticClass: "mr-2",
+                              attrs: {
+                                title: "Download Invoices from Navision",
+                                dense: "",
+                                icon: "",
+                                rounded: "",
+                                color: "primary"
+                              }
+                            },
+                            "v-btn",
+                            attrs,
+                            false
+                          ),
+                          on
+                        ),
+                        [_c("v-icon", [_vm._v("mdi-download")])],
+                        1
+                      )
+                    ]
+                  }
+                }
+              ])
+            },
+            [_vm._v(" "), _c("DownloadInvoices")],
+            1
+          ),
           _vm._v(" "),
           _c(
             "v-menu",

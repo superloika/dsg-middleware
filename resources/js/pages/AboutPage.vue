@@ -4,10 +4,12 @@
             <v-col>
                 <v-card>
                     <v-card-title>
-                        DSG Principal Middleware
+                        {{ AppStore.state.AppAbbr }}
+                        &nbsp;
+                        <v-chip color="primary" small>Version {{ AppStore.state.AppVersion }}</v-chip>
                     </v-card-title>
                     <v-card-text>
-                        DSG Principal Middleware
+                        {{ AppStore.state.AppName }}
                     </v-card-text>
 
                 </v-card>

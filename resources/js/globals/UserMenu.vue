@@ -76,6 +76,12 @@
                                 {{ DevChatStore.state.unreadMsgCount }}
                             </v-chip>
                         </v-list-item> -->
+
+                        <v-divider></v-divider>
+
+                        <v-list-item link to="/about">
+                            About
+                        </v-list-item>
                     </v-list-item-group>
                 </v-list>
 
@@ -92,30 +98,6 @@
                     >
                         Logout
                     </v-btn>
-                    <!-- <v-dialog
-                        persistent
-                        v-model="logout_dialog"
-                        max-width="300"
-                    >
-                        <v-card>
-                            <v-list>
-                                <v-list-item>
-                                    Are you sure you want to logout?
-                                </v-list-item>
-                            </v-list>
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn @click="logout()" color="primary"
-                                    :loading="isLoggingOut" text>
-                                    Yes
-                                </v-btn>
-                                <v-btn @click="logout_dialog = false" text
-                                    :disabled="isLoggingOut">
-                                    No
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-dialog> -->
                 </v-card-actions>
             </v-card>
         </v-menu>
