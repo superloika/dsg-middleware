@@ -113,6 +113,7 @@ Route::prefix('invoices')->group(function(){
 // NAVISION
 Route::prefix('nav')->group(function(){
     Route::post("/downloadInvoices", "NavisionController@downloadInvoices");
+    Route::post("/dlLogs", "NavisionController@dlLogs");
 });
 
 

@@ -60,8 +60,8 @@ class PrincipalsUtil extends Controller
     // invoices upload log
     public static $TBL_INVOICES_UPLOG = 'invoices_upload_log';
 
-    // invoices upload log
-    public static $TBL_PT_RI = 'pterm_return_indicator';
+    // invoices download from Nav log
+    public static $TBL_INVOICES_DLLOG = 'invoices_dl_log';
 
 
     /**

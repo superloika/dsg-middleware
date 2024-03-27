@@ -190,10 +190,14 @@ class NavisionController extends Controller
             $posting_date_from = '2024-03-01';
             $posting_date_to = '2024-03-31';
             $dateTimeToday = Carbon::now()->format('Y-m-d H:i:s');
+            $batchNum = "NAV" . time();
             $result = [
                 'sales_invoices' => [],
-                'sales_returns' => []
+                'sales_returns' => [],
+                'unreachable' => [],
             ];
+            $new_si = 0;
+            $new_cm = 0;
 
             foreach($configs as $config) {
                 $server_name = $config['server_name'];
@@ -210,13 +214,20 @@ class NavisionController extends Controller
 
                 $loopCounter++;
 
+                // establish db connection, skip if server unreachable
+                try {
+                    $dbCon = DB::connection($server_name);
+                } catch (\Throwable $th) {
+                    array_push($result['unreachable'], $server_name);
+                    continue;
+                }
+
                 ///////////////////////////// Sales Invoices ///////////////////////////////////////////
                 // retrieve invoices from NAV
                 DownloadInvoice::dispatch(
                     "($loopCounter/$configsLen: $server_name) Retrieving sales invoices from Navision"
                 );
-                $sales_invoices = DB::connection($server_name)
-                ->select(
+                $sales_invoices = $dbCon->select(
                     "SELECT
                         -- header
                         [$invoice_headers_tbl].[No_] as doc_no,
@@ -251,8 +262,7 @@ class NavisionController extends Controller
                     AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
                     ;
                     "
-                )
-                ;
+                );
 
                 // save retrieved invoices to local db
                 foreach($sales_invoices as $si) {
@@ -283,7 +293,7 @@ class NavisionController extends Controller
                         $existingSalesInvoices++;
                     } else {
                         DownloadInvoice::dispatch(
-                            "($loopCounter/$configsLen: $server_name) Saving sales invoice to local database {$si->doc_no}, {$si->item_code}"
+                            "($loopCounter/$configsLen: $server_name) Saving sales invoice to the local database {$si->doc_no}, {$si->item_code}"
                         );
                         DB::table(PrincipalsUtil::$TBL_INVOICES)->insert([
                             'created_at' => date($dateTimeToday),
@@ -310,6 +320,7 @@ class NavisionController extends Controller
                             'vat_percentage' =>         $si->vat_percentage,
                             'customer_name' =>          $si->customer_name,
                             'sm_code' =>                $si->sm_code,
+                            'sm_name' =>                $si->sm_name,
                             'ext_doc_no' =>             $si->ext_doc_no,
                         ]);
                         $newSalesInvoices++;
@@ -317,18 +328,20 @@ class NavisionController extends Controller
                 }
 
                 // summary
-                $result['sales_invoices'][$server_name] = [
-                    'existing' => $existingSalesInvoices,
-                    'new' => $newSalesInvoices,
-                ];
+                if($existingSalesInvoices > 0 || $newSalesInvoices > 0) {
+                    $result['sales_invoices'][$server_name] = [
+                        'existing' => $existingSalesInvoices,
+                        'new' => $newSalesInvoices,
+                    ];
+                }
+                $new_si += $newSalesInvoices;
 
                 ///////////////////////////// Sales Returns ///////////////////////////////////////////
                 // retrieve sales returns from Nav
                 DownloadInvoice::dispatch(
                     "($loopCounter/$configsLen: $server_name) Retrieving sales returns from Navision"
                 );
-                $sales_returns = DB::connection($server_name)
-                ->select(
+                $sales_returns = $dbCon->select(
                     "SELECT
                         -- header
                         [$cm_headers_tbl].[No_] as doc_no,
@@ -370,8 +383,7 @@ class NavisionController extends Controller
                     AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
                     ;
                     "
-                )
-                ;
+                );
 
                 // save retrieved sales returns to local db
                 foreach($sales_returns as $sr) {
@@ -399,7 +411,7 @@ class NavisionController extends Controller
                         $existingSalesReturns++;
                     } else {
                         DownloadInvoice::dispatch(
-                            "($loopCounter/$configsLen: $server_name) Saving sales return to local database {$sr->doc_no}, {$sr->item_code}"
+                            "($loopCounter/$configsLen: $server_name) Saving sales return to the local database {$sr->doc_no}, {$sr->item_code}"
                         );
                         DB::table(PrincipalsUtil::$TBL_CM)->insert([
                             'created_at' =>             date($dateTimeToday),
@@ -433,19 +445,41 @@ class NavisionController extends Controller
                 }
 
                 // summary
-                $result['sales_returns'][$server_name] = [
-                    'existing' => $existingSalesReturns,
-                    'new' => $newSalesReturns,
-                ];
+                if($existingSalesReturns > 0 || $newSalesReturns > 0) {
+                    $result['sales_returns'][$server_name] = [
+                        'existing' => $existingSalesReturns,
+                        'new' => $newSalesReturns,
+                    ];
+                }
+                $new_cm += $newSalesReturns;
             }
 
-            ini_set('memory_limit', $memory_limit);
+            // save logs
+            DB::table(PrincipalsUtil::$TBL_INVOICES_DLLOG)->insert([
+                'batch_number' => $batchNum,
+                'summary' => json_encode($result),
+                'new_si' => $new_si,
+                'new_cm' => $new_cm,
+                'unreachable' => count($result['unreachable']),
+                'main_vendor_code' => $request->main_vendor_code,
+                'uploaded_by' => auth()->user()->id
+            ]);
 
+            ini_set('memory_limit', $memory_limit);
             return response()->json($result);
         } catch (\Throwable $th) {
             $res['success'] = false;
             $res['message'] = $server_name . ': ' . $th->getMessage();
             return response()->json($res, 500);
         }
+    }
+
+
+    public function dlLogs(Request $request) {
+        $res = DB::table(PrincipalsUtil::$TBL_INVOICES_DLLOG)
+            ->where('main_vendor_code', $request->main_vendor_code)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return response()->json($res);
     }
 }
