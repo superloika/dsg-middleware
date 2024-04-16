@@ -388,6 +388,7 @@ class MegasoftController extends Controller
                         $uom = $pendingInvoice->uom;
                         $item_description = $pendingInvoice->item_description;
                         $sm_code = $pendingInvoice->sm_code;
+                        $sm_name = $pendingInvoice->sm_name;
                         $group = $pendingInvoice->group;
                         $status = $pendingInvoice->status;
                         $vendor_code = $pendingInvoice->vendor_code;
@@ -452,6 +453,7 @@ class MegasoftController extends Controller
                             'description_supplier' => $item->description_supplier ?? 'N/A',
                             'customer_name' => $nav_customer_name,
                             'sm_code' => $sm_code ?? 'N/A',
+                            'sm_name' => $sm_name,
                             'system_date' => $system_date,
                             'group' => $group,
                             'status' => $status,
@@ -523,6 +525,7 @@ class MegasoftController extends Controller
                         $uom = $return->uom;
                         $item_description = $return->item_description;
                         $sm_code = $return->sm_code;
+                        $sm_name = $return->sm_name;
                         $group = $return->group;
                         $status = $return->status;
                         $invoice_doc_no = $return->invoice_doc_no;
@@ -591,6 +594,7 @@ class MegasoftController extends Controller
                             'description_supplier' => $item->description_supplier ?? 'N/A',
                             'customer_name' => $nav_customer_name,
                             'sm_code' => $sm_code ?? 'N/A',
+                            'sm_name' => $sm_name,
                             'system_date' => $system_date,
                             'group' => $group,
                             'status' => $status,
@@ -684,7 +688,8 @@ class MegasoftController extends Controller
                     ["text" =>"Quantity", "value" => "quantity"],
                     ["text" =>"Price", "value" => "price"],
                     ["text" =>"Amount", "value" => "amount"],
-                    ["text" =>"Salesman", "value" => "sm_code"],
+                    ["text" =>"Salesman Code", "value" => "sm_code"],
+                    ["text" =>"Salesman Name", "value" => "sm_name"],
                     ["text" =>"Group", "value" => "group"],
                 ],
                 [
@@ -700,7 +705,8 @@ class MegasoftController extends Controller
                     ["text" =>"Quantity", "value" => "quantity"],
                     ["text" =>"Price", "value" => "price"],
                     ["text" =>"Amount", "value" => "amount"],
-                    ["text" =>"Salesman", "value" => "sm_code"],
+                    ["text" =>"Salesman Code", "value" => "sm_code"],
+                    ["text" =>"Salesman Name", "value" => "sm_name"],
                     ["text" =>"Group", "value" => "group"],
                     ["text" =>"Invoice Reference #", "value" => "invoice_doc_no"],
                     ["text" =>"Remarks", "value" => "remarks"],

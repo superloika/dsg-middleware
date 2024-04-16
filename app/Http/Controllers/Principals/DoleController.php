@@ -119,6 +119,7 @@ class DoleController extends Controller
                         $uom =                  $pendingInvoice->uom;
                         $item_description =     $pendingInvoice->item_description;
                         $sm_code =              $pendingInvoice->sm_code;
+                        $sm_name =              $pendingInvoice->sm_name;
                         $group =                $pendingInvoice->group;
                         $vendor_code =          $pendingInvoice->vendor_code;
                         $customer_name =        $pendingInvoice->customer_name;
@@ -137,7 +138,8 @@ class DoleController extends Controller
                         $item = $principal_items->where('item_code', $item_code)->first();
                         $salesman = null;
                         // for non-store invoice data (compare masterfile group to invoice group)
-                        if(!in_array($group, ['STORE_CDC','STORE_UDC'])) {
+                        // if(!in_array($group, ['STORE_CDC','STORE_UDC'])) {
+                        if(!in_array($group, ['STORE'])) {
                             $salesman = $principal_salesmen->filter(function($sm) use (&$group) {
                                     return false !== strpos($group, $sm->division, 0);
                                 })->first();
@@ -223,6 +225,7 @@ class DoleController extends Controller
                             'description_supplier' =>   $item_description,
                             'customer_name' =>          $customer_name,
                             'sm_code' =>                $sm_code,
+                            'sm_name' =>                $sm_name,
                             'sm_code_supplier' =>       $sm_code_supplier,
                             'system_date' =>            $system_date,
                             'group' =>                  $group,
@@ -367,6 +370,7 @@ class DoleController extends Controller
                         $uom =              $return->uom;
                         $item_description = $return->item_description;
                         $sm_code =          $return->sm_code;
+                        $sm_name =          $return->sm_name;
                         $group =            $return->group;
                         $status =           $return->status;
                         $invoice_doc_no =   $return->invoice_doc_no; // reference #
@@ -413,6 +417,7 @@ class DoleController extends Controller
                             'customer_name' =>          $customer_name,
                             // 'customer_name' => $nav_customer_name ?? 'NA',
                             'sm_code' =>                $sm_code ?? 'NA',
+                            'sm_name' =>                $sm_name,
                             'system_date' =>            $system_date,
                             'group' =>                  $group,
                             'status' =>                 $status,

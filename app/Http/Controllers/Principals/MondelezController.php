@@ -702,6 +702,7 @@ class MondelezController extends Controller
                             $uom = $pendingInvoice->uom;
                             $item_description = $pendingInvoice->item_description;
                             $sm_code = $pendingInvoice->sm_code;
+                            $sm_name = $pendingInvoice->sm_name;
                             $group = $pendingInvoice->group;
                             $nav_customer_name = $pendingInvoice->customer_name;
                             $vendor_code = $pendingInvoice->vendor_code;
@@ -761,6 +762,7 @@ class MondelezController extends Controller
                                 // 'customer_name' => $nav_customer_name,
                                 'customer_name' => $nav_customer_name,
                                 'sm_code' => $sm_code ?? 'N/A',
+                                'sm_name' => $sm_name,
                                 'system_date' => $system_date,
                                 'group' => $pendingInvoice->group,
                                 'status' => $pendingInvoice->status,
@@ -835,6 +837,7 @@ class MondelezController extends Controller
                             $uom = $return->uom;
                             $item_description = $return->item_description;
                             $sm_code = $return->sm_code;
+                            $sm_name = $return->sm_name;
                             $group = $return->group;
                             $nav_customer_name = $return->customer_name;
                             $status = $return->status;
@@ -898,6 +901,7 @@ class MondelezController extends Controller
                                 // 'customer_name' => $nav_customer_name,
                                 'customer_name' => $nav_customer_name,
                                 'sm_code' => $sm_code ?? 'N/A',
+                                'sm_name' => $sm_name,
                                 'system_date' => $system_date,
                                 'group' => $group,
                                 'status' => $status,
@@ -991,12 +995,13 @@ class MondelezController extends Controller
                     ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],
                     ["text" => "Item Code (Supplier)", "value" => "item_code"],
                     ["text" => "Item Name (NAV)", "value" => "item_description"],
-                    ["text" => "Item Name (Supplier)", "value" => "description_supplier"],
+                    // ["text" => "Item Name (Supplier)", "value" => "description_supplier"],
                     ["text" => "UOM", "value" => "uom"],
                     ["text" => "Quantity", "value" => "quantity"],
                     ["text" => "Price", "value" => "price"],
                     ["text" => "Amount", "value" => "amount"],
-                    ["text" => "Salesman", "value" => "sm_code"],
+                    ["text" => "Salesman Code", "value" => "sm_code"],
+                    ["text" => "Salesman Name", "value" => "sm_name"],
                     ["text" => "Group", "value" => "group"],
                 ],
                 [
@@ -1007,12 +1012,13 @@ class MondelezController extends Controller
                     ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],
                     ["text" => "Item Code (Supplier)", "value" => "item_code"],
                     ["text" => "Item Name (NAV)", "value" => "item_description"],
-                    ["text" => "Item Name (Supplier)", "value" => "description_supplier"],
+                    // ["text" => "Item Name (Supplier)", "value" => "description_supplier"],
                     ["text" => "UOM", "value" => "uom"],
                     ["text" => "Quantity", "value" => "quantity"],
                     ["text" => "Price", "value" => "price"],
                     ["text" => "Amount", "value" => "amount"],
-                    ["text" => "Salesman", "value" => "sm_code"],
+                    ["text" => "Salesman Code", "value" => "sm_code"],
+                    ["text" => "Salesman Name", "value" => "sm_name"],
                     ["text" => "Group", "value" => "group"],
                     ["text" => "Invoice Reference #", "value" => "invoice_doc_no"],
                     ["text" => "Remarks", "value" => "remarks"],

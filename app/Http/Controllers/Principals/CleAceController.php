@@ -99,6 +99,7 @@ class CleAceController extends Controller
                             $uom = $pendingInvoice->uom;
                             $item_description = $pendingInvoice->item_description;
                             $sm_code = $pendingInvoice->sm_code;
+                            $sm_name = $pendingInvoice->sm_name;
                             $group = $pendingInvoice->group;
                             $vendor_code = $pendingInvoice->vendor_code;
 
@@ -149,6 +150,7 @@ class CleAceController extends Controller
                                 // 'customer_name' => $nav_customer_name,
                                 'customer_name' => $nav_customer_name ?? 'NA',
                                 'sm_code' => $sm_code ?? 'NA',
+                                'sm_name' => $sm_name,
                                 'system_date' => $system_date,
                                 'group' => $pendingInvoice->group,
                                 'status' => $pendingInvoice->status,
@@ -223,6 +225,7 @@ class CleAceController extends Controller
                             $uom = $return->uom;
                             $item_description = $return->item_description;
                             $sm_code = $return->sm_code;
+                            $sm_name = $return->sm_name;
                             $group = $return->group;
                             $status = $return->status;
                             $invoice_doc_no = $return->invoice_doc_no; // reference #
@@ -277,6 +280,7 @@ class CleAceController extends Controller
                                 // 'customer_name' => $nav_customer_name,
                                 'customer_name' => $nav_customer_name ?? 'NA',
                                 'sm_code' => $sm_code ?? 'NA',
+                                'sm_name' => $sm_name,
                                 'system_date' => $system_date,
                                 'group' => $group,
                                 'status' => $status,
@@ -353,7 +357,8 @@ class CleAceController extends Controller
                     ["text" => "Quantity", "value" => "quantity"],
                     ["text" => "Price", "value" => "price"],
                     ["text" => "Amount", "value" => "amount"],
-                    ["text" => "Salesman", "value" => "sm_code"],
+                    ["text" => "Salesman Code", "value" => "sm_code"],
+                    ["text" => "Salesman Name", "value" => "sm_name"],
                     ["text" => "Group", "value" => "group"],
                 ],
                 [
@@ -370,7 +375,8 @@ class CleAceController extends Controller
                     ["text" => "Quantity", "value" => "quantity"],
                     ["text" => "Price", "value" => "price"],
                     ["text" => "Amount", "value" => "amount"],
-                    ["text" => "Salesman", "value" => "sm_code"],
+                    ["text" => "Salesman Code", "value" => "sm_code"],
+                    ["text" => "Salesman Name", "value" => "sm_name"],
                     ["text" => "Group", "value" => "group"],
                     ["text" => "Invoice Reference #", "value" => "invoice_doc_no"],
                     ["text" => "Remarks", "value" => "remarks"],

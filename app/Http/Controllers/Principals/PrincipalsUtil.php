@@ -9,48 +9,38 @@ use Illuminate\Support\Facades\DB;
 
 class PrincipalsUtil extends Controller
 {
-    // public static $TBL_SETTINGS = 'settings';
-    public static $TBL_SETTINGS = 'settings_ptn';
+    public static $TBL_SETTINGS = 'settings';
 
     public static $STATUS_COMPLETED = 'completed';
     public static $STATUS_PENDING = 'pending';
     public static $STATUS_UPLOADED = 'uploaded';
 
     public static $TBL_GENERATED = 'generated_data';
-    // public static $TBL_INVOICES = 'uploaded_invoices';
 
     /**
      * Invoices db table name (headers)
      */
     public static $TBL_INVOICES_H = 'invoices_headers';
+
     /**
      * Invoices db table name (lines)
      */
-    // public static $TBL_INVOICES = 'invoices_lines';
-    // public static $TBL_INVOICES = 'invoices_lines_trial';
-    public static $TBL_INVOICES = 'invoices_lines_ptn'; // test table with partitioning
+    public static $TBL_INVOICES = 'invoices_lines';
 
     // credit memos
     /**
      * Return invoices db table name (lines)
      */
-    // public static $TBL_CM = 'cm_lines';
-    public static $TBL_CM = 'cm_lines_ptn';
+    public static $TBL_CM = 'cm_lines';
 
-    // public static $TBL_PRINCIPALS_CUSTOMERS = 'principals_customers';
-    // public static $TBL_PRINCIPALS_ITEMS = 'principals_items';
-    // public static $TBL_PRINCIPALS_SALESMEN = 'principals_salesmen';
-    public static $TBL_PRINCIPALS_CUSTOMERS = 'principals_customers_ptn';
-    public static $TBL_PRINCIPALS_ITEMS = 'principals_items_ptn';
-    public static $TBL_PRINCIPALS_SALESMEN = 'principals_salesmen_ptn';
+    public static $TBL_PRINCIPALS_CUSTOMERS = 'principals_customers';
+    public static $TBL_PRINCIPALS_ITEMS = 'principals_items';
+    public static $TBL_PRINCIPALS_SALESMEN = 'principals_salesmen';
 
-    // public static $TBL_GENERAL_ITEMS = 'general_items';
-    // public static $TBL_GENERAL_CUSTOMERS = 'general_customers';
-    public static $TBL_GENERAL_ITEMS = 'general_items_ptn';
-    public static $TBL_GENERAL_CUSTOMERS = 'general_customers_ptn';
+    public static $TBL_GENERAL_ITEMS = 'general_items';
+    public static $TBL_GENERAL_CUSTOMERS = 'general_customers';
 
-    // public static $TBL_PRINCIPALS = 'principals';
-    public static $TBL_PRINCIPALS = 'principals_ptn';
+    public static $TBL_PRINCIPALS = 'principals';
 
     public static $TBL_GROUPS = 'groups';
 

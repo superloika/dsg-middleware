@@ -104,18 +104,19 @@ class UnitedFamilyController extends Controller
                         $uom =                  $pendingInvoice->uom;
                         $item_description =     $pendingInvoice->item_description;
                         $sm_code =              $pendingInvoice->sm_code;
+                        $sm_name =              $pendingInvoice->sm_name;
                         $group =                $pendingInvoice->group;
                         $vendor_code =          $pendingInvoice->vendor_code;
                         $status =               $pendingInvoice->status;
                         $customer_name =        $pendingInvoice->customer_name;
 
                         // ************************* MASTERFILE MAPPING *************************
-                        $salesman = $principal_salesmen
-                            ->filter(function($sm) use (&$group) {
-                                return false !== strpos($group, $sm->division, 0);
-                            })
-                            ->where('sm_code', $sm_code)
-                            ->first();
+                        // $salesman = $principal_salesmen
+                        //     ->filter(function($sm) use (&$group) {
+                        //         return false !== strpos($group, $sm->division, 0);
+                        //     })
+                        //     ->where('sm_code', $sm_code)
+                        //     ->first();
                         // ************************* /MASTERFILE MAPPING *************************
 
                         // ************************* MISC INITS **************************
@@ -124,16 +125,16 @@ class UnitedFamilyController extends Controller
                         $salesman_notfound = 0;
                         $missing_customer_name = '';
                         $missing_item_name = '';
-                        $sm_name = '';
+                        // $sm_name = '';
 
                         $item_code_supplier = $item_code ?? 'NA';
                         $customer_code_supplier = $customer_code ?? 'NA';
 
-                        if ($salesman == null) {
-                            $salesman_notfound = 1;
-                        } else {
-                            $sm_name = $salesman->sm_name ?? '';
-                        }
+                        // if ($salesman == null) {
+                        //     $salesman_notfound = 1;
+                        // } else {
+                        //     $sm_name = $salesman->sm_name ?? '';
+                        // }
                         // ************************* /MISC INITS **************************
 
                         // Generated data line structure
@@ -234,6 +235,7 @@ class UnitedFamilyController extends Controller
                         $uom =                  $return->uom;
                         $item_description =     $return->item_description;
                         $sm_code =              $return->sm_code;
+                        $sm_name =              $return->sm_name;
                         $group =                $return->group;
                         $status =               $return->status;
                         $invoice_doc_no =       $return->invoice_doc_no; // reference #
@@ -257,16 +259,16 @@ class UnitedFamilyController extends Controller
                         $salesman_notfound = 0;
                         $missing_customer_name = '';
                         $missing_item_name = '';
-                        $sm_name = '';
+                        // $sm_name = '';
 
                         $item_code_supplier = $item_code ?? 'NA';
                         $customer_code_supplier = $customer_code ?? 'NA';
 
-                        if ($salesman == null) {
-                            $salesman_notfound = 1;
-                        } else {
-                            $sm_name = $salesman->sm_name ?? '';
-                        }
+                        // if ($salesman == null) {
+                        //     $salesman_notfound = 1;
+                        // } else {
+                        //     $sm_name = $salesman->sm_name ?? '';
+                        // }
                         // ************************* /MISC INITS **************************
 
                         // Generated data line structure
@@ -293,7 +295,7 @@ class UnitedFamilyController extends Controller
                             'description_supplier' =>   $item_description ?? 'NA',
                             'customer_name' =>          $customer_name,
                             'sm_code' =>                $sm_code ?? 'NA',
-                            'sm_name' =>                $salesman,
+                            'sm_name' =>                $sm_name,
                             'system_date' =>            $system_date,
                             'group' =>                  $group,
                             'status' =>                 $status,
@@ -487,13 +489,13 @@ class UnitedFamilyController extends Controller
      */
     public function configs() {
         $arr = [
-            "salesmenTableHeader" => [
-                [
-                    ["text" => "Group",     "value" => "division" ],
-                    ["text" => "SM Code",   "value" => "sm_code" ],
-                    ["text" => "SM Name",   "value" => "sm_name" ],
-                ],
-            ],
+            // "salesmenTableHeader" => [
+            //     [
+            //         ["text" => "Group",     "value" => "division" ],
+            //         ["text" => "SM Code",   "value" => "sm_code" ],
+            //         ["text" => "SM Name",   "value" => "sm_name" ],
+            //     ],
+            // ],
 
             'generatedDataTableHeader' => [
                 [
