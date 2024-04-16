@@ -76,7 +76,7 @@ add column `main_vendor_codes` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_c
 ;
 
 alter table devchat
-add column `attacgments` LONGTEXT NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_ci'
+add column `attachments` LONGTEXT NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_ci'
 ;
 
 -- ========================================= db overrides =========================================
