@@ -323,7 +323,7 @@ var render = function() {
           _c(
             "v-dialog",
             {
-              attrs: { "max-width": "720" },
+              attrs: { "max-width": "900" },
               scopedSlots: _vm._u([
                 {
                   key: "activator",

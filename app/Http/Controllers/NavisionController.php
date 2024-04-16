@@ -187,8 +187,25 @@ class NavisionController extends Controller
             $configsLen = count($configs);
             $vendor_codes = $request->vendor_codes;
             $vendor_codes_imp = implode(',', array_map(fn($item) => "'$item'", $vendor_codes));
-            $posting_date_from = '2024-03-01';
-            $posting_date_to = '2024-03-31';
+            // posting date range ----------------------------------------
+            $dates = $request->posting_date_range;
+            sort($dates);
+            $posting_date_from = '';
+            $posting_date_to = '';
+            if(count($dates) > 1) {
+                $posting_date_from = $dates[0];
+                $posting_date_to = $dates[1];
+            } else if(count($dates) == 1) {
+                $posting_date_from = $dates[0];
+                $posting_date_to = $dates[0];
+            }
+            // set posting_date_to to today if it is a future date
+            $posting_date_to = new Carbon($posting_date_to);
+            if($posting_date_to->isFuture()) {
+                $posting_date_to = Carbon::now();
+            }
+            $posting_date_to = $posting_date_to->format('Y-m-d');
+            // /posting date range ----------------------------------------
             $dateTimeToday = Carbon::now()->format('Y-m-d H:i:s');
             $batchNum = "NAV" . time();
             $result = [
@@ -332,6 +349,8 @@ class NavisionController extends Controller
                     $result['sales_invoices'][$server_name] = [
                         'existing' => $existingSalesInvoices,
                         'new' => $newSalesInvoices,
+                        'posting_date_from' => $posting_date_from,
+                        'posting_date_to' => $posting_date_to
                     ];
                 }
                 $new_si += $newSalesInvoices;
@@ -449,6 +468,8 @@ class NavisionController extends Controller
                     $result['sales_returns'][$server_name] = [
                         'existing' => $existingSalesReturns,
                         'new' => $newSalesReturns,
+                        'posting_date_from' => $posting_date_from,
+                        'posting_date_to' => $posting_date_to
                     ];
                 }
                 $new_cm += $newSalesReturns;
@@ -460,6 +481,8 @@ class NavisionController extends Controller
                 'summary' => json_encode($result),
                 'new_si' => $new_si,
                 'new_cm' => $new_cm,
+                'posting_date_from' => $posting_date_from,
+                'posting_date_to' => $posting_date_to,
                 'unreachable' => count($result['unreachable']),
                 'main_vendor_code' => $request->main_vendor_code,
                 'uploaded_by' => auth()->user()->id
@@ -469,7 +492,7 @@ class NavisionController extends Controller
             return response()->json($result);
         } catch (\Throwable $th) {
             $res['success'] = false;
-            $res['message'] = $server_name . ': ' . $th->getMessage();
+            $res['message'] = $server_name ?? '' . ': ' . $th->getMessage();
             return response()->json($res, 500);
         }
     }

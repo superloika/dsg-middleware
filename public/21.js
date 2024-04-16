@@ -134,12 +134,57 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       tblheader: [{
         text: 'Batch #',
         value: 'batch_number'
+      }, {
+        text: 'Posting Date',
+        value: 'posting_date'
       }, {
         text: 'New SI',
         value: 'new_si'
@@ -157,8 +202,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'action'
       }],
       tblItems: [],
-      dlSummary: []
+      dlSummary: [],
+      posting_date_range: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10)]
     };
+  },
+  computed: {
+    dateRangeText: function dateRangeText() {
+      return this.posting_date_range.join(" ~ ");
+    }
   },
   methods: {
     downloadInvoices: function downloadInvoices() {
@@ -189,7 +240,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 8;
                 return axios.post(url, {
                   main_vendor_code: _this.PrincipalsStore.state.selectedPrincipal[0],
-                  vendor_codes: vendor_codes
+                  vendor_codes: vendor_codes,
+                  posting_date_range: _this.posting_date_range
                 });
 
               case 8:
@@ -304,22 +356,7 @@ var render = function() {
             _vm._v("Download invoice data from Navision")
           ]),
           _vm._v(" "),
-          _c("v-spacer"),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: {
-                icon: "",
-                dense: "",
-                color: "primary",
-                title: "Download Invoices"
-              },
-              on: { click: _vm.downloadInvoices }
-            },
-            [_c("v-icon", [_vm._v("mdi-download")])],
-            1
-          )
+          _c("v-spacer")
         ],
         1
       ),
@@ -327,6 +364,151 @@ var render = function() {
       _c(
         "v-container",
         [
+          _c(
+            "v-row",
+            [
+              _c(
+                "v-col",
+                { attrs: { cols: "6" } },
+                [
+                  _c(
+                    "v-dialog",
+                    {
+                      ref: "datePicker",
+                      attrs: {
+                        "return-value": _vm.posting_date_range,
+                        width: "290px"
+                      },
+                      on: {
+                        "update:returnValue": function($event) {
+                          _vm.posting_date_range = $event
+                        },
+                        "update:return-value": function($event) {
+                          _vm.posting_date_range = $event
+                        }
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "activator",
+                          fn: function(ref) {
+                            var on = ref.on
+                            var attrs = ref.attrs
+                            return [
+                              _c(
+                                "v-text-field",
+                                _vm._g(
+                                  _vm._b(
+                                    {
+                                      staticStyle: {
+                                        "max-width": "500px",
+                                        "min-width": "250px"
+                                      },
+                                      attrs: {
+                                        "hide-details": "",
+                                        readonly: "",
+                                        dense: "",
+                                        outlined: "",
+                                        rounded: "",
+                                        label: "Posting Date (yyyy-mm-dd)"
+                                      },
+                                      model: {
+                                        value: _vm.dateRangeText,
+                                        callback: function($$v) {
+                                          _vm.dateRangeText = $$v
+                                        },
+                                        expression: "dateRangeText"
+                                      }
+                                    },
+                                    "v-text-field",
+                                    attrs,
+                                    false
+                                  ),
+                                  on
+                                )
+                              )
+                            ]
+                          }
+                        }
+                      ])
+                    },
+                    [
+                      _vm._v(" "),
+                      _c(
+                        "v-date-picker",
+                        {
+                          attrs: { scrollable: "", range: "" },
+                          model: {
+                            value: _vm.posting_date_range,
+                            callback: function($$v) {
+                              _vm.posting_date_range = $$v
+                            },
+                            expression: "posting_date_range"
+                          }
+                        },
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                dense: "",
+                                depressed: "",
+                                rounded: "",
+                                color: "primary"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$refs.datePicker.save(
+                                    _vm.posting_date_range
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Ok\n                        "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "6" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        dense: "",
+                        rounded: "",
+                        color: "primary",
+                        title: "Download Invoices"
+                      },
+                      on: { click: _vm.downloadInvoices }
+                    },
+                    [_vm._v("\n                    Download\n                ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
           _c("div", { staticClass: "caption font-weight-bold ml-1" }, [
             _vm._v("Download History")
           ]),
@@ -355,6 +537,23 @@ var render = function() {
                           )
                         ]
                       )
+                    ]
+                  }
+                },
+                {
+                  key: "item.posting_date",
+                  fn: function(ref) {
+                    var item = ref.item
+                    return [
+                      _c("span", [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(item.posting_date_from) +
+                            " to " +
+                            _vm._s(item.posting_date_to) +
+                            "\n                "
+                        )
+                      ])
                     ]
                   }
                 },

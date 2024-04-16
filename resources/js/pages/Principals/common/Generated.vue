@@ -31,7 +31,7 @@
 
             <v-spacer></v-spacer>
 
-            <v-dialog max-width="720">
+            <v-dialog max-width="900">
                 <template v-slot:activator="{on, attrs}">
                     <v-btn
                         title="Download Invoices from Navision"
