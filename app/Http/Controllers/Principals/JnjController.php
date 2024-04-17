@@ -726,11 +726,11 @@ class JnjController extends Controller
 
                             //********************************************************************
                             $nav_customer_name = $pendingInvoice->customer_name;
-                            if($nav_customer_name==null || $nav_customer_name=='') {
-                                $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                    ->where('customer_code', $customer_code)
-                                    ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                            }
+                            // if($nav_customer_name==null || $nav_customer_name=='') {
+                            //     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            //         ->where('customer_code', $customer_code)
+                            //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                            // }
 
                             $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
                                 ->where('main_vendor_code', $this->PRINCIPAL_CODE)
@@ -772,7 +772,6 @@ class JnjController extends Controller
                                 $missing_item_name = DB::table(PrincipalsUtil::$TBL_GENERAL_ITEMS)
                                     ->where('item_code', $item_code)
                                     ->first()->description ?? PrincipalsUtil::$ITEM_NOT_FOUND;
-                            } else {
                             }
 
                             if ($salesman == null) {
@@ -895,11 +894,11 @@ class JnjController extends Controller
 
                             //********************************************************************
                             $nav_customer_name = $return->customer_name;
-                            if($nav_customer_name==null || $nav_customer_name=='') {
-                                $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                    ->where('customer_code', $customer_code)
-                                    ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                            }
+                            // if($nav_customer_name==null || $nav_customer_name=='') {
+                            //     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            //         ->where('customer_code', $customer_code)
+                            //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                            // }
 
                             $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
                                 ->where('main_vendor_code', $this->PRINCIPAL_CODE)

@@ -1,9 +1,10 @@
 <template>
     <v-card>
         <v-toolbar elevation="27">
-            <v-toolbar-title>Download invoice data from Navision</v-toolbar-title>
+            <v-toolbar-title>
+                Download invoice data from Navision
+            </v-toolbar-title>
             <v-spacer></v-spacer>
-
         </v-toolbar>
 
         <v-container>
@@ -63,7 +64,7 @@
                     </span>
                 </template>
                 <template v-slot:[`item.action`]="{ item }">
-                    <v-dialog max-width="600">
+                    <v-dialog max-width="800">
                         <template v-slot:activator="{on, attrs}">
                             <v-btn small rounded icon color="primary" title="View Details"
                                 v-on="on" v-bind="attrs"
@@ -100,7 +101,12 @@
                                                             </div>
                                                             <div>
                                                                 <small>
-                                                                    <strong>DSN:</strong> {{ siVal.dsn }}
+                                                                    <strong>IP:</strong> {{ parseDsnPart(siVal.dsn, /Server=([^;]+)/) }}
+                                                                </small>
+                                                            </div>
+                                                            <div>
+                                                                <small>
+                                                                    <strong>DB:</strong> {{ parseDsnPart(siVal.dsn, /Database=([^;]+)/) }}
                                                                 </small>
                                                             </div>
                                                         </v-card>
@@ -130,7 +136,12 @@
                                                             </div>
                                                             <div>
                                                                 <small>
-                                                                    <strong>DSN:</strong> {{ cmVal.dsn }}
+                                                                    <strong>IP:</strong> {{ parseDsnPart(cmVal.dsn, /Server=([^;]+)/) }}
+                                                                </small>
+                                                            </div>
+                                                            <div>
+                                                                <small>
+                                                                    <strong>DB:</strong> {{ parseDsnPart(cmVal.dsn, /Database=([^;]+)/) }}
                                                                 </small>
                                                             </div>
                                                         </v-card>
@@ -235,6 +246,14 @@ export default {
         isToday(date) {
             const today = new Date().toISOString().slice(0, 10);
             return new Date(date).toISOString().slice(0, 10) === today;
+        },
+
+        parseDsnPart(dsn, regEx) {
+            const match = dsn.match(regEx);
+            if(match) {
+                return match[1];
+            }
+            return '';
         }
     },
 

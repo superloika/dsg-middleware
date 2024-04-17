@@ -383,11 +383,11 @@ class FoodsphereIncController extends Controller
 
                             //********************************************************************
                             $nav_customer_name = trim($pendingInvoice->customer_name);
-                            if($nav_customer_name==null || $nav_customer_name=='') {
-                                $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                    ->where('customer_code', $customer_code)
-                                    ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                            }
+                            // if($nav_customer_name==null || $nav_customer_name=='') {
+                            //     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                            //         ->where('customer_code', $customer_code)
+                            //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                            // }
                             $item = $principal_items->where('item_code', $item_code)->first();
 
                             // ************************* MISC INITS **************************
@@ -400,8 +400,6 @@ class FoodsphereIncController extends Controller
                             if ($item == null) {
                                 $item_notfound = 1;
                                 $missing_item_name = $item_description;
-                            } else {
-
                             }
 
                             $item_code_supplier = $item->item_code_supplier ?? $item_code;

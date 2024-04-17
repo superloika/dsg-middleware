@@ -542,7 +542,6 @@ class CenturyCanningController extends Controller
 
                             if ($item == null) {
                                 $item_notfound = 1;
-                            } else {
                             }
 
                             // if ($customer == null) {
@@ -705,7 +704,6 @@ class CenturyCanningController extends Controller
 
                             if ($item == null) {
                                 $item_notfound = 1;
-                            } else {
                             }
 
                             // if ($customer == null) {

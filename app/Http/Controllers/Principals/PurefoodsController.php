@@ -88,9 +88,9 @@ class PurefoodsController extends Controller
             // $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
             //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
             //     ->get();
-            $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                ->get();
+            // $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+            //     ->get();
             // dd($principal_salesmen);
 
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
@@ -140,6 +140,7 @@ class PurefoodsController extends Controller
                         $item_description =     $pendingInvoice->item_description;
                         $group =                $pendingInvoice->group;
                         $sm_code =              $pendingInvoice->sm_code;
+                        $sm_name =              $pendingInvoice->sm_name;
                         $discount_percentage =  $pendingInvoice->discount_percentage ?? 0;
                         $discount_value =       0;
                         $vat_percentage =       intval($pendingInvoice->vat_percentage ?? 0);
@@ -181,12 +182,12 @@ class PurefoodsController extends Controller
                             ->where('item_code', $item_code)
                             ->first();
 
-                        $salesman = $principal_salesmen
-                            ->filter(function($sm) use (&$group) {
-                                return false !== strpos($group, $sm->division, 0);
-                            })
-                            ->where('sm_code', $sm_code)
-                            ->first();
+                        // $salesman = $principal_salesmen
+                        //     ->filter(function($sm) use (&$group) {
+                        //         return false !== strpos($group, $sm->division, 0);
+                        //     })
+                        //     ->where('sm_code', $sm_code)
+                        //     ->first();
                         // ************************* /MASTERFILE MAPPING *************************
 
                         // ************************* MISC INITS **************************
@@ -198,8 +199,6 @@ class PurefoodsController extends Controller
                         $item_code_supplier = '';
                         $item_description_supplier = '';
                         $customer_code_supplier = '';
-                        // $sm_code = 'NA';
-                        $sm_name = '';
                         $uom_supplier = '';
                         $price_supplier = 0;
                         $amount_supplier = 0;
@@ -259,10 +258,13 @@ class PurefoodsController extends Controller
                         }
 
                         // check salesman
-                        if($salesman == null) {
+                        // if($salesman == null) {
+                        //     $salesman_notfound = 1;
+                        // } else {
+                        //     $sm_name = $salesman->sm_name ?? '';
+                        // }
+                        if($sm_name == null || $sm_name == '') {
                             $salesman_notfound = 1;
-                        } else {
-                            $sm_name = $salesman->sm_name ?? '';
                         }
                         // ************************* /MISC INITS **************************
 
@@ -385,7 +387,7 @@ class PurefoodsController extends Controller
                         $amount =               doubleval($return->amount);
                         $uom =                  $return->uom;
                         $item_description =     $return->item_description;
-                        $group =           $return->group;
+                        $group =                $return->group;
                         $discount_percentage =  $return->discount_percentage ?? 0;
                         $discount_value =       0;
                         $invoice_quantity =     $return->invoice_quantity;
@@ -393,6 +395,7 @@ class PurefoodsController extends Controller
                         $return_indicator =     $return->return_indicator;
                         $vendor_code =          $return->vendor_code;
                         $sm_code =              $return->sm_code;
+                        $sm_name =              $return->sm_name;
                         $remarks =              $return->remarks;
                         $vat_percentage =       intval($return->vat_percentage ?? 0);
                         $vat_value =            0;
@@ -431,19 +434,18 @@ class PurefoodsController extends Controller
                             ->where('item_code', $item_code)
                             ->first();
 
-                        $salesman = $principal_salesmen
-                            ->filter(function($sm) use (&$group) {
-                                return false !== strpos($group, $sm->division, 0);
-                            })
-                            ->where('sm_code', $sm_code)
-                            ->first();
+                        // $salesman = $principal_salesmen
+                        //     ->filter(function($sm) use (&$group) {
+                        //         return false !== strpos($group, $sm->division, 0);
+                        //     })
+                        //     ->where('sm_code', $sm_code)
+                        //     ->first();
                         // ************************* /MASTERFILE MAPPING *************************
 
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
                         $customer_notfound = 0;
                         $salesman_notfound = 0;
-                        $sm_name = '';
                         $missing_customer_name = '';
                         $missing_item_name = '';
                         $item_code_supplier = '';
@@ -506,10 +508,13 @@ class PurefoodsController extends Controller
                             $customer_name = $customer->customer_name;
                         }
                         // check salesman
-                        if($salesman == null) {
+                        // if($salesman == null) {
+                        //     $salesman_notfound = 1;
+                        // } else {
+                        //     $sm_name = $salesman->sm_name ?? '';
+                        // }
+                        if($sm_name == null || $sm_name == '') {
                             $salesman_notfound = 1;
-                        } else {
-                            $sm_name = $salesman->sm_name ?? '';
                         }
                         // ************************* /MISC INITS **************************
 
@@ -948,89 +953,89 @@ class PurefoodsController extends Controller
     /**
      * Get salesmen list
      */
-    function salesmen()
-    {
-        set_time_limit(0);
+    // function salesmen()
+    // {
+    //     set_time_limit(0);
 
-        $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-            ->get();
-        return response()->json($result);
-    }
+    //     $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+    //         ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+    //         ->get();
+    //     return response()->json($result);
+    // }
 
     /**
      * Import salesmen masterfile (.csv)
      */
-    public function uploadMasterSalesmen(Request $request)
-    {
-        set_time_limit(0);
-        try {
-            $delimiter = ',';
-            $fileName = time() . '.' . $request->file->getClientOriginalName();
-            $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/salesmen";
-            Storage::putFileAs($fileStoragePath, $request->file, $fileName);
+    // public function uploadMasterSalesmen(Request $request)
+    // {
+    //     set_time_limit(0);
+    //     try {
+    //         $delimiter = ',';
+    //         $fileName = time() . '.' . $request->file->getClientOriginalName();
+    //         $fileStoragePath = "public/principals/" . $this->PRINCIPAL_CODE . "/salesmen";
+    //         Storage::putFileAs($fileStoragePath, $request->file, $fileName);
 
-            DB::beginTransaction();
+    //         DB::beginTransaction();
 
-            if (Storage::exists("$fileStoragePath/$fileName")) {
-                $fileContent = Storage::get("$fileStoragePath/$fileName");
+    //         if (Storage::exists("$fileStoragePath/$fileName")) {
+    //             $fileContent = Storage::get("$fileStoragePath/$fileName");
 
-                // init lineCount to 1 for the header
-                $lineCount = 1;
+    //             // init lineCount to 1 for the header
+    //             $lineCount = 1;
 
-                DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-                    ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
+    //             DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
+    //                 ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
-                $fileContent = utf8_encode($fileContent);
-                $fileContentLines = explode(
-                    PHP_EOL,
-                    mb_convert_encoding($fileContent, "UTF-8", "UTF-8")
-                );
-                $arrLines = [];
+    //             $fileContent = utf8_encode($fileContent);
+    //             $fileContentLines = explode(
+    //                 PHP_EOL,
+    //                 mb_convert_encoding($fileContent, "UTF-8", "UTF-8")
+    //             );
+    //             $arrLines = [];
 
-                foreach ($fileContentLines as $fileContentLine) {
-                    // Begin at the second line (exclude the header)
-                    if ($lineCount > 1) {
-                        $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
+    //             foreach ($fileContentLines as $fileContentLine) {
+    //                 // Begin at the second line (exclude the header)
+    //                 if ($lineCount > 1) {
+    //                     $arrFileContentLine = preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
-                        if (count($arrFileContentLine) > 1) {
-                            if($arrFileContentLine[0] != '' && $arrFileContentLine[0] != null ) {
-                                // ==========================================================================
-                                $division = trim(str_replace('"', '', $arrFileContentLine[0])); // group code (e.g. WDG)
-                                $sm_code = trim(str_replace('"', '', $arrFileContentLine[1]));
-                                $sm_name = trim(str_replace('"', '', $arrFileContentLine[2]));
-                                // =========================================================================
+    //                     if (count($arrFileContentLine) > 1) {
+    //                         if($arrFileContentLine[0] != '' && $arrFileContentLine[0] != null ) {
+    //                             // ==========================================================================
+    //                             $division = trim(str_replace('"', '', $arrFileContentLine[0])); // group code (e.g. WDG)
+    //                             $sm_code = trim(str_replace('"', '', $arrFileContentLine[1]));
+    //                             $sm_name = trim(str_replace('"', '', $arrFileContentLine[2]));
+    //                             // =========================================================================
 
-                                $arrLines[] = [
-                                    'main_vendor_code' => $this->PRINCIPAL_CODE,
-                                    'division' => $division,
-                                    'sm_code' => $sm_code,
-                                    'sm_name' => $sm_name,
-                                    'uploaded_by' => auth()->user()->id
-                                ];
-                            }
-                        }
-                    }
-                    $lineCount++;
-                }
+    //                             $arrLines[] = [
+    //                                 'main_vendor_code' => $this->PRINCIPAL_CODE,
+    //                                 'division' => $division,
+    //                                 'sm_code' => $sm_code,
+    //                                 'sm_name' => $sm_name,
+    //                                 'uploaded_by' => auth()->user()->id
+    //                             ];
+    //                         }
+    //                     }
+    //                 }
+    //                 $lineCount++;
+    //             }
 
-                $chunks = array_chunk($arrLines, 500);
-                foreach ($chunks as $chunk) {
-                    DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)->insert($chunk);
-                }
-            }
+    //             $chunks = array_chunk($arrLines, 500);
+    //             foreach ($chunks as $chunk) {
+    //                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)->insert($chunk);
+    //             }
+    //         }
 
-            DB::commit();
-            $res['success'] = true;
-            $res['message'] = 'File uploaded successfully';
-            return response()->json($res);
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            $res['success'] = false;
-            $res['message'] = $th->getMessage();
-            return response()->json($res, 500);
-        }
-    }
+    //         DB::commit();
+    //         $res['success'] = true;
+    //         $res['message'] = 'File uploaded successfully';
+    //         return response()->json($res);
+    //     } catch (\Throwable $th) {
+    //         DB::rollBack();
+    //         $res['success'] = false;
+    //         $res['message'] = $th->getMessage();
+    //         return response()->json($res, 500);
+    //     }
+    // }
 
 
 
@@ -1094,13 +1099,13 @@ class PurefoodsController extends Controller
                 ],
             ],
 
-            "salesmenTableHeader" => [
-                [
-                    ["text" => "Group",                     "value" => "division" ],
-                    ["text" => "SM Code",                   "value" => "sm_code" ],
-                    ["text" => "SM Name",                   "value" => "sm_name" ],
-                ],
-            ],
+            // "salesmenTableHeader" => [
+            //     [
+            //         ["text" => "Group",                     "value" => "division" ],
+            //         ["text" => "SM Code",                   "value" => "sm_code" ],
+            //         ["text" => "SM Name",                   "value" => "sm_name" ],
+            //     ],
+            // ],
 
             // last resort
             // templated data table header

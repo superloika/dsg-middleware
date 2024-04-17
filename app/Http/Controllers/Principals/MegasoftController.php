@@ -395,11 +395,11 @@ class MegasoftController extends Controller
 
                         //********************************************************************
                         $nav_customer_name = $pendingInvoice->customer_name;
-                        if($nav_customer_name==null || $nav_customer_name=='') {
-                            $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                ->where('customer_code', $customer_code)
-                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        }
+                        // if($nav_customer_name==null || $nav_customer_name=='') {
+                        //     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                        //         ->where('customer_code', $customer_code)
+                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                        // }
 
                         // $customer = $principal_customers
                         //     ->where('customer_code', $customer_code)
@@ -420,7 +420,6 @@ class MegasoftController extends Controller
                         if ($item == null) {
                             $item_notfound = 1;
                             $missing_item_name = $item_description;
-                        } else {
                         }
 
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;
@@ -535,11 +534,11 @@ class MegasoftController extends Controller
 
                         //********************************************************************
                         $nav_customer_name = $return->customer_name;
-                        if($nav_customer_name==null || $nav_customer_name=='') {
-                            $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                ->where('customer_code', $customer_code)
-                                ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        }
+                        // if($nav_customer_name==null || $nav_customer_name=='') {
+                        //     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
+                        //         ->where('customer_code', $customer_code)
+                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
+                        // }
 
                         // $customer = $principal_customers
                         //     ->where('customer_code', $customer_code)
@@ -560,7 +559,6 @@ class MegasoftController extends Controller
                         if ($item == null) {
                             $item_notfound = 1;
                             $missing_item_name = $item_description;
-                        } else {
                         }
 
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;

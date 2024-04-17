@@ -184,6 +184,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -326,6 +337,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     isToday: function isToday(date) {
       var today = new Date().toISOString().slice(0, 10);
       return new Date(date).toISOString().slice(0, 10) === today;
+    },
+    parseDsnPart: function parseDsnPart(dsn, regEx) {
+      var match = dsn.match(regEx);
+
+      if (match) {
+        return match[1];
+      }
+
+      return '';
     }
   },
   created: function created() {
@@ -361,7 +381,9 @@ var render = function() {
         { attrs: { elevation: "27" } },
         [
           _c("v-toolbar-title", [
-            _vm._v("Download invoice data from Navision")
+            _vm._v(
+              "\n            Download invoice data from Navision\n        "
+            )
           ]),
           _vm._v(" "),
           _c("v-spacer")
@@ -573,7 +595,7 @@ var render = function() {
                       _c(
                         "v-dialog",
                         {
-                          attrs: { "max-width": "600" },
+                          attrs: { "max-width": "800" },
                           scopedSlots: _vm._u(
                             [
                               {
@@ -761,14 +783,40 @@ var render = function() {
                                                                       "strong",
                                                                       [
                                                                         _vm._v(
-                                                                          "DSN:"
+                                                                          "IP:"
                                                                         )
                                                                       ]
                                                                     ),
                                                                     _vm._v(
                                                                       " " +
                                                                         _vm._s(
-                                                                          siVal.dsn
+                                                                          _vm.parseDsnPart(
+                                                                            siVal.dsn,
+                                                                            /Server=([^;]+)/
+                                                                          )
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    )
+                                                                  ])
+                                                                ]),
+                                                                _vm._v(" "),
+                                                                _c("div", [
+                                                                  _c("small", [
+                                                                    _c(
+                                                                      "strong",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "DB:"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(
+                                                                      " " +
+                                                                        _vm._s(
+                                                                          _vm.parseDsnPart(
+                                                                            siVal.dsn,
+                                                                            /Database=([^;]+)/
+                                                                          )
                                                                         ) +
                                                                         "\n                                                            "
                                                                     )
@@ -905,14 +953,40 @@ var render = function() {
                                                                       "strong",
                                                                       [
                                                                         _vm._v(
-                                                                          "DSN:"
+                                                                          "IP:"
                                                                         )
                                                                       ]
                                                                     ),
                                                                     _vm._v(
                                                                       " " +
                                                                         _vm._s(
-                                                                          cmVal.dsn
+                                                                          _vm.parseDsnPart(
+                                                                            cmVal.dsn,
+                                                                            /Server=([^;]+)/
+                                                                          )
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    )
+                                                                  ])
+                                                                ]),
+                                                                _vm._v(" "),
+                                                                _c("div", [
+                                                                  _c("small", [
+                                                                    _c(
+                                                                      "strong",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "DB:"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(
+                                                                      " " +
+                                                                        _vm._s(
+                                                                          _vm.parseDsnPart(
+                                                                            cmVal.dsn,
+                                                                            /Database=([^;]+)/
+                                                                          )
                                                                         ) +
                                                                         "\n                                                            "
                                                                     )

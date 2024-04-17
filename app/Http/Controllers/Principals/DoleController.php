@@ -126,7 +126,7 @@ class DoleController extends Controller
                         $status =               $pendingInvoice->status;
                         $discount_percentage =  $pendingInvoice->discount_percentage ?? 0;
                         $discount_value =       0;
-                        $vat_percentage =       intval($pendingInvoice->vat_percentage ?? 0);
+                        $vat_percentage =       doubleval($pendingInvoice->vat_percentage ?? 0);
                         $vat_value =            0;
                         $price_supplier =       0;
                         $amount_supplier =      0;
@@ -139,7 +139,8 @@ class DoleController extends Controller
                         $salesman = null;
                         // for non-store invoice data (compare masterfile group to invoice group)
                         // if(!in_array($group, ['STORE_CDC','STORE_UDC'])) {
-                        if(!in_array($group, ['STORE'])) {
+                        // if(!in_array($group, ['STORE'])) {
+                        if(!in_array($group, ['CDC', 'UDC'])) {
                             $salesman = $principal_salesmen->filter(function($sm) use (&$group) {
                                     return false !== strpos($group, $sm->division, 0);
                                 })->first();
@@ -166,7 +167,6 @@ class DoleController extends Controller
                             $amount_supplier = $price_supplier * $quantity * $qty_per_uom;
                             $amount_supplier = $amount_supplier - $discount_value;
 
-                            $vat_percentage = 12; // temporary
                             $vat_value = $amount_supplier * $vat_percentage / 100;
 
                             $amount_supplier = $amount_supplier + $vat_value;
@@ -192,8 +192,6 @@ class DoleController extends Controller
 
                         if($salesman == null) {
                             $salesman_notfound = 1;
-                        } else {
-
                         }
 
                         $item_code_supplier = $item->item_code_supplier ?? $item_code;

@@ -465,10 +465,10 @@ class NavisionController extends Controller
                         ON [$invoice_headers_tbl].[No_] = [$invoice_lines_tbl].[Document No_]
                     LEFT JOIN [$sm_tbl]
                         ON [$sm_tbl].[Code] = [$invoice_headers_tbl].[Salesperson Code]
-                    WHERE [$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
-                    AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 23:59:59.999'
-                    AND [$invoice_lines_tbl].[Quantity] > 0
+                    WHERE [$invoice_lines_tbl].[Quantity] > 0
                     AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
+                    AND ([$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
+                    AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 23:59:59.999')
                     ;
                     "
                 );
@@ -589,11 +589,11 @@ class NavisionController extends Controller
                         AND [$invoice_lines_tbl].[Unit of Measure] = [$cm_lines_tbl].[Unit of Measure]
                     LEFT JOIN [$sm_tbl]
                         ON [$sm_tbl].[Code] = [$cm_headers_tbl].[Salesperson Code]
-                    WHERE [$cm_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
-                    AND [$cm_headers_tbl].[Posting Date] <= '$posting_date_to 23:59:59.999'
-                    AND [$invoice_lines_tbl].[Quantity] > 0
+                    WHERE [$invoice_lines_tbl].[Quantity] > 0
                     AND [$cm_lines_tbl].[Quantity] > 0
                     AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
+                    AND ([$cm_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
+                    AND [$cm_headers_tbl].[Posting Date] <= '$posting_date_to 23:59:59.999')
                     ;
                     "
                 );
