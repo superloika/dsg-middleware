@@ -81,16 +81,16 @@
                             <v-card-text>
                                 <v-row>
                                     <v-col>
-                                        <v-card>
-                                            <v-card-text>
-                                                <div>
-                                                    Sales Invoices
-                                                </div>
-                                                <v-list dense>
-                                                    <v-list-item v-for="(siVal, siKey) in dlSummary.sales_invoices" :key="siKey">
-                                                        <v-list-item-content class="d-flex">
-                                                            {{ siKey }}
+                                        <v-card class="pa-2">
+                                            <div class="caption font-weight-bold">
+                                                Sales Invoices
+                                            </div>
+                                            <v-list dense>
+                                                <v-list-item v-for="(siVal, siKey) in dlSummary.sales_invoices" :key="siKey" dense>
+                                                    <v-list-item-content class="d-flex">
+                                                        <v-card class="pa-2 elevation-0" outlined>
                                                             <div class="d-flex">
+                                                                {{ siKey }}
                                                                 <v-chip x-small title="Existing">
                                                                     {{ siVal.existing }}
                                                                 </v-chip>
@@ -98,24 +98,29 @@
                                                                     {{ siVal.new }}
                                                                 </v-chip>
                                                             </div>
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-                                                </v-list>
-                                            </v-card-text>
+                                                            <div>
+                                                                <small>
+                                                                    <strong>DSN:</strong> {{ siVal.dsn }}
+                                                                </small>
+                                                            </div>
+                                                        </v-card>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                            </v-list>
                                         </v-card>
                                     </v-col>
 
                                     <v-col>
-                                        <v-card>
-                                            <v-card-text>
-                                                <div>
-                                                    Sales Returns
-                                                </div>
-                                                <v-list>
-                                                    <v-list-item v-for="(cmVal, cmKey) in dlSummary.sales_returns" :key="cmKey">
-                                                        <v-list-item-content>
-                                                            {{ cmKey }}
+                                        <v-card class="pa-2">
+                                            <div class="caption font-weight-bold">
+                                                Sales Returns
+                                            </div>
+                                            <v-list>
+                                                <v-list-item v-for="(cmVal, cmKey) in dlSummary.sales_returns" :key="cmKey" dense>
+                                                    <v-list-item-content>
+                                                        <v-card class="pa-2 elevation-0" outlined>
                                                             <div class="d-flex">
+                                                                {{ cmKey }}
                                                                 <v-chip x-small title="Existing">
                                                                     {{ cmVal.existing }}
                                                                 </v-chip>
@@ -123,27 +128,30 @@
                                                                     {{ cmVal.new }}
                                                                 </v-chip>
                                                             </div>
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-                                                </v-list>
-                                            </v-card-text>
+                                                            <div>
+                                                                <small>
+                                                                    <strong>DSN:</strong> {{ cmVal.dsn }}
+                                                                </small>
+                                                            </div>
+                                                        </v-card>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                            </v-list>
                                         </v-card>
                                     </v-col>
 
                                     <v-col>
-                                        <v-card>
-                                            <v-card-text>
-                                                <div>
-                                                    Unreachable Servers
-                                                </div>
-                                                <v-list>
-                                                    <v-list-item v-for="(item, index) in dlSummary.unreachable" :key="index">
-                                                        <v-list-item-content>
-                                                            {{ item }}
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-                                                </v-list>
-                                            </v-card-text>
+                                        <v-card class="pa-2">
+                                            <div class="caption font-weight-bold">
+                                                Unreachable Servers
+                                            </div>
+                                            <v-list>
+                                                <v-list-item v-for="(item, index) in dlSummary.unreachable" :key="index">
+                                                    <v-list-item-content>
+                                                        {{ item }}
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                            </v-list>
                                         </v-card>
                                     </v-col>
                                 </v-row>

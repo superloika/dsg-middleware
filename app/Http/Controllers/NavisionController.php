@@ -264,7 +264,7 @@ class NavisionController extends Controller
                 'group_name'            => '3PS',
             ],
             [
-                'server_name'           => 'SEC',
+                'server_name'           => 'LDI_SEC',
                 'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=LDI_SEC;',
                 'database'              => 'LDI_SEC',
                 'invoice_headers_tbl'   => 'LDI-DSG SPECIAL EXTERNAL CUST_$Sales Invoice Header',
@@ -272,7 +272,7 @@ class NavisionController extends Controller
                 'cm_headers_tbl'        => 'LDI-DSG SPECIAL EXTERNAL CUST_$Sales Cr_Memo Header',
                 'cm_lines_tbl'          => 'LDI-DSG SPECIAL EXTERNAL CUST_$Sales Cr_Memo Line',
                 'sm_tbl'                => 'LDI-DSG SPECIAL EXTERNAL CUST_$Salesperson_Purchaser',
-                'group_name'            => 'SEC',
+                'group_name'            => 'LDI_SEC',
             ],
             [
                 'server_name'           => 'CDC',
@@ -408,6 +408,8 @@ class NavisionController extends Controller
 
             foreach($configs as $config) {
                 $server_name = $config['server_name'];
+                $dsn = $config['dsn'];
+                $database = $config['database'];
                 $invoice_headers_tbl = $config['invoice_headers_tbl'];
                 $invoice_lines_tbl = $config['invoice_lines_tbl'];
                 $cm_headers_tbl = $config['cm_headers_tbl'];
@@ -537,6 +539,8 @@ class NavisionController extends Controller
                 // summary
                 if($existingSalesInvoices > 0 || $newSalesInvoices > 0) {
                     $result['sales_invoices'][$server_name] = [
+                        'dsn' => $dsn,
+                        'database' => $database,
                         'existing' => $existingSalesInvoices,
                         'new' => $newSalesInvoices,
                         'posting_date_from' => $posting_date_from,
@@ -656,6 +660,8 @@ class NavisionController extends Controller
                 // summary
                 if($existingSalesReturns > 0 || $newSalesReturns > 0) {
                     $result['sales_returns'][$server_name] = [
+                        'dsn' => $dsn,
+                        'database' => $database,
                         'existing' => $existingSalesReturns,
                         'new' => $newSalesReturns,
                         'posting_date_from' => $posting_date_from,

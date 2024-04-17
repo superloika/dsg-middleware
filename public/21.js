@@ -176,6 +176,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -641,41 +649,51 @@ var render = function() {
                                         [
                                           _c(
                                             "v-card",
+                                            { staticClass: "pa-2" },
                                             [
                                               _c(
-                                                "v-card-text",
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "caption font-weight-bold"
+                                                },
                                                 [
-                                                  _c("div", [
-                                                    _vm._v(
-                                                      "\n                                                Sales Invoices\n                                            "
-                                                    )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-list",
-                                                    { attrs: { dense: "" } },
-                                                    _vm._l(
-                                                      _vm.dlSummary
-                                                        .sales_invoices,
-                                                      function(siVal, siKey) {
-                                                        return _c(
-                                                          "v-list-item",
-                                                          { key: siKey },
+                                                  _vm._v(
+                                                    "\n                                            Sales Invoices\n                                        "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list",
+                                                { attrs: { dense: "" } },
+                                                _vm._l(
+                                                  _vm.dlSummary.sales_invoices,
+                                                  function(siVal, siKey) {
+                                                    return _c(
+                                                      "v-list-item",
+                                                      {
+                                                        key: siKey,
+                                                        attrs: { dense: "" }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "v-list-item-content",
+                                                          {
+                                                            staticClass:
+                                                              "d-flex"
+                                                          },
                                                           [
                                                             _c(
-                                                              "v-list-item-content",
+                                                              "v-card",
                                                               {
                                                                 staticClass:
-                                                                  "d-flex"
+                                                                  "pa-2 elevation-0",
+                                                                attrs: {
+                                                                  outlined: ""
+                                                                }
                                                               },
                                                               [
-                                                                _vm._v(
-                                                                  "\n                                                        " +
-                                                                    _vm._s(
-                                                                      siKey
-                                                                    ) +
-                                                                    "\n                                                        "
-                                                                ),
                                                                 _c(
                                                                   "div",
                                                                   {
@@ -683,6 +701,13 @@ var render = function() {
                                                                       "d-flex"
                                                                   },
                                                                   [
+                                                                    _vm._v(
+                                                                      "\n                                                            " +
+                                                                        _vm._s(
+                                                                          siKey
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    ),
                                                                     _c(
                                                                       "v-chip",
                                                                       {
@@ -728,17 +753,37 @@ var render = function() {
                                                                     )
                                                                   ],
                                                                   1
-                                                                )
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c("div", [
+                                                                  _c("small", [
+                                                                    _c(
+                                                                      "strong",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "DSN:"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(
+                                                                      " " +
+                                                                        _vm._s(
+                                                                          siVal.dsn
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    )
+                                                                  ])
+                                                                ])
                                                               ]
                                                             )
                                                           ],
                                                           1
                                                         )
-                                                      }
-                                                    ),
-                                                    1
-                                                  )
-                                                ],
+                                                      ],
+                                                      1
+                                                    )
+                                                  }
+                                                ),
                                                 1
                                               )
                                             ],
@@ -753,36 +798,46 @@ var render = function() {
                                         [
                                           _c(
                                             "v-card",
+                                            { staticClass: "pa-2" },
                                             [
                                               _c(
-                                                "v-card-text",
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "caption font-weight-bold"
+                                                },
                                                 [
-                                                  _c("div", [
-                                                    _vm._v(
-                                                      "\n                                                Sales Returns\n                                            "
-                                                    )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-list",
-                                                    _vm._l(
-                                                      _vm.dlSummary
-                                                        .sales_returns,
-                                                      function(cmVal, cmKey) {
-                                                        return _c(
-                                                          "v-list-item",
-                                                          { key: cmKey },
+                                                  _vm._v(
+                                                    "\n                                            Sales Returns\n                                        "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list",
+                                                _vm._l(
+                                                  _vm.dlSummary.sales_returns,
+                                                  function(cmVal, cmKey) {
+                                                    return _c(
+                                                      "v-list-item",
+                                                      {
+                                                        key: cmKey,
+                                                        attrs: { dense: "" }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "v-list-item-content",
                                                           [
                                                             _c(
-                                                              "v-list-item-content",
+                                                              "v-card",
+                                                              {
+                                                                staticClass:
+                                                                  "pa-2 elevation-0",
+                                                                attrs: {
+                                                                  outlined: ""
+                                                                }
+                                                              },
                                                               [
-                                                                _vm._v(
-                                                                  "\n                                                        " +
-                                                                    _vm._s(
-                                                                      cmKey
-                                                                    ) +
-                                                                    "\n                                                        "
-                                                                ),
                                                                 _c(
                                                                   "div",
                                                                   {
@@ -790,6 +845,13 @@ var render = function() {
                                                                       "d-flex"
                                                                   },
                                                                   [
+                                                                    _vm._v(
+                                                                      "\n                                                            " +
+                                                                        _vm._s(
+                                                                          cmKey
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    ),
                                                                     _c(
                                                                       "v-chip",
                                                                       {
@@ -835,17 +897,37 @@ var render = function() {
                                                                     )
                                                                   ],
                                                                   1
-                                                                )
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c("div", [
+                                                                  _c("small", [
+                                                                    _c(
+                                                                      "strong",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "DSN:"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(
+                                                                      " " +
+                                                                        _vm._s(
+                                                                          cmVal.dsn
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    )
+                                                                  ])
+                                                                ])
                                                               ]
                                                             )
                                                           ],
                                                           1
                                                         )
-                                                      }
-                                                    ),
-                                                    1
-                                                  )
-                                                ],
+                                                      ],
+                                                      1
+                                                    )
+                                                  }
+                                                ),
                                                 1
                                               )
                                             ],
@@ -860,45 +942,45 @@ var render = function() {
                                         [
                                           _c(
                                             "v-card",
+                                            { staticClass: "pa-2" },
                                             [
                                               _c(
-                                                "v-card-text",
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "caption font-weight-bold"
+                                                },
                                                 [
-                                                  _c("div", [
-                                                    _vm._v(
-                                                      "\n                                                Unreachable Servers\n                                            "
-                                                    )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-list",
-                                                    _vm._l(
-                                                      _vm.dlSummary.unreachable,
-                                                      function(item, index) {
-                                                        return _c(
-                                                          "v-list-item",
-                                                          { key: index },
-                                                          [
-                                                            _c(
-                                                              "v-list-item-content",
-                                                              [
-                                                                _vm._v(
-                                                                  "\n                                                        " +
-                                                                    _vm._s(
-                                                                      item
-                                                                    ) +
-                                                                    "\n                                                    "
-                                                                )
-                                                              ]
-                                                            )
-                                                          ],
-                                                          1
-                                                        )
-                                                      }
-                                                    ),
-                                                    1
+                                                  _vm._v(
+                                                    "\n                                            Unreachable Servers\n                                        "
                                                   )
-                                                ],
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list",
+                                                _vm._l(
+                                                  _vm.dlSummary.unreachable,
+                                                  function(item, index) {
+                                                    return _c(
+                                                      "v-list-item",
+                                                      { key: index },
+                                                      [
+                                                        _c(
+                                                          "v-list-item-content",
+                                                          [
+                                                            _vm._v(
+                                                              "\n                                                    " +
+                                                                _vm._s(item) +
+                                                                "\n                                                "
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  }
+                                                ),
                                                 1
                                               )
                                             ],
