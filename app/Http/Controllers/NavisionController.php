@@ -371,7 +371,7 @@ class NavisionController extends Controller
         $memory_limit = ini_get('memory_limit');
         ini_set('memory_limit', -1);
 
-        try {
+        // try {
             $configs = self::serverConfigs();
             $loopCounter = 0;
             $configsLen = count($configs);
@@ -711,11 +711,11 @@ class NavisionController extends Controller
 
             ini_set('memory_limit', $memory_limit);
             return response()->json($result);
-        } catch (\Throwable $th) {
-            $res['success'] = false;
-            $res['message'] = $server_name ?? '' . ': ' . $th->getMessage();
-            return response()->json($res, 500);
-        }
+        // } catch (\Throwable $th) {
+            // $res['success'] = false;
+            // $res['message'] = $server_name ?? '' . ': ' . $th->getMessage();
+            // return response()->json($res, 500);
+        // }
     }
 
 

@@ -101,20 +101,16 @@ WHERE principals.vendor_code=principals.main_vendor_code;
 
 -- remove unnecessary masterfiles entries
 DELETE FROM settings using settings JOIN principals ON principals.code=settings.principal_code
-WHERE principals.vendor_code <> principals.main_vendor_code
-AND (settings.main_vendor_code='' OR settings.main_vendor_code is NULL);
+WHERE principals.vendor_code <> principals.main_vendor_code;
 
 DELETE FROM principals_items using principals_items JOIN principals ON principals.code=principals_items.principal_code
-WHERE principals.vendor_code <> principals.main_vendor_code
-AND (principals_items.main_vendor_code='' OR principals_items.main_vendor_code is NULL);
+WHERE principals.vendor_code <> principals.main_vendor_code;
 
 DELETE FROM principals_customers using principals_customers JOIN principals ON principals.code=principals_customers.principal_code
-WHERE principals.vendor_code <> principals.main_vendor_code
-AND (principals_customers.main_vendor_code='' OR principals_customers.main_vendor_code is NULL);
+WHERE principals.vendor_code <> principals.main_vendor_code;
 
-DELETE FROM principals_salesmen using principals_salesmen JOIN principals ON principals.code=settprincipals_salesmenings.principal_code
-WHERE principals.vendor_code <> principals.main_vendor_code
-AND (principals_salesmen.main_vendor_code='' OR principals_salesmen.main_vendor_code is NULL);
+DELETE FROM principals_salesmen using principals_salesmen JOIN principals ON principals.code=principals_salesmen.principal_code
+WHERE principals.vendor_code <> principals.main_vendor_code;
 
 
 -- patch heads to lines
@@ -208,6 +204,7 @@ SET cm_lines_ptn.sm_code=invoices_lines_ptn.sm_code;
 update cm_lines_ptn set return_indicator='not_specified' where return_indicator is null;
 update cm_lines_ptn set ext_doc_no=invoice_doc_no;
 
+-- new table: invoices_dl_log
 
 
 
