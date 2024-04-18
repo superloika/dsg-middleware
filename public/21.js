@@ -381,9 +381,7 @@ var render = function() {
         { attrs: { elevation: "27" } },
         [
           _c("v-toolbar-title", [
-            _vm._v(
-              "\n            Download invoice data from Navision\n        "
-            )
+            _vm._v("\n            Download invoice data (Navision)\n        ")
           ]),
           _vm._v(" "),
           _c("v-spacer")

@@ -2,7 +2,7 @@
     <v-card>
         <v-toolbar elevation="27">
             <v-toolbar-title>
-                Download invoice data from Navision
+                Download invoice data (Navision)
             </v-toolbar-title>
             <v-spacer></v-spacer>
         </v-toolbar>

@@ -84,23 +84,38 @@ add column `attachments` LONGTEXT NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_ci'
 -- upload new principals masterfile first
 UPDATE principals_items JOIN principals ON principals.code=principals_items.principal_code
 SET principals_items.main_vendor_code=principals.main_vendor_code
-WHERE 1;
+WHERE principals.vendor_code=principals.main_vendor_code;
+
 UPDATE principals_customers JOIN principals ON principals.code=principals_customers.principal_code
 SET principals_customers.main_vendor_code=principals.main_vendor_code
-WHERE 1;
+WHERE principals.vendor_code=principals.main_vendor_code;
+
 UPDATE principals_salesmen JOIN principals ON principals.code=principals_salesmen.principal_code
 SET principals_salesmen.main_vendor_code=principals.main_vendor_code
-WHERE 1;
+WHERE principals.vendor_code=principals.main_vendor_code;
+
 UPDATE settings JOIN principals ON principals.code=settings.principal_code
 SET settings.main_vendor_code=principals.main_vendor_code
-WHERE 1;
+WHERE principals.vendor_code=principals.main_vendor_code;
 
 
 -- remove unnecessary masterfiles entries
-DELETE FROM settings WHERE main_vendor_code='';
-DELETE FROM principals_items WHERE main_vendor_code='';
-DELETE FROM principals_customers WHERE main_vendor_code='';
-DELETE FROM principals_salesmen WHERE main_vendor_code='';
+DELETE FROM settings using settings JOIN principals ON principals.code=settings.principal_code
+WHERE principals.vendor_code <> principals.main_vendor_code
+AND (settings.main_vendor_code='' OR settings.main_vendor_code is NULL);
+
+DELETE FROM principals_items using principals_items JOIN principals ON principals.code=principals_items.principal_code
+WHERE principals.vendor_code <> principals.main_vendor_code
+AND (principals_items.main_vendor_code='' OR principals_items.main_vendor_code is NULL);
+
+DELETE FROM principals_customers using principals_customers JOIN principals ON principals.code=principals_customers.principal_code
+WHERE principals.vendor_code <> principals.main_vendor_code
+AND (principals_customers.main_vendor_code='' OR principals_customers.main_vendor_code is NULL);
+
+DELETE FROM principals_salesmen using principals_salesmen JOIN principals ON principals.code=settprincipals_salesmenings.principal_code
+WHERE principals.vendor_code <> principals.main_vendor_code
+AND (principals_salesmen.main_vendor_code='' OR principals_salesmen.main_vendor_code is NULL);
+
 
 -- patch heads to lines
 UPDATE invoices_lines
