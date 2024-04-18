@@ -206,7 +206,11 @@ update cm_lines_ptn set ext_doc_no=invoice_doc_no;
 
 -- new table: invoices_dl_log
 
+-- new column in table: invoices_lines
+-- sm_name
 
+-- new column in table: cm_lines
+-- sm_name
 
 
 
