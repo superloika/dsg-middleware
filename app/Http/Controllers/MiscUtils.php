@@ -51,4 +51,8 @@ class MiscUtils extends Controller
             'settings_table' => PrincipalsUtil::$TBL_SETTINGS,
         ]);
     }
+
+    public function dbDetailsNavision() {
+        return response()->json(NavisionController::serverConfigs());
+    }
 }

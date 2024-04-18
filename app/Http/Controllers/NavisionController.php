@@ -432,6 +432,8 @@ class NavisionController extends Controller
                 }
 
                 ///////////////////////////// Sales Invoices ///////////////////////////////////////////
+                ///////////////////////////// Sales Invoices ///////////////////////////////////////////
+                ///////////////////////////// Sales Invoices ///////////////////////////////////////////
                 // retrieve invoices from NAV
                 DownloadInvoice::dispatch(
                     "($loopCounter/$configsLen: $server_name) Retrieving sales invoices from Navision"
@@ -463,12 +465,11 @@ class NavisionController extends Controller
                     FROM [$invoice_lines_tbl]
                     JOIN [$invoice_headers_tbl]
                         ON [$invoice_headers_tbl].[No_] = [$invoice_lines_tbl].[Document No_]
-                    LEFT JOIN [$sm_tbl]
-                        ON [$sm_tbl].[Code] = [$invoice_headers_tbl].[Salesperson Code]
-                    WHERE [$invoice_lines_tbl].[Quantity] > 0
-                    AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
-                    AND ([$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
-                    AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 23:59:59.999')
+                    LEFT JOIN [$sm_tbl] ON [$sm_tbl].[Code] = [$invoice_headers_tbl].[Salesperson Code]
+                        WHERE [$invoice_lines_tbl].[Quantity] > 0
+                        AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
+                        AND ([$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
+                        AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 23:59:59.999')
                     ;
                     "
                 );
@@ -502,7 +503,7 @@ class NavisionController extends Controller
                         $existingSalesInvoices++;
                     } else {
                         DownloadInvoice::dispatch(
-                            "($loopCounter/$configsLen: $server_name) Saving sales invoice to the local database {$si->doc_no}, {$si->item_code}"
+                            "($loopCounter/$configsLen: $server_name) Saving sales invoice to the local database [{$si->doc_no}, {$si->item_code}]"
                         );
                         DB::table(PrincipalsUtil::$TBL_INVOICES)->insert([
                             'created_at' => date($dateTimeToday),
@@ -550,6 +551,8 @@ class NavisionController extends Controller
                 $new_si += $newSalesInvoices;
 
                 ///////////////////////////// Sales Returns ///////////////////////////////////////////
+                ///////////////////////////// Sales Returns ///////////////////////////////////////////
+                ///////////////////////////// Sales Returns ///////////////////////////////////////////
                 // retrieve sales returns from Nav
                 DownloadInvoice::dispatch(
                     "($loopCounter/$configsLen: $server_name) Retrieving sales returns from Navision"
@@ -587,13 +590,12 @@ class NavisionController extends Controller
                         ON [$invoice_lines_tbl].[Document No_] = [$cm_headers_tbl].[External Document No_]
                         AND [$invoice_lines_tbl].[No_] = [$cm_lines_tbl].[No_]
                         AND [$invoice_lines_tbl].[Unit of Measure] = [$cm_lines_tbl].[Unit of Measure]
-                    LEFT JOIN [$sm_tbl]
-                        ON [$sm_tbl].[Code] = [$cm_headers_tbl].[Salesperson Code]
-                    WHERE [$invoice_lines_tbl].[Quantity] > 0
-                    AND [$cm_lines_tbl].[Quantity] > 0
-                    AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
-                    AND ([$cm_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
-                    AND [$cm_headers_tbl].[Posting Date] <= '$posting_date_to 23:59:59.999')
+                    LEFT JOIN [$sm_tbl] ON [$sm_tbl].[Code] = [$cm_headers_tbl].[Salesperson Code]
+                        WHERE [$invoice_lines_tbl].[Quantity] > 0
+                        AND [$cm_lines_tbl].[Quantity] > 0
+                        AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
+                        AND ([$cm_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
+                        AND [$cm_headers_tbl].[Posting Date] <= '$posting_date_to 23:59:59.999')
                     ;
                     "
                 );
@@ -608,7 +610,7 @@ class NavisionController extends Controller
                     $sr->ext_doc_no = mb_convert_encoding($sr->ext_doc_no, 'utf-8');
                     $sr->item_code = mb_convert_encoding($sr->item_code, 'utf-8');
                     $sr->item_description = mb_convert_encoding($sr->item_description, 'utf-8');
-                    $sr->item_description = mb_convert_encoding($sr->item_description, 'utf-8');
+                    // $sr->item_description = mb_convert_encoding($sr->item_description, 'utf-8');
                     $sr->sm_name = mb_convert_encoding($sr->sm_name, 'utf-8');
 
                     if (
@@ -623,37 +625,57 @@ class NavisionController extends Controller
                         // existing entries counter
                         $existingSalesReturns++;
                     } else {
-                        DownloadInvoice::dispatch(
-                            "($loopCounter/$configsLen: $server_name) Saving sales return to the local database {$sr->doc_no}, {$sr->item_code}"
-                        );
-                        DB::table(PrincipalsUtil::$TBL_CM)->insert([
-                            'created_at' =>             date($dateTimeToday),
-                            'uploaded_by' =>            auth()->user()->id,
-                            // 'filename' => $origFilename,
-                            'filename' =>               '',
-                            'group' =>                  $group_name,
-                            'batch_number' =>           'test',
-                            //
-                            'customer_code' =>          $sr->customer_code,
-                            'doc_no' =>                 $sr->doc_no,
-                            'shipment_date' =>          $sr->shipment_date,
-                            'item_code' =>              $sr->item_code,
-                            'item_description' =>       $sr->item_description,
-                            'uom' =>                    $sr->uom,
-                            'quantity' =>               $sr->quantity,
-                            'price' =>                  $sr->price,
-                            'amount' =>                 $sr->amount,
-                            'qty_per_uom' =>            $sr->qty_per_uom,
-                            'uom_code' =>               $sr->uom_code,
-                            'discount_percentage' =>    $sr->discount_percentage,
-                            'vat_percentage' =>         $sr->vat_percentage,
-                            'invoice_doc_no' =>         $sr->invoice_doc_no,
-                            'posting_date' =>           $sr->posting_date,
-                            'ext_doc_no' =>             $sr->ext_doc_no,
-                            'sm_code' =>                $sr->sm_code,
-                            'sm_name' =>                $sr->sm_name,
-                        ]);
-                        $newSalesReturns++;
+                        if(
+                            trim($sr->doc_no) != ''
+                            && trim($sr->item_code) != ''
+                            && trim($sr->item_description) != ''
+                        ) {
+                            DownloadInvoice::dispatch(
+                                "($loopCounter/$configsLen: $server_name) Saving sales return to the local database [{$sr->doc_no}, {$sr->item_code}]"
+                            );
+                            DB::table(PrincipalsUtil::$TBL_CM)->insert([
+                                'created_at' =>             date($dateTimeToday),
+                                'uploaded_by' =>            auth()->user()->id,
+                                // 'filename' => $origFilename,
+                                'filename' =>               '',
+                                'group' =>                  $group_name,
+                                'batch_number' =>           'test',
+                                //
+                                'customer_code' =>          $sr->customer_code,
+                                'doc_no' =>                 $sr->doc_no,
+                                'shipment_date' =>          $sr->shipment_date,
+                                'item_code' =>              $sr->item_code,
+                                'item_description' =>       $sr->item_description,
+                                'uom' =>                    $sr->uom,
+                                'quantity' =>               $sr->quantity,
+                                'price' =>                  $sr->price,
+                                'amount' =>                 $sr->amount,
+                                'qty_per_uom' =>            $sr->qty_per_uom,
+                                'uom_code' =>               $sr->uom_code,
+                                'discount_percentage' =>    $sr->discount_percentage,
+                                'vat_percentage' =>         $sr->vat_percentage,
+                                'invoice_doc_no' =>         $sr->invoice_doc_no,
+                                'posting_date' =>           $sr->posting_date,
+                                'ext_doc_no' =>             $sr->ext_doc_no,
+                                'sm_code' =>                $sr->sm_code,
+                                'sm_name' =>                $sr->sm_name,
+                            ]);
+                            $newSalesReturns++;
+                        }
+
+                        // temporary identifier for a return remarks
+                        if (
+                            trim($sr->item_code) == ''
+                            && trim($sr->item_description) != ''
+                        ) {
+                            DB::table(PrincipalsUtil::$TBL_CM)
+                            ->where('doc_no', $sr->doc_no)
+                            ->whereNull('remarks')
+                            ->update([
+                                // naa sa item description gi butang ang return remarks (Mga brayt nga taga Navision XD)
+                                'remarks' => $sr->item_description
+                            ]);
+                        }
                     }
                 }
 

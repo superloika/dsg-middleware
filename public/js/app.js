@@ -2553,9 +2553,9 @@ __webpack_require__.r(__webpack_exports__);
       this.wsConState = 'websocket:error';
       console.error(error);
     } // refresh BR
+    // this.BrStore.refresh('ppfb');
+    // initialize principals
 
-
-    this.BrStore.refresh('ppfb'); // initialize principals
 
     this.AppStore.initPrincipals();
   },
@@ -3393,10 +3393,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      dbDetails: {}
+      dbDetails: {},
+      dbDetailsNavision: []
     };
   },
   created: function created() {
@@ -3404,6 +3435,9 @@ __webpack_require__.r(__webpack_exports__);
 
     axios.get("".concat(this.AppStore.state.siteUrl, "misc-utils/dbDetails")).then(function (e) {
       _this.dbDetails = e.data;
+    });
+    axios.get("".concat(this.AppStore.state.siteUrl, "misc-utils/dbDetailsNavision")).then(function (e) {
+      _this.dbDetailsNavision = e.data;
     });
   },
   mounted: function mounted() {
@@ -31337,19 +31371,95 @@ var render = function() {
                 [
                   _c("v-card-title", [
                     _vm._v(
-                      "\n                    Database Details\n                "
+                      "\n                    Local Database Details\n                "
                     )
                   ]),
                   _vm._v(" "),
                   _c("v-card-text", [
-                    _c("pre", [
-                      _vm._v(
-                        "                        " +
-                          _vm._s(_vm.dbDetails) +
-                          "\n                    "
-                      )
+                    _c("div", [
+                      _c("strong", [_vm._v("Database:")]),
+                      _vm._v(" "),
+                      _c("em", [
+                        _vm._v(_vm._s(_vm.dbDetails.db_config.database))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("strong", [_vm._v("IP:")]),
+                      _vm._v(" "),
+                      _c("em", [_vm._v(_vm._s(_vm.dbDetails.db_config.host))])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("strong", [_vm._v("Driver:")]),
+                      _vm._v(" "),
+                      _c("em", [_vm._v(_vm._s(_vm.dbDetails.db_config.driver))])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("strong", [_vm._v("Invoices Table:")]),
+                      _vm._v(" "),
+                      _c("em", [_vm._v(_vm._s(_vm.dbDetails.invoices_table))])
                     ])
                   ])
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            [
+              _c(
+                "v-card",
+                [
+                  _c("v-card-title", [
+                    _vm._v(
+                      "\n                    Navision Server Details\n                "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-row",
+                        _vm._l(_vm.dbDetailsNavision, function(db) {
+                          return _c(
+                            "v-col",
+                            { key: db.server_name },
+                            [
+                              _c(
+                                "v-card",
+                                { attrs: { outlined: "" } },
+                                [
+                                  _c("v-card-text", [
+                                    _c(
+                                      "div",
+                                      { staticClass: "font-weight-bold" },
+                                      [_vm._v(_vm._s(db.server_name))]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", [
+                                      _c("strong", [_vm._v("DSN:")]),
+                                      _vm._v(" "),
+                                      _c("em", [_vm._v(_vm._s(db.dsn))])
+                                    ])
+                                  ])
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        }),
+                        1
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               )
