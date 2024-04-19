@@ -64,7 +64,10 @@
     export default {
         data() {
             return {
-                dbDetails: {},
+                dbDetails: {
+                    db_config: {},
+                    invoices_table: ''
+                },
                 dbDetailsNavision: [],
             }
         },

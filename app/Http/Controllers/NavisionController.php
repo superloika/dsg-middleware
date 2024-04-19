@@ -362,6 +362,30 @@ class NavisionController extends Controller
                 'sm_tbl'                => 'HORECA_ICM$Salesperson_Purchaser',
                 'group_name'            => 'HORECA_ICM',
             ],
+
+            // temp
+            [
+                'server_name'           => 'DELICA_BULK_1',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=OPLAN_SO_SRV;',
+                'database'              => 'OPLAN_SO_SRV',
+                'invoice_headers_tbl'   => 'LDI_OPLAN SALES ORDER$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'LDI_OPLAN SALES ORDER$Sales Invoice Line',
+                'cm_headers_tbl'        => 'LDI_OPLAN SALES ORDER$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'LDI_OPLAN SALES ORDER$Sales Cr_Memo Line',
+                'sm_tbl'                => 'LDI_OPLAN SALES ORDER$Salesperson_Purchaser',
+                'group_name'            => 'DELICA_BULK_1',
+            ],
+            [
+                'server_name'           => 'HORECA_PCS_1',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=HORECA_srv;',
+                'database'              => 'HORECA_srv',
+                'invoice_headers_tbl'   => 'HORECA CONSOL SRV$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'HORECA CONSOL SRV$Sales Invoice Line',
+                'cm_headers_tbl'        => 'HORECA CONSOL SRV$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'HORECA CONSOL SRV$Sales Cr_Memo Line',
+                'sm_tbl'                => 'HORECA CONSOL SRV$Salesperson_Purchaser',
+                'group_name'            => 'HORECA_PCS_1',
+            ],
         ];
     }
 
