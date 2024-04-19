@@ -14,6 +14,7 @@ class MiscUtils extends Controller
         $this->middleware('auth');
     }
 
+
     // public function exportToTxt(Request $request) {
     //     try {
     //         $data = $request->data ?? 'test';
@@ -31,12 +32,14 @@ class MiscUtils extends Controller
     //     }
     // }
 
+
     /**
      * MVC = main vendor code KEKW
      */
     public function overrideMVC(Request $request) {
 
     }
+
 
     public function dbDetails() {
         $con = DB::connection();
@@ -52,7 +55,23 @@ class MiscUtils extends Controller
         ]);
     }
 
+
     public function dbDetailsNavision() {
         return response()->json(NavisionController::serverConfigs());
+    }
+
+
+    public function patchUsersMVC() {
+        $res = DB::table(PrincipalsUtil::$TBL_USERS)->get();
+        $str = "";
+        foreach($res as $r) {
+            // dd(json_decode($r->principal_ids));
+            if($r->principal_ids == '["*"]') {
+                DB::table(PrincipalsUtil::$TBL_USERS)
+                ->where('id', $r->id)
+                ->update(['main_vendor_codes'=>$r->principal_ids]);
+            }
+        }
+        return response()->json($str);
     }
 }

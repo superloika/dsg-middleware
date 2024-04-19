@@ -35,6 +35,14 @@
 
         <v-btn
             icon
+            title="Export to Excel"
+            @click.stop="exportToExcel"
+        >
+            <v-icon>mdi-file-excel</v-icon>
+        </v-btn>
+
+        <v-btn
+            icon
             title="Export Vendor Codes (NAV Filter)"
             @click.stop="exportNavFilters"
         >
@@ -111,7 +119,17 @@ export default {
                 }
             }
             this.AppStore.exportToTxt('VendorCodesNavFilter.txt', data);
-        }
+        },
+
+        exportToExcel() {
+            this.PrincipalsStore.toExcel_simple(
+                'Principals',
+                this.MasterPrincipals.state.principals,
+                [this.MasterPrincipals.state.tableHeader],
+                null,
+                `Principals`
+            );
+        },
     },
 
     created() {

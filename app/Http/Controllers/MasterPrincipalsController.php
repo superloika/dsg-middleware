@@ -25,6 +25,7 @@ class MasterPrincipalsController extends Controller
                     ;
                 }
             )
+            ->orderBy('main_vendor_code')
             ->get();
 
         return response()->json($res);

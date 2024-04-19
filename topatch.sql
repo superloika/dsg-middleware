@@ -212,5 +212,3 @@ update cm_lines_ptn set ext_doc_no=invoice_doc_no;
 -- new column in table: cm_lines
 -- sm_name
 
-
-

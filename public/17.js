@@ -82,6 +82,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     MasterUpload: function MasterUpload() {
@@ -124,6 +132,9 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.AppStore.exportToTxt('VendorCodesNavFilter.txt', data);
+    },
+    exportToExcel: function exportToExcel() {
+      this.PrincipalsStore.toExcel_simple('Principals', this.MasterPrincipals.state.principals, [this.MasterPrincipals.state.tableHeader], null, "Principals");
     }
   },
   created: function created() {
@@ -210,6 +221,21 @@ var render = function() {
               expression: "searchKey"
             }
           }),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { icon: "", title: "Export to Excel" },
+              on: {
+                click: function($event) {
+                  $event.stopPropagation()
+                  return _vm.exportToExcel.apply(null, arguments)
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-file-excel")])],
+            1
+          ),
           _vm._v(" "),
           _c(
             "v-btn",

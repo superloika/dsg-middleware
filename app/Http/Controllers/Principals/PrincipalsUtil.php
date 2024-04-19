@@ -53,6 +53,9 @@ class PrincipalsUtil extends Controller
     // invoices download from Nav log
     public static $TBL_INVOICES_DLLOG = 'invoices_dl_log';
 
+    // users table
+    public static $TBL_USERS = 'users';
+
 
     /**
      * Create a new controller instance.

@@ -187,6 +187,7 @@ Route::prefix('misc-utils')->group(function () {
     // Route::post('/export-to-txt', "MiscUtils@exportToTxt");
     Route::get('/dbDetails', "MiscUtils@dbDetails");
     Route::get('/dbDetailsNavision', "MiscUtils@dbDetailsNavision");
+    Route::get('/patchUsersMVC', "MiscUtils@patchUsersMVC");
 });
 
 
