@@ -489,12 +489,13 @@ class NavisionController extends Controller
                     FROM [$invoice_lines_tbl]
                     JOIN [$invoice_headers_tbl] ON [$invoice_headers_tbl].[No_] = [$invoice_lines_tbl].[Document No_]
                     LEFT JOIN [$sm_tbl] ON [$sm_tbl].[Code] = [$invoice_headers_tbl].[Salesperson Code]
-                        WHERE [$invoice_lines_tbl].[Quantity] > 0
+                    WHERE [$invoice_lines_tbl].[Quantity] > 0
                         AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
-                        AND [$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
-                        AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 23:59:59.999'
-                        -- AND [$invoice_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
+                        -- AND [$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
+                        -- AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 23:59:59.999'
+                        AND [$invoice_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
                         -- AND [$invoice_headers_tbl].[Posting Date] <= '$posting_date_to 23:59:59.999'
+                        AND [$invoice_headers_tbl].[Posting Date] <= '$posting_date_to 00:00:00.000'
                     ;
                     "
                 );
@@ -502,17 +503,6 @@ class NavisionController extends Controller
                 // save retrieved invoices to local db
                 foreach($sales_invoices as $si) {
                     // convert encodings
-                    // $si->doc_no = mb_convert_encoding($si->doc_no, 'utf-8');
-                    // $si->customer_code = mb_convert_encoding($si->customer_code, 'utf-8');
-                    // $si->customer_name = mb_convert_encoding($si->customer_name, 'utf-8');
-                    // $si->sm_code = mb_convert_encoding($si->sm_code, 'utf-8');
-                    // $si->ext_doc_no = mb_convert_encoding($si->ext_doc_no, 'utf-8');
-                    // $si->vendor_code = mb_convert_encoding($si->vendor_code, 'utf-8');
-                    // $si->item_code = mb_convert_encoding($si->item_code, 'utf-8');
-                    // $si->item_code = mb_convert_encoding($si->item_code, 'utf-8');
-                    // $si->item_description = mb_convert_encoding($si->item_description, 'utf-8');
-                    // $si->item_description = mb_convert_encoding($si->item_description, 'utf-8');
-                    // $si->sm_name = mb_convert_encoding($si->sm_name, 'utf-8');
                     foreach($si as $key => $val) {
                         $si->$key = mb_convert_encoding($val, 'utf-8');
                     }
@@ -624,25 +614,14 @@ class NavisionController extends Controller
                         AND [$cm_lines_tbl].[Quantity] > 0
                         AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
                         AND [$cm_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
-                        AND [$cm_headers_tbl].[Posting Date] <= '$posting_date_to 23:59:59.999'
+                        AND [$cm_headers_tbl].[Posting Date] <= '$posting_date_to 00:00:00.000'
                     ;
                     "
                 );
 
                 // save retrieved sales returns to local db
                 foreach($sales_returns as $sr) {
-                    // $sr->doc_no = mb_convert_encoding($sr->doc_no, 'utf-8');
-                    // $sr->customer_code = mb_convert_encoding($sr->customer_code, 'utf-8');
-                    // $sr->customer_name = mb_convert_encoding($sr->customer_name, 'utf-8');
-                    // $sr->sm_code = mb_convert_encoding($sr->sm_code, 'utf-8');
-                    // $sr->invoice_doc_no = mb_convert_encoding($sr->invoice_doc_no, 'utf-8');
-                    // $sr->ext_doc_no = mb_convert_encoding($sr->ext_doc_no, 'utf-8');
-                    // $sr->item_code = mb_convert_encoding($sr->item_code, 'utf-8');
-                    // $sr->item_description = mb_convert_encoding($sr->item_description, 'utf-8');
-                    // $sr->sm_name = mb_convert_encoding($sr->sm_name, 'utf-8');
-                    // $sr->shipment_date = mb_convert_encoding($sr->shipment_date, 'utf-8');
-                    // $sr->uom = mb_convert_encoding($sr->uom, 'utf-8');
-                    // convert encoding - all properties/fields...
+                    // convert encodings
                     foreach($sr as $key => $val) {
                         $sr->$key = mb_convert_encoding($val, 'utf-8');
                     }
