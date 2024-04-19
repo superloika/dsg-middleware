@@ -134,13 +134,15 @@ class RfmController extends Controller
                                 trim(str_replace('"', '', $arrFileContentLine[2]));
                             // $conversion_uom = 'PCS';
 
-                            $arrLines[] = [
-                                'main_vendor_code' => $this->PRINCIPAL_CODE,
-                                'uploaded_by' => auth()->user()->id,
-                                'item_code' => $item_code,
-                                'item_code_supplier' => $item_code_supplier,
-                                'description_supplier' => $description_supplier,
-                            ];
+                            if($item_code != '' && $item_code_supplier != '' && $description_supplier != '') {
+                                $arrLines[] = [
+                                    'main_vendor_code' => $this->PRINCIPAL_CODE,
+                                    'uploaded_by' => auth()->user()->id,
+                                    'item_code' => $item_code,
+                                    'item_code_supplier' => $item_code_supplier,
+                                    'description_supplier' => $description_supplier,
+                                ];
+                            }
                         }
                     }
                     $lineCount++;
