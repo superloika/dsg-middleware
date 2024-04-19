@@ -1284,6 +1284,7 @@ class InvoicesController extends Controller
                 PrincipalsUtil::$TBL_INVOICES.'.vendor_code',
                 PrincipalsUtil::$TBL_INVOICES.'.quantity as invoice_quantity',
                 PrincipalsUtil::$TBL_INVOICES.'.sm_code',
+                PrincipalsUtil::$TBL_INVOICES.'.sm_name',
                 PrincipalsUtil::$TBL_INVOICES.'.customer_name',
             ])
             ->cursor();

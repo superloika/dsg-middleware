@@ -364,28 +364,28 @@ class NavisionController extends Controller
             ],
 
             // temp
-            [
-                'server_name'           => 'DELICA_BULK_1',
-                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=OPLAN_SO_SRV;',
-                'database'              => 'OPLAN_SO_SRV',
-                'invoice_headers_tbl'   => 'LDI_OPLAN SALES ORDER$Sales Invoice Header',
-                'invoice_lines_tbl'     => 'LDI_OPLAN SALES ORDER$Sales Invoice Line',
-                'cm_headers_tbl'        => 'LDI_OPLAN SALES ORDER$Sales Cr_Memo Header',
-                'cm_lines_tbl'          => 'LDI_OPLAN SALES ORDER$Sales Cr_Memo Line',
-                'sm_tbl'                => 'LDI_OPLAN SALES ORDER$Salesperson_Purchaser',
-                'group_name'            => 'DELICA_BULK_1',
-            ],
-            [
-                'server_name'           => 'HORECA_PCS_1',
-                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=HORECA_srv;',
-                'database'              => 'HORECA_srv',
-                'invoice_headers_tbl'   => 'HORECA CONSOL SRV$Sales Invoice Header',
-                'invoice_lines_tbl'     => 'HORECA CONSOL SRV$Sales Invoice Line',
-                'cm_headers_tbl'        => 'HORECA CONSOL SRV$Sales Cr_Memo Header',
-                'cm_lines_tbl'          => 'HORECA CONSOL SRV$Sales Cr_Memo Line',
-                'sm_tbl'                => 'HORECA CONSOL SRV$Salesperson_Purchaser',
-                'group_name'            => 'HORECA_PCS_1',
-            ],
+            // [
+            //     'server_name'           => 'DELICA_BULK_1',
+            //     'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=OPLAN_SO_SRV;',
+            //     'database'              => 'OPLAN_SO_SRV',
+            //     'invoice_headers_tbl'   => 'LDI_OPLAN SALES ORDER$Sales Invoice Header',
+            //     'invoice_lines_tbl'     => 'LDI_OPLAN SALES ORDER$Sales Invoice Line',
+            //     'cm_headers_tbl'        => 'LDI_OPLAN SALES ORDER$Sales Cr_Memo Header',
+            //     'cm_lines_tbl'          => 'LDI_OPLAN SALES ORDER$Sales Cr_Memo Line',
+            //     'sm_tbl'                => 'LDI_OPLAN SALES ORDER$Salesperson_Purchaser',
+            //     'group_name'            => 'DELICA_BULK_1',
+            // ],
+            // [
+            //     'server_name'           => 'HORECA_PCS_1',
+            //     'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=HORECA_srv;',
+            //     'database'              => 'HORECA_srv',
+            //     'invoice_headers_tbl'   => 'HORECA CONSOL SRV$Sales Invoice Header',
+            //     'invoice_lines_tbl'     => 'HORECA CONSOL SRV$Sales Invoice Line',
+            //     'cm_headers_tbl'        => 'HORECA CONSOL SRV$Sales Cr_Memo Header',
+            //     'cm_lines_tbl'          => 'HORECA CONSOL SRV$Sales Cr_Memo Line',
+            //     'sm_tbl'                => 'HORECA CONSOL SRV$Salesperson_Purchaser',
+            //     'group_name'            => 'HORECA_PCS_1',
+            // ],
         ];
     }
 
@@ -491,10 +491,10 @@ class NavisionController extends Controller
                     LEFT JOIN [$sm_tbl] ON [$sm_tbl].[Code] = [$invoice_headers_tbl].[Salesperson Code]
                         WHERE [$invoice_lines_tbl].[Quantity] > 0
                         AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
-                        -- AND [$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
-                        -- AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 23:59:59.999'
-                        AND [$invoice_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
-                        AND [$invoice_headers_tbl].[Posting Date] <= '$posting_date_to 23:59:59.999'
+                        AND [$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
+                        AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 23:59:59.999'
+                        -- AND [$invoice_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
+                        -- AND [$invoice_headers_tbl].[Posting Date] <= '$posting_date_to 23:59:59.999'
                     ;
                     "
                 );
@@ -502,17 +502,20 @@ class NavisionController extends Controller
                 // save retrieved invoices to local db
                 foreach($sales_invoices as $si) {
                     // convert encodings
-                    $si->doc_no = mb_convert_encoding($si->doc_no, 'utf-8');
-                    $si->customer_code = mb_convert_encoding($si->customer_code, 'utf-8');
-                    $si->customer_name = mb_convert_encoding($si->customer_name, 'utf-8');
-                    $si->sm_code = mb_convert_encoding($si->sm_code, 'utf-8');
-                    $si->ext_doc_no = mb_convert_encoding($si->ext_doc_no, 'utf-8');
-                    $si->vendor_code = mb_convert_encoding($si->vendor_code, 'utf-8');
-                    $si->item_code = mb_convert_encoding($si->item_code, 'utf-8');
-                    $si->item_code = mb_convert_encoding($si->item_code, 'utf-8');
-                    $si->item_description = mb_convert_encoding($si->item_description, 'utf-8');
-                    $si->item_description = mb_convert_encoding($si->item_description, 'utf-8');
-                    $si->sm_name = mb_convert_encoding($si->sm_name, 'utf-8');
+                    // $si->doc_no = mb_convert_encoding($si->doc_no, 'utf-8');
+                    // $si->customer_code = mb_convert_encoding($si->customer_code, 'utf-8');
+                    // $si->customer_name = mb_convert_encoding($si->customer_name, 'utf-8');
+                    // $si->sm_code = mb_convert_encoding($si->sm_code, 'utf-8');
+                    // $si->ext_doc_no = mb_convert_encoding($si->ext_doc_no, 'utf-8');
+                    // $si->vendor_code = mb_convert_encoding($si->vendor_code, 'utf-8');
+                    // $si->item_code = mb_convert_encoding($si->item_code, 'utf-8');
+                    // $si->item_code = mb_convert_encoding($si->item_code, 'utf-8');
+                    // $si->item_description = mb_convert_encoding($si->item_description, 'utf-8');
+                    // $si->item_description = mb_convert_encoding($si->item_description, 'utf-8');
+                    // $si->sm_name = mb_convert_encoding($si->sm_name, 'utf-8');
+                    foreach($si as $key => $val) {
+                        $si->$key = mb_convert_encoding($val, 'utf-8');
+                    }
 
                     if (
                         DB::table(PrincipalsUtil::$TBL_INVOICES)
@@ -588,10 +591,10 @@ class NavisionController extends Controller
                         -- header
                         [$cm_headers_tbl].[No_] as doc_no,
                         [$cm_headers_tbl].[Bill-to Customer No_] as customer_code,
-                        [$cm_headers_tbl].[Bill-to Name] as customer_name,
+                        -- [$cm_headers_tbl].[Bill-to Name] as customer_name,
                         [$cm_headers_tbl].[Posting Date] as posting_date,
                         [$cm_headers_tbl].[Shipment Date] as shipment_date,
-                        [$cm_headers_tbl].[Salesperson Code] as sm_code,
+                        -- [$cm_headers_tbl].[Salesperson Code] as sm_code,
                         [$cm_headers_tbl].[External Document No_] as invoice_doc_no,
                         [$cm_headers_tbl].[External Document No_] as ext_doc_no,
                         -- line
@@ -606,18 +609,18 @@ class NavisionController extends Controller
                         [$cm_lines_tbl].[Line Discount %] as discount_percentage,
                         [$cm_lines_tbl].[VAT %] as vat_percentage,
                         -- sales invoice line
-                        [$invoice_lines_tbl].[Vendor No_] as vendor_code,
+                        [$invoice_lines_tbl].[Vendor No_] as vendor_code
                         -- salesperson
-                        [$sm_tbl].[Name] as sm_name
+                        -- [$sm_tbl].[Name] as sm_name
                     FROM [$cm_lines_tbl]
                     JOIN [$cm_headers_tbl]
                         ON [$cm_headers_tbl].[No_] = [$cm_lines_tbl].[Document No_]
-                    LEFT JOIN [$invoice_lines_tbl]
+                    JOIN [$invoice_lines_tbl]
                         ON [$invoice_lines_tbl].[Document No_] = [$cm_headers_tbl].[External Document No_]
                         AND [$invoice_lines_tbl].[No_] = [$cm_lines_tbl].[No_]
                         AND [$invoice_lines_tbl].[Unit of Measure] = [$cm_lines_tbl].[Unit of Measure]
-                    LEFT JOIN [$sm_tbl] ON [$sm_tbl].[Code] = [$cm_headers_tbl].[Salesperson Code]
-                        WHERE [$invoice_lines_tbl].[Quantity] > 0
+                    -- LEFT JOIN [$sm_tbl] ON [$sm_tbl].[Code] = [$cm_headers_tbl].[Salesperson Code]
+                    WHERE [$invoice_lines_tbl].[Quantity] > 0
                         AND [$cm_lines_tbl].[Quantity] > 0
                         AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
                         AND [$cm_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
@@ -628,16 +631,21 @@ class NavisionController extends Controller
 
                 // save retrieved sales returns to local db
                 foreach($sales_returns as $sr) {
-                    $sr->doc_no = mb_convert_encoding($sr->doc_no, 'utf-8');
-                    $sr->customer_code = mb_convert_encoding($sr->customer_code, 'utf-8');
-                    $sr->customer_name = mb_convert_encoding($sr->customer_name, 'utf-8');
-                    $sr->sm_code = mb_convert_encoding($sr->sm_code, 'utf-8');
-                    $sr->invoice_doc_no = mb_convert_encoding($sr->invoice_doc_no, 'utf-8');
-                    $sr->ext_doc_no = mb_convert_encoding($sr->ext_doc_no, 'utf-8');
-                    $sr->item_code = mb_convert_encoding($sr->item_code, 'utf-8');
-                    $sr->item_description = mb_convert_encoding($sr->item_description, 'utf-8');
+                    // $sr->doc_no = mb_convert_encoding($sr->doc_no, 'utf-8');
+                    // $sr->customer_code = mb_convert_encoding($sr->customer_code, 'utf-8');
+                    // $sr->customer_name = mb_convert_encoding($sr->customer_name, 'utf-8');
+                    // $sr->sm_code = mb_convert_encoding($sr->sm_code, 'utf-8');
+                    // $sr->invoice_doc_no = mb_convert_encoding($sr->invoice_doc_no, 'utf-8');
+                    // $sr->ext_doc_no = mb_convert_encoding($sr->ext_doc_no, 'utf-8');
+                    // $sr->item_code = mb_convert_encoding($sr->item_code, 'utf-8');
                     // $sr->item_description = mb_convert_encoding($sr->item_description, 'utf-8');
-                    $sr->sm_name = mb_convert_encoding($sr->sm_name, 'utf-8');
+                    // $sr->sm_name = mb_convert_encoding($sr->sm_name, 'utf-8');
+                    // $sr->shipment_date = mb_convert_encoding($sr->shipment_date, 'utf-8');
+                    // $sr->uom = mb_convert_encoding($sr->uom, 'utf-8');
+                    // convert encoding - all properties/fields...
+                    foreach($sr as $key => $val) {
+                        $sr->$key = mb_convert_encoding($val, 'utf-8');
+                    }
 
                     if (
                         DB::table(PrincipalsUtil::$TBL_CM)
@@ -651,15 +659,16 @@ class NavisionController extends Controller
                         // existing entries counter
                         $existingSalesReturns++;
                     } else {
+                        DownloadInvoice::dispatch(
+                            "($loopCounter/$configsLen: $server_name)
+                            Saving sales return to the local database [{$sr->doc_no}, {$sr->item_code}]"
+                        );
+
                         if(
                             trim($sr->doc_no) != ''
                             && trim($sr->item_code) != ''
                             && trim($sr->item_description) != ''
                         ) {
-                            DownloadInvoice::dispatch(
-                                "($loopCounter/$configsLen: $server_name)
-                                Saving sales return to the local database [{$sr->doc_no}, {$sr->item_code}]"
-                            );
                             DB::table(PrincipalsUtil::$TBL_CM)->insert([
                                 'created_at' =>             date($dateTimeToday),
                                 'uploaded_by' =>            auth()->user()->id,
@@ -684,8 +693,8 @@ class NavisionController extends Controller
                                 'invoice_doc_no' =>         $sr->invoice_doc_no,
                                 'posting_date' =>           $sr->posting_date,
                                 'ext_doc_no' =>             $sr->ext_doc_no,
-                                'sm_code' =>                $sr->sm_code,
-                                'sm_name' =>                $sr->sm_name,
+                                // 'sm_code' =>                $sr->sm_code,
+                                // 'sm_name' =>                $sr->sm_name,
                             ]);
                             $newSalesReturns++;
                         }
