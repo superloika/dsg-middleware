@@ -491,11 +491,10 @@ class NavisionController extends Controller
                     LEFT JOIN [$sm_tbl] ON [$sm_tbl].[Code] = [$invoice_headers_tbl].[Salesperson Code]
                     WHERE [$invoice_lines_tbl].[Quantity] > 0
                         AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
-                        -- AND [$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
-                        -- AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 23:59:59.999'
-                        AND [$invoice_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
-                        -- AND [$invoice_headers_tbl].[Posting Date] <= '$posting_date_to 23:59:59.999'
-                        AND [$invoice_headers_tbl].[Posting Date] <= '$posting_date_to 00:00:00.000'
+                        AND [$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
+                        AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 00:00:00.000'
+                        -- AND [$invoice_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
+                        -- AND [$invoice_headers_tbl].[Posting Date] <= '$posting_date_to 00:00:00.000'
                     ;
                     "
                 );
@@ -629,8 +628,6 @@ class NavisionController extends Controller
                         $sr->$key = mb_convert_encoding($val, 'utf-8');
                     }
 
-                    $sr_docnos[] = $sr->doc_no;
-
                     if (
                         DB::table(PrincipalsUtil::$TBL_CM)
                             ->where('doc_no',$sr->doc_no)
@@ -682,10 +679,11 @@ class NavisionController extends Controller
                             $newSalesReturns++;
                         }
                     }
+
+                    $sr_docnos[] = $sr->doc_no;
                 }
 
                 // get cm remarks and patch to local db
-
                 $sr_docnos = array_unique($sr_docnos);
                 if(count($sr_docnos) > 0) {
                     DownloadInvoice::dispatch(
@@ -734,6 +732,7 @@ class NavisionController extends Controller
             }
 
             // save logs
+            DownloadInvoice::dispatch("Saving download logs");
             DB::table(PrincipalsUtil::$TBL_INVOICES_DLLOG)->insert([
                 'batch_number' => $batchNum,
                 'summary' => json_encode($result),
