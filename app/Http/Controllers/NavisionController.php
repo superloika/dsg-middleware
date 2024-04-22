@@ -610,14 +610,17 @@ class NavisionController extends Controller
                         AND [$invoice_lines_tbl].[No_] = [$cm_lines_tbl].[No_]
                         AND [$invoice_lines_tbl].[Unit of Measure] = [$cm_lines_tbl].[Unit of Measure]
                     -- LEFT JOIN [$sm_tbl] ON [$sm_tbl].[Code] = [$cm_headers_tbl].[Salesperson Code]
-                    WHERE [$invoice_lines_tbl].[Quantity] > 0
+                    WHERE [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
+                        AND [$invoice_lines_tbl].[Quantity] > 0
                         AND [$cm_lines_tbl].[Quantity] > 0
-                        AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
                         AND [$cm_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
                         AND [$cm_headers_tbl].[Posting Date] <= '$posting_date_to 00:00:00.000'
                     ;
                     "
                 );
+
+                // store doc_nos here temporarily
+                $sr_docnos = [];
 
                 // save retrieved sales returns to local db
                 foreach($sales_returns as $sr) {
@@ -625,6 +628,8 @@ class NavisionController extends Controller
                     foreach($sr as $key => $val) {
                         $sr->$key = mb_convert_encoding($val, 'utf-8');
                     }
+
+                    $sr_docnos[] = $sr->doc_no;
 
                     if (
                         DB::table(PrincipalsUtil::$TBL_CM)
@@ -638,16 +643,15 @@ class NavisionController extends Controller
                         // existing entries counter
                         $existingSalesReturns++;
                     } else {
-                        DownloadInvoice::dispatch(
-                            "($loopCounter/$configsLen: $server_name)
-                            Saving sales return to the local database [{$sr->doc_no}, {$sr->item_code}]"
-                        );
-
                         if(
                             trim($sr->doc_no) != ''
                             && trim($sr->item_code) != ''
                             && trim($sr->item_description) != ''
                         ) {
+                            DownloadInvoice::dispatch(
+                                "($loopCounter/$configsLen: $server_name)
+                                Saving sales return to the local database [{$sr->doc_no}, {$sr->item_code}]"
+                            );
                             DB::table(PrincipalsUtil::$TBL_CM)->insert([
                                 'created_at' =>             date($dateTimeToday),
                                 'uploaded_by' =>            auth()->user()->id,
@@ -677,22 +681,43 @@ class NavisionController extends Controller
                             ]);
                             $newSalesReturns++;
                         }
-
-                        // temporary identifier for a return remarks
-                        if (
-                            trim($sr->item_code) == ''
-                            && trim($sr->item_description) != ''
-                        ) {
-                            DB::table(PrincipalsUtil::$TBL_CM)
-                            ->where('doc_no', $sr->doc_no)
-                            ->whereNull('remarks')
-                            ->update([
-                                // naa sa item description gi butang ang return remarks (Mga brayt nga taga Navision XD)
-                                'remarks' => $sr->item_description
-                            ]);
-                        }
                     }
                 }
+
+                // get cm remarks and patch to local db
+
+                $sr_docnos = array_unique($sr_docnos);
+                if(count($sr_docnos) > 0) {
+                    DownloadInvoice::dispatch(
+                        "($loopCounter/$configsLen: $server_name)
+                        Patching sales return remarks"
+                    );
+                    // dd($sr_docnos);
+                    $sr_docnos_imp = implode(',', array_map(fn($item) => "'$item'", $sr_docnos));
+                    // dd($sr_docnos_imp);
+                    $sr_remarks = $dbCon->select(
+                        "SELECT
+                            [Document No_] as doc_no,
+                            [Description] as item_description
+                        FROM [$cm_lines_tbl]
+                        WHERE [Document No_] IN ($sr_docnos_imp)
+                            AND [No_] = ''
+                            AND [Description] <> ''
+                        ;
+                        "
+                    );
+                    // dd($sr_remarks);
+                    foreach($sr_remarks as $srr) {
+                        // dd($srr);
+                        DB::table(PrincipalsUtil::$TBL_CM)
+                        ->where('doc_no', $srr->doc_no)
+                        ->whereNull('remarks')
+                        ->update([
+                            'remarks' => $srr->item_description
+                        ]);
+                    }
+                }
+                // /get cm remarks and patch to local db
 
                 // summary
                 if($existingSalesReturns > 0 || $newSalesReturns > 0) {
