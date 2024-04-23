@@ -31446,7 +31446,7 @@ var render = function() {
                                     ),
                                     _vm._v(" "),
                                     _c("div", [
-                                      _c("strong", [_vm._v("DSN:")]),
+                                      _c("em", [_vm._v("DSN:")]),
                                       _vm._v(" "),
                                       _c("em", [_vm._v(_vm._s(db.dsn))])
                                     ])

@@ -48,7 +48,7 @@
                                 <v-card outlined>
                                     <v-card-text>
                                         <div class="font-weight-bold">{{ db.server_name }}</div>
-                                        <div><strong>DSN:</strong> <em>{{ db.dsn }}</em></div>
+                                        <div><em>DSN:</em> <em>{{ db.dsn }}</em></div>
                                     </v-card-text>
                                 </v-card>
                             </v-col>
