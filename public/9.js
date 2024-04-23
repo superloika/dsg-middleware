@@ -69,6 +69,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["generatedData", "allow_export"],
   // props: ["allow_export"],
@@ -290,7 +293,15 @@ var render = function() {
                         "v-tab",
                         { key: index, staticClass: "px-2 text-captionx" },
                         [
-                          _c("h5", [_vm._v(_vm._s(data[0]))]),
+                          _c("v-icon", { attrs: { small: "" } }, [
+                            _vm._v(
+                              "\n                            mdi-database\n                        "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("h6", { staticClass: "font-weight-bold" }, [
+                            _vm._v(_vm._s(data[0]))
+                          ]),
                           _vm._v(" "),
                           _vm.warningsCount(data[1]) > 0
                             ? _c(

@@ -27,7 +27,10 @@
                         v-for="(data, index) in templatedData.output_template"
                         :key="index" class="px-2 text-captionx"
                     >
-                        <h5>{{ data[0] }}</h5>
+                        <v-icon small>
+                            mdi-database
+                        </v-icon>
+                        <h6 class="font-weight-bold">{{ data[0] }}</h6>
                         <v-chip color="warning" x-small class="ml-1 text-captionx px-1"
                             v-if="warningsCount(data[1]) > 0"
                         >
