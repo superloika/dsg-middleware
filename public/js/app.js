@@ -2847,6 +2847,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, {
         text: "Salesman Code",
         value: "sm_code"
+      }, {
+        text: "Salesman Name",
+        value: "sm_name"
       }],
       isRetrieving: false,
       searchTable: ''

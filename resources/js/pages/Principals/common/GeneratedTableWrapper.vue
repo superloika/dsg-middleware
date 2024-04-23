@@ -22,7 +22,7 @@
             :key="template_variation_tabitem_index"
         >
             <v-card tile>
-                <v-tabs v-model="templatedData.tab" height="30" show-arrow>
+                <v-tabs v-model="templatedData.tab" height="30">
                     <v-tab
                         v-for="(data, index) in templatedData.output_template"
                         :key="index" class="px-2 text-captionx"

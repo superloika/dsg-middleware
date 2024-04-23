@@ -276,7 +276,7 @@ var render = function() {
                   _c(
                     "v-tabs",
                     {
-                      attrs: { height: "30", "show-arrow": "" },
+                      attrs: { height: "30" },
                       model: {
                         value: templatedData.tab,
                         callback: function($$v) {

@@ -87,6 +87,7 @@ export default {
                 { text: "Quantity/UOM", value: "qty_per_uom" },
                 { text: "UOM Code", value: "uom_code" },
                 { text: "Salesman Code", value: "sm_code" },
+                { text: "Salesman Name", value: "sm_name" },
             ],
             isRetrieving: false,
             searchTable: '',

@@ -137,17 +137,25 @@ class DoleController extends Controller
 
                         $item = $principal_items->where('item_code', $item_code)->first();
                         $salesman = null;
+
                         // for non-store invoice data (compare masterfile group to invoice group)
                         // if(!in_array($group, ['STORE_CDC','STORE_UDC'])) {
-                        // if(!in_array($group, ['STORE'])) {
-                        if(!in_array($group, ['CDC', 'UDC'])) {
+                        // if(!in_array($group, ['CDC', 'UDC'])) {
+                        if(
+                            !in_array(
+                                $group,
+                                ['ASC_CDC', 'ASC_UDC', 'LDI_CDC', 'LDI_UDC', 'MPDI_CDC', 'MPDI_UDC', 'NDI_CDC', 'NDI_UDC']
+                            )
+                        ) {
                             $salesman = $principal_salesmen->filter(function($sm) use (&$group) {
-                                    return false !== strpos($group, $sm->division, 0);
-                                })->first();
+                                return false !== strpos($group, $sm->division, 0);
+                            })->first();
                         }
                         // for store invoice data (compare masterfile group to invoice customer name)
                         // note: division=group in db
                         else {
+                            // customer name stored in division column
+                            // so that it will return a match if there's any
                             $salesman = $principal_salesmen->where('division', $customer_name)->first();
                         }
 
