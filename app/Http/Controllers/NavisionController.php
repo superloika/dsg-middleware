@@ -373,7 +373,7 @@ class NavisionController extends Controller
                         [$invoice_headers_tbl].[Salesperson Code] as sm_code,
                         [$invoice_headers_tbl].[External Document No_] as ext_doc_no,
                         -- line
-                        [Vendor No_] as vendor_code,
+                        [$invoice_lines_tbl].[Vendor No_] as vendor_code,
                         [$invoice_lines_tbl].[No_] as item_code,
                         [$invoice_lines_tbl].[Shipment Date] as shipment_date,
                         [$invoice_lines_tbl].[Description] as item_description,
@@ -392,10 +392,10 @@ class NavisionController extends Controller
                     LEFT JOIN [$sm_tbl] ON [$sm_tbl].[Code] = [$invoice_headers_tbl].[Salesperson Code]
                     WHERE [$invoice_lines_tbl].[Quantity] > 0
                         AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
-                        AND [$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
-                        AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 00:00:00.000'
-                        -- AND [$invoice_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
-                        -- AND [$invoice_headers_tbl].[Posting Date] <= '$posting_date_to 00:00:00.000'
+                        -- AND [$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
+                        -- AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 00:00:00.000'
+                        AND [$invoice_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
+                        AND [$invoice_headers_tbl].[Posting Date] <= '$posting_date_to 00:00:00.000'
                     ;
                     "
                 );

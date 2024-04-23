@@ -85,6 +85,18 @@
                                         <v-card class="pa-2">
                                             <div class="caption font-weight-bold">
                                                 Sales Invoices
+                                                <v-chip small title="Existing">
+                                                    {{ dlSummary.sales_invoices ?
+                                                        Object.values(dlSummary.sales_invoices).reduce((total, {existing}) => total + existing, 0)
+                                                        : 0
+                                                    }}
+                                                </v-chip>
+                                                <v-chip small title="New" color="primary">
+                                                    {{ dlSummary.sales_invoices ?
+                                                        Object.values(dlSummary.sales_invoices).reduce((total, {['new']:newProp}) => total + newProp, 0)
+                                                        : 0
+                                                    }}
+                                                </v-chip>
                                             </div>
                                             <v-list dense>
                                                 <v-list-item v-for="(siVal, siKey) in dlSummary.sales_invoices" :key="siKey" dense>
@@ -120,6 +132,18 @@
                                         <v-card class="pa-2">
                                             <div class="caption font-weight-bold">
                                                 Sales Returns
+                                                <v-chip small title="Existing">
+                                                    {{ dlSummary.sales_returns ?
+                                                        Object.values(dlSummary.sales_returns).reduce((total, {existing}) => total + existing, 0)
+                                                        : 0
+                                                    }}
+                                                </v-chip>
+                                                <v-chip small title="New" color="primary">
+                                                    {{ dlSummary.sales_returns ?
+                                                        Object.values(dlSummary.sales_returns).reduce((total, {['new']:newProp}) => total + newProp, 0)
+                                                        : 0
+                                                    }}
+                                                </v-chip>
                                             </div>
                                             <v-list>
                                                 <v-list-item v-for="(cmVal, cmKey) in dlSummary.sales_returns" :key="cmKey" dense>
@@ -191,7 +215,11 @@ export default {
                 {text: 'Action',value: 'action'},
             ],
             tblItems: [],
-            dlSummary: [],
+            dlSummary: {
+                sales_invoices: {},
+                sales_retunrs: {},
+                unreachable: 0,
+            },
             posting_date_range: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
                 .toISOString()
                 .substr(0, 10)],

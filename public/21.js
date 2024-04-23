@@ -195,6 +195,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -221,7 +245,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'action'
       }],
       tblItems: [],
-      dlSummary: [],
+      dlSummary: {
+        sales_invoices: {},
+        sales_retunrs: {},
+        unreachable: 0
+      },
       posting_date_range: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10)]
     };
   },
@@ -679,9 +707,88 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                            Sales Invoices\n                                        "
+                                                    "\n                                            Sales Invoices\n                                            "
+                                                  ),
+                                                  _c(
+                                                    "v-chip",
+                                                    {
+                                                      attrs: {
+                                                        small: "",
+                                                        title: "Existing"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                " +
+                                                          _vm._s(
+                                                            _vm.dlSummary
+                                                              .sales_invoices
+                                                              ? Object.values(
+                                                                  _vm.dlSummary
+                                                                    .sales_invoices
+                                                                ).reduce(
+                                                                  function(
+                                                                    total,
+                                                                    ref
+                                                                  ) {
+                                                                    var existing =
+                                                                      ref.existing
+
+                                                                    return (
+                                                                      total +
+                                                                      existing
+                                                                    )
+                                                                  },
+                                                                  0
+                                                                )
+                                                              : 0
+                                                          ) +
+                                                          "\n                                            "
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-chip",
+                                                    {
+                                                      attrs: {
+                                                        small: "",
+                                                        title: "New",
+                                                        color: "primary"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                " +
+                                                          _vm._s(
+                                                            _vm.dlSummary
+                                                              .sales_invoices
+                                                              ? Object.values(
+                                                                  _vm.dlSummary
+                                                                    .sales_invoices
+                                                                ).reduce(
+                                                                  function(
+                                                                    total,
+                                                                    ref
+                                                                  ) {
+                                                                    var newProp =
+                                                                      ref["new"]
+
+                                                                    return (
+                                                                      total +
+                                                                      newProp
+                                                                    )
+                                                                  },
+                                                                  0
+                                                                )
+                                                              : 0
+                                                          ) +
+                                                          "\n                                            "
+                                                      )
+                                                    ]
                                                   )
-                                                ]
+                                                ],
+                                                1
                                               ),
                                               _vm._v(" "),
                                               _c(
@@ -854,9 +961,88 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                            Sales Returns\n                                        "
+                                                    "\n                                            Sales Returns\n                                            "
+                                                  ),
+                                                  _c(
+                                                    "v-chip",
+                                                    {
+                                                      attrs: {
+                                                        small: "",
+                                                        title: "Existing"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                " +
+                                                          _vm._s(
+                                                            _vm.dlSummary
+                                                              .sales_returns
+                                                              ? Object.values(
+                                                                  _vm.dlSummary
+                                                                    .sales_returns
+                                                                ).reduce(
+                                                                  function(
+                                                                    total,
+                                                                    ref
+                                                                  ) {
+                                                                    var existing =
+                                                                      ref.existing
+
+                                                                    return (
+                                                                      total +
+                                                                      existing
+                                                                    )
+                                                                  },
+                                                                  0
+                                                                )
+                                                              : 0
+                                                          ) +
+                                                          "\n                                            "
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-chip",
+                                                    {
+                                                      attrs: {
+                                                        small: "",
+                                                        title: "New",
+                                                        color: "primary"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                " +
+                                                          _vm._s(
+                                                            _vm.dlSummary
+                                                              .sales_returns
+                                                              ? Object.values(
+                                                                  _vm.dlSummary
+                                                                    .sales_returns
+                                                                ).reduce(
+                                                                  function(
+                                                                    total,
+                                                                    ref
+                                                                  ) {
+                                                                    var newProp =
+                                                                      ref["new"]
+
+                                                                    return (
+                                                                      total +
+                                                                      newProp
+                                                                    )
+                                                                  },
+                                                                  0
+                                                                )
+                                                              : 0
+                                                          ) +
+                                                          "\n                                            "
+                                                      )
+                                                    ]
                                                   )
-                                                ]
+                                                ],
+                                                1
                                               ),
                                               _vm._v(" "),
                                               _c(
