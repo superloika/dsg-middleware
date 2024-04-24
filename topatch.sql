@@ -214,3 +214,5 @@ update cm_lines_ptn set ext_doc_no=invoice_doc_no;
 
 -- remove columns in cm_lines table: sm_code, sm_name
 
+-- modify group codes/names in groups table
+
