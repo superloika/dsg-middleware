@@ -91,7 +91,6 @@ class PurefoodsController extends Controller
             // $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
             //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
             //     ->get();
-            // dd($principal_salesmen);
 
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS *************************************
@@ -149,34 +148,21 @@ class PurefoodsController extends Controller
                             $vendor_code =          $pendingInvoice->vendor_code;
                             $qty_per_uom =          $pendingInvoice->qty_per_uom;
 
-                            //********************************************************************
-                            // $nav_customer_name = $pendingInvoice->customer_name;
-                            // if($nav_customer_name==null || $nav_customer_name=='') {
-                            //     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                            //         ->where('customer_code', $customer_code)
-                            //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                            // }
-
                             // ************************* MASTERFILE MAPPING *************************
                             // $customer = $principal_customers
+                            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                             //     ->where('customer_code', $customer_code)
                             //     ->first();
+
                             $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
                                 ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                                 ->where('customer_code', $customer_code)
                                 ->first();
 
-                            // $item = null;
-                            // if($qty_per_uom > 1) {
-                            //     $item = $principal_items
-                            //     ->where('item_code', $item_code)
-                            //     // ->where('conversion_qty', $qty_per_uom)
-                            //     ->first();
-                            // } else {
-                            //     $item = $principal_items
+                            // $item = $principal_items
+                            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                             //     ->where('item_code', $item_code)
                             //     ->first();
-                            // }
 
                             $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                                 ->where('main_vendor_code', $this->PRINCIPAL_CODE)
@@ -249,10 +235,6 @@ class PurefoodsController extends Controller
                             // check customer ***************************
                             if ($customer == null) {
                                 $customer_notfound = 1;
-                                // $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                //     ->where('customer_code', $customer_code)
-                                //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                                // $customer_name = $nav_customer_name;
                             } else {
                                 $customer_code_supplier = $customer->customer_code_supplier;
                                 $customer_name = $customer->customer_name;
@@ -413,24 +395,20 @@ class PurefoodsController extends Controller
 
                             // ************************* MASTERFILE MAPPING *************************
                             // $customer = $principal_customers
+                            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                             //     ->where('customer_code', $customer_code)
                             //     ->first();
+
                             $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
                                 ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                                 ->where('customer_code', $customer_code)
                                 ->first();
 
-                            // $item = null;
-                            // if($qty_per_uom > 1) {
-                            //     $item = $principal_items
-                            //     ->where('item_code', $item_code)
-                            //     // ->where('conversion_qty', $qty_per_uom)
-                            //     ->first();
-                            // } else {
-                            //     $item = $principal_items
+                            // $item = $principal_items
+                            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                             //     ->where('item_code', $item_code)
                             //     ->first();
-                            // }
+
                             $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
                                 ->where('main_vendor_code', $this->PRINCIPAL_CODE)
                                 ->where('item_code', $item_code)
@@ -501,10 +479,6 @@ class PurefoodsController extends Controller
                             // check customer ***************************
                             if ($customer == null) {
                                 $customer_notfound = 1;
-                                // $missing_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                                //     ->where('customer_code', $customer_code)
-                                //     ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                                // $customer_name = $nav_customer_name;
                             } else {
                                 $customer_code_supplier = $customer->customer_code_supplier;
                                 $customer_name = $customer->customer_name;

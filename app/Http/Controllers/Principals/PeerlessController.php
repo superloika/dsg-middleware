@@ -508,20 +508,15 @@ class PeerlessController extends Controller
                             $item_code_supplier = trim(str_replace('"', '', $arrFileContentLine[0]));
                             $description_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
                             $item_code = trim(str_replace('"', '', $arrFileContentLine[2]));
-
                             $conversion_qty = trim(str_replace('"', '', $arrFileContentLine[5]));
                             $conversion_qty = intval($conversion_qty);
-
                             $uom_price = trim(str_replace('"', '', $arrFileContentLine[6]));
                             $uom_price = str_replace(',', '', $uom_price);
                             $uom_price = floatval($uom_price);
-
                             $uom = trim(str_replace('"', '', $arrFileContentLine[7]));
-
                             $conversion_uom_price = trim(str_replace('"', '', $arrFileContentLine[8]));
                             $conversion_uom_price = str_replace(',', '', $conversion_uom_price);
                             $conversion_uom_price = floatval($conversion_uom_price);
-
                             $conversion_uom = trim(str_replace('"', '', $arrFileContentLine[9]));
                             // /get column data **********************************************************
 
