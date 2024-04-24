@@ -89,9 +89,7 @@ class CleAceController extends Controller
 
                             $doc_no = $pendingInvoice->doc_no;
                             $customer_code = $pendingInvoice->customer_code;
-                            $posting_date = $pendingInvoice->posting_date;
-                            // $posting_date = (new Carbon($posting_date))->format('m/d/Y';
-                            $posting_date = (new Carbon($posting_date))->format($postingDateFormat);
+                            $posting_date = (new Carbon($pendingInvoice->posting_date))->format($postingDateFormat);
                             $item_code = $pendingInvoice->item_code;
                             $quantity = intval($pendingInvoice->quantity);
                             $price = doubleval($pendingInvoice->price);
@@ -215,9 +213,7 @@ class CleAceController extends Controller
 
                             $doc_no = $return->doc_no;
                             $customer_code = $return->customer_code;
-                            $posting_date = $return->shipment_date;
-                            // $posting_date = (new Carbon($posting_date))->format('m/d/Y';
-                            $posting_date = (new Carbon($posting_date))->format($postingDateFormat);
+                            $posting_date = (new Carbon($return->posting_date))->format($postingDateFormat);
                             $item_code = $return->item_code;
                             $quantity = intval($return->quantity);
                             $price = doubleval($return->price);
