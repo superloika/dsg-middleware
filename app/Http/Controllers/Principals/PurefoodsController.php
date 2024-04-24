@@ -1019,37 +1019,6 @@ class PurefoodsController extends Controller
 
 
 
-    // temporary
-    public function resetInvoicesToPending() {
-        $dateFrom = new Carbon('2023-07-01');
-        $dateTo = new Carbon('2023-07-31');
-
-        // sales invoices
-        $inv = DB::table(PrincipalsUtil::$TBL_INVOICES)
-            ->whereIn('vendor_code',['S3030','S4135','S3564'])
-            ->update([
-                'status' => 'pending',
-            ]);
-
-        // returns
-        $cm = DB::table(PrincipalsUtil::$TBL_INVOICES)
-            ->whereIn('vendor_code',['S3030','S4135','S3564'])
-            ->join('cm_lines',function($q){
-                $q->on('cm_lines.invoice_doc_no',PrincipalsUtil::$TBL_INVOICES.'.doc_no')
-                ->on('cm_lines.item_code',PrincipalsUtil::$TBL_INVOICES. '.item_code')
-                ->on('cm_lines.uom',PrincipalsUtil::$TBL_INVOICES. '.uom')
-                ;
-            })
-            ->update([
-                'cm_lines.status' => 'pending',
-            ]);
-
-        $response['invoice_lines_reverted'] = $inv + $cm;
-
-        return response()->json($response);
-    }
-
-
     // varies on every principal/supplier
     public function configs() {
         $arr = [
@@ -1087,7 +1056,6 @@ class PurefoodsController extends Controller
             //     ],
             // ],
 
-            // last resort
             // templated data table header
             "generatedDataTableHeader" => [
                 [
@@ -1162,6 +1130,37 @@ class PurefoodsController extends Controller
         ];
 
         return response()->json($arr);
+    }
+
+
+    // temporary
+    public function resetInvoicesToPending() {
+        $dateFrom = new Carbon('2023-07-01');
+        $dateTo = new Carbon('2023-07-31');
+
+        // sales invoices
+        $inv = DB::table(PrincipalsUtil::$TBL_INVOICES)
+            ->whereIn('vendor_code',['S3030','S4135','S3564'])
+            ->update([
+                'status' => 'pending',
+            ]);
+
+        // returns
+        $cm = DB::table(PrincipalsUtil::$TBL_INVOICES)
+            ->whereIn('vendor_code',['S3030','S4135','S3564'])
+            ->join('cm_lines',function($q){
+                $q->on('cm_lines.invoice_doc_no',PrincipalsUtil::$TBL_INVOICES.'.doc_no')
+                ->on('cm_lines.item_code',PrincipalsUtil::$TBL_INVOICES. '.item_code')
+                ->on('cm_lines.uom',PrincipalsUtil::$TBL_INVOICES. '.uom')
+                ;
+            })
+            ->update([
+                'cm_lines.status' => 'pending',
+            ]);
+
+        $response['invoice_lines_reverted'] = $inv + $cm;
+
+        return response()->json($response);
     }
 
 }

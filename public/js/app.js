@@ -2673,13 +2673,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     DevChat: function DevChat() {
@@ -30399,133 +30392,90 @@ var render = function() {
       _c(
         "v-card",
         [
-          _c(
-            "v-toolbar",
-            {
-              scopedSlots: _vm._u([
-                {
-                  key: "extension",
-                  fn: function() {
-                    return [
-                      _c(
-                        "v-tabs",
-                        {
-                          model: {
-                            value: _vm.tab_genmas,
-                            callback: function($$v) {
-                              _vm.tab_genmas = $$v
-                            },
-                            expression: "tab_genmas"
-                          }
-                        },
-                        [
-                          _c("v-tab", { staticClass: "px-3 text-caption" }, [
-                            _vm._v(
-                              "\n                        Principals\n                    "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("v-tab", { staticClass: "px-3 text-caption" }, [
-                            _vm._v(
-                              "\n                        Customers\n                    "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("v-tab", { staticClass: "px-3 text-caption" }, [
-                            _vm._v(
-                              "\n                        Items\n                    "
-                            )
-                          ])
-                        ],
-                        1
-                      )
-                    ]
-                  },
-                  proxy: true
-                }
-              ])
-            },
-            [
-              _c("v-toolbar-title", { attrs: { dense: "" } }, [
+          _c("v-card-title", [
+            _c("div", { staticClass: "d-flex align-center" }, [
+              _c("div", { staticClass: "mr-4" }, [
                 _vm._v("General Masterfiles")
               ]),
               _vm._v(" "),
-              _c("v-spacer"),
-              _vm._v(" "),
               _c(
-                "v-btn",
-                {
-                  attrs: { text: "", icon: "" },
-                  on: {
-                    click: function($event) {
-                      _vm.dialog = false
-                    }
-                  }
-                },
-                [_c("v-icon", [_vm._v("mdi-close")])],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-card-text",
-            { staticClass: "ma-0 pa-0" },
-            [
-              _c(
-                "v-tabs-items",
-                {
-                  model: {
-                    value: _vm.tab_genmas,
-                    callback: function($$v) {
-                      _vm.tab_genmas = $$v
-                    },
-                    expression: "tab_genmas"
-                  }
-                },
+                "div",
                 [
                   _c(
-                    "v-tab-item",
+                    "v-tabs",
+                    {
+                      model: {
+                        value: _vm.tab_genmas,
+                        callback: function($$v) {
+                          _vm.tab_genmas = $$v
+                        },
+                        expression: "tab_genmas"
+                      }
+                    },
                     [
-                      _c(
-                        "v-container",
-                        { attrs: { fluid: "" } },
-                        [_c("MasterPrincipals")],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tab-item",
-                    [
-                      _c(
-                        "v-container",
-                        { attrs: { fluid: "" } },
-                        [_c("MasterCustomers")],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tab-item",
-                    [
-                      _c(
-                        "v-container",
-                        { attrs: { fluid: "" } },
-                        [_c("MasterItems")],
-                        1
-                      )
+                      _c("v-tab", { staticClass: "px-3 text-caption" }, [
+                        _vm._v(
+                          "\n                            Principals\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-tab", { staticClass: "px-3 text-caption" }, [
+                        _vm._v(
+                          "\n                            Customers\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-tab", { staticClass: "px-3 text-caption" }, [
+                        _vm._v(
+                          "\n                            Items\n                        "
+                        )
+                      ])
                     ],
                     1
                   )
                 ],
                 1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "", icon: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = false
+                        }
+                      }
+                    },
+                    [_c("v-icon", [_vm._v("mdi-close")])],
+                    1
+                  )
+                ],
+                1
               )
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-tabs-items",
+            {
+              model: {
+                value: _vm.tab_genmas,
+                callback: function($$v) {
+                  _vm.tab_genmas = $$v
+                },
+                expression: "tab_genmas"
+              }
+            },
+            [
+              _c("v-tab-item", [_c("MasterPrincipals")], 1),
+              _vm._v(" "),
+              _c("v-tab-item", [_c("MasterCustomers")], 1),
+              _vm._v(" "),
+              _c("v-tab-item", [_c("MasterItems")], 1)
             ],
             1
           )

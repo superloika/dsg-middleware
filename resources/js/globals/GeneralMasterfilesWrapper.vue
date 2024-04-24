@@ -5,50 +5,43 @@
                 <v-icon>mdi-folder-multiple</v-icon>
             </v-btn>
         </template>
-        <v-card >
-            <v-toolbar>
-                <v-toolbar-title dense>General Masterfiles</v-toolbar-title>
 
-                <v-spacer></v-spacer>
+        <v-card>
+            <v-card-title >
+                <div class="d-flex align-center">
+                    <div class="mr-4">General Masterfiles</div>
+                    <div>
+                        <v-tabs v-model="tab_genmas">
+                            <v-tab class="px-3 text-caption">
+                                Principals
+                            </v-tab>
+                            <v-tab class="px-3 text-caption">
+                                Customers
+                            </v-tab>
+                            <v-tab class="px-3 text-caption">
+                                Items
+                            </v-tab>
+                        </v-tabs>
+                    </div>
+                    <div>
+                        <v-btn text @click="dialog = false" icon>
+                            <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                    </div>
+                </div>
+            </v-card-title>
 
-                <v-btn text @click="dialog = false" icon>
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
-
-                <template v-slot:extension>
-                    <v-tabs v-model="tab_genmas">
-                        <v-tab class="px-3 text-caption">
-                            Principals
-                        </v-tab>
-                        <v-tab class="px-3 text-caption">
-                            Customers
-                        </v-tab>
-                        <v-tab class="px-3 text-caption">
-                            Items
-                        </v-tab>
-                    </v-tabs>
-                </template>
-            </v-toolbar>
-
-            <v-card-text class="ma-0 pa-0">
-                <v-tabs-items v-model="tab_genmas">
-                    <v-tab-item>
-                        <v-container fluid>
-                            <MasterPrincipals></MasterPrincipals>
-                        </v-container>
-                    </v-tab-item>
-                    <v-tab-item>
-                        <v-container fluid>
-                            <MasterCustomers></MasterCustomers>
-                        </v-container>
-                    </v-tab-item>
-                    <v-tab-item>
-                        <v-container fluid>
-                            <MasterItems></MasterItems>
-                        </v-container>
-                    </v-tab-item>
-                </v-tabs-items>
-            </v-card-text>
+            <v-tabs-items v-model="tab_genmas">
+                <v-tab-item>
+                    <MasterPrincipals></MasterPrincipals>
+                </v-tab-item>
+                <v-tab-item>
+                    <MasterCustomers></MasterCustomers>
+                </v-tab-item>
+                <v-tab-item>
+                    <MasterItems></MasterItems>
+                </v-tab-item>
+            </v-tabs-items>
         </v-card>
     </v-dialog>
 </template>
