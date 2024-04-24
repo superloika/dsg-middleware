@@ -67,7 +67,6 @@ class BRController extends Controller
         } catch (\Throwable $th) {
             return $d;
         }
-
     }
 
 

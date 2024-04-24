@@ -288,7 +288,7 @@ class PurefoodsController extends Controller
                             'cf_dsp_name_value' =>      $sm_name,
                             'invoice_number' =>         $pendingInvoice->ext_doc_no!='' || $pendingInvoice->ext_doc_no!=null ?
                                                             // $vendor_code. '-'. $pendingInvoice->ext_doc_no : '',
-                                                            $pendingInvoice->ext_doc_no : '',
+                                                            $pendingInvoice->ext_doc_no : $doc_no,
                             'discount_percentage' =>    $discount_percentage,
                             'discount_value' =>         $discount_value,
                             'vat_percentage' =>         $vat_percentage,
