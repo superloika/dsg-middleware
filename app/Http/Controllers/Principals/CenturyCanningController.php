@@ -61,11 +61,11 @@ class CenturyCanningController extends Controller
                 PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
             ])
 
-            ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.main_vendor_code',
-                $this->PRINCIPAL_CODE)
-            // ->get($cols);
+            ->where(
+                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.main_vendor_code',
+                $this->PRINCIPAL_CODE
+            )
 
-            // $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
             ->where(function($q) use ($search_key) {
                 $q->where(
                     PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.item_code',
@@ -85,12 +85,12 @@ class CenturyCanningController extends Controller
             ->paginate($row_count);
 
             // append custom column value (case = '1')
-            $result = tap($result, function($paginatedInstance){
-                return $paginatedInstance->getCollection()->transform(function($value){
-                    $value->case = 1;
-                    return $value;
-                });
-            });
+            // $result = tap($result, function($paginatedInstance){
+            //     return $paginatedInstance->getCollection()->transform(function($value){
+            //         $value->case = 1;
+            //         return $value;
+            //     });
+            // });
 
         return response()->json($result);
     }
@@ -103,11 +103,6 @@ class CenturyCanningController extends Controller
         set_time_limit(0);
 
         try {
-            // $fileName = $request->file->getClientOriginalName()
-            //     . '-' . time() . '.' . $request->file->getClientOriginalExtension();
-            // $request->file->storeAs('public/test_files', $fileName);
-
-            $delimiter = ',';
             $fileName = time() . '.' . $request->file->getClientOriginalName();
             $fileStoragePath =
                 "public/principals/" . $this->PRINCIPAL_CODE . "/items";
@@ -136,7 +131,6 @@ class CenturyCanningController extends Controller
                     // Begin on the second line to skip the headers
                     if ($lineCount > 1) {
 
-                        // $arrFileContentLine = explode($delimiter, $fileContentLine);
                         $arrFileContentLine =
                             preg_split('/,(?=(?:(?:[^"]*"){2})*[^"]*$)/', $fileContentLine);
 
@@ -144,23 +138,14 @@ class CenturyCanningController extends Controller
                             $item_code = trim(str_replace('"', '', $arrFileContentLine[0]));
                             $item_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
                             $description_supplier = trim(str_replace('"', '', $arrFileContentLine[2]));
-                            // $conversion_qty = trim(str_replace('"', '', $arrFileContentLine[4]));
-                            // $uom = 'CASE';
-                            // $conversion_uom = 'PCS';
 
-                            if(
-                                $item_code != '' && $item_code != '#N/A' &&
-                                $item_code_supplier != '' && $item_code_supplier != '#N/A'
-                            ) {
+                            if($item_code != '' && $item_code_supplier != '') {
                                 $arrLines[] = [
                                     'main_vendor_code' => $this->PRINCIPAL_CODE,
-                                    'uploaded_by' => auth()->user()->id,
                                     'item_code' => $item_code,
                                     'item_code_supplier' => $item_code_supplier,
                                     'description_supplier' => $description_supplier,
-                                    // 'uom' => $uom,
-                                    // 'conversion_uom' => $conversion_uom,
-                                    // 'conversion_qty' => $conversion_qty,
+                                    'uploaded_by' => auth()->user()->id,
                                 ];
                             }
                         }
@@ -345,7 +330,6 @@ class CenturyCanningController extends Controller
     {
         set_time_limit(0);
         try {
-            $delimiter = ',';
             $fileName = time() . '.' . $request->file->getClientOriginalName();
             $fileStoragePath =
                 "public/principals/" . $this->PRINCIPAL_CODE . "/salesmen";
@@ -825,11 +809,10 @@ class CenturyCanningController extends Controller
             "itemsTableHeader" => [
                 [
                     ["text" => "Item Code", "value" => "item_code"],
-                    // ["text" => "Description", "value" => "description"],
-                    ["text" => "Supplier Item Code", "value" => "item_code_supplier"],
-                    ["text" => "Supplier Item Description", "value" => "description_supplier"],
-                    // ["text" => "CASE", "value" => "case"],
-                    // ["text" => "PCS", "value" => "conversion_qty"],
+                    ["text" => "Item Code (Supplier)", "value" => "item_code_supplier"],
+                    ["text" => "Item Description (Supplier)", "value" => "description_supplier"],
+                    ["text" => "CASE", "value" => "case"],
+                    ["text" => "PCS", "value" => "conversion_qty"],
                 ]
             ],
 
