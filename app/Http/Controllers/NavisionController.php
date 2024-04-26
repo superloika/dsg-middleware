@@ -22,6 +22,17 @@ class NavisionController extends Controller
             // ASC
             // ******************************************************************************************
             [
+                'server_name'           => 'ASC_UWDG',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.21.201;Database=SI CONSOLIDATOR;',
+                'database'              => 'SI CONSOLIDATOR',
+                'invoice_headers_tbl'   => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Invoice Line',
+                'cm_headers_tbl'        => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Cr_Memo Line',
+                'sm_tbl'                => 'ALTURAS SUPERMARKET CORP_ - SI$Salesperson_Purchaser',
+                'group_name'            => 'ASC_UWDG',
+            ],
+            [
                 'server_name'           => 'ASC_CWDG_PCS',
                 'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=CWDG_VARIOUS_SI;',
                 'database'              => 'CWDG_VARIOUS_SI',
@@ -42,17 +53,6 @@ class NavisionController extends Controller
                 'cm_lines_tbl'          => 'ALTURAS SUPERMARKET CORP_$Sales Cr_Memo Line',
                 'sm_tbl'                => 'ALTURAS SUPERMARKET CORP_$Salesperson_Purchaser',
                 'group_name'            => 'ASC_CWDG_BULK',
-            ],
-            [
-                'server_name'           => 'ASC_UWDG',
-                'dsn'                   => 'Driver={SQL Server};Server=172.16.21.201;Database=SI CONSOLIDATOR;',
-                'database'              => 'SI CONSOLIDATOR',
-                'invoice_headers_tbl'   => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Invoice Header',
-                'invoice_lines_tbl'     => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Invoice Line',
-                'cm_headers_tbl'        => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Cr_Memo Header',
-                'cm_lines_tbl'          => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Cr_Memo Line',
-                'sm_tbl'                => 'ALTURAS SUPERMARKET CORP_ - SI$Salesperson_Purchaser',
-                'group_name'            => 'ASC_UWDG',
             ],
             [
                 'server_name'           => 'ASC_UDC',
@@ -286,6 +286,17 @@ class NavisionController extends Controller
                 'cm_lines_tbl'          => 'NDI_CDC$Sales Cr_Memo Line',
                 'sm_tbl'                => 'NDI_CDC$Salesperson_Purchaser',
                 'group_name'            => 'NDI_CDC',
+            ],
+            [
+                'server_name'           => 'NDI_DELICA_BULK',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.18;Database=NETMAN_BULK;',
+                'database'              => 'NETMAN_BULK',
+                'invoice_headers_tbl'   => 'Netman Bulk$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'Netman Bulk$Sales Invoice Line',
+                'cm_headers_tbl'        => 'Netman Bulk$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'Netman Bulk$Sales Cr_Memo Line',
+                'sm_tbl'                => 'Netman Bulk$Salesperson_Purchaser',
+                'group_name'            => 'NDI_DELICA_BULK',
             ],
         ];
     }
