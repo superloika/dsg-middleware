@@ -800,6 +800,7 @@ class CenturyCanningController extends Controller
 
     public function configs() {
         $arr = [
+            'posting_date_format' => 'm/d/Y',
             // customersTableHeader: [
             //     [
             //         { text: "Customer Code", value: "customer_code" },
@@ -841,22 +842,6 @@ class CenturyCanningController extends Controller
                     ["text" =>"System Date", "value" => "system_date"],
                     ["text" =>"User", "value" => "default_user"],
                 ],
-                // [
-                //     ["text" =>"Distributor ID", "value" => "distributor_id"],
-                //     ["text" =>"Sales Agent ID", "value" => "sales_agent_id"],
-                //     ["text" =>"Invoice No (Doc No)", "value" => "doc_no"],
-                //     ["text" =>"Location", "value" => "location"],
-                //     ["text" =>"Invoice Date", "value" => "invoice_date"],
-                //     ["text" =>"Payment Term Code", "value" => "payment_term_code"],
-                //     ["text" =>"Customer No", "value" => "customer_code"],
-                //     ["text" =>"Product Code", "value" => "item_code"],
-                //     ["text" =>"Bulk Qty", "value" => "bulk_qty"],
-                //     ["text" =>"Loose Qty", "value" => "loose_qty"],
-                //     ["text" =>"System Date", "value" => "system_date"],
-                //     ["text" =>"Default User", "value" => "default_user"],
-                //     ["text" =>"Invoice No", "value" => "invoice_no"],
-                //     ["text" =>"Expiry Date", "value" => "expiry_date"],
-                // ],
                 [
                     ["text" =>"Distributor ID", "value" => "distributor_id"],
                     ["text" =>"Salesman", "value" => "sales_agent_id"],
@@ -889,8 +874,6 @@ class CenturyCanningController extends Controller
                     ["text" => 'Location', "value" => 'location'],
                 ]
             ],
-
-            'posting_date_format' => 'm/d/Y',
         ];
 
         return response()->json($arr);
