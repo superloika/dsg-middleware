@@ -470,7 +470,7 @@ class DelmonteController extends Controller
             //     PrincipalsUtil::$TBL_GENERAL_ITEMS. '.vendor_code',
             // ])
 
-            // ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.main_vendor_code', $this->PRINCIPAL_CODE)
+            ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.main_vendor_code', $this->PRINCIPAL_CODE)
 
             ->where(function($q) use ($search_key) {
                 $q->where(
@@ -533,7 +533,7 @@ class DelmonteController extends Controller
                             // get column data **********************************************************
                             $item_code = trim(str_replace('"', '', $arrFileContentLine[0]));
                             $item_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
-                            $description_supplier = trim(str_replace('"', '', $arrFileContentLine[3]));
+                            $description_supplier = trim(str_replace('"', '', $arrFileContentLine[2]));
                             // /get column data **********************************************************
 
                             if(

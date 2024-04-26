@@ -257,8 +257,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['items', 'template_variation_index', 'tab_caption', 'allow_export'],
   data: function data() {
@@ -629,16 +627,9 @@ var render = function() {
                 var item = ref.item
                 return [
                   item.item_code == ""
-                    ? _c(
-                        "v-icon",
-                        {
-                          attrs: {
-                            color: "error",
-                            title: "Non-uploadable - Empty material code"
-                          }
-                        },
-                        [_vm._v("\n                mdi-alert\n            ")]
-                      )
+                    ? _c("v-icon", { attrs: { color: "error" } }, [
+                        _vm._v("\n                mdi-alert\n            ")
+                      ])
                     : _vm._e(),
                   _vm._v(" "),
                   item.item_notfound == 1 && item.item_code != ""

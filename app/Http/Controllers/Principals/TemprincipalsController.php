@@ -338,6 +338,8 @@ class TemprincipalsController extends Controller
      */
     public function configs() {
         $arr = [
+            'posting_date_format' => 'm/d/Y',
+
             'generatedDataTableHeader' => [
                 [
                     ["text" => "Vendor Code", "value" => "vendor_code"],
@@ -389,8 +391,6 @@ class TemprincipalsController extends Controller
                     ["text" => 'Vendor Code', "value" => 'vendor_code'],
                 ]
             ],
-
-            'posting_date_format' => 'm/d/Y',
         ];
         return response()->json($arr);
     }

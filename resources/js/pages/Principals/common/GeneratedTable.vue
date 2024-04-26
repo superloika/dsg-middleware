@@ -119,9 +119,7 @@
         </template> -->
 
         <template v-slot:[`item.item_code`]="{ item }">
-            <v-icon v-if="item.item_code==''" color="error"
-                title="Non-uploadable - Empty material code"
-            >
+            <v-icon v-if="item.item_code==''" color="error">
                 mdi-alert
             </v-icon>
             <v-tooltip
