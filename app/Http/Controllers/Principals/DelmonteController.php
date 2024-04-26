@@ -461,14 +461,14 @@ class DelmonteController extends Controller
         $search_key = request()->search_key ?? '';
 
         $result = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-            // ->leftJoin(PrincipalsUtil::$TBL_GENERAL_ITEMS,
-            //     PrincipalsUtil::$TBL_GENERAL_ITEMS. '.item_code',
-            //     PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.item_code'
-            // )
-            // ->select([
-            //     PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.*',
-            //     PrincipalsUtil::$TBL_GENERAL_ITEMS. '.vendor_code',
-            // ])
+            ->leftJoin(PrincipalsUtil::$TBL_GENERAL_ITEMS,
+                PrincipalsUtil::$TBL_GENERAL_ITEMS. '.item_code',
+                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.item_code'
+            )
+            ->select([
+                PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.*',
+                PrincipalsUtil::$TBL_GENERAL_ITEMS. '.vendor_code',
+            ])
 
             ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.main_vendor_code', $this->PRINCIPAL_CODE)
 
