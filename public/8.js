@@ -471,16 +471,9 @@ var render = function() {
                 var item = ref.item
                 return [
                   item.customer_code == ""
-                    ? _c(
-                        "v-icon",
-                        {
-                          attrs: {
-                            color: "error",
-                            title: "Non-uploadable - Empty BR ID"
-                          }
-                        },
-                        [_vm._v("\n                mdi-alert\n            ")]
-                      )
+                    ? _c("v-icon", { attrs: { color: "error" } }, [
+                        _vm._v("\n                mdi-alert\n            ")
+                      ])
                     : _vm._e(),
                   _vm._v(" "),
                   item.customer_notfound == 1 && item.customer_code != ""

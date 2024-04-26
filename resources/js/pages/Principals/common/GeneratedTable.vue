@@ -46,7 +46,7 @@
         :item-class="itemRowStyle"
     >
         <template v-slot:[`item.customer_code`]="{ item }">
-            <v-icon v-if="item.customer_code==''" color="error" title="Non-uploadable - Empty BR ID">
+            <v-icon v-if="item.customer_code==''" color="error">
                 mdi-alert
             </v-icon>
             <v-tooltip
