@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Principals\PrincipalsUtil;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -25,9 +26,31 @@ class AccountsController extends Controller
         $currentUserID = auth()->user()->id;
         $users = DB::table('users')
             ->where('id','<>',$currentUserID)
-            // ->select('id', 'name', 'username', 'password', 'email', 'user_type', 'main_vendor_codes')
             ->get();
-        return response()->json($users);
+
+            // mvc = main_vendor_code (LMAO)
+        $result = $users->map(function($user){
+            $mvcs = json_decode($user->main_vendor_codes);
+            $principals = [];
+            if($mvcs != null && $mvcs[0] != '*') {
+                foreach($mvcs as $mvc) {
+                    $vendors = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+                        ->where('main_vendor_code', $mvc)
+                        ->get();
+                    foreach($vendors as $v) {
+                        $principals[] = [
+                            'main_vendor_code' => $mvc,
+                            'vendor_code' => $v->vendor_code,
+                            'vendor_name' => $v->name,
+                        ];
+                    }
+                }
+            }
+            $user->principals = $principals;
+            return $user;
+        });
+
+        return response()->json($result);
     }
 
 

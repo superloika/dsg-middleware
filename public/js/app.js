@@ -4323,6 +4323,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsAdd: function AccountsAdd() {
@@ -4347,6 +4358,9 @@ __webpack_require__.r(__webpack_exports__);
       {
         text: "User Type",
         value: "user_type"
+      }, {
+        text: "Principals",
+        value: "principals"
       }, {
         text: "Actions",
         value: "actions",
@@ -32539,6 +32553,36 @@ var render = function() {
                               ]
                             )
                           : _vm._e()
+                      ]
+                    }
+                  },
+                  {
+                    key: "item.principals",
+                    fn: function(ref) {
+                      var item = ref.item
+                      return [
+                        _c(
+                          "v-card",
+                          _vm._l(item.principals, function(p, i) {
+                            return _c(
+                              "v-chip",
+                              {
+                                key: p.vendor_code,
+                                attrs: { small: "", title: p.main_vendor_code }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(p.vendor_code) +
+                                    "-" +
+                                    _vm._s(p.vendor_name) +
+                                    "\n                    "
+                                )
+                              ]
+                            )
+                          }),
+                          1
+                        )
                       ]
                     }
                   }

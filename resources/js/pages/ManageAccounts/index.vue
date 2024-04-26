@@ -62,6 +62,7 @@
                     <v-icon>mdi-delete-forever</v-icon>
                 </v-btn>
             </template>
+
             <template v-slot:[`item.user_type`]="{ item }">
                 <v-chip v-if="item.user_type=='encoder'" small color="default">
                     {{ item.user_type }}
@@ -75,6 +76,16 @@
                 <v-chip v-else-if="item.user_type=='super_admin'" small color="info">
                     {{ item.user_type }}
                 </v-chip>
+            </template>
+
+            <template v-slot:[`item.principals`]="{ item }">
+                <v-card>
+                    <v-chip small v-for="(p, i) in item.principals" :key="p.vendor_code"
+                        :title="p.main_vendor_code"
+                    >
+                        {{ p.vendor_code }}-{{ p.vendor_name }}
+                    </v-chip>
+                </v-card>
             </template>
         </v-data-table>
 
@@ -122,6 +133,7 @@ export default {
                 { text: "Username", value: "username" },
                 // { text: "E-mail Address", value: "email" },
                 { text: "User Type", value: "user_type" },
+                { text: "Principals", value: "principals" },
                 {
                     text: "Actions",
                     value: "actions",
