@@ -82,16 +82,6 @@ class PurefoodsController extends Controller
             // $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
             $br_config = DB::table('br_config')->get()->first();
 
-            // $principal_customers = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-            //     ->get();
-            // $principal_items = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-            //     ->get();
-            // $principal_salesmen = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_SALESMEN)
-            //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-            //     ->get();
-
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS *************************************
 
@@ -146,48 +136,32 @@ class PurefoodsController extends Controller
                         $vat_value =            0;
                         $vendor_code =          $pendingInvoice->vendor_code;
                         $qty_per_uom =          $pendingInvoice->qty_per_uom;
+                        $ext_doc_no =           $pendingInvoice->ext_doc_no;
+                        $status =               $pendingInvoice->status;
+                        $item_code_supplier =           '';
+                        $item_description_supplier =    '';
+                        $customer_code_supplier =       '';
 
-                        // ************************* MASTERFILE MAPPING *************************
-                        // $customer = $principal_customers
-                        //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first();
-
-                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                            ->where('customer_code', $customer_code)
-                            ->first();
-
-                        // $item = $principal_items
-                        //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                        //     ->where('item_code', $item_code)
-                        //     ->first();
-
-                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                            ->where('item_code', $item_code)
-                            ->first();
-
-                        // $salesman = $principal_salesmen
-                        //     ->filter(function($sm) use (&$group) {
-                        //         return false !== strpos($group, $sm->division, 0);
-                        //     })
-                        //     ->where('sm_code', $sm_code)
-                        //     ->first();
-                        // ************************* /MASTERFILE MAPPING *************************
-
-                        // ************************* MISC INITS **************************
+                        // ============================ MISC INITS ============================
                         $item_notfound = 0;
                         $customer_notfound = 0;
                         $salesman_notfound = 0;
                         $missing_customer_name = '';
                         $missing_item_name = '';
-                        $item_code_supplier = '';
-                        $item_description_supplier = '';
-                        $customer_code_supplier = '';
                         $uom_supplier = '';
                         $price_supplier = 0;
                         $amount_supplier = 0;
+
+                        // ************************* MASTERFILE MAPPING ****************
+                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                            ->where('customer_code', $customer_code)
+                            ->first();
+                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                            ->where('item_code', $item_code)
+                            ->first();
+                        // ************************* /MASTERFILE MAPPING ****************
 
                         // check item *******************************
                         if ($item == null) {
@@ -208,9 +182,10 @@ class PurefoodsController extends Controller
                             $uom_supplier = $qty_per_uom > 1 ?
                                 $item->uom : $item->conversion_uom;
 
-                            // XXXXXXXXXXXXXXXXXXXXXXXX PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
+                            // XXXXXXXXXXXXXXX PRICEHACKS RIGHT FUCKIN HERE XXXXXXX
                             // map to supplier price
                             $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
+
                             // map to orig price temporarily
                             // $price_supplier = $price;
 
@@ -221,7 +196,7 @@ class PurefoodsController extends Controller
                                 $vat_value = ($price_supplier - $price_vat_ex) * $quantity;
                                 $price_supplier = $price_vat_ex;
                             }
-                            // XXXXXXXXXXXXXXXXXXXXXXXX /PRICEHACKS RIGHT FUCKIN HERE XXXXXXXXXXXXXXXXXXXXXXXX
+                            // XXXXXXXXXXXXXXX /PRICEHACKS RIGHT FUCKIN HERE XXXXXXX
 
                             $amount_supplier = $price_supplier * $quantity;
                             $discount_value = $amount_supplier * $discount_percentage / 100;
@@ -231,6 +206,7 @@ class PurefoodsController extends Controller
                             $amount_supplier = round($amount_supplier, 5);
                             $price_supplier = round($price_supplier, 5);
                         }
+
                         // check customer ***************************
                         if ($customer == null) {
                             $customer_notfound = 1;
@@ -248,7 +224,7 @@ class PurefoodsController extends Controller
                         if($sm_name == null || $sm_name == '') {
                             $salesman_notfound = 1;
                         }
-                        // ************************* /MISC INITS **************************
+                        // ============================ /MISC INITS ============================
 
                         // Generated data line structure
                         $arrGenerated = [
@@ -281,14 +257,14 @@ class PurefoodsController extends Controller
                             'sm_name' =>                $sm_name,
                             'system_date' =>            $system_date,
                             'group' =>                  $group,
-                            'status' =>                 $pendingInvoice->status,
+                            'status' =>                 $status,
                             // other BR payload props
                             'cf_dsp_name_id' =>         $br_config->cf_dsp_name,
                             // 'cf_dsp_name_value' =>      $settings['DSP_'. $group],
                             'cf_dsp_name_value' =>      $sm_name,
-                            'invoice_number' =>         $pendingInvoice->ext_doc_no!='' || $pendingInvoice->ext_doc_no!=null ?
+                            'invoice_number' =>         $ext_doc_no!='' || $ext_doc_no!=null ?
                                                             // $vendor_code. '-'. $pendingInvoice->ext_doc_no : '',
-                                                            $pendingInvoice->ext_doc_no : $doc_no,
+                                                            $ext_doc_no : $doc_no,
                             'discount_percentage' =>    $discount_percentage,
                             'discount_value' =>         $discount_value,
                             'vat_percentage' =>         $vat_percentage,
@@ -383,42 +359,10 @@ class PurefoodsController extends Controller
                         $vat_value =            0;
                         $ext_doc_no =           $return->ext_doc_no;
                         $qty_per_uom =          $return->qty_per_uom;
-                        // dd($ext_doc_no);
-
-                        /**
-                         * return quantity vs actual sales invoice quantity
-                         * skip returned items with greater quantity than the actual sales quantity
-                         */
-                        // if($quantity > $invoice_quantity) continue;
-
-                        // ************************* MASTERFILE MAPPING *************************
-                        // $customer = $principal_customers
-                        //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                        //     ->where('customer_code', $customer_code)
-                        //     ->first();
-
-                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
-                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                            ->where('customer_code', $customer_code)
-                            ->first();
-
-                        // $item = $principal_items
-                        //     ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                        //     ->where('item_code', $item_code)
-                        //     ->first();
-
-                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
-                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
-                            ->where('item_code', $item_code)
-                            ->first();
-
-                        // $salesman = $principal_salesmen
-                        //     ->filter(function($sm) use (&$group) {
-                        //         return false !== strpos($group, $sm->division, 0);
-                        //     })
-                        //     ->where('sm_code', $sm_code)
-                        //     ->first();
-                        // ************************* /MASTERFILE MAPPING *************************
+                        $status =               $return->status;
+                        $item_code_supplier = '';
+                        $item_description_supplier = '';
+                        $customer_code_supplier = '';
 
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
@@ -426,12 +370,21 @@ class PurefoodsController extends Controller
                         $salesman_notfound = 0;
                         $missing_customer_name = '';
                         $missing_item_name = '';
-                        $item_code_supplier = '';
-                        $item_description_supplier = '';
-                        $customer_code_supplier = '';
                         $uom_supplier = '';
                         $price_supplier = 0;
                         $amount_supplier = 0;
+
+                        // ************************* MASTERFILE MAPPING *****************
+                        $customer = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
+                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                            ->where('customer_code', $customer_code)
+                            ->first();
+
+                        $item = DB::table(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS)
+                            ->where('main_vendor_code', $this->PRINCIPAL_CODE)
+                            ->where('item_code', $item_code)
+                            ->first();
+                        // ************************* /MASTERFILE MAPPING *****************
 
                         // check item *******************************
                         if ($item == null) {
@@ -454,6 +407,7 @@ class PurefoodsController extends Controller
                             // *********** PRICEHACKS RIGHT FUCKIN HERE ************************
                             // map to supplier price
                             $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
+
                             // map to orig price temporarily
                             // $price_supplier = $price;
 
@@ -520,7 +474,7 @@ class PurefoodsController extends Controller
                             'customer_name' =>          $customer_name,
                             'system_date' =>            $system_date,
                             'group' =>                  $group,
-                            'status' =>                 $return->status,
+                            'status' =>                 $status,
                             // other BR payload props
                             'cf_dsp_name_id' =>                     $br_config->cf_dsp_name,
                             // 'cf_dsp_name_value' =>                  $settings['DSP_'. $group],
