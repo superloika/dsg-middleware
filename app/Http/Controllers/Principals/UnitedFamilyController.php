@@ -499,7 +499,7 @@ class UnitedFamilyController extends Controller
             'generatedDataTableHeader' => [
                 [
                     ["text" => "Invoice #", "value" => "invoice_no"],
-                    // ["text" => "Customer Code", "value" => "customer_code"],
+                    ["text" => "Customer Code", "value" => "alturas_customer_code"],
                     ["text" => "Customer Name", "value" => "customer_name"],
                     ["text" => "Invoice Date (m/d/Y)", "value" => "invoice_date"],
                     ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],
@@ -516,7 +516,7 @@ class UnitedFamilyController extends Controller
                 ],
                 [
                     ["text" => "CM #", "value" => "invoice_no"],
-                    ["text" => "Customer Code", "value" => "customer_code"],
+                    ["text" => "Customer Code", "value" => "alturas_customer_code"],
                     ["text" => "Customer Name", "value" => "customer_name"],
                     ["text" => "Invoice Date (m/d/Y)", "value" => "invoice_date"],
                     ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],
