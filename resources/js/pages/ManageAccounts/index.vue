@@ -53,6 +53,28 @@
                     <v-icon>mdi-account-edit</v-icon>
                 </v-btn>
 
+                <v-menu offset-y>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn v-bind="attrs" v-on="on" dense icon>
+                            <v-icon>mdi-store</v-icon>
+                        </v-btn>
+                    </template>
+                    <v-card outline tile>
+                        <v-card-text>
+                            <div v-if="item.principals.length > 0">
+                                <v-chip small v-for="(p, i) in item.principals" :key="p.vendor_code"
+                                    :title="p.main_vendor_code" color="primary" class="ma-1"
+                                >
+                                    ({{ i+1 }}) {{ p.vendor_code }} - {{ p.vendor_name }}
+                                </v-chip>
+                            </div>
+                            <div v-else>
+                                <em>Nothing assigned</em>
+                            </div>
+                        </v-card-text>
+                    </v-card>
+                </v-menu>
+
                 <v-btn
                     dense
                     icon
@@ -79,13 +101,9 @@
             </template>
 
             <template v-slot:[`item.principals`]="{ item }">
-                <v-card>
-                    <v-chip small v-for="(p, i) in item.principals" :key="p.vendor_code"
-                        :title="p.main_vendor_code"
-                    >
-                        {{ p.vendor_code }}-{{ p.vendor_name }}
-                    </v-chip>
-                </v-card>
+                <div>
+
+                </div>
             </template>
         </v-data-table>
 

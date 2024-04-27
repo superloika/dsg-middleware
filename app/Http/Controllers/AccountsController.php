@@ -29,7 +29,7 @@ class AccountsController extends Controller
             ->get();
 
             // mvc = main_vendor_code (LMAO)
-        $result = $users->map(function($user){
+        $result = $users->map(function($user) {
             $mvcs = json_decode($user->main_vendor_codes);
             $principals = [];
             if($mvcs != null && $mvcs[0] != '*') {

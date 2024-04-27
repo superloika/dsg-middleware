@@ -4334,6 +4334,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsAdd: function AccountsAdd() {
@@ -32482,6 +32500,88 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _c(
+                          "v-menu",
+                          {
+                            attrs: { "offset-y": "" },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    var attrs = ref.attrs
+                                    return [
+                                      _c(
+                                        "v-btn",
+                                        _vm._g(
+                                          _vm._b(
+                                            { attrs: { dense: "", icon: "" } },
+                                            "v-btn",
+                                            attrs,
+                                            false
+                                          ),
+                                          on
+                                        ),
+                                        [_c("v-icon", [_vm._v("mdi-store")])],
+                                        1
+                                      )
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              true
+                            )
+                          },
+                          [
+                            _vm._v(" "),
+                            _c(
+                              "v-card",
+                              { attrs: { outline: "", tile: "" } },
+                              [
+                                _c("v-card-text", [
+                                  item.principals.length > 0
+                                    ? _c(
+                                        "div",
+                                        _vm._l(item.principals, function(p, i) {
+                                          return _c(
+                                            "v-chip",
+                                            {
+                                              key: p.vendor_code,
+                                              staticClass: "ma-1",
+                                              attrs: {
+                                                small: "",
+                                                title: p.main_vendor_code,
+                                                color: "primary"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                    (" +
+                                                  _vm._s(i + 1) +
+                                                  ") " +
+                                                  _vm._s(p.vendor_code) +
+                                                  " - " +
+                                                  _vm._s(p.vendor_name) +
+                                                  "\n                                "
+                                              )
+                                            ]
+                                          )
+                                        }),
+                                        1
+                                      )
+                                    : _c("div", [
+                                        _c("em", [_vm._v("Nothing assigned")])
+                                      ])
+                                ])
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
                           "v-btn",
                           {
                             attrs: { dense: "", icon: "", title: "Delete" },
@@ -32560,30 +32660,7 @@ var render = function() {
                     key: "item.principals",
                     fn: function(ref) {
                       var item = ref.item
-                      return [
-                        _c(
-                          "v-card",
-                          _vm._l(item.principals, function(p, i) {
-                            return _c(
-                              "v-chip",
-                              {
-                                key: p.vendor_code,
-                                attrs: { small: "", title: p.main_vendor_code }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                        " +
-                                    _vm._s(p.vendor_code) +
-                                    "-" +
-                                    _vm._s(p.vendor_name) +
-                                    "\n                    "
-                                )
-                              ]
-                            )
-                          }),
-                          1
-                        )
-                      ]
+                      return [_c("div")]
                     }
                   }
                 ],
