@@ -10,7 +10,7 @@
         <v-container>
             <v-row>
                 <!-- posting date -->
-                <v-col cols="6">
+                <v-col cols="4">
                     <!-- DATEPICKER -->
                     <v-dialog
                         ref="datePicker"
@@ -37,7 +37,7 @@
                     </v-dialog>
                     <!-- /DATEPICKER -->
                 </v-col>
-                <v-col cols="6">
+                <v-col cols="4">
                     <v-btn dense rounded
                         color="primary"
                         title="Download Invoices"
@@ -45,6 +45,8 @@
                     >
                         Download
                     </v-btn>
+                </v-col>
+                <v-col cols="4">
                 </v-col>
             </v-row>
 
@@ -195,6 +197,11 @@
                     </v-dialog>
 
                 </template>
+                <template v-slot:[`item.dl_by`]="{ item }">
+                    <span>
+                        {{ item.user_fn }} ({{ item.user_un }})
+                    </span>
+                </template>
             </v-data-table>
         </v-container>
     </v-card>
@@ -212,6 +219,7 @@ export default {
                 {text: 'New CM',value: 'new_cm'},
                 {text: 'Unreachable',value: 'unreachable'},
                 {text: 'Date',value: 'created_at'},
+                {text: 'Downloaded By',value: 'dl_by'},
                 {text: 'Action',value: 'action'},
             ],
             tblItems: [],

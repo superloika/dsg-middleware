@@ -28,24 +28,33 @@ class AccountsController extends Controller
             ->where('id','<>',$currentUserID)
             ->get();
 
-            // mvc = main_vendor_code (LMAO)
+        // mvc = main_vendor_code (LMAO)
         $result = $users->map(function($user) {
             $mvcs = json_decode($user->main_vendor_codes);
             $principals = [];
-            if($mvcs != null && $mvcs[0] != '*') {
-                foreach($mvcs as $mvc) {
-                    $vendors = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
-                        ->where('main_vendor_code', $mvc)
-                        ->get();
-                    foreach($vendors as $v) {
-                        $principals[] = [
-                            'main_vendor_code' => $mvc,
-                            'vendor_code' => $v->vendor_code,
-                            'vendor_name' => $v->name,
-                        ];
+            if($mvcs != null) {
+                if($mvcs[0]== '*') {
+                    $principals[] = [
+                        'vendor_name' => 'All Principals',
+                        'vendor_code' => '',
+                        'main_vendor_code' => '',
+                    ];
+                } else {
+                    foreach($mvcs as $mvc) {
+                        $vendors = DB::table(PrincipalsUtil::$TBL_PRINCIPALS)
+                            ->where('main_vendor_code', $mvc)
+                            ->get();
+                        foreach($vendors as $v) {
+                            $principals[] = [
+                                'vendor_name' => $v->name,
+                                'vendor_code' => $v->vendor_code,
+                                'main_vendor_code' => $mvc,
+                            ];
+                        }
                     }
                 }
             }
+
             $user->principals = $principals;
             return $user;
         });

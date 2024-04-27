@@ -667,6 +667,17 @@ class NavisionController extends Controller
 
     public function dlLogs(Request $request) {
         $res = DB::table(PrincipalsUtil::$TBL_INVOICES_DLLOG)
+            ->select(
+                PrincipalsUtil::$TBL_INVOICES_DLLOG . '.*',
+                PrincipalsUtil::$TBL_USERS . '.name as user_fn',
+                PrincipalsUtil::$TBL_USERS . '.username as user_un',
+            )
+            ->leftJoin(PrincipalsUtil::$TBL_USERS, function($join) {
+                $join->on(
+                    PrincipalsUtil::$TBL_INVOICES_DLLOG. '.uploaded_by',
+                    PrincipalsUtil::$TBL_USERS. '.id',
+                );
+            })
             ->where('main_vendor_code', $request->main_vendor_code)
             ->orderBy('created_at', 'desc')
             ->get();

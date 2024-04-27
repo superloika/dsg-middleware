@@ -55,7 +55,7 @@
 
                 <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
-                        <v-btn v-bind="attrs" v-on="on" dense icon>
+                        <v-btn v-bind="attrs" v-on="on" dense icon title="Assigned Principals">
                             <v-icon>mdi-store</v-icon>
                         </v-btn>
                     </template>

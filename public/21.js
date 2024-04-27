@@ -219,6 +219,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -240,6 +247,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, {
         text: 'Date',
         value: 'created_at'
+      }, {
+        text: 'Downloaded By',
+        value: 'dl_by'
       }, {
         text: 'Action',
         value: 'action'
@@ -425,7 +435,7 @@ var render = function() {
             [
               _c(
                 "v-col",
-                { attrs: { cols: "6" } },
+                { attrs: { cols: "4" } },
                 [
                   _c(
                     "v-dialog",
@@ -539,7 +549,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                { attrs: { cols: "6" } },
+                { attrs: { cols: "4" } },
                 [
                   _c(
                     "v-btn",
@@ -556,7 +566,9 @@ var render = function() {
                   )
                 ],
                 1
-              )
+              ),
+              _vm._v(" "),
+              _c("v-col", { attrs: { cols: "4" } })
             ],
             1
           ),
@@ -1259,6 +1271,23 @@ var render = function() {
                         ],
                         1
                       )
+                    ]
+                  }
+                },
+                {
+                  key: "item.dl_by",
+                  fn: function(ref) {
+                    var item = ref.item
+                    return [
+                      _c("span", [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(item.user_fn) +
+                            " (" +
+                            _vm._s(item.user_un) +
+                            ")\n                "
+                        )
+                      ])
                     ]
                   }
                 }

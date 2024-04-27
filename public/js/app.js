@@ -32515,7 +32515,13 @@ var render = function() {
                                         "v-btn",
                                         _vm._g(
                                           _vm._b(
-                                            { attrs: { dense: "", icon: "" } },
+                                            {
+                                              attrs: {
+                                                dense: "",
+                                                icon: "",
+                                                title: "Assigned Principals"
+                                              }
+                                            },
                                             "v-btn",
                                             attrs,
                                             false
