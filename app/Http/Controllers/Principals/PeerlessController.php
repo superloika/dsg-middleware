@@ -93,6 +93,7 @@ class PeerlessController extends Controller
 
                         $doc_no = $pendingInvoice->doc_no;
                         $customer_code = $pendingInvoice->customer_code;
+                        $customer_name = $pendingInvoice->customer_name;
                         $posting_date = (new Carbon($pendingInvoice->posting_date))
                             ->format($postingDateFormat);
                         $item_code = $pendingInvoice->item_code;
@@ -105,15 +106,6 @@ class PeerlessController extends Controller
                         $sm_name = $pendingInvoice->sm_name;
                         $group = $pendingInvoice->group;
                         $vendor_code = $pendingInvoice->vendor_code;
-
-                        //********************************************************************
-                        $nav_customer_name = $pendingInvoice->customer_name;
-                        // if($nav_customer_name==null || $nav_customer_name=='') {
-                        //     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //         ->where('customer_code', $customer_code)
-                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // }
-                        //********************************************************************
 
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
@@ -150,8 +142,7 @@ class PeerlessController extends Controller
                             'uom' => $uom,
                             'item_description' => $item_description,
                             'description_supplier' => $item_description ?? 'NA',
-                            // 'customer_name' => $nav_customer_name,
-                            'customer_name' => $nav_customer_name ?? 'NA',
+                            'customer_name' => $customer_name,
                             'sm_code' => $sm_code ?? 'NA',
                             'sm_name' => $sm_name,
                             'system_date' => $system_date,
@@ -218,6 +209,7 @@ class PeerlessController extends Controller
 
                         $doc_no = $return->doc_no;
                         $customer_code = $return->customer_code;
+                        $customer_name = $return->customer_name;
                         $posting_date = (new Carbon($return->posting_date))
                             ->format($postingDateFormat);
                         $item_code = $return->item_code;
@@ -234,15 +226,6 @@ class PeerlessController extends Controller
                         $return_indicator = $return->return_indicator;
                         $remarks = $return->remarks;
                         $vendor_code = $return->vendor_code;
-
-                        //********************************************************************
-                        $nav_customer_name = $return->customer_name;
-                        // if($nav_customer_name==null || $nav_customer_name=='') {
-                        //     $nav_customer_name = DB::table(PrincipalsUtil::$TBL_GENERAL_CUSTOMERS)
-                        //         ->where('customer_code', $customer_code)
-                        //         ->first()->name ?? PrincipalsUtil::$CUSTOMER_NOT_FOUND;
-                        // }
-                        //********************************************************************
 
                         // ************************* MISC INITS **************************
                         $item_notfound = 0;
@@ -279,8 +262,7 @@ class PeerlessController extends Controller
                             'uom' => $uom,
                             'item_description' => $item_description,
                             'description_supplier' => $item_description ?? 'NA',
-                            // 'customer_name' => $nav_customer_name,
-                            'customer_name' => $nav_customer_name ?? 'NA',
+                            'customer_name' => $customer_name,
                             'sm_code' => $sm_code ?? 'NA',
                             'sm_name' => $sm_name,
                             'system_date' => $system_date,
@@ -373,7 +355,7 @@ class PeerlessController extends Controller
                 [
                     ["text" => "Vendor Code", "value" => "vendor_code"],
                     ["text" => "Invoice #", "value" => "invoice_no"],
-                    ["text" => "Customer Code", "value" => "customer_code"],
+                    ["text" => "Customer Code (NAV)", "value" => "alturas_customer_code"],
                     ["text" => "Customer Name", "value" => "customer_name"],
                     ["text" => "Invoice Date (m/d/Y)", "value" => "invoice_date"],
                     ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],
@@ -389,7 +371,7 @@ class PeerlessController extends Controller
                 [
                     ["text" => "Vendor Code", "value" => "vendor_code"],
                     ["text" => "CM #", "value" => "invoice_no"],
-                    ["text" => "Customer Code", "value" => "customer_code"],
+                    ["text" => "Customer Code (NAV)", "value" => "alturas_customer_code"],
                     ["text" => "Customer Name", "value" => "customer_name"],
                     ["text" => "Invoice Date (m/d/Y)", "value" => "invoice_date"],
                     ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],

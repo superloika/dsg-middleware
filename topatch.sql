@@ -216,3 +216,4 @@ update cm_lines_ptn set ext_doc_no=invoice_doc_no;
 
 -- modify group codes/names in groups table
 
+-- modify users table - remove principal_ids and isOnline columns
