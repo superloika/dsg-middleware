@@ -32240,24 +32240,6 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.AppStore.isSuperAdmin() ||
-      _vm.AppStore.isAdmin() ||
-      _vm.AppStore.isUploader()
-        ? _c(
-            "v-sheet",
-            { staticClass: "ma-4 rounded-lg white", attrs: { elevation: "1" } },
-            [
-              _c("InvoicesUpload", {
-                attrs: {
-                  searchKey: _vm.searchKey,
-                  principalCodeFilter: _vm.principalCodeFilter
-                }
-              })
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
       _c("v-data-table", {
         staticClass: "elevation-1",
         attrs: {

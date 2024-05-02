@@ -243,7 +243,7 @@
         </v-app-bar>
 
         <!-- Invoice upload component -->
-        <v-sheet class="ma-4 rounded-lg white"
+        <!-- <v-sheet class="ma-4 rounded-lg white"
             v-if="AppStore.isSuperAdmin() || AppStore.isAdmin() || AppStore.isUploader()"
             elevation="1"
         >
@@ -251,7 +251,7 @@
                 :searchKey="searchKey"
                 :principalCodeFilter="principalCodeFilter"
             ></InvoicesUpload>
-        </v-sheet>
+        </v-sheet> -->
 
         <v-data-table hide-default-footer disable-sort show-select
             item-key="id" class="elevation-1"
