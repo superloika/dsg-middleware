@@ -678,7 +678,6 @@ class PurefoodsController extends Controller
 
                             $conversion_uom = trim(str_replace('"', '', $arrFileContentLine[9]));
                             // /get column data **********************************************************
-
                             if(
                                 ($item_code_supplier!='' || $item_code_supplier!='#N/A')
                                 && ($item_code!='' || $item_code!='#N/A')
@@ -978,14 +977,16 @@ class PurefoodsController extends Controller
             // principal masterfiles
             "itemsTableHeader" => [
                 [
-                    ["text" => "Material Code",             "value" => "item_code_supplier"],
-                    ["text" => "Item Code",                 "value" => "item_code"],
-                    ["text" => "Supplier Item Description", "value" => "description_supplier"],
-                    ["text" => "PCS/CASE",                  "value" => "conversion_qty"],
-                    ["text" => "CASE Price",                "value" => "uom_price"],
-                    ["text" => "UOM",                       "value" => "uom"],
-                    ["text" => "PCS Price",                 "value" => "conversion_uom_price"],
-                    ["text" => "Conversion UOM",            "value" => "conversion_uom"],
+                    ["text" => "Material Code",                 "value" => "item_code_supplier"],
+                    ["text" => "Item Description (Supplier)",   "value" => "description_supplier"],
+                    ["text" => "Item Code",                     "value" => "item_code"],
+                    ["text" => "Item Description (NAV)",        "value" => "item_description"],
+                    ["text" => "Packing",                       "value" => "packing"],
+                    ["text" => "PCS/CASE",                      "value" => "conversion_qty"],
+                    ["text" => "CASE Price",                    "value" => "uom_price"],
+                    ["text" => "UOM",                           "value" => "uom"],
+                    ["text" => "PCS Price",                     "value" => "conversion_uom_price"],
+                    ["text" => "Conversion UOM",                "value" => "conversion_uom"],
                 ]
             ],
 
