@@ -262,8 +262,9 @@ class PurefoodsController extends Controller
                             'cf_dsp_name_id' =>         $br_config->cf_dsp_name,
                             // 'cf_dsp_name_value' =>      $settings['DSP_'. $group],
                             'cf_dsp_name_value' =>      $sm_name,
-                            'invoice_number' =>         $ext_doc_no!='' || $ext_doc_no!=null ?
-                                                            $ext_doc_no : $doc_no,
+                            // 'invoice_number' =>         $ext_doc_no!='' || $ext_doc_no!=null ?
+                            //                                 $ext_doc_no : $doc_no,
+                            'invoice_number' =>         $ext_doc_no,
                             'discount_percentage' =>    $discount_percentage,
                             'discount_value' =>         $discount_value,
                             'vat_percentage' =>         $vat_percentage,
@@ -476,13 +477,14 @@ class PurefoodsController extends Controller
                             'status' =>                 $status,
                             // other BR payload props
                             'cf_dsp_name_id' =>                     $br_config->cf_dsp_name,
-                            // 'cf_dsp_name_value' =>                  $settings['DSP_'. $group],
+                            // 'cf_dsp_name_value' =>               $settings['DSP_'. $group],
                             'cf_dsp_name_value' =>                  $sm_name,
                             'cf_return_indicator_id' =>             $br_config->cf_return_indicator,
                             'cf_return_indicator_value' =>          $return_indicator,
                             'cf_return_invoice_reference_id' =>     $br_config->cf_return_invoice_reference,
-                            'cf_return_invoice_reference_value' =>  ($ext_doc_no!=''&&$ext_doc_no!=null) ?
-                                                                        $ext_doc_no : '',
+                            // 'cf_return_invoice_reference_value' =>  ($ext_doc_no!=''&&$ext_doc_no!=null) ?
+                            //                                             $ext_doc_no : '',
+                            'cf_return_invoice_reference_value' =>  $ext_doc_no,
                             'invoice_number' =>                     $doc_no,
                             'discount_percentage' =>                $discount_percentage,
                             'discount_value' =>                     $discount_value,
@@ -970,7 +972,7 @@ class PurefoodsController extends Controller
     // varies on every principal/supplier
     public function configs() {
         $arr = [
-            "beatroute_uploading" => false,
+            "beatroute_uploading" => true,
             "bu" => 'ppfb',
             "posting_date_format" => 'm/d/Y',
 
