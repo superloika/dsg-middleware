@@ -4074,9 +4074,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    InvoicesUpload: function InvoicesUpload() {
-      return __webpack_require__.e(/*! import() */ 11).then(__webpack_require__.bind(null, /*! ./InvoicesUpload.vue */ "./resources/js/pages/Invoices/InvoicesUpload.vue"));
-    },
+    // InvoicesUpload: () => import("./InvoicesUpload.vue"),
     ExtractInvoices: function ExtractInvoices() {
       return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ./ExtractInvoices.vue */ "./resources/js/pages/Invoices/ExtractInvoices.vue"));
     }

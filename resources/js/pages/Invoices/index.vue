@@ -356,7 +356,7 @@ import { debounce } from "lodash";
 
 export default {
     components: {
-        InvoicesUpload: () => import("./InvoicesUpload.vue"),
+        // InvoicesUpload: () => import("./InvoicesUpload.vue"),
         ExtractInvoices: () => import("./ExtractInvoices.vue"),
     },
     data() {
