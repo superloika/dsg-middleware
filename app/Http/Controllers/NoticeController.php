@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class NoticeController extends Controller
 {
     public function index() {
-        $res = DB::table('notices')->get();
+        $res = DB::table('notices')->orderBy('id','desc')->get();
         return response()->json($res);
     }
 
