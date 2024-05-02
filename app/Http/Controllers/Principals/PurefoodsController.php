@@ -972,7 +972,7 @@ class PurefoodsController extends Controller
     // varies on every principal/supplier
     public function configs() {
         $arr = [
-            "beatroute_uploading" => true,
+            "beatroute_uploading" => false,
             "bu" => 'ppfb',
             "posting_date_format" => 'm/d/Y',
 
