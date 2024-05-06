@@ -313,6 +313,7 @@ class NavisionController extends Controller
             $configsLen = count($configs);
             $vendor_codes = $request->vendor_codes;
             $vendor_codes_imp = implode(',', array_map(fn($item) => "'$item'", $vendor_codes));
+            $terminals = $request->terminals;
             // posting date range ----------------------------------------
             $dates = $request->posting_date_range;
             sort($dates);
@@ -357,7 +358,8 @@ class NavisionController extends Controller
                 $existingSalesReturns = 0;
                 $newSalesReturns = 0;
 
-                $loopCounter++;
+                // if not found in selected terminals, skip
+                if(!in_array($group_name, $terminals)) continue;
 
                 // establish db connection, skip if server unreachable
                 try {
@@ -366,6 +368,8 @@ class NavisionController extends Controller
                     array_push($result['unreachable'], $server_name);
                     continue;
                 }
+
+                $loopCounter++;
 
                 ///////////////////////////// Sales Invoices ///////////////////////////////////////////
                 ///////////////////////////// Sales Invoices ///////////////////////////////////////////
@@ -468,7 +472,7 @@ class NavisionController extends Controller
                 }
 
                 // summary
-                if($existingSalesInvoices > 0 || $newSalesInvoices > 0) {
+                // if($existingSalesInvoices > 0 || $newSalesInvoices > 0) {
                     $result['sales_invoices'][$server_name] = [
                         'dsn' => $dsn,
                         'database' => $database,
@@ -477,7 +481,7 @@ class NavisionController extends Controller
                         'posting_date_from' => $posting_date_from,
                         'posting_date_to' => $posting_date_to
                     ];
-                }
+                // }
                 $new_si += $newSalesInvoices;
 
                 ///////////////////////////// Sales Returns ///////////////////////////////////////////
@@ -628,7 +632,7 @@ class NavisionController extends Controller
                 // /get cm remarks and patch to local db
 
                 // summary
-                if($existingSalesReturns > 0 || $newSalesReturns > 0) {
+                // if($existingSalesReturns > 0 || $newSalesReturns > 0) {
                     $result['sales_returns'][$server_name] = [
                         'dsn' => $dsn,
                         'database' => $database,
@@ -637,7 +641,7 @@ class NavisionController extends Controller
                         'posting_date_from' => $posting_date_from,
                         'posting_date_to' => $posting_date_to
                     ];
-                }
+                // }
                 $new_cm += $newSalesReturns;
             }
 

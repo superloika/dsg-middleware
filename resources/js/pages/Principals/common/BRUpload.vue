@@ -157,7 +157,8 @@
                                                     <tr>
                                                         <th>{{ invoice.isReturn ? 'CM': 'Invoice' }} #</th>
                                                         <th>Invoice Date</th>
-                                                        <th>Customer</th>
+                                                        <th>Customer Name</th>
+                                                        <th>Customer Code</th>
                                                         <th>Amount</th>
                                                         <th>DSP</th>
                                                         <th v-if="invoice.isReturn">Return Indicator</th>
@@ -168,6 +169,7 @@
                                                         <td>{{ invoice.erp_invoice_number }}</td>
                                                         <td>{{ invoice.invoice_date }}</td>
                                                         <td>{{ invoice.customer_name }}</td>
+                                                        <td>{{ invoice.retailer_br_id }}</td>
                                                         <td>{{ invoice.invoice_total_amount.toFixed(5) }}</td>
                                                         <td>{{ invoice.customFields[0].value }}</td>
                                                         <td v-if="invoice.isReturn">
@@ -497,8 +499,9 @@ export default {
                 }
 
                 this.batches[batchIndex][invoiceIndex].with_errors =
-                    this.batches[batchIndex][invoiceIndex].with_errors
-                    .filter(e => e.search(errorCode) == -1 );
+                    this.batches[batchIndex][invoiceIndex].with_errors.filter(
+                        e => e.search(errorCode) == -1
+                    );
 
                 if(this.batches[batchIndex][invoiceIndex].with_errors.length < 1) {
                     this.batches[batchIndex][invoiceIndex].included = true;

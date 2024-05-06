@@ -2553,9 +2553,9 @@ __webpack_require__.r(__webpack_exports__);
       this.wsConState = 'websocket:error';
       console.error(error);
     } // refresh BR
-    // this.BrStore.refresh('ppfb');
-    // initialize principals
 
+
+    this.BrStore.refresh('ppfb'); // initialize principals
 
     this.AppStore.initPrincipals();
   },
@@ -2603,7 +2603,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     DevChat: function DevChat() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ../pages/Principals/common/DevChat.vue */ "./resources/js/pages/Principals/common/DevChat.vue"));
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../pages/Principals/common/DevChat.vue */ "./resources/js/pages/Principals/common/DevChat.vue"));
     }
   },
   data: function data() {
@@ -2676,16 +2676,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     DevChat: function DevChat() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ../pages/Principals/common/DevChat.vue */ "./resources/js/pages/Principals/common/DevChat.vue"));
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../pages/Principals/common/DevChat.vue */ "./resources/js/pages/Principals/common/DevChat.vue"));
     },
     MasterCustomers: function MasterCustomers() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ../pages/MasterCustomers */ "./resources/js/pages/MasterCustomers/index.vue"));
+      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ../pages/MasterCustomers */ "./resources/js/pages/MasterCustomers/index.vue"));
     },
     MasterItems: function MasterItems() {
-      return __webpack_require__.e(/*! import() */ 16).then(__webpack_require__.bind(null, /*! ../pages/MasterItems */ "./resources/js/pages/MasterItems/index.vue"));
+      return __webpack_require__.e(/*! import() */ 15).then(__webpack_require__.bind(null, /*! ../pages/MasterItems */ "./resources/js/pages/MasterItems/index.vue"));
     },
     MasterPrincipals: function MasterPrincipals() {
-      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ../pages/MasterPrincipals */ "./resources/js/pages/MasterPrincipals/index.vue"));
+      return __webpack_require__.e(/*! import() */ 16).then(__webpack_require__.bind(null, /*! ../pages/MasterPrincipals */ "./resources/js/pages/MasterPrincipals/index.vue"));
     }
   },
   data: function data() {
@@ -3498,7 +3498,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsEdit: function AccountsEdit() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../ManageAccounts/AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ../ManageAccounts/AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
     }
   },
   computed: {
@@ -3666,7 +3666,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     InvoiceUploadSummary: function InvoiceUploadSummary() {
-      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ../pages/Invoices/InvoiceUploadSummary.vue */ "./resources/js/pages/Invoices/InvoiceUploadSummary.vue"));
+      return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ../pages/Invoices/InvoiceUploadSummary.vue */ "./resources/js/pages/Invoices/InvoiceUploadSummary.vue"));
     }
   },
   data: function data() {
@@ -4071,12 +4071,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     // InvoicesUpload: () => import("./InvoicesUpload.vue"),
     ExtractInvoices: function ExtractInvoices() {
-      return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ./ExtractInvoices.vue */ "./resources/js/pages/Invoices/ExtractInvoices.vue"));
+      return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./ExtractInvoices.vue */ "./resources/js/pages/Invoices/ExtractInvoices.vue"));
     }
   },
   data: function data() {
@@ -4353,10 +4361,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsAdd: function AccountsAdd() {
-      return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! ./AccountsAdd.vue */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue"));
+      return __webpack_require__.e(/*! import() */ 11).then(__webpack_require__.bind(null, /*! ./AccountsAdd.vue */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue"));
     },
     AccountsEdit: function AccountsEdit() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
     }
   },
   data: function data() {
@@ -4445,7 +4453,7 @@ __webpack_require__.r(__webpack_exports__);
           this.PrincipalsStore.state.selectedPrincipalCode = main_vendor_code;
           this.PrincipalsStore.state.selectedPrincipal = principal;
           return function () {
-            return __webpack_require__.e(/*! import() */ 29).then(__webpack_require__.bind(null, /*! ./principal.vue */ "./resources/js/pages/Principals/principal.vue"));
+            return __webpack_require__.e(/*! import() */ 28).then(__webpack_require__.bind(null, /*! ./principal.vue */ "./resources/js/pages/Principals/principal.vue"));
           };
         }
       } catch (error) {
@@ -32308,7 +32316,18 @@ var render = function() {
                     ? _c("v-chip", {
                         staticClass: "px-2",
                         attrs: {
-                          color: "accent",
+                          color: "success",
+                          "x-small": "",
+                          title: "Completed"
+                        }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  item.status == "uploaded"
+                    ? _c("v-chip", {
+                        staticClass: "px-2",
+                        attrs: {
+                          color: "primary",
                           "x-small": "",
                           title: "Completed"
                         }
@@ -123752,7 +123771,11 @@ var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
   // current selected principal main vendor code
   selectedPrincipalCode: '',
   selectedPrincipal: [],
-  // principal-specific configurations (e.g. table headers, posting date format, etc)
+
+  /**
+   * principal-specific configurations (e.g. table headers, posting date format, etc)
+   * initializations are located in the principal's controller
+  */
   configs: {},
   // masterfiles
   isUploadMasterCustomersOpen: false,

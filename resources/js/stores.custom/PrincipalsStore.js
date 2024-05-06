@@ -12,7 +12,10 @@ let state = Vue.observable({
     selectedPrincipalCode: '',
     selectedPrincipal: [],
 
-    // principal-specific configurations (e.g. table headers, posting date format, etc)
+    /**
+     * principal-specific configurations (e.g. table headers, posting date format, etc)
+     * initializations are located in the principal's controller
+    */
     configs: {},
 
     // masterfiles

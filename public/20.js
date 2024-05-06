@@ -1,188 +1,470 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[20],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Customers.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/Customers.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/DownloadInvoices.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/DownloadInvoices.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    MasterfileUpload: function MasterfileUpload() {
-      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./MasterfileUpload.vue */ "./resources/js/pages/Principals/common/MasterfileUpload.vue"));
-    }
-  },
   data: function data() {
     return {
-      searchKey: ''
+      tblheader: [{
+        text: 'Batch #',
+        value: 'batch_number'
+      }, {
+        text: 'Posting Date',
+        value: 'posting_date'
+      }, {
+        text: 'New SI',
+        value: 'new_si'
+      }, {
+        text: 'New CM',
+        value: 'new_cm'
+      }, {
+        text: 'Unreachable',
+        value: 'unreachable'
+      }, {
+        text: 'Date',
+        value: 'created_at'
+      }, {
+        text: 'Downloaded By',
+        value: 'dl_by'
+      }, {
+        text: 'Action',
+        value: 'action'
+      }],
+      tblItems: [],
+      dlSummary: {
+        sales_invoices: {},
+        sales_retunrs: {},
+        unreachable: 0
+      },
+      posting_date_range: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10)],
+      terminals: [],
+      terminal: []
     };
   },
   computed: {
-    selectedPrincipalCode: function selectedPrincipalCode() {
-      return this.PrincipalsStore.state.selectedPrincipalCode;
-    },
-    tblHeader: function tblHeader() {
-      return this.PrincipalsStore.state.configs.customersTableHeader[0]; // if(this.PrincipalsStore.state.selectedPrincipalCode == 'wyeth') {
-      //     return this.WyethStore.state.customersTableHeader;
-      // } else {
-      //     return [];
-      // }
-    },
-    updatedAt: function updatedAt() {
-      try {
-        return this.PrincipalsStore.state.customers.data[0].upload_date;
-      } catch (error) {
-        return '...';
-      }
-    } // principal_code() {
-    //     const principal = this.AppStore.state.principals.find(e => e.id == this.$route.params.principal_id);
-    //     return principal.code.toLowerCase();\
-    // },
-
-  },
-  methods: {
-    exportToExcel: function exportToExcel() {
-      var _this = this;
-
-      try {
-        this.PrincipalsStore.state.customers.current_page = 1;
-      } catch (error) {}
-
-      this.PrincipalsStore.initCustomers('', 9999999).then(function () {
-        _this.PrincipalsStore.toExcel_simple('Customers', _this.PrincipalsStore.state.customers.data, // {
-        //     storeName: this.selectedPrincipalCode,
-        //     propertyName: 'customersTableHeader'
-        // },
-        _this.PrincipalsStore.state.configs['customersTableHeader'], null, "".concat(_this.selectedPrincipalCode, "_Customers"));
-
-        _this.PrincipalsStore.initCustomers(_this.searchKey);
-      });
-    },
-    onPageChange: function onPageChange() {
-      this.PrincipalsStore.initCustomers(this.searchKey);
+    dateRangeText: function dateRangeText() {
+      return this.posting_date_range.join(" ~ ");
     }
   },
-  watch: {
-    searchKey: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["debounce"])(function () {
-      if (this.PrincipalsStore.state.customers.current_page != undefined) {
-        this.PrincipalsStore.state.customers.current_page = 1;
+  methods: {
+    downloadInvoices: function downloadInvoices() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var vendor_codes, url, res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                console.log(_this.terminal);
+
+                if (confirm('Download invoice data from Navision?')) {
+                  _context.next = 3;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 3:
+                _context.prev = 3;
+                vendor_codes = _this.PrincipalsStore.state.selectedPrincipal[1].map(function (e) {
+                  return e.vendor_code;
+                });
+                url = _this.AppStore.state.siteUrl + 'nav/downloadInvoices';
+
+                _this.AppStore.overlay(true);
+
+                _context.next = 9;
+                return axios.post(url, {
+                  main_vendor_code: _this.PrincipalsStore.state.selectedPrincipal[0],
+                  vendor_codes: vendor_codes,
+                  posting_date_range: _this.posting_date_range,
+                  terminals: _this.terminal
+                });
+
+              case 9:
+                res = _context.sent;
+
+                _this.dlLogs();
+
+                _context.next = 16;
+                break;
+
+              case 13:
+                _context.prev = 13;
+                _context.t0 = _context["catch"](3);
+                console.error(_context.t0);
+
+              case 16:
+                _context.prev = 16;
+
+                _this.AppStore.overlay(false);
+
+                return _context.finish(16);
+
+              case 19:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[3, 13, 16, 19]]);
+      }))();
+    },
+    dlLogs: function dlLogs() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var url, res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                url = _this2.AppStore.state.siteUrl + 'nav/dlLogs';
+                _context2.next = 4;
+                return axios.post(url, {
+                  main_vendor_code: _this2.PrincipalsStore.state.selectedPrincipal[0]
+                });
+
+              case 4:
+                res = _context2.sent;
+                _this2.tblItems = res.data;
+                _context2.next = 11;
+                break;
+
+              case 8:
+                _context2.prev = 8;
+                _context2.t0 = _context2["catch"](0);
+                console.error(_context2.t0);
+
+              case 11:
+                _context2.prev = 11;
+                return _context2.finish(11);
+
+              case 13:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 8, 11, 13]]);
+      }))();
+    },
+    viewDetails: function viewDetails(summary) {
+      var dlSummary = JSON.parse(summary);
+      this.dlSummary = dlSummary;
+    },
+    isToday: function isToday(date) {
+      var today = new Date().toISOString().slice(0, 10);
+      return new Date(date).toISOString().slice(0, 10) === today;
+    },
+    parseDsnPart: function parseDsnPart(dsn, regEx) {
+      var match = dsn.match(regEx);
+
+      if (match) {
+        return match[1];
       }
 
-      this.PrincipalsStore.initCustomers(this.searchKey);
-    }, 500)
+      return '';
+    },
+    dbDetailsNavision: function dbDetailsNavision() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var url, res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                url = _this3.AppStore.state.siteUrl + 'misc-utils/dbDetailsNavision';
+                _context3.next = 4;
+                return axios.get(url);
+
+              case 4:
+                res = _context3.sent;
+                _this3.terminals = res.data;
+                _this3.terminal = _this3.terminals.map(function (e) {
+                  return e.group_name;
+                });
+                console.log(_this3.terminals);
+                _context3.next = 13;
+                break;
+
+              case 10:
+                _context3.prev = 10;
+                _context3.t0 = _context3["catch"](0);
+                console.error(_context3.t0);
+
+              case 13:
+                _context3.prev = 13;
+                return _context3.finish(13);
+
+              case 15:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[0, 10, 13, 15]]);
+      }))();
+    }
   },
   created: function created() {
-    this.PrincipalsStore.initCustomers();
+    this.dlLogs();
+    this.dbDetailsNavision();
+  },
+  mounted: function mounted() {
+    console.log("DownloadInvoices component mounted");
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Customers.vue?vue&type=template&id=74861d62&":
-/*!*************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/Customers.vue?vue&type=template&id=74861d62& ***!
-  \*************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/DownloadInvoices.vue?vue&type=template&id=59dd56de&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Principals/common/DownloadInvoices.vue?vue&type=template&id=59dd56de& ***!
+  \********************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -202,153 +484,937 @@ var render = function() {
         { attrs: { elevation: "27" } },
         [
           _c("v-toolbar-title", [
-            _c("div", [_vm._v("\n                Customers\n            ")]),
-            _vm._v(" "),
-            _c("div", [
-              _c("em", { staticClass: "text-caption primary--text" }, [
-                _vm._v(
-                  "\n                    Updated at " +
-                    _vm._s(_vm.updatedAt) +
-                    "\n                "
-                )
-              ])
-            ])
+            _vm._v("\n            Download invoice data (Navision)\n        ")
           ]),
           _vm._v(" "),
-          _c("v-spacer"),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              staticClass: "mr-2",
-              attrs: {
-                title: "Refresh",
-                icon: "",
-                dense: "",
-                rounded: "",
-                depressed: ""
-              },
-              on: {
-                click: function($event) {
-                  return _vm.PrincipalsStore.initCustomers(_vm.searchKey)
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-refresh")])],
-            1
-          ),
-          _vm._v(" "),
-          _c("v-text-field", {
-            staticClass: "mr-3",
-            staticStyle: { "max-width": "300px" },
-            attrs: {
-              label: "Search",
-              clearable: "",
-              "hide-details": "",
-              dense: "",
-              flat: "",
-              rounded: "",
-              "solo-inverted": ""
-            },
-            model: {
-              value: _vm.searchKey,
-              callback: function($$v) {
-                _vm.searchKey = $$v
-              },
-              expression: "searchKey"
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: { title: "Import", icon: "", dense: "" },
-              on: {
-                click: function($event) {
-                  $event.stopPropagation()
-                  _vm.PrincipalsStore.state.isUploadMasterCustomersOpen = true
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-file-upload")])],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: { title: "Export to Excel", icon: "", dense: "" },
-              on: {
-                click: function($event) {
-                  return _vm.exportToExcel()
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-file-excel")])],
-            1
-          )
+          _c("v-spacer")
         ],
         1
       ),
-      _vm._v(" "),
-      _c("v-data-table", {
-        attrs: {
-          items: _vm.PrincipalsStore.state.customers.data,
-          headers: _vm.tblHeader,
-          dense: "",
-          searchx: _vm.searchKey,
-          "disable-pagination": "",
-          "disable-filtering": "",
-          "hide-default-footer": ""
-        }
-      }),
       _vm._v(" "),
       _c(
         "v-container",
         [
-          _c("v-pagination", {
-            attrs: {
-              length: _vm.PrincipalsStore.state.customers.last_page,
-              "total-visible": "10"
-            },
-            on: {
-              input: function($event) {
-                return _vm.onPageChange()
-              }
-            },
-            model: {
-              value: _vm.PrincipalsStore.state.customers.current_page,
-              callback: function($$v) {
-                _vm.$set(
-                  _vm.PrincipalsStore.state.customers,
-                  "current_page",
-                  $$v
-                )
-              },
-              expression: "PrincipalsStore.state.customers.current_page"
-            }
+          _c(
+            "v-row",
+            [
+              _c(
+                "v-col",
+                { attrs: { cols: "3" } },
+                [
+                  _c(
+                    "v-dialog",
+                    {
+                      ref: "datePicker",
+                      attrs: {
+                        "return-value": _vm.posting_date_range,
+                        width: "290px"
+                      },
+                      on: {
+                        "update:returnValue": function($event) {
+                          _vm.posting_date_range = $event
+                        },
+                        "update:return-value": function($event) {
+                          _vm.posting_date_range = $event
+                        }
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "activator",
+                          fn: function(ref) {
+                            var on = ref.on
+                            var attrs = ref.attrs
+                            return [
+                              _c(
+                                "v-text-field",
+                                _vm._g(
+                                  _vm._b(
+                                    {
+                                      staticStyle: {
+                                        "max-width": "500px",
+                                        "min-width": "250px"
+                                      },
+                                      attrs: {
+                                        "hide-details": "",
+                                        readonly: "",
+                                        dense: "",
+                                        outlined: "",
+                                        rounded: "",
+                                        label: "Posting Date (yyyy-mm-dd)"
+                                      },
+                                      model: {
+                                        value: _vm.dateRangeText,
+                                        callback: function($$v) {
+                                          _vm.dateRangeText = $$v
+                                        },
+                                        expression: "dateRangeText"
+                                      }
+                                    },
+                                    "v-text-field",
+                                    attrs,
+                                    false
+                                  ),
+                                  on
+                                )
+                              )
+                            ]
+                          }
+                        }
+                      ])
+                    },
+                    [
+                      _vm._v(" "),
+                      _c(
+                        "v-date-picker",
+                        {
+                          attrs: { scrollable: "", range: "" },
+                          model: {
+                            value: _vm.posting_date_range,
+                            callback: function($$v) {
+                              _vm.posting_date_range = $$v
+                            },
+                            expression: "posting_date_range"
+                          }
+                        },
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                dense: "",
+                                depressed: "",
+                                rounded: "",
+                                color: "primary"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$refs.datePicker.save(
+                                    _vm.posting_date_range
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Ok\n                        "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "6" } },
+                [
+                  _c("v-select", {
+                    attrs: {
+                      multiple: "",
+                      rounded: "",
+                      dense: "",
+                      outlined: "",
+                      chips: "",
+                      clearable: "",
+                      items: _vm.terminals,
+                      "item-text": "group_name",
+                      label: "Terminals"
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "selection",
+                        fn: function(ref) {
+                          var item = ref.item
+                          var index = ref.index
+                          return [
+                            index < 2
+                              ? _c("v-chip", { attrs: { small: "" } }, [
+                                  _vm._v(_vm._s(item.group_name))
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            index == 2
+                              ? _c("span", [
+                                  _vm._v(
+                                    "\n                            (+" +
+                                      _vm._s(_vm.terminal.length - 2) +
+                                      " others)\n                        "
+                                  )
+                                ])
+                              : _vm._e()
+                          ]
+                        }
+                      }
+                    ]),
+                    model: {
+                      value: _vm.terminal,
+                      callback: function($$v) {
+                        _vm.terminal = $$v
+                      },
+                      expression: "terminal"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "3" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        dense: "",
+                        rounded: "",
+                        color: "primary",
+                        title: "Download Invoices",
+                        disabled: _vm.terminal.length < 1
+                      },
+                      on: { click: _vm.downloadInvoices }
+                    },
+                    [_vm._v("\n                    Download\n                ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
+          _c("div", { staticClass: "caption font-weight-bold ml-1" }, [
+            _vm._v("Download History")
+          ]),
+          _vm._v(" "),
+          _c("v-data-table", {
+            attrs: { headers: _vm.tblheader, items: _vm.tblItems, dense: "" },
+            scopedSlots: _vm._u(
+              [
+                {
+                  key: "item.created_at",
+                  fn: function(ref) {
+                    var item = ref.item
+                    return [
+                      _c(
+                        "span",
+                        {
+                          class: _vm.isToday(item.created_at)
+                            ? "primary--text"
+                            : ""
+                        },
+                        [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(item.created_at) +
+                              "\n                "
+                          )
+                        ]
+                      )
+                    ]
+                  }
+                },
+                {
+                  key: "item.posting_date",
+                  fn: function(ref) {
+                    var item = ref.item
+                    return [
+                      _c("span", [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(item.posting_date_from) +
+                            " to " +
+                            _vm._s(item.posting_date_to) +
+                            "\n                "
+                        )
+                      ])
+                    ]
+                  }
+                },
+                {
+                  key: "item.action",
+                  fn: function(ref) {
+                    var item = ref.item
+                    return [
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { "max-width": "800" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "activator",
+                                fn: function(ref) {
+                                  var on = ref.on
+                                  var attrs = ref.attrs
+                                  return [
+                                    _c(
+                                      "v-btn",
+                                      _vm._g(
+                                        _vm._b(
+                                          {
+                                            attrs: {
+                                              small: "",
+                                              rounded: "",
+                                              icon: "",
+                                              color: "primary",
+                                              title: "View Details"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.viewDetails(
+                                                  item.summary
+                                                )
+                                              }
+                                            }
+                                          },
+                                          "v-btn",
+                                          attrs,
+                                          false
+                                        ),
+                                        on
+                                      ),
+                                      [_c("v-icon", [_vm._v("mdi-eye")])],
+                                      1
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            true
+                          )
+                        },
+                        [
+                          _vm._v(" "),
+                          _c(
+                            "v-card",
+                            { attrs: { scrollable: "" } },
+                            [
+                              _c(
+                                "v-toolbar",
+                                { attrs: { elevation: "27" } },
+                                [
+                                  _c("v-toolbar-title", [
+                                    _vm._v("Download Details")
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-text",
+                                [
+                                  _c(
+                                    "v-row",
+                                    [
+                                      _c(
+                                        "v-col",
+                                        [
+                                          _c(
+                                            "v-card",
+                                            { staticClass: "pa-2" },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "caption font-weight-bold"
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                            Sales Invoices\n                                            "
+                                                  ),
+                                                  _c(
+                                                    "v-chip",
+                                                    {
+                                                      attrs: {
+                                                        small: "",
+                                                        title: "Existing"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                " +
+                                                          _vm._s(
+                                                            _vm.dlSummary
+                                                              .sales_invoices
+                                                              ? Object.values(
+                                                                  _vm.dlSummary
+                                                                    .sales_invoices
+                                                                ).reduce(
+                                                                  function(
+                                                                    total,
+                                                                    ref
+                                                                  ) {
+                                                                    var existing =
+                                                                      ref.existing
+
+                                                                    return (
+                                                                      total +
+                                                                      existing
+                                                                    )
+                                                                  },
+                                                                  0
+                                                                )
+                                                              : 0
+                                                          ) +
+                                                          "\n                                            "
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-chip",
+                                                    {
+                                                      attrs: {
+                                                        small: "",
+                                                        title: "New",
+                                                        color: "primary"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                " +
+                                                          _vm._s(
+                                                            _vm.dlSummary
+                                                              .sales_invoices
+                                                              ? Object.values(
+                                                                  _vm.dlSummary
+                                                                    .sales_invoices
+                                                                ).reduce(
+                                                                  function(
+                                                                    total,
+                                                                    ref
+                                                                  ) {
+                                                                    var newProp =
+                                                                      ref["new"]
+
+                                                                    return (
+                                                                      total +
+                                                                      newProp
+                                                                    )
+                                                                  },
+                                                                  0
+                                                                )
+                                                              : 0
+                                                          ) +
+                                                          "\n                                            "
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list",
+                                                { attrs: { dense: "" } },
+                                                _vm._l(
+                                                  _vm.dlSummary.sales_invoices,
+                                                  function(siVal, siKey) {
+                                                    return _c(
+                                                      "v-list-item",
+                                                      {
+                                                        key: siKey,
+                                                        attrs: { dense: "" }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "v-list-item-content",
+                                                          {
+                                                            staticClass:
+                                                              "d-flex"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-card",
+                                                              {
+                                                                staticClass:
+                                                                  "pa-2 elevation-0",
+                                                                attrs: {
+                                                                  outlined: ""
+                                                                }
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "d-flex"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                            " +
+                                                                        _vm._s(
+                                                                          siKey
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    ),
+                                                                    _c(
+                                                                      "v-chip",
+                                                                      {
+                                                                        attrs: {
+                                                                          "x-small":
+                                                                            "",
+                                                                          title:
+                                                                            "Existing"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\n                                                                " +
+                                                                            _vm._s(
+                                                                              siVal.existing
+                                                                            ) +
+                                                                            "\n                                                            "
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "v-chip",
+                                                                      {
+                                                                        attrs: {
+                                                                          "x-small":
+                                                                            "",
+                                                                          title:
+                                                                            "New",
+                                                                          color:
+                                                                            "primary"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\n                                                                " +
+                                                                            _vm._s(
+                                                                              siVal.new
+                                                                            ) +
+                                                                            "\n                                                            "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c("div", [
+                                                                  _c("small", [
+                                                                    _c(
+                                                                      "strong",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "IP:"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(
+                                                                      " " +
+                                                                        _vm._s(
+                                                                          _vm.parseDsnPart(
+                                                                            siVal.dsn,
+                                                                            /Server=([^;]+)/
+                                                                          )
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    )
+                                                                  ])
+                                                                ]),
+                                                                _vm._v(" "),
+                                                                _c("div", [
+                                                                  _c("small", [
+                                                                    _c(
+                                                                      "strong",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "DB:"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(
+                                                                      " " +
+                                                                        _vm._s(
+                                                                          _vm.parseDsnPart(
+                                                                            siVal.dsn,
+                                                                            /Database=([^;]+)/
+                                                                          )
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    )
+                                                                  ])
+                                                                ])
+                                                              ]
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  }
+                                                ),
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-col",
+                                        [
+                                          _c(
+                                            "v-card",
+                                            { staticClass: "pa-2" },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "caption font-weight-bold"
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                            Sales Returns\n                                            "
+                                                  ),
+                                                  _c(
+                                                    "v-chip",
+                                                    {
+                                                      attrs: {
+                                                        small: "",
+                                                        title: "Existing"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                " +
+                                                          _vm._s(
+                                                            _vm.dlSummary
+                                                              .sales_returns
+                                                              ? Object.values(
+                                                                  _vm.dlSummary
+                                                                    .sales_returns
+                                                                ).reduce(
+                                                                  function(
+                                                                    total,
+                                                                    ref
+                                                                  ) {
+                                                                    var existing =
+                                                                      ref.existing
+
+                                                                    return (
+                                                                      total +
+                                                                      existing
+                                                                    )
+                                                                  },
+                                                                  0
+                                                                )
+                                                              : 0
+                                                          ) +
+                                                          "\n                                            "
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-chip",
+                                                    {
+                                                      attrs: {
+                                                        small: "",
+                                                        title: "New",
+                                                        color: "primary"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                " +
+                                                          _vm._s(
+                                                            _vm.dlSummary
+                                                              .sales_returns
+                                                              ? Object.values(
+                                                                  _vm.dlSummary
+                                                                    .sales_returns
+                                                                ).reduce(
+                                                                  function(
+                                                                    total,
+                                                                    ref
+                                                                  ) {
+                                                                    var newProp =
+                                                                      ref["new"]
+
+                                                                    return (
+                                                                      total +
+                                                                      newProp
+                                                                    )
+                                                                  },
+                                                                  0
+                                                                )
+                                                              : 0
+                                                          ) +
+                                                          "\n                                            "
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list",
+                                                _vm._l(
+                                                  _vm.dlSummary.sales_returns,
+                                                  function(cmVal, cmKey) {
+                                                    return _c(
+                                                      "v-list-item",
+                                                      {
+                                                        key: cmKey,
+                                                        attrs: { dense: "" }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "v-list-item-content",
+                                                          [
+                                                            _c(
+                                                              "v-card",
+                                                              {
+                                                                staticClass:
+                                                                  "pa-2 elevation-0",
+                                                                attrs: {
+                                                                  outlined: ""
+                                                                }
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "d-flex"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                            " +
+                                                                        _vm._s(
+                                                                          cmKey
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    ),
+                                                                    _c(
+                                                                      "v-chip",
+                                                                      {
+                                                                        attrs: {
+                                                                          "x-small":
+                                                                            "",
+                                                                          title:
+                                                                            "Existing"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\n                                                                " +
+                                                                            _vm._s(
+                                                                              cmVal.existing
+                                                                            ) +
+                                                                            "\n                                                            "
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "v-chip",
+                                                                      {
+                                                                        attrs: {
+                                                                          "x-small":
+                                                                            "",
+                                                                          title:
+                                                                            "New",
+                                                                          color:
+                                                                            "primary"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\n                                                                " +
+                                                                            _vm._s(
+                                                                              cmVal.new
+                                                                            ) +
+                                                                            "\n                                                            "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c("div", [
+                                                                  _c("small", [
+                                                                    _c(
+                                                                      "strong",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "IP:"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(
+                                                                      " " +
+                                                                        _vm._s(
+                                                                          _vm.parseDsnPart(
+                                                                            cmVal.dsn,
+                                                                            /Server=([^;]+)/
+                                                                          )
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    )
+                                                                  ])
+                                                                ]),
+                                                                _vm._v(" "),
+                                                                _c("div", [
+                                                                  _c("small", [
+                                                                    _c(
+                                                                      "strong",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "DB:"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(
+                                                                      " " +
+                                                                        _vm._s(
+                                                                          _vm.parseDsnPart(
+                                                                            cmVal.dsn,
+                                                                            /Database=([^;]+)/
+                                                                          )
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    )
+                                                                  ])
+                                                                ])
+                                                              ]
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  }
+                                                ),
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-col",
+                                        [
+                                          _c(
+                                            "v-card",
+                                            { staticClass: "pa-2" },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "caption font-weight-bold"
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                            Unreachable Servers\n                                        "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list",
+                                                _vm._l(
+                                                  _vm.dlSummary.unreachable,
+                                                  function(item, index) {
+                                                    return _c(
+                                                      "v-list-item",
+                                                      { key: index },
+                                                      [
+                                                        _c(
+                                                          "v-list-item-content",
+                                                          [
+                                                            _vm._v(
+                                                              "\n                                                    " +
+                                                                _vm._s(item) +
+                                                                "\n                                                "
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  }
+                                                ),
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ]
+                  }
+                },
+                {
+                  key: "item.dl_by",
+                  fn: function(ref) {
+                    var item = ref.item
+                    return [
+                      _c("span", [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(item.user_fn) +
+                            " (" +
+                            _vm._s(item.user_un) +
+                            ")\n                "
+                        )
+                      ])
+                    ]
+                  }
+                }
+              ],
+              null,
+              true
+            )
           })
         ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { "max-width": "800", persistent: "" },
-          model: {
-            value: _vm.PrincipalsStore.state.isUploadMasterCustomersOpen,
-            callback: function($$v) {
-              _vm.$set(
-                _vm.PrincipalsStore.state,
-                "isUploadMasterCustomersOpen",
-                $$v
-              )
-            },
-            expression: "PrincipalsStore.state.isUploadMasterCustomersOpen"
-          }
-        },
-        [_c("MasterfileUpload", { attrs: { id: "customers" } })],
         1
       )
     ],
@@ -362,17 +1428,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/Customers.vue":
-/*!************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/Customers.vue ***!
-  \************************************************************/
+/***/ "./resources/js/pages/Principals/common/DownloadInvoices.vue":
+/*!*******************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/DownloadInvoices.vue ***!
+  \*******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Customers_vue_vue_type_template_id_74861d62___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Customers.vue?vue&type=template&id=74861d62& */ "./resources/js/pages/Principals/common/Customers.vue?vue&type=template&id=74861d62&");
-/* harmony import */ var _Customers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Customers.vue?vue&type=script&lang=js& */ "./resources/js/pages/Principals/common/Customers.vue?vue&type=script&lang=js&");
+/* harmony import */ var _DownloadInvoices_vue_vue_type_template_id_59dd56de___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DownloadInvoices.vue?vue&type=template&id=59dd56de& */ "./resources/js/pages/Principals/common/DownloadInvoices.vue?vue&type=template&id=59dd56de&");
+/* harmony import */ var _DownloadInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DownloadInvoices.vue?vue&type=script&lang=js& */ "./resources/js/pages/Principals/common/DownloadInvoices.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -382,9 +1448,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Customers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Customers_vue_vue_type_template_id_74861d62___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Customers_vue_vue_type_template_id_74861d62___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _DownloadInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DownloadInvoices_vue_vue_type_template_id_59dd56de___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DownloadInvoices_vue_vue_type_template_id_59dd56de___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -394,38 +1460,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/pages/Principals/common/Customers.vue"
+component.options.__file = "resources/js/pages/Principals/common/DownloadInvoices.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/Customers.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/Customers.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************/
+/***/ "./resources/js/pages/Principals/common/DownloadInvoices.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/DownloadInvoices.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Customers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Customers.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Customers.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Customers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DownloadInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./DownloadInvoices.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/DownloadInvoices.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DownloadInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/pages/Principals/common/Customers.vue?vue&type=template&id=74861d62&":
-/*!*******************************************************************************************!*\
-  !*** ./resources/js/pages/Principals/common/Customers.vue?vue&type=template&id=74861d62& ***!
-  \*******************************************************************************************/
+/***/ "./resources/js/pages/Principals/common/DownloadInvoices.vue?vue&type=template&id=59dd56de&":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/pages/Principals/common/DownloadInvoices.vue?vue&type=template&id=59dd56de& ***!
+  \**************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Customers_vue_vue_type_template_id_74861d62___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Customers.vue?vue&type=template&id=74861d62& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/Customers.vue?vue&type=template&id=74861d62&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Customers_vue_vue_type_template_id_74861d62___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DownloadInvoices_vue_vue_type_template_id_59dd56de___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./DownloadInvoices.vue?vue&type=template&id=59dd56de& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Principals/common/DownloadInvoices.vue?vue&type=template&id=59dd56de&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DownloadInvoices_vue_vue_type_template_id_59dd56de___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Customers_vue_vue_type_template_id_74861d62___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DownloadInvoices_vue_vue_type_template_id_59dd56de___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

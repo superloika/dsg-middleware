@@ -10,7 +10,7 @@
         <v-container>
             <v-row>
                 <!-- posting date -->
-                <v-col cols="4">
+                <v-col cols="3">
                     <!-- DATEPICKER -->
                     <v-dialog
                         ref="datePicker"
@@ -37,17 +37,35 @@
                     </v-dialog>
                     <!-- /DATEPICKER -->
                 </v-col>
-                <v-col cols="4">
+
+                <v-col cols="6">
+                    <v-select
+                        multiple rounded dense outlined chips clearable
+                        v-model="terminal"
+                        :items="terminals"
+                        item-text="group_name"
+                        label="Terminals"
+                    >
+                        <template v-slot:selection="{item, index}">
+                            <v-chip small v-if="index < 2">{{ item.group_name }}</v-chip>
+                            <span v-if="index == 2">
+                                (+{{ terminal.length - 2 }} others)
+                            </span>
+                        </template>
+                    </v-select>
+                </v-col>
+
+                <v-col cols="3">
                     <v-btn dense rounded
                         color="primary"
                         title="Download Invoices"
                         @click="downloadInvoices"
+                        :disabled="terminal.length < 1"
                     >
                         Download
                     </v-btn>
                 </v-col>
-                <v-col cols="4">
-                </v-col>
+
             </v-row>
 
             <br>
@@ -231,6 +249,8 @@ export default {
             posting_date_range: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
                 .toISOString()
                 .substr(0, 10)],
+            terminals: [],
+            terminal: [],
         };
     },
 
@@ -242,6 +262,7 @@ export default {
 
     methods: {
         async downloadInvoices() {
+            console.log(this.terminal);
             if(!confirm('Download invoice data from Navision?')) return;
             try {
                 const vendor_codes = this.PrincipalsStore.state.selectedPrincipal[1]
@@ -252,6 +273,7 @@ export default {
                     main_vendor_code: this.PrincipalsStore.state.selectedPrincipal[0],
                     vendor_codes: vendor_codes,
                     posting_date_range: this.posting_date_range,
+                    terminals: this.terminal,
                 });
                 this.dlLogs();
             } catch (error) {
@@ -290,11 +312,25 @@ export default {
                 return match[1];
             }
             return '';
-        }
+        },
+
+        async dbDetailsNavision() {
+            try {
+                const url = this.AppStore.state.siteUrl + 'misc-utils/dbDetailsNavision';
+                const res = await axios.get(url);
+                this.terminals = res.data;
+                this.terminal = this.terminals.map(e => e.group_name);
+                console.log(this.terminals);
+            } catch (error) {
+                console.error(error);
+            } finally {
+            }
+        },
     },
 
     created() {
         this.dlLogs();
+        this.dbDetailsNavision();
     },
 
     mounted() {

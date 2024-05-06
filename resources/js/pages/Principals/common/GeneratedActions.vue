@@ -367,6 +367,7 @@ export default {
             }
         },
 
+        // generate/regenerate templated data
         refresh() {
             if(this.invoiceStatus != '') {
                 // this.showRefresh = true;

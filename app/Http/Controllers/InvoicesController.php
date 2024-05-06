@@ -838,17 +838,17 @@ class InvoicesController extends Controller
                 DB::beginTransaction();
                 foreach($batch as $item) {
                     // split external_id and extract vendor_code and actual internal invoice number
-                    $external_id_parts = explode("-", $item['external_id']);
+                    $external_id_parts = explode("-EXT", $item['external_id']);
 
                     if(count($external_id_parts) > 0) {
                         // $vendor_code = trim($external_id_parts[0]);
                         // $doc_no = trim(implode('-', array_slice($external_id_parts, 1)));
                         // dd($vendor_code);
-
-                        $doc_no = $item['external_id'];
+                        // $doc_no = $item['external_id'];
+                        $doc_no = $external_id_parts[0];
 
                         if ($item['success']) {
-                            // update sales returns status (CM)
+                            // update sales returns status (CM) **********************************************
                             DB::table(PrincipalsUtil::$TBL_CM)
                                 ->join(
                                     PrincipalsUtil::$TBL_INVOICES,
@@ -874,10 +874,11 @@ class InvoicesController extends Controller
                                     PrincipalsUtil::$TBL_CM . '.status' => PrincipalsUtil::$STATUS_UPLOADED
                                 ]);
 
-                            // update sales invoices status
+                            // update sales invoices status **************************************************
                             DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                ->where('ext_doc_no', $doc_no)
+                                // ->where('ext_doc_no', $doc_no)
                                 // ->where('vendor_code', $vendor_code)
+                                ->where('doc_no', $doc_no)
                                 ->update([
                                     'status' => PrincipalsUtil::$STATUS_UPLOADED
                                 ]);

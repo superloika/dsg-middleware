@@ -290,9 +290,17 @@
                 >
                 </v-chip>
                 <v-chip
-                    color="accent"
+                    color="success"
                     x-small
                     v-if="item.status == 'completed'"
+                    class="px-2"
+                    title="Completed"
+                >
+                </v-chip>
+                <v-chip
+                    color="primary"
+                    x-small
+                    v-if="item.status == 'uploaded'"
                     class="px-2"
                     title="Completed"
                 >

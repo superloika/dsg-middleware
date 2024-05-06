@@ -70,6 +70,8 @@ class PeerlessController extends Controller
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS **************************************************
 
+            // NOTE: external invoice # is <= 32 chars only (BeatRoute)
+
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             // **************************** TEMPLATE 1 ****************************
             if($exportSI) {
@@ -91,64 +93,64 @@ class PeerlessController extends Controller
                         $progressPercent = round(($loopCounter / $pendingInvoicesCount) * 100);
                         GenerateTemplated::dispatch("Generating sales invoices ($progressPercent%)");
 
-                        $doc_no = $pendingInvoice->doc_no;
-                        $customer_code = $pendingInvoice->customer_code;
-                        $customer_name = $pendingInvoice->customer_name;
-                        $posting_date = (new Carbon($pendingInvoice->posting_date))
-                            ->format($postingDateFormat);
-                        $item_code = $pendingInvoice->item_code;
-                        $quantity = intval($pendingInvoice->quantity);
-                        $price = doubleval($pendingInvoice->price);
-                        $amount = doubleval($pendingInvoice->amount);
-                        $uom = $pendingInvoice->uom;
+                        $doc_no =           $pendingInvoice->doc_no;
+                        $customer_code =    $pendingInvoice->customer_code;
+                        $customer_name =    $pendingInvoice->customer_name;
+                        $posting_date =     (new Carbon($pendingInvoice->posting_date))
+                                                ->format($postingDateFormat);
+                        $item_code =        $pendingInvoice->item_code;
+                        $quantity =         intval($pendingInvoice->quantity);
+                        $price =            doubleval($pendingInvoice->price);
+                        $amount =           doubleval($pendingInvoice->amount);
+                        $uom =              $pendingInvoice->uom;
                         $item_description = $pendingInvoice->item_description;
-                        $sm_code = $pendingInvoice->sm_code;
-                        $sm_name = $pendingInvoice->sm_name;
-                        $group = $pendingInvoice->group;
-                        $vendor_code = $pendingInvoice->vendor_code;
+                        $sm_code =          $pendingInvoice->sm_code;
+                        $sm_name =          $pendingInvoice->sm_name;
+                        $group =            $pendingInvoice->group;
+                        $vendor_code =      $pendingInvoice->vendor_code;
 
                         // ************************* MISC INITS **************************
-                        $item_notfound = 0;
-                        $customer_notfound = 0;
-                        $salesman_notfound = 0;
-                        $missing_customer_name = '';
-                        $missing_item_name = '';
+                        $item_notfound =            0;
+                        $customer_notfound =        0;
+                        $salesman_notfound =        0;
+                        $missing_customer_name =    '';
+                        $missing_item_name =        '';
 
-                        $item_code_supplier = $item_code ?? 'NA';
-                        $customer_code_supplier = $customer_code ?? 'NA';
+                        $item_code_supplier =       $item_code ?? 'NA';
+                        $customer_code_supplier =   $customer_code ?? 'NA';
                         // ************************* /MISC INITS **************************
 
                         // Generated data line structure
                         $arrGenerated = [
                             //commons
-                            'customer_code' => $customer_code_supplier,
-                            'alturas_customer_code' => $customer_code,
-                            'item_code' => $item_code_supplier,
-                            'alturas_item_code' => $item_code,
-                            'doc_no' => $doc_no,
-                            'missing_customer_name' => $missing_customer_name,
-                            'missing_item_name' => $missing_item_name,
-                            'customer_notfound' => $customer_notfound,
-                            'item_notfound' => $item_notfound,
-                            'salesman_notfound' => $salesman_notfound,
+                            'customer_code' =>          $customer_code_supplier,
+                            'alturas_customer_code' =>  $customer_code,
+                            'item_code' =>              $item_code_supplier,
+                            'alturas_item_code' =>      $item_code,
+                            'doc_no' =>                 $doc_no,
+                            'missing_customer_name' =>  $missing_customer_name,
+                            'missing_item_name' =>      $missing_item_name,
+                            'customer_notfound' =>      $customer_notfound,
+                            'item_notfound' =>          $item_notfound,
+                            'salesman_notfound' =>      $salesman_notfound,
                             // principal specific
-                            'invoice_no' => $doc_no,
-                            'invoice_date' => $posting_date,
-                            'quantity' => $quantity,
-                            // 'bulk_qty' => $bulk_qty,
-                            // 'loose_qty' => $loose_qty,
-                            'price' => $price,
-                            'amount' => $amount,
-                            'uom' => $uom,
-                            'item_description' => $item_description,
-                            'description_supplier' => $item_description ?? 'NA',
-                            'customer_name' => $customer_name,
-                            'sm_code' => $sm_code ?? 'NA',
-                            'sm_name' => $sm_name,
-                            'system_date' => $system_date,
-                            'group' => $pendingInvoice->group,
-                            'status' => $pendingInvoice->status,
-                            'vendor_code' => $vendor_code,
+                            'invoice_no' =>             $doc_no,
+                            'invoice_date' =>           $posting_date,
+                            'quantity' =>               $quantity,
+                            // 'bulk_qty' =>            $bulk_qty,
+                            // 'loose_qty' =>           $loose_qty,
+                            'price' =>                  $price,
+                            'amount' =>                 $amount,
+                            'uom' =>                    $uom,
+                            'item_description' =>       $item_description,
+                            'description_supplier' =>   $item_description ?? 'NA',
+                            'customer_name' =>          $customer_name,
+                            'sm_code' =>                $sm_code ?? 'NA',
+                            'sm_name' =>                $sm_name,
+                            'system_date' =>            $system_date,
+                            'group' =>                  $pendingInvoice->group,
+                            'status' =>                 $pendingInvoice->status,
+                            'vendor_code' =>            $vendor_code,
                         ];
 
                         // group output_template_variations
@@ -204,74 +206,74 @@ class PeerlessController extends Controller
                     $loopCounter = 0;
                     foreach ($returns as $return) {
                         $loopCounter++;
-                        $progressPercent = round(($loopCounter / $returnsCount) * 100);
+                        $progressPercent =      round(($loopCounter / $returnsCount) * 100);
                         GenerateTemplated::dispatch("Generating returns ($progressPercent%)");
 
-                        $doc_no = $return->doc_no;
-                        $customer_code = $return->customer_code;
-                        $customer_name = $return->customer_name;
-                        $posting_date = (new Carbon($return->posting_date))
-                            ->format($postingDateFormat);
-                        $item_code = $return->item_code;
-                        $quantity = intval($return->quantity);
-                        $price = doubleval($return->price);
-                        $amount = doubleval($return->amount);
-                        $uom = $return->uom;
-                        $item_description = $return->item_description;
-                        $sm_code = $return->sm_code;
-                        $sm_name = $return->sm_name;
-                        $group = $return->group;
-                        $status = $return->status;
-                        $invoice_doc_no = $return->invoice_doc_no; // reference #
-                        $return_indicator = $return->return_indicator;
-                        $remarks = $return->remarks;
-                        $vendor_code = $return->vendor_code;
+                        $doc_no =               $return->doc_no;
+                        $customer_code =        $return->customer_code;
+                        $customer_name =        $return->customer_name;
+                        $posting_date =         (new Carbon($return->posting_date))
+                                                    ->format($postingDateFormat);
+                        $item_code =            $return->item_code;
+                        $quantity =             intval($return->quantity);
+                        $price =                doubleval($return->price);
+                        $amount =               doubleval($return->amount);
+                        $uom =                  $return->uom;
+                        $item_description =     $return->item_description;
+                        $sm_code =              $return->sm_code;
+                        $sm_name =              $return->sm_name;
+                        $group =                $return->group;
+                        $status =               $return->status;
+                        $invoice_doc_no =       $return->invoice_doc_no; // reference #
+                        $return_indicator =     $return->return_indicator;
+                        $remarks =              $return->remarks;
+                        $vendor_code =          $return->vendor_code;
 
                         // ************************* MISC INITS **************************
-                        $item_notfound = 0;
-                        $customer_notfound = 0;
-                        $salesman_notfound = 0;
-                        $missing_customer_name = '';
-                        $missing_item_name = '';
+                        $item_notfound =            0;
+                        $customer_notfound =        0;
+                        $salesman_notfound =        0;
+                        $missing_customer_name =    '';
+                        $missing_item_name =        '';
 
-                        $item_code_supplier = $item_code ?? 'NA';
-                        $customer_code_supplier = $customer_code ?? 'NA';
+                        $item_code_supplier =       $item_code ?? 'NA';
+                        $customer_code_supplier =   $customer_code ?? 'NA';
                         // ************************* /MISC INITS **************************
 
                         // Generated data line structure
                         $arrGenerated = [
                             //commons
-                            'customer_code' => $customer_code_supplier,
-                            'alturas_customer_code' => $customer_code,
-                            'item_code' => $item_code_supplier,
-                            'alturas_item_code' => $item_code,
-                            'doc_no' => $doc_no,
-                            'missing_customer_name' => $missing_customer_name,
-                            'missing_item_name' => $missing_item_name,
-                            'customer_notfound' => $customer_notfound,
-                            'item_notfound' => $item_notfound,
-                            'salesman_notfound' => $salesman_notfound,
+                            'customer_code' =>          $customer_code_supplier,
+                            'alturas_customer_code' =>  $customer_code,
+                            'item_code' =>              $item_code_supplier,
+                            'alturas_item_code' =>      $item_code,
+                            'doc_no' =>                 $doc_no,
+                            'missing_customer_name' =>  $missing_customer_name,
+                            'missing_item_name' =>      $missing_item_name,
+                            'customer_notfound' =>      $customer_notfound,
+                            'item_notfound' =>          $item_notfound,
+                            'salesman_notfound' =>      $salesman_notfound,
                             // principal specific
-                            'invoice_no' => $doc_no,
-                            'invoice_date' => $posting_date,
-                            'quantity' => $quantity,
+                            'invoice_no' =>             $doc_no,
+                            'invoice_date' =>           $posting_date,
+                            'quantity' =>               $quantity,
                             // 'bulk_qty' => $bulk_qty,
                             // 'loose_qty' => $loose_qty,
-                            'price' => $price,
-                            'amount' => $amount,
-                            'uom' => $uom,
-                            'item_description' => $item_description,
-                            'description_supplier' => $item_description ?? 'NA',
-                            'customer_name' => $customer_name,
-                            'sm_code' => $sm_code ?? 'NA',
-                            'sm_name' => $sm_name,
-                            'system_date' => $system_date,
-                            'group' => $group,
-                            'status' => $status,
-                            'return_indicator' => $return_indicator,
-                            'remarks' => $remarks,
-                            'invoice_doc_no' => $invoice_doc_no,
-                            'vendor_code' => $vendor_code,
+                            'price' =>                  $price,
+                            'amount' =>                 $amount,
+                            'uom' =>                    $uom,
+                            'item_description' =>       $item_description,
+                            'description_supplier' =>   $item_description ?? 'NA',
+                            'customer_name' =>          $customer_name,
+                            'sm_code' =>                $sm_code ?? 'NA',
+                            'sm_name' =>                $sm_name,
+                            'system_date' =>            $system_date,
+                            'group' =>                  $group,
+                            'status' =>                 $status,
+                            'return_indicator' =>       $return_indicator,
+                            'remarks' =>                $remarks,
+                            'invoice_doc_no' =>         $invoice_doc_no,
+                            'vendor_code' =>            $vendor_code,
                         ];
 
                         // group output_template_variations -------------------------------------------------------------
@@ -326,6 +328,24 @@ class PeerlessController extends Controller
      */
     public function configs() {
         $arr = [
+            // Templated data format (csv uploading)
+            // Sales Order Form Number
+            // Invoice Number*
+            // Invoice Date*
+            // Account Code*
+            // Account Name*
+            // Branch Code*
+            // Branch Name*
+            // Product Code*
+            // Product Name*
+            // Quantity*
+            // Unit Of Measure*
+            // Total Invoiced Amount*
+            // Price
+            // Warehouse Code
+            // Lot Number
+            // Username
+
             'posting_date_format' => 'm/d/Y',
 
             // "itemsTableHeader" => [
@@ -353,49 +373,49 @@ class PeerlessController extends Controller
 
             'generatedDataTableHeader' => [
                 [
-                    ["text" => "Vendor Code", "value" => "vendor_code"],
-                    ["text" => "Invoice #", "value" => "invoice_no"],
-                    ["text" => "Customer Code (NAV)", "value" => "alturas_customer_code"],
-                    ["text" => "Customer Name", "value" => "customer_name"],
-                    ["text" => "Invoice Date (m/d/Y)", "value" => "invoice_date"],
-                    ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],
-                    ["text" => "Item Name (NAV)", "value" => "item_description"],
-                    ["text" => "UOM", "value" => "uom"],
-                    ["text" => "Quantity", "value" => "quantity"],
-                    ["text" => "Price", "value" => "price"],
-                    ["text" => "Amount", "value" => "amount"],
-                    ["text" => "Salesman Code", "value" => "sm_code"],
-                    ["text" => "Salesman Name", "value" => "sm_name"],
-                    ["text" => "Group", "value" => "group"],
+                    ["text" => "Vendor Code",           "value" => "vendor_code"],
+                    ["text" => "Invoice #",             "value" => "invoice_no"],
+                    ["text" => "Customer Code (NAV)",   "value" => "alturas_customer_code"],
+                    ["text" => "Customer Name",         "value" => "customer_name"],
+                    ["text" => "Invoice Date (m/d/Y)",  "value" => "invoice_date"],
+                    ["text" => "Item Code (NAV)",       "value" => "alturas_item_code"],
+                    ["text" => "Item Name (NAV)",       "value" => "item_description"],
+                    ["text" => "UOM",                   "value" => "uom"],
+                    ["text" => "Quantity",              "value" => "quantity"],
+                    ["text" => "Price",                 "value" => "price"],
+                    ["text" => "Amount",                "value" => "amount"],
+                    ["text" => "Salesman Code",         "value" => "sm_code"],
+                    ["text" => "Salesman Name",         "value" => "sm_name"],
+                    ["text" => "Group",                 "value" => "group"],
                 ],
                 [
-                    ["text" => "Vendor Code", "value" => "vendor_code"],
-                    ["text" => "CM #", "value" => "invoice_no"],
-                    ["text" => "Customer Code (NAV)", "value" => "alturas_customer_code"],
-                    ["text" => "Customer Name", "value" => "customer_name"],
-                    ["text" => "Invoice Date (m/d/Y)", "value" => "invoice_date"],
-                    ["text" => "Item Code (NAV)", "value" => "alturas_item_code"],
-                    ["text" => "Item Name (NAV)", "value" => "item_description"],
-                    ["text" => "UOM", "value" => "uom"],
-                    ["text" => "Quantity", "value" => "quantity"],
-                    ["text" => "Price", "value" => "price"],
-                    ["text" => "Amount", "value" => "amount"],
-                    ["text" => "Salesman Code", "value" => "sm_code"],
-                    ["text" => "Salesman Name", "value" => "sm_name"],
-                    ["text" => "Group", "value" => "group"],
-                    ["text" => "Invoice Reference #", "value" => "invoice_doc_no"],
-                    ["text" => "Remarks", "value" => "remarks"],
+                    ["text" => "Vendor Code",           "value" => "vendor_code"],
+                    ["text" => "CM #",                  "value" => "invoice_no"],
+                    ["text" => "Customer Code (NAV)",   "value" => "alturas_customer_code"],
+                    ["text" => "Customer Name",         "value" => "customer_name"],
+                    ["text" => "Invoice Date (m/d/Y)",  "value" => "invoice_date"],
+                    ["text" => "Item Code (NAV)",       "value" => "alturas_item_code"],
+                    ["text" => "Item Name (NAV)",       "value" => "item_description"],
+                    ["text" => "UOM",                   "value" => "uom"],
+                    ["text" => "Quantity",              "value" => "quantity"],
+                    ["text" => "Price",                 "value" => "price"],
+                    ["text" => "Amount",                "value" => "amount"],
+                    ["text" => "Salesman Code",         "value" => "sm_code"],
+                    ["text" => "Salesman Name",         "value" => "sm_name"],
+                    ["text" => "Group",                 "value" => "group"],
+                    ["text" => "Invoice Reference #",   "value" => "invoice_doc_no"],
+                    ["text" => "Remarks",               "value" => "remarks"],
                 ],
             ],
 
             'generatedDataHistoryFilters' => [
                 [
-                    ["text" => 'System Date', "value" => 'system_date'],
-                    ["text" => 'Source Group', "value" => 'group'],
-                    ["text" => 'Invoice #', "value" => 'doc_no'],
-                    ["text" => 'Item Code', "value" => 'item_code'],
-                    ["text" => 'Customer Code', "value" => 'customer_code'],
-                    ["text" => 'Vendor Code', "value" => 'vendor_code'],
+                    ["text" => 'System Date',       "value" => 'system_date'],
+                    ["text" => 'Source Group',      "value" => 'group'],
+                    ["text" => 'Invoice #',         "value" => 'doc_no'],
+                    ["text" => 'Item Code',         "value" => 'item_code'],
+                    ["text" => 'Customer Code',     "value" => 'customer_code'],
+                    ["text" => 'Vendor Code',       "value" => 'vendor_code'],
                 ]
             ],
         ];

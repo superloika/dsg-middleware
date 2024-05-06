@@ -255,7 +255,7 @@ export default {
         }
 
         // refresh BR
-        // this.BrStore.refresh('ppfb');
+        this.BrStore.refresh('ppfb');
 
         // initialize principals
         this.AppStore.initPrincipals();

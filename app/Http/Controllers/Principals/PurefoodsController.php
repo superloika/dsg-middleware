@@ -45,6 +45,9 @@ class PurefoodsController extends Controller
 
     /**
      * Generate templated data based on invoices with 'pending' status
+     * NOTE: for SI: invoice # = external doc no (NAV), not doc no
+     *       for CM: invoice # = doc no (NAV)
+     *
      */
     public function generateTemplatedData(Request $request)
     {
@@ -73,15 +76,13 @@ class PurefoodsController extends Controller
                 [
                     'name' => 'Returns',
                     'output_template' => [],
-                ],
+                ]
             ];
             $outputTemplate = null;
-
             $dateToday = Carbon::now();
             $system_date = $dateToday->format('Y-m-d');
             // $settings = PrincipalsUtil::getSettings($this->PRINCIPAL_CODE);
             $br_config = DB::table('br_config')->get()->first();
-
             $postingDateFormat = $request->posting_date_format ?? 'm/d/Y';
             // ************************* /MISC INITS *************************************
 
@@ -264,7 +265,9 @@ class PurefoodsController extends Controller
                             'cf_dsp_name_value' =>      $sm_name,
                             // 'invoice_number' =>         $ext_doc_no!='' || $ext_doc_no!=null ?
                             //                                 $ext_doc_no : $doc_no,
-                            'invoice_number' =>         $ext_doc_no,
+                            // 'invoice_number' =>         $ext_doc_no,
+                            // 'invoice_number' =>         "$doc_no-EXT$ext_doc_no",
+                            'invoice_number' =>         $doc_no,
                             'discount_percentage' =>    $discount_percentage,
                             'discount_value' =>         $discount_value,
                             'vat_percentage' =>         $vat_percentage,
@@ -535,7 +538,6 @@ class PurefoodsController extends Controller
                 }
 
                 ksort($outputTemplate);
-
             }
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE 2 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -589,10 +591,8 @@ class PurefoodsController extends Controller
                 PrincipalsUtil::$TBL_GENERAL_ITEMS. '.vendor_code',
                 // PrincipalsUtil::$TBL_PRINCIPALS. '.name AS principal_name',
             ])
-
             ->where(PrincipalsUtil::$TBL_PRINCIPALS_ITEMS. '.main_vendor_code', $this->PRINCIPAL_CODE)
             // ->get($cols);
-
             ->where(function($q) use ($search_key) {
                 $q->where(
                     PrincipalsUtil::$TBL_PRINCIPALS_ITEMS.'.item_code',
@@ -972,7 +972,7 @@ class PurefoodsController extends Controller
     // varies on every principal/supplier
     public function configs() {
         $arr = [
-            "beatroute_uploading" => false,
+            "beatroute_uploading" => true,
             "bu" => 'ppfb',
             "posting_date_format" => 'm/d/Y',
 

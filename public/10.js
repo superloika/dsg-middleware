@@ -1,22 +1,122 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[10],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Invoices/ExtractInvoices.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Invoices/ExtractInvoices.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Invoices/InvoiceUploadSummary.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Invoices/InvoiceUploadSummary.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -132,122 +232,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      principal: {},
-      principal_code: "",
-      datePickerShown: false,
-      date: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10)]
-    };
-  },
-  computed: {
-    dateRangeText: function dateRangeText() {
-      return this.date.join(' ~ ');
-    },
-    principals: function principals() {
-      return this.AppStore.state.principals.map(function (e) {
-        return {
-          main_vendor_code: e[0],
-          caption: e[1].map(function (el) {
-            return "".concat(el.vendor_code, "-").concat(el.name);
-          }),
-          caption2: e[1].map(function (el) {
-            return "".concat(el.vendor_code);
-          })
-        };
-      });
-    }
-  },
-  watch: {
-    'principal.main_vendor_code': {
-      handler: function handler(newV, oldV) {
-        this.principal_code = newV;
-      }
-    },
-    principal_code: function principal_code() {
-      console.log(this.principal_code);
-    }
-  },
-  methods: {
-    // async extract() {
-    //     const { headers, data } = await axios.post(
-    //         this.AppStore.state.siteUrl + 'invoices/extract',
-    //         {
-    //             principal_code: this.principal_code,
-    //             posting_date: this.date,
-    //         },
-    //         {
-    //             responseType: 'blob'
-    //         }
-    //     );
-    //     const { 'content-disposition': contentDisposition } = headers;
-    //     const [attachment, file] = contentDisposition.split(' ');
-    //     const [key, fileName] = file.split('=');
-    //     const url = window.URL.createObjectURL(new Blob([data]));
-    //     const link = document.createElement('a');
-    //     link.href = url;
-    //     link.setAttribute('download', fileName);
-    //     document.body.appendChild(link);
-    //     link.click();
-    // },
-    extractRawInvoicesToExcel: function extractRawInvoicesToExcel() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _this.AppStore.overlay(true);
-
-                _this.InvoicesStore.extractRawInvoicesToExcel(_this.principal_code, _this.date).then(function () {
-                  _this.AppStore.overlay(false);
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    } // async asd() {
-    //     const { headers, data } = await axios.post(
-    // 			'dtr/start-matching',
-    // 			{ fileId },
-    // 			{
-    // 				responseType: 'blob',
-    // 				onDownloadProgress: progressEvent => {
-    // 					// let percentCompleted = Math.floor(
-    // 					//   (progressEvent.loaded / progressEvent.total) * 100
-    // 					// )
-    // 					// console.log(`${percentCompleted}% Downloaded`)
-    // 				}
-    // 			}
-    // 		)
-    // 		const { 'content-disposition': contentDisposition } = headers
-    // 		const [attachment, file] = contentDisposition.split(' ')
-    // 		const [key, fileName] = file.split('=')
-    // 		const url = window.URL.createObjectURL(new Blob([data]))
-    // 		const link = document.createElement('a')
-    // 		link.href = url
-    // 		link.setAttribute('download', fileName)
-    // 		document.body.appendChild(link)
-    // 		link.click()
-    // }
-
-  },
+  props: ['uploadResponse'],
   mounted: function mounted() {
-    console.log("ExtractInvoices component mounted");
+    console.log("InvoiceUploadSummary component mounted");
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Invoices/ExtractInvoices.vue?vue&type=template&id=1c5096c7&":
-/*!**********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Invoices/ExtractInvoices.vue?vue&type=template&id=1c5096c7& ***!
-  \**********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Invoices/InvoiceUploadSummary.vue?vue&type=template&id=30ed02b0&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Invoices/InvoiceUploadSummary.vue?vue&type=template&id=30ed02b0& ***!
+  \***************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -261,10 +257,19 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
+    { attrs: { elevation: "0", outlined: "", tile: "" } },
     [
       _c("v-card-title", { staticClass: "pb-6" }, [
         _c("div", { staticClass: "mr-2" }, [
-          _vm._v("\n            Extract Raw Invoices\n        ")
+          _c("div", { staticClass: "text-overline" }, [
+            _vm._v("Upload Summary\n                "),
+            _c("span", { staticClass: "text-caption font-weight-bold" }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(_vm.uploadResponse.batch_number)
+              )
+            ])
+          ])
         ]),
         _vm._v(" "),
         _c("div")
@@ -273,234 +278,323 @@ var render = function() {
       _c(
         "v-card-text",
         [
-          _c(
-            "v-row",
-            [
-              _c(
-                "v-col",
-                { attrs: { md: "8" } },
+          _vm.uploadResponse.ufiles != undefined &&
+          _vm.uploadResponse.ufiles.length
+            ? _c(
+                "div",
+                { staticClass: "mb-3" },
                 [
-                  _c("v-combobox", {
-                    attrs: {
-                      items: _vm.principals,
-                      label: "Principal",
-                      "item-text": "caption",
-                      outlined: "",
-                      rounded: "",
-                      "hide-details": "",
-                      dense: "",
-                      clearable: ""
-                    },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "item",
-                        fn: function(ref) {
-                          var item = ref.item
-                          return [
-                            _c(
-                              "div",
-                              [
-                                _c("v-icon", [
-                                  _vm._v(
-                                    "\n                                mdi-store\n                            "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _vm._l(item.caption, function(c, index) {
-                                  return _c(
-                                    "small",
-                                    {
-                                      key: index,
-                                      staticClass: "text-caption ma-1"
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                " +
-                                          _vm._s(c) +
-                                          ",\n                            "
-                                      )
-                                    ]
-                                  )
-                                })
-                              ],
-                              2
-                            )
-                          ]
-                        }
-                      },
-                      {
-                        key: "selection",
-                        fn: function(ref) {
-                          var item = ref.item
-                          return _vm._l(item.caption2, function(c, index) {
-                            return _c(
-                              "v-chip",
-                              {
-                                key: index,
-                                attrs: { color: "primary", "x-small": "" }
-                              },
-                              [_vm._v(_vm._s(c))]
-                            )
-                          })
-                        }
-                      }
-                    ]),
-                    model: {
-                      value: _vm.principal,
-                      callback: function($$v) {
-                        _vm.principal = $$v
-                      },
-                      expression: "principal"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { md: "4" } },
-                [
-                  _c("v-text-field", {
-                    attrs: {
-                      label: "Posting Date - YYYY-MM-DD",
-                      "hide-details": "",
-                      readonly: "",
-                      dense: "",
-                      outlined: "",
-                      rounded: ""
-                    },
-                    on: {
-                      click: function($event) {
-                        $event.stopPropagation()
-                        _vm.datePickerShown = true
-                      }
-                    },
-                    model: {
-                      value: _vm.dateRangeText,
-                      callback: function($$v) {
-                        _vm.dateRangeText = $$v
-                      },
-                      expression: "dateRangeText"
-                    }
-                  }),
-                  _vm._v(" "),
                   _c(
-                    "v-dialog",
+                    "v-sheet",
                     {
-                      ref: "datePicker",
-                      attrs: {
-                        "return-value": _vm.date,
-                        disabled:
-                          _vm.principal_code == "" ||
-                          _vm.principal_code == null,
-                        "max-width": "300px"
-                      },
-                      on: {
-                        "update:returnValue": function($event) {
-                          _vm.date = $event
-                        },
-                        "update:return-value": function($event) {
-                          _vm.date = $event
-                        }
-                      },
-                      model: {
-                        value: _vm.datePickerShown,
-                        callback: function($$v) {
-                          _vm.datePickerShown = $$v
-                        },
-                        expression: "datePickerShown"
-                      }
+                      staticClass: "pa-4 error--text",
+                      attrs: { elevation: "1" }
                     },
                     [
-                      _c(
-                        "v-date-picker",
-                        {
-                          attrs: { scrollable: "", range: "" },
-                          model: {
-                            value: _vm.date,
-                            callback: function($$v) {
-                              _vm.date = $$v
-                            },
-                            expression: "date"
-                          }
-                        },
-                        [
-                          _c("v-spacer"),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { text: "", color: "primary" },
-                              on: {
-                                click: function($event) {
-                                  _vm.datePickerShown = false
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Cancel\n                        "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { text: "", color: "primary" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.$refs.datePicker.save(_vm.date)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Ok\n                        "
-                              )
-                            ]
+                      _c("h4", [
+                        _vm._v(
+                          _vm._s(_vm.uploadResponse.ufiles.length) +
+                            " unknown file/s"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("h6", [_vm._v("Unmatched group prefix in filename")]),
+                      _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
+                      _vm._l(_vm.uploadResponse.ufiles, function(uf, i) {
+                        return _c("div", { key: i }, [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(uf) +
+                              "\n                "
                           )
-                        ],
-                        1
-                      )
+                        ])
+                      })
                     ],
-                    1
+                    2
                   )
                 ],
                 1
               )
-            ],
-            1
-          ),
+            : _vm._e(),
           _vm._v(" "),
           _c(
-            "v-row",
-            [
-              _c(
-                "v-col",
+            "v-expansion-panels",
+            { attrs: { focusable: "" } },
+            _vm._l(_vm.uploadResponse.summary, function(summary, index) {
+              return _c(
+                "v-expansion-panel",
+                { key: index },
                 [
                   _c(
-                    "v-btn",
+                    "v-expansion-panel-header",
                     {
-                      staticClass: "float-right",
-                      attrs: {
-                        color: "primary",
-                        disabled:
-                          _vm.principal_code == "" || _vm.principal_code == null
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.extractRawInvoicesToExcel()
-                        }
-                      }
+                      staticClass: "pa-0 px-2",
+                      attrs: { "disable-icon-rotate": "" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "actions",
+                            fn: function() {
+                              return [
+                                _c(
+                                  "v-chip",
+                                  {
+                                    attrs: {
+                                      "x-small": "",
+                                      title: "Number of uploaded item invoices"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                            " +
+                                        _vm._s(
+                                          summary.lines_count_uploaded +
+                                            summary.cm_lines_count_uploaded
+                                        ) +
+                                        "\n                        "
+                                    )
+                                  ]
+                                )
+                              ]
+                            },
+                            proxy: true
+                          }
+                        ],
+                        null,
+                        true
+                      )
                     },
-                    [_vm._v("\n                    Extract\n                ")]
-                  )
+                    [
+                      _c("span", { staticClass: "text-caption" }, [
+                        _vm._v(_vm._s(summary.file_name))
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("v-expansion-panel-content", { staticClass: "pa-0" }, [
+                    _c(
+                      "div",
+                      { staticClass: "px-0 pt-3" },
+                      [
+                        _c(
+                          "v-row",
+                          [
+                            _c("v-col", [
+                              _c("div", { staticClass: "caption" }, [
+                                _vm._v(
+                                  "\n                                    Invoice\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("table", { staticClass: "table" }, [
+                                _c("tbody", [
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Headers Read")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(summary.headers_count))
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Headers Existing")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(summary.headers_count_existing)
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Headers Uploaded")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(summary.headers_count_uploaded)
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      { attrs: { colspan: "2" } },
+                                      [_c("v-divider")],
+                                      1
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Lines Read")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(summary.lines_count))
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Lines Existing")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(summary.lines_count_existing)
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Lines Uploaded")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(summary.lines_count_uploaded)
+                                      )
+                                    ])
+                                  ])
+                                ])
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("v-col", [
+                              _c("div", { staticClass: "caption" }, [
+                                _vm._v(
+                                  "\n                                    Return (CM)\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("table", { staticClass: "table" }, [
+                                _c("tbody", [
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Headers Read")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(summary.cm_headers_count))
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      { attrs: { colspan: "2" } },
+                                      [_c("v-divider")],
+                                      1
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Lines Read")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(summary.cm_lines_count))
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Lines Existing")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(summary.cm_lines_count_existing)
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "caption font-weight-bold pr-4"
+                                      },
+                                      [_vm._v("Lines Uploaded")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(summary.cm_lines_count_uploaded)
+                                      )
+                                    ])
+                                  ])
+                                ])
+                              ])
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ])
                 ],
                 1
               )
-            ],
+            }),
             1
           )
         ],
@@ -517,17 +611,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/pages/Invoices/ExtractInvoices.vue":
-/*!*********************************************************!*\
-  !*** ./resources/js/pages/Invoices/ExtractInvoices.vue ***!
-  \*********************************************************/
+/***/ "./resources/js/pages/Invoices/InvoiceUploadSummary.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/pages/Invoices/InvoiceUploadSummary.vue ***!
+  \**************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ExtractInvoices_vue_vue_type_template_id_1c5096c7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ExtractInvoices.vue?vue&type=template&id=1c5096c7& */ "./resources/js/pages/Invoices/ExtractInvoices.vue?vue&type=template&id=1c5096c7&");
-/* harmony import */ var _ExtractInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ExtractInvoices.vue?vue&type=script&lang=js& */ "./resources/js/pages/Invoices/ExtractInvoices.vue?vue&type=script&lang=js&");
+/* harmony import */ var _InvoiceUploadSummary_vue_vue_type_template_id_30ed02b0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InvoiceUploadSummary.vue?vue&type=template&id=30ed02b0& */ "./resources/js/pages/Invoices/InvoiceUploadSummary.vue?vue&type=template&id=30ed02b0&");
+/* harmony import */ var _InvoiceUploadSummary_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InvoiceUploadSummary.vue?vue&type=script&lang=js& */ "./resources/js/pages/Invoices/InvoiceUploadSummary.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -537,9 +631,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ExtractInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ExtractInvoices_vue_vue_type_template_id_1c5096c7___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ExtractInvoices_vue_vue_type_template_id_1c5096c7___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _InvoiceUploadSummary_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _InvoiceUploadSummary_vue_vue_type_template_id_30ed02b0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _InvoiceUploadSummary_vue_vue_type_template_id_30ed02b0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -549,38 +643,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/pages/Invoices/ExtractInvoices.vue"
+component.options.__file = "resources/js/pages/Invoices/InvoiceUploadSummary.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/pages/Invoices/ExtractInvoices.vue?vue&type=script&lang=js&":
-/*!**********************************************************************************!*\
-  !*** ./resources/js/pages/Invoices/ExtractInvoices.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************************/
+/***/ "./resources/js/pages/Invoices/InvoiceUploadSummary.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/pages/Invoices/InvoiceUploadSummary.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExtractInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ExtractInvoices.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Invoices/ExtractInvoices.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExtractInvoices_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoiceUploadSummary_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./InvoiceUploadSummary.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Invoices/InvoiceUploadSummary.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoiceUploadSummary_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/pages/Invoices/ExtractInvoices.vue?vue&type=template&id=1c5096c7&":
-/*!****************************************************************************************!*\
-  !*** ./resources/js/pages/Invoices/ExtractInvoices.vue?vue&type=template&id=1c5096c7& ***!
-  \****************************************************************************************/
+/***/ "./resources/js/pages/Invoices/InvoiceUploadSummary.vue?vue&type=template&id=30ed02b0&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/pages/Invoices/InvoiceUploadSummary.vue?vue&type=template&id=30ed02b0& ***!
+  \*********************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExtractInvoices_vue_vue_type_template_id_1c5096c7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ExtractInvoices.vue?vue&type=template&id=1c5096c7& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Invoices/ExtractInvoices.vue?vue&type=template&id=1c5096c7&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExtractInvoices_vue_vue_type_template_id_1c5096c7___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoiceUploadSummary_vue_vue_type_template_id_30ed02b0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./InvoiceUploadSummary.vue?vue&type=template&id=30ed02b0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Invoices/InvoiceUploadSummary.vue?vue&type=template&id=30ed02b0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoiceUploadSummary_vue_vue_type_template_id_30ed02b0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExtractInvoices_vue_vue_type_template_id_1c5096c7___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoiceUploadSummary_vue_vue_type_template_id_30ed02b0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
