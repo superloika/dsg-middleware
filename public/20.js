@@ -244,6 +244,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -448,6 +462,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee3, null, [[0, 10, 13, 15]]);
       }))();
+    },
+    selAll: function selAll() {
+      var _this4 = this;
+
+      this.$nextTick(function () {
+        _this4.terminal = _this4.terminals.map(function (e) {
+          return e.group_name;
+        });
+      });
     }
   },
   created: function created() {
@@ -629,6 +652,40 @@ var render = function() {
                       label: "Terminals"
                     },
                     scopedSlots: _vm._u([
+                      {
+                        key: "prepend-item",
+                        fn: function() {
+                          return [
+                            _c(
+                              "v-list-item",
+                              {
+                                attrs: { ripple: "" },
+                                on: {
+                                  mousedown: function($event) {
+                                    $event.preventDefault()
+                                  },
+                                  click: _vm.selAll
+                                }
+                              },
+                              [
+                                _c(
+                                  "v-list-item-content",
+                                  [
+                                    _c("v-list-item-title", [
+                                      _vm._v("Select All")
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("v-divider", { staticClass: "mt-2" })
+                          ]
+                        },
+                        proxy: true
+                      },
                       {
                         key: "selection",
                         fn: function(ref) {

@@ -46,6 +46,20 @@
                         item-text="group_name"
                         label="Terminals"
                     >
+                        <template v-slot:prepend-item>
+                            <v-list-item ripple @mousedown.prevent @click="selAll">
+                                <!-- <v-list-item-action>
+                                    <v-icon :color="selectedFruits.length > 0 ? 'indigo darken-4' : ''">
+                                        {{ icon }}
+                                    </v-icon>
+                                </v-list-item-action> -->
+                                <v-list-item-content>
+                                    <v-list-item-title>Select All</v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
+                            <v-divider class="mt-2"></v-divider>
+                        </template>
+
                         <template v-slot:selection="{item, index}">
                             <v-chip small v-if="index < 2">{{ item.group_name }}</v-chip>
                             <span v-if="index == 2">
@@ -325,6 +339,12 @@ export default {
                 console.error(error);
             } finally {
             }
+        },
+
+        selAll () {
+            this.$nextTick(() => {
+                this.terminal = this.terminals.map(e => e.group_name);
+            });
         },
     },
 
