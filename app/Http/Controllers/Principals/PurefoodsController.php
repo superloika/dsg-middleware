@@ -973,8 +973,8 @@ class PurefoodsController extends Controller
     public function configs() {
         $arr = [
             // "beatroute_uploading" => true,
-            "api_uploading" => true,
-            "tempdat_exporting" => false,
+            "api_uploading" => false,
+            "tempdat_exporting" => true,
             "bu" => 'ppfb',
             "posting_date_format" => 'm/d/Y',
 
