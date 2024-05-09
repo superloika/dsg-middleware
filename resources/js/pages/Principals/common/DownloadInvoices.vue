@@ -2,42 +2,16 @@
     <v-card>
         <v-toolbar elevation="27">
             <v-toolbar-title>
-                Download invoice data (Navision)
+                Download Invoice Data
+                <v-chip color="default">
+                    From Navision to Middleware DB
+                </v-chip>
             </v-toolbar-title>
             <v-spacer></v-spacer>
         </v-toolbar>
 
         <v-container>
             <v-row>
-                <!-- posting date -->
-                <v-col cols="3">
-                    <!-- DATEPICKER -->
-                    <v-dialog
-                        ref="datePicker"
-                        :return-value.sync="posting_date_range"
-                        width="290px"
-                    >
-                        <template v-slot:activator="{on, attrs}">
-                            <v-text-field hide-details readonly dense outlined rounded
-                                v-model="dateRangeText"
-                                label="Posting Date (yyyy-mm-dd)"
-                                style="max-width:500px;min-width:250px;"
-                                v-on="on" v-bind="attrs"
-                            ></v-text-field>
-                        </template>
-                        <v-date-picker scrollable range v-model="posting_date_range">
-                            <v-spacer></v-spacer>
-                            <v-btn dense depressed rounded
-                                color="primary"
-                                @click="$refs.datePicker.save(posting_date_range);"
-                            >
-                                Ok
-                            </v-btn>
-                        </v-date-picker>
-                    </v-dialog>
-                    <!-- /DATEPICKER -->
-                </v-col>
-
                 <v-col cols="6">
                     <v-select
                         multiple rounded dense outlined chips clearable
@@ -69,6 +43,35 @@
                     </v-select>
                 </v-col>
 
+                <!-- posting date -->
+                <v-col cols="3">
+                    <!-- DATEPICKER -->
+                    <v-dialog
+                        ref="datePicker"
+                        :return-value.sync="posting_date_range"
+                        width="290px"
+                    >
+                        <template v-slot:activator="{on, attrs}">
+                            <v-text-field hide-details readonly dense outlined rounded
+                                v-model="dateRangeText"
+                                label="Posting Date Range (yyyy-mm-dd)"
+                                style="max-width:500px;min-width:250px;"
+                                v-on="on" v-bind="attrs"
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker scrollable range v-model="posting_date_range">
+                            <v-spacer></v-spacer>
+                            <v-btn dense depressed rounded
+                                color="primary"
+                                @click="$refs.datePicker.save(posting_date_range);"
+                            >
+                                Ok
+                            </v-btn>
+                        </v-date-picker>
+                    </v-dialog>
+                    <!-- /DATEPICKER -->
+                </v-col>
+
                 <v-col cols="3">
                     <v-btn dense rounded
                         color="primary"
@@ -79,7 +82,6 @@
                         Download
                     </v-btn>
                 </v-col>
-
             </v-row>
 
             <br>
@@ -215,6 +217,9 @@
                                                 Unreachable Servers
                                             </div>
                                             <v-list>
+                                                <em class="caption" v-if="dlSummary.unreachable">
+                                                    None
+                                                </em>
                                                 <v-list-item v-for="(item, index) in dlSummary.unreachable" :key="index">
                                                     <v-list-item-content>
                                                         {{ item }}

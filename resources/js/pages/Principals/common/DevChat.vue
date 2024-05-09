@@ -101,8 +101,8 @@
                                         >
                                             <a
                                                 :href="'/storage/attachments/' + message.channel + '/' + attachment"
-                                                target="_blank" x-small class="white--text"
-                                                style="text-decoration: none;"
+                                                target="_blank" x-small class="white--text attachments"
+
                                             >
                                                 <v-icon small color="white">mdi-attachment</v-icon>
                                                 <small>{{ attachment }}</small>
@@ -234,7 +234,6 @@ export default {
 
     mounted() {
         console.log("DevChat page mounted.");
-        this.DevChatStore.state.unreadMsgCount = 0;
     },
 
     created() {
@@ -242,3 +241,13 @@ export default {
     }
 };
 </script>
+
+
+<style scoped>
+    a.attachments {
+        text-decoration: none;
+    }
+    a.attachments:hover {
+        text-decoration: underline;
+    }
+</style>

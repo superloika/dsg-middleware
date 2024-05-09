@@ -33,27 +33,19 @@
             <!-- <span class="text-caption mr-3 overflow-auto primary--text">
                 Howdy, {{ AuthUser.name }}!
             </span> -->
-
             <v-btn icon to="/invoices" title="Invoices">
                 <v-icon>mdi-file</v-icon>
             </v-btn>
-
             <span class="px-1"></span>
-
+            <!-- <ExtractRawSICMWrapper></ExtractRawSICMWrapper>
+            <span class="px-1"></span> -->
             <DevChatWrapper></DevChatWrapper>
-
             <span class="px-1"></span>
-
             <InvoiceLookup></InvoiceLookup>
-
             <span class="px-1"></span>
-
             <GeneralMasterfilesWrapper></GeneralMasterfilesWrapper>
-
             <span class="px-1"></span>
-
             <UserMenu></UserMenu>
-
             <v-progress-linear
                 :indeterminate="AppStore.state.showTopLoading"
                 :active="AppStore.state.showTopLoading"
@@ -311,4 +303,6 @@ export default {
     .v-btn {
         font-size: 11px;
     }
+
+
 </style>

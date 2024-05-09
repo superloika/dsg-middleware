@@ -687,4 +687,243 @@ class NavisionController extends Controller
             ->get();
         return response()->json($res);
     }
+
+
+    public function extractInvoices(Request $request) {
+        set_time_limit(0);
+        $memory_limit = ini_get('memory_limit');
+        ini_set('memory_limit', -1);
+
+        // try {
+            $configs = self::serverConfigs();
+            $loopCounter = 0;
+            $configsLen = count($configs);
+            $vendor_codes = explode("|", $request->vendor_codes);
+            // dd($vendor_codes);
+            $vendor_codes_imp = implode(',', array_map(fn($item) => "'$item'", $vendor_codes));
+            $terminals = $request->terminals;
+            // posting date range ----------------------------------------
+            $dates = $request->posting_date_range;
+            sort($dates);
+            $posting_date_from = '';
+            $posting_date_to = '';
+            if(count($dates) > 1) {
+                $posting_date_from = $dates[0];
+                $posting_date_to = $dates[1];
+            } else if(count($dates) == 1) {
+                $posting_date_from = $dates[0];
+                $posting_date_to = $dates[0];
+            }
+            // set posting_date_to to today if it is a future date
+            $posting_date_to = new Carbon($posting_date_to);
+            if($posting_date_to->isFuture()) {
+                $posting_date_to = Carbon::now();
+            }
+            $posting_date_to = $posting_date_to->format('Y-m-d');
+            // /posting date range ----------------------------------------
+            $dateTimeToday = Carbon::now()->format('Y-m-d H:i:s');
+            $batchNum = "NAV" . time();
+            $result = [
+                'sales_invoices' => [],
+                'sales_returns' => [],
+                'unreachable' => [],
+            ];
+            $new_si = 0;
+            $new_cm = 0;
+
+            foreach($configs as $config) {
+                $server_name = $config['server_name'];
+                $dsn = $config['dsn'];
+                $database = $config['database'];
+                $invoice_headers_tbl = $config['invoice_headers_tbl'];
+                $invoice_lines_tbl = $config['invoice_lines_tbl'];
+                $cm_headers_tbl = $config['cm_headers_tbl'];
+                $cm_lines_tbl = $config['cm_lines_tbl'];
+                $sm_tbl = $config['sm_tbl'];
+                $group_name = $config['group_name'];
+                $existingSalesInvoices = 0;
+                $newSalesInvoices = 0;
+                $existingSalesReturns = 0;
+                $newSalesReturns = 0;
+
+                // if not found in selected terminals, skip
+                if(!in_array($group_name, $terminals)) continue;
+
+                // establish db connection, skip if server unreachable
+                try {
+                    $dbCon = DB::connection($server_name);
+                } catch (\Throwable $th) {
+                    array_push($result['unreachable'], $server_name);
+                    continue;
+                }
+
+                $loopCounter++;
+
+                ///////////////////////////// Sales Invoices ///////////////////////////////////////////
+                ///////////////////////////// Sales Invoices ///////////////////////////////////////////
+                ///////////////////////////// Sales Invoices ///////////////////////////////////////////
+                // retrieve invoices from NAV
+                DownloadInvoice::dispatch(
+                    "($loopCounter/$configsLen: $server_name) Retrieving sales invoices from Navision"
+                );
+                $sales_invoices = $dbCon->select(
+                    "SELECT
+                        -- header
+                        [$invoice_headers_tbl].[No_] as doc_no,
+                        [$invoice_headers_tbl].[Sell-to Customer No_] as customer_code,
+                        [$invoice_headers_tbl].[Bill-to Name] as customer_name,
+                        [$invoice_headers_tbl].[Posting Date] as posting_date,
+                        [$invoice_headers_tbl].[Salesperson Code] as sm_code,
+                        [$invoice_headers_tbl].[External Document No_] as ext_doc_no,
+                        -- line
+                        [$invoice_lines_tbl].[Vendor No_] as vendor_code,
+                        [$invoice_lines_tbl].[No_] as item_code,
+                        [$invoice_lines_tbl].[Shipment Date] as shipment_date,
+                        [$invoice_lines_tbl].[Description] as item_description,
+                        [$invoice_lines_tbl].[Unit of Measure] as uom,
+                        [$invoice_lines_tbl].[Quantity] as quantity,
+                        [$invoice_lines_tbl].[Unit Price] as price,
+                        [$invoice_lines_tbl].[Amount Including VAT] as amount,
+                        [$invoice_lines_tbl].[Qty_ per Unit of Measure] as qty_per_uom,
+                        [$invoice_lines_tbl].[Unit of Measure Code] as uom_code,
+                        [$invoice_lines_tbl].[Line Discount %] as discount_percentage,
+                        [$invoice_lines_tbl].[VAT %] as vat_percentage,
+                        -- salesperson
+                        [$sm_tbl].[Name] as sm_name
+                    FROM [$invoice_lines_tbl]
+                    JOIN [$invoice_headers_tbl] ON [$invoice_headers_tbl].[No_] = [$invoice_lines_tbl].[Document No_]
+                    LEFT JOIN [$sm_tbl] ON [$sm_tbl].[Code] = [$invoice_headers_tbl].[Salesperson Code]
+                    WHERE [$invoice_lines_tbl].[Quantity] > 0
+                        AND [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
+                        -- AND [$invoice_lines_tbl].[Shipment Date] >= '$posting_date_from 00:00:00.000'
+                        -- AND [$invoice_lines_tbl].[Shipment Date] <= '$posting_date_to 00:00:00.000'
+                        AND [$invoice_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
+                        AND [$invoice_headers_tbl].[Posting Date] <= '$posting_date_to 00:00:00.000'
+                    ;
+                    "
+                );
+
+                // save retrieved invoices to local db
+                foreach($sales_invoices as $si) {
+                    // convert encodings
+                    foreach($si as $key => $val) {
+                        $si->$key = mb_convert_encoding($val, 'utf-8');
+                    }
+
+                    DownloadInvoice::dispatch(
+                        "($loopCounter/$configsLen: $server_name) Retrieving sales invoices from Navision >>" .
+                        $si->vendor_code . ': ' . $si->doc_no . ', ' . $si->item_code
+                    );
+                }
+                // summary
+                // if($existingSalesInvoices > 0 || $newSalesInvoices > 0) {
+                    $result['sales_invoices'][$server_name] = [
+                        'dsn' => $dsn,
+                        'database' => $database,
+                        'existing' => $existingSalesInvoices,
+                        'new' => $newSalesInvoices,
+                        'posting_date_from' => $posting_date_from,
+                        'posting_date_to' => $posting_date_to
+                    ];
+                // }
+                $new_si += $newSalesInvoices;
+
+                ///////////////////////////// Sales Returns ///////////////////////////////////////////
+                ///////////////////////////// Sales Returns ///////////////////////////////////////////
+                ///////////////////////////// Sales Returns ///////////////////////////////////////////
+                // retrieve sales returns from Nav
+                DownloadInvoice::dispatch(
+                    "($loopCounter/$configsLen: $server_name) Retrieving sales returns from Navision"
+                );
+                $sales_returns = $dbCon->select(
+                    "SELECT
+                        -- header
+                        [$cm_headers_tbl].[No_] as doc_no,
+                        [$cm_headers_tbl].[Bill-to Customer No_] as customer_code,
+                        -- [$cm_headers_tbl].[Bill-to Name] as customer_name,
+                        [$cm_headers_tbl].[Posting Date] as posting_date,
+                        [$cm_headers_tbl].[Shipment Date] as shipment_date,
+                        -- [$cm_headers_tbl].[Salesperson Code] as sm_code,
+                        [$cm_headers_tbl].[External Document No_] as invoice_doc_no,
+                        [$cm_headers_tbl].[External Document No_] as ext_doc_no,
+                        -- line
+                        [$cm_lines_tbl].[No_] as item_code,
+                        [$cm_lines_tbl].[Description] as item_description,
+                        [$cm_lines_tbl].[Unit of Measure] as uom,
+                        [$cm_lines_tbl].[Quantity] as quantity,
+                        [$cm_lines_tbl].[Unit Price] as price,
+                        [$cm_lines_tbl].[Amount Including VAT] as amount,
+                        [$cm_lines_tbl].[Qty_ per Unit of Measure] as qty_per_uom,
+                        [$cm_lines_tbl].[Unit of Measure Code] as uom_code,
+                        [$cm_lines_tbl].[Line Discount %] as discount_percentage,
+                        [$cm_lines_tbl].[VAT %] as vat_percentage,
+                        -- sales invoice line
+                        [$invoice_lines_tbl].[Vendor No_] as vendor_code
+                        -- salesperson
+                        -- [$sm_tbl].[Name] as sm_name
+                    FROM [$cm_lines_tbl]
+                    JOIN [$cm_headers_tbl]
+                        ON [$cm_headers_tbl].[No_] = [$cm_lines_tbl].[Document No_]
+                    JOIN [$invoice_lines_tbl]
+                        ON [$invoice_lines_tbl].[Document No_] = [$cm_headers_tbl].[External Document No_]
+                        AND [$invoice_lines_tbl].[No_] = [$cm_lines_tbl].[No_]
+                        AND [$invoice_lines_tbl].[Unit of Measure] = [$cm_lines_tbl].[Unit of Measure]
+                    -- LEFT JOIN [$sm_tbl] ON [$sm_tbl].[Code] = [$cm_headers_tbl].[Salesperson Code]
+                    WHERE [$invoice_lines_tbl].[Vendor No_] IN ($vendor_codes_imp)
+                        AND [$invoice_lines_tbl].[Quantity] > 0
+                        AND [$cm_lines_tbl].[Quantity] > 0
+                        AND [$cm_headers_tbl].[Posting Date] >= '$posting_date_from 00:00:00.000'
+                        AND [$cm_headers_tbl].[Posting Date] <= '$posting_date_to 00:00:00.000'
+                    ;
+                    "
+                );
+
+                // store doc_nos here temporarily
+                $sr_docnos = [];
+
+                // save retrieved sales returns to local db
+                foreach($sales_returns as $sr) {
+                    // convert encodings
+                    foreach($sr as $key => $val) {
+                        $sr->$key = mb_convert_encoding($val, 'utf-8');
+                    }
+
+                    $sr_docnos[] = $sr->doc_no;
+                }
+
+                // summary
+                // if($existingSalesReturns > 0 || $newSalesReturns > 0) {
+                    $result['sales_returns'][$server_name] = [
+                        'dsn' => $dsn,
+                        'database' => $database,
+                        'existing' => $existingSalesReturns,
+                        'new' => $newSalesReturns,
+                        'posting_date_from' => $posting_date_from,
+                        'posting_date_to' => $posting_date_to
+                    ];
+                // }
+                $new_cm += $newSalesReturns;
+            }
+
+            // save logs
+            // DB::table(PrincipalsUtil::$TBL_INVOICES_DLLOG)->insert([
+            //     'batch_number' => $batchNum,
+            //     'summary' => json_encode($result),
+            //     'new_si' => $new_si,
+            //     'new_cm' => $new_cm,
+            //     'posting_date_from' => $posting_date_from,
+            //     'posting_date_to' => $posting_date_to,
+            //     'unreachable' => count($result['unreachable']),
+            //     'main_vendor_code' => $request->main_vendor_code,
+            //     'uploaded_by' => auth()->user()->id
+            // ]);
+
+            ini_set('memory_limit', $memory_limit);
+            return response()->json($result);
+        // } catch (\Throwable $th) {
+            // $res['success'] = false;
+            // $res['message'] = $server_name ?? '' . ': ' . $th->getMessage();
+            // return response()->json($res, 500);
+        // }
+    }
 }

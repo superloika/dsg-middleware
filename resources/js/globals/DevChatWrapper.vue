@@ -1,8 +1,13 @@
 <template>
     <v-dialog v-model="dialog" max-width="900" scrollable>
         <template v-slot:activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on" title="Dev Chat">
-                <v-icon>mdi-message</v-icon>
+            <v-btn icon v-bind="attrs" v-on="on" title="Dev Chat"
+                @click.stop="DevChatStore.state.unreadMsgCount = 0;"
+            >
+                <v-badge v-if="DevChatStore.state.unreadMsgCount > 0" dot color="error" offset-x="10">
+                    <v-icon>mdi-message</v-icon>
+                </v-badge>
+                <v-icon v-else>mdi-message</v-icon>
             </v-btn>
         </template>
         <v-card>

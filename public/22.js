@@ -230,6 +230,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['lineCount', 'warningsCount'],
   components: {
@@ -281,12 +282,21 @@ __webpack_require__.r(__webpack_exports__);
         return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData || this.invoiceStatus == '';
       }
     },
-    beatrouteUploading: function beatrouteUploading() {
-      return this.PrincipalsStore.state.configs.beatroute_uploading != undefined && this.PrincipalsStore.state.configs.beatroute_uploading == true;
+    apiUploading: function apiUploading() {
+      return this.PrincipalsStore.state.configs.api_uploading != undefined && this.PrincipalsStore.state.configs.api_uploading == true;
     },
     disableBRUploadButton: function disableBRUploadButton() {
       return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData // || this.warningsCount > 0
       || this.InvoicesStore.state.invoiceStatus != 'completed' && this.InvoicesStore.state.invoiceStatus != 'pending';
+    },
+    tempDatExporting: function tempDatExporting() {
+      // return this.PrincipalsStore.state.configs.tempdat_exporting != undefined
+      //     && this.PrincipalsStore.state.configs.tempdat_exporting == true;
+      if (this.PrincipalsStore.state.configs.tempdat_exporting == undefined || this.PrincipalsStore.state.configs.tempdat_exporting == true) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   // watch: {
@@ -665,35 +675,37 @@ var render = function() {
                 "v-col",
                 { attrs: { cols: "12" } },
                 [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        dense: "",
-                        rounded: "",
-                        block: "",
-                        outlined: "",
-                        title: "Export to Excel",
-                        color: "primary",
-                        disabled: _vm.disableExportBtn
-                      },
-                      on: {
-                        click: function($event) {
-                          $event.stopPropagation()
-                          _vm.PrincipalsStore.state.confirmExportDialogOpen = true
-                        }
-                      }
-                    },
-                    [
-                      _c("v-icon", { attrs: { left: "", size: "25" } }, [
-                        _vm._v("mdi-file-excel")
-                      ]),
-                      _vm._v(
-                        "\n                    Export to Excel\n                "
+                  _vm.tempDatExporting
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            dense: "",
+                            rounded: "",
+                            block: "",
+                            outlined: "",
+                            title: "Export to Excel",
+                            color: "primary",
+                            disabled: _vm.disableExportBtn
+                          },
+                          on: {
+                            click: function($event) {
+                              $event.stopPropagation()
+                              _vm.PrincipalsStore.state.confirmExportDialogOpen = true
+                            }
+                          }
+                        },
+                        [
+                          _c("v-icon", { attrs: { left: "", size: "25" } }, [
+                            _vm._v("mdi-file-excel")
+                          ]),
+                          _vm._v(
+                            "\n                    Export to Excel\n                "
+                          )
+                        ],
+                        1
                       )
-                    ],
-                    1
-                  )
+                    : _vm._e()
                 ],
                 1
               ),
@@ -702,7 +714,7 @@ var render = function() {
                 "v-col",
                 { attrs: { cols: "12" } },
                 [
-                  _vm.beatrouteUploading
+                  _vm.apiUploading
                     ? _c(
                         "v-btn",
                         {

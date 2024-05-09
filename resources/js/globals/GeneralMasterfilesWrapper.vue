@@ -8,7 +8,7 @@
 
         <v-card>
             <v-card-title >
-                <div class="d-flex align-center">
+                <!-- <div class="d-flex align-center">
                     <div class="mr-4">General Masterfiles</div>
                     <div>
                         <v-tabs v-model="tab_genmas">
@@ -28,7 +28,33 @@
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
                     </div>
-                </div>
+                </div> -->
+
+                <v-row>
+                    <v-col>
+                        <div class="d-flex align-center">
+                            <div>General Masterfiles</div>
+                            <div>
+                                <v-tabs v-model="tab_genmas">
+                                    <v-tab class="px-3 text-caption">
+                                        Principals
+                                    </v-tab>
+                                    <v-tab class="px-3 text-caption">
+                                        Customers
+                                    </v-tab>
+                                    <v-tab class="px-3 text-caption">
+                                        Items
+                                    </v-tab>
+                                </v-tabs>
+                            </div>
+                        </div>
+                    </v-col>
+                    <v-col align="right">
+                        <v-btn text @click="dialog = false" icon>
+                            <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                    </v-col>
+                </v-row>
             </v-card-title>
 
             <v-tabs-items v-model="tab_genmas">

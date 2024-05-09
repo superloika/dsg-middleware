@@ -258,6 +258,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -506,9 +511,18 @@ var render = function() {
         "v-toolbar",
         { attrs: { elevation: "27" } },
         [
-          _c("v-toolbar-title", [
-            _vm._v("\n            Download invoice data (Navision)\n        ")
-          ]),
+          _c(
+            "v-toolbar-title",
+            [
+              _vm._v("\n            Download Invoice Data\n            "),
+              _c("v-chip", { attrs: { color: "default" } }, [
+                _vm._v(
+                  "\n                From Navision to Middleware DB\n            "
+                )
+              ])
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("v-spacer")
         ],
@@ -521,120 +535,6 @@ var render = function() {
           _c(
             "v-row",
             [
-              _c(
-                "v-col",
-                { attrs: { cols: "3" } },
-                [
-                  _c(
-                    "v-dialog",
-                    {
-                      ref: "datePicker",
-                      attrs: {
-                        "return-value": _vm.posting_date_range,
-                        width: "290px"
-                      },
-                      on: {
-                        "update:returnValue": function($event) {
-                          _vm.posting_date_range = $event
-                        },
-                        "update:return-value": function($event) {
-                          _vm.posting_date_range = $event
-                        }
-                      },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "activator",
-                          fn: function(ref) {
-                            var on = ref.on
-                            var attrs = ref.attrs
-                            return [
-                              _c(
-                                "v-text-field",
-                                _vm._g(
-                                  _vm._b(
-                                    {
-                                      staticStyle: {
-                                        "max-width": "500px",
-                                        "min-width": "250px"
-                                      },
-                                      attrs: {
-                                        "hide-details": "",
-                                        readonly: "",
-                                        dense: "",
-                                        outlined: "",
-                                        rounded: "",
-                                        label: "Posting Date (yyyy-mm-dd)"
-                                      },
-                                      model: {
-                                        value: _vm.dateRangeText,
-                                        callback: function($$v) {
-                                          _vm.dateRangeText = $$v
-                                        },
-                                        expression: "dateRangeText"
-                                      }
-                                    },
-                                    "v-text-field",
-                                    attrs,
-                                    false
-                                  ),
-                                  on
-                                )
-                              )
-                            ]
-                          }
-                        }
-                      ])
-                    },
-                    [
-                      _vm._v(" "),
-                      _c(
-                        "v-date-picker",
-                        {
-                          attrs: { scrollable: "", range: "" },
-                          model: {
-                            value: _vm.posting_date_range,
-                            callback: function($$v) {
-                              _vm.posting_date_range = $$v
-                            },
-                            expression: "posting_date_range"
-                          }
-                        },
-                        [
-                          _c("v-spacer"),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: {
-                                dense: "",
-                                depressed: "",
-                                rounded: "",
-                                color: "primary"
-                              },
-                              on: {
-                                click: function($event) {
-                                  return _vm.$refs.datePicker.save(
-                                    _vm.posting_date_range
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Ok\n                        "
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
               _c(
                 "v-col",
                 { attrs: { cols: "6" } },
@@ -719,6 +619,120 @@ var render = function() {
                       expression: "terminal"
                     }
                   })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "3" } },
+                [
+                  _c(
+                    "v-dialog",
+                    {
+                      ref: "datePicker",
+                      attrs: {
+                        "return-value": _vm.posting_date_range,
+                        width: "290px"
+                      },
+                      on: {
+                        "update:returnValue": function($event) {
+                          _vm.posting_date_range = $event
+                        },
+                        "update:return-value": function($event) {
+                          _vm.posting_date_range = $event
+                        }
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "activator",
+                          fn: function(ref) {
+                            var on = ref.on
+                            var attrs = ref.attrs
+                            return [
+                              _c(
+                                "v-text-field",
+                                _vm._g(
+                                  _vm._b(
+                                    {
+                                      staticStyle: {
+                                        "max-width": "500px",
+                                        "min-width": "250px"
+                                      },
+                                      attrs: {
+                                        "hide-details": "",
+                                        readonly: "",
+                                        dense: "",
+                                        outlined: "",
+                                        rounded: "",
+                                        label: "Posting Date Range (yyyy-mm-dd)"
+                                      },
+                                      model: {
+                                        value: _vm.dateRangeText,
+                                        callback: function($$v) {
+                                          _vm.dateRangeText = $$v
+                                        },
+                                        expression: "dateRangeText"
+                                      }
+                                    },
+                                    "v-text-field",
+                                    attrs,
+                                    false
+                                  ),
+                                  on
+                                )
+                              )
+                            ]
+                          }
+                        }
+                      ])
+                    },
+                    [
+                      _vm._v(" "),
+                      _c(
+                        "v-date-picker",
+                        {
+                          attrs: { scrollable: "", range: "" },
+                          model: {
+                            value: _vm.posting_date_range,
+                            callback: function($$v) {
+                              _vm.posting_date_range = $$v
+                            },
+                            expression: "posting_date_range"
+                          }
+                        },
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                dense: "",
+                                depressed: "",
+                                rounded: "",
+                                color: "primary"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$refs.datePicker.save(
+                                    _vm.posting_date_range
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Ok\n                        "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               ),
@@ -1404,29 +1418,45 @@ var render = function() {
                                               _vm._v(" "),
                                               _c(
                                                 "v-list",
-                                                _vm._l(
-                                                  _vm.dlSummary.unreachable,
-                                                  function(item, index) {
-                                                    return _c(
-                                                      "v-list-item",
-                                                      { key: index },
-                                                      [
-                                                        _c(
-                                                          "v-list-item-content",
-                                                          [
-                                                            _vm._v(
-                                                              "\n                                                    " +
-                                                                _vm._s(item) +
-                                                                "\n                                                "
-                                                            )
-                                                          ]
-                                                        )
-                                                      ],
-                                                      1
-                                                    )
-                                                  }
-                                                ),
-                                                1
+                                                [
+                                                  _vm.dlSummary.unreachable
+                                                    ? _c(
+                                                        "em",
+                                                        {
+                                                          staticClass: "caption"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n                                                None\n                                            "
+                                                          )
+                                                        ]
+                                                      )
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm._l(
+                                                    _vm.dlSummary.unreachable,
+                                                    function(item, index) {
+                                                      return _c(
+                                                        "v-list-item",
+                                                        { key: index },
+                                                        [
+                                                          _c(
+                                                            "v-list-item-content",
+                                                            [
+                                                              _vm._v(
+                                                                "\n                                                    " +
+                                                                  _vm._s(item) +
+                                                                  "\n                                                "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    }
+                                                  )
+                                                ],
+                                                2
                                               )
                                             ],
                                             1

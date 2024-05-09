@@ -129,6 +129,7 @@
                 <v-col cols="12">
                     <!-- ********************* EXPORT ************************ -->
                     <v-btn
+                        v-if="tempDatExporting"
                         dense rounded block outlined
                         title="Export to Excel"
                         color="primary"
@@ -144,7 +145,7 @@
 
                 <v-col cols="12">
                     <v-btn
-                        v-if="beatrouteUploading"
+                        v-if="apiUploading"
                         title=""
                         dense
                         rounded
@@ -284,9 +285,9 @@ export default {
                     ;
             }
         },
-        beatrouteUploading() {
-            return this.PrincipalsStore.state.configs.beatroute_uploading != undefined
-                && this.PrincipalsStore.state.configs.beatroute_uploading == true;
+        apiUploading() {
+            return this.PrincipalsStore.state.configs.api_uploading != undefined
+                && this.PrincipalsStore.state.configs.api_uploading == true;
         },
         disableBRUploadButton() {
             return this.lineCount < 1
@@ -296,7 +297,19 @@ export default {
                 || this.InvoicesStore.state.invoiceStatus != 'completed'
                 && this.InvoicesStore.state.invoiceStatus != 'pending'
                 ;
-        }
+        },
+        tempDatExporting() {
+            // return this.PrincipalsStore.state.configs.tempdat_exporting != undefined
+            //     && this.PrincipalsStore.state.configs.tempdat_exporting == true;
+            if(
+                this.PrincipalsStore.state.configs.tempdat_exporting == undefined
+                || this.PrincipalsStore.state.configs.tempdat_exporting == true
+            ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
     },
 
     // watch: {

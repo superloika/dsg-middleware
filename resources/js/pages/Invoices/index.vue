@@ -4,6 +4,9 @@
             <v-toolbar-title>
                 <v-icon>mdi-file-outline</v-icon>
                 {{ $route.meta.name }}
+                <v-chip color="default" small>
+                    Local DB
+                </v-chip>
                 <v-chip color="default" small title="Number of entries">
                     {{ InvoicesStore.state.invoices.total }}
                 </v-chip>
@@ -71,7 +74,7 @@
                 <v-icon>mdi-refresh</v-icon>
             </v-btn>
 
-            <v-btn
+            <!-- <v-btn
                 v-if="AppStore.isSuperAdmin() || AppStore.isAdmin() || AppStore.isUploader()"
                 title="Extract Raw Invoices"
                 dense
@@ -81,7 +84,7 @@
             >
                 <v-icon>mdi-export</v-icon>
                 Extract
-            </v-btn>
+            </v-btn> -->
 
             <!-- <v-btn
                 title="Sync Text Files"

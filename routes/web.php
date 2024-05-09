@@ -114,6 +114,7 @@ Route::prefix('invoices')->group(function(){
 Route::prefix('nav')->group(function(){
     Route::post("/downloadInvoices", "NavisionController@downloadInvoices");
     Route::post("/dlLogs", "NavisionController@dlLogs");
+    Route::post("/extractInvoices", "NavisionController@extractInvoices");
 });
 
 
