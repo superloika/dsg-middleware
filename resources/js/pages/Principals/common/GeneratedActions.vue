@@ -129,7 +129,7 @@
                 <v-col cols="12">
                     <!-- ********************* EXPORT ************************ -->
                     <v-btn
-                        v-if="tempDatExporting"
+                        v-if="genDatExporting"
                         dense rounded block outlined
                         title="Export to Excel"
                         color="primary"
@@ -298,17 +298,16 @@ export default {
                 && this.InvoicesStore.state.invoiceStatus != 'pending'
                 ;
         },
-        tempDatExporting() {
-            // return this.PrincipalsStore.state.configs.tempdat_exporting != undefined
-            //     && this.PrincipalsStore.state.configs.tempdat_exporting == true;
-            if(
-                this.PrincipalsStore.state.configs.tempdat_exporting == undefined
-                || this.PrincipalsStore.state.configs.tempdat_exporting == true
-            ) {
-                return true;
+        genDatExporting() {
+            if(this.apiUploading) {
+                if(this.InvoicesStore.state.invoiceStatus == 'uploaded') {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-                return false;
-            }
+                return true;
+            } // last resort
         },
     },
 

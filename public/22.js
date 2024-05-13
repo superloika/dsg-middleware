@@ -289,14 +289,17 @@ __webpack_require__.r(__webpack_exports__);
       return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData // || this.warningsCount > 0
       || this.InvoicesStore.state.invoiceStatus != 'completed' && this.InvoicesStore.state.invoiceStatus != 'pending';
     },
-    tempDatExporting: function tempDatExporting() {
-      // return this.PrincipalsStore.state.configs.tempdat_exporting != undefined
-      //     && this.PrincipalsStore.state.configs.tempdat_exporting == true;
-      if (this.PrincipalsStore.state.configs.tempdat_exporting == undefined || this.PrincipalsStore.state.configs.tempdat_exporting == true) {
-        return true;
+    genDatExporting: function genDatExporting() {
+      if (this.apiUploading) {
+        if (this.InvoicesStore.state.invoiceStatus == 'uploaded') {
+          return true;
+        } else {
+          return false;
+        }
       } else {
-        return false;
-      }
+        return true;
+      } // last resort
+
     }
   },
   // watch: {
@@ -675,7 +678,7 @@ var render = function() {
                 "v-col",
                 { attrs: { cols: "12" } },
                 [
-                  _vm.tempDatExporting
+                  _vm.genDatExporting
                     ? _c(
                         "v-btn",
                         {

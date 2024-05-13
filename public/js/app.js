@@ -2600,7 +2600,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     DevChat: function DevChat() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../pages/Principals/common/DevChat.vue */ "./resources/js/pages/Principals/common/DevChat.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ../pages/Principals/common/DevChat.vue */ "./resources/js/pages/Principals/common/DevChat.vue"));
     }
   },
   data: function data() {
@@ -2959,7 +2959,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     DevChat: function DevChat() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../pages/Principals/common/DevChat.vue */ "./resources/js/pages/Principals/common/DevChat.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ../pages/Principals/common/DevChat.vue */ "./resources/js/pages/Principals/common/DevChat.vue"));
     },
     MasterCustomers: function MasterCustomers() {
       return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ../pages/MasterCustomers */ "./resources/js/pages/MasterCustomers/index.vue"));
@@ -3781,7 +3781,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AccountsEdit: function AccountsEdit() {
-      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ../ManageAccounts/AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../ManageAccounts/AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
     }
   },
   computed: {
@@ -4650,7 +4650,7 @@ __webpack_require__.r(__webpack_exports__);
       return __webpack_require__.e(/*! import() */ 11).then(__webpack_require__.bind(null, /*! ./AccountsAdd.vue */ "./resources/js/pages/ManageAccounts/AccountsAdd.vue"));
     },
     AccountsEdit: function AccountsEdit() {
-      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./AccountsEdit.vue */ "./resources/js/pages/ManageAccounts/AccountsEdit.vue"));
     }
   },
   data: function data() {
