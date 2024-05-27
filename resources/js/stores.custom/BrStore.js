@@ -1,17 +1,20 @@
 import Vue from 'vue';
 import AppStore from './AppStore';
+import PrincipalsStore from './PrincipalsStore';
 
 
 const state = Vue.observable({
     // token: null,
     brUploadDialogOpen: false,
     // currentGeneratedBatches: [],
-    return_indicators: [
-        'Outright \/ Devuelto Good',
-        'Outright \/ Devuelto Bad',
-        'Trade Return Good',
-        'Trade Return Bad'
-    ],
+    // return_indicators: [
+    //     'Outright \/ Devuelto Good',
+    //     'Outright \/ Devuelto Bad',
+    //     'Trade Return Good',
+    //     'Trade Return Bad'
+    // ],
+
+    // BR standard picklist
     return_reasons: [
         'Cancelled by Outlet',
         'Cancelled by Salesperson',
@@ -71,7 +74,8 @@ const actions = {
             e.output_template.forEach(e => {
                 e[1].forEach(e => {
                     if(
-                        (e.status=='completed' || e.status=='pending')
+                        // (e.status=='completed' || e.status=='pending')
+                        (e.status == 'pending')
                         // && e.invoice_number != ''
                         // && e.customer_code != ''
                         // && e.item_code != ''
@@ -113,7 +117,7 @@ const actions = {
                                 },
                                 {
                                     id: e.cf_return_indicator_id,
-                                    value: e.cf_return_indicator_value
+                                    value: e.cf_return_indicator_value,
                                 },
                                 {
                                     id: e.cf_return_invoice_reference_id,
@@ -173,11 +177,37 @@ const actions = {
                                     'Return indicator is not specified [return_indicator_empty]'
                                 );
                             }
+                            // if return indicator is not in the standard picklist (defined above)
+                            // else if(
+                            //     !_.includes(
+                            //         state.return_indicators.map(e => e.toString().toLowerCase()),
+                            //         e.return_indicator.toString().toLowerCase()
+                            //     )
+                            // ) {
+                            //     objInvoices[e.invoice_number].with_errors.unshift(
+                            //         'Return indicator is invalid [return_indicator_invalid]'
+                            //     );
+                            // }
 
                             // if empty ang return reason
-                            if(e.remarks == '' || e.remarks == null || e.remarks == 'not_specified') {
+                            if(
+                                e.remarks == ''
+                                || e.remarks == null
+                                || e.remarks == 'not_specified'
+                            ) {
                                 objInvoices[e.invoice_number].with_errors.unshift(
                                     'Return reason is not specified [return_reason_empty]'
+                                );
+                            }
+                            // if return reason is not in the standard picklist (defined above)
+                            else if(
+                                !_.includes(
+                                    state.return_reasons.map(e => e.toString().toLowerCase()),
+                                    e.remarks.toString().toLowerCase()
+                                )
+                            ) {
+                                objInvoices[e.invoice_number].with_errors.unshift(
+                                    'Return reason is invalid [return_reason_invalid]'
                                 );
                             }
 
@@ -243,22 +273,29 @@ const actions = {
                         }
                         // ======================= /misc validations =======================
 
+                        // populate invoice details (invoice items)
+                        const temp_discounted_amount = Number.parseFloat(
+                            (temp_qty * e.price_supplier - temp_discount_value).toFixed(5)
+                        );
+
                         objInvoices[e.invoice_number].details.unshift({
                             item_name: e.description_supplier=='' || e.description_supplier==null
                                 ? e.item_description : e.description_supplier,
                             // item_name: e.item_description,
-                            sku_external_id: e.item_code,
-                            quantity: temp_qty,
-                            sku_uom: e.uom_supplier,
-                            price_per_item: e.price_supplier,
-                            discount_percentage: e.discount_percentage,
-                            discount_value: temp_discount_value,
-                            discounted_amount: temp_qty * e.price_supplier - temp_discount_value, // temp - for display purposes
+                            sku_external_id:        e.item_code,
+                            quantity:               temp_qty,
+                            sku_uom:                e.uom_supplier,
+                            price_per_item:         e.price_supplier,
+                            discount_percentage:    e.discount_percentage,
+                            discount_value:         temp_discount_value,
+                            // temp - for display purposes
+                            discounted_amount:      temp_discounted_amount,
                             // gross_value:  temp_amount_supplier,
                             // kaloy stuff
                             // kaning gross_amount kay wapay deduction sa discount
                             // wala pay sure haha
                             // gross_amount:  e.amount_supplier,
+                            qty_per_uom:            e.qty_per_uom,
                         });
                     }
                 });
@@ -267,21 +304,98 @@ const actions = {
 
         // calc total_value (invoice level)
         // label invoice with error as not included in the upload
+        // rearrange invoices (prio those w/o partial errors)
+        let partSI = [];
+        let partCM = [];
+        let partSIwithErr = [];
+        let partCMwithErr = [];
         let invoices = Object.values(objInvoices);
         invoices.forEach(e => {
-            e.details.forEach(i => {
-                objInvoices[e.erp_invoice_number].invoice_total_amount += i.discounted_amount;
+            // duplicate item codes stuff
+            const mergedItems = {};
+
+            e.details.forEach(item => {
+                objInvoices[e.erp_invoice_number].invoice_total_amount += item.discounted_amount;
+
+                // duplicate item codes stuff
+                const {
+                    sku_external_id, discounted_amount, qty_per_uom, quantity,
+                    price_per_item, sku_uom
+                } = item;
+                if (!mergedItems[sku_external_id]) {
+                    mergedItems[sku_external_id] = {
+                        ...item,
+                        discounted_amount: 0,
+                        quantity: 0,
+                    };
+                }
+                mergedItems[sku_external_id].discounted_amount += discounted_amount;
+                mergedItems[sku_external_id].quantity += (quantity * qty_per_uom);
+                if(mergedItems[sku_external_id].qty_per_uom > qty_per_uom){
+                    mergedItems[sku_external_id].qty_per_uom = qty_per_uom;
+                    mergedItems[sku_external_id].sku_uom = sku_uom;
+                    mergedItems[sku_external_id].price_per_item = price_per_item;
+                }
             });
+
+            // duplicate item codes stuff
+            const mergedItemsValues = Object.values(mergedItems);
+            e.details = mergedItemsValues;
+            console.log('mergedItems for ' + e.erp_invoice_number, mergedItemsValues);
+
             if(e.with_errors.length > 0) {
                 e.included = false;
                 e.with_errors = _.uniqBy(e.with_errors);
             }
+
+            if(e.with_errors.length < 1 && !e.isReturn) {
+                partSI.push(e);
+            }
+            else if(e.with_errors.length < 1 && e.isReturn) {
+                partCM.push(e);
+            }
+            else if(e.with_errors.length > 0 && !e.isReturn) {
+                partSIwithErr.push(e);
+            }
+            else if(e.with_errors.length > 0 && e.isReturn) {
+                partCMwithErr.push(e);
+            }
+
+            // dupli stuff ================================================================
+            // const mergedItems = {};
+            // e.details.forEach(item => {
+            //     const {
+            //         sku_external_id, discounted_amount, qty_per_uom, quantity,
+            //         price_per_item, sku_uom
+            //     } = item;
+            //     if (!mergedItems[sku_external_id]) {
+            //         mergedItems[sku_external_id] = {
+            //             ...item,
+            //             discounted_amount: 0,
+            //             quantity: 0,
+            //         };
+            //     }
+            //     mergedItems[sku_external_id].discounted_amount += discounted_amount;
+            //     mergedItems[sku_external_id].quantity += (quantity * qty_per_uom);
+            //     if(mergedItems[sku_external_id].qty_per_uom > qty_per_uom){
+            //         mergedItems[sku_external_id].qty_per_uom = qty_per_uom;
+            //         mergedItems[sku_external_id].sku_uom = sku_uom;
+            //         mergedItems[sku_external_id].price_per_item = price_per_item;
+            //     }
+            // });
+            // const mergedItemsValues = Object.values(mergedItems);
+            // e.details = mergedItemsValues;
+            // console.log('mergedItems for ' + e.erp_invoice_number, mergedItemsValues);
+            // /dupli stuff ================================================================
         });
 
-        console.log('with total_value:', objInvoices);
+        const sortedInvoices = Array.prototype.concat(partSI, partCM, partSIwithErr, partCMwithErr);
+        console.log('sortedInvoices', sortedInvoices);
+        // console.log('with total_value:', objInvoices);
 
-        // chunk objInvoices by 50
-        return _.chunk(Object.values(objInvoices), 50);
+        // chunk sortedInvoices by 50
+        // return _.chunk(Object.values(objInvoices), 50);
+        return _.chunk(sortedInvoices, 50);
     },
 
 }

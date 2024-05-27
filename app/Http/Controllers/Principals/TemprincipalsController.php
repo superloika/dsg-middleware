@@ -389,6 +389,7 @@ class TemprincipalsController extends Controller
                     ["text" => 'Item Code', "value" => 'item_code'],
                     ["text" => 'Customer Code', "value" => 'customer_code'],
                     ["text" => 'Vendor Code', "value" => 'vendor_code'],
+                    ["text" => 'Posting Date', "value" => 'posting_date'],
                 ]
             ],
         ];

@@ -537,7 +537,7 @@ var render = function() {
             [
               _c(
                 "v-col",
-                { attrs: { cols: "6" } },
+                { attrs: { "cols-md": "6" } },
                 [
                   _c("v-select", {
                     attrs: {
@@ -625,7 +625,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                { attrs: { cols: "3" } },
+                { attrs: { "cols-md": "3" } },
                 [
                   _c(
                     "v-dialog",
@@ -739,7 +739,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                { attrs: { cols: "3" } },
+                { attrs: { "cols-md": "3" } },
                 [
                   _c(
                     "v-btn",

@@ -827,7 +827,7 @@ class InvoicesController extends Controller
      * Change invoice's status to 'uploaded'
      * NOTE: This happens when the user uploaded the data to BeatRoute
      */
-    public function setInvoicesUploaded(Request $request)
+    public function setInvoicesUploaded_orig(Request $request)
     {
         set_time_limit(0);
         // $dateToday = Carbon::now()->format('Y-m-d H:i:s');
@@ -873,6 +873,7 @@ class InvoicesController extends Controller
                                 ->update([
                                     PrincipalsUtil::$TBL_CM . '.status' => PrincipalsUtil::$STATUS_UPLOADED
                                 ]);
+                            // /update sales returns status (CM) **********************************************
 
                             // update sales invoices status **************************************************
                             DB::table(PrincipalsUtil::$TBL_INVOICES)
@@ -882,6 +883,7 @@ class InvoicesController extends Controller
                                 ->update([
                                     'status' => PrincipalsUtil::$STATUS_UPLOADED
                                 ]);
+                            // /update sales invoices status **************************************************
                         }
                     }
                 }
@@ -893,6 +895,76 @@ class InvoicesController extends Controller
                 ];
                 return response()->json($response);
             }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $response['success'] = false;
+            $response['message'] = $th->getMessage();
+            return response()->json($response, 500);
+        }
+    }
+    public function setInvoicesUploaded(Request $request)
+    {
+        // last resort
+        set_time_limit(0);
+        $dateToday = Carbon::now()->format('Y-m-d H:i:s');
+
+        $generated_data = $request->gendata;
+        $batch = $request->batch;
+        // dd($generated_data);
+
+        // generated data
+        DB::beginTransaction();
+        try {
+            foreach ($generated_data as $genData) {
+                foreach ($genData['output_template'] as $output_template) {
+                    foreach ($output_template[1] as $line) {
+                        $isReturn = isset($line['return_indicator']);
+
+                        // override from pending to uploaded (for gendata)
+                        $line['status'] = 'uploaded';
+
+                        if($isReturn) {
+                            DB::table(PrincipalsUtil::$TBL_CM)
+                                ->where('doc_no',           $line['doc_no'])
+                                ->where('item_code',        $line['alturas_item_code'])
+                                ->where('customer_code',    $line['alturas_customer_code'])
+                                ->where('uom',              $line['uom'])
+                                ->where('status',           'pending')
+                                ->update([
+                                    'status' =>         'uploaded',
+                                    'updated_at' =>     $dateToday,
+                                    'gendata' =>        $line,
+                                ]);
+                        }
+                        else {
+                            DB::table(PrincipalsUtil::$TBL_INVOICES)
+                                ->where('doc_no',           $line['doc_no'])
+                                ->where('item_code',        $line['alturas_item_code'])
+                                ->where('customer_code',    $line['alturas_customer_code'])
+                                ->where('vendor_code',      $line['vendor_code'])
+                                ->where('uom',              $line['uom'])
+                                ->where('status',           'pending')
+                                ->update([
+                                    'status' =>         'uploaded',
+                                    'updated_at' =>     $dateToday,
+                                    'gendata' =>        $line,
+                                ]);
+                        }
+                    }
+                }
+            }
+
+            DB::commit();
+            // $response = [
+            //     'success' => true,
+            //     'message' => 'Successful',
+            // ];
+            $response = [
+                'success' => true,
+                'message' => 'Successful',
+                'batch' => $batch
+            ];
+            return response()->json($response);
         } catch (\Throwable $th) {
             DB::rollBack();
             $response['success'] = false;

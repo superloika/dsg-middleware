@@ -67,16 +67,17 @@ const state = Vue.observable({
             status: "Completed",
             value: "completed"
         },
-        // {
-        //     status: "Uploaded",
-        //     value: "uploaded"
-        // },
+        {
+            status: "Uploaded",
+            value: "uploaded"
+        },
         // {
         //     status: "All",
         //     value: "all"
         // },
     ],
     invoiceStatus: "pending",
+    lastSelectedInvoiceStatus: "",
 
     data_types: [
         {
@@ -262,7 +263,7 @@ const actions = {
     /**
      * set invoices' status to 'uploaded'
      */
-    async setInvoicesUploaded(batch) {
+    async setInvoicesUploaded(batch, gendata) {
         try {
             const url =
                 AppStore.state.siteUrl +
@@ -270,7 +271,8 @@ const actions = {
                 ;
 
             const payload = {
-                batch: batch
+                batch: batch,
+                gendata: gendata
             };
 
             const res = await axios.post(url, payload);

@@ -2479,14 +2479,25 @@ __webpack_require__.r(__webpack_exports__);
       wsConState: 'websocket:error'
     };
   },
-  // computed: {
-  // },
+  computed: {
+    unreadMsgCount: function unreadMsgCount() {
+      return this.DevChatStore.state.unreadMsgCount;
+    }
+  },
   methods: {
     toggleDrawerState: function toggleDrawerState() {
       this.navDrawerState = !this.navDrawerState;
     }
   },
-  watch: {},
+  watch: {
+    unreadMsgCount: function unreadMsgCount() {
+      if (this.unreadMsgCount > 0) {
+        document.title = "".concat(this.AppStore.state.DocTitle, " (").concat(this.unreadMsgCount, ")");
+      } else {
+        document.title = this.AppStore.state.DocTitle;
+      }
+    }
+  },
   mounted: function mounted() {
     var _this = this;
 
@@ -4793,7 +4804,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .v-toolbar__content {\n    border-bottom: 1px solid #e9e9e9;\n} */\n.search-field{\n    border: 1px solid #f1f1f1;\n}\n\n/* .v-data-table__wrapper table tbody tr{\n\n} */\n.v-data-table__wrapper table tbody tr td.text-start{\n    font-size: 12px;\n}\n/* .v-data-table__wrapper table tbody tr td.text-start:hover {\n    background-color: #f1f1f1;\n} */\n\n/* .theme--dark.v-data-table\n> .v-data-table__wrapper\n> table\n> tbody\n> tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {\n    background-color: #000000;\n} */\ndiv.v-tab {\n    padding: 0px 10px;\n}\n.theme--light.v-toolbar.elevation-27,\n.theme--light.v-app-bar.v-toolbar.elevation-27\n/* .theme--dark.v-toolbar.elevation-27,\n.theme--dark.v-app-bar.v-toolbar.elevation-27 */\n{\n    /* box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px; */\n    /* box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px; */\n    box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px inset;\n}\n.v-btn {\n    font-size: 11px;\n}\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .v-toolbar__content {\n    border-bottom: 1px solid #e9e9e9;\n} */\n.search-field{\n    border: 1px solid #f1f1f1;\n}\n\n/* .v-data-table__wrapper table tbody tr{\n\n} */\n.v-data-table__wrapper table tbody tr td.text-start{\n    font-size: 12px;\n}\n/* .v-data-table__wrapper table tbody tr td.text-start:hover {\n    background-color: #f1f1f1;\n} */\n\n/* .theme--dark.v-data-table\n> .v-data-table__wrapper\n> table\n> tbody\n> tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {\n    background-color: #000000;\n} */\ndiv.v-tab {\n    padding: 0px 10px;\n}\n.theme--light.v-toolbar.elevation-27,\n.theme--light.v-app-bar.v-toolbar.elevation-27\n/* .theme--dark.v-toolbar.elevation-27,\n.theme--dark.v-app-bar.v-toolbar.elevation-27 */\n{\n    /* box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px; */\n    /* box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px; */\n    box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px inset;\n}\n\n", ""]);
 
 // exports
 
@@ -122512,6 +122523,7 @@ var host = "http://".concat(window.location.host, "/"); // const localStorage = 
 var state = vue__WEBPACK_IMPORTED_MODULE_2___default.a.observable({
   AppName: 'DSG PRINCIPAL MIDDLEWARE',
   AppAbbr: 'DSGPM',
+  DocTitle: document.title,
   AppVersion: '2.0.1',
   // AppName: 'DSG PRINCIPAL MIDDLEWARE',
   siteUrl: host,
@@ -123049,6 +123061,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _AppStore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AppStore */ "./resources/js/stores.custom/AppStore.js");
+/* harmony import */ var _PrincipalsStore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PrincipalsStore */ "./resources/js/stores.custom/PrincipalsStore.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -123063,11 +123076,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
   // token: null,
   brUploadDialogOpen: false,
   // currentGeneratedBatches: [],
-  return_indicators: ['Outright \/ Devuelto Good', 'Outright \/ Devuelto Bad', 'Trade Return Good', 'Trade Return Bad'],
+  // return_indicators: [
+  //     'Outright \/ Devuelto Good',
+  //     'Outright \/ Devuelto Bad',
+  //     'Trade Return Good',
+  //     'Trade Return Bad'
+  // ],
+  // BR standard picklist
   return_reasons: ['Cancelled by Outlet', 'Cancelled by Salesperson', 'Expired PO', 'Late Delivery', 'No Freezer Space', 'Over Booking', 'Overstock', 'Poor quality', 'Product age by MAA']
 });
 var actions = {
@@ -123158,7 +123178,7 @@ var actions = {
   },
   preparePayload: function preparePayload(generatedData) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-      var objInvoices, invoices;
+      var objInvoices, partSI, partCM, partSIwithErr, partCMwithErr, invoices, sortedInvoices;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
@@ -123168,7 +123188,8 @@ var actions = {
               generatedData.forEach(function (e) {
                 e.output_template.forEach(function (e) {
                   e[1].forEach(function (e) {
-                    if (e.status == 'completed' || e.status == 'pending' // && e.invoice_number != ''
+                    if ( // (e.status=='completed' || e.status=='pending')
+                    e.status == 'pending' // && e.invoice_number != ''
                     // && e.customer_code != ''
                     // && e.item_code != ''
                     ) {
@@ -123252,11 +123273,27 @@ var actions = {
 
                         if (e.return_indicator == '' || e.return_indicator == null || e.return_indicator == 'not_specified') {
                           objInvoices[e.invoice_number].with_errors.unshift('Return indicator is not specified [return_indicator_empty]');
-                        } // if empty ang return reason
+                        } // if return indicator is not in the standard picklist (defined above)
+                        // else if(
+                        //     !_.includes(
+                        //         state.return_indicators.map(e => e.toString().toLowerCase()),
+                        //         e.return_indicator.toString().toLowerCase()
+                        //     )
+                        // ) {
+                        //     objInvoices[e.invoice_number].with_errors.unshift(
+                        //         'Return indicator is invalid [return_indicator_invalid]'
+                        //     );
+                        // }
+                        // if empty ang return reason
 
 
                         if (e.remarks == '' || e.remarks == null || e.remarks == 'not_specified') {
                           objInvoices[e.invoice_number].with_errors.unshift('Return reason is not specified [return_reason_empty]');
+                        } // if return reason is not in the standard picklist (defined above)
+                        else if (!_.includes(state.return_reasons.map(function (e) {
+                          return e.toString().toLowerCase();
+                        }), e.remarks.toString().toLowerCase())) {
+                          objInvoices[e.invoice_number].with_errors.unshift('Return reason is invalid [return_reason_invalid]');
                         } // if empty ang invoice reference
 
 
@@ -123297,8 +123334,10 @@ var actions = {
                       if (e.customer_code == '' || e.customer_code == null) {
                         objInvoices[e.invoice_number].with_errors.unshift('Empty customer code (retailer_br_id)');
                       } // ======================= /misc validations =======================
+                      // populate invoice details (invoice items)
 
 
+                      var temp_discounted_amount = Number.parseFloat((temp_qty * e.price_supplier - temp_discount_value).toFixed(5));
                       objInvoices[e.invoice_number].details.unshift({
                         item_name: e.description_supplier == '' || e.description_supplier == null ? e.item_description : e.description_supplier,
                         // item_name: e.item_description,
@@ -123308,36 +123347,110 @@ var actions = {
                         price_per_item: e.price_supplier,
                         discount_percentage: e.discount_percentage,
                         discount_value: temp_discount_value,
-                        discounted_amount: temp_qty * e.price_supplier - temp_discount_value // temp - for display purposes
+                        // temp - for display purposes
+                        discounted_amount: temp_discounted_amount,
                         // gross_value:  temp_amount_supplier,
                         // kaloy stuff
                         // kaning gross_amount kay wapay deduction sa discount
                         // wala pay sure haha
                         // gross_amount:  e.amount_supplier,
-
+                        qty_per_uom: e.qty_per_uom
                       });
                     }
                   });
                 });
               }); // calc total_value (invoice level)
               // label invoice with error as not included in the upload
+              // rearrange invoices (prio those w/o partial errors)
 
+              partSI = [];
+              partCM = [];
+              partSIwithErr = [];
+              partCMwithErr = [];
               invoices = Object.values(objInvoices);
               invoices.forEach(function (e) {
-                e.details.forEach(function (i) {
-                  objInvoices[e.erp_invoice_number].invoice_total_amount += i.discounted_amount;
-                });
+                // duplicate item codes stuff
+                var mergedItems = {};
+                e.details.forEach(function (item) {
+                  objInvoices[e.erp_invoice_number].invoice_total_amount += item.discounted_amount; // duplicate item codes stuff
+
+                  var sku_external_id = item.sku_external_id,
+                      discounted_amount = item.discounted_amount,
+                      qty_per_uom = item.qty_per_uom,
+                      quantity = item.quantity,
+                      price_per_item = item.price_per_item,
+                      sku_uom = item.sku_uom;
+
+                  if (!mergedItems[sku_external_id]) {
+                    mergedItems[sku_external_id] = _objectSpread(_objectSpread({}, item), {}, {
+                      discounted_amount: 0,
+                      quantity: 0
+                    });
+                  }
+
+                  mergedItems[sku_external_id].discounted_amount += discounted_amount;
+                  mergedItems[sku_external_id].quantity += quantity * qty_per_uom;
+
+                  if (mergedItems[sku_external_id].qty_per_uom > qty_per_uom) {
+                    mergedItems[sku_external_id].qty_per_uom = qty_per_uom;
+                    mergedItems[sku_external_id].sku_uom = sku_uom;
+                    mergedItems[sku_external_id].price_per_item = price_per_item;
+                  }
+                }); // duplicate item codes stuff
+
+                var mergedItemsValues = Object.values(mergedItems);
+                e.details = mergedItemsValues;
+                console.log('mergedItems for ' + e.erp_invoice_number, mergedItemsValues);
 
                 if (e.with_errors.length > 0) {
                   e.included = false;
                   e.with_errors = _.uniqBy(e.with_errors);
                 }
+
+                if (e.with_errors.length < 1 && !e.isReturn) {
+                  partSI.push(e);
+                } else if (e.with_errors.length < 1 && e.isReturn) {
+                  partCM.push(e);
+                } else if (e.with_errors.length > 0 && !e.isReturn) {
+                  partSIwithErr.push(e);
+                } else if (e.with_errors.length > 0 && e.isReturn) {
+                  partCMwithErr.push(e);
+                } // dupli stuff ================================================================
+                // const mergedItems = {};
+                // e.details.forEach(item => {
+                //     const {
+                //         sku_external_id, discounted_amount, qty_per_uom, quantity,
+                //         price_per_item, sku_uom
+                //     } = item;
+                //     if (!mergedItems[sku_external_id]) {
+                //         mergedItems[sku_external_id] = {
+                //             ...item,
+                //             discounted_amount: 0,
+                //             quantity: 0,
+                //         };
+                //     }
+                //     mergedItems[sku_external_id].discounted_amount += discounted_amount;
+                //     mergedItems[sku_external_id].quantity += (quantity * qty_per_uom);
+                //     if(mergedItems[sku_external_id].qty_per_uom > qty_per_uom){
+                //         mergedItems[sku_external_id].qty_per_uom = qty_per_uom;
+                //         mergedItems[sku_external_id].sku_uom = sku_uom;
+                //         mergedItems[sku_external_id].price_per_item = price_per_item;
+                //     }
+                // });
+                // const mergedItemsValues = Object.values(mergedItems);
+                // e.details = mergedItemsValues;
+                // console.log('mergedItems for ' + e.erp_invoice_number, mergedItemsValues);
+                // /dupli stuff ================================================================
+
               });
-              console.log('with total_value:', objInvoices); // chunk objInvoices by 50
+              sortedInvoices = Array.prototype.concat(partSI, partCM, partSIwithErr, partCMwithErr);
+              console.log('sortedInvoices', sortedInvoices); // console.log('with total_value:', objInvoices);
+              // chunk sortedInvoices by 50
+              // return _.chunk(Object.values(objInvoices), 50);
 
-              return _context3.abrupt("return", _.chunk(Object.values(objInvoices), 50));
+              return _context3.abrupt("return", _.chunk(sortedInvoices, 50));
 
-            case 6:
+            case 11:
             case "end":
               return _context3.stop();
           }
@@ -123555,16 +123668,16 @@ var state = vue__WEBPACK_IMPORTED_MODULE_2___default.a.observable({
   }, {
     status: "Completed",
     value: "completed"
+  }, {
+    status: "Uploaded",
+    value: "uploaded"
   } // {
-  //     status: "Uploaded",
-  //     value: "uploaded"
-  // },
-  // {
   //     status: "All",
   //     value: "all"
   // },
   ],
   invoiceStatus: "pending",
+  lastSelectedInvoiceStatus: "",
   data_types: [{
     type: "Sales Invoice",
     value: "sales_invoice"
@@ -123854,7 +123967,7 @@ var actions = {
   /**
    * set invoices' status to 'uploaded'
    */
-  setInvoicesUploaded: function setInvoicesUploaded(batch) {
+  setInvoicesUploaded: function setInvoicesUploaded(batch, gendata) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
       var url, payload, res;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
@@ -123864,7 +123977,8 @@ var actions = {
               _context7.prev = 0;
               url = _AppStore__WEBPACK_IMPORTED_MODULE_3__["default"].state.siteUrl + "invoices/setInvoicesUploaded";
               payload = {
-                batch: batch
+                batch: batch,
+                gendata: gendata
               };
               _context7.next = 5;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, payload);
@@ -124513,6 +124627,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _InvoicesStore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./InvoicesStore */ "./resources/js/stores.custom/InvoicesStore.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -124525,12 +124640,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
- // import InvoicesStore from './InvoicesStore';
-// import AppStore from '../AppStore';
+ // import AppStore from '../AppStore';
 
 var AppStore = vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype.AppStore; // let BrStore = Vue.prototype.BrStore;
 // let InvoicesStore = Vue.prototype.InvoicesStore;
-// import axios from 'axios';
+
+ // import axios from 'axios';
 
 var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
   // current selected principal main vendor code
@@ -124798,27 +124913,34 @@ var actions = {
               }); // ];
               // state.currentGeneratedData = result.data.output_template_variations;
 
+              /**
+               * keep track on the last selected invoice status (in the filter dropdown)
+               * used in enable/disable conditions for export & upload buttons
+              */
+
+              _InvoicesStore__WEBPACK_IMPORTED_MODULE_2__["default"].state.lastSelectedInvoiceStatus = status;
+              console.log('XXXXX', state.currentGeneratedData);
               console.log('================= TEMPLATED DATA: =================', state.currentGeneratedData);
-              _context4.next = 19;
+              _context4.next = 21;
               break;
 
-            case 15:
-              _context4.prev = 15;
+            case 17:
+              _context4.prev = 17;
               _context4.t0 = _context4["catch"](2);
               console.log('PrincipalsStore.initCurrentGeneratedData() - ERROR:', _context4.t0);
               AppStore.toast(_context4.t0, 3000, 'error');
 
-            case 19:
-              _context4.prev = 19;
+            case 21:
+              _context4.prev = 21;
               AppStore.overlay(false);
-              return _context4.finish(19);
+              return _context4.finish(21);
 
-            case 22:
+            case 24:
             case "end":
               return _context4.stop();
           }
         }
-      }, _callee4, null, [[2, 15, 19, 22]]);
+      }, _callee4, null, [[2, 17, 21, 24]]);
     }))();
   },
 

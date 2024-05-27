@@ -110,7 +110,7 @@
 
                 <v-col cols="12">
                     <v-btn
-                        dense rounded block
+                        dense rounded block outlined
                         class=""
                         title="Generate"
                         color="primary"
@@ -129,10 +129,9 @@
                 <v-col cols="12">
                     <!-- ********************* EXPORT ************************ -->
                     <v-btn
-                        v-if="genDatExporting"
-                        dense rounded block outlined
+                        dense rounded block
                         title="Export to Excel"
-                        color="primary"
+                        color="success"
                         :disabled="disableExportBtn"
                         @click.stop="
                             PrincipalsStore.state.confirmExportDialogOpen = true
@@ -152,8 +151,9 @@
                         color="primary"
                         block
                         @click.stop="showBRUploadDialog"
-                        :disabled="disableBRUploadButton"
+                        :disabled="disableApiUploadBtn"
                     >
+                        <v-icon left size="25">mdi-upload</v-icon>
                         BeatRoute Upload
                     </v-btn>
                 </v-col>
@@ -266,6 +266,37 @@ export default {
         selectedGroupBy() {
             return this.PrincipalsStore.state.selectedGroupBy;
         },
+
+        // disableExportBtn() {
+        //     if(
+        //         this.PrincipalsStore.state.configs.strict_export != undefined
+        //         && this.PrincipalsStore.state.configs.strict_export == true
+        //     ) {
+        //         return this.lineCount < 1
+        //             || this.searchKeyLength > 0
+        //             || this.PrincipalsStore.state.isGeneratingData
+        //             || this.invoiceStatus == ''
+        //             || (this.warningsCount > 0 && this.invoiceStatus == 'pending')
+        //             ;
+        //     } else {
+        //         return this.lineCount < 1
+        //             || this.searchKeyLength > 0
+        //             || this.PrincipalsStore.state.isGeneratingData
+        //             || this.invoiceStatus == ''
+        //             || (this.apiUploading && this.invoiceStatus == 'pending')
+        //             ;
+        //     }
+        // },
+        // disableApiUploadBtn() {
+        //     return this.lineCount < 1
+        //         || this.searchKeyLength > 0
+        //         || this.PrincipalsStore.state.isGeneratingData
+        //         // || this.warningsCount > 0
+        //         || this.invoiceStatus == 'completed'
+        //         || this.invoiceStatus == 'uploaded'
+        //         ;
+        // },
+
         disableExportBtn() {
             if(
                 this.PrincipalsStore.state.configs.strict_export != undefined
@@ -274,41 +305,46 @@ export default {
                 return this.lineCount < 1
                     || this.searchKeyLength > 0
                     || this.PrincipalsStore.state.isGeneratingData
-                    || (this.warningsCount > 0 && this.invoiceStatus == 'pending')
-                    || this.invoiceStatus == ''
+                    || this.lastSelectedInvoiceStatus == ''
+                    || (this.warningsCount > 0 && this.lastSelectedInvoiceStatus == 'pending')
                     ;
             } else {
                 return this.lineCount < 1
                     || this.searchKeyLength > 0
                     || this.PrincipalsStore.state.isGeneratingData
-                    || this.invoiceStatus == ''
+                    || this.lastSelectedInvoiceStatus == ''
+                    || (this.apiUploading && this.lastSelectedInvoiceStatus == 'pending')
                     ;
             }
         },
-        apiUploading() {
-            return this.PrincipalsStore.state.configs.api_uploading != undefined
-                && this.PrincipalsStore.state.configs.api_uploading == true;
-        },
-        disableBRUploadButton() {
+        disableApiUploadBtn() {
             return this.lineCount < 1
                 || this.searchKeyLength > 0
                 || this.PrincipalsStore.state.isGeneratingData
                 // || this.warningsCount > 0
-                || this.InvoicesStore.state.invoiceStatus != 'completed'
-                && this.InvoicesStore.state.invoiceStatus != 'pending'
+                || this.lastSelectedInvoiceStatus == 'completed'
+                || this.lastSelectedInvoiceStatus == 'uploaded'
                 ;
         },
-        genDatExporting() {
-            if(this.apiUploading) {
-                if(this.InvoicesStore.state.invoiceStatus == 'uploaded') {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return true;
-            } // last resort
+
+        apiUploading() {
+            return this.PrincipalsStore.state.configs.api_uploading != undefined
+                && this.PrincipalsStore.state.configs.api_uploading == true;
         },
+        // genDatExporting() {
+        //     if(this.apiUploading) {
+        //         if(this.InvoicesStore.state.invoiceStatus == 'uploaded') {
+        //             return true;
+        //         } else {
+        //             return false;
+        //         }
+        //     } else {
+        //         return true;
+        //     }
+        // },
+        lastSelectedInvoiceStatus() {
+            return this.InvoicesStore.state.lastSelectedInvoiceStatus;
+        }
     },
 
     // watch: {
@@ -391,7 +427,6 @@ export default {
                 );
                 this.PrincipalsStore.state.currentGeneratedDataSearchKey = '';
             }
-
         },
 
         showBRUploadDialog() {

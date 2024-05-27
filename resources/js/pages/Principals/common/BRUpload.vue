@@ -170,11 +170,11 @@
                                                         <td>{{ invoice.invoice_date }}</td>
                                                         <td>{{ invoice.customer_name }}</td>
                                                         <td>{{ invoice.retailer_br_id }}</td>
-                                                        <td>{{ invoice.invoice_total_amount.toFixed(5) }}</td>
+                                                        <td>{{ invoice.invoice_total_amount }}</td>
                                                         <td>{{ invoice.customFields[0].value }}</td>
                                                         <td v-if="invoice.isReturn">
                                                             {{ invoice.customFields[1].value }}
-                                                            <v-menu offset-y>
+                                                            <!-- <v-menu offset-y>
                                                                 <template v-slot:activator="{ on, attrs }">
                                                                     <v-btn
                                                                         small rounded color="warning"
@@ -204,12 +204,12 @@
                                                                     <v-list-item-title>{{ reason }}</v-list-item-title>
                                                                     </v-list-item>
                                                                 </v-list>
-                                                            </v-menu>
+                                                            </v-menu> -->
                                                         </td>
                                                         <td v-if="invoice.isReturn">{{ invoice.customFields[2].value }}</td>
                                                         <td v-if="invoice.isReturn">
                                                             {{ invoice.remarks }}
-                                                            <v-menu offset-y>
+                                                            <!-- <v-menu offset-y>
                                                                 <template v-slot:activator="{ on, attrs }">
                                                                     <v-btn
                                                                         small rounded color="warning"
@@ -239,7 +239,7 @@
                                                                     <v-list-item-title>{{ reason }}</v-list-item-title>
                                                                     </v-list-item>
                                                                 </v-list>
-                                                            </v-menu>
+                                                            </v-menu> -->
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -362,8 +362,21 @@ export default {
         disableUploadBtn() {
             return !this.batches.length
                 || this.stillUploading
-                || !this.enableReupload && this.uploadAttempts > 0;
+                || !this.enableReupload && this.uploadAttempts > 0
+                || this.allWithErrors
+                ;
         },
+        allWithErrors() {
+            let lineCount = 0;
+            let errCount = 0;
+            this.batches.forEach(b=>b.forEach(line => {
+                lineCount += 1;
+                if(line.with_errors.length > 0) {
+                    errCount += 1;
+                }
+            }));
+            return lineCount == errCount;
+        }
     },
 
     methods: {
@@ -382,41 +395,70 @@ export default {
                         console.log('BATCH ' + i, batch);
                         const batchLen = batch.length;
 
-                        if((this.batchUploadStates[i] == undefined || this.batchUploadStates[i] == 'failed') && batchLen) {
+                        if(
+                            (this.batchUploadStates[i] == undefined || this.batchUploadStates[i] == 'failed')
+                            && batchLen
+                        ) {
                             Vue.set(this.batchUploadStates,i,'uploading');
 
                             this.BrStore.invoiceCreate(this.bussinessUnit, batch)
                                 .then(res => {
                                     if(res.success) {
                                         if (
-                                            this.InvoicesStore.state.invoiceStatus=='completed' ||
-                                            this.InvoicesStore.state.invoiceStatus=='pending'
+                                            // this.InvoicesStore.state.invoiceStatus=='completed' ||
+                                            this.InvoicesStore.state.invoiceStatus == 'pending'
                                         ) {
-                                            // set status as 'uploaded'
-                                            this.InvoicesStore.setInvoicesUploaded(res.data)
-                                                .then(response => {
-                                                    if(response.success) {
-                                                        Vue.set(this.batchUploadStates,i,'success');
-                                                        for(let j=0; j < batchLen; j++) {
-                                                            batch[j].upload_status = response.batch[j];
-                                                        }
-                                                    } else {
-                                                        Vue.set(this.batchUploadStates,i,'failed');
-                                                    }
+                                            // ---- filter gendata (uploaded only) ----------------------
+                                            let tempGenData = this.PrincipalsStore.state.currentGeneratedData.map(e => {
+                                                let tempOutputTemplate = e.output_template.map(f => {
+                                                    let tempLines = f[1].filter((line) => {
+                                                        const found = res.data.find((r) => {
+                                                            return line.doc_no==r.external_id && r.success==true;
+                                                        });
+                                                        return found != undefined;
+                                                    });
+                                                    return [f[0], tempLines];
                                                 });
-                                        } else if (this.InvoicesStore.state.invoiceStatus=='uploaded') {
+                                                return {
+                                                    main_vendor_code: e.main_vendor_code,
+                                                    update_settings: e.update_settings,
+                                                    name: e.name,
+                                                    output_template: tempOutputTemplate
+                                                }
+                                            });
+                                            // console.log(
+                                            //     'tempGenData',
+                                            //     this.PrincipalsStore.state.currentGeneratedData,
+                                            //     res.data,
+                                            //     tempGenData
+                                            // );
+                                            // return;
+                                            // ---- /filter gendata (uploaded only) ----------------------
+
+                                            this.InvoicesStore.setInvoicesUploaded(res.data, tempGenData).then(response => {
+                                                if(response.success) {
+                                                    Vue.set(this.batchUploadStates,i,'success');
+                                                    for(let j=0; j < batchLen; j++) {
+                                                        batch[j].upload_status = response.batch[j];
+                                                    }
+                                                } else {
+                                                    Vue.set(this.batchUploadStates,i,'failed');
+                                                }
+                                            });
+                                        } else if (this.InvoicesStore.state.invoiceStatus == 'uploaded') {
                                             // set status from 'uploaded' back to 'completed''
-                                            this.InvoicesStore.setInvoicesCancelled(res.data)
-                                                .then(response => {
-                                                    if(response.success) {
-                                                        Vue.set(this.batchUploadStates,i,'success');
-                                                        for(let j=0; j < batchLen; j++) {
-                                                            batch[j].upload_status = response.batch[j];
-                                                        }
-                                                    } else {
-                                                        Vue.set(this.batchUploadStates,i,'failed');
-                                                    }
-                                                });
+                                            // disable codeblock below temporarily
+                                            // this.InvoicesStore.setInvoicesCancelled(res.data)
+                                            //     .then(response => {
+                                            //         if(response.success) {
+                                            //             Vue.set(this.batchUploadStates,i,'success');
+                                            //             for(let j=0; j < batchLen; j++) {
+                                            //                 batch[j].upload_status = response.batch[j];
+                                            //             }
+                                            //         } else {
+                                            //             Vue.set(this.batchUploadStates,i,'failed');
+                                            //         }
+                                            //     });
                                         }
                                     } else {
                                         Vue.set(this.batchUploadStates,i,'failed');
@@ -441,9 +483,8 @@ export default {
                 if(this.batchUploadStates[0] || this.uploadAttempts > 0) {
                     this.batchUploadStates = [];
                     this.PrincipalsStore.initCurrentGeneratedData(
-                        null,
                         this.InvoicesStore.state.invoiceStatus,
-                        this.PrincipalsStore.state.configs.posting_date_format ?? 'm/d/Y'
+                        this.InvoicesStore.state.data_type,
                     );
                 }
 

@@ -1,9 +1,9 @@
 import Vue from 'vue';
-// import InvoicesStore from './InvoicesStore';
 // import AppStore from '../AppStore';
 let AppStore = Vue.prototype.AppStore;
 // let BrStore = Vue.prototype.BrStore;
 // let InvoicesStore = Vue.prototype.InvoicesStore;
+import InvoicesStore from './InvoicesStore';
 // import axios from 'axios';
 
 
@@ -262,6 +262,14 @@ const actions = {
             // ];
 
             // state.currentGeneratedData = result.data.output_template_variations;
+
+            /**
+             * keep track on the last selected invoice status (in the filter dropdown)
+             * used in enable/disable conditions for export & upload buttons
+            */
+            InvoicesStore.state.lastSelectedInvoiceStatus = status;
+
+            console.log('XXXXX', state.currentGeneratedData);
 
             console.log('================= TEMPLATED DATA: =================',
                 state.currentGeneratedData);

@@ -364,7 +364,21 @@ __webpack_require__.r(__webpack_exports__);
       return this.PrincipalsStore.state.configs.bu;
     },
     disableUploadBtn: function disableUploadBtn() {
-      return !this.batches.length || this.stillUploading || !this.enableReupload && this.uploadAttempts > 0;
+      return !this.batches.length || this.stillUploading || !this.enableReupload && this.uploadAttempts > 0 || this.allWithErrors;
+    },
+    allWithErrors: function allWithErrors() {
+      var lineCount = 0;
+      var errCount = 0;
+      this.batches.forEach(function (b) {
+        return b.forEach(function (line) {
+          lineCount += 1;
+
+          if (line.with_errors.length > 0) {
+            errCount += 1;
+          }
+        });
+      });
+      return lineCount == errCount;
     }
   },
   methods: {
@@ -392,9 +406,36 @@ __webpack_require__.r(__webpack_exports__);
 
               _this.BrStore.invoiceCreate(_this.bussinessUnit, batch).then(function (res) {
                 if (res.success) {
-                  if (_this.InvoicesStore.state.invoiceStatus == 'completed' || _this.InvoicesStore.state.invoiceStatus == 'pending') {
-                    // set status as 'uploaded'
-                    _this.InvoicesStore.setInvoicesUploaded(res.data).then(function (response) {
+                  if ( // this.InvoicesStore.state.invoiceStatus=='completed' ||
+                  _this.InvoicesStore.state.invoiceStatus == 'pending') {
+                    // ---- filter gendata (uploaded only) ----------------------
+                    var tempGenData = _this.PrincipalsStore.state.currentGeneratedData.map(function (e) {
+                      var tempOutputTemplate = e.output_template.map(function (f) {
+                        var tempLines = f[1].filter(function (line) {
+                          var found = res.data.find(function (r) {
+                            return line.doc_no == r.external_id && r.success == true;
+                          });
+                          return found != undefined;
+                        });
+                        return [f[0], tempLines];
+                      });
+                      return {
+                        main_vendor_code: e.main_vendor_code,
+                        update_settings: e.update_settings,
+                        name: e.name,
+                        output_template: tempOutputTemplate
+                      };
+                    }); // console.log(
+                    //     'tempGenData',
+                    //     this.PrincipalsStore.state.currentGeneratedData,
+                    //     res.data,
+                    //     tempGenData
+                    // );
+                    // return;
+                    // ---- /filter gendata (uploaded only) ----------------------
+
+
+                    _this.InvoicesStore.setInvoicesUploaded(res.data, tempGenData).then(function (response) {
                       if (response.success) {
                         Vue.set(_this.batchUploadStates, i, 'success');
 
@@ -405,19 +446,19 @@ __webpack_require__.r(__webpack_exports__);
                         Vue.set(_this.batchUploadStates, i, 'failed');
                       }
                     });
-                  } else if (_this.InvoicesStore.state.invoiceStatus == 'uploaded') {
-                    // set status from 'uploaded' back to 'completed''
-                    _this.InvoicesStore.setInvoicesCancelled(res.data).then(function (response) {
-                      if (response.success) {
-                        Vue.set(_this.batchUploadStates, i, 'success');
-
-                        for (var j = 0; j < batchLen; j++) {
-                          batch[j].upload_status = response.batch[j];
-                        }
-                      } else {
-                        Vue.set(_this.batchUploadStates, i, 'failed');
-                      }
-                    });
+                  } else if (_this.InvoicesStore.state.invoiceStatus == 'uploaded') {// set status from 'uploaded' back to 'completed''
+                    // disable codeblock below temporarily
+                    // this.InvoicesStore.setInvoicesCancelled(res.data)
+                    //     .then(response => {
+                    //         if(response.success) {
+                    //             Vue.set(this.batchUploadStates,i,'success');
+                    //             for(let j=0; j < batchLen; j++) {
+                    //                 batch[j].upload_status = response.batch[j];
+                    //             }
+                    //         } else {
+                    //             Vue.set(this.batchUploadStates,i,'failed');
+                    //         }
+                    //     });
                   }
                 } else {
                   Vue.set(_this.batchUploadStates, i, 'failed');
@@ -444,10 +485,8 @@ __webpack_require__.r(__webpack_exports__);
       if (confirm('Are you sure you want to close this window?')) {
         // regenerate templated data if upload states has been modified
         if (this.batchUploadStates[0] || this.uploadAttempts > 0) {
-          var _this$PrincipalsStore;
-
           this.batchUploadStates = [];
-          this.PrincipalsStore.initCurrentGeneratedData(null, this.InvoicesStore.state.invoiceStatus, (_this$PrincipalsStore = this.PrincipalsStore.state.configs.posting_date_format) !== null && _this$PrincipalsStore !== void 0 ? _this$PrincipalsStore : 'm/d/Y');
+          this.PrincipalsStore.initCurrentGeneratedData(this.InvoicesStore.state.invoiceStatus, this.InvoicesStore.state.data_type);
         }
 
         this.tab = null;
@@ -1087,9 +1126,7 @@ var render = function() {
                                                   _c("td", [
                                                     _vm._v(
                                                       _vm._s(
-                                                        invoice.invoice_total_amount.toFixed(
-                                                          5
-                                                        )
+                                                        invoice.invoice_total_amount
                                                       )
                                                     )
                                                   ]),
@@ -1104,138 +1141,17 @@ var render = function() {
                                                   ]),
                                                   _vm._v(" "),
                                                   invoice.isReturn
-                                                    ? _c(
-                                                        "td",
-                                                        [
-                                                          _vm._v(
-                                                            "\n                                                        " +
-                                                              _vm._s(
-                                                                invoice
-                                                                  .customFields[1]
-                                                                  .value
-                                                              ) +
-                                                              "\n                                                        "
-                                                          ),
-                                                          _c(
-                                                            "v-menu",
-                                                            {
-                                                              attrs: {
-                                                                "offset-y": ""
-                                                              },
-                                                              scopedSlots: _vm._u(
-                                                                [
-                                                                  {
-                                                                    key:
-                                                                      "activator",
-                                                                    fn: function(
-                                                                      ref
-                                                                    ) {
-                                                                      var on =
-                                                                        ref.on
-                                                                      var attrs =
-                                                                        ref.attrs
-                                                                      return [
-                                                                        (invoice
-                                                                          .customFields[1]
-                                                                          .value ==
-                                                                          "" ||
-                                                                          invoice
-                                                                            .customFields[1]
-                                                                            .value ==
-                                                                            null ||
-                                                                          invoice
-                                                                            .customFields[1]
-                                                                            .value ==
-                                                                            "not_specified") &&
-                                                                        !_vm.disableUploadBtn
-                                                                          ? _c(
-                                                                              "v-btn",
-                                                                              _vm._g(
-                                                                                _vm._b(
-                                                                                  {
-                                                                                    attrs: {
-                                                                                      small:
-                                                                                        "",
-                                                                                      rounded:
-                                                                                        "",
-                                                                                      color:
-                                                                                        "warning"
-                                                                                    }
-                                                                                  },
-                                                                                  "v-btn",
-                                                                                  attrs,
-                                                                                  false
-                                                                                ),
-                                                                                on
-                                                                              ),
-                                                                              [
-                                                                                _vm._v(
-                                                                                  "\n                                                                    Override\n                                                                "
-                                                                                )
-                                                                              ]
-                                                                            )
-                                                                          : _vm._e()
-                                                                      ]
-                                                                    }
-                                                                  }
-                                                                ],
-                                                                null,
-                                                                true
-                                                              )
-                                                            },
-                                                            [
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "v-list",
-                                                                _vm._l(
-                                                                  _vm.BrStore
-                                                                    .state
-                                                                    .return_indicators,
-                                                                  function(
-                                                                    reason,
-                                                                    index
-                                                                  ) {
-                                                                    return _c(
-                                                                      "v-list-item",
-                                                                      {
-                                                                        key: index,
-                                                                        on: {
-                                                                          click: function(
-                                                                            $event
-                                                                          ) {
-                                                                            return _vm.overrideInvoiceProperty(
-                                                                              batchIndex,
-                                                                              invoiceIndex,
-                                                                              "return_indicator_empty",
-                                                                              reason
-                                                                            )
-                                                                          }
-                                                                        }
-                                                                      },
-                                                                      [
-                                                                        _c(
-                                                                          "v-list-item-title",
-                                                                          [
-                                                                            _vm._v(
-                                                                              _vm._s(
-                                                                                reason
-                                                                              )
-                                                                            )
-                                                                          ]
-                                                                        )
-                                                                      ],
-                                                                      1
-                                                                    )
-                                                                  }
-                                                                ),
-                                                                1
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        ],
-                                                        1
-                                                      )
+                                                    ? _c("td", [
+                                                        _vm._v(
+                                                          "\n                                                        " +
+                                                            _vm._s(
+                                                              invoice
+                                                                .customFields[1]
+                                                                .value
+                                                            ) +
+                                                            "\n                                                        "
+                                                        )
+                                                      ])
                                                     : _vm._e(),
                                                   _vm._v(" "),
                                                   invoice.isReturn
@@ -1251,130 +1167,15 @@ var render = function() {
                                                     : _vm._e(),
                                                   _vm._v(" "),
                                                   invoice.isReturn
-                                                    ? _c(
-                                                        "td",
-                                                        [
-                                                          _vm._v(
-                                                            "\n                                                        " +
-                                                              _vm._s(
-                                                                invoice.remarks
-                                                              ) +
-                                                              "\n                                                        "
-                                                          ),
-                                                          _c(
-                                                            "v-menu",
-                                                            {
-                                                              attrs: {
-                                                                "offset-y": ""
-                                                              },
-                                                              scopedSlots: _vm._u(
-                                                                [
-                                                                  {
-                                                                    key:
-                                                                      "activator",
-                                                                    fn: function(
-                                                                      ref
-                                                                    ) {
-                                                                      var on =
-                                                                        ref.on
-                                                                      var attrs =
-                                                                        ref.attrs
-                                                                      return [
-                                                                        (invoice.remarks ==
-                                                                          "" ||
-                                                                          invoice.remarks ==
-                                                                            null ||
-                                                                          invoice.remarks ==
-                                                                            "not_specified") &&
-                                                                        !_vm.disableUploadBtn
-                                                                          ? _c(
-                                                                              "v-btn",
-                                                                              _vm._g(
-                                                                                _vm._b(
-                                                                                  {
-                                                                                    attrs: {
-                                                                                      small:
-                                                                                        "",
-                                                                                      rounded:
-                                                                                        "",
-                                                                                      color:
-                                                                                        "warning"
-                                                                                    }
-                                                                                  },
-                                                                                  "v-btn",
-                                                                                  attrs,
-                                                                                  false
-                                                                                ),
-                                                                                on
-                                                                              ),
-                                                                              [
-                                                                                _vm._v(
-                                                                                  "\n                                                                    Override\n                                                                "
-                                                                                )
-                                                                              ]
-                                                                            )
-                                                                          : _vm._e()
-                                                                      ]
-                                                                    }
-                                                                  }
-                                                                ],
-                                                                null,
-                                                                true
-                                                              )
-                                                            },
-                                                            [
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "v-list",
-                                                                _vm._l(
-                                                                  _vm.BrStore
-                                                                    .state
-                                                                    .return_reasons,
-                                                                  function(
-                                                                    reason,
-                                                                    index
-                                                                  ) {
-                                                                    return _c(
-                                                                      "v-list-item",
-                                                                      {
-                                                                        key: index,
-                                                                        on: {
-                                                                          click: function(
-                                                                            $event
-                                                                          ) {
-                                                                            return _vm.overrideInvoiceProperty(
-                                                                              batchIndex,
-                                                                              invoiceIndex,
-                                                                              "return_reason_empty",
-                                                                              reason
-                                                                            )
-                                                                          }
-                                                                        }
-                                                                      },
-                                                                      [
-                                                                        _c(
-                                                                          "v-list-item-title",
-                                                                          [
-                                                                            _vm._v(
-                                                                              _vm._s(
-                                                                                reason
-                                                                              )
-                                                                            )
-                                                                          ]
-                                                                        )
-                                                                      ],
-                                                                      1
-                                                                    )
-                                                                  }
-                                                                ),
-                                                                1
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        ],
-                                                        1
-                                                      )
+                                                    ? _c("td", [
+                                                        _vm._v(
+                                                          "\n                                                        " +
+                                                            _vm._s(
+                                                              invoice.remarks
+                                                            ) +
+                                                            "\n                                                        "
+                                                        )
+                                                      ])
                                                     : _vm._e()
                                                 ])
                                               ]

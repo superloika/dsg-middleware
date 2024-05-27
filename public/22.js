@@ -275,31 +275,62 @@ __webpack_require__.r(__webpack_exports__);
     selectedGroupBy: function selectedGroupBy() {
       return this.PrincipalsStore.state.selectedGroupBy;
     },
+    // disableExportBtn() {
+    //     if(
+    //         this.PrincipalsStore.state.configs.strict_export != undefined
+    //         && this.PrincipalsStore.state.configs.strict_export == true
+    //     ) {
+    //         return this.lineCount < 1
+    //             || this.searchKeyLength > 0
+    //             || this.PrincipalsStore.state.isGeneratingData
+    //             || this.invoiceStatus == ''
+    //             || (this.warningsCount > 0 && this.invoiceStatus == 'pending')
+    //             ;
+    //     } else {
+    //         return this.lineCount < 1
+    //             || this.searchKeyLength > 0
+    //             || this.PrincipalsStore.state.isGeneratingData
+    //             || this.invoiceStatus == ''
+    //             || (this.apiUploading && this.invoiceStatus == 'pending')
+    //             ;
+    //     }
+    // },
+    // disableApiUploadBtn() {
+    //     return this.lineCount < 1
+    //         || this.searchKeyLength > 0
+    //         || this.PrincipalsStore.state.isGeneratingData
+    //         // || this.warningsCount > 0
+    //         || this.invoiceStatus == 'completed'
+    //         || this.invoiceStatus == 'uploaded'
+    //         ;
+    // },
     disableExportBtn: function disableExportBtn() {
       if (this.PrincipalsStore.state.configs.strict_export != undefined && this.PrincipalsStore.state.configs.strict_export == true) {
-        return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData || this.warningsCount > 0 && this.invoiceStatus == 'pending' || this.invoiceStatus == '';
+        return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData || this.lastSelectedInvoiceStatus == '' || this.warningsCount > 0 && this.lastSelectedInvoiceStatus == 'pending';
       } else {
-        return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData || this.invoiceStatus == '';
+        return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData || this.lastSelectedInvoiceStatus == '' || this.apiUploading && this.lastSelectedInvoiceStatus == 'pending';
       }
+    },
+    disableApiUploadBtn: function disableApiUploadBtn() {
+      return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData // || this.warningsCount > 0
+      || this.lastSelectedInvoiceStatus == 'completed' || this.lastSelectedInvoiceStatus == 'uploaded';
     },
     apiUploading: function apiUploading() {
       return this.PrincipalsStore.state.configs.api_uploading != undefined && this.PrincipalsStore.state.configs.api_uploading == true;
     },
-    disableBRUploadButton: function disableBRUploadButton() {
-      return this.lineCount < 1 || this.searchKeyLength > 0 || this.PrincipalsStore.state.isGeneratingData // || this.warningsCount > 0
-      || this.InvoicesStore.state.invoiceStatus != 'completed' && this.InvoicesStore.state.invoiceStatus != 'pending';
-    },
-    genDatExporting: function genDatExporting() {
-      if (this.apiUploading) {
-        if (this.InvoicesStore.state.invoiceStatus == 'uploaded') {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return true;
-      } // last resort
-
+    // genDatExporting() {
+    //     if(this.apiUploading) {
+    //         if(this.InvoicesStore.state.invoiceStatus == 'uploaded') {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+    //     } else {
+    //         return true;
+    //     }
+    // },
+    lastSelectedInvoiceStatus: function lastSelectedInvoiceStatus() {
+      return this.InvoicesStore.state.lastSelectedInvoiceStatus;
     }
   },
   // watch: {
@@ -655,6 +686,7 @@ var render = function() {
                         dense: "",
                         rounded: "",
                         block: "",
+                        outlined: "",
                         title: "Generate",
                         color: "primary",
                         loading: _vm.PrincipalsStore.state.isGeneratingData,
@@ -678,37 +710,34 @@ var render = function() {
                 "v-col",
                 { attrs: { cols: "12" } },
                 [
-                  _vm.genDatExporting
-                    ? _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            dense: "",
-                            rounded: "",
-                            block: "",
-                            outlined: "",
-                            title: "Export to Excel",
-                            color: "primary",
-                            disabled: _vm.disableExportBtn
-                          },
-                          on: {
-                            click: function($event) {
-                              $event.stopPropagation()
-                              _vm.PrincipalsStore.state.confirmExportDialogOpen = true
-                            }
-                          }
-                        },
-                        [
-                          _c("v-icon", { attrs: { left: "", size: "25" } }, [
-                            _vm._v("mdi-file-excel")
-                          ]),
-                          _vm._v(
-                            "\n                    Export to Excel\n                "
-                          )
-                        ],
-                        1
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        dense: "",
+                        rounded: "",
+                        block: "",
+                        title: "Export to Excel",
+                        color: "success",
+                        disabled: _vm.disableExportBtn
+                      },
+                      on: {
+                        click: function($event) {
+                          $event.stopPropagation()
+                          _vm.PrincipalsStore.state.confirmExportDialogOpen = true
+                        }
+                      }
+                    },
+                    [
+                      _c("v-icon", { attrs: { left: "", size: "25" } }, [
+                        _vm._v("mdi-file-excel")
+                      ]),
+                      _vm._v(
+                        "\n                    Export to Excel\n                "
                       )
-                    : _vm._e()
+                    ],
+                    1
+                  )
                 ],
                 1
               ),
@@ -727,7 +756,7 @@ var render = function() {
                             rounded: "",
                             color: "primary",
                             block: "",
-                            disabled: _vm.disableBRUploadButton
+                            disabled: _vm.disableApiUploadBtn
                           },
                           on: {
                             click: function($event) {
@@ -740,10 +769,14 @@ var render = function() {
                           }
                         },
                         [
+                          _c("v-icon", { attrs: { left: "", size: "25" } }, [
+                            _vm._v("mdi-upload")
+                          ]),
                           _vm._v(
                             "\n                    BeatRoute Upload\n                "
                           )
-                        ]
+                        ],
+                        1
                       )
                     : _vm._e()
                 ],

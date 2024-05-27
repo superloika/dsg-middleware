@@ -21,6 +21,9 @@
             v-for="(templatedData, template_variation_tabitem_index) in generatedData"
             :key="template_variation_tabitem_index"
         >
+            <v-card v-if="templatedData.output_template.length < 1">
+                <v-card-text><em>No data to display</em></v-card-text>
+            </v-card>
             <v-card tile>
                 <v-tabs v-model="templatedData.tab" height="30" show-arrows>
                     <v-tab

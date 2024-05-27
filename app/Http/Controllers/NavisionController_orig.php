@@ -17,303 +17,288 @@ class NavisionController extends Controller
 
 
     public static function serverConfigs() {
-        // temp (for ppfb demo)
         return [
+            // ******************************************************************************************
+            // ASC
+            // ******************************************************************************************
             [
-                'server_name'           => 'DEMO',
-                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.18;Database=DEMO_LDI BACKEND DB;',
-                'database'              => 'DEMO_LDI BACKEND DB',
-                'invoice_headers_tbl'   => 'LEONARDO DISTRIB_, INC_ - DEMO$Sales Invoice Header',
-                'invoice_lines_tbl'     => 'LEONARDO DISTRIB_, INC_ - DEMO$Sales Invoice Line',
-                'cm_headers_tbl'        => 'LEONARDO DISTRIB_, INC_ - DEMO$Sales Cr_Memo Header',
-                'cm_lines_tbl'          => 'LEONARDO DISTRIB_, INC_ - DEMO$Sales Cr_Memo Line',
-                'sm_tbl'                => 'LEONARDO DISTRIB_, INC_ - DEMO$Salesperson_Purchaser',
-                'group_name'            => 'DEMO',
+                'server_name'           => 'ASC_UWDG',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.21.201;Database=SI CONSOLIDATOR;',
+                'database'              => 'SI CONSOLIDATOR',
+                'invoice_headers_tbl'   => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Invoice Line',
+                'cm_headers_tbl'        => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Cr_Memo Line',
+                'sm_tbl'                => 'ALTURAS SUPERMARKET CORP_ - SI$Salesperson_Purchaser',
+                'group_name'            => 'ASC_UWDG',
+            ],
+            [
+                'server_name'           => 'ASC_CWDG_PCS',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=CWDG_VARIOUS_SI;',
+                'database'              => 'CWDG_VARIOUS_SI',
+                'invoice_headers_tbl'   => 'ALTURAS SUPERMARKET CORP_$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'ALTURAS SUPERMARKET CORP_$Sales Invoice Line',
+                'cm_headers_tbl'        => 'ALTURAS SUPERMARKET CORP_$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'ALTURAS SUPERMARKET CORP_$Sales Cr_Memo Line',
+                'sm_tbl'                => 'ALTURAS SUPERMARKET CORP_$Salesperson_Purchaser',
+                'group_name'            => 'ASC_CWDG_PCS',
+            ],
+            [
+                'server_name'           => 'ASC_CWDG_BULK',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.13;Database=WDG_SI_SQL;',
+                'database'              => 'WDG_SI_SQL',
+                'invoice_headers_tbl'   => 'ALTURAS SUPERMARKET CORP_$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'ALTURAS SUPERMARKET CORP_$Sales Invoice Line',
+                'cm_headers_tbl'        => 'ALTURAS SUPERMARKET CORP_$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'ALTURAS SUPERMARKET CORP_$Sales Cr_Memo Line',
+                'sm_tbl'                => 'ALTURAS SUPERMARKET CORP_$Salesperson_Purchaser',
+                'group_name'            => 'ASC_CWDG_BULK',
+            ],
+            [
+                'server_name'           => 'ASC_UDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.21.201;Database=UBAY_DC_SQL;',
+                'database'              => 'UBAY_DC_SQL',
+                'invoice_headers_tbl'   => 'Ubay Distribution Center$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'Ubay Distribution Center$Sales Invoice Line',
+                'cm_headers_tbl'        => 'Ubay Distribution Center$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'Ubay Distribution Center$Sales Cr_Memo Line',
+                'sm_tbl'                => 'Ubay Distribution Center$Salesperson_Purchaser',
+                'group_name'            => 'ASC_UDC',
+            ],
+            [
+                'server_name'           => 'ASC_CDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.4;Database=CDC_SRV_SQL;',
+                'database'              => 'CDC_SRV_SQL',
+                'invoice_headers_tbl'   => 'ALTURAS_CDC$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'ALTURAS_CDC$Sales Invoice Line',
+                'cm_headers_tbl'        => 'ALTURAS_CDC$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'ALTURAS_CDC$Sales Cr_Memo Line',
+                'sm_tbl'                => 'ALTURAS_CDC$Salesperson_Purchaser',
+                'group_name'            => 'ASC_CDC',
+            ],
+
+            // ******************************************************************************************
+            // LDI
+            // ******************************************************************************************
+            [
+                'server_name'           => 'LDI_DELICA_BULK',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=OPLAN_BULK_TERM1;',
+                'database'              => 'OPLAN_BULK_TERM1',
+                'invoice_headers_tbl'   => 'LDI_Oplan Bulk$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'LDI_Oplan Bulk$Sales Invoice Line',
+                'cm_headers_tbl'        => 'LDI_Oplan Bulk$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'LDI_Oplan Bulk$Sales Cr_Memo Line',
+                'sm_tbl'                => 'LDI_Oplan Bulk$Salesperson_Purchaser',
+                'group_name'            => 'LDI_DELICA_BULK',
+            ],
+            [
+                'server_name'           => 'LDI_DELICA_PCS',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=CLDI SI SRV_VARIOUS;',
+                'database'              => 'CLDI SI SRV_VARIOUS',
+                'invoice_headers_tbl'   => 'LEONARDO DISTRIBUTORS INCORP_$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'LEONARDO DISTRIBUTORS INCORP_$Sales Invoice Line',
+                'cm_headers_tbl'        => 'LEONARDO DISTRIBUTORS INCORP_$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'LEONARDO DISTRIBUTORS INCORP_$Sales Cr_Memo Line',
+                'sm_tbl'                => 'LEONARDO DISTRIBUTORS INCORP_$Salesperson_Purchaser',
+                'group_name'            => 'LDI_DELICA_PCS',
+            ],
+            [
+                'server_name'           => 'LDI_DELICA_ICM',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.161.27;Database=OPLAN_ICM;',
+                'database'              => 'OPLAN_ICM',
+                'invoice_headers_tbl'   => 'OPLAN DELICA ICM$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'OPLAN DELICA ICM$Sales Invoice Line',
+                'cm_headers_tbl'        => 'OPLAN DELICA ICM$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'OPLAN DELICA ICM$Sales Cr_Memo Line',
+                'sm_tbl'                => 'OPLAN DELICA ICM$Salesperson_Purchaser',
+                'group_name'            => 'LDI_DELICA_ICM',
+            ],
+            [
+                'server_name'           => 'LDI_HORECA_BULK',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=HORECA BULK;',
+                'database'              => 'HORECA BULK',
+                'invoice_headers_tbl'   => 'LDI_HORECA BULK$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'LDI_HORECA BULK$Sales Invoice Line',
+                'cm_headers_tbl'        => 'LDI_HORECA BULK$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'LDI_HORECA BULK$Sales Cr_Memo Line',
+                'sm_tbl'                => 'LDI_HORECA BULK$Salesperson_Purchaser',
+                'group_name'            => 'LDI_HORECA_BULK',
+            ],
+            [
+                'server_name'           => 'LDI_HORECA_PCS',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=HORECA_TERM1;',
+                'database'              => 'HORECA_TERM1',
+                'invoice_headers_tbl'   => 'HORECA_1$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'HORECA_1$Sales Invoice Line',
+                'cm_headers_tbl'        => 'HORECA_1$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'HORECA_1$Sales Cr_Memo Line',
+                'sm_tbl'                => 'HORECA_1$Salesperson_Purchaser',
+                'group_name'            => 'LDI_HORECA_PCS',
+            ],
+            [
+                'server_name'           => 'LDI_HORECA_ICM',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.161.27;Database=HORECA_TERM2;',
+                'database'              => 'HORECA_TERM2',
+                'invoice_headers_tbl'   => 'HORECA_ICM$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'HORECA_ICM$Sales Invoice Line',
+                'cm_headers_tbl'        => 'HORECA_ICM$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'HORECA_ICM$Sales Cr_Memo Line',
+                'sm_tbl'                => 'HORECA_ICM$Salesperson_Purchaser',
+                'group_name'            => 'LDI_HORECA_ICM',
+            ],
+            [
+                'server_name'           => 'LDI_3PS',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=3PS_NEW;',
+                'database'              => '3PS_NEW',
+                'invoice_headers_tbl'   => '3PS BULK$Sales Invoice Header',
+                'invoice_lines_tbl'     => '3PS BULK$Sales Invoice Line',
+                'cm_headers_tbl'        => '3PS BULK$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => '3PS BULK$Sales Cr_Memo Line',
+                'sm_tbl'                => '3PS BULK$Salesperson_Purchaser',
+                'group_name'            => 'LDI_3PS',
+            ],
+            [
+                'server_name'           => 'LDI_SEC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=LDI_SEC;',
+                'database'              => 'LDI_SEC',
+                'invoice_headers_tbl'   => 'LDI-DSG SPECIAL EXTERNAL CUST_$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'LDI-DSG SPECIAL EXTERNAL CUST_$Sales Invoice Line',
+                'cm_headers_tbl'        => 'LDI-DSG SPECIAL EXTERNAL CUST_$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'LDI-DSG SPECIAL EXTERNAL CUST_$Sales Cr_Memo Line',
+                'sm_tbl'                => 'LDI-DSG SPECIAL EXTERNAL CUST_$Salesperson_Purchaser',
+                'group_name'            => 'LDI_SEC',
+            ],
+            [
+                'server_name'           => 'LDI_CVS_BULK',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_BCVS;',
+                'database'              => 'LDI_BCVS',
+                'invoice_headers_tbl'   => 'LDI_CVS Bulk$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'LDI_CVS Bulk$Sales Invoice Line',
+                'cm_headers_tbl'        => 'LDI_CVS Bulk$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'LDI_CVS Bulk$Sales Cr_Memo Line',
+                'sm_tbl'                => 'LDI_CVS Bulk$Salesperson_Purchaser',
+                'group_name'            => 'LDI_CVS_BULK',
+            ],
+            [
+                'server_name'           => 'LDI_CVS_PCS',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_VCVS;',
+                'database'              => 'LDI_VCVS',
+                'invoice_headers_tbl'   => 'LDI_CVS Various$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'LDI_CVS Various$Sales Invoice Line',
+                'cm_headers_tbl'        => 'LDI_CVS Various$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'LDI_CVS Various$Sales Cr_Memo Line',
+                'sm_tbl'                => 'LDI_CVS Various$Salesperson_Purchaser',
+                'group_name'            => 'LDI_CVS_PCS',
+            ],
+            [
+                'server_name'           => 'LDI_MAS_BULK',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_BMAS;',
+                'database'              => 'LDI_BMAS',
+                'invoice_headers_tbl'   => 'LDI_MAS Bulk$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'LDI_MAS Bulk$Sales Invoice Line',
+                'cm_headers_tbl'        => 'LDI_MAS Bulk$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'LDI_MAS Bulk$Sales Cr_Memo Line',
+                'sm_tbl'                => 'LDI_MAS Bulk$Salesperson_Purchaser',
+                'group_name'            => 'LDI_MAS_BULK',
+            ],
+            [
+                'server_name'           => 'LDI_MAS_PCS',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_VMAS;',
+                'database'              => 'LDI_VMAS',
+                'invoice_headers_tbl'   => 'LDI_MAS Various$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'LDI_MAS Various$Sales Invoice Line',
+                'cm_headers_tbl'        => 'LDI_MAS Various$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'LDI_MAS Various$Sales Cr_Memo Line',
+                'sm_tbl'                => 'LDI_MAS Various$Salesperson_Purchaser',
+                'group_name'            => 'LDI_MAS_PCS',
+            ],
+            [
+                'server_name'           => 'LDI_UDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.22.2;Database=LDI_UDC_SQL;',
+                'database'              => 'LDI_UDC_SQL',
+                'invoice_headers_tbl'   => 'LDI_UDC$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'LDI_UDC$Sales Invoice Line',
+                'cm_headers_tbl'        => 'LDI_UDC$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'LDI_UDC$Sales Cr_Memo Line',
+                'sm_tbl'                => 'LDI_UDC$Salesperson_Purchaser',
+                'group_name'            => 'LDI_UDC',
+            ],
+            [
+                'server_name'           => 'LDI_CDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=LDI_CDC_SQL;',
+                'database'              => 'LDI_CDC_SQL',
+                'invoice_headers_tbl'   => 'LDI_CDC$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'LDI_CDC$Sales Invoice Line',
+                'cm_headers_tbl'        => 'LDI_CDC$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'LDI_CDC$Sales Cr_Memo Line',
+                'sm_tbl'                => 'LDI_CDC$Salesperson_Purchaser',
+                'group_name'            => 'LDI_CDC',
+            ],
+
+            // ******************************************************************************************
+            // MDPI
+            // ******************************************************************************************
+            [
+                'server_name'           => 'MPDI_UDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.22.2;Database=MPDI_UDC_SQL;',
+                'database'              => 'MPDI_UDC_SQL',
+                'invoice_headers_tbl'   => 'MPDI_UDC$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'MPDI_UDC$Sales Invoice Line',
+                'cm_headers_tbl'        => 'MPDI_UDC$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'MPDI_UDC$Sales Cr_Memo Line',
+                'sm_tbl'                => 'MPDI_UDC$Salesperson_Purchaser',
+                'group_name'            => 'MPDI_UDC',
+            ],
+            [
+                'server_name'           => 'MPDI_CDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=MPDI BACKEND SQL;',
+                'database'              => 'MPDI BACKEND SQL',
+                'invoice_headers_tbl'   => 'MPDI_CDC$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'MPDI_CDC$Sales Invoice Line',
+                'cm_headers_tbl'        => 'MPDI_CDC$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'MPDI_CDC$Sales Cr_Memo Line',
+                'sm_tbl'                => 'MPDI_CDC$Salesperson_Purchaser',
+                'group_name'            => 'MPDI_CDC',
+            ],
+
+
+            // ******************************************************************************************
+            // NDI
+            // ******************************************************************************************
+            [
+                'server_name'           => 'NDI_UDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.22.2;Database=NDI_UDC_SQL;',
+                'database'              => 'NDI_UDC_SQL',
+                'invoice_headers_tbl'   => 'NDI_UDC$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'NDI_UDC$Sales Invoice Line',
+                'cm_headers_tbl'        => 'NDI_UDC$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'NDI_UDC$Sales Cr_Memo Line',
+                'sm_tbl'                => 'NDI_UDC$Salesperson_Purchaser',
+                'group_name'            => 'NDI_UDC',
+            ],
+            [
+                'server_name'           => 'NDI_CDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=NDI_CDC_SQL;',
+                'database'              => 'NDI_CDC_SQL',
+                'invoice_headers_tbl'   => 'NDI_CDC$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'NDI_CDC$Sales Invoice Line',
+                'cm_headers_tbl'        => 'NDI_CDC$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'NDI_CDC$Sales Cr_Memo Line',
+                'sm_tbl'                => 'NDI_CDC$Salesperson_Purchaser',
+                'group_name'            => 'NDI_CDC',
+            ],
+            [
+                'server_name'           => 'NDI_DELICA_BULK',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.18;Database=NETMAN_BULK;',
+                'database'              => 'NETMAN_BULK',
+                'invoice_headers_tbl'   => 'Netman Bulk$Sales Invoice Header',
+                'invoice_lines_tbl'     => 'Netman Bulk$Sales Invoice Line',
+                'cm_headers_tbl'        => 'Netman Bulk$Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'Netman Bulk$Sales Cr_Memo Line',
+                'sm_tbl'                => 'Netman Bulk$Salesperson_Purchaser',
+                'group_name'            => 'NDI_DELICA_BULK',
             ],
         ];
-
-        // return [
-        //     // ******************************************************************************************
-        //     // ASC
-        //     // ******************************************************************************************
-        //     [
-        //         'server_name'           => 'ASC_UWDG',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.21.201;Database=SI CONSOLIDATOR;',
-        //         'database'              => 'SI CONSOLIDATOR',
-        //         'invoice_headers_tbl'   => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'ALTURAS SUPERMARKET CORP_ - SI$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'ALTURAS SUPERMARKET CORP_ - SI$Salesperson_Purchaser',
-        //         'group_name'            => 'ASC_UWDG',
-        //     ],
-        //     [
-        //         'server_name'           => 'ASC_CWDG_PCS',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=CWDG_VARIOUS_SI;',
-        //         'database'              => 'CWDG_VARIOUS_SI',
-        //         'invoice_headers_tbl'   => 'ALTURAS SUPERMARKET CORP_$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'ALTURAS SUPERMARKET CORP_$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'ALTURAS SUPERMARKET CORP_$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'ALTURAS SUPERMARKET CORP_$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'ALTURAS SUPERMARKET CORP_$Salesperson_Purchaser',
-        //         'group_name'            => 'ASC_CWDG_PCS',
-        //     ],
-        //     [
-        //         'server_name'           => 'ASC_CWDG_BULK',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.13;Database=WDG_SI_SQL;',
-        //         'database'              => 'WDG_SI_SQL',
-        //         'invoice_headers_tbl'   => 'ALTURAS SUPERMARKET CORP_$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'ALTURAS SUPERMARKET CORP_$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'ALTURAS SUPERMARKET CORP_$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'ALTURAS SUPERMARKET CORP_$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'ALTURAS SUPERMARKET CORP_$Salesperson_Purchaser',
-        //         'group_name'            => 'ASC_CWDG_BULK',
-        //     ],
-        //     [
-        //         'server_name'           => 'ASC_UDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.21.201;Database=UBAY_DC_SQL;',
-        //         'database'              => 'UBAY_DC_SQL',
-        //         'invoice_headers_tbl'   => 'Ubay Distribution Center$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'Ubay Distribution Center$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'Ubay Distribution Center$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'Ubay Distribution Center$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'Ubay Distribution Center$Salesperson_Purchaser',
-        //         'group_name'            => 'ASC_UDC',
-        //     ],
-        //     [
-        //         'server_name'           => 'ASC_CDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.4;Database=CDC_SRV_SQL;',
-        //         'database'              => 'CDC_SRV_SQL',
-        //         'invoice_headers_tbl'   => 'ALTURAS_CDC$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'ALTURAS_CDC$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'ALTURAS_CDC$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'ALTURAS_CDC$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'ALTURAS_CDC$Salesperson_Purchaser',
-        //         'group_name'            => 'ASC_CDC',
-        //     ],
-
-        //     // ******************************************************************************************
-        //     // LDI
-        //     // ******************************************************************************************
-        //     [
-        //         'server_name'           => 'LDI_DELICA_BULK',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=OPLAN_BULK_TERM1;',
-        //         'database'              => 'OPLAN_BULK_TERM1',
-        //         'invoice_headers_tbl'   => 'LDI_Oplan Bulk$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'LDI_Oplan Bulk$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'LDI_Oplan Bulk$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'LDI_Oplan Bulk$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'LDI_Oplan Bulk$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_DELICA_BULK',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_DELICA_PCS',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=CLDI SI SRV_VARIOUS;',
-        //         'database'              => 'CLDI SI SRV_VARIOUS',
-        //         'invoice_headers_tbl'   => 'LEONARDO DISTRIBUTORS INCORP_$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'LEONARDO DISTRIBUTORS INCORP_$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'LEONARDO DISTRIBUTORS INCORP_$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'LEONARDO DISTRIBUTORS INCORP_$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'LEONARDO DISTRIBUTORS INCORP_$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_DELICA_PCS',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_DELICA_ICM',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.161.27;Database=OPLAN_ICM;',
-        //         'database'              => 'OPLAN_ICM',
-        //         'invoice_headers_tbl'   => 'OPLAN DELICA ICM$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'OPLAN DELICA ICM$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'OPLAN DELICA ICM$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'OPLAN DELICA ICM$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'OPLAN DELICA ICM$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_DELICA_ICM',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_HORECA_BULK',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=HORECA BULK;',
-        //         'database'              => 'HORECA BULK',
-        //         'invoice_headers_tbl'   => 'LDI_HORECA BULK$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'LDI_HORECA BULK$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'LDI_HORECA BULK$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'LDI_HORECA BULK$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'LDI_HORECA BULK$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_HORECA_BULK',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_HORECA_PCS',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=HORECA_TERM1;',
-        //         'database'              => 'HORECA_TERM1',
-        //         'invoice_headers_tbl'   => 'HORECA_1$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'HORECA_1$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'HORECA_1$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'HORECA_1$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'HORECA_1$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_HORECA_PCS',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_HORECA_ICM',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.161.27;Database=HORECA_TERM2;',
-        //         'database'              => 'HORECA_TERM2',
-        //         'invoice_headers_tbl'   => 'HORECA_ICM$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'HORECA_ICM$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'HORECA_ICM$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'HORECA_ICM$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'HORECA_ICM$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_HORECA_ICM',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_3PS',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=3PS_NEW;',
-        //         'database'              => '3PS_NEW',
-        //         'invoice_headers_tbl'   => '3PS BULK$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => '3PS BULK$Sales Invoice Line',
-        //         'cm_headers_tbl'        => '3PS BULK$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => '3PS BULK$Sales Cr_Memo Line',
-        //         'sm_tbl'                => '3PS BULK$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_3PS',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_SEC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=LDI_SEC;',
-        //         'database'              => 'LDI_SEC',
-        //         'invoice_headers_tbl'   => 'LDI-DSG SPECIAL EXTERNAL CUST_$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'LDI-DSG SPECIAL EXTERNAL CUST_$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'LDI-DSG SPECIAL EXTERNAL CUST_$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'LDI-DSG SPECIAL EXTERNAL CUST_$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'LDI-DSG SPECIAL EXTERNAL CUST_$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_SEC',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_CVS_BULK',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_BCVS;',
-        //         'database'              => 'LDI_BCVS',
-        //         'invoice_headers_tbl'   => 'LDI_CVS Bulk$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'LDI_CVS Bulk$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'LDI_CVS Bulk$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'LDI_CVS Bulk$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'LDI_CVS Bulk$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_CVS_BULK',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_CVS_PCS',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_VCVS;',
-        //         'database'              => 'LDI_VCVS',
-        //         'invoice_headers_tbl'   => 'LDI_CVS Various$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'LDI_CVS Various$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'LDI_CVS Various$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'LDI_CVS Various$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'LDI_CVS Various$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_CVS_PCS',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_MAS_BULK',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_BMAS;',
-        //         'database'              => 'LDI_BMAS',
-        //         'invoice_headers_tbl'   => 'LDI_MAS Bulk$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'LDI_MAS Bulk$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'LDI_MAS Bulk$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'LDI_MAS Bulk$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'LDI_MAS Bulk$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_MAS_BULK',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_MAS_PCS',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_VMAS;',
-        //         'database'              => 'LDI_VMAS',
-        //         'invoice_headers_tbl'   => 'LDI_MAS Various$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'LDI_MAS Various$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'LDI_MAS Various$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'LDI_MAS Various$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'LDI_MAS Various$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_MAS_PCS',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_UDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.22.2;Database=LDI_UDC_SQL;',
-        //         'database'              => 'LDI_UDC_SQL',
-        //         'invoice_headers_tbl'   => 'LDI_UDC$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'LDI_UDC$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'LDI_UDC$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'LDI_UDC$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'LDI_UDC$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_UDC',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_CDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=LDI_CDC_SQL;',
-        //         'database'              => 'LDI_CDC_SQL',
-        //         'invoice_headers_tbl'   => 'LDI_CDC$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'LDI_CDC$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'LDI_CDC$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'LDI_CDC$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'LDI_CDC$Salesperson_Purchaser',
-        //         'group_name'            => 'LDI_CDC',
-        //     ],
-
-        //     // ******************************************************************************************
-        //     // MDPI
-        //     // ******************************************************************************************
-        //     [
-        //         'server_name'           => 'MPDI_UDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.22.2;Database=MPDI_UDC_SQL;',
-        //         'database'              => 'MPDI_UDC_SQL',
-        //         'invoice_headers_tbl'   => 'MPDI_UDC$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'MPDI_UDC$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'MPDI_UDC$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'MPDI_UDC$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'MPDI_UDC$Salesperson_Purchaser',
-        //         'group_name'            => 'MPDI_UDC',
-        //     ],
-        //     [
-        //         'server_name'           => 'MPDI_CDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=MPDI BACKEND SQL;',
-        //         'database'              => 'MPDI BACKEND SQL',
-        //         'invoice_headers_tbl'   => 'MPDI_CDC$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'MPDI_CDC$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'MPDI_CDC$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'MPDI_CDC$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'MPDI_CDC$Salesperson_Purchaser',
-        //         'group_name'            => 'MPDI_CDC',
-        //     ],
-
-
-        //     // ******************************************************************************************
-        //     // NDI
-        //     // ******************************************************************************************
-        //     [
-        //         'server_name'           => 'NDI_UDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.22.2;Database=NDI_UDC_SQL;',
-        //         'database'              => 'NDI_UDC_SQL',
-        //         'invoice_headers_tbl'   => 'NDI_UDC$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'NDI_UDC$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'NDI_UDC$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'NDI_UDC$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'NDI_UDC$Salesperson_Purchaser',
-        //         'group_name'            => 'NDI_UDC',
-        //     ],
-        //     [
-        //         'server_name'           => 'NDI_CDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=NDI_CDC_SQL;',
-        //         'database'              => 'NDI_CDC_SQL',
-        //         'invoice_headers_tbl'   => 'NDI_CDC$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'NDI_CDC$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'NDI_CDC$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'NDI_CDC$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'NDI_CDC$Salesperson_Purchaser',
-        //         'group_name'            => 'NDI_CDC',
-        //     ],
-        //     [
-        //         'server_name'           => 'NDI_DELICA_BULK',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.18;Database=NETMAN_BULK;',
-        //         'database'              => 'NETMAN_BULK',
-        //         'invoice_headers_tbl'   => 'Netman Bulk$Sales Invoice Header',
-        //         'invoice_lines_tbl'     => 'Netman Bulk$Sales Invoice Line',
-        //         'cm_headers_tbl'        => 'Netman Bulk$Sales Cr_Memo Header',
-        //         'cm_lines_tbl'          => 'Netman Bulk$Sales Cr_Memo Line',
-        //         'sm_tbl'                => 'Netman Bulk$Salesperson_Purchaser',
-        //         'group_name'            => 'NDI_DELICA_BULK',
-        //     ],
-        // ];
     }
 
 
@@ -389,9 +374,6 @@ class NavisionController extends Controller
                 ///////////////////////////// Sales Invoices ///////////////////////////////////////////
                 ///////////////////////////// Sales Invoices ///////////////////////////////////////////
                 ///////////////////////////// Sales Invoices ///////////////////////////////////////////
-                ///////////////////////////// Sales Invoices ///////////////////////////////////////////
-                ///////////////////////////// Sales Invoices ///////////////////////////////////////////
-                ///////////////////////////// Sales Invoices ///////////////////////////////////////////
                 // retrieve invoices from NAV
                 DownloadInvoice::dispatch(
                     "($loopCounter/$configsLen: $server_name) Retrieving sales invoices from Navision"
@@ -433,87 +415,58 @@ class NavisionController extends Controller
                     "
                 );
 
-                $sales_invoices_len = count($sales_invoices);
-                $si_counter = 0;
-                $progress_percentage = 0;
-
                 // save retrieved invoices to local db
                 foreach($sales_invoices as $si) {
-                    // calc progress percentage
-                    if($sales_invoices_len > 0) {
-                        $progress_percentage = round(($si_counter / $sales_invoices_len) * 100);
-                    }
-                    $si_counter++;
-
                     // convert encodings
                     foreach($si as $key => $val) {
-                        $si->$key = mb_convert_encoding($val, 'utf-8', 'auto');
+                        $si->$key = mb_convert_encoding($val, 'utf-8');
                     }
 
-                    $si_line = [
-                        // 'updated_at' =>             date($dateTimeToday),
-                        'uploaded_by' =>            auth()->user()->id,
-                        // 'filename' =>            $origFilename,
-                        'filename' =>  '',
-                        'group' =>                  $group_name,
-                        'batch_number'  =>          $batchNum,
-                        //
-                        'vendor_code' =>            $si->vendor_code,
-                        'customer_code' =>          $si->customer_code,
-                        'doc_no' =>                 $si->doc_no,
-                        'shipment_date' =>          $si->shipment_date,
-                        'posting_date' =>           $si->posting_date,
-                        'item_code' =>              $si->item_code,
-                        'item_description' =>       $si->item_description,
-                        'uom' =>                    $si->uom,
-                        'quantity' =>               $si->quantity,
-                        'price' =>                  $si->price,
-                        'amount' =>                 $si->amount,
-                        'qty_per_uom' =>            $si->qty_per_uom,
-                        'uom_code' =>               $si->uom_code,
-                        'discount_percentage' =>    $si->discount_percentage,
-                        'vat_percentage' =>         $si->vat_percentage,
-                        'customer_name' =>          $si->customer_name,
-                        'sm_code' =>                $si->sm_code,
-                        'sm_name' =>                $si->sm_name,
-                        'ext_doc_no' =>             $si->ext_doc_no,
-                    ];
-
-                    $si_line_local = DB::table(PrincipalsUtil::$TBL_INVOICES)
-                        ->where('doc_no',$si->doc_no)
-                        ->where('item_code',$si->item_code)
-                        ->where('customer_code',$si->customer_code)
-                        ->where('vendor_code',$si->vendor_code)
-                        ->where('uom',$si->uom)
-                        ->where('quantity',$si->quantity)
-                        ->first();
-
                     if (
-                        $si_line_local != null
+                        DB::table(PrincipalsUtil::$TBL_INVOICES)
+                            ->where('doc_no',$si->doc_no)
+                            ->where('item_code',$si->item_code)
+                            ->where('customer_code',$si->customer_code)
+                            ->where('vendor_code',$si->vendor_code)
+                            ->where('uom',$si->uom)
+                            ->where('quantity',$si->quantity)
+                            ->exists()
                     ) {
-                        // update pending lines to patch adjustments from NAV
-                        if($si_line_local->status == 'pending') {
-                            if(in_array($progress_percentage, [1,10,30,50,70,90,95,96,97,98,99,100])) {
-                                DownloadInvoice::dispatch(
-                                    "($loopCounter/$configsLen: $server_name)
-                                    Updating sales invoice to the local database ({$progress_percentage}%)"
-                                );
-                            }
-                            DB::table(PrincipalsUtil::$TBL_INVOICES)
-                                ->where('id', $si_line_local->id)
-                                ->update($si_line);
-                        }
-
                         // existing entries counter
                         $existingSalesInvoices++;
                     } else {
-                        if(in_array($progress_percentage, [1,10,30,50,70,90,95,96,97,98,99,100])) {
-                            DownloadInvoice::dispatch(
-                                "($loopCounter/$configsLen: $server_name)
-                                Saving sales invoice to the local database ({$progress_percentage}%)"
-                            );
-                        }
-                        DB::table(PrincipalsUtil::$TBL_INVOICES)->insert($si_line);
+                        DownloadInvoice::dispatch(
+                            "($loopCounter/$configsLen: $server_name)
+                            Saving sales invoice to the local database [{$si->doc_no}, {$si->item_code}]"
+                        );
+                        DB::table(PrincipalsUtil::$TBL_INVOICES)->insert([
+                            'created_at' => date($dateTimeToday),
+                            'uploaded_by' => auth()->user()->id,
+                            // 'filename' =>  $origFilename,
+                            'filename' =>  '',
+                            'group' =>                  $group_name,
+                            'batch_number'  =>          $batchNum,
+                            //
+                            'vendor_code' =>            $si->vendor_code,
+                            'customer_code' =>          $si->customer_code,
+                            'doc_no' =>                 $si->doc_no,
+                            'shipment_date' =>          $si->shipment_date,
+                            'posting_date' =>           $si->posting_date,
+                            'item_code' =>              $si->item_code,
+                            'item_description' =>       $si->item_description,
+                            'uom' =>                    $si->uom,
+                            'quantity' =>               $si->quantity,
+                            'price' =>                  $si->price,
+                            'amount' =>                 $si->amount,
+                            'qty_per_uom' =>            $si->qty_per_uom,
+                            'uom_code' =>               $si->uom_code,
+                            'discount_percentage' =>    $si->discount_percentage,
+                            'vat_percentage' =>         $si->vat_percentage,
+                            'customer_name' =>          $si->customer_name,
+                            'sm_code' =>                $si->sm_code,
+                            'sm_name' =>                $si->sm_name,
+                            'ext_doc_no' =>             $si->ext_doc_no,
+                        ]);
                         $newSalesInvoices++;
                     }
                 }
@@ -534,9 +487,6 @@ class NavisionController extends Controller
                 ///////////////////////////// Sales Returns ///////////////////////////////////////////
                 ///////////////////////////// Sales Returns ///////////////////////////////////////////
                 ///////////////////////////// Sales Returns ///////////////////////////////////////////
-                ///////////////////////////// Sales Returns ///////////////////////////////////////////
-                ///////////////////////////// Sales Returns ///////////////////////////////////////////
-                ///////////////////////////// Sales Returns ///////////////////////////////////////////
                 // retrieve sales returns from Nav
                 DownloadInvoice::dispatch(
                     "($loopCounter/$configsLen: $server_name) Retrieving sales returns from Navision"
@@ -552,10 +502,6 @@ class NavisionController extends Controller
                         -- [$cm_headers_tbl].[Salesperson Code] as sm_code,
                         [$cm_headers_tbl].[External Document No_] as invoice_doc_no,
                         [$cm_headers_tbl].[External Document No_] as ext_doc_no,
-                        -- 'not_specified' as return_indicator, --test
-                        -- NULL as remarks, --test
-                        [$cm_headers_tbl].[Return Indicators] as return_indicator, --test
-                        [$cm_headers_tbl].[CM Reason Code] as remarks, --test
                         -- line
                         [$cm_lines_tbl].[No_] as item_code,
                         [$cm_lines_tbl].[Description] as item_description,
@@ -589,26 +535,17 @@ class NavisionController extends Controller
                 );
 
                 // store doc_nos here temporarily
-                // $sr_docnos = [];
-
-                $sales_returns_len = count($sales_returns);
-                $cm_counter = 0;
-                $progress_percentage = 0;
+                $sr_docnos = [];
 
                 // save retrieved sales returns to local db
                 foreach($sales_returns as $sr) {
-                    // calc progress percentage
-                    if($sales_returns_len > 0) {
-                        $progress_percentage = round(($cm_counter / $sales_returns_len) * 100);
-                    }
-                    $cm_counter++;
-
                     // convert encodings
                     foreach($sr as $key => $val) {
-                        $sr->$key = mb_convert_encoding($val, 'utf-8', 'auto');
+                        $sr->$key = mb_convert_encoding($val, 'utf-8');
                     }
 
                     $cm_line = [
+                        'created_at' =>             date($dateTimeToday),
                         'uploaded_by' =>            auth()->user()->id,
                         // 'filename' => $origFilename,
                         'filename' =>               '',
@@ -633,8 +570,6 @@ class NavisionController extends Controller
                         'ext_doc_no' =>             $sr->ext_doc_no,
                         // 'sm_code' =>                $sr->sm_code,
                         // 'sm_name' =>                $sr->sm_name,
-                        'return_indicator' =>       $sr->return_indicator,
-                        'remarks' =>                $sr->remarks,
                     ];
 
                     $cm_line_local = DB::table(PrincipalsUtil::$TBL_CM)
@@ -642,25 +577,12 @@ class NavisionController extends Controller
                         ->where('item_code',$sr->item_code)
                         ->where('customer_code',$sr->customer_code)
                         ->where('uom',$sr->uom)
-                        // ->where('quantity',$sr->quantity)
+                        ->where('quantity',$sr->quantity)
                         ->first();
 
                     if (
                         $cm_line_local != null
                     ) {
-                        // if cm line still pending, update it
-                        if($cm_line_local->status=='pending') {
-                            if(in_array($progress_percentage, [1,10,30,50,70,90,95,96,97,98,99,100])) {
-                                DownloadInvoice::dispatch(
-                                    "($loopCounter/$configsLen: $server_name)
-                                    Updating sales return to the local database ({$progress_percentage}%)"
-                                );
-                            }
-                            DB::table(PrincipalsUtil::$TBL_CM)
-                                ->where('id', $cm_line_local->id)
-                                ->update($cm_line);
-                        }
-
                         // existing entries counter
                         $existingSalesReturns++;
                     } else {
@@ -669,50 +591,48 @@ class NavisionController extends Controller
                             && trim($sr->item_code) != ''
                             && trim($sr->item_description) != ''
                         ) {
-                            if(in_array($progress_percentage, [1,10,30,50,70,90,95,96,97,98,99,100])) {
-                                DownloadInvoice::dispatch(
-                                    "($loopCounter/$configsLen: $server_name)
-                                    Saving sales return to the local database ({$progress_percentage}%)"
-                                );
-                            }
+                            DownloadInvoice::dispatch(
+                                "($loopCounter/$configsLen: $server_name)
+                                Saving sales return to the local database [{$sr->doc_no}, {$sr->item_code}]"
+                            );
                             DB::table(PrincipalsUtil::$TBL_CM)->insert($cm_line);
                             $newSalesReturns++;
                         }
                     }
 
-                    // $sr_docnos[] = $sr->doc_no;
+                    $sr_docnos[] = $sr->doc_no;
                 }
 
                 // get cm remarks and patch to local db
-                // $sr_docnos = array_unique($sr_docnos);
-                // if(count($sr_docnos) > 0) {
-                //     DownloadInvoice::dispatch(
-                //         "($loopCounter/$configsLen: $server_name)
-                //         Patching sales return remarks"
-                //     );
-                //     $sr_docnos_imp = implode(',', array_map(fn($item) => "'$item'", $sr_docnos));
-                //     $sr_remarks = $dbCon->select(
-                //         "SELECT
-                //             [Document No_] as doc_no,
-                //             [Description] as item_description
-                //         FROM [$cm_lines_tbl]
-                //         WHERE [Document No_] IN ($sr_docnos_imp)
-                //             AND [No_] = ''
-                //             AND [Description] <> ''
-                //         ;
-                //         "
-                //     );
-                //     // dd($sr_remarks);
-                //     foreach($sr_remarks as $srr) {
-                //         // dd($srr);
-                //         DB::table(PrincipalsUtil::$TBL_CM)
-                //         ->where('doc_no', $srr->doc_no)
-                //         ->whereNull('remarks')
-                //         ->update([
-                //             'remarks' => $srr->item_description
-                //         ]);
-                //     }
-                // }
+                $sr_docnos = array_unique($sr_docnos);
+                if(count($sr_docnos) > 0) {
+                    DownloadInvoice::dispatch(
+                        "($loopCounter/$configsLen: $server_name)
+                        Patching sales return remarks"
+                    );
+                    $sr_docnos_imp = implode(',', array_map(fn($item) => "'$item'", $sr_docnos));
+                    $sr_remarks = $dbCon->select(
+                        "SELECT
+                            [Document No_] as doc_no,
+                            [Description] as item_description
+                        FROM [$cm_lines_tbl]
+                        WHERE [Document No_] IN ($sr_docnos_imp)
+                            AND [No_] = ''
+                            AND [Description] <> ''
+                        ;
+                        "
+                    );
+                    // dd($sr_remarks);
+                    foreach($sr_remarks as $srr) {
+                        // dd($srr);
+                        DB::table(PrincipalsUtil::$TBL_CM)
+                        ->where('doc_no', $srr->doc_no)
+                        ->whereNull('remarks')
+                        ->update([
+                            'remarks' => $srr->item_description
+                        ]);
+                    }
+                }
                 // /get cm remarks and patch to local db
 
                 // summary

@@ -72,6 +72,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["generatedData", "allow_export"],
   // props: ["allow_export"],
@@ -269,6 +272,18 @@ var render = function() {
             "v-tab-item",
             { key: template_variation_tabitem_index },
             [
+              templatedData.output_template.length < 1
+                ? _c(
+                    "v-card",
+                    [
+                      _c("v-card-text", [
+                        _c("em", [_vm._v("No data to display")])
+                      ])
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               _c(
                 "v-card",
                 { attrs: { tile: "" } },
