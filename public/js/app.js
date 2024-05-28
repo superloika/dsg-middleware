@@ -123337,7 +123337,7 @@ var actions = {
                       // populate invoice details (invoice items)
 
 
-                      var temp_discounted_amount = Number.parseFloat((temp_qty * e.price_supplier - temp_discount_value).toFixed(5));
+                      var temp_discounted_amount = Number.parseFloat((temp_qty * e.price_supplier - temp_discount_value).toFixed(6));
                       objInvoices[e.invoice_number].details.unshift({
                         item_name: e.description_supplier == '' || e.description_supplier == null ? e.item_description : e.description_supplier,
                         // item_name: e.item_description,
@@ -123401,6 +123401,7 @@ var actions = {
                 var mergedItemsValues = Object.values(mergedItems);
                 e.details = mergedItemsValues;
                 console.log('mergedItems for ' + e.erp_invoice_number, mergedItemsValues);
+                objInvoices[e.erp_invoice_number].invoice_total_amount = Number.parseFloat(objInvoices[e.erp_invoice_number].invoice_total_amount.toFixed(6));
 
                 if (e.with_errors.length > 0) {
                   e.included = false;

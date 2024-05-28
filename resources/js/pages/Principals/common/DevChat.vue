@@ -9,6 +9,7 @@
                         label="Type your message here"
                         rows="1"
                         class="pb-2"
+                        ref="chat-ta"
                     ></v-textarea>
                     <div class="d-flex justify-end">
                         <v-file-input
@@ -60,7 +61,7 @@
                     >
                         <div
                             :class="
-                                AuthUser.username==message.username
+                                AuthUser.username == message.username
                                 ? 'd-flex align-end flex-column'
                                 : 'd-flex align-start flex-column'
                             "
@@ -70,14 +71,17 @@
                                     ? 'primary' : 'secondary'
                                 "
                                 class="rounded-lg"
-                                style="max-width:700px;"
+                                style="max-width:500px;"
+                                :title="message.created_at"
                             >
-                                <div class="pl-4 pr-6 pt-4 pb-2 white--text">
-                                    <div class="d-flex">
+                                <div class="pa-1 px-3 white--text">
+                                    <div class="d-flex" v-if="AuthUser.username != message.username"
+                                        @click="mentionUser(message.name)"
+                                    >
                                         <!-- <div>
                                             <v-icon color="" dark>mdi-account</v-icon>
                                         </div> -->
-                                        <div class="font-weight-bold">
+                                        <div class="font-weight-bold caption">
                                             {{ message.name }}
                                         </div>
                                         &nbsp;
@@ -90,12 +94,12 @@
                                         </div>
                                     </div>
                                     <div
-                                        class="caption"
+                                        class="body-2"
                                         style="white-space: pre-line"
                                         v-html="message.message"
                                     >
                                     </div>
-                                    <div class="caption pt-2">
+                                    <div class="caption pt-2" v-if="JSON.parse(message.attachments)">
                                         <div v-for="(attachment, attachment_index) in JSON.parse(message.attachments)"
                                             :key="attachment_index"
                                         >
@@ -109,9 +113,9 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="mt-2 caption d-flex justify-end">
+                                    <!-- <div class="mt-2 caption d-flex justify-end">
                                         <small>{{ message.created_at }}</small>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -223,6 +227,12 @@ export default {
         //         alert('test');
         //     }
         // },
+
+        mentionUser(name) {
+            console.log(this.$refs);
+            this.$refs['chat-ta'].focus();
+            this.newMessage += `@${name} `;
+        }
 
     },
 

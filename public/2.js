@@ -177,6 +177,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -265,13 +269,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2);
       }))();
-    } // onKeyup(event) {
+    },
+    // onKeyup(event) {
     //     console.log(event.key);
     //     if(event.key == '@') {
     //         alert('test');
     //     }
     // },
-
+    mentionUser: function mentionUser(name) {
+      console.log(this.$refs);
+      this.$refs['chat-ta'].focus();
+      this.newMessage += "@".concat(name, " ");
+    }
   },
   watch: {// subscribedUsers() {
     //     console.log(this.subscribedUsers);
@@ -374,6 +383,7 @@ var render = function() {
                 { staticClass: "pb-4" },
                 [
                   _c("v-textarea", {
+                    ref: "chat-ta",
                     staticClass: "pb-2",
                     attrs: {
                       solo: "",
@@ -528,120 +538,124 @@ var render = function() {
                               _vm.AuthUser.username == message.username
                                 ? "primary"
                                 : "secondary",
-                            staticStyle: { "max-width": "700px" }
+                            staticStyle: { "max-width": "500px" },
+                            attrs: { title: message.created_at }
                           },
                           [
                             _c(
                               "div",
-                              {
-                                staticClass: "pl-4 pr-6 pt-4 pb-2 white--text"
-                              },
+                              { staticClass: "pa-1 px-3 white--text" },
                               [
-                                _c("div", { staticClass: "d-flex" }, [
-                                  _c(
-                                    "div",
-                                    { staticClass: "font-weight-bold" },
-                                    [
-                                      _vm._v(
-                                        "\n                                        " +
-                                          _vm._s(message.name) +
-                                          "\n                                    "
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(
-                                    "\n                                     \n                                    "
-                                  ),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass: "caption",
-                                      class:
-                                        _vm.AuthUser.username ==
-                                        message.username
-                                          ? "lime--text"
-                                          : "grey--text"
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                        @" +
-                                          _vm._s(message.username) +
-                                          "\n                                    "
-                                      )
-                                    ]
-                                  )
-                                ]),
+                                _vm.AuthUser.username != message.username
+                                  ? _c(
+                                      "div",
+                                      {
+                                        staticClass: "d-flex",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.mentionUser(message.name)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "font-weight-bold caption"
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                        " +
+                                                _vm._s(message.name) +
+                                                "\n                                    "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(
+                                          "\n                                     \n                                    "
+                                        ),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "caption",
+                                            class:
+                                              _vm.AuthUser.username ==
+                                              message.username
+                                                ? "lime--text"
+                                                : "grey--text"
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                        @" +
+                                                _vm._s(message.username) +
+                                                "\n                                    "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e(),
                                 _vm._v(" "),
                                 _c("div", {
-                                  staticClass: "caption",
+                                  staticClass: "body-2",
                                   staticStyle: { "white-space": "pre-line" },
                                   domProps: {
                                     innerHTML: _vm._s(message.message)
                                   }
                                 }),
                                 _vm._v(" "),
-                                _c(
-                                  "div",
-                                  { staticClass: "caption pt-2" },
-                                  _vm._l(
-                                    JSON.parse(message.attachments),
-                                    function(attachment, attachment_index) {
-                                      return _c(
-                                        "div",
-                                        { key: attachment_index },
-                                        [
-                                          _c(
-                                            "a",
-                                            {
-                                              staticClass:
-                                                "white--text attachments",
-                                              attrs: {
-                                                href:
-                                                  "/storage/attachments/" +
-                                                  message.channel +
-                                                  "/" +
-                                                  attachment,
-                                                target: "_blank",
-                                                "x-small": ""
-                                              }
-                                            },
+                                JSON.parse(message.attachments)
+                                  ? _c(
+                                      "div",
+                                      { staticClass: "caption pt-2" },
+                                      _vm._l(
+                                        JSON.parse(message.attachments),
+                                        function(attachment, attachment_index) {
+                                          return _c(
+                                            "div",
+                                            { key: attachment_index },
                                             [
                                               _c(
-                                                "v-icon",
+                                                "a",
                                                 {
+                                                  staticClass:
+                                                    "white--text attachments",
                                                   attrs: {
-                                                    small: "",
-                                                    color: "white"
+                                                    href:
+                                                      "/storage/attachments/" +
+                                                      message.channel +
+                                                      "/" +
+                                                      attachment,
+                                                    target: "_blank",
+                                                    "x-small": ""
                                                   }
                                                 },
-                                                [_vm._v("mdi-attachment")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("small", [
-                                                _vm._v(_vm._s(attachment))
-                                              ])
-                                            ],
-                                            1
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    {
+                                                      attrs: {
+                                                        small: "",
+                                                        color: "white"
+                                                      }
+                                                    },
+                                                    [_vm._v("mdi-attachment")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("small", [
+                                                    _vm._v(_vm._s(attachment))
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            ]
                                           )
-                                        ]
-                                      )
-                                    }
-                                  ),
-                                  0
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "mt-2 caption d-flex justify-end"
-                                  },
-                                  [
-                                    _c("small", [
-                                      _vm._v(_vm._s(message.created_at))
-                                    ])
-                                  ]
-                                )
+                                        }
+                                      ),
+                                      0
+                                    )
+                                  : _vm._e()
                               ]
                             )
                           ]

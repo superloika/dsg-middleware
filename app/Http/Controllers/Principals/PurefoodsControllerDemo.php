@@ -467,7 +467,8 @@ class PurefoodsControllerDemo extends Controller
                             // reverse percentage to get the vat-ex price
                             if($vat_percentage > 0) {
                                 // $price_vat_ex = $price / (1 + ($vat_percentage / 100));
-                                $price_vat_ex = $price_supplier / (1 + ($vat_percentage / 100));
+                                // $price_vat_ex = $price_supplier / (1 + ($vat_percentage / 100));
+                                $price_vat_ex = ($price_supplier / (100 + $vat_percentage)) * 100;
                                 $vat_value = ($price_supplier - $price_vat_ex) * $quantity;
                                 $price_supplier = $price_vat_ex;
                             }
