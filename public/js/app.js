@@ -30587,7 +30587,7 @@ var render = function() {
   return _c(
     "v-dialog",
     {
-      attrs: { "max-width": "900", scrollable: "" },
+      attrs: { "max-width": "1200", scrollable: "" },
       scopedSlots: _vm._u([
         {
           key: "activator",
@@ -123087,7 +123087,13 @@ var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
   //     'Trade Return Good',
   //     'Trade Return Bad'
   // ],
-  // BR standard picklist
+
+  /**
+   * temporary
+   * BR standard pick list
+   * could be shuffled unlike in the controller
+   * used for validation only (if the CM reason exists within this list)
+   */
   return_reasons: ['Cancelled by Outlet', 'Cancelled by Salesperson', 'Expired PO', 'Late Delivery', 'No Freezer Space', 'Over Booking', 'Overstock', 'Poor quality', 'Product age by MAA']
 });
 var actions = {
@@ -123203,6 +123209,7 @@ var actions = {
                       objInvoices[e.invoice_number].upload_status = {};
                       objInvoices[e.invoice_number].customer_name = e.customer_name;
                       objInvoices[e.invoice_number].retailer_br_id = e.customer_code;
+                      objInvoices[e.invoice_number].nav_customer_code = e.alturas_customer_code;
                       objInvoices[e.invoice_number].erp_invoice_number = e.invoice_number;
                       objInvoices[e.invoice_number].invoice_date = e.invoice_date; // objInvoices[e.invoice_number].total_value = 0;
 
@@ -123354,14 +123361,18 @@ var actions = {
                         // kaning gross_amount kay wapay deduction sa discount
                         // wala pay sure haha
                         // gross_amount:  e.amount_supplier,
-                        qty_per_uom: e.qty_per_uom
+                        qty_per_uom: e.qty_per_uom,
+                        nav_uom: e.uom,
+                        nav_item_code: e.alturas_item_code
                       });
                     }
                   });
                 });
-              }); // calc total_value (invoice level)
-              // label invoice with error as not included in the upload
-              // rearrange invoices (prio those w/o partial errors)
+              });
+              /** calc total_value (invoice level)
+                * label invoice with error as not included in the upload
+                * rearrange invoices (prio those w/o partial errors)
+              */
 
               partSI = [];
               partCM = [];
@@ -123369,36 +123380,44 @@ var actions = {
               partCMwithErr = [];
               invoices = Object.values(objInvoices);
               invoices.forEach(function (e) {
-                // duplicate item codes stuff
+                // dupli_item codes stuff **********************
                 var mergedItems = {};
                 e.details.forEach(function (item) {
-                  objInvoices[e.erp_invoice_number].invoice_total_amount += item.discounted_amount; // duplicate item codes stuff
+                  objInvoices[e.erp_invoice_number].invoice_total_amount += item.discounted_amount; // dupli_item codes stuff ******************************************
 
                   var sku_external_id = item.sku_external_id,
                       discounted_amount = item.discounted_amount,
                       qty_per_uom = item.qty_per_uom,
                       quantity = item.quantity,
                       price_per_item = item.price_per_item,
-                      sku_uom = item.sku_uom;
+                      sku_uom = item.sku_uom,
+                      discount_value = item.discount_value;
 
                   if (!mergedItems[sku_external_id]) {
                     mergedItems[sku_external_id] = _objectSpread(_objectSpread({}, item), {}, {
                       discounted_amount: 0,
-                      quantity: 0
+                      quantity: 0,
+                      discount_value: 0,
+                      discount_percentage: 0
                     });
                   }
 
                   mergedItems[sku_external_id].discounted_amount += discounted_amount;
                   mergedItems[sku_external_id].quantity += quantity * qty_per_uom;
+                  mergedItems[sku_external_id].discount_value += discount_value;
 
                   if (mergedItems[sku_external_id].qty_per_uom > qty_per_uom) {
                     mergedItems[sku_external_id].qty_per_uom = qty_per_uom;
                     mergedItems[sku_external_id].sku_uom = sku_uom;
                     mergedItems[sku_external_id].price_per_item = price_per_item;
                   }
-                }); // duplicate item codes stuff
+                }); // dupli_item codes stuff ************************************************
 
                 var mergedItemsValues = Object.values(mergedItems);
+                mergedItemsValues.forEach(function (itm) {
+                  itm.quantity = itm.quantity / itm.qty_per_uom;
+                  itm.discount_percentage = Number.parseFloat((itm.discount_value / (itm.discount_value + itm.discounted_amount) * 100).toFixed(1));
+                });
                 e.details = mergedItemsValues;
                 console.log('mergedItems for ' + e.erp_invoice_number, mergedItemsValues);
                 objInvoices[e.erp_invoice_number].invoice_total_amount = Number.parseFloat(objInvoices[e.erp_invoice_number].invoice_total_amount.toFixed(6));
@@ -123416,33 +123435,7 @@ var actions = {
                   partSIwithErr.push(e);
                 } else if (e.with_errors.length > 0 && e.isReturn) {
                   partCMwithErr.push(e);
-                } // dupli stuff ================================================================
-                // const mergedItems = {};
-                // e.details.forEach(item => {
-                //     const {
-                //         sku_external_id, discounted_amount, qty_per_uom, quantity,
-                //         price_per_item, sku_uom
-                //     } = item;
-                //     if (!mergedItems[sku_external_id]) {
-                //         mergedItems[sku_external_id] = {
-                //             ...item,
-                //             discounted_amount: 0,
-                //             quantity: 0,
-                //         };
-                //     }
-                //     mergedItems[sku_external_id].discounted_amount += discounted_amount;
-                //     mergedItems[sku_external_id].quantity += (quantity * qty_per_uom);
-                //     if(mergedItems[sku_external_id].qty_per_uom > qty_per_uom){
-                //         mergedItems[sku_external_id].qty_per_uom = qty_per_uom;
-                //         mergedItems[sku_external_id].sku_uom = sku_uom;
-                //         mergedItems[sku_external_id].price_per_item = price_per_item;
-                //     }
-                // });
-                // const mergedItemsValues = Object.values(mergedItems);
-                // e.details = mergedItemsValues;
-                // console.log('mergedItems for ' + e.erp_invoice_number, mergedItemsValues);
-                // /dupli stuff ================================================================
-
+                }
               });
               sortedInvoices = Array.prototype.concat(partSI, partCM, partSIwithErr, partCMwithErr);
               console.log('sortedInvoices', sortedInvoices); // console.log('with total_value:', objInvoices);

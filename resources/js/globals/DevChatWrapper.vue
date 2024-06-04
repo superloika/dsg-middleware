@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" max-width="900" scrollable>
+    <v-dialog v-model="dialog" max-width="1200" scrollable>
         <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on" title="Dev Chat"
                 @click.stop="DevChatStore.state.unreadMsgCount = 0;"

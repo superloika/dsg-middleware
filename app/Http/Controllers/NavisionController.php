@@ -550,8 +550,12 @@ class NavisionController extends Controller
                         [$cm_headers_tbl].[Posting Date] as posting_date,
                         [$cm_headers_tbl].[Shipment Date] as shipment_date,
                         -- [$cm_headers_tbl].[Salesperson Code] as sm_code,
-                        [$cm_headers_tbl].[External Document No_] as invoice_doc_no,
-                        [$cm_headers_tbl].[External Document No_] as ext_doc_no,
+
+                        -- use Applies-to Doc_ No_ (temp)
+                        -- [$cm_headers_tbl].[External Document No_] as invoice_doc_no,
+                        -- [$cm_headers_tbl].[External Document No_] as ext_doc_no,
+                        [$cm_headers_tbl].[Applies-to Doc_ No_] as invoice_doc_no,
+                        [$cm_headers_tbl].[Applies-to Doc_ No_] as ext_doc_no,
                         -- 'not_specified' as return_indicator, --test
                         -- NULL as remarks, --test
                         [$cm_headers_tbl].[Return Indicators] as return_indicator, --test
@@ -575,7 +579,9 @@ class NavisionController extends Controller
                     JOIN [$cm_headers_tbl]
                         ON [$cm_headers_tbl].[No_] = [$cm_lines_tbl].[Document No_]
                     JOIN [$invoice_lines_tbl]
-                        ON [$invoice_lines_tbl].[Document No_] = [$cm_headers_tbl].[External Document No_]
+                        -- use Applies-to Doc_ No_ (temp)
+                        -- ON [$invoice_lines_tbl].[Document No_] = [$cm_headers_tbl].[External Document No_]
+                        ON [$invoice_lines_tbl].[Document No_] = [$cm_headers_tbl].[Applies-to Doc_ No_]
                         AND [$invoice_lines_tbl].[No_] = [$cm_lines_tbl].[No_]
                         AND [$invoice_lines_tbl].[Unit of Measure] = [$cm_lines_tbl].[Unit of Measure]
                     -- LEFT JOIN [$sm_tbl] ON [$sm_tbl].[Code] = [$cm_headers_tbl].[Salesperson Code]

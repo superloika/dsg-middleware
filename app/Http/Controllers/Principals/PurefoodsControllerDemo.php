@@ -30,9 +30,11 @@ class PurefoodsControllerDemo extends Controller
         $this->middleware('auth');
         try {
             $this->PRINCIPAL_CODE = explode("/",Route::current()->getAction()['prefix'])[1] ?? 'NA';
+
             /**
-             * (temporary)
-             * element order should be the same in NAV (index should match)
+             * For CM (temporary)
+             * element order should be similar in NAV dropdown (CM entry form)
+             * c/o Sir Dex
             */
             $this->return_indicators = [
                 0 => '',
@@ -45,20 +47,19 @@ class PurefoodsControllerDemo extends Controller
                 0 => '',
                 1 => 'Damaged in Shipment',
                 2 => 'Defective Item',
-                3 => 'Good Return',
-                4 => 'No Current Need',
-                5 => 'Repair Purchased Item',
-                6 => 'Repair Sold Item',
-                7 => 'Wrong Item',
-                8 => 'Cancelled by Outlet',
-                9 => 'Cancelled by Salesperson',
-                10 => 'Expired PO',
-                11 => 'Late Delivery',
-                12 => 'No Freezer Space',
-                13 => 'Over Booking',
-                14 => 'Overstock',
-                15 => 'Poor quality',
-                16 => 'Product age by MAA',
+                3 => 'No Current Need',
+                4 => 'Repair Purchased Item',
+                5 => 'Repair Sold Item',
+                6 => 'Wrong Item',
+                7 => 'Cancelled by Outlet',
+                8 => 'Cancelled by Salesperson',
+                9 => 'Expired PO',
+                10 => 'Late Delivery',
+                11 => 'No Freezer Space',
+                12 => 'Over Booking',
+                13 => 'Overstock',
+                14 => 'Poor quality',
+                15 => 'Product age by MAA',
             ];
         } catch (\Throwable $th) {
             dd($th->getMessage());

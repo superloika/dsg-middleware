@@ -306,6 +306,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -321,8 +341,14 @@ __webpack_require__.r(__webpack_exports__);
         text: 'Item Name',
         value: 'item_name'
       }, {
+        text: 'Item Code (NAV)',
+        value: 'nav_item_code'
+      }, {
         text: 'SKU External ID',
         value: 'sku_external_id'
+      }, {
+        text: 'UOM (NAV)',
+        value: 'nav_uom'
       }, {
         text: 'SKU UOM',
         value: 'sku_uom'
@@ -364,11 +390,13 @@ __webpack_require__.r(__webpack_exports__);
       return this.PrincipalsStore.state.configs.bu;
     },
     disableUploadBtn: function disableUploadBtn() {
-      return !this.batches.length || this.stillUploading || !this.enableReupload && this.uploadAttempts > 0 || this.allWithErrors;
+      return !this.batches.length || this.stillUploading || !this.enableReupload && this.uploadAttempts > 0 || this.allErrOrExclu;
     },
-    allWithErrors: function allWithErrors() {
+    // all with errors or excluded (unchecked)
+    allErrOrExclu: function allErrOrExclu() {
       var lineCount = 0;
       var errCount = 0;
+      var includedCount = 0;
       this.batches.forEach(function (b) {
         return b.forEach(function (line) {
           lineCount += 1;
@@ -376,9 +404,13 @@ __webpack_require__.r(__webpack_exports__);
           if (line.with_errors.length > 0) {
             errCount += 1;
           }
+
+          if (line.included) {
+            includedCount += 1;
+          }
         });
       });
-      return lineCount == errCount;
+      return lineCount == errCount || includedCount == 0;
     }
   },
   methods: {
@@ -796,8 +828,12 @@ var render = function() {
                                     small: "",
                                     rounded: "",
                                     depressed: "",
+                                    icon: "",
                                     color: "primary",
-                                    disabled: _vm.disableUploadBtn
+                                    disabled:
+                                      _vm.disableUploadBtn &&
+                                      _vm.stillUploading,
+                                    title: "Select All"
                                   },
                                   on: {
                                     click: function($event) {
@@ -806,10 +842,13 @@ var render = function() {
                                   }
                                 },
                                 [
-                                  _vm._v(
-                                    "\n                                Select All\n                            "
-                                  )
-                                ]
+                                  _c("v-icon", [
+                                    _vm._v(
+                                      "\n                                    mdi-check-all\n                                "
+                                    )
+                                  ])
+                                ],
+                                1
                               ),
                               _vm._v(" "),
                               _c(
@@ -819,8 +858,12 @@ var render = function() {
                                     small: "",
                                     rounded: "",
                                     depressed: "",
+                                    icon: "",
                                     color: "primary",
-                                    disabled: _vm.disableUploadBtn
+                                    disabled:
+                                      _vm.disableUploadBtn &&
+                                      _vm.stillUploading,
+                                    title: "Unselect All"
                                   },
                                   on: {
                                     click: function($event) {
@@ -829,10 +872,13 @@ var render = function() {
                                   }
                                 },
                                 [
-                                  _vm._v(
-                                    "\n                                Deselect All\n                            "
-                                  )
-                                ]
+                                  _c("v-icon", [
+                                    _vm._v(
+                                      "\n                                    mdi-selection-remove\n                                "
+                                    )
+                                  ])
+                                ],
+                                1
                               )
                             ],
                             1
@@ -885,7 +931,8 @@ var render = function() {
                                                 title:
                                                   "Check to include, uncheck to exclude",
                                                 disabled:
-                                                  _vm.disableUploadBtn ||
+                                                  (_vm.disableUploadBtn &&
+                                                    _vm.stillUploading) ||
                                                   invoice.with_errors.length > 0
                                               },
                                               model: {
@@ -936,7 +983,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                                | Error:\n                                                " +
+                                                      "\n                                                 | Error:\n                                                " +
                                                         _vm._s(
                                                           invoice.upload_status
                                                             .message
@@ -964,7 +1011,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                                | " +
+                                                      "\n                                                 | " +
                                                         _vm._s(
                                                           invoice.upload_status
                                                             .message
@@ -1060,7 +1107,13 @@ var render = function() {
                                                   ]),
                                                   _vm._v(" "),
                                                   _c("th", [
-                                                    _vm._v("Customer Code")
+                                                    _vm._v(
+                                                      "Customer Code (NAV)"
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("th", [
+                                                    _vm._v("Customer Code (BR)")
                                                   ]),
                                                   _vm._v(" "),
                                                   _c("th", [_vm._v("Amount")]),
@@ -1111,6 +1164,14 @@ var render = function() {
                                                     _vm._v(
                                                       _vm._s(
                                                         invoice.customer_name
+                                                      )
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("td", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        invoice.nav_customer_code
                                                       )
                                                     )
                                                   ]),
@@ -1318,6 +1379,32 @@ var render = function() {
                                                           )
                                                         ]
                                                       }
+                                                    },
+                                                    {
+                                                      key: "item.nav_uom",
+                                                      fn: function(ref) {
+                                                        var item = ref.item
+                                                        return [
+                                                          _c(
+                                                            "span",
+                                                            {
+                                                              attrs: {
+                                                                title:
+                                                                  item.qty_per_uom
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n                                                        " +
+                                                                  _vm._s(
+                                                                    item.nav_uom
+                                                                  ) +
+                                                                  "\n                                                    "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ]
+                                                      }
                                                     }
                                                   ],
                                                   null,
@@ -1337,7 +1424,9 @@ var render = function() {
                               )
                             ],
                             1
-                          )
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticStyle: { height: "100vh" } })
                         ],
                         1
                       )

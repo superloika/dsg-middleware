@@ -14,7 +14,12 @@ const state = Vue.observable({
     //     'Trade Return Bad'
     // ],
 
-    // BR standard picklist
+    /**
+     * temporary
+     * BR standard pick list
+     * could be shuffled unlike in the controller
+     * used for validation only (if the CM reason exists within this list)
+     */
     return_reasons: [
         'Cancelled by Outlet',
         'Cancelled by Salesperson',
@@ -91,6 +96,7 @@ const actions = {
                         objInvoices[e.invoice_number].upload_status = {};
                         objInvoices[e.invoice_number].customer_name = e.customer_name;
                         objInvoices[e.invoice_number].retailer_br_id = e.customer_code;
+                        objInvoices[e.invoice_number].nav_customer_code = e.alturas_customer_code;
                         objInvoices[e.invoice_number].erp_invoice_number = e.invoice_number;
                         objInvoices[e.invoice_number].invoice_date = e.invoice_date;
                         // objInvoices[e.invoice_number].total_value = 0;
@@ -296,50 +302,64 @@ const actions = {
                             // wala pay sure haha
                             // gross_amount:  e.amount_supplier,
                             qty_per_uom:            e.qty_per_uom,
+                            nav_uom:                e.uom,
+                            nav_item_code:          e.alturas_item_code,
                         });
                     }
                 });
             });
         });
 
-        // calc total_value (invoice level)
-        // label invoice with error as not included in the upload
-        // rearrange invoices (prio those w/o partial errors)
+        /** calc total_value (invoice level)
+          * label invoice with error as not included in the upload
+          * rearrange invoices (prio those w/o partial errors)
+        */
         let partSI = [];
         let partCM = [];
         let partSIwithErr = [];
         let partCMwithErr = [];
         let invoices = Object.values(objInvoices);
         invoices.forEach(e => {
-            // duplicate item codes stuff
+            // dupli_item codes stuff **********************
             const mergedItems = {};
 
             e.details.forEach(item => {
                 objInvoices[e.erp_invoice_number].invoice_total_amount += item.discounted_amount;
 
-                // duplicate item codes stuff
+                // dupli_item codes stuff ******************************************
                 const {
                     sku_external_id, discounted_amount, qty_per_uom, quantity,
-                    price_per_item, sku_uom
+                    price_per_item, sku_uom, discount_value
                 } = item;
                 if (!mergedItems[sku_external_id]) {
                     mergedItems[sku_external_id] = {
                         ...item,
                         discounted_amount: 0,
                         quantity: 0,
+                        discount_value: 0,
+                        discount_percentage: 0,
                     };
                 }
                 mergedItems[sku_external_id].discounted_amount += discounted_amount;
                 mergedItems[sku_external_id].quantity += (quantity * qty_per_uom);
-                if(mergedItems[sku_external_id].qty_per_uom > qty_per_uom){
+                mergedItems[sku_external_id].discount_value += discount_value;
+                if(mergedItems[sku_external_id].qty_per_uom > qty_per_uom) {
                     mergedItems[sku_external_id].qty_per_uom = qty_per_uom;
                     mergedItems[sku_external_id].sku_uom = sku_uom;
                     mergedItems[sku_external_id].price_per_item = price_per_item;
                 }
             });
 
-            // duplicate item codes stuff
+            // dupli_item codes stuff ************************************************
             const mergedItemsValues = Object.values(mergedItems);
+            mergedItemsValues.forEach(itm => {
+                itm.quantity = itm.quantity / itm.qty_per_uom;
+                itm.discount_percentage =
+                    Number.parseFloat(
+                        ((itm.discount_value / (itm.discount_value + itm.discounted_amount)) * 100)
+                            .toFixed(1)
+                    );
+            });
             e.details = mergedItemsValues;
             console.log('mergedItems for ' + e.erp_invoice_number, mergedItemsValues);
 
@@ -365,32 +385,6 @@ const actions = {
                 partCMwithErr.push(e);
             }
 
-            // dupli stuff ================================================================
-            // const mergedItems = {};
-            // e.details.forEach(item => {
-            //     const {
-            //         sku_external_id, discounted_amount, qty_per_uom, quantity,
-            //         price_per_item, sku_uom
-            //     } = item;
-            //     if (!mergedItems[sku_external_id]) {
-            //         mergedItems[sku_external_id] = {
-            //             ...item,
-            //             discounted_amount: 0,
-            //             quantity: 0,
-            //         };
-            //     }
-            //     mergedItems[sku_external_id].discounted_amount += discounted_amount;
-            //     mergedItems[sku_external_id].quantity += (quantity * qty_per_uom);
-            //     if(mergedItems[sku_external_id].qty_per_uom > qty_per_uom){
-            //         mergedItems[sku_external_id].qty_per_uom = qty_per_uom;
-            //         mergedItems[sku_external_id].sku_uom = sku_uom;
-            //         mergedItems[sku_external_id].price_per_item = price_per_item;
-            //     }
-            // });
-            // const mergedItemsValues = Object.values(mergedItems);
-            // e.details = mergedItemsValues;
-            // console.log('mergedItems for ' + e.erp_invoice_number, mergedItemsValues);
-            // /dupli stuff ================================================================
         });
 
         const sortedInvoices = Array.prototype.concat(partSI, partCM, partSIwithErr, partCMwithErr);

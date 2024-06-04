@@ -77,24 +77,31 @@
                             <v-container fluid>
                                 <v-btn
                                     @click="selectAll(batchIndex, true)"
-                                    small rounded depressed
+                                    small rounded depressed icon
                                     color="primary"
-                                    :disabled="disableUploadBtn"
+                                    :disabled="disableUploadBtn && stillUploading"
+                                    title="Select All"
                                 >
-                                    Select All
+                                    <v-icon>
+                                        mdi-check-all
+                                    </v-icon>
                                 </v-btn>
                                 <v-btn
                                     @click="selectAll(batchIndex, false)"
-                                    small rounded depressed
+                                    small rounded depressed icon
                                     color="primary"
-                                    :disabled="disableUploadBtn"
+                                    :disabled="disableUploadBtn && stillUploading"
+                                    title="Unselect All"
                                 >
-                                    Deselect All
+                                    <v-icon>
+                                        mdi-selection-remove
+                                    </v-icon>
                                 </v-btn>
                                 <!-- <v-btn @click="checkdata(batchIndex)">chkdt</v-btn> -->
                             </v-container>
 
                             <v-container fluid>
+                                <!-- invoice panels -->
                                 <v-expansion-panels focusable multiple>
                                     <v-expansion-panel
                                         v-for="(invoice, invoiceIndex) in b"
@@ -116,7 +123,7 @@
                                                     color="secondary"
                                                     v-model="invoice.included"
                                                     title="Check to include, uncheck to exclude"
-                                                    :disabled="disableUploadBtn || invoice.with_errors.length > 0"
+                                                    :disabled="(disableUploadBtn && stillUploading) || invoice.with_errors.length > 0"
                                                     :key = "'chkbx-' + invoice.erp_invoice_number"
                                                 ></v-checkbox>
 
@@ -126,7 +133,7 @@
                                                 <span v-if="(invoice.upload_status!=undefined && invoice.upload_status.success==false)"
                                                     class="font-weight-bold"
                                                 >
-                                                    | Error:
+                                                    &nbsp;| Error:
                                                     {{ invoice.upload_status.message }}
                                                     ({{ invoice.upload_status.value }})
                                                 </span>
@@ -134,7 +141,7 @@
                                                 <span v-if="(invoice.upload_status!=undefined && invoice.upload_status.success==true)"
                                                     class="font-weight-bold"
                                                 >
-                                                    | {{ invoice.upload_status.message }}
+                                                    &nbsp;| {{ invoice.upload_status.message }}
                                                 </span>
                                             </div>
                                         </v-expansion-panel-header>
@@ -153,12 +160,14 @@
                                                 </div>
                                             </div>
                                             <div class="pb-4">
+                                                <!-- header table -->
                                                 <table class="invoice-detail">
                                                     <tr>
                                                         <th>{{ invoice.isReturn ? 'CM': 'Invoice' }} #</th>
                                                         <th>Invoice Date</th>
                                                         <th>Customer Name</th>
-                                                        <th>Customer Code</th>
+                                                        <th>Customer Code (NAV)</th>
+                                                        <th>Customer Code (BR)</th>
                                                         <th>Amount</th>
                                                         <th>DSP</th>
                                                         <th v-if="invoice.isReturn">Return Indicator</th>
@@ -169,6 +178,7 @@
                                                         <td>{{ invoice.erp_invoice_number }}</td>
                                                         <td>{{ invoice.invoice_date }}</td>
                                                         <td>{{ invoice.customer_name }}</td>
+                                                        <td>{{ invoice.nav_customer_code }}</td>
                                                         <td>{{ invoice.retailer_br_id }}</td>
                                                         <td>{{ invoice.invoice_total_amount }}</td>
                                                         <td>{{ invoice.customFields[0].value }}</td>
@@ -245,6 +255,7 @@
                                                 </table>
                                             </div>
                                             <div>
+                                                <!-- lines table -->
                                                 <v-data-table
                                                     dense
                                                     :headers="tblHeader"
@@ -280,12 +291,21 @@
                                                             {{ (item.discounted_amount) }}
                                                         </div>
                                                     </template>
+                                                    <template v-slot:[`item.nav_uom`] = "{item}">
+                                                        <span :title="item.qty_per_uom">
+                                                            {{ (item.nav_uom) }}
+                                                        </span>
+                                                    </template>
                                                 </v-data-table>
                                             </div>
                                         </v-expansion-panel-content>
                                     </v-expansion-panel>
                                 </v-expansion-panels>
                             </v-container>
+
+                            <div style="height: 100vh;">
+
+                            </div>
                         </v-tab-item>
                     </v-tabs-items>
                 </v-col>
@@ -314,8 +334,16 @@ export default {
                     value: 'item_name'
                 },
                 {
+                    text: 'Item Code (NAV)',
+                    value: 'nav_item_code'
+                },
+                {
                     text: 'SKU External ID',
                     value: 'sku_external_id'
+                },
+                {
+                    text: 'UOM (NAV)',
+                    value: 'nav_uom'
                 },
                 {
                     text: 'SKU UOM',
@@ -363,20 +391,26 @@ export default {
             return !this.batches.length
                 || this.stillUploading
                 || !this.enableReupload && this.uploadAttempts > 0
-                || this.allWithErrors
+                || this.allErrOrExclu
                 ;
         },
-        allWithErrors() {
+        // all with errors or excluded (unchecked)
+        allErrOrExclu() {
             let lineCount = 0;
             let errCount = 0;
+            let includedCount = 0;
             this.batches.forEach(b=>b.forEach(line => {
                 lineCount += 1;
                 if(line.with_errors.length > 0) {
                     errCount += 1;
                 }
+                if(line.included) {
+                    includedCount += 1;
+                }
             }));
-            return lineCount == errCount;
-        }
+            return lineCount == errCount || includedCount == 0;
+        },
+
     },
 
     methods: {
