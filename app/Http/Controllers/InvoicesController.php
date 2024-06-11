@@ -723,9 +723,8 @@ class InvoicesController extends Controller
             foreach ($generated_data as $genData) {
                 foreach ($genData['output_template'] as $output_template) {
                     foreach ($output_template[1] as $line) {
-                        // dd($line);
 
-                        // strict tagging
+                        // strict tagging (temporary, incomplete identifiers)
                         // if (
                         //     $line['customer_notfound'] == 0 && $line['item_notfound'] == 0
                         //     && $line['salesman_notfound'] == 0

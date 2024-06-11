@@ -84,11 +84,18 @@
                 </v-col>
             </v-row>
 
-            <br>
-            <v-divider></v-divider>
+            <v-divider></v-divider><br>
 
-            <div class="caption font-weight-bold ml-1">Download History</div>
-            <v-data-table :headers="tblheader" :items="tblItems" dense>
+            <div class="caption font-weight-bold ml-1">
+                Download History &nbsp;
+                <v-btn small rounded
+                    @click="dlLogs"
+                    color="primary"
+                >
+                    Refresh
+                </v-btn>
+            </div>
+            <v-data-table :headers="tblheader" :items="tblItems" :loading="isDownloadingLogs" dense>
                 <template v-slot:[`item.created_at`]="{ item }">
                     <span :class="isToday(item.created_at) ? 'primary--text' : ''">
                         {{ item.created_at }}
@@ -270,6 +277,7 @@ export default {
                 .substr(0, 10)],
             terminals: [],
             terminal: [],
+            isDownloadingLogs: false,
         };
     },
 
@@ -304,14 +312,17 @@ export default {
 
         async dlLogs() {
             try {
+                this.isDownloadingLogs = true;
                 const url = this.AppStore.state.siteUrl + 'nav/dlLogs';
                 const res = await axios.post(url, {
                     main_vendor_code: this.PrincipalsStore.state.selectedPrincipal[0],
                 });
                 this.tblItems = res.data;
+
             } catch (error) {
                 console.error(error);
             } finally {
+                this.isDownloadingLogs = false;
             }
         },
 

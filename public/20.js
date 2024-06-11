@@ -263,6 +263,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -299,7 +306,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       posting_date_range: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10)],
       terminals: [],
-      terminal: []
+      terminal: [],
+      isDownloadingLogs: false
     };
   },
   computed: {
@@ -381,33 +389,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.prev = 0;
+                _this2.isDownloadingLogs = true;
                 url = _this2.AppStore.state.siteUrl + 'nav/dlLogs';
-                _context2.next = 4;
+                _context2.next = 5;
                 return axios.post(url, {
                   main_vendor_code: _this2.PrincipalsStore.state.selectedPrincipal[0]
                 });
 
-              case 4:
+              case 5:
                 res = _context2.sent;
                 _this2.tblItems = res.data;
-                _context2.next = 11;
+                _context2.next = 12;
                 break;
 
-              case 8:
-                _context2.prev = 8;
+              case 9:
+                _context2.prev = 9;
                 _context2.t0 = _context2["catch"](0);
                 console.error(_context2.t0);
 
-              case 11:
-                _context2.prev = 11;
-                return _context2.finish(11);
+              case 12:
+                _context2.prev = 12;
+                _this2.isDownloadingLogs = false;
+                return _context2.finish(12);
 
-              case 13:
+              case 15:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 8, 11, 13]]);
+        }, _callee2, null, [[0, 9, 12, 15]]);
       }))();
     },
     viewDetails: function viewDetails(summary) {
@@ -762,16 +772,33 @@ var render = function() {
             1
           ),
           _vm._v(" "),
+          _c("v-divider"),
           _c("br"),
           _vm._v(" "),
-          _c("v-divider"),
-          _vm._v(" "),
-          _c("div", { staticClass: "caption font-weight-bold ml-1" }, [
-            _vm._v("Download History")
-          ]),
+          _c(
+            "div",
+            { staticClass: "caption font-weight-bold ml-1" },
+            [
+              _vm._v("\n            Download History  \n            "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { small: "", rounded: "", color: "primary" },
+                  on: { click: _vm.dlLogs }
+                },
+                [_vm._v("\n                Refresh\n            ")]
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("v-data-table", {
-            attrs: { headers: _vm.tblheader, items: _vm.tblItems, dense: "" },
+            attrs: {
+              headers: _vm.tblheader,
+              items: _vm.tblItems,
+              loading: _vm.isDownloadingLogs,
+              dense: ""
+            },
             scopedSlots: _vm._u(
               [
                 {
