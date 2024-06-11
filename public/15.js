@@ -296,7 +296,7 @@ var render = function() {
             expression: "AppStore.state.dlgImportMaster"
           }
         },
-        [_c("MasterUpload")],
+        [_c("MasterUpload", { key: "genmaster-items" })],
         1
       )
     ],

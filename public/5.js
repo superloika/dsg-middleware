@@ -320,7 +320,7 @@ var render = function() {
                 expression: "AppStore.state.dlgImportMaster"
               }
             },
-            [_c("MasterUpload")],
+            [_c("MasterUpload", { key: "genmaster-customers" })],
             1
           ),
           _vm._v(" "),

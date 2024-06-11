@@ -75,7 +75,7 @@
         max-width="800"
         persistent
     >
-        <MasterUpload></MasterUpload>
+        <MasterUpload key="genmaster-items"></MasterUpload>
     </v-dialog>
 </v-card>
 </template>

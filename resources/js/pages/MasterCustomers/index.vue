@@ -41,7 +41,7 @@
             max-width="800"
             persistent
         >
-            <MasterUpload></MasterUpload>
+            <MasterUpload key="genmaster-customers"></MasterUpload>
         </v-dialog>
         <v-btn
             icon

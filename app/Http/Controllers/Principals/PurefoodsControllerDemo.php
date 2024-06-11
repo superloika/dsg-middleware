@@ -880,8 +880,6 @@ class PurefoodsControllerDemo extends Controller
                 $fileContent = str_replace("\x00",'',$fileContent);
                 $fileContentLines = explode("\r\n", $fileContent);
 
-                // dd($fileContentLines);
-
                 $arrLines = [];
 
                 foreach ($fileContentLines as $fileContentLine) {
@@ -894,9 +892,9 @@ class PurefoodsControllerDemo extends Controller
                             // $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[30]));
                             // $customer_code = trim(str_replace('"', '', $arrFileContentLine[31]));
                             // $customer_name = trim(str_replace('"', '', $arrFileContentLine[32]));
-                            $customer_code = trim(str_replace('"', '', $arrFileContentLine[0]));
-                            $customer_code_supplier = trim(str_replace('"', '', $arrFileContentLine[1]));
-                            $customer_name = trim(str_replace('"', '', $arrFileContentLine[2]));
+                            $customer_code =            trim(str_replace('"', '', $arrFileContentLine[0]));
+                            $customer_code_supplier =   trim(str_replace('"', '', $arrFileContentLine[1]));
+                            $customer_name =            trim(str_replace('"', '', $arrFileContentLine[2]));
                             // =========================================================================
                             if(
                                 ($customer_code != '' || $customer_code != '#N/A')
