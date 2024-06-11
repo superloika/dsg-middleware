@@ -39,7 +39,7 @@
         <v-btn
             icon
             title="Import Items Masterfile"
-            @click.stop="AppStore.state.dlgImportMaster=true"
+            @click.stop="AppStore.state.dlgImportMasterID='items';AppStore.state.dlgImportMaster=true;"
             v-if="AppStore.isSuperAdmin()"
         >
             <v-icon>mdi-file-upload</v-icon>
@@ -75,7 +75,7 @@
         max-width="800"
         persistent
     >
-        <MasterUpload id="items"></MasterUpload>
+        <MasterUpload></MasterUpload>
     </v-dialog>
 </v-card>
 </template>

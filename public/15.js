@@ -235,6 +235,7 @@ var render = function() {
                   on: {
                     click: function($event) {
                       $event.stopPropagation()
+                      _vm.AppStore.state.dlgImportMasterID = "items"
                       _vm.AppStore.state.dlgImportMaster = true
                     }
                   }
@@ -295,7 +296,7 @@ var render = function() {
             expression: "AppStore.state.dlgImportMaster"
           }
         },
-        [_c("MasterUpload", { attrs: { id: "items" } })],
+        [_c("MasterUpload")],
         1
       )
     ],

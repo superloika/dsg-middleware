@@ -61,7 +61,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'MasterUpload',
-  props: ['id'],
+  // props: ['id'],
   data: function data() {
     return {
       file: null,
@@ -71,6 +71,16 @@ __webpack_require__.r(__webpack_exports__);
 
       }
     };
+  },
+  computed: {
+    id: function id() {
+      return this.AppStore.state.dlgImportMasterID;
+    }
+  },
+  watch: {
+    id: function id() {
+      this.file = null;
+    }
   },
   methods: {
     formSubmit: function formSubmit() {
@@ -177,7 +187,13 @@ var render = function() {
         "v-card-title",
         { staticClass: "mb-4" },
         [
-          _c("div", [_vm._v("\r\n            Upload Masterfile\r\n        ")]),
+          _c("div", [
+            _vm._v(
+              "\n            Upload " +
+                _vm._s(_vm.id) +
+                " general masterfile\n        "
+            )
+          ]),
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
@@ -260,11 +276,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\r\n                    Submit\r\n                "
-                      )
-                    ]
+                    [_vm._v("\n                    Submit\n                ")]
                   )
                 ],
                 1

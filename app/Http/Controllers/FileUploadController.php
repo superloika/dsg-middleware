@@ -24,7 +24,7 @@ class FileUploadController extends Controller
             if (Storage::exists("$testFilesPath/$fileName")) {
                 $fileContent = Storage::get("$testFilesPath/$fileName");
 
-                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
+                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "ISO-8859-1"));
                 foreach ($fileContentLines as $fileContentLine) {
                     $arrFileContentLine = explode(',', $fileContentLine);
                     if (count($arrFileContentLine) > 1) {

@@ -64,6 +64,17 @@ class MasterPrincipalsController extends Controller
                                 $main_vendor_code =             $cols[7];
                                 $controller =                   $cols[9];
 
+                                if(
+                                    trim($name) == ''
+                                    || trim($principal_code) == ''
+                                    || trim($vendor_code) == ''
+                                    || trim($active) == ''
+                                    || trim($main_vendor_code) == ''
+                                    || trim($controller) == ''
+                                ) {
+                                    continue;
+                                }
+
                                 $arr = [
                                     'name' =>                       $name,
                                     'code' =>                       $principal_code,

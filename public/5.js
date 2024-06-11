@@ -320,7 +320,7 @@ var render = function() {
                 expression: "AppStore.state.dlgImportMaster"
               }
             },
-            [_c("MasterUpload", { attrs: { id: "customers" } })],
+            [_c("MasterUpload")],
             1
           ),
           _vm._v(" "),
@@ -331,6 +331,7 @@ var render = function() {
                   attrs: { icon: "", title: "Import Customers" },
                   on: {
                     click: function($event) {
+                      _vm.AppStore.state.dlgImportMasterID = "customers"
                       _vm.AppStore.state.dlgImportMaster = true
                     }
                   }

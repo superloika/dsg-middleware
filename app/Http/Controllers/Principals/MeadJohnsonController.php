@@ -129,7 +129,7 @@ class MeadJohnsonController extends Controller
 
                 $arrLines = [];
                 $fileContent = utf8_encode($fileContent);
-                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
+                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "ISO-8859-1"));
 
                 foreach ($fileContentLines as $fileContentLine) {
                     // Begin on the second line to skip the headers
@@ -270,7 +270,7 @@ class MeadJohnsonController extends Controller
                     ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
                 $fileContent = utf8_encode($fileContent);
-                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
+                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "ISO-8859-1"));
                 $arrLines = [];
 
                 foreach ($fileContentLines as $fileContentLine) {
@@ -383,7 +383,7 @@ class MeadJohnsonController extends Controller
                 $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(
                     PHP_EOL,
-                    mb_convert_encoding($fileContent, "UTF-8", "UTF-8")
+                    mb_convert_encoding($fileContent, "UTF-8", "ISO-8859-1")
                 );
                 $arrLines = [];
 

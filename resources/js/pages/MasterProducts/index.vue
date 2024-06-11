@@ -62,7 +62,7 @@
         max-width="800"
         persistent
     >
-        <MasterUpload id="products"></MasterUpload>
+        <MasterUpload id="products" key="genmaster-products"></MasterUpload>
     </v-dialog>
 </div>
 </template>

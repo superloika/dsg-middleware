@@ -122550,6 +122550,7 @@ var state = vue__WEBPACK_IMPORTED_MODULE_2___default.a.observable({
   strDateToday: [new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10)],
   // navDrawerState: localStorage.getItem('navDrawerState'),
   dlgImportMaster: false,
+  dlgImportMasterID: '',
   notices: []
 });
 var actions = {

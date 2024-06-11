@@ -651,7 +651,7 @@ class PurefoodsController extends Controller
 
                 $arrLines = [];
                 $fileContent = utf8_encode($fileContent);
-                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
+                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "ISO-8859-1"));
 
                 foreach ($fileContentLines as $fileContentLine) {
                     // Begin on the second line to skip the headers
@@ -817,7 +817,7 @@ class PurefoodsController extends Controller
                 DB::table(PrincipalsUtil::$TBL_PRINCIPALS_CUSTOMERS)
                     ->where('main_vendor_code', $this->PRINCIPAL_CODE)->delete();
 
-                $fileContent = mb_convert_encoding($fileContent,"UTF-8");
+                $fileContent = mb_convert_encoding($fileContent,"UTF-8", "ISO-8859-1");
                 $fileContent = str_replace("\x00",'',$fileContent);
                 $fileContentLines = explode("\r\n", $fileContent);
 

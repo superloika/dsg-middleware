@@ -52,7 +52,7 @@
         <v-btn
             icon
             title="Import"
-            @click.stop="AppStore.state.dlgImportMaster=true"
+            @click.stop="AppStore.state.dlgImportMasterID='principals';AppStore.state.dlgImportMaster=true;"
             :disabled="!AppStore.isSuperAdmin()"
             v-if="AppStore.isSuperAdmin()"
         >
@@ -74,7 +74,7 @@
         max-width="800"
         persistent
     >
-        <MasterUpload id="principals"></MasterUpload>
+        <MasterUpload></MasterUpload>
     </v-dialog>
 </v-card>
 </template>

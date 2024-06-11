@@ -2,7 +2,7 @@
 <v-card outlined>
     <v-card-title class="mb-4">
         <div>
-            Upload Masterfile
+            Upload {{ id }} general masterfile
         </div>
 
         <v-spacer></v-spacer>
@@ -52,7 +52,7 @@
 
 export default {
     name: 'MasterUpload',
-    props: ['id'],
+    // props: ['id'],
     data() {
         return {
             file: null,
@@ -61,6 +61,18 @@ export default {
                 message: '',
                 // testData: []
             },
+        }
+    },
+
+    computed: {
+        id() {
+            return this.AppStore.state.dlgImportMasterID;
+        },
+    },
+
+    watch: {
+        id() {
+            this.file = null;
         }
     },
 

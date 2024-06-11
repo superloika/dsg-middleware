@@ -251,7 +251,7 @@ class InvoicesController extends Controller
                     // $rows = explode(PHP_EOL, utf8_encode($content));
                     // $rows = explode("\n", utf8_encode($content));
 
-                    $rows = explode(PHP_EOL, mb_convert_encoding($content, "UTF-8"));
+                    $rows = explode(PHP_EOL, mb_convert_encoding($content, "UTF-8","ISO-8859-1"));
                     // $rows = explode("\n", mb_convert_encoding($content, "UTF-8"));
                     // /CONVERT ENCODING *********************************************
 

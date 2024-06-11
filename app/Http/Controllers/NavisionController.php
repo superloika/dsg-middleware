@@ -447,7 +447,7 @@ class NavisionController extends Controller
 
                     // convert encodings
                     foreach($si as $key => $val) {
-                        $si->$key = mb_convert_encoding($val, 'utf-8', 'auto');
+                        $si->$key = mb_convert_encoding($val, 'UTF-8', 'ISO-8859-1');
                     }
 
                     $si_line = [
@@ -611,7 +611,7 @@ class NavisionController extends Controller
 
                     // convert encodings
                     foreach($sr as $key => $val) {
-                        $sr->$key = mb_convert_encoding($val, 'utf-8', 'auto');
+                        $sr->$key = mb_convert_encoding($val, 'UTF-8', 'ISO-8859-1');
                     }
 
                     $cm_line = [
@@ -897,7 +897,7 @@ class NavisionController extends Controller
                 foreach($sales_invoices as $si) {
                     // convert encodings
                     foreach($si as $key => $val) {
-                        $si->$key = mb_convert_encoding($val, 'utf-8');
+                        $si->$key = mb_convert_encoding($val, 'UTF-8','ISO-8859-1');
                     }
 
                     DownloadInvoice::dispatch(
@@ -975,7 +975,7 @@ class NavisionController extends Controller
                 foreach($sales_returns as $sr) {
                     // convert encodings
                     foreach($sr as $key => $val) {
-                        $sr->$key = mb_convert_encoding($val, 'utf-8');
+                        $sr->$key = mb_convert_encoding($val, 'UTF-8', 'ISO-8859-1');
                     }
 
                     $sr_docnos[] = $sr->doc_no;

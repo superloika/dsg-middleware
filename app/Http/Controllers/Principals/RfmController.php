@@ -116,7 +116,7 @@ class RfmController extends Controller
 
                 $arrLines = [];
                 $fileContent = utf8_encode($fileContent);
-                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "UTF-8"));
+                $fileContentLines = explode(PHP_EOL, mb_convert_encoding($fileContent, "UTF-8", "ISO-8859-1"));
 
                 foreach ($fileContentLines as $fileContentLine) {
                     // Begin on the second line to skip the headers
@@ -237,7 +237,7 @@ class RfmController extends Controller
                 $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(
                     PHP_EOL,
-                    mb_convert_encoding($fileContent, "UTF-8", "UTF-8")
+                    mb_convert_encoding($fileContent, "UTF-8", "ISO-8859-1")
                 );
                 $arrLines = [];
 
@@ -337,7 +337,7 @@ class RfmController extends Controller
                 $fileContent = utf8_encode($fileContent);
                 $fileContentLines = explode(
                     PHP_EOL,
-                    mb_convert_encoding($fileContent, "UTF-8", "UTF-8")
+                    mb_convert_encoding($fileContent, "UTF-8", "ISO-8859-1")
                 );
                 $arrLines = [];
 

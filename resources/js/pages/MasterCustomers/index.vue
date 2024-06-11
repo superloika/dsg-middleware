@@ -41,12 +41,12 @@
             max-width="800"
             persistent
         >
-            <MasterUpload id="customers"></MasterUpload>
+            <MasterUpload></MasterUpload>
         </v-dialog>
         <v-btn
             icon
             title="Import Customers"
-            @click="AppStore.state.dlgImportMaster=true"
+            @click="AppStore.state.dlgImportMasterID='customers';AppStore.state.dlgImportMaster=true;"
             v-if="AppStore.isSuperAdmin()"
         >
             <v-icon>mdi-file-upload</v-icon>
