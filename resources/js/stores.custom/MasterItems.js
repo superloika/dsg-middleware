@@ -10,6 +10,7 @@ const state = Vue.observable({
         { text: "Item Description", value: "description" },
         { text: "Vendor Code", value: "vendor_code" },
         { text: "Vendor", value: "principal_name" },
+        { text: "", value: "actions" },
     ],
 })
 

@@ -991,13 +991,17 @@ class PurefoodsControllerDemo extends Controller
                                 $group_code = trim(str_replace('"', '', $arrFileContentLine[0])); // group code (e.g. WDG)
                                 $sm_name = trim(str_replace('"', '', $arrFileContentLine[1]));
                                 // =========================================================================
-
-                                $arrLines[] = [
-                                    'main_vendor_code' => $this->PRINCIPAL_CODE,
-                                    'group_code' => $group_code,
-                                    'sm_name' => $sm_name,
-                                    'uploaded_by' => auth()->user()->id
-                                ];
+                                if(
+                                    $group_code != ''
+                                    && $sm_name != ''
+                                ) {
+                                    $arrLines[] = [
+                                        'main_vendor_code' => $this->PRINCIPAL_CODE,
+                                        'group_code' => $group_code,
+                                        'sm_name' => $sm_name,
+                                        'uploaded_by' => auth()->user()->id
+                                    ];
+                                }
                             }
                         }
                     }

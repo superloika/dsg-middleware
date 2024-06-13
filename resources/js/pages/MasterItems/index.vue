@@ -56,7 +56,34 @@
         :loading="MasterItems.state.isLoadingItems"
         hide-default-footer
         disable-pagination
-    ></v-data-table>
+    >
+        <template v-slot:[`item.actions`]="{ item }">
+            <v-dialog max-width="400">
+                <template v-slot:activator="{on, attrs}">
+                    <v-btn small rounded icon color="primary" title="View UOMs"
+                        v-on="on" v-bind="attrs"
+                        @click.stop="item_code_ofUOM = item.item_code;"
+                    >
+                        <v-icon>mdi-eye</v-icon>
+                    </v-btn>
+                </template>
+                <v-card>
+                    <v-card-title>Unit of Measures (Navision)</v-card-title>
+                    <v-card-text>
+                        <v-text-field outlined hide-details dense
+                            label="Item Code" v-model="item_code_ofUOM"></v-text-field>
+                    </v-card-text>
+                    <v-data-table
+                        :items="uoms"
+                        :headers="uomsTblHeader"
+                        :loading="isLoadingUOMs"
+                        hide-default-footer
+                        disable-pagination
+                    ></v-data-table>
+                </v-card>
+            </v-dialog>
+        </template>
+    </v-data-table>
 
     <div class="pb-6">
         <v-pagination
@@ -67,8 +94,6 @@
         >
         </v-pagination>
     </div>
-
-
 
     <v-dialog
         v-model="AppStore.state.dlgImportMaster"
@@ -90,6 +115,13 @@ export default {
     data() {
         return {
             searchKey: '',
+            uoms: [],
+            uomsTblHeader: [
+                { text: "UOM Code", value: "uom_code" },
+                { text: "Qty per UOM", value: "qty_per_uom" },
+            ],
+            isLoadingUOMs: false,
+            item_code_ofUOM: '',
         }
     },
 
@@ -108,6 +140,19 @@ export default {
         onPageChange() {
             this.MasterItems.initItems(this.searchKey);
         },
+        async viewUOMs(item_code) {
+            try {
+                this.isLoadingUOMs = true;
+                this.uoms = [];
+                const url = this.AppStore.state.siteUrl + 'nav/uomsLookup?item_code=' + item_code;
+                const res = await axios.get(url);
+                this.uoms = res.data;
+            } catch (error) {
+                console.error(error);
+            } finally {
+                this.isLoadingUOMs = false;
+            }
+        },
     },
 
     computed: {
@@ -120,6 +165,12 @@ export default {
                 this.MasterItems.state.items.current_page = 1;
             }
             this.MasterItems.initItems(this.searchKey);
+        }, 500),
+
+        item_code_ofUOM: debounce(function() {
+            if(this.item_code_ofUOM != '') {
+                this.viewUOMs(this.item_code_ofUOM);
+            }
         }, 500),
     },
 

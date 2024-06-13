@@ -23,11 +23,12 @@ class NavisionController extends Controller
                 'server_name'           => 'DEMO',
                 'dsn'                   => 'Driver={SQL Server};Server=172.16.192.18;Database=DEMO_LDI BACKEND DB;',
                 'database'              => 'DEMO_LDI BACKEND DB',
-                'invoice_headers_tbl'   => 'LEONARDO DISTRIB_, INC_ - DEMO$Sales Invoice Header',
-                'invoice_lines_tbl'     => 'LEONARDO DISTRIB_, INC_ - DEMO$Sales Invoice Line',
-                'cm_headers_tbl'        => 'LEONARDO DISTRIB_, INC_ - DEMO$Sales Cr_Memo Header',
-                'cm_lines_tbl'          => 'LEONARDO DISTRIB_, INC_ - DEMO$Sales Cr_Memo Line',
-                'sm_tbl'                => 'LEONARDO DISTRIB_, INC_ - DEMO$Salesperson_Purchaser',
+                'tbl_prefix'            => 'LEONARDO DISTRIB_, INC_ - DEMO$',
+                'invoice_headers_tbl'   => 'Sales Invoice Header',
+                'invoice_lines_tbl'     => 'Sales Invoice Line',
+                'cm_headers_tbl'        => 'Sales Cr_Memo Header',
+                'cm_lines_tbl'          => 'Sales Cr_Memo Line',
+                'sm_tbl'                => 'Salesperson_Purchaser',
                 'group_name'            => 'DEMO',
             ],
         ];
@@ -362,11 +363,11 @@ class NavisionController extends Controller
                 $server_name = $config['server_name'];
                 $dsn = $config['dsn'];
                 $database = $config['database'];
-                $invoice_headers_tbl = $config['invoice_headers_tbl'];
-                $invoice_lines_tbl = $config['invoice_lines_tbl'];
-                $cm_headers_tbl = $config['cm_headers_tbl'];
-                $cm_lines_tbl = $config['cm_lines_tbl'];
-                $sm_tbl = $config['sm_tbl'];
+                $invoice_headers_tbl = $config['tbl_prefix'] . $config['invoice_headers_tbl'];
+                $invoice_lines_tbl = $config['tbl_prefix'] . $config['invoice_lines_tbl'];
+                $cm_headers_tbl = $config['tbl_prefix'] . $config['cm_headers_tbl'];
+                $cm_lines_tbl = $config['tbl_prefix'] . $config['cm_lines_tbl'];
+                $sm_tbl = $config['tbl_prefix'] . $config['sm_tbl'];
                 $group_name = $config['group_name'];
                 $existingSalesInvoices = 0;
                 $newSalesInvoices = 0;
@@ -1015,5 +1016,37 @@ class NavisionController extends Controller
             // $res['message'] = $server_name ?? '' . ': ' . $th->getMessage();
             // return response()->json($res, 500);
         // }
+    }
+
+
+    public function uomsLookup(Request $request) {
+        $configs = self::serverConfigs();
+        $server_name = $configs[0]['server_name'];
+        $tbl = $configs[0]['tbl_prefix'] . 'Item Unit of Measure';
+        $item_code = $request->item_code;
+        try {
+            $dbCon = DB::connection($server_name);
+        } catch (\Throwable $th) {
+            return response()->json('Unable to connect to the server');
+        }
+        try {
+            $uoms = $dbCon->select("
+                SELECT
+                    [Code] as uom_code,
+                    [Qty_ per Unit of Measure] as qty_per_uom
+                FROM [$tbl]
+                WHERE [Item No_] = '$item_code'
+                ;
+            ");
+            foreach($uoms as $uom) {
+                foreach($uom as $key => $val) {
+                    $uom->$key = mb_convert_encoding($val, 'UTF-8', 'ISO-8859-1');
+                }
+            }
+            return response()->json($uoms);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage());
+        }
+
     }
 }

@@ -124460,6 +124460,9 @@ var state = vue__WEBPACK_IMPORTED_MODULE_1___default.a.observable({
   }, {
     text: "Vendor",
     value: "principal_name"
+  }, {
+    text: "",
+    value: "actions"
   }]
 });
 var actions = {

@@ -9,8 +9,41 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -102,7 +135,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      searchKey: ''
+      searchKey: '',
+      uoms: [],
+      uomsTblHeader: [{
+        text: "UOM Code",
+        value: "uom_code"
+      }, {
+        text: "Qty per UOM",
+        value: "qty_per_uom"
+      }],
+      isLoadingUOMs: false,
+      item_code_ofUOM: ''
     };
   },
   methods: {
@@ -119,16 +162,61 @@ __webpack_require__.r(__webpack_exports__);
     },
     onPageChange: function onPageChange() {
       this.MasterItems.initItems(this.searchKey);
+    },
+    viewUOMs: function viewUOMs(item_code) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var url, res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _this.isLoadingUOMs = true;
+                _this.uoms = [];
+                url = _this.AppStore.state.siteUrl + 'nav/uomsLookup?item_code=' + item_code;
+                _context.next = 6;
+                return axios.get(url);
+
+              case 6:
+                res = _context.sent;
+                _this.uoms = res.data;
+                _context.next = 13;
+                break;
+
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](0);
+                console.error(_context.t0);
+
+              case 13:
+                _context.prev = 13;
+                _this.isLoadingUOMs = false;
+                return _context.finish(13);
+
+              case 16:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 10, 13, 16]]);
+      }))();
     }
   },
   computed: {},
   watch: {
-    searchKey: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["debounce"])(function () {
+    searchKey: Object(lodash__WEBPACK_IMPORTED_MODULE_1__["debounce"])(function () {
       if (this.MasterItems.state.items.current_page != undefined) {
         this.MasterItems.state.items.current_page = 1;
       }
 
       this.MasterItems.initItems(this.searchKey);
+    }, 500),
+    item_code_ofUOM: Object(lodash__WEBPACK_IMPORTED_MODULE_1__["debounce"])(function () {
+      if (this.item_code_ofUOM != '') {
+        this.viewUOMs(this.item_code_ofUOM);
+      }
     }, 500)
   },
   created: function created() {
@@ -255,7 +343,115 @@ var render = function() {
           loading: _vm.MasterItems.state.isLoadingItems,
           "hide-default-footer": "",
           "disable-pagination": ""
-        }
+        },
+        scopedSlots: _vm._u(
+          [
+            {
+              key: "item.actions",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _c(
+                    "v-dialog",
+                    {
+                      attrs: { "max-width": "400" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "activator",
+                            fn: function(ref) {
+                              var on = ref.on
+                              var attrs = ref.attrs
+                              return [
+                                _c(
+                                  "v-btn",
+                                  _vm._g(
+                                    _vm._b(
+                                      {
+                                        attrs: {
+                                          small: "",
+                                          rounded: "",
+                                          icon: "",
+                                          color: "primary",
+                                          title: "View UOMs"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            $event.stopPropagation()
+                                            _vm.item_code_ofUOM = item.item_code
+                                          }
+                                        }
+                                      },
+                                      "v-btn",
+                                      attrs,
+                                      false
+                                    ),
+                                    on
+                                  ),
+                                  [_c("v-icon", [_vm._v("mdi-eye")])],
+                                  1
+                                )
+                              ]
+                            }
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    },
+                    [
+                      _vm._v(" "),
+                      _c(
+                        "v-card",
+                        [
+                          _c("v-card-title", [
+                            _vm._v("Unit of Measures (Navision)")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-text",
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  outlined: "",
+                                  "hide-details": "",
+                                  dense: "",
+                                  label: "Item Code"
+                                },
+                                model: {
+                                  value: _vm.item_code_ofUOM,
+                                  callback: function($$v) {
+                                    _vm.item_code_ofUOM = $$v
+                                  },
+                                  expression: "item_code_ofUOM"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-data-table", {
+                            attrs: {
+                              items: _vm.uoms,
+                              headers: _vm.uomsTblHeader,
+                              loading: _vm.isLoadingUOMs,
+                              "hide-default-footer": "",
+                              "disable-pagination": ""
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ]
+              }
+            }
+          ],
+          null,
+          true
+        )
       }),
       _vm._v(" "),
       _c(

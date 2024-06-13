@@ -34,9 +34,9 @@ class MasterItemsController extends Controller
             ->when($search_key != '', function($q) use($search_key){
                 $q
                     ->where(PrincipalsUtil::$TBL_GENERAL_ITEMS.'.vendor_code','like', '%'.$search_key. '%')
-                    ->orWhere(PrincipalsUtil::$TBL_PRINCIPALS.'.name','like', '%'.$search_key. '%')
                     ->orWhere('item_code','like', '%'.$search_key. '%')
                     ->orWhere('description','like', '%'.$search_key. '%')
+                    ->orWhere(PrincipalsUtil::$TBL_PRINCIPALS.'.name','like', '%'.$search_key. '%')
                     ;
             })
             ->select(
