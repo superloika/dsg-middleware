@@ -126,6 +126,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -414,9 +417,11 @@ var render = function() {
                               _c("v-text-field", {
                                 attrs: {
                                   outlined: "",
-                                  "hide-details": "",
                                   dense: "",
-                                  label: "Item Code"
+                                  "persistent-hint": "",
+                                  label: "Item Code",
+                                  hint:
+                                    "You can change the value to lookup for other item UOMs"
                                 },
                                 model: {
                                   value: _vm.item_code_ofUOM,

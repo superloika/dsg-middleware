@@ -70,8 +70,11 @@
                 <v-card>
                     <v-card-title>Unit of Measures (Navision)</v-card-title>
                     <v-card-text>
-                        <v-text-field outlined hide-details dense
-                            label="Item Code" v-model="item_code_ofUOM"></v-text-field>
+                        <v-text-field outlined dense persistent-hint
+                            label="Item Code" v-model="item_code_ofUOM"
+                            hint="You can change the value to lookup for other item UOMs"
+                        >
+                        </v-text-field>
                     </v-card-text>
                     <v-data-table
                         :items="uoms"
@@ -137,9 +140,11 @@ export default {
             XLSX.writeFile(wb,'tbl.csv');
             this.isLoading = false;
         },
+
         onPageChange() {
             this.MasterItems.initItems(this.searchKey);
         },
+
         async viewUOMs(item_code) {
             try {
                 this.isLoadingUOMs = true;
