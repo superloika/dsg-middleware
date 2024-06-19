@@ -220,6 +220,12 @@
             </div>
         </template> -->
 
+        <template v-slot:[`item.uom`]="{ item }">
+            <span :title="item.qty_per_uom">
+                {{ item.uom }}
+            </span>
+        </template>
+
         <!-- empty external doc no (invoice_number) -->
         <template v-slot:[`item.invoice_number`]="{ item }">
             <!-- <v-chip

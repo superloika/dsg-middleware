@@ -221,14 +221,21 @@ class PurefoodsControllerDemo extends Controller
                             $item_description_supplier = $item->description_supplier;
 
                             // price and uom mapping (supplier) ********************
-                            $uom_supplier = $qty_per_uom > 1 ?
-                                $item->uom : $item->conversion_uom;
+                            if(
+                                $qty_per_uom > 1
+                            ) {
+                                $uom_supplier = $item->uom;
+                            } else {
+                                $uom_supplier = $item->conversion_uom;
+                            }
+                            // $uom_supplier = $qty_per_uom > 1 ?
+                            //     $item->uom : $item->conversion_uom;
 
                             // XXXXXXXXXXXXXXX PRICEHACKS RIGHT FUCKIN HERE XXXXXXX
-                            // map to supplier price
+                            // map to supplier price (through principal masterfile)
                             // $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
 
-                            // map to orig price temporarily
+                            // map to orig price temporarily (for demo)
                             $price_supplier = $price;
 
                             // reverse percentage to get the vat-ex price
@@ -455,14 +462,21 @@ class PurefoodsControllerDemo extends Controller
                             $item_description_supplier = $item->description_supplier;
 
                             // price and uom mapping (supplier) ********************
-                            $uom_supplier = $return->qty_per_uom > 1 ?
-                                $item->uom : $item->conversion_uom;
+                            if(
+                                $qty_per_uom > 1
+                            ) {
+                                $uom_supplier = $item->uom;
+                            } else {
+                                $uom_supplier = $item->conversion_uom;
+                            }
+                            // $uom_supplier = $return->qty_per_uom > 1 ?
+                            //     $item->uom : $item->conversion_uom;
 
                             // *********** PRICEHACKS RIGHT FUCKIN HERE ************************
-                            // map to supplier price
+                            // map to supplier price (through principal masterfile)
                             // $price_supplier = ($item->uom_price / $item->conversion_qty) * $qty_per_uom;
 
-                            // map to orig price temporarily
+                            // map to orig price temporarily (for demo)
                             $price_supplier = $price;
 
                             // reverse percentage to get the vat-ex price

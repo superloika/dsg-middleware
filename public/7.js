@@ -257,6 +257,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['items', 'template_variation_index', 'tab_caption', 'allow_export'],
   data: function data() {
@@ -858,6 +864,19 @@ var render = function() {
                       "\n                " +
                         _vm._s(item.discount_amount) +
                         "\n            "
+                    )
+                  ])
+                ]
+              }
+            },
+            {
+              key: "item.uom",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _c("span", { attrs: { title: item.qty_per_uom } }, [
+                    _vm._v(
+                      "\n                " + _vm._s(item.uom) + "\n            "
                     )
                   ])
                 ]
