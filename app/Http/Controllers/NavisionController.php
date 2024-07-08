@@ -19,18 +19,6 @@ class NavisionController extends Controller
     public static function serverConfigs() {
         // temp (for ppfb demo)
         return [
-            // [
-            //     'server_name'           => 'DEMO',
-            //     'dsn'                   => 'Driver={SQL Server};Server=172.16.192.18;Database=DEMO_LDI BACKEND DB;',
-            //     'database'              => 'DEMO_LDI BACKEND DB',
-            //     'tbl_prefix'            => 'LEONARDO DISTRIB_, INC_ - DEMO$',
-            //     'invoice_headers_tbl'   => '',
-            //     'invoice_lines_tbl'     => 'Sales Invoice Line',
-            //     'cm_headers_tbl'        => 'Sales Cr_Memo Header',
-            //     'cm_lines_tbl'          => 'Sales Cr_Memo Line',
-            //     'sm_tbl'                => 'Salesperson_Purchaser',
-            //     'group_name'            => 'DEMO',
-            // ],
             [
                 'server_name'           => 'DEMO',
                 'dsn'                   => 'Driver={SQL Server};Server=172.16.192.18;Database=DEMO_LDI BACKEND DB;',

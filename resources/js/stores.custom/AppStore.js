@@ -199,7 +199,7 @@ const actions = {
     },
 
     flattenGendata(generatedData, headName=state.strDateToday[0]) {
-        let temp =[];
+        let temp = [];
         generatedData.forEach(e => {
             temp.push(...e[1]);
         });
