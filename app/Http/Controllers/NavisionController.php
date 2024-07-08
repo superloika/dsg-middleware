@@ -18,202 +18,202 @@ class NavisionController extends Controller
 
     public static function serverConfigs() {
         // temp (for ppfb demo)
-        return [
-            [
-                'server_name'           => 'DEMO',
-                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.18;Database=DEMO_LDI BACKEND DB;',
-                'database'              => 'DEMO_LDI BACKEND DB',
-                'tbl_prefix'            => 'LEONARDO DISTRIB_, INC_ - DEMO$',
-                'group_name'            => 'DEMO',
-            ],
-        ];
-
         // return [
-        //     // ******************************************************************************************
-        //     // ASC
-        //     // ******************************************************************************************
         //     [
-        //         'server_name'           => 'ASC_UWDG',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.21.201;Database=SI CONSOLIDATOR;',
-        //         'database'              => 'SI CONSOLIDATOR',
-        //         'tbl_prefix'            => 'ALTURAS SUPERMARKET CORP_ - SI$',
-        //         'group_name'            => 'ASC_UWDG',
-        //     ],
-        //     [
-        //         'server_name'           => 'ASC_CWDG_PCS',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=CWDG_VARIOUS_SI;',
-        //         'database'              => 'CWDG_VARIOUS_SI',
-        //         'tbl_prefix'            => 'ALTURAS SUPERMARKET CORP_$',
-        //         'group_name'            => 'ASC_CWDG_PCS',
-        //     ],
-        //     [
-        //         'server_name'           => 'ASC_CWDG_BULK',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.13;Database=WDG_SI_SQL;',
-        //         'database'              => 'WDG_SI_SQL',
-        //         'tbl_prefix'            => 'ALTURAS SUPERMARKET CORP_$',
-        //         'group_name'            => 'ASC_CWDG_BULK',
-        //     ],
-        //     [
-        //         'server_name'           => 'ASC_UDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.21.201;Database=UBAY_DC_SQL;',
-        //         'database'              => 'UBAY_DC_SQL',
-        //         'tbl_prefix'            => 'Ubay Distribution Center$',
-        //         'group_name'            => 'ASC_UDC',
-        //     ],
-        //     [
-        //         'server_name'           => 'ASC_CDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.4;Database=CDC_SRV_SQL;',
-        //         'database'              => 'CDC_SRV_SQL',
-        //         'tbl_prefix'            => 'ALTURAS_CDC$',
-        //         'group_name'            => 'ASC_CDC',
-        //     ],
-
-        //     // ******************************************************************************************
-        //     // LDI
-        //     // ******************************************************************************************
-        //     [
-        //         'server_name'           => 'LDI_DELICA_BULK',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=OPLAN_BULK_TERM1;',
-        //         'database'              => 'OPLAN_BULK_TERM1',
-        //         'tbl_prefix'            => 'LDI_Oplan Bulk$',
-        //         'group_name'            => 'LDI_DELICA_BULK',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_DELICA_PCS',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=CLDI SI SRV_VARIOUS;',
-        //         'database'              => 'CLDI SI SRV_VARIOUS',
-        //         'tbl_prefix'            => 'LEONARDO DISTRIBUTORS INCORP_$',
-        //         'group_name'            => 'LDI_DELICA_PCS',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_DELICA_ICM',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.161.27;Database=OPLAN_ICM;',
-        //         'database'              => 'OPLAN_ICM',
-        //         'tbl_prefix'            => 'OPLAN DELICA ICM$',
-        //         'group_name'            => 'LDI_DELICA_ICM',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_HORECA_BULK',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=HORECA BULK;',
-        //         'database'              => 'HORECA BULK',
-        //         'tbl_prefix'            => 'LDI_HORECA BULK$',
-        //         'group_name'            => 'LDI_HORECA_BULK',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_HORECA_PCS',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=HORECA_TERM1;',
-        //         'database'              => 'HORECA_TERM1',
-        //         'tbl_prefix'            => 'HORECA_1$',
-        //         'group_name'            => 'LDI_HORECA_PCS',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_HORECA_ICM',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.161.27;Database=HORECA_TERM2;',
-        //         'database'              => 'HORECA_TERM2',
-        //         'tbl_prefix'            => 'HORECA_ICM$',
-        //         'group_name'            => 'LDI_HORECA_ICM',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_3PS',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=3PS_NEW;',
-        //         'database'              => '3PS_NEW',
-        //         'tbl_prefix'            => '3PS BULK$',
-        //         'group_name'            => 'LDI_3PS',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_SEC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=LDI_SEC;',
-        //         'database'              => 'LDI_SEC',
-        //         'tbl_prefix'            => 'LDI-DSG SPECIAL EXTERNAL CUST_$',
-        //         'group_name'            => 'LDI_SEC',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_CVS_BULK',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_BCVS;',
-        //         'database'              => 'LDI_BCVS',
-        //         'tbl_prefix'            => 'LDI_CVS Bulk$',
-        //         'group_name'            => 'LDI_CVS_BULK',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_CVS_PCS',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_VCVS;',
-        //         'database'              => 'LDI_VCVS',
-        //         'tbl_prefix'            => 'LDI_CVS Various$',
-        //         'group_name'            => 'LDI_CVS_PCS',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_MAS_BULK',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_BMAS;',
-        //         'database'              => 'LDI_BMAS',
-        //         'tbl_prefix'            => 'LDI_MAS Bulk$',
-        //         'group_name'            => 'LDI_MAS_BULK',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_MAS_PCS',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_VMAS;',
-        //         'database'              => 'LDI_VMAS',
-        //         'tbl_prefix'            => 'LDI_MAS Various$',
-        //         'group_name'            => 'LDI_MAS_PCS',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_UDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.22.2;Database=LDI_UDC_SQL;',
-        //         'database'              => 'LDI_UDC_SQL',
-        //         'tbl_prefix'            => 'LDI_UDC$',
-        //         'group_name'            => 'LDI_UDC',
-        //     ],
-        //     [
-        //         'server_name'           => 'LDI_CDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=LDI_CDC_SQL;',
-        //         'database'              => 'LDI_CDC_SQL',
-        //         'tbl_prefix'            => 'LDI_CDC$',
-        //         'group_name'            => 'LDI_CDC',
-        //     ],
-
-        //     // ******************************************************************************************
-        //     // MDPI
-        //     // ******************************************************************************************
-        //     [
-        //         'server_name'           => 'MPDI_UDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.22.2;Database=MPDI_UDC_SQL;',
-        //         'database'              => 'MPDI_UDC_SQL',
-        //         'tbl_prefix'            => 'MPDI_UDC$',
-        //         'group_name'            => 'MPDI_UDC',
-        //     ],
-        //     [
-        //         'server_name'           => 'MPDI_CDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=MPDI BACKEND SQL;',
-        //         'database'              => 'MPDI BACKEND SQL',
-        //         'tbl_prefix'            => 'MPDI_CDC$',
-        //         'group_name'            => 'MPDI_CDC',
-        //     ],
-
-
-        //     // ******************************************************************************************
-        //     // NDI
-        //     // ******************************************************************************************
-        //     [
-        //         'server_name'           => 'NDI_UDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.22.2;Database=NDI_UDC_SQL;',
-        //         'database'              => 'NDI_UDC_SQL',
-        //         'tbl_prefix'            => 'NDI_UDC$',
-        //         'group_name'            => 'NDI_UDC',
-        //     ],
-        //     [
-        //         'server_name'           => 'NDI_CDC',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=NDI_CDC_SQL;',
-        //         'database'              => 'NDI_CDC_SQL',
-        //         'tbl_prefix'            => 'NDI_CDC$',
-        //         'group_name'            => 'NDI_CDC',
-        //     ],
-        //     [
-        //         'server_name'           => 'NDI_DELICA_BULK',
-        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.18;Database=NETMAN_BULK;',
-        //         'database'              => 'NETMAN_BULK',
-        //         'tbl_prefix'            => 'Netman Bulk$',
-        //         'group_name'            => 'NDI_DELICA_BULK',
+        //         'server_name'           => 'DEMO',
+        //         'dsn'                   => 'Driver={SQL Server};Server=172.16.192.18;Database=DEMO_LDI BACKEND DB;',
+        //         'database'              => 'DEMO_LDI BACKEND DB',
+        //         'tbl_prefix'            => 'LEONARDO DISTRIB_, INC_ - DEMO$',
+        //         'group_name'            => 'DEMO',
         //     ],
         // ];
+
+        return [
+            // ******************************************************************************************
+            // ASC
+            // ******************************************************************************************
+            [
+                'server_name'           => 'ASC_UWDG',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.21.201;Database=SI CONSOLIDATOR;',
+                'database'              => 'SI CONSOLIDATOR',
+                'tbl_prefix'            => 'ALTURAS SUPERMARKET CORP_ - SI$',
+                'group_name'            => 'ASC_UWDG',
+            ],
+            [
+                'server_name'           => 'ASC_CWDG_PCS',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=CWDG_VARIOUS_SI;',
+                'database'              => 'CWDG_VARIOUS_SI',
+                'tbl_prefix'            => 'ALTURAS SUPERMARKET CORP_$',
+                'group_name'            => 'ASC_CWDG_PCS',
+            ],
+            [
+                'server_name'           => 'ASC_CWDG_BULK',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.13;Database=WDG_SI_SQL;',
+                'database'              => 'WDG_SI_SQL',
+                'tbl_prefix'            => 'ALTURAS SUPERMARKET CORP_$',
+                'group_name'            => 'ASC_CWDG_BULK',
+            ],
+            [
+                'server_name'           => 'ASC_UDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.21.201;Database=UBAY_DC_SQL;',
+                'database'              => 'UBAY_DC_SQL',
+                'tbl_prefix'            => 'Ubay Distribution Center$',
+                'group_name'            => 'ASC_UDC',
+            ],
+            [
+                'server_name'           => 'ASC_CDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.4;Database=CDC_SRV_SQL;',
+                'database'              => 'CDC_SRV_SQL',
+                'tbl_prefix'            => 'ALTURAS_CDC$',
+                'group_name'            => 'ASC_CDC',
+            ],
+
+            // ******************************************************************************************
+            // LDI
+            // ******************************************************************************************
+            [
+                'server_name'           => 'LDI_DELICA_BULK',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=OPLAN_BULK_TERM1;',
+                'database'              => 'OPLAN_BULK_TERM1',
+                'tbl_prefix'            => 'LDI_Oplan Bulk$',
+                'group_name'            => 'LDI_DELICA_BULK',
+            ],
+            [
+                'server_name'           => 'LDI_DELICA_PCS',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=CLDI SI SRV_VARIOUS;',
+                'database'              => 'CLDI SI SRV_VARIOUS',
+                'tbl_prefix'            => 'LEONARDO DISTRIBUTORS INCORP_$',
+                'group_name'            => 'LDI_DELICA_PCS',
+            ],
+            [
+                'server_name'           => 'LDI_DELICA_ICM',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.161.27;Database=OPLAN_ICM;',
+                'database'              => 'OPLAN_ICM',
+                'tbl_prefix'            => 'OPLAN DELICA ICM$',
+                'group_name'            => 'LDI_DELICA_ICM',
+            ],
+            [
+                'server_name'           => 'LDI_HORECA_BULK',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=HORECA BULK;',
+                'database'              => 'HORECA BULK',
+                'tbl_prefix'            => 'LDI_HORECA BULK$',
+                'group_name'            => 'LDI_HORECA_BULK',
+            ],
+            [
+                'server_name'           => 'LDI_HORECA_PCS',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.1;Database=HORECA_TERM1;',
+                'database'              => 'HORECA_TERM1',
+                'tbl_prefix'            => 'HORECA_1$',
+                'group_name'            => 'LDI_HORECA_PCS',
+            ],
+            [
+                'server_name'           => 'LDI_HORECA_ICM',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.161.27;Database=HORECA_TERM2;',
+                'database'              => 'HORECA_TERM2',
+                'tbl_prefix'            => 'HORECA_ICM$',
+                'group_name'            => 'LDI_HORECA_ICM',
+            ],
+            [
+                'server_name'           => 'LDI_3PS',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=3PS_NEW;',
+                'database'              => '3PS_NEW',
+                'tbl_prefix'            => '3PS BULK$',
+                'group_name'            => 'LDI_3PS',
+            ],
+            [
+                'server_name'           => 'LDI_SEC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.3;Database=LDI_SEC;',
+                'database'              => 'LDI_SEC',
+                'tbl_prefix'            => 'LDI-DSG SPECIAL EXTERNAL CUST_$',
+                'group_name'            => 'LDI_SEC',
+            ],
+            [
+                'server_name'           => 'LDI_CVS_BULK',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_BCVS;',
+                'database'              => 'LDI_BCVS',
+                'tbl_prefix'            => 'LDI_CVS Bulk$',
+                'group_name'            => 'LDI_CVS_BULK',
+            ],
+            [
+                'server_name'           => 'LDI_CVS_PCS',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_VCVS;',
+                'database'              => 'LDI_VCVS',
+                'tbl_prefix'            => 'LDI_CVS Various$',
+                'group_name'            => 'LDI_CVS_PCS',
+            ],
+            [
+                'server_name'           => 'LDI_MAS_BULK',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_BMAS;',
+                'database'              => 'LDI_BMAS',
+                'tbl_prefix'            => 'LDI_MAS Bulk$',
+                'group_name'            => 'LDI_MAS_BULK',
+            ],
+            [
+                'server_name'           => 'LDI_MAS_PCS',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.12;Database=LDI_VMAS;',
+                'database'              => 'LDI_VMAS',
+                'tbl_prefix'            => 'LDI_MAS Various$',
+                'group_name'            => 'LDI_MAS_PCS',
+            ],
+            [
+                'server_name'           => 'LDI_UDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.22.2;Database=LDI_UDC_SQL;',
+                'database'              => 'LDI_UDC_SQL',
+                'tbl_prefix'            => 'LDI_UDC$',
+                'group_name'            => 'LDI_UDC',
+            ],
+            [
+                'server_name'           => 'LDI_CDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=LDI_CDC_SQL;',
+                'database'              => 'LDI_CDC_SQL',
+                'tbl_prefix'            => 'LDI_CDC$',
+                'group_name'            => 'LDI_CDC',
+            ],
+
+            // ******************************************************************************************
+            // MDPI
+            // ******************************************************************************************
+            [
+                'server_name'           => 'MPDI_UDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.22.2;Database=MPDI_UDC_SQL;',
+                'database'              => 'MPDI_UDC_SQL',
+                'tbl_prefix'            => 'MPDI_UDC$',
+                'group_name'            => 'MPDI_UDC',
+            ],
+            [
+                'server_name'           => 'MPDI_CDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=MPDI BACKEND SQL;',
+                'database'              => 'MPDI BACKEND SQL',
+                'tbl_prefix'            => 'MPDI_CDC$',
+                'group_name'            => 'MPDI_CDC',
+            ],
+
+
+            // ******************************************************************************************
+            // NDI
+            // ******************************************************************************************
+            [
+                'server_name'           => 'NDI_UDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.22.2;Database=NDI_UDC_SQL;',
+                'database'              => 'NDI_UDC_SQL',
+                'tbl_prefix'            => 'NDI_UDC$',
+                'group_name'            => 'NDI_UDC',
+            ],
+            [
+                'server_name'           => 'NDI_CDC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=NDI_CDC_SQL;',
+                'database'              => 'NDI_CDC_SQL',
+                'tbl_prefix'            => 'NDI_CDC$',
+                'group_name'            => 'NDI_CDC',
+            ],
+            [
+                'server_name'           => 'NDI_DELICA_BULK',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.18;Database=NETMAN_BULK;',
+                'database'              => 'NETMAN_BULK',
+                'tbl_prefix'            => 'Netman Bulk$',
+                'group_name'            => 'NDI_DELICA_BULK',
+            ],
+        ];
     }
 
 
@@ -456,10 +456,10 @@ class NavisionController extends Controller
                         -- [$cm_headers_tbl].[External Document No_] as ext_doc_no,
                         [$cm_headers_tbl].[Applies-to Doc_ No_] as invoice_doc_no,
                         [$cm_headers_tbl].[Applies-to Doc_ No_] as ext_doc_no,
-                        -- 'not_specified' as return_indicator, --test
-                        -- NULL as remarks, --test
-                        [$cm_headers_tbl].[Return Indicators] as return_indicator, --test
-                        [$cm_headers_tbl].[CM Reason Code] as remarks, --test
+                        'not_specified' as return_indicator, --test
+                        NULL as remarks, --test
+                        -- [$cm_headers_tbl].[Return Indicators] as return_indicator,
+                        -- [$cm_headers_tbl].[CM Reason Code] as remarks,
                         -- line
                         [$cm_lines_tbl].[No_] as item_code,
                         [$cm_lines_tbl].[Description] as item_description,

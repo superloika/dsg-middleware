@@ -12,7 +12,7 @@
 
         <v-container>
             <v-row>
-                <v-col cols-md="6">
+                <v-col cols="12" md="6">
                     <v-select
                         multiple rounded dense outlined chips clearable
                         v-model="terminal"
@@ -44,7 +44,7 @@
                 </v-col>
 
                 <!-- posting date -->
-                <v-col cols-md="3">
+                <v-col cols="12" md="3">
                     <!-- DATEPICKER -->
                     <v-dialog
                         ref="datePicker"
@@ -72,7 +72,7 @@
                     <!-- /DATEPICKER -->
                 </v-col>
 
-                <v-col cols-md="3">
+                <v-col cols="12" md="3">
                     <v-btn dense rounded
                         color="primary"
                         title="Download Invoices"
