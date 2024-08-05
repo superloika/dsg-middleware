@@ -164,8 +164,8 @@ class NavisionController extends Controller
             ],
             [
                 'server_name'           => 'LDI_CDC',
-                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=LDI_CDC_SQL;',
-                'database'              => 'LDI_CDC_SQL',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.192.16;Database=LDI_CDC;',
+                'database'              => 'LDI_CDC',
                 'tbl_prefix'            => 'LDI_CDC$',
                 'group_name'            => 'LDI_CDC',
             ],
