@@ -456,10 +456,12 @@ class NavisionController extends Controller
                         -- [$cm_headers_tbl].[External Document No_] as ext_doc_no,
                         [$cm_headers_tbl].[Applies-to Doc_ No_] as invoice_doc_no,
                         [$cm_headers_tbl].[Applies-to Doc_ No_] as ext_doc_no,
-                        'not_specified' as return_indicator, --test
-                        NULL as remarks, --test
+                        -- return/CM stuff
+                        'not_specified' as return_indicator, --test (temp for live db)
+                        NULL as remarks, --test (temp for live db)
                         -- [$cm_headers_tbl].[Return Indicators] as return_indicator,
                         -- [$cm_headers_tbl].[CM Reason Code] as remarks,
+                        -- /return/CM stuff
                         -- line
                         [$cm_lines_tbl].[No_] as item_code,
                         [$cm_lines_tbl].[Description] as item_description,
@@ -920,8 +922,9 @@ class NavisionController extends Controller
 
     public function uomsLookup(Request $request) {
         $configs = self::serverConfigs();
-        $server_name = $configs[0]['server_name'];
-        $tblUOM = $configs[0]['tbl_prefix'] . 'Item Unit of Measure';
+        $config_index = 1;
+        $server_name = $configs[$config_index]['server_name'];
+        $tblUOM = $configs[$config_index]['tbl_prefix'] . 'Item Unit of Measure';
         $item_code = $request->item_code;
         try {
             $dbCon = DB::connection($server_name);

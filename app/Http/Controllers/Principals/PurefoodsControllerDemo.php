@@ -222,7 +222,7 @@ class PurefoodsControllerDemo extends Controller
 
                             // price and uom mapping (supplier) ********************
                             if(
-                                $qty_per_uom > 1
+                                $qty_per_uom > 10 // 10S and lower
                             ) {
                                 $uom_supplier = $item->uom;
                             } else {
@@ -463,7 +463,7 @@ class PurefoodsControllerDemo extends Controller
 
                             // price and uom mapping (supplier) ********************
                             if(
-                                $qty_per_uom > 1
+                                $qty_per_uom > 10 // 10S and lower
                             ) {
                                 $uom_supplier = $item->uom;
                             } else {
@@ -1060,9 +1060,9 @@ class PurefoodsControllerDemo extends Controller
                     ["text" => "Item Description (NAV)",        "value" => "item_description"],
                     ["text" => "Packing",                       "value" => "packing"],
                     ["text" => "PCS/CASE",                      "value" => "conversion_qty"],
-                    // ["text" => "CASE Price",                    "value" => "uom_price"],
+                    ["text" => "CASE Price",                    "value" => "uom_price"],
                     ["text" => "UOM",                           "value" => "uom"],
-                    // ["text" => "PCS Price",                     "value" => "conversion_uom_price"],
+                    ["text" => "PCS Price",                     "value" => "conversion_uom_price"],
                     ["text" => "Conversion UOM",                "value" => "conversion_uom"],
                 ]
             ],
