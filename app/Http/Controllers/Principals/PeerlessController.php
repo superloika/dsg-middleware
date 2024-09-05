@@ -304,6 +304,7 @@ class PeerlessController extends Controller
                             if (!isset($outputTemplate[$groupByKey])) {
                                 $outputTemplate[$groupByKey] = [];
                             }
+                            // dd($outputTemplate[$groupByKey]);
                             array_push($outputTemplate[$groupByKey], $arrGenerated);
                         }
                     }
@@ -312,7 +313,7 @@ class PeerlessController extends Controller
             }
             // **************************** /TEMPLATE 2 ****************************
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX /TEMPLATE(S) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
+            // dd($res);
             return response()->json($res);
 
         } catch (\Throwable $th) {
