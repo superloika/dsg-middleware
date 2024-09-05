@@ -17,7 +17,7 @@ class NavisionController extends Controller
 
 
     public static function serverConfigs() {
-        // temp (for ppfb demo)
+        // temp (test DB - for ppfb demo)
         // return [
         //     [
         //         'server_name'           => 'DEMO',
@@ -28,6 +28,7 @@ class NavisionController extends Controller
         //     ],
         // ];
 
+        // live NAV
         return [
             // ******************************************************************************************
             // ASC
@@ -456,12 +457,14 @@ class NavisionController extends Controller
                         -- [$cm_headers_tbl].[External Document No_] as ext_doc_no,
                         [$cm_headers_tbl].[Applies-to Doc_ No_] as invoice_doc_no,
                         [$cm_headers_tbl].[Applies-to Doc_ No_] as ext_doc_no,
-                        -- return/CM stuff
+                        -- return/CM stuff ===========================================
+                        -- from live ****
                         'not_specified' as return_indicator, --test (temp for live db)
                         NULL as remarks, --test (temp for live db)
+                        -- from test db ****
                         -- [$cm_headers_tbl].[Return Indicators] as return_indicator,
                         -- [$cm_headers_tbl].[CM Reason Code] as remarks,
-                        -- /return/CM stuff
+                        -- return/CM stuff ===========================================
                         -- line
                         [$cm_lines_tbl].[No_] as item_code,
                         [$cm_lines_tbl].[Description] as item_description,
