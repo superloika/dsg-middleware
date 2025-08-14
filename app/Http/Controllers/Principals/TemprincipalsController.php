@@ -99,6 +99,9 @@ class TemprincipalsController extends Controller
                             $sm_name = $pendingInvoice->sm_name;
                             $group = $pendingInvoice->group;
                             $vendor_code = $pendingInvoice->vendor_code;
+                            $order_no = $pendingInvoice->order_no;
+                            $order_date = $pendingInvoice->order_date;
+                            $ext_doc_no = $pendingInvoice->ext_doc_no;
 
                             //********************************************************************
                             $nav_customer_name = $pendingInvoice->customer_name;
@@ -152,6 +155,9 @@ class TemprincipalsController extends Controller
                                 'group' => $pendingInvoice->group,
                                 'status' => $pendingInvoice->status,
                                 'vendor_code' => $vendor_code,
+                                'order_no' => $order_no,
+                                'order_date' => $order_date,
+                                'ext_doc_no' => $ext_doc_no,
                             ];
 
                             // group output_template_variations
@@ -228,6 +234,9 @@ class TemprincipalsController extends Controller
                             $return_indicator = $return->return_indicator;
                             $remarks = $return->remarks;
                             $vendor_code = $return->vendor_code;
+                            $order_no = $return->order_no;
+                            $order_date = $return->order_date;
+                            $ext_doc_no = $return->ext_doc_no;
 
                             //********************************************************************
                             $nav_customer_name = $return->customer_name;
@@ -284,6 +293,9 @@ class TemprincipalsController extends Controller
                                 'remarks' => $remarks,
                                 'invoice_doc_no' => $invoice_doc_no,
                                 'vendor_code' => $vendor_code,
+                                'order_no' => $order_no,
+                                'order_date' => $order_date,
+                                'ext_doc_no' => $ext_doc_no,
                             ];
 
                             // group output_template_variations -------------------------------------------------------------
@@ -358,6 +370,9 @@ class TemprincipalsController extends Controller
                     ["text" => "Salesman Code", "value" => "sm_code"],
                     ["text" => "Salesman Name", "value" => "sm_name"],
                     ["text" => "Group", "value" => "group"],
+                    ["text" => "Order #", "value" => "order_no"],
+                    ["text" => "Order Date", "value" => "order_date"],
+                    ["text" => "External Document #", "value" => "ext_doc_no"],
                 ],
                 [
                     ["text" => "Vendor Code", "value" => "vendor_code"],

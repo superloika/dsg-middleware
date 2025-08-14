@@ -214,6 +214,13 @@ class NavisionController extends Controller
                 'tbl_prefix'            => 'Netman Bulk$',
                 'group_name'            => 'NDI_DELICA_BULK',
             ],
+            [
+                'server_name'           => 'UBAY_SEC',
+                'dsn'                   => 'Driver={SQL Server};Server=172.16.21.202;Database=UBAY SEC;',
+                'database'              => 'UBAY SEC',
+                'tbl_prefix'            => 'LDI SPECIAL EXTERNAL CUSTOMER$',
+                'group_name'            => 'UBAY_SEC',
+            ],
         ];
     }
 
@@ -306,6 +313,8 @@ class NavisionController extends Controller
                         [$invoice_headers_tbl].[Posting Date] as posting_date,
                         [$invoice_headers_tbl].[Salesperson Code] as sm_code,
                         [$invoice_headers_tbl].[External Document No_] as ext_doc_no,
+                        [$invoice_headers_tbl].[Order No_] as order_no,
+                        [$invoice_headers_tbl].[Order Date] as order_date,
                         -- line
                         [$invoice_lines_tbl].[Vendor No_] as vendor_code,
                         [$invoice_lines_tbl].[No_] as item_code,
@@ -378,6 +387,8 @@ class NavisionController extends Controller
                         'sm_code' =>                $si->sm_code,
                         'sm_name' =>                $si->sm_name,
                         'ext_doc_no' =>             $si->ext_doc_no,
+                        'order_no' =>               $si->order_no,
+                        'order_date' =>             $si->order_date,
                     ];
 
                     $si_line_local = DB::table(PrincipalsUtil::$TBL_INVOICES)
