@@ -19,3 +19,5 @@ desktop.ini
 /public/js
 /public/mix-manifest.json
 /public/*.txt
+/public/css/app.css
+/public/js/app.js
